@@ -1,0 +1,516 @@
+.root {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  column-gap: var(--space-8xl);
+  align-items: center;
+}
+
+.chain {
+  display: none;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---- entrance ---- */
+
+.rings {
+  opacity: 0;
+}
+
+.connectors {
+  opacity: 0;
+}
+
+.seal {
+  opacity: 0;
+}
+
+.nodeEnter {
+  --node-delay: 0ms;
+  opacity: 0;
+}
+
+.drawn .rings {
+  animation: fadeIn 900ms var(--ease-standard) 0ms both;
+}
+
+.drawn .connectors {
+  animation: fadeIn 700ms var(--ease-standard) 300ms both;
+}
+
+.drawn .seal {
+  animation: fadeIn 800ms var(--ease-standard) 200ms both;
+}
+
+.drawn .nodeEnter {
+  animation: nodeFade 500ms var(--ease-standard) var(--node-delay, 0ms) both;
+}
+
+.drawn .nodeEnter .nodeMark {
+  animation: markPop 320ms var(--ease-standard) calc(var(--node-delay, 0ms) + 80ms) both;
+}
+
+/* ---- rings ---- */
+
+.ring {
+  fill: none;
+  stroke: var(--color-text-inverse);
+  stroke-opacity: 0.3;
+  stroke-width: 1;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-opacity var(--duration-standard) var(--ease-standard);
+}
+
+.drawn .ring {
+  animation: ringDraw 1600ms var(--ease-standard) both;
+}
+
+.innerRing {
+  fill: none;
+  stroke: var(--color-text-inverse);
+  stroke-opacity: 0.14;
+  stroke-width: 1;
+  transition: stroke-opacity var(--duration-standard) var(--ease-standard);
+}
+
+/* ---- connectors ---- */
+
+.connector {
+  fill: none;
+  stroke: var(--color-text-inverse);
+  stroke-opacity: 0.55;
+  stroke-width: 1;
+  transition:
+    stroke var(--duration-standard) var(--ease-standard),
+    stroke-opacity var(--duration-standard) var(--ease-standard);
+}
+
+.connectorOn {
+  stroke: var(--color-gold);
+  stroke-opacity: 1;
+}
+
+/* ---- return lane ---- */
+
+.returnPath {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-width: 1.25;
+  stroke-dasharray: 1 7;
+  stroke-linecap: round;
+  stroke-opacity: 0.55;
+  transition: stroke-opacity var(--duration-standard) var(--ease-standard);
+}
+
+.returnPathOn {
+  stroke-opacity: 1;
+}
+
+.returnTick {
+  stroke: var(--color-gold);
+  stroke-opacity: 0.7;
+  stroke-width: 1;
+  transition: stroke-opacity var(--duration-standard) var(--ease-standard);
+}
+
+.returnTickOn {
+  stroke-opacity: 1;
+}
+
+.returnChevron {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-opacity: 0.9;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.returnLabelText {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  fill: var(--color-gold);
+  opacity: 0.55;
+  transition: opacity var(--duration-standard) var(--ease-standard);
+}
+
+.returnLabelOn {
+  opacity: 1;
+}
+
+/* ---- seal medallion ---- */
+
+.sealOuter {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-opacity: 0.5;
+  stroke-width: 1;
+}
+
+.sealInner {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-opacity: 0.3;
+  stroke-width: 1;
+}
+
+.sealTick {
+  stroke: var(--color-gold);
+  stroke-opacity: 0.35;
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.sealTickNode {
+  stroke: var(--color-gold);
+  stroke-opacity: 0.6;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.centerMark {
+  fill: var(--color-gold);
+}
+
+.centerWord {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 1.875rem;
+  letter-spacing: 0.06em;
+  fill: var(--color-ivory);
+}
+
+.centerRule {
+  stroke: var(--color-gold);
+  stroke-opacity: 0.7;
+  stroke-width: 1;
+}
+
+.centerLabel {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  fill: var(--color-text-inverse-70);
+}
+
+/* ---- nodes ---- */
+
+.nodeGroup {
+  cursor: pointer;
+}
+
+.hit {
+  fill: transparent;
+}
+
+.nodeHalo {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-width: 1;
+  opacity: 0;
+  transition: opacity var(--duration-standard) var(--ease-standard);
+}
+
+.nodeHaloOn {
+  opacity: 1;
+}
+
+.nodeMark {
+  fill: var(--color-gold);
+  transform: scale(1);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: opacity var(--duration-standard) var(--ease-standard);
+}
+
+.nodeTick {
+  stroke: var(--color-gold);
+  stroke-opacity: 0.45;
+  stroke-width: 1;
+  transition: stroke-opacity var(--duration-standard) var(--ease-standard);
+}
+
+.nodeTickOn {
+  stroke-opacity: 1;
+}
+
+.nodeNum {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 0.9375rem;
+  letter-spacing: 0.04em;
+  fill: var(--color-text-inverse-70);
+  transition:
+    fill var(--duration-standard) var(--ease-standard),
+    opacity var(--duration-standard) var(--ease-standard);
+}
+
+.nodeNumActive {
+  fill: var(--color-gold);
+}
+
+.nodeName {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 1.3125rem;
+  fill: var(--color-ivory);
+  transition:
+    fill var(--duration-standard) var(--ease-standard),
+    opacity var(--duration-standard) var(--ease-standard);
+}
+
+.nodeNameActive {
+  fill: var(--color-gold);
+}
+
+/* ---- recede on interaction ---- */
+
+.root.recede .ring {
+  stroke-opacity: 0.14;
+}
+
+.root.recede .innerRing {
+  stroke-opacity: 0.06;
+}
+
+.root.recede .connector:not(.connectorOn) {
+  stroke-opacity: 0.18;
+}
+
+.root.recede .returnPath:not(.returnPathOn) {
+  stroke-opacity: 0.15;
+}
+
+.root.recede .nodeGroup:not(.nodeActive) :is(.nodeName, .nodeNum, .nodeMark, .nodeTick) {
+  opacity: 0.4;
+}
+
+.root.recede .returnLabelText:not(.returnLabelOn) {
+  opacity: 0.25;
+}
+
+/* ---- legend ---- */
+
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--color-hairline-dark);
+  border-left: 1px solid var(--color-hairline-dark);
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  width: 100%;
+  height: 100%;
+  padding: var(--space-4xl);
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--color-hairline-dark);
+  border-bottom: 1px solid var(--color-hairline-dark);
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  transition:
+    background-color var(--duration-standard) var(--ease-standard),
+    opacity var(--duration-standard) var(--ease-standard);
+}
+
+.cell:hover,
+.cell:focus-visible,
+.cell[aria-pressed="true"] {
+  background-color: var(--color-maroon-deep);
+}
+
+.cell[aria-pressed="true"] {
+  border-left: 2px solid var(--color-gold);
+}
+
+.root.recede .cell:not([aria-pressed="true"]) {
+  opacity: 0.55;
+}
+
+.stepIndex {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-meta);
+  letter-spacing: 0.12em;
+  color: var(--color-gold);
+}
+
+.stepName {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-lede);
+  line-height: var(--leading-lede);
+  color: var(--color-ivory);
+}
+
+.stepCaption {
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-inverse-70);
+}
+
+.legendReturn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  grid-column: 1 / -1;
+  padding: var(--space-4xl);
+  border-right: 1px solid var(--color-hairline-dark);
+  border-bottom: 1px solid var(--color-hairline-dark);
+}
+
+.returnBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.returnArrow {
+  color: var(--color-gold);
+  font-size: var(--font-lede);
+  line-height: 1;
+}
+
+.returnLabel {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+.returnCaption {
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-inverse-70);
+}
+
+/* ---- chain (mobile) ---- */
+
+.chain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chainRow {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  column-gap: var(--space-lg);
+  padding-block: var(--space-4xl);
+  border-bottom: 1px solid var(--color-hairline-dark);
+}
+
+.chainMark {
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  background-color: var(--color-gold);
+  margin-top: var(--space-sm);
+}
+
+.chainBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.chainHeading {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.chainIndex {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-small);
+  color: var(--color-gold);
+}
+
+.chainName {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-lede);
+  line-height: var(--leading-lede);
+  color: var(--color-ivory);
+}
+
+.chainCaption {
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-inverse-70);
+}
+
+.chainReturn .chainMark {
+  background-color: transparent;
+  border: 1px solid var(--color-gold-40);
+}
+
+@keyframes ringDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes nodeFade {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes markPop {
+  0% {
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 1023px) {
+  .root {
+    display: block;
+  }
+
+  .diagramWrap,
+  .legend {
+    display: none;
+  }
+
+  .chain {
+    display: block;
+  }
+}

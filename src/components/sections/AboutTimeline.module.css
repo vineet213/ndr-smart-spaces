@@ -1,0 +1,213 @@
+.section {
+  padding-block: var(--section-padding-desktop);
+  background-color: var(--color-ivory-dim);
+}
+
+.goldRule {
+  display: block;
+  width: var(--space-6xl);
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+.lede {
+  max-width: 44rem;
+}
+
+.list {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list::before {
+  content: "";
+  position: absolute;
+  top: var(--space-sm);
+  bottom: var(--space-sm);
+  left: 50%;
+  width: 1px;
+  background-color: var(--color-hairline-light);
+  opacity: 0.7;
+}
+
+.list::after {
+  content: "";
+  position: absolute;
+  top: var(--space-sm);
+  bottom: var(--space-sm);
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background-color: var(--color-gold);
+  transform: scaleY(var(--timeline-progress, 0));
+  transform-origin: top;
+  transition: transform 350ms var(--ease-standard);
+}
+
+.item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 48px 1fr;
+  column-gap: var(--space-4xl);
+  align-items: start;
+  padding-block: var(--space-5xl);
+}
+
+.year {
+  grid-column: 1;
+  justify-self: end;
+  padding-top: var(--space-2xs);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-journey-year);
+  line-height: 1;
+  color: var(--color-stone);
+  transition: color 300ms var(--ease-standard);
+}
+
+.item.isActive .year {
+  color: var(--color-maroon);
+}
+
+.node {
+  grid-column: 2;
+  justify-self: center;
+  margin-top: calc(var(--font-journey-year) * 0.54);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-gold);
+  position: relative;
+  z-index: 1;
+  transform: scale(0);
+  transition: transform 300ms var(--ease-standard);
+}
+
+.node::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid var(--color-gold-40);
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 300ms var(--ease-standard),
+    transform 350ms var(--ease-standard);
+}
+
+.item.isActive .node {
+  transform: scale(1);
+}
+
+.item.isActive .node::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.entry {
+  grid-column: 3;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-width: 30rem;
+}
+
+.item:nth-child(even) .year {
+  grid-column: 3;
+  justify-self: start;
+}
+
+.item:nth-child(even) .entry {
+  grid-column: 1;
+  justify-self: end;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-h3);
+  line-height: var(--leading-h3);
+  color: var(--color-charcoal);
+  opacity: 0.45;
+  transition: opacity 300ms var(--ease-standard);
+}
+
+.item.isActive .title {
+  opacity: 1;
+}
+
+.caption {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-text-primary);
+  opacity: 0.6;
+  transition: opacity 300ms var(--ease-standard);
+}
+
+.item.isActive .caption {
+  opacity: 1;
+}
+
+.detail {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
+  opacity: 0.6;
+  transition: opacity 300ms var(--ease-standard);
+}
+
+.item.isActive .detail {
+  opacity: 1;
+}
+
+@media (max-width: 1023px) {
+  .section {
+    padding-block: var(--section-padding-tablet);
+  }
+
+  .list::before {
+    left: 0;
+  }
+
+  .list::after {
+    left: 0;
+    margin-left: -1px;
+  }
+
+  .item {
+    display: block;
+    position: relative;
+    padding-left: var(--space-5xl);
+    padding-block: var(--space-4xl);
+  }
+
+  .node {
+    position: absolute;
+    left: -5px;
+    top: calc(var(--space-4xl) + calc(var(--font-journey-year) * 0.3));
+    margin-top: 0;
+  }
+
+  .year {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--section-padding-mobile);
+  }
+
+  .item {
+    padding-left: var(--space-4xl);
+  }
+}

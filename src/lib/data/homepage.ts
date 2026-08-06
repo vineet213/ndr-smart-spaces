@@ -42,10 +42,11 @@ export type ZoneId = "south" | "west" | "east" | "north";
 export type MapLocation = {
   name: string;
   zone: ZoneId;
-  tier: "hub" | "satellite";
+  tier: "hq" | "hub" | "satellite";
   x: number;
   y: number;
   line: string;
+  leaderTo?: { x: number; y: number };
 };
 
 export const zones = [
@@ -79,41 +80,52 @@ export const portfolioPresence = {
 } as const;
 
 export const mapLocations: MapLocation[] = [
-  { name: "Nallur", zone: "south", tier: "hub", x: 232, y: 453, line: "Chennai, Tamil Nadu" },
+  { name: "Headquarters", zone: "south", tier: "hq", x: 388, y: 826, line: "Chennai, Tamil Nadu" },
+  {
+    name: "Nallur",
+    zone: "south",
+    tier: "hub",
+    x: 412,
+    y: 863,
+    line: "Chennai, Tamil Nadu",
+    leaderTo: { x: 402, y: 848 },
+  },
+  { name: "Bidadi", zone: "south", tier: "hub", x: 287, y: 837, line: "Bengaluru, Karnataka" },
+  { name: "Hyderabad", zone: "west", tier: "hub", x: 328, y: 679, line: "Telangana" },
+  { name: "Pune", zone: "west", tier: "hub", x: 181, y: 640, line: "Maharashtra" },
+  { name: "Kolkata", zone: "east", tier: "hub", x: 642, y: 501, line: "West Bengal" },
+  { name: "Ghaziabad", zone: "north", tier: "hub", x: 295, y: 290, line: "NCR, Uttar Pradesh" },
   {
     name: "Walajapet",
     zone: "south",
     tier: "satellite",
-    x: 243,
-    y: 460,
+    x: 346,
+    y: 829,
     line: "Chennai, Tamil Nadu",
   },
   {
     name: "Oragadam",
     zone: "south",
     tier: "satellite",
-    x: 251,
-    y: 455,
+    x: 356,
+    y: 805,
     line: "Chennai, Tamil Nadu",
+    leaderTo: { x: 366, y: 812 },
   },
   {
     name: "Krishnapuram Kandigai",
     zone: "south",
     tier: "satellite",
-    x: 255,
-    y: 461,
+    x: 363,
+    y: 854,
     line: "Chennai, Tamil Nadu",
+    leaderTo: { x: 370, y: 846 },
   },
-  { name: "Bidadi", zone: "south", tier: "hub", x: 202, y: 458, line: "Bengaluru, Karnataka" },
-  { name: "Hosur", zone: "south", tier: "satellite", x: 209, y: 462, line: "Tamil Nadu" },
-  { name: "Kochi", zone: "south", tier: "satellite", x: 180, y: 514, line: "Kerala" },
-  { name: "Hyderabad", zone: "west", tier: "hub", x: 221, y: 370, line: "Telangana" },
-  { name: "Pune", zone: "west", tier: "hub", x: 132, y: 348, line: "Maharashtra" },
-  { name: "Kolkata", zone: "east", tier: "hub", x: 393, y: 270, line: "West Bengal" },
-  { name: "Varanasi", zone: "east", tier: "satellite", x: 309, y: 217, line: "Uttar Pradesh" },
-  { name: "Lucknow", zone: "east", tier: "satellite", x: 269, y: 188, line: "Uttar Pradesh" },
-  { name: "Kanpur", zone: "east", tier: "satellite", x: 258, y: 196, line: "Uttar Pradesh" },
-  { name: "Ghaziabad", zone: "north", tier: "hub", x: 202, y: 151, line: "NCR, Uttar Pradesh" },
+  { name: "Hosur", zone: "south", tier: "satellite", x: 313, y: 840, line: "Tamil Nadu" },
+  { name: "Kochi", zone: "south", tier: "satellite", x: 259, y: 933, line: "Kerala" },
+  { name: "Varanasi", zone: "east", tier: "satellite", x: 471, y: 406, line: "Uttar Pradesh" },
+  { name: "Lucknow", zone: "east", tier: "satellite", x: 407, y: 352, line: "Uttar Pradesh" },
+  { name: "Kanpur", zone: "east", tier: "satellite", x: 386, y: 367, line: "Uttar Pradesh" },
 ] as const;
 
 export const companyOverview = {

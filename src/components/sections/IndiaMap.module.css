@@ -1,20 +1,43 @@
 .wrap {
   position: relative;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.frame {
+  position: relative;
 }
 
 .map {
   display: block;
-  width: 100%;
-  height: auto;
+  height: clamp(29rem, 64vh, 44rem);
+  width: auto;
+  max-width: 100%;
   overflow: visible;
 }
 
 .outline {
   fill: var(--color-ivory-dim);
-  stroke: rgba(28, 26, 25, 0.22);
-  stroke-width: 2;
+  stroke: rgba(28, 26, 25, 0.55);
+  stroke-width: 3;
   stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.leaders {
+  pointer-events: none;
+}
+
+.leader {
+  stroke: rgba(28, 26, 25, 0.3);
+  stroke-width: 1;
+}
+
+.anchorDot {
+  fill: rgba(28, 26, 25, 0.45);
 }
 
 .dot {
@@ -27,7 +50,11 @@
 }
 
 .haloHub {
-  fill: rgba(240, 182, 90, 0.12);
+  fill: rgba(240, 182, 90, 0.14);
+}
+
+.haloHq {
+  fill: rgba(240, 182, 90, 0.1);
 }
 
 .glow {
@@ -39,10 +66,42 @@
 .node {
   fill: var(--color-gold);
   stroke: var(--color-ivory);
-  stroke-width: 1;
+  stroke-width: 1.5;
   transform-origin: center;
   transform-box: fill-box;
   transition: transform var(--duration-standard) var(--ease-standard);
+}
+
+.nodeSat {
+  fill: transparent;
+  stroke: rgba(28, 26, 25, 0.6);
+  stroke-width: 1.5;
+  transform-origin: center;
+  transform-box: fill-box;
+  transition:
+    transform var(--duration-standard) var(--ease-standard),
+    fill var(--duration-standard) var(--ease-standard),
+    stroke var(--duration-standard) var(--ease-standard);
+}
+
+.ringHq {
+  fill: transparent;
+  stroke: var(--color-gold);
+  stroke-width: 2;
+}
+
+.nodeHq {
+  fill: var(--color-maroon);
+  stroke: var(--color-ivory);
+  stroke-width: 1.5;
+}
+
+.hqGroup {
+  transform-origin: center;
+  transform-box: fill-box;
+  transition:
+    transform var(--duration-standard) var(--ease-standard),
+    opacity var(--duration-standard) var(--ease-standard);
 }
 
 .dotActive .node {
@@ -53,11 +112,30 @@
   fill: rgba(160, 53, 58, 0.14);
 }
 
+.dotActive .haloHq {
+  fill: rgba(160, 53, 58, 0.1);
+}
+
 .dotActive .glow {
   fill: rgba(160, 53, 58, 0.22);
 }
 
-.dotHovered .node {
+.dotActive .nodeSat {
+  fill: rgba(160, 53, 58, 0.12);
+  stroke: var(--color-maroon);
+}
+
+.dotActive .nodeHq {
+  fill: var(--color-maroon-deep);
+}
+
+.dotActive .ringHq {
+  stroke: var(--color-maroon);
+}
+
+.dotHovered .node,
+.dotHovered .nodeSat,
+.dotHovered .hqGroup {
   transform: scale(1.6);
 }
 
@@ -66,14 +144,22 @@
 }
 
 .dotDim .node,
+.dotDim .nodeSat,
+.dotDim .nodeHq,
+.dotDim .ringHq,
 .dotDim .glow,
-.dotDim .halo {
+.dotDim .halo,
+.dotDim .haloHq {
   opacity: 0.25;
   transition: opacity var(--duration-standard) var(--ease-standard);
 }
 
 .dot:hover .node,
-.dot:focus-visible .node {
+.dot:hover .nodeSat,
+.dot:hover .hqGroup,
+.dot:focus-visible .node,
+.dot:focus-visible .nodeSat,
+.dot:focus-visible .hqGroup {
   transform: scale(1.6);
 }
 
@@ -125,55 +211,107 @@
   color: var(--color-text-inverse-75);
 }
 
+.legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: var(--space-3xl);
+  row-gap: var(--space-sm);
+  margin: 0;
+  padding: var(--space-sm) 0 0;
+  border-top: 1px solid var(--color-hairline-light);
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-secondary);
+}
+
+.legendHq {
+  flex: 0 0 auto;
+  width: 0.625rem;
+  height: 0.625rem;
+  background-color: var(--color-maroon);
+  border: 1px solid var(--color-hairline-dark);
+  transform: rotate(45deg);
+}
+
+.legendHub {
+  flex: 0 0 auto;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background-color: var(--color-gold);
+  border: 1px solid var(--color-hairline-dark);
+}
+
+.legendSat {
+  flex: 0 0 auto;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-charcoal);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .wrap {
     animation: mapFade var(--duration-reveal) var(--ease-standard) 1 both;
   }
 
-  .dot:nth-of-type(1) {
+  .dots .dot:nth-of-type(1) {
     animation: dotPop var(--duration-standard) var(--ease-standard) 0ms both;
   }
-  .dot:nth-of-type(2) {
+  .dots .dot:nth-of-type(2) {
     animation: dotPop var(--duration-standard) var(--ease-standard) 60ms both;
   }
-  .dot:nth-of-type(3) {
+  .dots .dot:nth-of-type(3) {
     animation: dotPop var(--duration-standard) var(--ease-standard) 120ms both;
   }
-  .dot:nth-of-type(4) {
+  .dots .dot:nth-of-type(4) {
     animation: dotPop var(--duration-standard) var(--ease-standard) 180ms both;
   }
-  .dot:nth-of-type(5) {
+  .dots .dot:nth-of-type(5) {
     animation: dotPop var(--duration-standard) var(--ease-standard) 240ms both;
   }
-  .dot:nth-of-type(6) {
+  .dots .dot:nth-of-type(6) {
     animation: dotPop var(--duration-standard) var(--ease-standard) 300ms both;
   }
-  .dot:nth-of-type(7) {
+  .dots .dot:nth-of-type(7) {
     animation: dotPop var(--duration-standard) var(--ease-standard) 360ms both;
   }
-  .dot:nth-of-type(8) {
+  .dots .dot:nth-of-type(8) {
     animation: dotPop var(--duration-standard) var(--ease-standard) 420ms both;
   }
-  .dot:nth-of-type(9) {
+  .dots .dot:nth-of-type(9) {
     animation: dotPop var(--duration-standard) var(--ease-standard) 480ms both;
   }
-  .dot:nth-of-type(10) {
+  .dots .dot:nth-of-type(10) {
     animation: dotPop var(--duration-standard) var(--ease-standard) 540ms both;
   }
-  .dot:nth-of-type(11) {
+  .dots .dot:nth-of-type(11) {
     animation: dotPop var(--duration-standard) var(--ease-standard) 600ms both;
   }
-  .dot:nth-of-type(12) {
+  .dots .dot:nth-of-type(12) {
     animation: dotPop var(--duration-standard) var(--ease-standard) 660ms both;
   }
-  .dot:nth-of-type(13) {
+  .dots .dot:nth-of-type(13) {
     animation: dotPop var(--duration-standard) var(--ease-standard) 720ms both;
   }
-  .dot:nth-of-type(14) {
+  .dots .dot:nth-of-type(14) {
     animation: dotPop var(--duration-standard) var(--ease-standard) 780ms both;
   }
+  .dots .dot:nth-of-type(15) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 840ms both;
+  }
 
-  .glowHub {
+  .glow {
     animation: pulse var(--duration-map-pulse) var(--ease-standard) infinite;
   }
 }

@@ -1,0 +1,397 @@
+/* [project]/src/styles/tokens/color.css [app-client] (css) */
+:root {
+  --color-maroon: #a0353a;
+  --color-maroon-deep: #7c282e;
+  --color-maroon-dark: #5a1e22;
+  --color-gold: #f0b65a;
+  --color-gold-light: #f5c97f;
+  --color-ivory: #faf7f2;
+  --color-ivory-dim: #f2ede4;
+  --color-charcoal: #1c1a19;
+  --color-stone: #8a857d;
+  --color-hairline-light: #e4ded3;
+  --color-hairline-dark: #3a3134;
+  --color-text-primary: var(--color-charcoal);
+  --color-text-secondary: var(--color-stone);
+  --color-text-inverse: var(--color-ivory);
+  --color-text-inverse-90: #faf7f2e6;
+  --color-text-inverse-85: #faf7f2d9;
+  --color-text-inverse-80: #faf7f2cc;
+  --color-text-inverse-75: #faf7f2bf;
+  --color-text-inverse-70: #faf7f2b3;
+  --color-border-light: var(--color-hairline-light);
+  --color-border-dark: var(--color-hairline-dark);
+  --color-gold-30: #f0b65a4d;
+  --color-gold-40: #f0b65a66;
+  --color-ivory-96: #faf7f2f5;
+  --color-shadow-warm: 0 8px 16px #1c1a190f;
+  --color-overlay-hero: linear-gradient(90deg,
+    #5a1e22eb 0%,
+    #5a1e228c 55%,
+    #5a1e2240 100%);
+  --color-shadows-maroon: #1c1012;
+}
+
+/* [project]/src/styles/tokens/typography.css [app-client] (css) */
+:root {
+  --font-display: "Fraunces", "Times New Roman", serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-weight-display-light: 300;
+  --font-weight-display-regular: 400;
+  --font-weight-display-medium: 500;
+  --font-weight-body-regular: 400;
+  --font-weight-body-medium: 500;
+  --font-hero: 5.5rem;
+  --font-h2: 3.5rem;
+  --font-h3: 1.75rem;
+  --font-lede: 1.25rem;
+  --font-body-size: 1rem;
+  --font-small: .875rem;
+  --font-meta: .75rem;
+  --font-button: .875rem;
+  --font-nav: .9375rem;
+  --font-metric-hero: 4rem;
+  --font-metric: 2.75rem;
+  --font-journey-year: 1.75rem;
+  --leading-hero: 1;
+  --leading-h2: 1.05;
+  --leading-h3: 1.2;
+  --leading-lede: 1.55;
+  --leading-body: 1.6;
+  --leading-small: 1.5;
+  --leading-meta: 1.4;
+  --leading-button: 1;
+  --leading-nav: 1;
+  --leading-metric: 1;
+  --tracking-hero: -.01em;
+  --tracking-h2: 0;
+  --tracking-meta: .12em;
+  --tracking-button: .06em;
+  --tracking-nav: 0;
+  --measure-body: 65ch;
+  --measure-lede: 70ch;
+}
+
+@media (max-width: 1439px) {
+  :root {
+    --font-hero: 4rem;
+    --font-h2: 2.75rem;
+    --font-h3: 1.5rem;
+    --font-lede: 1.125rem;
+    --font-metric-hero: 3.5rem;
+    --font-metric: 2.25rem;
+    --font-journey-year: 1.625rem;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --font-hero: 2.5rem;
+    --font-h2: 2rem;
+    --font-h3: 1.3125rem;
+    --font-lede: 1.0625rem;
+    --font-metric-hero: 2.5rem;
+    --font-metric: 1.75rem;
+    --font-journey-year: 1.5rem;
+  }
+}
+
+/* [project]/src/styles/tokens/spacing.css [app-client] (css) */
+:root {
+  --space-2xs: .125rem;
+  --space-xs: .25rem;
+  --space-sm: .5rem;
+  --space-md: .75rem;
+  --space-lg: 1rem;
+  --space-xl: 1.25rem;
+  --space-2xl: 1.5rem;
+  --space-3xl: 1.75rem;
+  --space-4xl: 2rem;
+  --space-5xl: 2.5rem;
+  --space-6xl: 3rem;
+  --space-7xl: 3.5rem;
+  --space-8xl: 4rem;
+  --space-9xl: 4.5rem;
+  --space-10xl: 5rem;
+  --space-11xl: 6rem;
+  --space-12xl: 7rem;
+  --space-13xl: 7.5rem;
+  --gutter-mobile: 1rem;
+  --gutter-tablet: 1.25rem;
+  --gutter-desktop: 1.5rem;
+  --margin-mobile: 1.25rem;
+  --margin-tablet: 1.5rem;
+  --margin-desktop: 5rem;
+  --container-max: 80rem;
+  --section-padding-desktop: 7rem;
+  --section-padding-tablet: 4.5rem;
+  --section-padding-mobile: 3.5rem;
+}
+
+/* [project]/src/styles/tokens/motion.css [app-client] (css) */
+:root {
+  --ease-standard: cubic-bezier(.22, 1, .36, 1);
+  --duration-micro: .15s;
+  --duration-standard: .4s;
+  --duration-reveal: .8s;
+  --duration-counter: 1.2s;
+  --duration-zoom: 3s;
+  --duration-map-pulse: 2s;
+  --duration-marquee: 37.5s;
+}
+
+/* [project]/src/styles/tokens/radius.css [app-client] (css) */
+:root {
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+}
+
+/* [project]/src/styles/tokens/breakpoints.css [app-client] (css) */
+:root {
+  --bp-mobile: 390px;
+  --bp-tablet: 768px;
+  --bp-desktop: 1440px;
+}
+
+/* [project]/src/styles/tokens/index.css [app-client] (css) */
+
+
+/* [project]/src/styles/base/fonts.css [app-client] (css) */
+@font-face {
+  font-family: Fraunces;
+  font-style: normal;
+  font-weight: 300 500;
+  font-display: swap;
+  src: url("/fonts/Fraunces-latin.woff2") format("woff2");
+  unicode-range: U+??, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/Inter-latin.woff2") format("woff2");
+  unicode-range: U+??, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* [project]/src/styles/base/reset.css [app-client] (css) */
+*, :before, :after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+img, picture, svg, video, canvas {
+  max-width: 100%;
+  display: block;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  padding: 0;
+  list-style: none;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, :before, :after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* [project]/src/styles/base/base.css [app-client] (css) */
+html {
+  font-family: var(--font-body);
+  font-size: 100%;
+  line-height: var(--leading-body);
+  color: var(--color-text-primary);
+  background-color: var(--color-ivory);
+}
+
+body {
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-text-primary);
+  background-color: var(--color-ivory);
+  font-feature-settings: "kern", "liga", "calt";
+  text-rendering: optimizelegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  color: var(--color-text-primary);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--font-hero);
+  line-height: var(--leading-hero);
+  letter-spacing: var(--tracking-hero);
+}
+
+h2 {
+  font-size: var(--font-h2);
+  line-height: var(--leading-h2);
+}
+
+h3 {
+  font-size: var(--font-h3);
+  line-height: var(--leading-h3);
+}
+
+::selection {
+  background-color: var(--color-maroon);
+  color: var(--color-ivory);
+}
+
+[id] {
+  scroll-margin-top: var(--space-12xl);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* [project]/src/styles/base/index.css [app-client] (css) */
+
+
+/* [project]/src/styles/utilities/container.css [app-client] (css) */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  padding-inline: var(--margin-mobile);
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-inline: var(--margin-tablet);
+  }
+}
+
+@media (min-width: 1440px) {
+  .container {
+    padding-inline: var(--margin-desktop);
+  }
+}
+
+/* [project]/src/styles/utilities/text.css [app-client] (css) */
+.text-label-meta {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+}
+
+.text-label-button {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-button);
+  line-height: var(--leading-button);
+  letter-spacing: var(--tracking-button);
+  text-transform: uppercase;
+}
+
+.text-small {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+}
+
+/* [project]/src/styles/utilities/visually-hidden.css [app-client] (css) */
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  position: absolute;
+  overflow: hidden;
+}
+
+/* [project]/src/styles/utilities/focus-ring.css [app-client] (css) */
+.focus-ring:focus-within {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* [project]/src/styles/utilities/skip-link.css [app-client] (css) */
+.skip-link {
+  top: -100%;
+  left: var(--space-lg);
+  z-index: 200;
+  min-height: var(--space-6xl);
+  padding-inline: var(--space-2xl);
+  background-color: var(--color-ivory);
+  color: var(--color-maroon);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-button);
+  line-height: var(--leading-button);
+  letter-spacing: var(--tracking-button);
+  text-transform: uppercase;
+  border: 1px solid var(--color-hairline-light);
+  transition: top var(--duration-standard) var(--ease-standard);
+  align-items: center;
+  display: inline-flex;
+  position: absolute;
+}
+
+.skip-link:focus-visible {
+  top: var(--space-lg);
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* [project]/src/styles/utilities/index.css [app-client] (css) */
+
+
+/* [project]/src/styles/index.css [app-client] (css) */
+
+
+/*# sourceMappingURL=src_styles_0-_yu-r._.css.map*/

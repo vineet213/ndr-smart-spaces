@@ -1,0 +1,1833 @@
+(globalThis["TURBOPACK"] || (globalThis["TURBOPACK"] = [])).push([typeof document === "object" ? document.currentScript : undefined,
+"[project]/src/components/header/CtaArea.module.css [app-client] (css module)", ((__turbopack_context__) => {
+
+__turbopack_context__.v({
+  "area": "CtaArea-module__S7vxKW__area",
+  "enquiry": "CtaArea-module__S7vxKW__enquiry",
+  "investor": "CtaArea-module__S7vxKW__investor",
+});
+}),
+"[project]/src/components/header/CtaArea.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "CtaArea",
+    ()=>CtaArea
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/Button.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$TextLink$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/TextLink.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/data/navigation.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$CtaArea$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/components/header/CtaArea.module.css [app-client] (css module)");
+;
+;
+;
+;
+;
+function CtaArea() {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$CtaArea$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].area,
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$TextLink$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TextLink"], {
+                href: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["headerCta"].investor.href,
+                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$CtaArea$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].investor,
+                children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["headerCta"].investor.label
+            }, void 0, false, {
+                fileName: "[project]/src/components/header/CtaArea.tsx",
+                lineNumber: 9,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                href: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["headerCta"].enquiry.href,
+                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$CtaArea$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].enquiry,
+                children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["headerCta"].enquiry.label
+            }, void 0, false, {
+                fileName: "[project]/src/components/header/CtaArea.tsx",
+                lineNumber: 12,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/header/CtaArea.tsx",
+        lineNumber: 8,
+        columnNumber: 5
+    }, this);
+}
+_c = CtaArea;
+var _c;
+__turbopack_context__.k.register(_c, "CtaArea");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/header/Header.module.css [app-client] (css module)", ((__turbopack_context__) => {
+
+__turbopack_context__.v({
+  "header": "Header-module__zCemKG__header",
+  "navBar": "Header-module__zCemKG__navBar",
+  "navBarScrolled": "Header-module__zCemKG__navBarScrolled",
+  "navContainer": "Header-module__zCemKG__navContainer",
+});
+}),
+"[project]/src/components/header/Header.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Header",
+    ()=>Header
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useScrolled$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/hooks/useScrolled.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useDisclosure$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/hooks/useDisclosure.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/cx.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$UtilityStrip$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/header/UtilityStrip.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$LogoWordmark$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/header/LogoWordmark.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MainNav$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/header/MainNav.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$CtaArea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/header/CtaArea.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MenuButton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/header/MenuButton.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/header/MobileNav.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$Header$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/components/header/Header.module.css [app-client] (css module)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+function Header() {
+    _s();
+    const scrolled = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useScrolled$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useScrolled"])(4);
+    const mobileMenu = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useDisclosure$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDisclosure"])(false);
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
+        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$Header$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].header,
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$UtilityStrip$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UtilityStrip"], {}, void 0, false, {
+                fileName: "[project]/src/components/header/Header.tsx",
+                lineNumber: 20,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$Header$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].navBar, scrolled && __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$Header$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].navBarScrolled),
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])("container", __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$Header$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].navContainer),
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$LogoWordmark$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LogoWordmark"], {}, void 0, false, {
+                            fileName: "[project]/src/components/header/Header.tsx",
+                            lineNumber: 23,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MainNav$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MainNav"], {}, void 0, false, {
+                            fileName: "[project]/src/components/header/Header.tsx",
+                            lineNumber: 24,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$CtaArea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CtaArea"], {}, void 0, false, {
+                            fileName: "[project]/src/components/header/Header.tsx",
+                            lineNumber: 25,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MenuButton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MenuButton"], {
+                            open: mobileMenu.open,
+                            onToggle: mobileMenu.toggle
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/header/Header.tsx",
+                            lineNumber: 26,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/header/Header.tsx",
+                    lineNumber: 22,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/components/header/Header.tsx",
+                lineNumber: 21,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MobileNav"], {
+                open: mobileMenu.open,
+                onClose: mobileMenu.closePanel
+            }, void 0, false, {
+                fileName: "[project]/src/components/header/Header.tsx",
+                lineNumber: 29,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/header/Header.tsx",
+        lineNumber: 19,
+        columnNumber: 5
+    }, this);
+}
+_s(Header, "XKpcZCsmU5LVoR+YsoMzeWg29kU=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useScrolled$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useScrolled"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useDisclosure$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDisclosure"]
+    ];
+});
+_c = Header;
+var _c;
+__turbopack_context__.k.register(_c, "Header");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/header/LogoWordmark.module.css [app-client] (css module)", ((__turbopack_context__) => {
+
+__turbopack_context__.v({
+  "link": "LogoWordmark-module__mJfYJa__link",
+  "logo": "LogoWordmark-module__mJfYJa__logo",
+});
+}),
+"[project]/src/components/header/LogoWordmark.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "LogoWordmark",
+    ()=>LogoWordmark
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/data/navigation.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$LogoWordmark$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/components/header/LogoWordmark.module.css [app-client] (css module)");
+;
+;
+;
+;
+function LogoWordmark() {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+        href: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["siteHome"],
+        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$LogoWordmark$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].link,
+        "aria-label": "NDR Smart Spaces — home",
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+            src: "/logos/ndr-smart-spaces-lockup.svg",
+            alt: "",
+            width: 140,
+            height: 32,
+            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$LogoWordmark$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].logo
+        }, void 0, false, {
+            fileName: "[project]/src/components/header/LogoWordmark.tsx",
+            lineNumber: 8,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/src/components/header/LogoWordmark.tsx",
+        lineNumber: 7,
+        columnNumber: 5
+    }, this);
+}
+_c = LogoWordmark;
+var _c;
+__turbopack_context__.k.register(_c, "LogoWordmark");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/header/MainNav.module.css [app-client] (css module)", ((__turbopack_context__) => {
+
+__turbopack_context__.v({
+  "item": "MainNav-module__elNwmG__item",
+  "link": "MainNav-module__elNwmG__link",
+  "linkActive": "MainNav-module__elNwmG__linkActive",
+  "list": "MainNav-module__elNwmG__list",
+  "nav": "MainNav-module__elNwmG__nav",
+});
+}),
+"[project]/src/components/header/MainNav.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "MainNav",
+    ()=>MainNav
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/data/navigation.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/cx.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenuButton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/header/MegaMenuButton.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MainNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/components/header/MainNav.module.css [app-client] (css module)");
+;
+var _s = __turbopack_context__.k.signature();
+;
+;
+;
+;
+;
+function MainNav() {
+    _s();
+    const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])() ?? "";
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
+        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MainNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].nav,
+        "aria-label": "Main",
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MainNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].list,
+            children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["navItems"].map((item)=>{
+                if (item.type === "link") {
+                    const active = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isActivePath"])(pathname, item.href);
+                    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MainNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].item,
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                            href: item.href,
+                            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MainNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].link, active && __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MainNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].linkActive),
+                            "aria-current": active ? "page" : undefined,
+                            children: item.label
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/header/MainNav.tsx",
+                            lineNumber: 18,
+                            columnNumber: 17
+                        }, this)
+                    }, item.href, false, {
+                        fileName: "[project]/src/components/header/MainNav.tsx",
+                        lineNumber: 17,
+                        columnNumber: 15
+                    }, this);
+                }
+                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenuButton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MegaMenuButton"], {
+                    menu: item,
+                    isActive: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isActivePath"])(pathname, item.href),
+                    pathname: pathname
+                }, item.id, false, {
+                    fileName: "[project]/src/components/header/MainNav.tsx",
+                    lineNumber: 29,
+                    columnNumber: 13
+                }, this);
+            })
+        }, void 0, false, {
+            fileName: "[project]/src/components/header/MainNav.tsx",
+            lineNumber: 12,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/src/components/header/MainNav.tsx",
+        lineNumber: 11,
+        columnNumber: 5
+    }, this);
+}
+_s(MainNav, "wVXOWZKWdId76kQQO0KX6Oz3JDA=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"]
+    ];
+});
+_c = MainNav;
+var _c;
+__turbopack_context__.k.register(_c, "MainNav");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/header/MegaMenu.module.css [app-client] (css module)", ((__turbopack_context__) => {
+
+__turbopack_context__.v({
+  "chevron": "MegaMenu-module__NJRSaa__chevron",
+  "column": "MegaMenu-module__NJRSaa__column",
+  "columns": "MegaMenu-module__NJRSaa__columns",
+  "externalIcon": "MegaMenu-module__NJRSaa__externalIcon",
+  "heading": "MegaMenu-module__NJRSaa__heading",
+  "item": "MegaMenu-module__NJRSaa__item",
+  "itemOpen": "MegaMenu-module__NJRSaa__itemOpen",
+  "itemSuppressed": "MegaMenu-module__NJRSaa__itemSuppressed",
+  "link": "MegaMenu-module__NJRSaa__link",
+  "linkActive": "MegaMenu-module__NJRSaa__linkActive",
+  "links": "MegaMenu-module__NJRSaa__links",
+  "panel": "MegaMenu-module__NJRSaa__panel",
+  "panelLeft": "MegaMenu-module__NJRSaa__panelLeft",
+  "panelRight": "MegaMenu-module__NJRSaa__panelRight",
+  "trigger": "MegaMenu-module__NJRSaa__trigger",
+  "triggerActive": "MegaMenu-module__NJRSaa__triggerActive",
+});
+}),
+"[project]/src/components/header/MegaMenuButton.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "MegaMenuButton",
+    ()=>MegaMenuButton
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useDisclosure$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/hooks/useDisclosure.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/Icon.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$VisuallyHidden$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/VisuallyHidden.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/cx.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/data/navigation.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/components/header/MegaMenu.module.css [app-client] (css module)");
+;
+var _s = __turbopack_context__.k.signature();
+;
+;
+;
+;
+;
+;
+;
+;
+function MegaMenuButton({ menu, isActive, pathname }) {
+    _s();
+    const { open, toggle, setOpen } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useDisclosure$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDisclosure"])(false);
+    const [suppressed, setSuppressed] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const itemRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const triggerRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const panelId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useId"])();
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "MegaMenuButton.useEffect": ()=>{
+            if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+            ;
+            if (!window.matchMedia("(min-width: 80rem)").matches) return;
+            const node = itemRef.current;
+            const onPointerDown = {
+                "MegaMenuButton.useEffect.onPointerDown": (event)=>{
+                    if (node && !node.contains(event.target)) {
+                        setSuppressed(false);
+                    }
+                }
+            }["MegaMenuButton.useEffect.onPointerDown"];
+            const onKeyDown = {
+                "MegaMenuButton.useEffect.onKeyDown": (event)=>{
+                    if (event.key === "Escape") {
+                        setOpen(false);
+                        setSuppressed(true);
+                        triggerRef.current?.focus();
+                    }
+                }
+            }["MegaMenuButton.useEffect.onKeyDown"];
+            document.addEventListener("pointerdown", onPointerDown);
+            document.addEventListener("keydown", onKeyDown);
+            return ({
+                "MegaMenuButton.useEffect": ()=>{
+                    document.removeEventListener("pointerdown", onPointerDown);
+                    document.removeEventListener("keydown", onKeyDown);
+                }
+            })["MegaMenuButton.useEffect"];
+        }
+    }["MegaMenuButton.useEffect"], [
+        setOpen
+    ]);
+    const handleTriggerClick = ()=>{
+        setSuppressed(false);
+        toggle();
+    };
+    const handleTriggerKeyDown = (event)=>{
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            setSuppressed(false);
+            toggle();
+        }
+    };
+    const handleFocusCapture = (event)=>{
+        const target = event.target;
+        if (target !== triggerRef.current) {
+            setSuppressed(false);
+        }
+    };
+    const handleBlur = (event)=>{
+        const next = event.relatedTarget;
+        if (itemRef.current && next && itemRef.current.contains(next)) return;
+        setOpen(false);
+    };
+    const handleMouseEnter = ()=>{
+        setSuppressed(false);
+        setOpen(true);
+    };
+    const handleMouseLeave = ()=>{
+        if (itemRef.current && !itemRef.current.contains(document.activeElement)) {
+            setOpen(false);
+        }
+    };
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+        ref: itemRef,
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].item, open && __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].itemOpen, suppressed && __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].itemSuppressed),
+        onFocusCapture: handleFocusCapture,
+        onBlurCapture: handleBlur,
+        onMouseEnter: handleMouseEnter,
+        onMouseLeave: handleMouseLeave,
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                ref: triggerRef,
+                type: "button",
+                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].trigger, isActive && __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].triggerActive),
+                "aria-expanded": open,
+                "aria-haspopup": "true",
+                "aria-controls": panelId,
+                onClick: handleTriggerClick,
+                onKeyDown: handleTriggerKeyDown,
+                children: [
+                    menu.label,
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Icon"], {
+                        name: "chevron-down",
+                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].chevron
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/header/MegaMenuButton.tsx",
+                        lineNumber: 106,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/header/MegaMenuButton.tsx",
+                lineNumber: 95,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                id: panelId,
+                role: "region",
+                "aria-label": menu.label,
+                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].panel, menu.align === "right" ? __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].panelRight : __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].panelLeft),
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].columns,
+                    children: menu.columns.map((column)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].column,
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])("text-label-meta", __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].heading),
+                                    children: column.heading
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/header/MegaMenuButton.tsx",
+                                    lineNumber: 118,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].links,
+                                    children: column.links.map((child)=>{
+                                        const childActive = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isActivePath"])(pathname, child.href);
+                                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                            children: child.external ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].link, childActive && __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].linkActive),
+                                                href: child.href,
+                                                target: "_blank",
+                                                rel: "noopener noreferrer",
+                                                children: [
+                                                    child.label,
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Icon"], {
+                                                        name: "arrow-up-right",
+                                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].externalIcon
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/header/MegaMenuButton.tsx",
+                                                        lineNumber: 132,
+                                                        columnNumber: 27
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$VisuallyHidden$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["VisuallyHidden"], {
+                                                        children: "Opens in a new tab"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/header/MegaMenuButton.tsx",
+                                                        lineNumber: 133,
+                                                        columnNumber: 27
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/header/MegaMenuButton.tsx",
+                                                lineNumber: 125,
+                                                columnNumber: 25
+                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].link, childActive && __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MegaMenu$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].linkActive),
+                                                href: child.href,
+                                                "aria-current": childActive ? "page" : undefined,
+                                                children: child.label
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/header/MegaMenuButton.tsx",
+                                                lineNumber: 136,
+                                                columnNumber: 25
+                                            }, this)
+                                        }, child.href, false, {
+                                            fileName: "[project]/src/components/header/MegaMenuButton.tsx",
+                                            lineNumber: 123,
+                                            columnNumber: 21
+                                        }, this);
+                                    })
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/header/MegaMenuButton.tsx",
+                                    lineNumber: 119,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, column.heading, true, {
+                            fileName: "[project]/src/components/header/MegaMenuButton.tsx",
+                            lineNumber: 117,
+                            columnNumber: 13
+                        }, this))
+                }, void 0, false, {
+                    fileName: "[project]/src/components/header/MegaMenuButton.tsx",
+                    lineNumber: 115,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/components/header/MegaMenuButton.tsx",
+                lineNumber: 109,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/header/MegaMenuButton.tsx",
+        lineNumber: 87,
+        columnNumber: 5
+    }, this);
+}
+_s(MegaMenuButton, "21VYRejVZlGXG5aiT2cGPzr0h9M=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useDisclosure$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDisclosure"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useId"]
+    ];
+});
+_c = MegaMenuButton;
+var _c;
+__turbopack_context__.k.register(_c, "MegaMenuButton");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/header/MenuButton.module.css [app-client] (css module)", ((__turbopack_context__) => {
+
+__turbopack_context__.v({
+  "button": "MenuButton-module__qmDofa__button",
+  "icon": "MenuButton-module__qmDofa__icon",
+});
+}),
+"[project]/src/components/header/MenuButton.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "MenuButton",
+    ()=>MenuButton
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/Icon.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MenuButton$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/components/header/MenuButton.module.css [app-client] (css module)");
+;
+;
+;
+function MenuButton({ open, onToggle }) {
+    const label = open ? "Close menu" : "Open menu";
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+        type: "button",
+        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MenuButton$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].button,
+        onClick: onToggle,
+        "aria-expanded": open,
+        "aria-controls": "site-menu",
+        "aria-label": label,
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Icon"], {
+            name: "menu",
+            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MenuButton$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].icon
+        }, void 0, false, {
+            fileName: "[project]/src/components/header/MenuButton.tsx",
+            lineNumber: 21,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/src/components/header/MenuButton.tsx",
+        lineNumber: 13,
+        columnNumber: 5
+    }, this);
+}
+_c = MenuButton;
+var _c;
+__turbopack_context__.k.register(_c, "MenuButton");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/header/MobileNav.module.css [app-client] (css module)", ((__turbopack_context__) => {
+
+__turbopack_context__.v({
+  "close": "MobileNav-module__cIncXq__close",
+  "ctas": "MobileNav-module__cIncXq__ctas",
+  "email": "MobileNav-module__cIncXq__email",
+  "emails": "MobileNav-module__cIncXq__emails",
+  "enquiryCta": "MobileNav-module__cIncXq__enquiryCta",
+  "entity": "MobileNav-module__cIncXq__entity",
+  "externalIcon": "MobileNav-module__cIncXq__externalIcon",
+  "footer": "MobileNav-module__cIncXq__footer",
+  "footerHeading": "MobileNav-module__cIncXq__footerHeading",
+  "header": "MobileNav-module__cIncXq__header",
+  "headerInfo": "MobileNav-module__cIncXq__headerInfo",
+  "investorCta": "MobileNav-module__cIncXq__investorCta",
+  "link": "MobileNav-module__cIncXq__link",
+  "list": "MobileNav-module__cIncXq__list",
+  "nav": "MobileNav-module__cIncXq__nav",
+  "panel": "MobileNav-module__cIncXq__panel",
+  "subLink": "MobileNav-module__cIncXq__subLink",
+  "subList": "MobileNav-module__cIncXq__subList",
+  "utilityIcon": "MobileNav-module__cIncXq__utilityIcon",
+  "utilityLink": "MobileNav-module__cIncXq__utilityLink",
+  "utilityLinks": "MobileNav-module__cIncXq__utilityLinks",
+  "wrapper": "MobileNav-module__cIncXq__wrapper",
+  "wrapperOpen": "MobileNav-module__cIncXq__wrapperOpen",
+});
+}),
+"[project]/src/components/header/MobileNav.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "MobileNav",
+    ()=>MobileNav
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useFocusTrap$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/hooks/useFocusTrap.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useBodyScrollLock$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/hooks/useBodyScrollLock.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/Icon.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/Button.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$TextLink$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/TextLink.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$VisuallyHidden$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/VisuallyHidden.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/cx.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/data/navigation.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/components/header/MobileNav.module.css [app-client] (css module)");
+;
+var _s = __turbopack_context__.k.signature();
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+function MobileNav({ open, onClose }) {
+    _s();
+    const panelRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useFocusTrap$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFocusTrap"])(panelRef, open, onClose);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useBodyScrollLock$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useBodyScrollLock"])(open);
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        id: "site-menu",
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].wrapper, open && __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].wrapperOpen),
+        "aria-hidden": !open,
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            ref: panelRef,
+            role: "dialog",
+            "aria-modal": open,
+            "aria-label": "Site menu",
+            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].panel,
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].header,
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].headerInfo,
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])("text-label-meta", __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].entity),
+                                    children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["utilityStrip"].entity
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/header/MobileNav.tsx",
+                                    lineNumber: 38,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].utilityLinks,
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])("text-label-meta", __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].utilityLink),
+                                            href: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["utilityStrip"].invIT.href,
+                                            target: "_blank",
+                                            rel: "noopener noreferrer",
+                                            children: [
+                                                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["utilityStrip"].invIT.label,
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Icon"], {
+                                                    name: "arrow-up-right",
+                                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].utilityIcon
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/header/MobileNav.tsx",
+                                                    lineNumber: 47,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$VisuallyHidden$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["VisuallyHidden"], {
+                                                    children: "Opens in a new tab"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/header/MobileNav.tsx",
+                                                    lineNumber: 48,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/header/MobileNav.tsx",
+                                            lineNumber: 40,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])("text-label-meta", __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].utilityLink),
+                                            href: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["utilityStrip"].email.href,
+                                            children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["utilityStrip"].email.label
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/header/MobileNav.tsx",
+                                            lineNumber: 50,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/header/MobileNav.tsx",
+                                    lineNumber: 39,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/header/MobileNav.tsx",
+                            lineNumber: 37,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            type: "button",
+                            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].close,
+                            onClick: onClose,
+                            "aria-label": "Close menu",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Icon"], {
+                                name: "close"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/header/MobileNav.tsx",
+                                lineNumber: 59,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/header/MobileNav.tsx",
+                            lineNumber: 58,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/header/MobileNav.tsx",
+                    lineNumber: 36,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
+                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].nav,
+                    "aria-label": "Menu",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].list,
+                        children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["navItems"].map((item)=>item.type === "link" ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].link,
+                                    href: item.href,
+                                    onClick: onClose,
+                                    children: item.label
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/header/MobileNav.tsx",
+                                    lineNumber: 68,
+                                    columnNumber: 19
+                                }, this)
+                            }, item.href, false, {
+                                fileName: "[project]/src/components/header/MobileNav.tsx",
+                                lineNumber: 67,
+                                columnNumber: 17
+                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].link,
+                                        href: item.href,
+                                        onClick: onClose,
+                                        children: item.label
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/header/MobileNav.tsx",
+                                        lineNumber: 74,
+                                        columnNumber: 19
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].subList,
+                                        children: item.columns.flatMap((column)=>column.links).map((child)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].subLink,
+                                                    href: child.href,
+                                                    onClick: onClose,
+                                                    ...child.external ? {
+                                                        target: "_blank",
+                                                        rel: "noopener noreferrer"
+                                                    } : {},
+                                                    children: [
+                                                        child.label,
+                                                        child.external ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Icon"], {
+                                                            name: "arrow-up-right",
+                                                            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].externalIcon
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/components/header/MobileNav.tsx",
+                                                            lineNumber: 92,
+                                                            columnNumber: 31
+                                                        }, this) : null
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/components/header/MobileNav.tsx",
+                                                    lineNumber: 82,
+                                                    columnNumber: 27
+                                                }, this)
+                                            }, child.href, false, {
+                                                fileName: "[project]/src/components/header/MobileNav.tsx",
+                                                lineNumber: 81,
+                                                columnNumber: 25
+                                            }, this))
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/header/MobileNav.tsx",
+                                        lineNumber: 77,
+                                        columnNumber: 19
+                                    }, this)
+                                ]
+                            }, item.id, true, {
+                                fileName: "[project]/src/components/header/MobileNav.tsx",
+                                lineNumber: 73,
+                                columnNumber: 17
+                            }, this))
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/header/MobileNav.tsx",
+                        lineNumber: 64,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/src/components/header/MobileNav.tsx",
+                    lineNumber: 63,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].ctas,
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$TextLink$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TextLink"], {
+                            tone: "dark",
+                            href: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["headerCta"].investor.href,
+                            onClick: onClose,
+                            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].investorCta,
+                            children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["headerCta"].investor.label
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/header/MobileNav.tsx",
+                            lineNumber: 105,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                            tone: "dark",
+                            href: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["headerCta"].enquiry.href,
+                            onClick: onClose,
+                            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].enquiryCta,
+                            children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["headerCta"].enquiry.label
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/header/MobileNav.tsx",
+                            lineNumber: 113,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/header/MobileNav.tsx",
+                    lineNumber: 104,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].footer,
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])("text-label-meta", __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].footerHeading),
+                            children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["mobileMenuFooter"].heading
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/header/MobileNav.tsx",
+                            lineNumber: 124,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].emails,
+                            children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["mobileMenuFooter"].emails.map((email)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$MobileNav$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].email,
+                                        href: email.href,
+                                        onClick: onClose,
+                                        children: email.label
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/header/MobileNav.tsx",
+                                        lineNumber: 128,
+                                        columnNumber: 17
+                                    }, this)
+                                }, email.href, false, {
+                                    fileName: "[project]/src/components/header/MobileNav.tsx",
+                                    lineNumber: 127,
+                                    columnNumber: 15
+                                }, this))
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/header/MobileNav.tsx",
+                            lineNumber: 125,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/header/MobileNav.tsx",
+                    lineNumber: 123,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/src/components/header/MobileNav.tsx",
+            lineNumber: 29,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/src/components/header/MobileNav.tsx",
+        lineNumber: 24,
+        columnNumber: 5
+    }, this);
+}
+_s(MobileNav, "Rm2l51cTXssKz+HdLsrP76cZms4=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useFocusTrap$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFocusTrap"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useBodyScrollLock$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useBodyScrollLock"]
+    ];
+});
+_c = MobileNav;
+var _c;
+__turbopack_context__.k.register(_c, "MobileNav");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/header/UtilityStrip.module.css [app-client] (css module)", ((__turbopack_context__) => {
+
+__turbopack_context__.v({
+  "entity": "UtilityStrip-module__phfDNG__entity",
+  "externalIcon": "UtilityStrip-module__phfDNG__externalIcon",
+  "inner": "UtilityStrip-module__phfDNG__inner",
+  "link": "UtilityStrip-module__phfDNG__link",
+  "links": "UtilityStrip-module__phfDNG__links",
+  "strip": "UtilityStrip-module__phfDNG__strip",
+});
+}),
+"[project]/src/components/header/UtilityStrip.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "UtilityStrip",
+    ()=>UtilityStrip
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/Icon.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$VisuallyHidden$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/VisuallyHidden.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/cx.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/data/navigation.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$UtilityStrip$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/components/header/UtilityStrip.module.css [app-client] (css module)");
+;
+;
+;
+;
+;
+;
+function UtilityStrip() {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$UtilityStrip$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].strip,
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])("container", __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$UtilityStrip$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].inner),
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                    className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])("text-label-meta", __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$UtilityStrip$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].entity),
+                    children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["utilityStrip"].entity
+                }, void 0, false, {
+                    fileName: "[project]/src/components/header/UtilityStrip.tsx",
+                    lineNumber: 11,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$UtilityStrip$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].links,
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])("text-label-meta", __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$UtilityStrip$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].link),
+                            href: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["utilityStrip"].invIT.href,
+                            target: "_blank",
+                            rel: "noopener noreferrer",
+                            children: [
+                                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["utilityStrip"].invIT.label,
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Icon"], {
+                                    name: "arrow-up-right",
+                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$UtilityStrip$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].externalIcon
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/header/UtilityStrip.tsx",
+                                    lineNumber: 20,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$VisuallyHidden$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["VisuallyHidden"], {
+                                    children: "Opens in a new tab"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/header/UtilityStrip.tsx",
+                                    lineNumber: 21,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/header/UtilityStrip.tsx",
+                            lineNumber: 13,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])("text-label-meta", __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$header$2f$UtilityStrip$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].link),
+                            href: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["utilityStrip"].email.href,
+                            children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$data$2f$navigation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["utilityStrip"].email.label
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/header/UtilityStrip.tsx",
+                            lineNumber: 23,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/header/UtilityStrip.tsx",
+                    lineNumber: 12,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/src/components/header/UtilityStrip.tsx",
+            lineNumber: 10,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/src/components/header/UtilityStrip.tsx",
+        lineNumber: 9,
+        columnNumber: 5
+    }, this);
+}
+_c = UtilityStrip;
+var _c;
+__turbopack_context__.k.register(_c, "UtilityStrip");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/ui/Button.module.css [app-client] (css module)", ((__turbopack_context__) => {
+
+__turbopack_context__.v({
+  "base": "Button-module__8RiFmG__base",
+  "primaryOnDark": "Button-module__8RiFmG__primaryOnDark",
+  "primaryOnLight": "Button-module__8RiFmG__primaryOnLight",
+  "secondaryOnDark": "Button-module__8RiFmG__secondaryOnDark",
+  "secondaryOnLight": "Button-module__8RiFmG__secondaryOnLight",
+});
+}),
+"[project]/src/components/ui/Button.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Button",
+    ()=>Button
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Button$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/components/ui/Button.module.css [app-client] (css module)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/cx.ts [app-client] (ecmascript)");
+;
+;
+;
+function variantClass(variant, tone) {
+    if (variant === "primary") {
+        return tone === "dark" ? __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Button$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].primaryOnDark : __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Button$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].primaryOnLight;
+    }
+    return tone === "dark" ? __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Button$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].secondaryOnDark : __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Button$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].secondaryOnLight;
+}
+function Button(props) {
+    const { variant = "primary", tone = "light", className, children, ...rest } = props;
+    const classes = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])("text-label-button", __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Button$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].base, variantClass(variant, tone), className);
+    if ("href" in props && props.href !== undefined) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+            className: classes,
+            ...rest,
+            children: children
+        }, void 0, false, {
+            fileName: "[project]/src/components/ui/Button.tsx",
+            lineNumber: 39,
+            columnNumber: 7
+        }, this);
+    }
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+        className: classes,
+        ...rest,
+        children: children
+    }, void 0, false, {
+        fileName: "[project]/src/components/ui/Button.tsx",
+        lineNumber: 46,
+        columnNumber: 5
+    }, this);
+}
+_c = Button;
+var _c;
+__turbopack_context__.k.register(_c, "Button");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/ui/Icon.module.css [app-client] (css module)", ((__turbopack_context__) => {
+
+__turbopack_context__.v({
+  "icon": "Icon-module__68r8jG__icon",
+  "md": "Icon-module__68r8jG__md",
+  "sm": "Icon-module__68r8jG__sm",
+});
+}),
+"[project]/src/components/ui/Icon.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Icon",
+    ()=>Icon
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/components/ui/Icon.module.css [app-client] (css module)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/cx.ts [app-client] (ecmascript)");
+;
+;
+;
+const paths = {
+    "arrow-right": /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: "M4 12h14"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 21,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: "M13 6l6 6-6 6"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 22,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0))
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/ui/Icon.tsx",
+        lineNumber: 20,
+        columnNumber: 5
+    }, ("TURBOPACK compile-time value", void 0)),
+    "arrow-up-right": /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: "M7 17L17 7"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 27,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: "M9 7h8v8"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 28,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0))
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/ui/Icon.tsx",
+        lineNumber: 26,
+        columnNumber: 5
+    }, ("TURBOPACK compile-time value", void 0)),
+    "chevron-down": /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+        d: "M6 9l6 6 6-6"
+    }, void 0, false, {
+        fileName: "[project]/src/components/ui/Icon.tsx",
+        lineNumber: 31,
+        columnNumber: 19
+    }, ("TURBOPACK compile-time value", void 0)),
+    phone: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+        d: "M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"
+    }, void 0, false, {
+        fileName: "[project]/src/components/ui/Icon.tsx",
+        lineNumber: 33,
+        columnNumber: 5
+    }, ("TURBOPACK compile-time value", void 0)),
+    mail: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("rect", {
+                x: "2",
+                y: "5",
+                width: "20",
+                height: "14"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 37,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: "M22 7l-10 6L2 7"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 38,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0))
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/ui/Icon.tsx",
+        lineNumber: 36,
+        columnNumber: 5
+    }, ("TURBOPACK compile-time value", void 0)),
+    "map-pin": /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: "M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 43,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
+                cx: "12",
+                cy: "10",
+                r: "3"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 44,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0))
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/ui/Icon.tsx",
+        lineNumber: 42,
+        columnNumber: 5
+    }, ("TURBOPACK compile-time value", void 0)),
+    download: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: "M12 3v12"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 49,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: "M7 10l5 5 5-5"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 50,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: "M4 21h16"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 51,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0))
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/ui/Icon.tsx",
+        lineNumber: 48,
+        columnNumber: 5
+    }, ("TURBOPACK compile-time value", void 0)),
+    menu: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: "M4 6h16"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 56,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: "M4 12h16"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 57,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: "M4 18h16"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 58,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0))
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/ui/Icon.tsx",
+        lineNumber: 55,
+        columnNumber: 5
+    }, ("TURBOPACK compile-time value", void 0)),
+    close: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: "M6 6l12 12"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 63,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                d: "M18 6L6 18"
+            }, void 0, false, {
+                fileName: "[project]/src/components/ui/Icon.tsx",
+                lineNumber: 64,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0))
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/components/ui/Icon.tsx",
+        lineNumber: 62,
+        columnNumber: 5
+    }, ("TURBOPACK compile-time value", void 0))
+};
+const sizeClass = {
+    sm: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].sm,
+    md: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].md
+};
+function Icon({ name, size = "md", className }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        strokeWidth: 1.5,
+        strokeLinecap: "square",
+        strokeLinejoin: "miter",
+        "aria-hidden": "true",
+        focusable: "false",
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$Icon$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].icon, sizeClass[size], className),
+        children: paths[name]
+    }, void 0, false, {
+        fileName: "[project]/src/components/ui/Icon.tsx",
+        lineNumber: 82,
+        columnNumber: 5
+    }, this);
+}
+_c = Icon;
+var _c;
+__turbopack_context__.k.register(_c, "Icon");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/ui/TextLink.module.css [app-client] (css module)", ((__turbopack_context__) => {
+
+__turbopack_context__.v({
+  "base": "TextLink-module__0J5utG__base",
+  "onDark": "TextLink-module__0J5utG__onDark",
+  "onLight": "TextLink-module__0J5utG__onLight",
+});
+}),
+"[project]/src/components/ui/TextLink.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "TextLink",
+    ()=>TextLink
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$TextLink$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/components/ui/TextLink.module.css [app-client] (css module)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/cx.ts [app-client] (ecmascript)");
+;
+;
+;
+function TextLink({ tone = "light", className, children, ...rest }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])("text-label-button", __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$TextLink$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].base, tone === "dark" ? __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$TextLink$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].onDark : __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$TextLink$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].onLight, className),
+        ...rest,
+        children: children
+    }, void 0, false, {
+        fileName: "[project]/src/components/ui/TextLink.tsx",
+        lineNumber: 14,
+        columnNumber: 5
+    }, this);
+}
+_c = TextLink;
+var _c;
+__turbopack_context__.k.register(_c, "TextLink");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/ui/VisuallyHidden.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "VisuallyHidden",
+    ()=>VisuallyHidden
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/cx.ts [app-client] (ecmascript)");
+;
+;
+function VisuallyHidden({ as: Tag = "span", className, children }) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Tag, {
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$cx$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cx"])("visually-hidden", className),
+        children: children
+    }, void 0, false, {
+        fileName: "[project]/src/components/ui/VisuallyHidden.tsx",
+        lineNumber: 11,
+        columnNumber: 10
+    }, this);
+}
+_c = VisuallyHidden;
+var _c;
+__turbopack_context__.k.register(_c, "VisuallyHidden");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/components/ui/cx.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "cx",
+    ()=>cx
+]);
+function cx(...parts) {
+    return parts.filter(Boolean).join(" ");
+}
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/hooks/useBodyScrollLock.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "useBodyScrollLock",
+    ()=>useBodyScrollLock
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var _s = __turbopack_context__.k.signature();
+;
+function useBodyScrollLock(active) {
+    _s();
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "useBodyScrollLock.useEffect": ()=>{
+            if (!active) return;
+            const original = document.body.style.overflow;
+            document.body.style.overflow = "hidden";
+            return ({
+                "useBodyScrollLock.useEffect": ()=>{
+                    document.body.style.overflow = original;
+                }
+            })["useBodyScrollLock.useEffect"];
+        }
+    }["useBodyScrollLock.useEffect"], [
+        active
+    ]);
+}
+_s(useBodyScrollLock, "OD7bBpZva5O2jO+Puf00hKivP7c=");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/hooks/useDisclosure.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "useDisclosure",
+    ()=>useDisclosure
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var _s = __turbopack_context__.k.signature();
+;
+function useDisclosure(initialOpen = false) {
+    _s();
+    const [open, setOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(initialOpen);
+    const openPanel = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useDisclosure.useCallback[openPanel]": ()=>setOpen(true)
+    }["useDisclosure.useCallback[openPanel]"], []);
+    const closePanel = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useDisclosure.useCallback[closePanel]": ()=>setOpen(false)
+    }["useDisclosure.useCallback[closePanel]"], []);
+    const toggle = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "useDisclosure.useCallback[toggle]": ()=>setOpen({
+                "useDisclosure.useCallback[toggle]": (value)=>!value
+            }["useDisclosure.useCallback[toggle]"])
+    }["useDisclosure.useCallback[toggle]"], []);
+    return {
+        open,
+        openPanel,
+        closePanel,
+        toggle,
+        setOpen
+    };
+}
+_s(useDisclosure, "umF0EGMtMF4ASoDfG2Yj7ciBPpc=");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/hooks/useFocusTrap.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "useFocusTrap",
+    ()=>useFocusTrap
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var _s = __turbopack_context__.k.signature();
+;
+const FOCUSABLE_SELECTOR = [
+    "a[href]",
+    "button:not([disabled])",
+    "textarea:not([disabled])",
+    "input:not([disabled])",
+    "select:not([disabled])",
+    '[tabindex]:not([tabindex="-1"])'
+].join(", ");
+function useFocusTrap(ref, active, onClose) {
+    _s();
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "useFocusTrap.useEffect": ()=>{
+            if (!active) return;
+            const node = ref.current;
+            if (!node) return;
+            const previouslyFocused = document.activeElement;
+            const getFocusable = {
+                "useFocusTrap.useEffect.getFocusable": ()=>Array.from(node.querySelectorAll(FOCUSABLE_SELECTOR)).filter({
+                        "useFocusTrap.useEffect.getFocusable": (element)=>element.offsetParent !== null || element === document.activeElement
+                    }["useFocusTrap.useEffect.getFocusable"])
+            }["useFocusTrap.useEffect.getFocusable"];
+            const handleKeyDown = {
+                "useFocusTrap.useEffect.handleKeyDown": (event)=>{
+                    if (event.key === "Escape") {
+                        event.preventDefault();
+                        onClose();
+                        return;
+                    }
+                    if (event.key !== "Tab") return;
+                    const focusable = getFocusable();
+                    if (focusable.length === 0) {
+                        event.preventDefault();
+                        return;
+                    }
+                    const first = focusable[0];
+                    const last = focusable[focusable.length - 1];
+                    const current = document.activeElement;
+                    if (event.shiftKey && (current === first || current === node)) {
+                        event.preventDefault();
+                        last.focus();
+                    } else if (!event.shiftKey && current === last) {
+                        event.preventDefault();
+                        first.focus();
+                    }
+                }
+            }["useFocusTrap.useEffect.handleKeyDown"];
+            const initial = getFocusable()[0];
+            (initial ?? node).focus();
+            document.addEventListener("keydown", handleKeyDown, true);
+            return ({
+                "useFocusTrap.useEffect": ()=>{
+                    document.removeEventListener("keydown", handleKeyDown, true);
+                    previouslyFocused?.focus?.();
+                }
+            })["useFocusTrap.useEffect"];
+        }
+    }["useFocusTrap.useEffect"], [
+        active,
+        onClose,
+        ref
+    ]);
+}
+_s(useFocusTrap, "OD7bBpZva5O2jO+Puf00hKivP7c=");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/hooks/useScrolled.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "useScrolled",
+    ()=>useScrolled
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var _s = __turbopack_context__.k.signature();
+;
+function useScrolled(threshold = 4) {
+    _s();
+    const [scrolled, setScrolled] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "useScrolled.useEffect": ()=>{
+            const onScroll = {
+                "useScrolled.useEffect.onScroll": ()=>setScrolled(window.scrollY > threshold)
+            }["useScrolled.useEffect.onScroll"];
+            onScroll();
+            window.addEventListener("scroll", onScroll, {
+                passive: true
+            });
+            return ({
+                "useScrolled.useEffect": ()=>window.removeEventListener("scroll", onScroll)
+            })["useScrolled.useEffect"];
+        }
+    }["useScrolled.useEffect"], [
+        threshold
+    ]);
+    return scrolled;
+}
+_s(useScrolled, "tQtW9FyKD+Ut/6k+f0BCbABprL4=");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/lib/data/navigation.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "headerCta",
+    ()=>headerCta,
+    "isActivePath",
+    ()=>isActivePath,
+    "mobileMenuFooter",
+    ()=>mobileMenuFooter,
+    "navItems",
+    ()=>navItems,
+    "siteHome",
+    ()=>siteHome,
+    "utilityStrip",
+    ()=>utilityStrip
+]);
+const utilityStrip = {
+    entity: "NDR Smart Spaces Pvt. Ltd. — an NDR Group platform",
+    invIT: {
+        label: "NDR InvIT Trust",
+        href: "https://ndrinvit.com"
+    },
+    email: {
+        label: "compliance@ndrsmart.com",
+        href: "mailto:compliance@ndrsmart.com"
+    }
+};
+const headerCta = {
+    investor: {
+        label: "Investor Centre",
+        href: "/en/investor-centre"
+    },
+    enquiry: {
+        label: "Business Enquiry",
+        href: "/en/contact#business-enquiry"
+    }
+};
+const navItems = [
+    {
+        type: "link",
+        label: "About Us",
+        href: "/en/about-us"
+    },
+    {
+        type: "menu",
+        id: "business",
+        label: "Business",
+        href: "/en/business",
+        align: "left",
+        columns: [
+            {
+                heading: "Business",
+                links: [
+                    {
+                        label: "Business Overview",
+                        href: "/en/business"
+                    },
+                    {
+                        label: "Asset Portfolio",
+                        href: "/en/portfolio"
+                    }
+                ]
+            },
+            {
+                heading: "Business Verticals",
+                links: [
+                    {
+                        label: "Grade A Warehousing",
+                        href: "/en/business/grade-a-warehousing"
+                    },
+                    {
+                        label: "NDR Asset Management",
+                        href: "/en/business/ndr-asset-management"
+                    },
+                    {
+                        label: "Residential Plotting — Ave Acres",
+                        href: "https://aveacres.com",
+                        external: true
+                    },
+                    {
+                        label: "The NDR InvIT relationship",
+                        href: "/en/business/ndr-invit"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        type: "link",
+        label: "Portfolio",
+        href: "/en/portfolio"
+    },
+    {
+        type: "menu",
+        id: "investor",
+        label: "Investor Centre",
+        href: "/en/investor-centre",
+        align: "right",
+        columns: [
+            {
+                heading: "Investor Centre",
+                links: [
+                    {
+                        label: "Investor Overview",
+                        href: "/en/investor-centre"
+                    },
+                    {
+                        label: "Investment Highlights",
+                        href: "/en/investor-centre/investment-highlights"
+                    },
+                    {
+                        label: "Reports & Disclosures",
+                        href: "/en/investor-centre/reports-disclosures"
+                    },
+                    {
+                        label: "Financial Results",
+                        href: "/en/investor-centre/financial-results"
+                    }
+                ]
+            },
+            {
+                heading: "Governance",
+                links: [
+                    {
+                        label: "Annual Reports",
+                        href: "/en/investor-centre/annual-reports"
+                    },
+                    {
+                        label: "Corporate Governance",
+                        href: "/en/investor-centre/corporate-governance"
+                    },
+                    {
+                        label: "Announcements",
+                        href: "/en/investor-centre/announcements"
+                    },
+                    {
+                        label: "Downloads",
+                        href: "/en/investor-centre/downloads"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        type: "link",
+        label: "ESG",
+        href: "/en/esg"
+    },
+    {
+        type: "link",
+        label: "Media",
+        href: "/en/media"
+    },
+    {
+        type: "link",
+        label: "Contact",
+        href: "/en/contact"
+    }
+];
+function isActivePath(pathname, href) {
+    const path = pathname.replace(/\/+$/, "");
+    const target = href.replace(/\/+$/, "");
+    return path === target || path.startsWith(`${target}/`);
+}
+const mobileMenuFooter = {
+    heading: "Business Enquiry",
+    emails: [
+        {
+            label: "project@ndrsmart.com",
+            href: "mailto:project@ndrsmart.com"
+        },
+        {
+            label: "compliance@ndrsmart.com",
+            href: "mailto:compliance@ndrsmart.com"
+        }
+    ]
+};
+const siteHome = "/en";
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+]);
+
+//# sourceMappingURL=src_0-9c--a._.js.map

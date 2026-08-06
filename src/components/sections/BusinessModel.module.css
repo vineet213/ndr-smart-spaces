@@ -1,0 +1,28 @@
+.section {
+  padding-block: var(--section-padding-desktop);
+  background-color: var(--color-maroon-dark);
+  border-top: 1px solid var(--color-hairline-dark);
+}
+
+.goldRule {
+  display: block;
+  width: var(--space-6xl);
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+.lede {
+  max-width: 44rem;
+}
+
+@media (max-width: 1439px) {
+  .section {
+    padding-block: var(--section-padding-tablet);
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--section-padding-mobile);
+  }
+}

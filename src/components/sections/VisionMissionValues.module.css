@@ -1,0 +1,114 @@
+.section {
+  padding-block: var(--section-padding-desktop);
+  background-color: var(--color-ivory);
+}
+
+.goldRule {
+  display: block;
+  width: var(--space-6xl);
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+.lede {
+  max-width: 44rem;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.rule {
+  display: block;
+  width: var(--space-4xl);
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+.index {
+  margin-top: var(--space-sm);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-journey-year);
+  line-height: 1;
+  color: var(--color-maroon);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-h3);
+  line-height: var(--leading-h3);
+  color: var(--color-charcoal);
+}
+
+.body {
+  margin: 0;
+  max-width: 32rem;
+  font-family: var(--font-body);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-text-secondary);
+}
+
+.values {
+  list-style: none;
+  margin: var(--space-lg) 0 0;
+  padding: 0;
+  width: 100%;
+}
+
+.valueRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-block: var(--space-lg);
+  border-top: 1px solid var(--color-hairline-light);
+}
+
+.valueRow:last-child {
+  border-bottom: 1px solid var(--color-hairline-light);
+}
+
+.valueName {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+.valueName::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-gold);
+  transform: translateY(-2px);
+}
+
+.valueLine {
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
+}
+
+@media (max-width: 1439px) {
+  .section {
+    padding-block: var(--section-padding-tablet);
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--section-padding-mobile);
+  }
+}

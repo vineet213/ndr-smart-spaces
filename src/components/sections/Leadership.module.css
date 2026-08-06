@@ -1,0 +1,197 @@
+.section {
+  padding-block: var(--section-padding-desktop);
+  background-color: var(--color-ivory);
+}
+
+.goldRule {
+  display: block;
+  width: var(--space-6xl);
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+.lede {
+  max-width: 44rem;
+}
+
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: var(--space-4xl);
+}
+
+.grid > li {
+  min-width: 0;
+}
+
+.slot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  height: 100%;
+  padding: var(--space-4xl);
+  border: 1px solid var(--color-hairline-light);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--duration-standard) var(--ease-standard);
+}
+
+.slot:hover {
+  border-color: var(--color-gold-40);
+}
+
+.slotHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-hairline-light);
+}
+
+.slotIndex {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-journey-year);
+  line-height: 1;
+  color: var(--color-maroon);
+}
+
+.slotMark {
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-gold);
+  transform: rotate(45deg);
+}
+
+.slotTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-lede);
+  line-height: var(--leading-lede);
+  color: var(--color-charcoal);
+}
+
+.slotStatus {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-meta);
+  color: var(--color-maroon);
+}
+
+.slotNote {
+  margin: 0;
+  margin-top: var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
+}
+
+.card {
+  display: flex;
+  gap: var(--space-4xl);
+  height: 100%;
+}
+
+.portrait {
+  flex: 0 0 auto;
+  position: relative;
+  width: 6.5rem;
+  aspect-ratio: 3 / 4;
+  margin: 0;
+  overflow: hidden;
+  background-color: var(--color-charcoal);
+  border: 1px solid var(--color-hairline-light);
+  border-radius: var(--radius-sm);
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.monogram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-metric);
+  color: var(--color-gold);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.cardName {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-lede);
+  line-height: var(--leading-lede);
+  color: var(--color-charcoal);
+}
+
+.cardRole {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-meta);
+  color: var(--color-maroon);
+}
+
+.cardBio {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
+}
+
+@media (max-width: 1439px) {
+  .section {
+    padding-block: var(--section-padding-tablet);
+  }
+}
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: var(--space-4xl);
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--section-padding-mobile);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .slot {
+    padding: var(--space-4xl);
+  }
+}
