@@ -1,122 +1,144 @@
 .section {
-  padding-block: var(--section-padding-desktop);
-  background-color: var(--color-ivory);
+  padding-block: var(--space-7xl);
+  background-color: var(--color-ivory-dim);
   border-top: 1px solid var(--color-hairline-light);
-}
-
-.intro {
-  margin-bottom: var(--space-8xl);
-}
-
-.centerLabel {
-  text-align: center;
+  border-bottom: 1px solid var(--color-hairline-light);
 }
 
 .claim {
-  text-align: center;
-  max-width: 20ch;
+  height: 100%;
+  justify-content: center;
+}
+
+.claimLine {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+.claimStrong {
+  color: var(--color-maroon);
 }
 
 .subline {
   font-family: var(--font-body);
-  font-weight: var(--font-weight-body-regular);
-  font-size: var(--font-lede);
-  line-height: var(--leading-lede);
-  color: var(--color-text-secondary);
-  text-align: center;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: var(--leading-small);
+  color: var(--color-stone);
+  max-width: 38ch;
 }
 
-.marquee {
-  position: relative;
-  overflow: hidden;
-  border-top: 1px solid var(--color-hairline-light);
-  border-bottom: 1px solid var(--color-hairline-light);
-  padding-block: var(--space-5xl);
-}
-
-.marquee::before,
-.marquee::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: var(--space-8xl);
-  z-index: 1;
-  pointer-events: none;
-}
-
-.marquee::before {
-  left: 0;
-  background: linear-gradient(90deg, var(--color-ivory) 0%, rgba(250, 247, 242, 0) 100%);
-}
-
-.marquee::after {
-  right: 0;
-  background: linear-gradient(270deg, var(--color-ivory) 0%, rgba(250, 247, 242, 0) 100%);
+/* Static grid — default state and prefers-reduced-motion fallback */
+.viewport {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3xl) var(--space-4xl);
+  align-content: center;
+  align-items: center;
 }
 
 .track {
-  display: flex;
-  align-items: center;
-  width: max-content;
-  animation: marquee 60s linear infinite;
+  display: contents;
 }
 
-.track:hover {
-  animation-play-state: paused;
+.list {
+  display: contents;
+}
+
+.list:last-child {
+  display: none;
 }
 
 .item {
-  display: flex;
-  align-items: center;
-  margin-right: var(--space-6xl);
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: 2rem;
-  line-height: 1.1;
-  letter-spacing: 0;
-  color: var(--color-maroon);
-  white-space: nowrap;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  color: var(--color-charcoal);
+  opacity: 0.65;
+  transition: opacity var(--duration-micro) var(--ease-standard);
 }
 
-.item::after {
-  content: "";
-  flex-shrink: 0;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  margin-left: var(--space-6xl);
-  background-color: var(--color-gold);
+.item:hover,
+.item:focus-visible {
+  opacity: 1;
+}
+
+/* Institutional marquee — only when motion is allowed */
+@media (prefers-reduced-motion: no-preference) {
+  .viewport {
+    display: flex;
+    overflow: hidden;
+  }
+
+  .track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    animation: marquee var(--duration-marquee) linear infinite;
+  }
+
+  .list {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .list:last-child {
+    display: flex;
+  }
+
+  .item {
+    flex-shrink: 0;
+    padding-inline: var(--space-lg);
+  }
+
+  .viewport:hover .track,
+  .viewport:focus-within .track {
+    animation-play-state: paused;
+  }
 }
 
 @keyframes marquee {
   from {
     transform: translateX(0);
   }
-
   to {
     transform: translateX(-50%);
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .track {
-    animation: none;
+@media (max-width: 1439px) {
+  .viewport {
+    gap: var(--space-3xl);
   }
 }
 
-@media (max-width: 1439px) {
-  .section {
-    padding-block: var(--section-padding-tablet);
+@media (max-width: 1023px) {
+  .viewport {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 767px) {
   .section {
-    padding-block: var(--section-padding-mobile);
+    padding-block: var(--space-5xl);
+  }
+
+  .claim {
+    height: auto;
+  }
+
+  .viewport {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
   }
 
   .item {
-    font-size: 1.375rem;
+    opacity: 0.7;
   }
 }

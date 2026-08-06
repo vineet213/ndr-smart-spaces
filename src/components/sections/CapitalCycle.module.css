@@ -1,13 +1,15 @@
 .cycle {
-  position: relative;
+  width: 100%;
+  max-width: 44rem;
+  margin-inline: auto;
+  margin-block: var(--space-xl);
 }
 
 .svg {
   display: block;
   width: 100%;
-  max-width: 30rem;
   height: auto;
-  margin-inline: auto;
+  overflow: visible;
 }
 
 .guide {
@@ -19,45 +21,106 @@
 .arc {
   fill: none;
   stroke: var(--color-maroon);
-  stroke-width: 2;
+  stroke-width: 3;
+  stroke-linecap: round;
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
 }
 
-.drawn .arc {
-  animation: drawArc 1400ms var(--ease-standard) forwards;
+.drawn .arc:nth-of-type(1) {
+  animation: drawArc 500ms var(--ease-standard) 100ms both;
 }
 
 .drawn .arc:nth-of-type(2) {
-  animation-delay: 350ms;
+  animation: drawArc 500ms var(--ease-standard) 200ms both;
 }
 
 .drawn .arc:nth-of-type(3) {
-  animation-delay: 700ms;
+  animation: drawArc 500ms var(--ease-standard) 300ms both;
 }
 
 .drawn .arc:nth-of-type(4) {
-  animation-delay: 1050ms;
+  animation: drawArc 500ms var(--ease-standard) 400ms both;
 }
 
-.node {
+.leader {
+  fill: none;
+  stroke: var(--color-hairline-light);
+  stroke-width: 1.25;
+  transition: stroke var(--duration-standard) var(--ease-standard);
+}
+
+.nodeCircle {
   fill: var(--color-gold);
   stroke: var(--color-ivory);
-  stroke-width: 1;
+  stroke-width: 2;
+  transform-origin: center;
+  transform-box: fill-box;
+  transition: transform var(--duration-standard) var(--ease-standard);
+}
+
+.nodeNum {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  fill: var(--color-maroon-dark);
 }
 
 .name {
-  fill: var(--color-maroon);
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: 20px;
+  font-size: 18px;
+  letter-spacing: 0;
+  fill: var(--color-maroon);
+  transition: fill var(--duration-standard) var(--ease-standard);
 }
 
 .caption {
-  fill: var(--color-stone);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-regular);
-  font-size: 13px;
+  font-size: 12px;
+  line-height: 1.3;
+  fill: var(--color-stone);
+}
+
+.group:hover .name {
+  fill: var(--color-maroon-deep);
+}
+
+.group:hover .leader {
+  stroke: var(--color-gold);
+}
+
+.group:hover .nodeCircle {
+  transform: scale(1.12);
+}
+
+.medallionDisc {
+  fill: var(--color-charcoal);
+}
+
+.medallionRing {
+  fill: none;
+  stroke: rgba(240, 182, 90, 0.4);
+  stroke-width: 1.5;
+}
+
+.rofo {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 27px;
+  letter-spacing: 0.04em;
+  fill: var(--color-gold);
+}
+
+.rofoSub {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  fill: var(--color-text-inverse-75);
 }
 
 @keyframes drawArc {
@@ -71,6 +134,10 @@
 }
 
 @media (max-width: 767px) {
+  .cycle {
+    margin-block: 0;
+  }
+
   .svg {
     display: none;
   }
@@ -94,8 +161,8 @@
   .step:not(:last-child)::before {
     content: "";
     position: absolute;
-    left: 5px;
-    top: 12px;
+    left: 11px;
+    top: 26px;
     bottom: 0;
     width: 1px;
     background-color: var(--color-hairline-light);
@@ -103,10 +170,18 @@
 
   .stepMarker {
     flex-shrink: 0;
-    width: 12px;
-    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background-color: var(--color-gold);
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-display-medium);
+    font-size: 11px;
+    line-height: 1;
+    color: var(--color-maroon-dark);
     position: relative;
     z-index: 1;
   }
@@ -114,7 +189,7 @@
   .stepContent {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2xs);
+    gap: var(--space-sm);
   }
 
   .stepName {

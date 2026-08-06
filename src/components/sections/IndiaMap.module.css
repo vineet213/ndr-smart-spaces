@@ -11,9 +11,9 @@
 }
 
 .outline {
-  fill: none;
-  stroke: var(--color-hairline-light);
-  stroke-width: 1.5;
+  fill: var(--color-ivory-dim);
+  stroke: rgba(28, 26, 25, 0.22);
+  stroke-width: 2;
   stroke-linejoin: round;
 }
 
@@ -21,8 +21,17 @@
   cursor: pointer;
 }
 
+.halo {
+  fill: transparent;
+  transition: fill var(--duration-standard) var(--ease-standard);
+}
+
+.haloHub {
+  fill: rgba(240, 182, 90, 0.12);
+}
+
 .glow {
-  fill: rgba(240, 182, 90, 0.2);
+  fill: rgba(240, 182, 90, 0.25);
   transform-origin: center;
   transform-box: fill-box;
 }
@@ -40,13 +49,32 @@
   fill: var(--color-maroon);
 }
 
+.dotActive .halo {
+  fill: rgba(160, 53, 58, 0.14);
+}
+
 .dotActive .glow {
-  fill: rgba(160, 53, 58, 0.18);
+  fill: rgba(160, 53, 58, 0.22);
+}
+
+.dotHovered .node {
+  transform: scale(1.6);
+}
+
+.dotHovered .halo {
+  fill: rgba(240, 182, 90, 0.22);
+}
+
+.dotDim .node,
+.dotDim .glow,
+.dotDim .halo {
+  opacity: 0.25;
+  transition: opacity var(--duration-standard) var(--ease-standard);
 }
 
 .dot:hover .node,
 .dot:focus-visible .node {
-  transform: scale(1.5);
+  transform: scale(1.6);
 }
 
 .dot:focus-visible {
@@ -57,7 +85,7 @@
 .tooltip {
   position: absolute;
   z-index: 2;
-  transform: translate(-50%, calc(-100% - var(--space-sm)));
+  transform: translate(-50%, calc(-100% - var(--space-md)));
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
@@ -66,6 +94,17 @@
   background-color: var(--color-charcoal);
   color: var(--color-ivory);
   border-top: 2px solid var(--color-gold);
+  box-shadow: var(--color-shadow-warm);
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--color-charcoal);
 }
 
 .tooltipName {
@@ -134,7 +173,7 @@
     animation: dotPop var(--duration-standard) var(--ease-standard) 780ms both;
   }
 
-  .glow {
+  .glowHub {
     animation: pulse var(--duration-map-pulse) var(--ease-standard) infinite;
   }
 }
@@ -165,11 +204,11 @@
     opacity: 1;
   }
   70% {
-    transform: scale(1.6);
+    transform: scale(1.7);
     opacity: 0;
   }
   100% {
-    transform: scale(1.6);
+    transform: scale(1.7);
     opacity: 0;
   }
 }

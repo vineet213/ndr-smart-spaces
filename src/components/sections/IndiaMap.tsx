@@ -31,21 +31,42 @@ export function IndiaMap({
         <g>
           {locations.map((location) => {
             const active = activeZone === location.zone;
+            const hovered = tooltip?.name === location.name;
+            const dimmed =
+              (tooltip !== null && !hovered) ||
+              (tooltip === null && activeZone !== null && !active);
+            const hub = location.tier === "hub";
             return (
               <g
                 key={location.name}
-                className={cx(styles.dot, active && styles.dotActive)}
+                className={cx(
+                  styles.dot,
+                  active && styles.dotActive,
+                  hovered && styles.dotHovered,
+                  dimmed && styles.dotDim,
+                )}
                 role="button"
                 tabIndex={0}
                 aria-label={`${location.name}, ${location.line} — ${location.zone} zone`}
-                aria-describedby={tooltip?.name === location.name ? "map-tooltip" : undefined}
+                aria-describedby={hovered ? "map-tooltip" : undefined}
                 onMouseEnter={() => onLocationEnter(location)}
                 onMouseLeave={onLocationLeave}
                 onFocus={() => onLocationEnter(location)}
                 onBlur={onLocationLeave}
               >
-                <circle className={styles.glow} cx={location.x} cy={location.y} r="8" />
-                <circle className={styles.node} cx={location.x} cy={location.y} r="4" />
+                <circle
+                  className={cx(styles.halo, hub && styles.haloHub)}
+                  cx={location.x}
+                  cy={location.y}
+                  r={hub ? 13 : 11}
+                />
+                <circle
+                  className={cx(styles.glow, hub && styles.glowHub)}
+                  cx={location.x}
+                  cy={location.y}
+                  r={hub ? 8 : 7}
+                />
+                <circle className={styles.node} cx={location.x} cy={location.y} r={hub ? 5.5 : 4} />
               </g>
             );
           })}
@@ -58,7 +79,7 @@ export function IndiaMap({
           className={styles.tooltip}
           style={{
             left: `${Math.max(14, Math.min(tooltip.x / 6, 86))}%`,
-            top: `${Math.max(12, Math.min(tooltip.y / 6, 88))}%`,
+            top: `${Math.max(16, Math.min(tooltip.y / 6, 84))}%`,
           }}
         >
           <span className={styles.tooltipName}>{tooltip.name}</span>

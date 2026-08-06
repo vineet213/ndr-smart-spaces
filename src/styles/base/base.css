@@ -24,6 +24,7 @@ h6 {
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
   color: var(--color-text-primary);
+  text-wrap: balance;
 }
 
 h1 {
