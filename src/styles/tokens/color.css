@@ -1,0 +1,37 @@
+:root {
+  --color-maroon: #a0353a;
+  --color-maroon-deep: #7c282e;
+  --color-maroon-dark: #5a1e22;
+  --color-gold: #f0b65a;
+  --color-gold-light: #f5c97f;
+  --color-ivory: #faf7f2;
+  --color-ivory-dim: #f2ede4;
+  --color-charcoal: #1c1a19;
+  --color-stone: #8a857d;
+  --color-hairline-light: #e4ded3;
+  --color-hairline-dark: #3a3134;
+
+  --color-text-primary: var(--color-charcoal);
+  --color-text-secondary: var(--color-stone);
+  --color-text-inverse: var(--color-ivory);
+  --color-text-inverse-90: rgba(250, 247, 242, 0.9);
+  --color-text-inverse-85: rgba(250, 247, 242, 0.85);
+  --color-text-inverse-80: rgba(250, 247, 242, 0.8);
+  --color-text-inverse-75: rgba(250, 247, 242, 0.75);
+  --color-text-inverse-70: rgba(250, 247, 242, 0.7);
+
+  --color-border-light: var(--color-hairline-light);
+  --color-border-dark: var(--color-hairline-dark);
+
+  --color-gold-30: rgba(240, 182, 90, 0.3);
+  --color-gold-40: rgba(240, 182, 90, 0.4);
+  --color-ivory-96: rgba(250, 247, 242, 0.96);
+  --color-shadow-warm: 0 8px 16px rgba(28, 26, 25, 0.06);
+  --color-overlay-hero: linear-gradient(
+    90deg,
+    rgba(90, 30, 34, 0.92) 0%,
+    rgba(90, 30, 34, 0.55) 55%,
+    rgba(90, 30, 34, 0.25) 100%
+  );
+  --color-shadows-maroon: #1c1012;
+}

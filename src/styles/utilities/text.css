@@ -1,0 +1,24 @@
+.text-label-meta {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+}
+
+.text-label-button {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-button);
+  line-height: var(--leading-button);
+  letter-spacing: var(--tracking-button);
+  text-transform: uppercase;
+}
+
+.text-small {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+}

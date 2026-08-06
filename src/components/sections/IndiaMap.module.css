@@ -1,0 +1,175 @@
+.wrap {
+  position: relative;
+  width: 100%;
+}
+
+.map {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.outline {
+  fill: none;
+  stroke: var(--color-hairline-light);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.dot {
+  cursor: pointer;
+}
+
+.glow {
+  fill: rgba(240, 182, 90, 0.2);
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.node {
+  fill: var(--color-gold);
+  stroke: var(--color-ivory);
+  stroke-width: 1;
+  transform-origin: center;
+  transform-box: fill-box;
+  transition: transform var(--duration-standard) var(--ease-standard);
+}
+
+.dotActive .node {
+  fill: var(--color-maroon);
+}
+
+.dotActive .glow {
+  fill: rgba(160, 53, 58, 0.18);
+}
+
+.dot:hover .node,
+.dot:focus-visible .node {
+  transform: scale(1.5);
+}
+
+.dot:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 2;
+  transform: translate(-50%, calc(-100% - var(--space-sm)));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  min-width: 11rem;
+  padding: var(--space-md) var(--space-lg);
+  background-color: var(--color-charcoal);
+  color: var(--color-ivory);
+  border-top: 2px solid var(--color-gold);
+}
+
+.tooltipName {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-h3);
+  line-height: var(--leading-h3);
+}
+
+.tooltipZone {
+  color: var(--color-gold);
+}
+
+.tooltipLine {
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-inverse-75);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wrap {
+    animation: mapFade var(--duration-reveal) var(--ease-standard) 1 both;
+  }
+
+  .dot:nth-of-type(1) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 0ms both;
+  }
+  .dot:nth-of-type(2) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 60ms both;
+  }
+  .dot:nth-of-type(3) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 120ms both;
+  }
+  .dot:nth-of-type(4) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 180ms both;
+  }
+  .dot:nth-of-type(5) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 240ms both;
+  }
+  .dot:nth-of-type(6) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 300ms both;
+  }
+  .dot:nth-of-type(7) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 360ms both;
+  }
+  .dot:nth-of-type(8) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 420ms both;
+  }
+  .dot:nth-of-type(9) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 480ms both;
+  }
+  .dot:nth-of-type(10) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 540ms both;
+  }
+  .dot:nth-of-type(11) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 600ms both;
+  }
+  .dot:nth-of-type(12) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 660ms both;
+  }
+  .dot:nth-of-type(13) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 720ms both;
+  }
+  .dot:nth-of-type(14) {
+    animation: dotPop var(--duration-standard) var(--ease-standard) 780ms both;
+  }
+
+  .glow {
+    animation: pulse var(--duration-map-pulse) var(--ease-standard) infinite;
+  }
+}
+
+@keyframes mapFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dotPop {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}

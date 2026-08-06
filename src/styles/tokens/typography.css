@@ -1,0 +1,67 @@
+:root {
+  --font-display: "Fraunces", "Times New Roman", serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+
+  --font-weight-display-light: 300;
+  --font-weight-display-regular: 400;
+  --font-weight-display-medium: 500;
+  --font-weight-body-regular: 400;
+  --font-weight-body-medium: 500;
+
+  --font-hero: 5.5rem;
+  --font-h2: 3.5rem;
+  --font-h3: 1.75rem;
+  --font-lede: 1.25rem;
+  --font-body-size: 1rem;
+  --font-small: 0.875rem;
+  --font-meta: 0.75rem;
+  --font-button: 0.875rem;
+  --font-nav: 0.9375rem;
+  --font-metric-hero: 4rem;
+  --font-metric: 2.75rem;
+  --font-journey-year: 1.75rem;
+
+  --leading-hero: 1;
+  --leading-h2: 1.05;
+  --leading-h3: 1.2;
+  --leading-lede: 1.55;
+  --leading-body: 1.6;
+  --leading-small: 1.5;
+  --leading-meta: 1.4;
+  --leading-button: 1;
+  --leading-nav: 1;
+  --leading-metric: 1;
+
+  --tracking-hero: -0.01em;
+  --tracking-h2: 0;
+  --tracking-meta: 0.12em;
+  --tracking-button: 0.06em;
+  --tracking-nav: 0;
+
+  --measure-body: 65ch;
+  --measure-lede: 70ch;
+}
+
+@media (max-width: 1439px) {
+  :root {
+    --font-hero: 4rem;
+    --font-h2: 2.75rem;
+    --font-h3: 1.5rem;
+    --font-lede: 1.125rem;
+    --font-metric-hero: 3.5rem;
+    --font-metric: 2.25rem;
+    --font-journey-year: 1.625rem;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --font-hero: 2.5rem;
+    --font-h2: 2rem;
+    --font-h3: 1.3125rem;
+    --font-lede: 1.0625rem;
+    --font-metric-hero: 2.5rem;
+    --font-metric: 1.75rem;
+    --font-journey-year: 1.5rem;
+  }
+}

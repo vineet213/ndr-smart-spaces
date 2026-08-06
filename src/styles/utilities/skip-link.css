@@ -1,0 +1,26 @@
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-lg);
+  z-index: 200;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--space-6xl);
+  padding-inline: var(--space-2xl);
+  background-color: var(--color-ivory);
+  color: var(--color-maroon);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-button);
+  line-height: var(--leading-button);
+  letter-spacing: var(--tracking-button);
+  text-transform: uppercase;
+  border: 1px solid var(--color-hairline-light);
+  transition: top var(--duration-standard) var(--ease-standard);
+}
+
+.skip-link:focus-visible {
+  top: var(--space-lg);
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}

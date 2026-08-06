@@ -1,0 +1,11 @@
+.footnote {
+  margin: 0;
+}
+
+.onLight {
+  color: var(--color-text-secondary);
+}
+
+.onDark {
+  color: var(--color-text-inverse-70);
+}

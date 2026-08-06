@@ -1,0 +1,57 @@
+html {
+  font-family: var(--font-body);
+  font-size: 100%;
+  line-height: var(--leading-body);
+  color: var(--color-text-primary);
+  background-color: var(--color-ivory);
+}
+
+body {
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-text-primary);
+  background-color: var(--color-ivory);
+  font-feature-settings: "kern", "liga", "calt";
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  color: var(--color-text-primary);
+}
+
+h1 {
+  font-size: var(--font-hero);
+  line-height: var(--leading-hero);
+  letter-spacing: var(--tracking-hero);
+}
+
+h2 {
+  font-size: var(--font-h2);
+  line-height: var(--leading-h2);
+}
+
+h3 {
+  font-size: var(--font-h3);
+  line-height: var(--leading-h3);
+}
+
+::selection {
+  background-color: var(--color-maroon);
+  color: var(--color-ivory);
+}
+
+[id] {
+  scroll-margin-top: var(--space-12xl);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}

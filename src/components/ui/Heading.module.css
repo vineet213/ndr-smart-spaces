@@ -1,0 +1,29 @@
+.heading {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+}
+
+.hero {
+  font-size: var(--font-hero);
+  line-height: var(--leading-hero);
+  letter-spacing: var(--tracking-hero);
+}
+
+.section {
+  font-size: var(--font-h2);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-h2);
+}
+
+.sub {
+  font-size: var(--font-h3);
+  line-height: var(--leading-h3);
+}
+
+.onLight {
+  color: var(--color-text-primary);
+}
+
+.onDark {
+  color: var(--color-text-inverse);
+}

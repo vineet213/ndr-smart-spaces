@@ -1,0 +1,15 @@
+export { Hero } from "./Hero";
+export { AudienceStrip } from "./AudienceStrip";
+export { PortfolioPresence } from "./PortfolioPresence";
+export { IndiaMap } from "./IndiaMap";
+export { CompanyOverview } from "./CompanyOverview";
+export { BusinessHighlights } from "./BusinessHighlights";
+export { InvestmentHighlights } from "./InvestmentHighlights";
+export { CapitalCycle } from "./CapitalCycle";
+export { FeaturedProjects } from "./FeaturedProjects";
+export { MarqueeClients } from "./MarqueeClients";
+export { Esg } from "./Esg";
+export { LatestUpdates } from "./LatestUpdates";
+export { ContactCta } from "./ContactCta";
+export { EnquiryForm } from "./EnquiryForm";
+export { Footer } from "./Footer";

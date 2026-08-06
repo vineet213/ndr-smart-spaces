@@ -1,0 +1,11 @@
+.eyebrow {
+  margin: 0;
+}
+
+.onLight {
+  color: var(--color-maroon);
+}
+
+.onDark {
+  color: var(--color-gold);
+}

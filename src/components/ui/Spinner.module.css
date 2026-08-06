@@ -1,0 +1,25 @@
+.spinner {
+  display: inline-block;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border-radius: 50%;
+  border-width: 2px;
+  border-style: solid;
+  border-color: currentColor;
+  border-top-color: transparent;
+  animation: spin var(--duration-standard) linear infinite;
+}
+
+.gold {
+  color: var(--color-gold);
+}
+
+.maroon {
+  color: var(--color-maroon);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

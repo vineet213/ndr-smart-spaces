@@ -1,0 +1,16 @@
+.lede {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-lede);
+  line-height: var(--leading-lede);
+  max-width: var(--measure-lede);
+}
+
+.onLight {
+  color: var(--color-text-primary);
+}
+
+.onDark {
+  color: var(--color-text-inverse-85);
+}

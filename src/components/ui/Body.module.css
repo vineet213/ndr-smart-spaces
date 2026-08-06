@@ -1,0 +1,16 @@
+.body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  max-width: var(--measure-body);
+}
+
+.onLight {
+  color: var(--color-text-secondary);
+}
+
+.onDark {
+  color: var(--color-text-inverse-80);
+}

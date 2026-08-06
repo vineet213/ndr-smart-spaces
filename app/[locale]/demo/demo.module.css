@@ -1,0 +1,36 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4xl);
+}
+
+.row-2xl {
+  gap: var(--space-2xl);
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  border: 1px solid var(--color-hairline-light);
+  background-color: var(--color-ivory-dim);
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  color: var(--color-text-secondary);
+}
+
+.icon-cell {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.vertical-demo {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-2xl);
+  height: var(--space-11xl);
+}

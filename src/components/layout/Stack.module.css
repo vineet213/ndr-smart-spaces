@@ -1,0 +1,92 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.alignStart {
+  align-items: flex-start;
+}
+
+.alignCenter {
+  align-items: center;
+}
+
+.alignEnd {
+  align-items: flex-end;
+}
+
+.alignStretch {
+  align-items: stretch;
+}
+
+.gap2xs {
+  gap: var(--space-2xs);
+}
+
+.gapXs {
+  gap: var(--space-xs);
+}
+
+.gapSm {
+  gap: var(--space-sm);
+}
+
+.gapMd {
+  gap: var(--space-md);
+}
+
+.gapLg {
+  gap: var(--space-lg);
+}
+
+.gapXl {
+  gap: var(--space-xl);
+}
+
+.gap2xl {
+  gap: var(--space-2xl);
+}
+
+.gap3xl {
+  gap: var(--space-3xl);
+}
+
+.gap4xl {
+  gap: var(--space-4xl);
+}
+
+.gap5xl {
+  gap: var(--space-5xl);
+}
+
+.gap6xl {
+  gap: var(--space-6xl);
+}
+
+.gap7xl {
+  gap: var(--space-7xl);
+}
+
+.gap8xl {
+  gap: var(--space-8xl);
+}
+
+.gap9xl {
+  gap: var(--space-9xl);
+}
+
+.gap10xl {
+  gap: var(--space-10xl);
+}
+
+.gap11xl {
+  gap: var(--space-11xl);
+}
+
+.gap12xl {
+  gap: var(--space-12xl);
+}
+
+.gap13xl {
+  gap: var(--space-13xl);
+}

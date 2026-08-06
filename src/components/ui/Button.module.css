@@ -1,0 +1,72 @@
+.base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  height: var(--space-6xl);
+  padding-inline: var(--space-3xl);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-standard) var(--ease-standard),
+    border-color var(--duration-standard) var(--ease-standard),
+    color var(--duration-standard) var(--ease-standard);
+}
+
+.primaryOnLight {
+  background-color: var(--color-maroon);
+  border-color: var(--color-gold-30);
+  color: var(--color-ivory);
+}
+
+.primaryOnLight:hover {
+  background-color: var(--color-maroon-deep);
+  border-color: var(--color-gold);
+}
+
+.primaryOnLight:active {
+  background-color: var(--color-maroon-dark);
+}
+
+.primaryOnDark {
+  background-color: var(--color-gold);
+  border-color: var(--color-gold);
+  color: var(--color-maroon-deep);
+}
+
+.primaryOnDark:hover {
+  background-color: var(--color-gold-light);
+  border-color: var(--color-gold-light);
+}
+
+.secondaryOnLight {
+  background-color: transparent;
+  border-color: var(--color-charcoal);
+  color: var(--color-charcoal);
+}
+
+.secondaryOnLight:hover {
+  background-color: var(--color-maroon);
+  border-color: var(--color-maroon);
+  color: var(--color-ivory);
+}
+
+.secondaryOnDark {
+  background-color: transparent;
+  border-color: var(--color-ivory);
+  color: var(--color-ivory);
+}
+
+.secondaryOnDark:hover {
+  background-color: var(--color-maroon-deep);
+  border-color: var(--color-maroon-deep);
+  color: var(--color-ivory);
+}
+
+.base:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,21 @@
+.metric {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  line-height: var(--leading-metric);
+}
+
+.hero {
+  font-size: var(--font-metric-hero);
+}
+
+.section {
+  font-size: var(--font-metric);
+}
+
+.onLight {
+  color: var(--color-maroon);
+}
+
+.onDark {
+  color: var(--color-gold);
+}

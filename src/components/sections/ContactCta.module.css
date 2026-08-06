@@ -1,0 +1,116 @@
+.section {
+  padding-block: var(--section-padding-desktop);
+  background-color: var(--color-ivory);
+  border-top: 1px solid var(--color-hairline-light);
+}
+
+.goldRule {
+  display: block;
+  width: var(--space-6xl);
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-block: var(--space-4xl);
+  border-bottom: 1px solid var(--color-hairline-light);
+}
+
+.infoLabel {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+.infoValue {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-maroon);
+  text-decoration: none;
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.infoValue:hover {
+  color: var(--color-maroon-deep);
+}
+
+.infoValuePlain {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-text-primary);
+  max-width: var(--measure-body);
+}
+
+.note {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-secondary);
+  max-width: var(--measure-body);
+}
+
+.card {
+  background-color: var(--color-maroon-dark);
+  border-radius: var(--radius-md);
+  padding: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4xl);
+}
+
+.cardHeading {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-h3);
+  line-height: var(--leading-h3);
+  color: var(--color-gold);
+}
+
+@media (max-width: 1439px) {
+  .section {
+    padding-block: var(--section-padding-tablet);
+  }
+}
+
+@media (max-width: 1023px) {
+  .info,
+  .cardColumn {
+    grid-column: 1 / -1;
+  }
+
+  .card {
+    margin-top: var(--space-6xl);
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--section-padding-mobile);
+  }
+
+  .card {
+    padding: 1.75rem;
+  }
+}

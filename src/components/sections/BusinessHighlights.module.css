@@ -1,0 +1,116 @@
+.section {
+  padding-block: var(--section-padding-desktop);
+  background-color: var(--color-maroon-dark);
+  border-top: 1px solid var(--color-hairline-dark);
+}
+
+.goldRule {
+  display: block;
+  width: var(--space-6xl);
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  height: 100%;
+  padding: var(--space-4xl);
+  background-color: var(--color-maroon-deep);
+  border: 1px solid var(--color-hairline-dark);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--color-shadow-warm);
+  transition:
+    transform var(--duration-standard) var(--ease-standard),
+    border-color var(--duration-standard) var(--ease-standard);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-standard) var(--ease-standard);
+}
+
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--color-gold-40);
+}
+
+.card:hover::before,
+.card:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.cardEyebrow {
+  color: var(--color-gold);
+}
+
+.cardBody {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-text-inverse-80);
+}
+
+.cardProof {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-gold);
+}
+
+.partnership {
+  padding-block: var(--space-8xl);
+  background-color: var(--color-charcoal);
+  border-radius: var(--radius-sm);
+}
+
+.partnerTitle {
+  font-size: 2rem;
+  line-height: 1.15;
+}
+
+.partnerLine {
+  max-width: 48ch;
+}
+
+@media (max-width: 1439px) {
+  .section {
+    padding-block: var(--section-padding-tablet);
+  }
+
+  .partnership {
+    padding-block: var(--space-6xl);
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--section-padding-mobile);
+  }
+
+  .partnership {
+    padding-block: var(--space-5xl);
+    border-radius: 0;
+  }
+
+  .card {
+    min-height: 24rem;
+  }
+}

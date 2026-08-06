@@ -1,0 +1,33 @@
+.section {
+  padding-block: var(--section-padding-desktop);
+}
+
+@media (max-width: 1439px) {
+  .section {
+    padding-block: var(--section-padding-tablet);
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--section-padding-mobile);
+  }
+}
+
+.light {
+  background-color: var(--color-ivory);
+}
+
+.dim {
+  background-color: var(--color-ivory-dim);
+}
+
+.dark {
+  background-color: var(--color-maroon-dark);
+  color: var(--color-ivory);
+}
+
+.charcoal {
+  background-color: var(--color-charcoal);
+  color: var(--color-ivory);
+}

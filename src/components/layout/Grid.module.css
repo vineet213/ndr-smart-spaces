@@ -1,0 +1,21 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter-desktop);
+  row-gap: var(--gutter-desktop);
+}
+
+@media (max-width: 1439px) {
+  .grid {
+    column-gap: var(--gutter-tablet);
+    row-gap: var(--gutter-tablet);
+  }
+}
+
+@media (max-width: 767px) {
+  .grid {
+    grid-template-columns: 1fr;
+    column-gap: var(--gutter-mobile);
+    row-gap: var(--gutter-mobile);
+  }
+}

@@ -1,0 +1,10 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo {
+  height: 2rem;
+  width: auto;
+}

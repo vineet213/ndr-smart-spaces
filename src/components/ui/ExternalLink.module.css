@@ -1,0 +1,7 @@
+.external {
+  align-items: center;
+}
+
+.arrow {
+  flex-shrink: 0;
+}

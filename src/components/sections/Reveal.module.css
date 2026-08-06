@@ -1,0 +1,36 @@
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--space-5xl));
+  transition:
+    opacity var(--duration-reveal) var(--ease-standard),
+    transform var(--duration-reveal) var(--ease-standard);
+}
+
+.isInView {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.d0 {
+  transition-delay: 0ms;
+}
+
+.d80 {
+  transition-delay: 80ms;
+}
+
+.d160 {
+  transition-delay: 160ms;
+}
+
+.d240 {
+  transition-delay: 240ms;
+}
+
+.d320 {
+  transition-delay: 320ms;
+}
+
+.d400 {
+  transition-delay: 400ms;
+}

@@ -1,0 +1,134 @@
+.cycle {
+  position: relative;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  max-width: 30rem;
+  height: auto;
+  margin-inline: auto;
+}
+
+.guide {
+  fill: none;
+  stroke: var(--color-hairline-light);
+  stroke-width: 1;
+}
+
+.arc {
+  fill: none;
+  stroke: var(--color-maroon);
+  stroke-width: 2;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
+.drawn .arc {
+  animation: drawArc 1400ms var(--ease-standard) forwards;
+}
+
+.drawn .arc:nth-of-type(2) {
+  animation-delay: 350ms;
+}
+
+.drawn .arc:nth-of-type(3) {
+  animation-delay: 700ms;
+}
+
+.drawn .arc:nth-of-type(4) {
+  animation-delay: 1050ms;
+}
+
+.node {
+  fill: var(--color-gold);
+  stroke: var(--color-ivory);
+  stroke-width: 1;
+}
+
+.name {
+  fill: var(--color-maroon);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 20px;
+}
+
+.caption {
+  fill: var(--color-stone);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: 13px;
+}
+
+@keyframes drawArc {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.stepper {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .svg {
+    display: none;
+  }
+
+  .stepper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step {
+    position: relative;
+    display: flex;
+    gap: var(--space-lg);
+    padding-bottom: var(--space-5xl);
+  }
+
+  .step:last-child {
+    padding-bottom: 0;
+  }
+
+  .step:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 12px;
+    bottom: 0;
+    width: 1px;
+    background-color: var(--color-hairline-light);
+  }
+
+  .stepMarker {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--color-gold);
+    position: relative;
+    z-index: 1;
+  }
+
+  .stepContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .stepName {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-display-medium);
+    font-size: var(--font-h3);
+    line-height: 1;
+    color: var(--color-maroon);
+  }
+
+  .stepCaption {
+    font-family: var(--font-body);
+    font-size: var(--font-small);
+    line-height: var(--leading-small);
+    color: var(--color-stone);
+  }
+}

@@ -1,0 +1,9 @@
+node_modules
+.next
+out
+public/images
+public/fonts
+*.lock
+.editorconfig
+NDR Smart Spaces Design Direction v2.md
+NDR Smart Spaces Homepage Visual Specification.md

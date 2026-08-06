@@ -1,0 +1,24 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-6xl);
+  height: var(--space-6xl);
+  color: var(--color-charcoal);
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.button:hover {
+  color: var(--color-maroon);
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+@media (min-width: 1280px) {
+  .button {
+    display: none;
+  }
+}

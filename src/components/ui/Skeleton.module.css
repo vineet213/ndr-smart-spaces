@@ -1,0 +1,28 @@
+.skeleton {
+  background-color: var(--color-ivory-dim);
+  border-radius: var(--radius-sm);
+  animation: skeleton-pulse var(--duration-counter) var(--ease-standard) infinite;
+}
+
+.line {
+  height: var(--font-body-size);
+}
+
+.block {
+  height: var(--space-11xl);
+}
+
+.media {
+  aspect-ratio: 16 / 10;
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.55;
+  }
+}

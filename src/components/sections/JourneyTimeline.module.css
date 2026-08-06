@@ -1,0 +1,152 @@
+.band {
+  background-color: var(--color-ivory);
+  border-top: 1px solid var(--color-hairline-light);
+  border-bottom: 1px solid var(--color-hairline-light);
+  padding-block: var(--space-9xl);
+}
+
+.journey {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  column-gap: var(--space-6xl);
+}
+
+.journey::before {
+  content: "";
+  position: absolute;
+  top: 17px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--color-hairline-light);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.drawn::before {
+  animation: drawLine 900ms var(--ease-standard) both;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-top: var(--space-md);
+}
+
+.node {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-gold);
+  position: relative;
+  z-index: 1;
+  transform: scale(0);
+}
+
+.drawn .node {
+  animation: popNode 300ms var(--ease-standard) both;
+}
+
+.drawn .item:nth-of-type(1) .node {
+  animation-delay: 50ms;
+}
+.drawn .item:nth-of-type(2) .node {
+  animation-delay: 100ms;
+}
+.drawn .item:nth-of-type(3) .node {
+  animation-delay: 150ms;
+}
+.drawn .item:nth-of-type(4) .node {
+  animation-delay: 200ms;
+}
+.drawn .item:nth-of-type(5) .node {
+  animation-delay: 250ms;
+}
+.drawn .item:nth-of-type(6) .node {
+  animation-delay: 300ms;
+}
+
+.year {
+  margin-top: var(--space-md);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-journey-year);
+  line-height: 1;
+  color: var(--color-maroon);
+}
+
+.title {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-text-primary);
+}
+
+.caption {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.item:hover .caption {
+  color: var(--color-maroon-deep);
+}
+
+@keyframes drawLine {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes popNode {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 1023px) {
+  .journey {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: var(--space-7xl);
+  }
+
+  .journey::before {
+    display: none;
+  }
+
+  .item {
+    border-left: 1px solid var(--color-hairline-light);
+    padding-left: var(--space-4xl);
+    position: relative;
+    padding-top: 0;
+  }
+
+  .node {
+    position: absolute;
+    left: -5px;
+    top: 6px;
+  }
+}
+
+@media (max-width: 767px) {
+  .band {
+    padding-block: var(--space-7xl);
+  }
+
+  .journey {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-6xl);
+  }
+}
