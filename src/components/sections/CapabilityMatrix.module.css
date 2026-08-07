@@ -1,0 +1,166 @@
+.section {
+  position: relative;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.footprint {
+  margin-top: var(--space-8xl);
+  padding: var(--space-4xl);
+  border: 1px solid var(--color-hairline-light);
+}
+
+.footprintLabel {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-maroon);
+}
+
+.footprintLine {
+  margin-top: var(--space-md);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+.footprintNote {
+  color: var(--color-stone);
+  font-weight: var(--font-weight-body-regular);
+}
+
+.footprintSource {
+  margin-top: var(--space-md);
+}
+
+.matrix {
+  width: 100%;
+  margin-top: var(--space-8xl);
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.matrix thead th {
+  padding: var(--space-md) var(--space-lg);
+  border-block-end: 2px solid var(--color-maroon);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-maroon);
+}
+
+.matrix tbody td {
+  padding: var(--space-3xl) var(--space-lg);
+  vertical-align: top;
+  border-block-end: 1px solid var(--color-hairline-light);
+  box-shadow: inset 3px 0 0 transparent;
+  transition:
+    background-color var(--duration-standard) var(--ease-standard),
+    box-shadow var(--duration-standard) var(--ease-standard);
+}
+
+.matrix tbody tr:hover td {
+  background-color: var(--color-ivory-dim);
+  box-shadow: inset 3px 0 0 var(--color-maroon);
+}
+
+.phase {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+.capability {
+  display: block;
+  margin-top: var(--space-sm);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+.scope {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-secondary);
+}
+
+.evidence {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-maroon);
+  font-variant-numeric: tabular-nums;
+}
+
+.source {
+  margin-top: var(--space-4xl);
+}
+
+@media (max-width: 767px) {
+  .footprint {
+    margin-top: var(--space-6xl);
+  }
+
+  .matrix {
+    margin-top: var(--space-6xl);
+  }
+
+  .matrix thead {
+    display: none;
+  }
+
+  .matrix,
+  .matrix tbody,
+  .matrix tr,
+  .matrix td {
+    display: block;
+    width: 100%;
+  }
+
+  .matrix tbody tr {
+    border: 1px solid var(--color-hairline-light);
+  }
+
+  .matrix tbody tr + tr {
+    border-block-start: 0;
+  }
+
+  .matrix tbody td {
+    padding: var(--space-xl);
+    border-block-end: 1px solid var(--color-hairline-light);
+  }
+
+  .matrix tbody td:last-child {
+    border-block-end: 0;
+  }
+
+  .matrix tbody tr:hover td {
+    background-color: transparent;
+  }
+
+  .matrix tbody tr:hover td:first-child {
+    background-color: var(--color-ivory-dim);
+    box-shadow: inset 3px 0 0 var(--color-maroon);
+  }
+}

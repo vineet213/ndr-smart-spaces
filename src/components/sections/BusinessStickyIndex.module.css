@@ -1,0 +1,191 @@
+.railNav {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  width: 56px;
+}
+
+.rail {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.railItem {
+  display: flex;
+}
+
+.railLink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  height: 48px;
+  padding: 0 var(--space-md);
+  text-decoration: none;
+}
+
+.railMarker {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 3px;
+  height: 24px;
+  background-color: var(--color-maroon);
+  transform: translateY(-50%) scaleY(0);
+  transition: transform var(--duration-standard) var(--ease-standard);
+}
+
+.railActive .railMarker {
+  transform: translateY(-50%) scaleY(1);
+}
+
+.railDiamond {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--color-gold);
+  transform: rotate(45deg);
+  transition: background-color var(--duration-standard) var(--ease-standard);
+}
+
+.railActive .railDiamond {
+  background-color: var(--color-gold);
+}
+
+.railNumeral {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 0.875rem;
+  line-height: 1;
+  color: var(--color-gold);
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+  transition: opacity var(--duration-standard) var(--ease-standard);
+}
+
+.railActive .railNumeral {
+  opacity: 1;
+}
+
+.railLabel {
+  position: absolute;
+  left: 56px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-ivory-96);
+  border: 1px solid var(--color-hairline-light);
+  box-shadow: var(--color-shadow-warm);
+  font-size: var(--font-meta);
+  font-weight: var(--font-weight-body-medium);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-charcoal);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-standard) var(--ease-standard);
+}
+
+.railLink:hover .railLabel,
+.railLink:focus-visible .railLabel {
+  opacity: 1;
+}
+
+.stripNav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: var(--color-ivory-96);
+  border-bottom: 1px solid var(--color-hairline-light);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition:
+    top var(--duration-standard) var(--ease-standard),
+    opacity var(--duration-standard) var(--ease-standard),
+    transform var(--duration-standard) var(--ease-standard),
+    visibility var(--duration-standard) var(--ease-standard);
+}
+
+.stripVisible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.stripList {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--margin-mobile);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.stripList::-webkit-scrollbar {
+  display: none;
+}
+
+.stripLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 48px;
+  padding: 0 var(--space-lg);
+  white-space: nowrap;
+  text-decoration: none;
+  font-size: var(--font-meta);
+  font-weight: var(--font-weight-body-medium);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+  border-bottom: 2px solid transparent;
+  transition:
+    color var(--duration-standard) var(--ease-standard),
+    border-color var(--duration-standard) var(--ease-standard);
+}
+
+.stripNumeral {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  color: var(--color-gold);
+}
+
+.stripActive {
+  color: var(--color-maroon);
+  border-bottom-color: var(--color-maroon);
+}
+
+.stripActive .stripNumeral {
+  color: var(--color-maroon);
+}
+
+@media (max-width: 1399px) {
+  .railNav {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .stripList {
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--margin-mobile);
+  }
+
+  .stripLink {
+    scroll-snap-align: start;
+  }
+}
+
+@media (min-width: 1400px) {
+  .stripNav {
+    display: none;
+  }
+}

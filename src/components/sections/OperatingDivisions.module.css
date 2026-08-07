@@ -1,0 +1,22 @@
+.section {
+  position: relative;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.plates {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6xl);
+  margin-top: var(--space-8xl);
+}
+
+@media (max-width: 767px) {
+  .plates {
+    gap: var(--space-5xl);
+    margin-top: var(--space-6xl);
+  }
+}

@@ -31,6 +31,11 @@ const RETURN_TEXT_R = 302;
 const SEAL_R = 168;
 const SEAL_INNER_R = 152;
 const STEP = 45;
+const GEOMETRY_PRECISION = 3;
+
+// Geometry entering SVG serialization must be byte-identical between the
+// server prerender and the browser; fmt absorbs floating-point drift in trig.
+const fmt = (n: number) => Number(n.toFixed(GEOMETRY_PRECISION));
 
 function radians(degrees: number) {
   return (degrees * Math.PI) / 180;
@@ -38,8 +43,8 @@ function radians(degrees: number) {
 
 function point(degrees: number, radius: number) {
   return {
-    x: CENTER + radius * Math.cos(radians(degrees)),
-    y: CENTER + radius * Math.sin(radians(degrees)),
+    x: fmt(CENTER + radius * Math.cos(radians(degrees))),
+    y: fmt(CENTER + radius * Math.sin(radians(degrees))),
   };
 }
 
@@ -81,8 +86,9 @@ export function LifecycleDiagram({
 
   const chevronAngle = angleAt(nodes.length - 1) + STEP / 2;
   const chevronMid = point(chevronAngle, RETURN_R);
-  const chevronRotation =
-    (Math.atan2(Math.cos(radians(chevronAngle)), -Math.sin(radians(chevronAngle))) * 180) / Math.PI;
+  const chevronRotation = fmt(
+    (Math.atan2(Math.cos(radians(chevronAngle)), -Math.sin(radians(chevronAngle))) * 180) / Math.PI,
+  );
 
   const returnActive = active === nodes.length - 1 || active === 0;
 
