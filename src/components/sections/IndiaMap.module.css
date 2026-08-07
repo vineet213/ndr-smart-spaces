@@ -49,10 +49,6 @@
   transition: fill var(--duration-standard) var(--ease-standard);
 }
 
-.haloHub {
-  fill: rgba(240, 182, 90, 0.14);
-}
-
 .haloHq {
   fill: rgba(240, 182, 90, 0.1);
 }

@@ -10,7 +10,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: 2fr 10fr;
+  grid-template-columns: 1fr 11fr;
   column-gap: var(--gutter-desktop);
   align-items: start;
   margin-top: var(--space-5xl);

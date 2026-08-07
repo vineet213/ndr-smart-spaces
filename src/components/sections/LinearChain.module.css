@@ -4,10 +4,10 @@
 
 .spine {
   position: absolute;
-  top: 6px;
+  top: 5.5px;
   left: 0;
   right: 0;
-  height: 2px;
+  height: 3px;
   background-color: var(--color-maroon);
   transform: scaleX(0);
   transform-origin: left;
@@ -39,43 +39,53 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border: 1.5px solid var(--color-gold);
   transform: rotate(45deg);
   opacity: 0;
-  transition: opacity 200ms ease;
-  transition-delay: var(--pop-delay, 300ms);
+  transition: opacity var(--duration-standard) var(--ease-standard);
 }
 
 .drawn .mark {
   opacity: 1;
 }
 
+.drawn .nodePast .mark,
+.drawn .nodePast .nodeIndex {
+  opacity: 0.7;
+}
+
+.drawn .nodeFuture .mark,
+.drawn .nodeFuture .nodeIndex {
+  opacity: 0.45;
+}
+
 .nodeBody {
   display: block;
   padding-top: var(--space-5xl);
-  padding-right: var(--space-4xl);
+  padding-right: var(--space-3xl);
 }
 
 .nodeHeading {
   display: flex;
   align-items: baseline;
-  gap: var(--space-sm);
+  gap: var(--space-lg);
 }
 
 .nodeIndex {
   font-family: var(--font-display);
-  font-weight: var(--font-weight-display-medium);
-  font-size: 1.25rem;
+  font-weight: 600;
+  font-size: 1.3125rem;
   line-height: 1;
   color: var(--color-gold);
   font-variant-numeric: tabular-nums;
+  transition: opacity var(--duration-standard) var(--ease-standard);
 }
 
 .nodeName {
   font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
+  font-weight: 600;
   font-size: var(--font-body-size);
   line-height: var(--leading-body);
   color: var(--color-charcoal);
@@ -87,7 +97,7 @@
 
 .nodeCaption {
   display: block;
-  margin-top: var(--space-sm);
+  margin-top: var(--space-md);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-regular);
   font-size: var(--font-small);
@@ -107,9 +117,9 @@
   .spine {
     top: 0;
     bottom: 0;
-    left: calc(var(--space-5xl) + 5px);
+    left: calc(var(--space-5xl) + 5.5px);
     right: auto;
-    width: 2px;
+    width: 3px;
     height: auto;
     transform: scaleY(0);
     transform-origin: top;
@@ -138,11 +148,5 @@
   .nodeBody {
     padding-top: 0;
     padding-right: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mark {
-    transition-delay: 0ms;
   }
 }

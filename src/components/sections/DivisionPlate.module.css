@@ -10,7 +10,7 @@
 
 .body {
   display: grid;
-  grid-template-columns: 2fr 5fr 5fr;
+  grid-template-columns: 1.5fr 5fr 5.5fr;
 }
 
 .numeral {
@@ -86,7 +86,7 @@
 
 .footer {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: var(--space-4xl);
   padding: var(--space-4xl);
@@ -94,6 +94,7 @@
 }
 
 .proof {
+  max-width: 58ch;
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-small);

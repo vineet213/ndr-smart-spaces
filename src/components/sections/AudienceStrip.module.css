@@ -79,7 +79,9 @@
 
   .link {
     min-height: auto;
+    min-width: 0;
     padding-block: var(--space-3xl);
+    padding-inline: var(--space-3xl);
   }
 
   .link:nth-child(odd) {
@@ -91,6 +93,7 @@
   }
 
   .descriptor {
+    min-width: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

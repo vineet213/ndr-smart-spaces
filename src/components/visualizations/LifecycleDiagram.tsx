@@ -20,18 +20,30 @@ type LifecycleDiagramProps = {
 };
 
 const CENTER = 460;
+const VIEWBOX = 920;
 const RING = 320;
 const TICK_TOP = 318;
-const TICK_BOTTOM = 290;
+const TICK_BOTTOM = 296;
 const NUM_R = 264;
 const INNER_R = 244;
-const NAME_R = 380;
-const RETURN_R = 292;
-const RETURN_TEXT_R = 302;
-const SEAL_R = 168;
-const SEAL_INNER_R = 152;
+const RETURN_R = 278;
+const RETURN_TEXT_R = 286;
+const SEAL_R = 156;
+const SEAL_INNER_R = 132;
 const STEP = 45;
 const GEOMETRY_PRECISION = 3;
+
+// Stage labels are placed radially outside each node marker with a fixed
+// clearance, anchored per quadrant so text is pushed outward. Long labels are
+// split onto two lines against the available horizontal budget for their
+// quadrant; both the split decision and the placement are deterministic
+// functions of the label text and node position (hydration-safe by design).
+const NODE_HALO = 17;
+const LABEL_GAP_H = 20;
+const LABEL_GAP_V = 26;
+const LABEL_LINE_GAP = 28;
+const LABEL_FONT_PX = 23;
+const CHAR_WIDTH_EST = 0.6;
 
 // Geometry entering SVG serialization must be byte-identical between the
 // server prerender and the browser; fmt absorbs floating-point drift in trig.
@@ -60,6 +72,85 @@ function connectorPath(index: number) {
   const s = point(angleAt(index), RING);
   const e = point(angleAt(index + 1), RING);
   return `M ${s.x} ${s.y} A ${RING} ${RING} 0 0 1 ${e.x} ${e.y}`;
+}
+
+const estimateTextWidth = (text: string) => text.length * CHAR_WIDTH_EST * LABEL_FONT_PX;
+
+function labelLines(text: string, budget: number): string[] {
+  if (estimateTextWidth(text) <= budget) return [text];
+  const space = text.indexOf(" ");
+  if (space !== -1) {
+    const head = text.slice(0, space);
+    const tail = text.slice(space + 1);
+    if (estimateTextWidth(head) <= budget && estimateTextWidth(tail) <= budget) {
+      return [head, tail];
+    }
+  }
+  const chars = Array.from(text);
+  const charWidth = CHAR_WIDTH_EST * LABEL_FONT_PX;
+  let split = 0;
+  let acc = 0;
+  for (let i = 0; i < chars.length; i += 1) {
+    acc += charWidth;
+    if (acc > budget) break;
+    split = i + 1;
+  }
+  if (split === 0 || split === chars.length) split = Math.floor(chars.length / 2);
+  return [chars.slice(0, split).join(""), chars.slice(split).join("")];
+}
+
+type LabelLayout = {
+  x: number;
+  y: number;
+  textAnchor: "start" | "middle" | "end";
+  lines: string[];
+  lineYBase: number;
+};
+
+function labelLayout(index: number, text: string): LabelLayout {
+  const node = point(angleAt(index), RING);
+  const vertical = index === 0 || index === 4;
+  const budget = vertical
+    ? VIEWBOX
+    : index < 4
+      ? VIEWBOX - (node.x + NODE_HALO + LABEL_GAP_H)
+      : node.x - NODE_HALO - LABEL_GAP_H;
+  const lines = labelLines(text, budget);
+  const lineYBase = lines.length === 1 ? 0 : -((lines.length - 1) * LABEL_LINE_GAP) / 2;
+  if (index === 0) {
+    return {
+      x: node.x,
+      y: fmt(node.y - (NODE_HALO + LABEL_GAP_V)),
+      textAnchor: "middle",
+      lines,
+      lineYBase,
+    };
+  }
+  if (index === 4) {
+    return {
+      x: node.x,
+      y: fmt(node.y + (NODE_HALO + LABEL_GAP_V)),
+      textAnchor: "middle",
+      lines,
+      lineYBase,
+    };
+  }
+  if (index >= 1 && index <= 3) {
+    return {
+      x: fmt(node.x + (NODE_HALO + LABEL_GAP_H)),
+      y: node.y,
+      textAnchor: "start",
+      lines,
+      lineYBase,
+    };
+  }
+  return {
+    x: fmt(node.x - (NODE_HALO + LABEL_GAP_H)),
+    y: node.y,
+    textAnchor: "end",
+    lines,
+    lineYBase,
+  };
 }
 
 const SEAL_TICKS = Array.from({ length: 24 }, (_, k) => k * 15);
@@ -103,7 +194,12 @@ export function LifecycleDiagram({
       )}
     >
       <div className={styles.diagramWrap}>
-        <svg viewBox="0 0 920 920" className={styles.svg} role="img" aria-labelledby={titleId}>
+        <svg
+          viewBox={`0 0 ${VIEWBOX} ${VIEWBOX}`}
+          className={styles.svg}
+          role="img"
+          aria-labelledby={titleId}
+        >
           <title id={titleId}>
             The complete asset lifecycle — land, planning, development, industrial infrastructure,
             warehousing, asset management, NDR InvIT, capital recycling, and back to land.
@@ -134,11 +230,11 @@ export function LifecycleDiagram({
               className={cx(styles.returnPath, returnActive && styles.returnPathOn)}
             />
             <path
-              d={tickLine(angleAt(nodes.length - 1), RETURN_R - 6, RETURN_R + 6)}
+              d={tickLine(angleAt(nodes.length - 1), RETURN_R - 7, RETURN_R + 7)}
               className={cx(styles.returnTick, returnActive && styles.returnTickOn)}
             />
             <path
-              d={tickLine(angleAt(0), RETURN_R - 6, RETURN_R + 6)}
+              d={tickLine(angleAt(0), RETURN_R - 7, RETURN_R + 7)}
               className={cx(styles.returnTick, returnActive && styles.returnTickOn)}
             />
             <g transform={`translate(${chevronMid.x} ${chevronMid.y}) rotate(${chevronRotation})`}>
@@ -158,14 +254,14 @@ export function LifecycleDiagram({
             {SEAL_TICKS.map((deg) => (
               <path
                 key={deg}
-                d={tickLine(deg, SEAL_R - 18, SEAL_R - 2)}
+                d={tickLine(deg, SEAL_R - 18, SEAL_R - 4)}
                 className={styles.sealTick}
               />
             ))}
             {SEAL_NODE_TICKS.map((deg) => (
               <path
                 key={`node-${deg}`}
-                d={tickLine(deg, SEAL_R - 24, SEAL_R - 2)}
+                d={tickLine(deg, SEAL_R - 24, SEAL_R - 4)}
                 className={styles.sealTickNode}
               />
             ))}
@@ -210,7 +306,7 @@ export function LifecycleDiagram({
             {nodes.map((node, index) => {
               const mark = point(angleAt(index), RING);
               const number = point(angleAt(index), NUM_R);
-              const name = point(angleAt(index), NAME_R);
+              const label = labelLayout(index, node.name);
               const isActive = active === index;
               const delay = `${120 + index * 60}ms`;
               return (
@@ -254,15 +350,18 @@ export function LifecycleDiagram({
                     >
                       {node.index}
                     </text>
-                    <text
-                      x={name.x}
-                      y={name.y}
-                      textAnchor="middle"
-                      dominantBaseline="central"
-                      className={cx(styles.nodeName, isActive && styles.nodeNameActive)}
-                    >
-                      {node.name}
-                    </text>
+                    {label.lines.map((line, lineIndex) => (
+                      <text
+                        key={lineIndex}
+                        x={label.x}
+                        y={fmt(label.y + label.lineYBase + lineIndex * LABEL_LINE_GAP)}
+                        textAnchor={label.textAnchor}
+                        dominantBaseline="central"
+                        className={cx(styles.nodeName, isActive && styles.nodeNameActive)}
+                      >
+                        {line}
+                      </text>
+                    ))}
                   </g>
                 </g>
               );

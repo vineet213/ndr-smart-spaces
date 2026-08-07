@@ -8,7 +8,7 @@ import styles from "./BusinessMasthead.module.css";
 export function BusinessMasthead() {
   return (
     <Section ariaLabelledby="business-masthead-title" className={styles.section}>
-      <DrawnGrid />
+      <DrawnGrid className={styles.gridFaint} />
       <Container className={styles.content}>
         <Reveal>
           <dl className={styles.control}>

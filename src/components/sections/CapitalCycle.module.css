@@ -53,7 +53,7 @@
 .nodeCircle {
   fill: var(--color-gold);
   stroke: var(--color-ivory);
-  stroke-width: 2;
+  stroke-width: 2.5;
   transform-origin: center;
   transform-box: fill-box;
   transition: transform var(--duration-standard) var(--ease-standard);
@@ -62,7 +62,7 @@
 .nodeNum {
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.02em;
   fill: var(--color-maroon-dark);
 }
@@ -102,14 +102,14 @@
 
 .medallionRing {
   fill: none;
-  stroke: rgba(240, 182, 90, 0.4);
-  stroke-width: 1.5;
+  stroke: var(--color-gold-40);
+  stroke-width: 2;
 }
 
 .rofo {
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: 27px;
+  font-size: 28px;
   letter-spacing: 0.04em;
   fill: var(--color-gold);
 }
@@ -118,7 +118,7 @@
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: 9px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   fill: var(--color-text-inverse-75);
 }

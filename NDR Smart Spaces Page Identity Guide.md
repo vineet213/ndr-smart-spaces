@@ -3,7 +3,7 @@
 **Composition doctrine for the corporate website**
 Lead UI/UX Designer · derives exclusively from: Design Direction v2 · Homepage Visual Specification v2.1 · client documents · the approved homepage build · the approved About Us page
 
-Version 1.0 · Status: for approval · Scope: the seven major pages of the approved IA (About Us · Business · Portfolio · Investor Centre · ESG · Media · Contact)
+Version 2.0 · Status: Homepage · About Us · Business **frozen** (built and production-verified) · Portfolio · Investor Centre · ESG · Media · Contact remain design intent · Scope: the seven major pages of the approved IA (About Us · Business · Portfolio · Investor Centre · ESG · Media · Contact)
 
 ---
 
@@ -47,9 +47,9 @@ Distinct page personalities are produced by varying seven levers — **never by 
 
 ## 2. Page identities
 
-### 2.0 Frozen visual identities (Homepage · About Us)
+### 2.0 Frozen visual identities (Homepage · About Us · Business)
 
-The two approved builds are **frozen** — composition, interactions, and exclusives below are reserved. No unbuilt page (Business · Portfolio · Investor Centre · ESG · Media · Contact) may adopt them, in whole or in part. §2.1–2.7 remain design intent until built.
+The three approved builds are **frozen** — composition, interactions, and exclusives below are reserved. No unbuilt page (Portfolio · Investor Centre · ESG · Media · Contact) may adopt them, in whole or in part. §2.1 and §2.2 are built to this identity and frozen; §2.3–2.7 remain design intent until built.
 
 #### Homepage — frozen
 
@@ -67,6 +67,15 @@ The two approved builds are **frozen** — composition, interactions, and exclus
 - **Exclusives (other pages must not adopt):** the typographic ledger hero (Concept A) · the gold-diamond lifecycle circle · the full-width hairline stat band with gold top rule · the board-register Leadership empty state · the 1954 founding-archive narrative content (story, timeline, ledger metrics).
 - **CTA doctrine (current build):** no About Us content CTA may resolve to an unbuilt route. Unbuilt targets are redirected to live anchors/external surfaces until built — `#story`, `#business-model-title`, `mailto:project@ndrsmart.com`, `https://ndrinvit.com`. Header/footer global navigation is shared and out of About Us scope.
 
+#### Business — frozen (Operating Manual, production build)
+
+- **Reserved layout:** Technical-plate masthead (eyebrow · Fraunces headline · lede · hairline) with a **responsive TOC** (content-sized index at ≤768px, scroll-snap) · a **sticky left rail** (01 Verticals · 02 Capabilities & Services · 03 Corporate Structure · 04 Capital Deployment · 05 Execution) with active-chapter emphasis, flyout label, and a strip progress indicator · the fixed chapter order: OperatingDivisions → CapabilityMatrix → CorporateStructure → CapitalDeployment → ExecutionFramework → BusinessClosing. One dark band (Capital Deployment). Ruled ivory elsewhere.
+- **Reserved interactions:** Sticky section index with active state; flyout on hover/focus; strip progress line under the rail as the page scrolls; process chains draw left→right; no circular or playful motion; fully keyboard-accessible.
+- **Reserved visual language:** Engineering blueprint. Orthogonal geometry — straight lines, right angles, numbered systems, hairline column grid across the page. Maroon as the working color; gold reserved for numbers and marks. Sentence-case, spec-precise typography.
+- **Reserved data devices:** the capability **matrix with bordered register** (03 systems, run-scored rows) · the **corporate-structure diagram** (client template, deck line-art) · the **capital deployment band** (capital-cycle diagram referencing the LifecycleDiagram language on dark) · the **execution framework ledger** (numbered register rows with an evidence plate per stage, 2px maroon rule).
+- **Exclusives (other pages must not adopt):** the sticky rail + strip index · the ruled capability matrix · the corporate-structure diagram · the capital-cycle dark band · the execution framework ledger.
+- **CTA doctrine (current build):** every Business CTA resolves to a live target — existing anchors (`#verticals`, `#capabilities`, `#structure`, `#capital`, `#execution`), `mailto:project@ndrsmart.com`, or `https://ndrinvit.com`. No unbuilt route is linked from the page.
+
 ### 2.1 About Us — **The Ledger / founding archive** _(approved, built to this identity)_
 
 - **Emotional objective:** Heritage, permanence, trust — _this house has kept its books since 1954._
@@ -80,17 +89,17 @@ The two approved builds are **frozen** — composition, interactions, and exclus
 - **Data presentation style:** Ledger plates (metric + label + source), sourced key numbers, timeline nodes with always-visible captions.
 - **Screenshot cue:** A gold top rule over a Fraunces headline with a full-width hairline stat band on ivory; the gold-diamond lifecycle circle on dark maroon.
 
-### 2.2 Business — **The Operating Manual**
+### 2.2 Business — **The Operating Manual** _(frozen — built to this identity)_
 
 - **Emotional objective:** Capability, competence, operational rigor — _this is how it runs._
 - **Visual language:** Engineering blueprint. Orthogonal geometry: straight lines, right angles, numbered systems, a hairline column grid drawn across the whole page. Maroon as the working color; gold reserved for numbers and marks. Typography does the work — sentence-case, spec-precise.
-- **Layout philosophy:** A structured operating report. A sticky section index (01 Verticals · 02 Services · 03 The NDR InvIT relationship · 04 How we work) on a left rail; content as numbered plates in a true 12-col grid. Processes are **linear chains running left→right** — the orthogonal opposite of About's circle.
-- **Preferred components:** Section headers with gold serif numerals · ruled service tables (service → outcome → proof) · vertical/horizontal process chains · BusinessHighlights vertical cards as the three operating verticals · the partnership band (NDR InvIT) · corporate-structure diagram (client template, deck line-art) · dark band for the capital model.
-- **Interaction style:** Sticky section index with active state; table-row hover emphasis; process chain draws left→right; no circular, no playful motion. Fully keyboard-accessible.
+- **Layout philosophy:** A structured operating report. A sticky section index on a left rail (01 Verticals · 02 Capabilities & Services · 03 Corporate Structure · 04 Capital Deployment · 05 Execution) with a strip progress indicator and flyout labels; content as numbered plates in a true 12-col grid. Processes are **linear chains running left→right** — the orthogonal opposite of About's circle.
+- **Preferred components:** Section headers with gold serif numerals · ruled service/capability matrices (service → outcome → proof) · linear process chains · OperatingDivisions vertical cards as the three operating verticals · the partnership band (NDR InvIT) · corporate-structure diagram (client template, deck line-art) · dark band for the capital model · the execution framework ledger with evidence plates.
+- **Interaction style:** Sticky section index with active state; strip progress line; table-row hover emphasis; process chain draws left→right; no circular, no playful motion. Fully keyboard-accessible.
 - **Density:** Medium-high — the most tabular of the editorial pages.
 - **Whitespace rhythm:** Ruled columns rather than open fields; whitespace lives inside cells.
 - **Imagery style:** Real-asset photography in architectural crops, hi-vis human scale at distance, hairline-framed; verticals lead with imagery only where approved.
-- **Data presentation style:** Capability matrices, service tables, numbered systems, the process chain, the entity map.
+- **Data presentation style:** Capability matrices, service tables, numbered systems, the process chain, the entity map, the execution ledger.
 - **Screenshot cue:** A sticky numbered index + ruled multi-column plates; the row of three deep-maroon vertical cards above the dark partnership band; orthogonal line art.
 
 ### 2.3 Portfolio — **The Atlas / register of places**
@@ -215,9 +224,9 @@ Shared components are encouraged; _where_ each leads is fixed so no page repeats
 
 ## 6. Implementation order
 
-About Us is approved and conforms (Concept A Ledger). Recommended build order for the remaining pages, in dependency order of the existing CTAs:
+About Us is approved and conforms (Concept A Ledger). Business is built and frozen. Recommended build order for the remaining pages, in dependency order of the existing CTAs:
 
-1. **Business** — target of the About Us and homepage "Explore the business" CTAs. Builds the operating-manual primitives (sticky index, service tables, process chain, corporate-structure diagram).
+1. ~~**Business** — target of the About Us and homepage "Explore the business" CTAs. Builds the operating-manual primitives (sticky index, service tables, process chain, corporate-structure diagram).~~ **Built · frozen** (Production Pass V1 + visual QA).
 2. **Portfolio** — target of the homepage map's "View Portfolio →." Builds the register + linked-map interaction; structure ships, rows conditional on data.
 3. **Investor Centre** — target of the persistent header CTA. Builds the statement tables, report library, and safe-harbour block; reuses LifecycleDiagram and AboutTimeline.
 4. **ESG** — reuses the Esg plate and KeyNumbers language; new chapter-numeral framing only.
@@ -226,4 +235,23 @@ About Us is approved and conforms (Concept A Ledger). Recommended build order fo
 
 Each page is verified by the same gates: typecheck · lint · prettier · production build · CSS-module audit · token audit.
 
-_This guide is the working authority for page composition. The design system (Design Direction v2) and the Visual Specification remain the authorities for tokens, components, and accessibility. Client documents override wherever they conflict._
+---
+
+## 7. Freeze protocol
+
+A page is **frozen** when it passes the release gates and the freeze checklist below. Frozen pages are production-verified and may not be redesigned; fixes only for real defects, gated and re-verified.
+
+**Freeze checklist — applies to Homepage, About Us, Business (all passed):**
+
+1. Typecheck · lint · prettier — clean.
+2. Production build (`output: "export"`) — clean, all routes pre-rendered.
+3. Zero console errors and zero horizontal overflow across 1920 · 1440 · 1280 · 1024 · 768 · 390 (Playwright quantitative audit).
+4. Header/footer and page CTAs resolve only to live anchors or external surfaces — no unbuilt route linked.
+5. Identity exclusives respected: the page's reserved layout, interaction, and evidence devices are not borrowed by another page.
+6. No TODO / FIXME / console.log / debugger / `@ts-ignore` / `@ts-expect-error` in frozen code.
+7. Reduced motion + keyboard reachability verified on signature interactions.
+8. Metadata and document titles correct per page.
+
+**After freeze:** no new content, layout, or interaction work without a written change request (defect or client-approval). The design system (Design Direction v2) and the Visual Specification remain the authorities for tokens, components, and accessibility. Client documents override wherever they conflict.
+
+_This guide is the working authority for page composition._

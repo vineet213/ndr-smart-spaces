@@ -49,7 +49,7 @@
 }
 
 .matrix thead th {
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-md) var(--space-xl);
   border-block-end: 2px solid var(--color-maroon);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
@@ -61,13 +61,17 @@
 }
 
 .matrix tbody td {
-  padding: var(--space-3xl) var(--space-lg);
+  padding: var(--space-2xl) var(--space-xl);
   vertical-align: top;
   border-block-end: 1px solid var(--color-hairline-light);
   box-shadow: inset 3px 0 0 transparent;
   transition:
     background-color var(--duration-standard) var(--ease-standard),
     box-shadow var(--duration-standard) var(--ease-standard);
+}
+
+.matrix tbody tr:last-child td {
+  border-block-end: 2px solid var(--color-maroon);
 }
 
 .matrix tbody tr:hover td {
@@ -88,7 +92,7 @@
 
 .capability {
   display: block;
-  margin-top: var(--space-sm);
+  margin-top: var(--space-xs);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-body-size);
@@ -97,6 +101,7 @@
 }
 
 .scope {
+  padding-right: var(--space-4xl);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-regular);
   font-size: var(--font-small);

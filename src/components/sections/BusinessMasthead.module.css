@@ -2,6 +2,10 @@
   position: relative;
 }
 
+.gridFaint {
+  opacity: 0.55;
+}
+
 .content {
   position: relative;
   z-index: 1;
@@ -16,7 +20,7 @@
 }
 
 .controlCell {
-  padding: var(--space-4xl);
+  padding: var(--space-3xl);
 }
 
 .controlCell + .controlCell {
@@ -34,12 +38,13 @@
 }
 
 .controlValue {
-  margin: var(--space-md) 0 0;
+  margin: var(--space-sm) 0 0;
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-body-size);
   line-height: var(--leading-body);
   color: var(--color-charcoal);
+  font-variant-numeric: tabular-nums;
 }
 
 .rule {
@@ -50,12 +55,12 @@
 }
 
 .mainCol {
-  margin-top: var(--space-6xl);
+  margin-top: var(--space-5xl);
   max-width: 58.333%;
 }
 
 .eyebrow {
-  margin-bottom: var(--space-4xl);
+  margin-bottom: var(--space-3xl);
 }
 
 .title {
@@ -72,11 +77,11 @@
 }
 
 .lede {
-  margin-top: var(--space-4xl);
+  margin-top: var(--space-5xl);
 }
 
 .scope {
-  margin-top: var(--space-6xl);
+  margin-top: var(--space-7xl);
   border-inline-start: 1px solid var(--color-hairline-light);
   padding-inline-start: var(--space-4xl);
 }
@@ -98,7 +103,7 @@
 
 .toc {
   display: flex;
-  margin: var(--space-8xl) 0 0;
+  margin: var(--space-9xl) 0 0;
   padding: 0;
   list-style: none;
   border-block: 1px solid var(--color-hairline-light);
@@ -166,7 +171,9 @@
   .mainCol {
     max-width: 100%;
   }
+}
 
+@media (max-width: 768px) {
   .toc {
     margin-top: var(--space-6xl);
     overflow-x: auto;
