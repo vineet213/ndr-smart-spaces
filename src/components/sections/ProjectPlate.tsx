@@ -16,6 +16,9 @@ export function ProjectPlate({ asset, index }: { asset: PortfolioAsset; index: n
             <span className={styles.plateMark} aria-hidden="true" />
             <span>Plate {asset.plate}</span>
           </span>
+          <span className={styles.reference} aria-hidden="true">
+            PL.{asset.plate}
+          </span>
           <StatusBadge status={asset.status} />
         </div>
         <div className={styles.media} aria-hidden="true">

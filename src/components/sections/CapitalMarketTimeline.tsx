@@ -57,6 +57,12 @@ export function CapitalMarketTimeline() {
         <Stack gap="6xl">
           <Reveal>
             <Stack gap="xl">
+              <div className={styles.docHeader}>
+                <span className={styles.numeral} aria-hidden="true">
+                  04
+                </span>
+                <span className={styles.ref}>REF 04 · CAPITAL MARKET TIMELINE</span>
+              </div>
               <span className={styles.goldRule} aria-hidden="true" />
               <Eyebrow>{capitalMarketTimeline.eyebrow}</Eyebrow>
               <Heading variant="section" id="capital-market-timeline-title">
@@ -71,7 +77,12 @@ export function CapitalMarketTimeline() {
             style={{ "--timeline-progress": activeCount / TOTAL } as CSSProperties}
           >
             {capitalMarketTimeline.nodes.map((node, index) => (
-              <TimelineItem key={node.year + node.title} node={node} index={index} onActivate={handleActivate} />
+              <TimelineItem
+                key={node.year + node.title}
+                node={node}
+                index={index}
+                onActivate={handleActivate}
+              />
             ))}
           </ol>
         </Stack>

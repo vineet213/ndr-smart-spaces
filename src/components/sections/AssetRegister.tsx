@@ -142,6 +142,7 @@ export function AssetRegister() {
         {assets.length > 0 ? (
           <Reveal variant="fade">
             <div className={styles.sheet}>
+              <span className={styles.documentSpine} aria-hidden="true" />
               <div className={styles.provenance}>
                 <span>{portfolioRegister.provenanceLabel}</span>
                 <span>

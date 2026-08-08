@@ -28,8 +28,8 @@ export default function InvestorCentrePage() {
         edition={investorMasthead.edition}
         id="investor-centre-title"
       />
-      <ContentsRail />
       <EditorialStatement />
+      <ContentsRail />
       <MetricsBand />
       <CapitalCycleDiagram />
       <CapitalMarketTimeline />

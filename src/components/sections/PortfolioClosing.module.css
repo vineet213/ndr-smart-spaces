@@ -2,6 +2,7 @@
   background-color: var(--color-charcoal);
   color: var(--color-ivory);
   padding-block: var(--space-11xl);
+  border-top: 1px solid rgba(240, 182, 90, 0.2);
 }
 
 .mark {
@@ -21,6 +22,16 @@
 .body {
   max-width: 44rem;
   margin-top: var(--space-4xl);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.section::before {
+  content: "";
+  display: block;
+  width: var(--space-8xl);
+  height: 2px;
+  margin-bottom: var(--space-4xl);
+  background: linear-gradient(90deg, var(--color-gold) 0%, rgba(240, 182, 90, 0.2) 100%);
 }
 
 .ctas {

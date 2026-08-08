@@ -3,6 +3,30 @@
   padding-block: var(--space-10xl) var(--space-12xl);
 }
 
+.docHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-hairline-stone);
+}
+
+.numeral {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-metric);
+  line-height: 1;
+  color: var(--color-gold);
+}
+
+.ref {
+  color: var(--color-ink-soft);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .heading {
   margin-top: var(--space-4xl);
 }
@@ -25,6 +49,49 @@
   color: var(--color-stone);
 }
 
+/* charcoal summary band --------------------------------------------------- */
+
+.summary {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  column-gap: var(--space-6xl);
+  row-gap: var(--space-sm);
+  margin-top: var(--space-8xl);
+  padding: var(--space-6xl);
+  background-color: var(--color-charcoal-deep);
+  color: var(--color-ivory);
+  border-block-start: 3px solid var(--color-gold);
+}
+
+.summaryKicker {
+  grid-row: 1 / span 2;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-maroon-bright);
+}
+
+.summaryLine {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+  line-height: 1.2;
+  color: var(--color-ivory);
+}
+
+.summaryNote {
+  margin: 0;
+  max-width: 60ch;
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-inverse-70);
+}
+
 /* tabs -------------------------------------------------------------------- */
 
 .tabs {
@@ -37,7 +104,7 @@
 .tab {
   min-height: 44px;
   padding: var(--space-sm) var(--space-lg);
-  border: 1px solid var(--color-hairline-light);
+  border: 1px solid var(--color-hairline-stone);
   border-radius: 0;
   background: none;
   font-family: var(--font-body);
@@ -74,29 +141,44 @@
   color: var(--color-ivory);
 }
 
-/* archive rows ------------------------------------------------------------ */
+/* archive register -------------------------------------------------------- */
 
-.rows {
+.register {
+  margin-top: var(--space-6xl);
+}
+
+.list {
   list-style: none;
-  margin: var(--space-6xl) 0 0;
+  margin: 0;
   padding: 0;
+}
+
+.head {
+  display: grid;
+  grid-template-columns: 6rem 6.5rem minmax(0, 1fr) 9rem 7rem 9rem auto;
+  column-gap: var(--space-lg);
+  padding-block: var(--space-md);
+  border-block: 2px solid var(--color-charcoal);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
 }
 
 .row {
   display: grid;
-  grid-template-columns: 6rem 6.5rem minmax(0, 1fr) 8.5rem 6rem 8rem auto;
+  grid-template-columns: 6rem 6.5rem minmax(0, 1fr) 9rem 7rem 9rem auto;
   column-gap: var(--space-lg);
   align-items: center;
-  padding-block: var(--space-xl);
-  border-block-start: 1px solid var(--color-hairline-light);
+  padding-block: var(--space-2xl);
+  border-block-start: 1px solid var(--color-hairline-stone);
   font-family: var(--font-body);
   font-size: var(--font-small);
   line-height: var(--leading-small);
   transition: background-color var(--duration-micro) var(--ease-standard);
-}
-
-.row:last-child {
-  border-block-end: 1px solid var(--color-hairline-light);
 }
 
 .row:hover {
@@ -105,8 +187,8 @@
 
 .ref {
   font-variant-numeric: tabular-nums;
-  color: var(--color-gold);
   font-weight: var(--font-weight-body-medium);
+  color: var(--color-maroon);
 }
 
 .asOn {
@@ -120,10 +202,14 @@
 
 .category,
 .type {
+  justify-self: start;
+  padding: var(--space-2xs) var(--space-sm);
+  border: 1px solid var(--color-hairline-stone);
   color: var(--color-stone);
   font-size: var(--font-meta);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .status {
@@ -146,21 +232,35 @@
   color: var(--color-gold);
 }
 
-.badgePublished .badgeGlyph {
+.badgePublished {
   color: var(--color-maroon);
 }
 
-.badgeExternal .badgeGlyph {
-  color: var(--color-gold);
+.badgeExternal {
+  color: var(--color-stone);
 }
+
+/* pending rows ------------------------------------------------------------ */
 
 .pendingRow {
   color: var(--color-stone);
 }
 
-.pendingRow .title {
-  color: var(--color-stone);
+.pendingRow .entryLabel {
+  display: block;
+  font-weight: var(--font-weight-body-medium);
+  color: var(--color-charcoal);
+}
+
+.pendingRow .entryNote {
+  display: block;
+  margin-top: var(--space-xs);
   font-style: italic;
+  color: var(--color-stone);
+}
+
+.pendingRow .category {
+  color: var(--color-stone);
 }
 
 .note {
@@ -175,11 +275,11 @@
 
 .group {
   padding-block: var(--space-5xl);
-  border-block-start: 1px solid var(--color-hairline-light);
+  border-block-start: 1px solid var(--color-hairline-stone);
 }
 
 .group:last-child {
-  border-block-end: 1px solid var(--color-hairline-light);
+  border-block-end: 1px solid var(--color-hairline-stone);
 }
 
 .groupTitle {
@@ -191,11 +291,15 @@
   color: var(--color-charcoal);
 }
 
-.group .rows {
+.group .register {
   margin-top: 0;
 }
 
 @media (max-width: 1023px) {
+  .head {
+    display: none;
+  }
+
   .row {
     grid-template-columns: 5.5rem 1fr auto;
     row-gap: var(--space-xs);
@@ -214,7 +318,6 @@
   }
 
   .pendingRow .asOn,
-  .pendingRow .category,
   .pendingRow .type {
     display: none;
   }
@@ -223,6 +326,16 @@
 @media (max-width: 767px) {
   .section {
     padding-block: var(--space-8xl);
+  }
+
+  .summary {
+    grid-template-columns: 1fr;
+    padding: var(--space-5xl);
+    margin-top: var(--space-6xl);
+  }
+
+  .summaryKicker {
+    grid-row: auto;
   }
 
   .tabs {

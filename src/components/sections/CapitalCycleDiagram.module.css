@@ -1,7 +1,35 @@
 .section {
-  background-color: var(--color-charcoal);
+  position: relative;
+  background-color: var(--color-charcoal-deep);
   color: var(--color-ivory);
-  padding-block: var(--space-10xl);
+  padding-block: var(--space-12xl);
+}
+
+.section::before {
+  content: "03";
+  position: absolute;
+  top: var(--space-6xl);
+  right: var(--margin-mobile);
+  z-index: 0;
+  color: var(--color-gold-print);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: clamp(16rem, 30vw, 30rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  user-select: none;
+}
+
+.docHeader {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-hairline-dark);
 }
 
 .numeral {
@@ -11,6 +39,13 @@
   font-size: var(--font-metric);
   line-height: 1;
   color: var(--color-gold);
+}
+
+.ref {
+  color: var(--color-text-inverse-70);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .eyebrow {
@@ -29,7 +64,7 @@
 
 .lede {
   margin: var(--space-4xl) 0 0;
-  max-width: 46ch;
+  max-width: 52ch;
   font-family: var(--font-body);
   font-size: var(--font-lede);
   line-height: var(--leading-lede);
@@ -37,7 +72,9 @@
 }
 
 .diagramWrap {
-  margin-top: var(--space-9xl);
+  position: relative;
+  z-index: 1;
+  margin-top: var(--space-10xl);
 }
 
 /* the loop ---------------------------------------------------------------- */
@@ -45,27 +82,27 @@
 .track {
   display: flex;
   align-items: stretch;
-  gap: var(--space-4xl);
+  gap: var(--space-3xl);
 }
 
 .nodeGroup {
   display: flex;
   align-items: stretch;
   flex: 1;
-  gap: var(--space-4xl);
+  gap: var(--space-3xl);
 }
 
 .node {
   flex: 1;
-  padding-top: var(--space-5xl);
-  border-block-start: 2px solid var(--color-gold);
+  padding-top: var(--space-6xl);
+  border-block-start: 3px solid var(--color-gold);
 }
 
 .nodeNumeral {
   display: block;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-metric);
+  font-size: clamp(3rem, 6vw, 5rem);
   line-height: 1;
   color: var(--color-gold);
 }
@@ -74,14 +111,14 @@
   margin: var(--space-3xl) 0 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-h3);
+  font-size: clamp(1.625rem, 2.4vw, 2.25rem);
   line-height: var(--leading-h3);
   color: var(--color-ivory);
 }
 
 .nodeCaption {
   margin: var(--space-md) 0 0;
-  max-width: 26ch;
+  max-width: 32ch;
   font-family: var(--font-body);
   font-size: var(--font-small);
   line-height: var(--leading-small);
@@ -90,28 +127,28 @@
 
 .connector {
   position: relative;
-  width: var(--space-8xl);
+  width: var(--space-9xl);
   flex: none;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: calc(var(--space-5xl) + var(--font-metric) * 0.5 - 1px);
+  padding-top: calc(var(--space-6xl) + var(--font-metric) * 0.5 - 1px);
 }
 
 .connector::before {
   content: "";
   width: 100%;
-  height: 1px;
+  height: 2px;
   background-color: var(--color-hairline-dark);
 }
 
 .arrow {
   position: absolute;
-  top: calc(var(--space-5xl) + var(--font-metric) * 0.5 - 5px);
+  top: calc(var(--space-6xl) + var(--font-metric) * 0.5 - 6px);
   width: 0;
   height: 0;
-  border-block: 5px solid transparent;
-  border-inline-start: 7px solid var(--color-gold);
+  border-block: 6px solid transparent;
+  border-inline-start: 8px solid var(--color-gold);
 }
 
 /* the return -------------------------------------------------------------- */
@@ -121,9 +158,9 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-lg);
-  margin-top: var(--space-5xl);
+  margin-top: var(--space-6xl);
   padding-block: var(--space-lg);
-  border-block-start: 1px solid var(--color-hairline-dark);
+  border-block-start: 2px solid var(--color-gold);
 }
 
 .returnLabel {
@@ -138,20 +175,20 @@
 
 .returnArrow {
   position: relative;
-  width: clamp(6rem, 20vw, 14rem);
-  height: 1px;
-  background-color: var(--color-hairline-dark);
+  width: clamp(8rem, 24vw, 18rem);
+  height: 2px;
+  background-color: var(--color-gold);
 }
 
 .returnArrow::before {
   content: "";
   position: absolute;
-  top: -4px;
+  top: -5px;
   right: 0;
   width: 0;
   height: 0;
-  border-block: 5px solid transparent;
-  border-inline-end: 7px solid var(--color-gold);
+  border-block: 6px solid transparent;
+  border-inline-end: 8px solid var(--color-gold);
 }
 
 @media (max-width: 1023px) {
@@ -201,10 +238,10 @@
 
   .arrow {
     top: auto;
-    bottom: -6px;
-    left: -5px;
-    border-block-start: 7px solid var(--color-gold);
-    border-inline: 5px solid transparent;
+    bottom: -7px;
+    left: -6px;
+    border-block-start: 8px solid var(--color-gold);
+    border-inline: 6px solid transparent;
     border-inline-start-color: transparent;
   }
 }

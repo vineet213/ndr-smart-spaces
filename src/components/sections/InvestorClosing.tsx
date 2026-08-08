@@ -9,10 +9,22 @@ export function InvestorClosing() {
     <section className={styles.section} aria-labelledby="investor-closing-title">
       <Container>
         <Reveal>
+          <div className={styles.docHeader}>
+            <span className={styles.numeral} aria-hidden="true">
+              07
+            </span>
+            <span className={styles.ref}>REF 07 · CLOSING</span>
+          </div>
+          <span className={styles.goldRule} aria-hidden="true" />
           <Eyebrow tone="dark" className={styles.eyebrow}>
             Investor Centre · Financial Statement
           </Eyebrow>
-          <Heading variant="section" tone="dark" id="investor-closing-title" className={styles.title}>
+          <Heading
+            variant="section"
+            tone="dark"
+            id="investor-closing-title"
+            className={styles.title}
+          >
             {investorClosing.line}
           </Heading>
           <Body tone="dark" className={styles.body}>
@@ -22,11 +34,7 @@ export function InvestorClosing() {
             <Button href={investorClosing.primaryCta.href} tone="dark">
               {investorClosing.primaryCta.label}
             </Button>
-            <Button
-              variant="secondary"
-              tone="dark"
-              href={investorClosing.secondaryCta.href}
-            >
+            <Button variant="secondary" tone="dark" href={investorClosing.secondaryCta.href}>
               {investorClosing.secondaryCta.label}
             </Button>
             <TextLink

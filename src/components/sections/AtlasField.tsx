@@ -76,6 +76,15 @@ export function AtlasField() {
                   </span>
                   <span className={styles.notToScale}>{atlasField.notToScale}</span>
                   <NorthIndicator className={styles.compass} />
+                  <div className={styles.ledger} aria-hidden="true">
+                    <span className={styles.ledgerItem}>Survey ledger</span>
+                    <span className={styles.ledgerItem}>{plateRange}</span>
+                    <span className={styles.ledgerItem}>{portfolioMasthead.editionPeriod}</span>
+                  </div>
+                  <div className={styles.scaleBar} aria-hidden="true">
+                    <span className={styles.scaleTrack} />
+                    <span className={styles.scaleLabel}>25 km</span>
+                  </div>
                 </div>
               </div>
               <div className={styles.indexColumn}>

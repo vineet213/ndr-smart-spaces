@@ -1,11 +1,35 @@
 .section {
   background-color: var(--color-ivory);
   padding-block: var(--space-8xl);
-  border-block-start: 1px solid var(--color-hairline-light);
+  border-block-start: 3px solid var(--color-gold);
+}
+
+.docHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-hairline-stone);
+}
+
+.numeral {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-metric);
+  line-height: 1;
+  color: var(--color-gold);
+}
+
+.ref {
+  color: var(--color-ink-soft);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .eyebrow {
-  margin: 0;
+  margin-top: var(--space-5xl);
 }
 
 .heading {
@@ -14,8 +38,8 @@
 }
 
 .paragraph {
-  margin: var(--space-4xl) 0 0;
-  max-width: 64ch;
+  margin: var(--space-3xl) 0 0;
+  max-width: 68ch;
   font-family: var(--font-body);
   font-size: var(--font-small);
   line-height: var(--leading-small);

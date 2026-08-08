@@ -10,7 +10,7 @@
   line-height: var(--leading-meta);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
-  color: var(--color-stone);
+  color: var(--color-charcoal);
 }
 
 .scroll {
@@ -20,7 +20,7 @@
 
 .table {
   width: 100%;
-  min-width: 44rem;
+  min-width: 52rem;
   border-collapse: collapse;
   font-family: var(--font-body);
   font-size: var(--font-small);
@@ -33,18 +33,23 @@
 }
 
 .table thead th {
-  padding: var(--space-md) var(--space-lg);
-  border-block-end: 1px solid var(--color-hairline-light);
+  padding: var(--space-lg) var(--space-lg);
+  background-color: var(--color-charcoal-deep);
+  border-block-end: 1px solid var(--color-gold);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
   text-align: left;
-  color: var(--color-maroon);
+  color: var(--color-ivory);
 }
 
 .table thead th.numeric {
   text-align: right;
+}
+
+.accentHead {
+  color: var(--color-gold);
 }
 
 .sortButton {
@@ -74,7 +79,7 @@
 
 .table tbody td {
   padding: var(--space-lg) var(--space-lg);
-  border-block-end: 1px solid var(--color-hairline-light);
+  border-block-end: 1px solid var(--color-hairline-stone);
   color: var(--color-text-primary);
 }
 
@@ -87,11 +92,38 @@
 }
 
 .table tbody tr:hover {
-  background-color: var(--color-stone-warm);
+  background-color: var(--color-gold-print-light);
+}
+
+.accentCell {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-body-medium);
+  color: var(--color-maroon);
 }
 
 .emptyCell {
   text-align: center;
+  padding-block: var(--space-8xl);
+  border-block-end: 1px solid var(--color-charcoal);
+}
+
+.emptyKicker {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-charcoal);
+}
+
+.emptyBody {
+  display: block;
+  margin-top: var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
   color: var(--color-stone);
 }
 

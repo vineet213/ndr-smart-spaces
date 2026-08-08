@@ -21,6 +21,7 @@ type StatementTableProps = {
   rows: StatementRowData[];
   footnotes?: string[];
   entityNote?: string;
+  firstColAccent?: boolean;
 };
 
 type SortState = { key: string; dir: "asc" | "desc" } | null;
@@ -31,6 +32,7 @@ export function StatementTable({
   rows,
   footnotes,
   entityNote,
+  firstColAccent = false,
 }: StatementTableProps) {
   const [sort, setSort] = useState<SortState>(null);
 
@@ -67,7 +69,10 @@ export function StatementTable({
                   <th
                     key={column.key}
                     scope="col"
-                    className={cx(column.numeric && styles.numeric)}
+                    className={cx(
+                      column.numeric && styles.numeric,
+                      firstColAccent && columns.indexOf(column) === 0 && styles.accentHead,
+                    )}
                     aria-sort={
                       isSorted ? (sort?.dir === "asc" ? "ascending" : "descending") : "none"
                     }
@@ -91,14 +96,21 @@ export function StatementTable({
             {empty ? (
               <tr>
                 <td className={styles.emptyCell} colSpan={columns.length}>
-                  The statement is being filed. Rows publish as data is approved.
+                  <span className={styles.emptyKicker}>Statement pending publication.</span>
+                  <span className={styles.emptyBody}>Rows publish as statements are approved.</span>
                 </td>
               </tr>
             ) : (
               sorted.map((row, index) => (
                 <tr key={row.id} className={index % 2 === 1 ? styles.zebra : undefined}>
                   {columns.map((column) => (
-                    <td key={column.key} className={cx(column.numeric && styles.numeric)}>
+                    <td
+                      key={column.key}
+                      className={cx(
+                        column.numeric && styles.numeric,
+                        firstColAccent && columns.indexOf(column) === 0 && styles.accentCell,
+                      )}
+                    >
                       {row.cells[column.key] ?? "—"}
                     </td>
                   ))}

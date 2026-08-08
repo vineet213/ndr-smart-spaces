@@ -9,24 +9,36 @@ export function InvITRelationship() {
     <section className={styles.section} aria-labelledby="invit-relationship-title">
       <Container>
         <Reveal>
-          <span className={styles.numeral} aria-hidden="true">
-            04
-          </span>
-          <Eyebrow className={styles.eyebrow}>{invitRelationship.eyebrow}</Eyebrow>
-          <Heading variant="section" id="invit-relationship-title" className={styles.heading}>
+          <div className={styles.docHeader}>
+            <span className={styles.numeral} aria-hidden="true">
+              05
+            </span>
+            <span className={styles.ref}>REF 05 · SPONSOR & INVIT</span>
+          </div>
+          <Eyebrow tone="dark" className={styles.eyebrow}>
+            {invitRelationship.eyebrow}
+          </Eyebrow>
+          <Heading
+            variant="section"
+            tone="dark"
+            id="invit-relationship-title"
+            className={styles.heading}
+          >
             {invitRelationship.heading}
           </Heading>
           {invitRelationship.body.map((paragraph) => (
-            <Body key={paragraph.slice(0, 24)} className={styles.body}>
+            <Body key={paragraph.slice(0, 24)} tone="dark" className={styles.body}>
               {paragraph}
             </Body>
           ))}
           <div className={styles.linkRow}>
-            <ExternalLink href={invitRelationship.external.href}>
+            <ExternalLink tone="dark" href={invitRelationship.external.href}>
               {invitRelationship.external.label}
             </ExternalLink>
           </div>
-          <SourceFootnote className={styles.note}>{invitRelationship.note}</SourceFootnote>
+          <SourceFootnote tone="dark" className={styles.note}>
+            {invitRelationship.note}
+          </SourceFootnote>
         </Reveal>
       </Container>
     </section>

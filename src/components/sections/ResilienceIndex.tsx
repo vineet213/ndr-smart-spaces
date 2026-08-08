@@ -9,11 +9,21 @@ export function ResilienceIndex() {
     <section className={styles.section} aria-labelledby="resilience-title">
       <Container>
         <Reveal>
-          <Eyebrow>{resilience.eyebrow}</Eyebrow>
-          <Heading variant="section" id="resilience-title" className={styles.heading}>
+          <div className={styles.docHeader}>
+            <span className={styles.numeral} aria-hidden="true">
+              02
+            </span>
+            <span className={styles.ref}>REF 02 · RISK & RESILIENCE</span>
+          </div>
+          <Eyebrow tone="dark" className={styles.eyebrow}>
+            {resilience.eyebrow}
+          </Eyebrow>
+          <Heading variant="section" tone="dark" id="resilience-title" className={styles.heading}>
             {resilience.heading}
           </Heading>
-          <Lede className={styles.lede}>{resilience.lede}</Lede>
+          <Lede tone="dark" className={styles.lede}>
+            {resilience.lede}
+          </Lede>
         </Reveal>
 
         <ol className={styles.list}>
@@ -22,7 +32,9 @@ export function ResilienceIndex() {
               <div className={styles.rowInner}>
                 <h3 className={styles.label}>{row.label}</h3>
                 <p className={styles.note}>{row.note}</p>
-                <SourceFootnote className={styles.source}>{row.source}</SourceFootnote>
+                <SourceFootnote tone="dark" className={styles.source}>
+                  {row.source}
+                </SourceFootnote>
               </div>
             </Reveal>
           ))}

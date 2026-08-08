@@ -64,14 +64,23 @@ function FilingRow({ filing }: { filing: Filing }) {
   );
 }
 
-function PendingRow({ label }: { label: string }) {
+function PendingRow({ category }: { category: string }) {
   return (
     <li className={cx(styles.row, styles.pendingRow)}>
-      <span className={styles.ref}>—</span>
-      <span className={styles.asOn}>—</span>
-      <span className={styles.title}>{label}</span>
-      <span className={styles.category}>Pending filing</span>
-      <span className={styles.type}>—</span>
+      <span className={styles.ref} aria-hidden="true">
+        —
+      </span>
+      <span className={styles.asOn} aria-hidden="true">
+        —
+      </span>
+      <span className={styles.title}>
+        <span className={styles.entryLabel}>{category}</span>
+        <span className={styles.entryNote}>Records publish as filings are approved.</span>
+      </span>
+      <span className={styles.category}>Pending</span>
+      <span className={styles.type} aria-hidden="true">
+        —
+      </span>
       <span className={styles.status}>
         <StatusBadge status="pending" />
       </span>
@@ -79,6 +88,20 @@ function PendingRow({ label }: { label: string }) {
         —
       </span>
     </li>
+  );
+}
+
+const HEAD_LABELS = ["Ref", "As on", "Document", "Category", "Type", "Status", "Action"];
+
+function RegisterHead() {
+  return (
+    <div className={styles.head} aria-hidden="true">
+      {HEAD_LABELS.map((label) => (
+        <span key={label} className={styles.headCell}>
+          {label}
+        </span>
+      ))}
+    </div>
   );
 }
 
@@ -110,19 +133,22 @@ function IndexMode({ config }: { config: FilingLibraryConfig }) {
         </div>
       ) : null}
 
-      {hasFilings ? (
-        <ol className={styles.rows}>
-          {visible.map((filing) => (
-            <FilingRow key={filing.ref} filing={filing} />
-          ))}
-        </ol>
-      ) : (
-        <ol className={styles.rows}>
-          {config.categories.map((category) => (
-            <PendingRow key={category} label={`${category} — documents being filed`} />
-          ))}
-        </ol>
-      )}
+      <div className={styles.register}>
+        <RegisterHead />
+        {hasFilings ? (
+          <ol className={styles.list}>
+            {visible.map((filing) => (
+              <FilingRow key={filing.ref} filing={filing} />
+            ))}
+          </ol>
+        ) : (
+          <ol className={styles.list}>
+            {config.categories.map((category) => (
+              <PendingRow key={category} category={category} />
+            ))}
+          </ol>
+        )}
+      </div>
 
       {config.note ? <SourceFootnote className={styles.note}>{config.note}</SourceFootnote> : null}
     </>
@@ -152,7 +178,8 @@ function TableMode({ config }: { config: FilingLibraryConfig }) {
         caption={`${config.eyebrow} · ${config.asOn}`}
         columns={columns}
         rows={rows}
-        footnotes={config.note ? [config.note] : undefined}
+        footnotes={rows.length > 0 && config.note ? [config.note] : undefined}
+        firstColAccent
       />
       {config.entityNote ? <SourceFootnote>{config.entityNote}</SourceFootnote> : null}
     </>
@@ -172,17 +199,20 @@ function LibraryMode({ config }: { config: FilingLibraryConfig }) {
             <h3 id={`group-${group.category}`} className={styles.groupTitle}>
               {group.category}
             </h3>
-            {group.documents.length > 0 ? (
-              <ol className={styles.rows}>
-                {group.documents.map((filing) => (
-                  <FilingRow key={filing.ref} filing={filing} />
-                ))}
-              </ol>
-            ) : (
-              <ol className={styles.rows}>
-                <PendingRow label={`${group.category} — documents being filed`} />
-              </ol>
-            )}
+            <div className={styles.register}>
+              <RegisterHead />
+              {group.documents.length > 0 ? (
+                <ol className={styles.list}>
+                  {group.documents.map((filing) => (
+                    <FilingRow key={filing.ref} filing={filing} />
+                  ))}
+                </ol>
+              ) : (
+                <ol className={styles.list}>
+                  <PendingRow category={group.category} />
+                </ol>
+              )}
+            </div>
           </section>
         ))}
       </div>
@@ -192,10 +222,26 @@ function LibraryMode({ config }: { config: FilingLibraryConfig }) {
 }
 
 export function FilingLibrary({ config }: FilingLibraryProps) {
+  const publishedCount = config.filings.filter((filing) => filing.status === "published").length;
+  const summaryLine =
+    config.mode === "table"
+      ? (config.statements?.length ?? 0) > 0
+        ? "Results statements on record."
+        : "Statement pending publication."
+      : publishedCount > 0
+        ? `${publishedCount} document${publishedCount === 1 ? "" : "s"} on record.`
+        : "The record is being filed.";
+
   return (
     <section className={styles.section} aria-labelledby="filing-library-title">
       <Container>
         <Reveal>
+          <div className={styles.docHeader}>
+            <span className={styles.numeral} aria-hidden="true">
+              01
+            </span>
+            <span className={styles.ref}>DOC · {config.eyebrow}</span>
+          </div>
           <Eyebrow>{config.eyebrow}</Eyebrow>
           <Heading variant="section" id="filing-library-title" className={styles.heading}>
             {config.title}
@@ -204,6 +250,11 @@ export function FilingLibrary({ config }: FilingLibraryProps) {
           <p className={styles.meta}>
             {config.asOn} · {config.edition}
           </p>
+          <div className={styles.summary} role="status">
+            <span className={styles.summaryKicker}>Record status</span>
+            <p className={styles.summaryLine}>{summaryLine}</p>
+            {config.note ? <p className={styles.summaryNote}>{config.note}</p> : null}
+          </div>
         </Reveal>
 
         <Reveal>

@@ -37,11 +37,21 @@
 }
 
 .sheet {
+  position: relative;
   margin-top: var(--space-6xl);
   padding: var(--space-4xl);
   border: 1px solid var(--color-hairline-light);
   border-top: 2px solid var(--color-gold);
   background-color: var(--color-ivory);
+}
+
+.documentSpine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0.35rem;
+  background: linear-gradient(180deg, rgba(240, 182, 90, 0.65) 0%, rgba(28, 26, 25, 0.08) 100%);
 }
 
 .provenance {
@@ -70,6 +80,7 @@
 .summary {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: var(--space-2xl);
   border-bottom: 1px solid var(--color-hairline-light);
 }
 
@@ -113,6 +124,7 @@
   gap: var(--space-lg) var(--space-4xl);
   padding-top: var(--space-2xl);
   padding-bottom: var(--space-4xl);
+  border-bottom: 1px solid var(--color-hairline-light);
 }
 
 .folioNav {
@@ -208,12 +220,17 @@
 
 .panels {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.5fr);
+  gap: var(--space-4xl);
   align-items: start;
+  margin-top: var(--space-4xl);
 }
 
 .locatorPanel {
   min-width: 0;
+  padding: var(--space-lg);
+  border: 1px solid var(--color-hairline-light);
+  background-color: var(--color-ivory-dim);
 }
 
 .tablePanel {
@@ -244,12 +261,13 @@
   min-width: 44rem;
   border-collapse: collapse;
   text-align: left;
+  border-top: 2px solid var(--color-charcoal);
 }
 
 .columnHeader {
   padding: var(--space-md) var(--space-lg);
   background-color: var(--color-ivory-dim);
-  border-bottom: 2px solid var(--color-hairline-dark);
+  border-bottom: 1px solid var(--color-hairline-dark);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);

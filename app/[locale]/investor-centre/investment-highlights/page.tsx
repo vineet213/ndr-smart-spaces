@@ -51,6 +51,14 @@ const footnotes = [
   "Periods flagged * are client-confirm before go-live.",
 ];
 
+const summaryIds = ["M7", "M3", "M5"] as const;
+
+const summaryFigures = summaryIds.map((id) => {
+  const metric = investorMetrics.find((m) => m.id === id);
+  if (!metric) throw new Error(`Missing summary metric ${id}`);
+  return metric;
+});
+
 export default function InvestmentHighlightsPage() {
   return (
     <>
@@ -66,15 +74,39 @@ export default function InvestmentHighlightsPage() {
       <section className={styles.section} aria-labelledby="highlights-statement-title">
         <Container>
           <Reveal>
+            <div className={styles.docHeader}>
+              <span className={styles.numeral} aria-hidden="true">
+                01
+              </span>
+              <span className={styles.ref}>REF 01 · HEADLINE FIGURES</span>
+            </div>
             <Eyebrow>The ruled statement</Eyebrow>
             <Heading variant="section" id="highlights-statement-title" className={styles.heading}>
               Every figure, its period, its source.
             </Heading>
+          </Reveal>
+
+          <Reveal>
+            <div className={styles.band} role="list">
+              {summaryFigures.map((metric) => (
+                <div key={metric.id} className={styles.bandItem} role="listitem">
+                  <p className={styles.bandValue}>{metric.value}</p>
+                  <p className={styles.bandStat}>{metric.stat}</p>
+                  <p className={styles.bandOrigin}>
+                    {metric.source} · {entityName[metric.entity]}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
+          <Reveal>
             <StatementTable
               caption="Investment highlights — NDR Smart Spaces"
               columns={columns}
               rows={rows}
               footnotes={footnotes}
+              firstColAccent
               entityNote={`As on ${investorEdition.asOn.replace("As on ", "")} · ${investorEdition.edition}`}
             />
           </Reveal>

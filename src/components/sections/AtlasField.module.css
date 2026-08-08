@@ -20,9 +20,12 @@
 
 .frame {
   position: relative;
-  border: 1px solid rgba(28, 26, 25, 0.6);
-  box-shadow: inset 0 0 0 1px rgba(28, 26, 25, 0.12);
+  border: 2px solid rgba(28, 26, 25, 0.7);
+  box-shadow:
+    inset 0 0 0 1px rgba(28, 26, 25, 0.14),
+    0 0 0 1px rgba(240, 182, 90, 0.18);
   background-color: var(--color-ivory);
+  padding: var(--space-4xl);
 }
 
 .indexColumn {
@@ -72,6 +75,55 @@
   top: var(--space-3xl);
   right: var(--space-4xl);
   color: rgba(28, 26, 25, 0.6);
+}
+
+.ledger {
+  position: absolute;
+  left: var(--space-4xl);
+  right: var(--space-4xl);
+  bottom: calc(var(--space-4xl) + 2.75rem);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid rgba(28, 26, 25, 0.18);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: rgba(28, 26, 25, 0.65);
+}
+
+.ledgerItem {
+  font-variant-numeric: tabular-nums;
+}
+
+.scaleBar {
+  position: absolute;
+  left: var(--space-4xl);
+  bottom: var(--space-3xl);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.scaleTrack {
+  display: block;
+  width: 5.25rem;
+  height: 1px;
+  background-color: rgba(28, 26, 25, 0.5);
+}
+
+.scaleLabel {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: rgba(28, 26, 25, 0.65);
 }
 
 .captionBlock {

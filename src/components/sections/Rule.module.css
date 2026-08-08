@@ -1,0 +1,16 @@
+.rule {
+  display: block;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 700ms var(--ease-standard);
+}
+
+.drawn {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rule {
+    transform: none;
+  }
+}

@@ -14,14 +14,22 @@ export function PortfolioMasthead() {
     <section className={styles.section} aria-labelledby="portfolio-masthead-title">
       <Container className={styles.container}>
         <Reveal>
-          <Eyebrow className={styles.eyebrow}>{portfolioMasthead.eyebrow}</Eyebrow>
-          <span className={styles.ruleTop} aria-hidden="true" />
-          <Heading variant="hero" id="portfolio-masthead-title" className={styles.title}>
-            {portfolioMasthead.title}
-          </Heading>
-          <span className={styles.ruleBottom} aria-hidden="true" />
-          <Lede className={styles.lede}>{portfolioMasthead.lede}</Lede>
-          <p className={styles.edition}>{edition}</p>
+          <div className={styles.cover}>
+            <span className={styles.reference} aria-hidden="true">
+              PL.001
+            </span>
+            <Eyebrow className={styles.eyebrow}>{portfolioMasthead.eyebrow}</Eyebrow>
+            <span className={styles.ruleTop} aria-hidden="true" />
+            <Heading variant="hero" id="portfolio-masthead-title" className={styles.title}>
+              {portfolioMasthead.title}
+            </Heading>
+            <span className={styles.ruleBottom} aria-hidden="true" />
+            <Lede className={styles.lede}>{portfolioMasthead.lede}</Lede>
+            <p className={styles.edition}>{edition}</p>
+            <span className={styles.watermark} aria-hidden="true">
+              PLATE
+            </span>
+          </div>
         </Reveal>
       </Container>
     </section>

@@ -1,6 +1,7 @@
 import { Container } from "@/components/layout";
 import { investorMasthead } from "@/lib/data/investor";
 import { Reveal } from "./Reveal";
+import { Rule } from "./Rule";
 import styles from "./InvestorMasthead.module.css";
 import { cx } from "../ui/cx";
 
@@ -25,7 +26,7 @@ export function InvestorMasthead({
 
   return (
     <section className={styles.section} aria-labelledby={id}>
-      <Container>
+      <Container className={styles.inner}>
         {isCover ? (
           <Reveal>
             <p className={styles.folio}>
@@ -42,7 +43,7 @@ export function InvestorMasthead({
               <span aria-hidden="true">·</span>
               <span>{edition}</span>
             </p>
-            <span className={styles.rule} aria-hidden="true" />
+            <Rule className={styles.rule} />
           </Reveal>
         ) : (
           <Reveal>

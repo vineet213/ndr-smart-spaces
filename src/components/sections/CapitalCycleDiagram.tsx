@@ -9,9 +9,12 @@ export function CapitalCycleDiagram() {
     <section className={styles.section} id="capital-cycle" aria-labelledby="capital-cycle-title">
       <Container>
         <Reveal>
-          <span className={styles.numeral} aria-hidden="true">
-            03
-          </span>
+          <div className={styles.docHeader}>
+            <span className={styles.numeral} aria-hidden="true">
+              03
+            </span>
+            <span className={styles.ref}>REF 03 · CAPITAL IN MOTION</span>
+          </div>
           <Eyebrow tone="dark" className={styles.eyebrow}>
             {capitalCycle.eyebrow}
           </Eyebrow>

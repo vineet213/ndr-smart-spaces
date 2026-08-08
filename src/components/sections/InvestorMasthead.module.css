@@ -1,94 +1,104 @@
 .section {
-  background-color: var(--color-ivory);
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--space-4xl);
 }
 
-/* document cover ---------------------------------------------------------- */
+.section::before {
+  content: "STATEMENT";
+  position: absolute;
+  top: 0.5rem;
+  right: -1.5rem;
+  z-index: 0;
+  color: var(--color-hairline-stone);
+  font-size: clamp(7rem, 21vw, 20rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  user-select: none;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+}
 
 .folio {
   display: flex;
-  align-items: baseline;
   justify-content: space-between;
-  gap: var(--space-lg);
-  padding-block: var(--space-md);
-  border-block: 1px solid var(--color-hairline-light);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-meta);
-  line-height: var(--leading-meta);
-  letter-spacing: var(--tracking-meta);
+  gap: var(--space-4);
+  margin-bottom: var(--space-3xl);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-hairline-stone);
+  color: var(--color-ink-soft);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-stone);
 }
 
 .title {
   margin: 0;
-  max-width: 16ch;
-  padding-top: var(--space-9xl);
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-light);
-  font-size: clamp(3rem, 7vw, 6.5rem);
-  line-height: 0.98;
-  letter-spacing: -0.02em;
-  color: var(--color-charcoal);
+  padding-top: var(--space-2xl);
+  max-width: 20ch;
+  color: var(--color-ink);
+  font-size: clamp(3.5rem, 7.5vw, 7.5rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
 }
 
 .accent {
-  color: var(--color-maroon);
+  color: var(--color-maroon-print);
 }
 
 .meta {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-md);
-  margin: var(--space-6xl) 0 0;
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-meta);
-  line-height: var(--leading-meta);
-  letter-spacing: var(--tracking-meta);
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5xl);
+  color: var(--color-ink-soft);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-stone);
 }
 
 .rule {
   display: block;
-  height: 1px;
-  margin-top: var(--space-8xl);
-  background-color: var(--color-gold);
+  height: 3px;
+  margin-top: var(--space-6xl);
+  background: var(--color-gold);
 }
 
-/* slim document header ---------------------------------------------------- */
-
 .eyebrow {
-  margin: 0;
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-meta);
-  line-height: var(--leading-meta);
-  letter-spacing: var(--tracking-meta);
+  margin: 0 0 var(--space-4);
+  color: var(--color-ink-soft);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-stone);
 }
 
 .slimTitle {
-  max-width: 20ch;
-  padding-top: var(--space-4xl);
-  font-size: clamp(2.25rem, 5vw, 3.75rem);
-  line-height: 1.02;
+  padding-top: 0;
+  max-width: 22ch;
+  font-size: clamp(2.5rem, 4.5vw, 4rem);
 }
 
 @media (max-width: 767px) {
-  .folio {
-    flex-direction: column;
-    gap: var(--space-xs);
+  .section {
+    padding-block: var(--space-3xl);
+  }
+
+  .section::before {
+    content: "";
   }
 
   .title {
-    padding-top: var(--space-7xl);
+    font-size: clamp(2.75rem, 12vw, 4rem);
   }
 
-  .rule {
-    margin-top: var(--space-6xl);
+  .meta {
+    flex-wrap: wrap;
   }
 }

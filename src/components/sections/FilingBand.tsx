@@ -24,6 +24,7 @@ function FilingRecord({ zone, dominant }: { zone: GeoZone; dominant: boolean }) 
 
   return (
     <div className={cx(styles.record, dominant ? styles.recordFiled : styles.recordPending)}>
+      <span className={styles.recordTab} aria-hidden="true" />
       <div className={styles.recordHead}>
         <span className={styles.recordNumeral} aria-hidden="true">
           {ZONE_CHAPTERS[zone.id]}
