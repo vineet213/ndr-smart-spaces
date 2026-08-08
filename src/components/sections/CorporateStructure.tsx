@@ -1,26 +1,26 @@
+"use client";
+
 import { Container, Section } from "@/components/layout";
 import { ExternalLink, SourceFootnote } from "@/components/ui";
-import { corporateStructure } from "@/lib/data/business";
-import { ChapterHeader } from "./ChapterHeader";
+import { useInView } from "@/hooks/useInView";
+import { businessChapters, corporateStructure } from "@/lib/data/business";
+import { ChapterOpener } from "./ChapterOpener";
 import { DrawnGrid } from "./DrawnGrid";
 import { Reveal } from "./Reveal";
+import { cx } from "../ui/cx";
 import styles from "./CorporateStructure.module.css";
 
 export function CorporateStructure() {
+  const { ref, inView } = useInView<HTMLDivElement>();
+
   return (
     <Section tone="dim" id="structure" ariaLabelledby="structure-title" className={styles.section}>
       <DrawnGrid />
       <Container className={styles.content}>
         <Reveal>
-          <ChapterHeader
-            numeral="03"
-            eyebrow="Corporate Structure"
-            heading="How the corporate body is assembled."
-            headingId="structure-title"
-            lede="The parent platform, its SPVs, its service entities, and its relationship to the InvIT and third parties."
-          />
+          <ChapterOpener chapter={businessChapters[2]} headingId="structure-title" />
 
-          <div className={styles.map}>
+          <div ref={ref} className={cx(styles.map, inView && styles.drawn)}>
             <div className={styles.headerPlate}>
               <h3 className={styles.headerName}>{corporateStructure.header.name}</h3>
               <p className={styles.headerRole}>{corporateStructure.header.role}</p>

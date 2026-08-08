@@ -2,29 +2,60 @@ export type Chapter = {
   index: string;
   label: string;
   id: string;
+  title: string;
+  plate: string;
+  code: string;
 };
 
 export const businessChapters = [
-  { index: "01", label: "Operating Verticals", id: "verticals" },
-  { index: "02", label: "Capabilities & Services", id: "capabilities" },
-  { index: "03", label: "Corporate Structure", id: "structure" },
-  { index: "04", label: "Capital Deployment", id: "capital" },
-  { index: "05", label: "Execution", id: "execution" },
+  {
+    index: "01",
+    label: "Operating Verticals",
+    id: "verticals",
+    title: "What the company runs.",
+    plate: "PL. 101",
+    code: "OP.01",
+  },
+  {
+    index: "02",
+    label: "Capabilities & Services",
+    id: "capabilities",
+    title: "What NDR can deliver.",
+    plate: "PL. 201",
+    code: "OP.02",
+  },
+  {
+    index: "03",
+    label: "Corporate Structure",
+    id: "structure",
+    title: "How the corporate body is assembled.",
+    plate: "PL. 301",
+    code: "OP.03",
+  },
+  {
+    index: "04",
+    label: "Capital Deployment",
+    id: "capital",
+    title: "How capital flows.",
+    plate: "PL. 401",
+    code: "OP.04",
+  },
+  {
+    index: "05",
+    label: "Execution",
+    id: "execution",
+    title: "How projects are delivered.",
+    plate: "PL. 501",
+    code: "OP.05",
+  },
 ] as const satisfies readonly Chapter[];
 
 export const businessMasthead = {
-  eyebrow: "Business · The Operating Manual",
+  folio: "OP. MANUAL · FY26",
+  controlCaption: "Cover · Sheet 01 of 06",
+  statement:
+    "Developing, owning and managing high-quality industrial, commercial and institutional assets for over 60 years.",
   headline: { before: "The ", accent: "operating", after: " manual." },
-  lede: "Five chapters document what the company runs, what it can deliver, how the corporate body is assembled, how capital flows through it, and how a project is delivered.",
-  control: [
-    { label: "Entity", value: "NDR Smart Spaces Pvt. Ltd." },
-    { label: "Scope", value: "Develop · Operate · Monetize" },
-    { label: "Period", value: "FY26" },
-  ] as const,
-  scope: {
-    label: "1.0 · Scope",
-    body: "NDR Smart Spaces is a diversified infrastructure organization focused on developing, owning, and managing high-quality industrial, commercial and institutional assets. The company combines expertise in real estate development and grade A warehousing for over 60 years. Its integrated approach spans the complete asset lifecycle — from conceptualization and development to operations, leasing, and investment management.",
-  } as const,
 } as const;
 
 export type DivisionSpecRow = { label: string; value: string };
@@ -199,7 +230,6 @@ export const corporateStructure = {
 export type ChainNode = { index: string; name: string; caption: string };
 
 export const capitalDeployment = {
-  lede: "Capital moves in a disciplined loop: assets are developed inside SPVs, offered to NDR InvIT under a Right of First Offer, monetized, and the consideration is recycled into new development.",
   rofo: "Right of First Offer — NDR InvIT evaluates each eligible asset before any third party.",
   chain: [
     { index: "01", name: "Develop", caption: "SPVs build on owned or leased land" },

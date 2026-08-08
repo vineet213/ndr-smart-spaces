@@ -3,6 +3,10 @@
   background-color: var(--color-ivory);
 }
 
+.stage {
+  position: relative;
+}
+
 .plate {
   padding-block: var(--space-6xl);
   border-block: 1px solid var(--color-hairline-light);
@@ -15,6 +19,16 @@
   font-size: var(--font-h3);
   line-height: var(--leading-h3);
   color: var(--color-charcoal);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--duration-reveal) var(--ease-standard),
+    transform var(--duration-reveal) var(--ease-standard);
+}
+
+.drawn .line {
+  opacity: 1;
+  transform: none;
 }
 
 .routes {
@@ -22,6 +36,17 @@
   align-items: center;
   gap: var(--space-4xl);
   margin-top: var(--space-5xl);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--duration-reveal) var(--ease-standard),
+    transform var(--duration-reveal) var(--ease-standard);
+}
+
+.drawn .routes {
+  opacity: 1;
+  transform: none;
+  transition-delay: 150ms;
 }
 
 .portfolio {
@@ -36,6 +61,17 @@
 
 .portfolioNote {
   margin-top: var(--space-3xl);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--duration-reveal) var(--ease-standard),
+    transform var(--duration-reveal) var(--ease-standard);
+}
+
+.drawn .portfolioNote {
+  opacity: 1;
+  transform: none;
+  transition-delay: 220ms;
 }
 
 .colophon {
@@ -49,6 +85,20 @@
   flex: 1;
   height: 1px;
   background-color: var(--color-hairline-light);
+  transform: scaleX(0);
+  transition: transform var(--duration-long) var(--ease-standard) 300ms;
+}
+
+.endRule:first-child {
+  transform-origin: right;
+}
+
+.endRule:last-child {
+  transform-origin: left;
+}
+
+.drawn .endRule {
+  transform: scaleX(1);
 }
 
 .diamond {
@@ -56,7 +106,12 @@
   width: 10px;
   height: 10px;
   border: 1px solid var(--color-gold);
-  transform: rotate(45deg);
+  transform: scale(0) rotate(45deg);
+  transition: transform 600ms var(--ease-standard) 250ms;
+}
+
+.drawn .diamond {
+  transform: scale(1) rotate(45deg);
 }
 
 @media (max-width: 767px) {
@@ -72,5 +127,21 @@
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-3xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line,
+  .routes,
+  .portfolioNote {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .endRule,
+  .diamond {
+    transform: none;
+    transition: none;
   }
 }

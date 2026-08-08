@@ -24,6 +24,7 @@ export { KeyNumbers } from "./KeyNumbers";
 export { ClosingCta } from "./ClosingCta";
 export { BusinessStickyIndex } from "./BusinessStickyIndex";
 export { BusinessMasthead } from "./BusinessMasthead";
+export { ChapterOpener } from "./ChapterOpener";
 export { OperatingDivisions } from "./OperatingDivisions";
 export { CapabilityMatrix } from "./CapabilityMatrix";
 export { CorporateStructure } from "./CorporateStructure";

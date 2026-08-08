@@ -11,10 +11,25 @@
   margin-top: var(--space-8xl);
 }
 
+.stage {
+  position: relative;
+}
+
 .evidencePlate {
+  position: relative;
   margin-top: var(--space-8xl);
   padding-block-start: var(--space-4xl);
   border-block-start: 2px solid var(--color-maroon);
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity var(--duration-reveal) var(--ease-standard),
+    transform var(--duration-reveal) var(--ease-standard);
+}
+
+.drawn .evidencePlate {
+  opacity: 1;
+  transform: none;
 }
 
 .evidenceLabel {
@@ -41,6 +56,24 @@
   justify-content: space-between;
   gap: var(--space-4xl);
   padding-block: var(--space-md);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--duration-reveal) var(--ease-standard),
+    transform var(--duration-reveal) var(--ease-standard);
+}
+
+.drawn .evidenceRow {
+  opacity: 1;
+  transform: none;
+}
+
+.drawn .evidenceRow:nth-child(1) {
+  transition-delay: 200ms;
+}
+
+.drawn .evidenceRow:nth-child(2) {
+  transition-delay: 300ms;
 }
 
 .evidenceRow + .evidenceRow {
@@ -76,5 +109,14 @@
   .evidenceRow {
     flex-direction: column;
     gap: var(--space-sm);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .evidencePlate,
+  .evidenceRow {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

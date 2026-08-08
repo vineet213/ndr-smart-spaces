@@ -7,16 +7,47 @@
   z-index: 1;
 }
 
+.stage {
+  position: relative;
+}
+
 .rofo {
+  position: relative;
   margin-top: var(--space-8xl);
   padding-inline-start: var(--space-4xl);
-  border-inline-start: 2px solid var(--color-gold);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-regular);
   font-size: var(--font-lede);
   line-height: var(--leading-lede);
   color: var(--color-text-inverse-85);
   max-width: 52ch;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--duration-reveal) var(--ease-standard),
+    transform var(--duration-reveal) var(--ease-standard);
+}
+
+.rofo::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background-color: var(--color-gold);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--duration-long) var(--ease-standard) 100ms;
+}
+
+.drawn .rofo {
+  opacity: 1;
+  transform: none;
+}
+
+.drawn .rofo::before {
+  transform: scaleY(1);
 }
 
 .chain {
@@ -30,6 +61,17 @@
   margin-top: var(--space-8xl);
   padding: var(--space-4xl);
   border-block: 1px solid var(--color-hairline-dark);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--duration-reveal) var(--ease-standard),
+    transform var(--duration-reveal) var(--ease-standard);
+}
+
+.drawn .evidence {
+  opacity: 1;
+  transform: none;
+  transition-delay: 250ms;
 }
 
 .evidenceText {
@@ -45,6 +87,17 @@
 
 .cta {
   margin-top: var(--space-7xl);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--duration-reveal) var(--ease-standard),
+    transform var(--duration-reveal) var(--ease-standard);
+}
+
+.drawn .cta {
+  opacity: 1;
+  transform: none;
+  transition-delay: 350ms;
 }
 
 .source {
@@ -64,5 +117,20 @@
     flex-direction: column;
     gap: var(--space-md);
     margin-top: var(--space-6xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rofo,
+  .evidence,
+  .cta {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .rofo::before {
+    transform: none;
+    transition: none;
   }
 }

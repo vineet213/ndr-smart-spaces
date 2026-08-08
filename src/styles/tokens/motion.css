@@ -2,6 +2,7 @@
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-micro: 150ms;
   --duration-standard: 400ms;
+  --duration-long: 1000ms;
   --duration-reveal: 800ms;
   --duration-counter: 1200ms;
   --duration-zoom: 3s;

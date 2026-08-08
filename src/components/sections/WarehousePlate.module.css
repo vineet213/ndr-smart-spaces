@@ -1,0 +1,562 @@
+.plate {
+  position: relative;
+  margin-top: var(--space-4xl);
+  border: 1px solid rgba(28, 26, 25, 0.65);
+  box-shadow: inset 0 0 0 1px rgba(28, 26, 25, 0.1);
+  background-color: var(--color-ivory-dim);
+  overflow: hidden;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ground plane ----------------------------------------------------------- */
+
+.plotGround {
+  fill: #f4efe6;
+  stroke: none;
+}
+
+.plotHatch {
+  fill: url(#ndr-hatch);
+  stroke: none;
+}
+
+.boundary {
+  fill: none;
+  stroke: var(--color-charcoal);
+  stroke-width: 2.5;
+  stroke-dasharray: 14 10;
+  stroke-linecap: square;
+}
+
+.gateMark {
+  stroke: var(--color-charcoal);
+  stroke-width: 2.5;
+}
+
+/* roads ------------------------------------------------------------------ */
+
+.road {
+  fill: #e8e0cf;
+  stroke: none;
+}
+
+.roadEdge {
+  stroke: var(--color-stone);
+  stroke-width: 1.25;
+}
+
+.centerline {
+  stroke: var(--color-gold);
+  stroke-width: 2;
+  stroke-dasharray: 14 12;
+}
+
+.roadArrow {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* boxes ------------------------------------------------------------------ */
+
+.boxFront {
+  fill: #e7dfcf;
+  stroke: rgba(28, 26, 25, 0.16);
+  stroke-width: 0.75;
+}
+
+.boxRight {
+  fill: #d9d1be;
+  stroke: rgba(28, 26, 25, 0.16);
+  stroke-width: 0.75;
+}
+
+.boxTop {
+  fill: #f4efe6;
+  stroke: rgba(28, 26, 25, 0.16);
+  stroke-width: 0.75;
+}
+
+/* warehouse blocks -------------------------------------------------------- */
+
+.wallFront {
+  fill: #e9e1d2;
+  stroke: rgba(28, 26, 25, 0.2);
+  stroke-width: 0.75;
+}
+
+.wallRight {
+  fill: #dbd2be;
+  stroke: rgba(28, 26, 25, 0.2);
+  stroke-width: 0.75;
+}
+
+.roofTop {
+  fill: #f6f1e8;
+  stroke: rgba(28, 26, 25, 0.2);
+  stroke-width: 0.75;
+}
+
+.parapet {
+  fill: none;
+  stroke: var(--color-charcoal);
+  stroke-width: 1.5;
+}
+
+.roofSeam {
+  stroke: rgba(28, 26, 25, 0.3);
+  stroke-width: 1;
+}
+
+.skylight {
+  fill: #d3dce8;
+  stroke: rgba(28, 26, 25, 0.3);
+  stroke-width: 0.6;
+}
+
+.blockLabel {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  fill: var(--color-charcoal);
+}
+
+.blockMeta {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  fill: var(--color-stone);
+}
+
+.roofUnit .boxFront {
+  fill: #dcd4c2;
+}
+
+.roofUnit .boxRight {
+  fill: #cec5b1;
+}
+
+.roofUnit .boxTop {
+  fill: #e7dfcf;
+}
+
+/* docks ------------------------------------------------------------------ */
+
+.dockDoor {
+  fill: rgba(28, 26, 25, 0.78);
+  stroke: none;
+}
+
+.dock .boxFront {
+  fill: #b9b09c;
+}
+
+.dock .boxRight {
+  fill: #a89f8c;
+}
+
+.dock .boxTop {
+  fill: #d2c9b6;
+}
+
+/* trucks ----------------------------------------------------------------- */
+
+.truckTrailer .boxFront {
+  fill: #f4efe6;
+}
+
+.truckTrailer .boxRight {
+  fill: #e3dcc9;
+}
+
+.truckTrailer .boxTop {
+  fill: #faf7f2;
+}
+
+.truckCab .boxFront {
+  fill: #dcd5c2;
+}
+
+.truckCab .boxRight {
+  fill: #c9c1ac;
+}
+
+.truckCab .boxTop {
+  fill: #ece5d6;
+}
+
+.truckMaroon .boxFront {
+  fill: var(--color-maroon);
+}
+
+.truckMaroon .boxRight {
+  fill: var(--color-maroon-deep);
+}
+
+.truckMaroon .boxTop {
+  fill: #b34348;
+}
+
+/* landscape --------------------------------------------------------------- */
+
+.treeTrunk {
+  stroke: var(--color-charcoal);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.treeCanopy {
+  fill: #a3b07a;
+  stroke: none;
+}
+
+.treeCanopyInner {
+  fill: #c2cc9d;
+  stroke: none;
+}
+
+.poleShaft {
+  stroke: var(--color-charcoal);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.poleArm {
+  stroke: var(--color-charcoal);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.wire {
+  stroke: rgba(28, 26, 25, 0.28);
+  stroke-width: 1;
+}
+
+/* water tank --------------------------------------------------------------- */
+
+.tankLeg {
+  stroke: var(--color-charcoal);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.tankCollar {
+  fill: #c9c1ae;
+  stroke: rgba(28, 26, 25, 0.3);
+  stroke-width: 1;
+}
+
+.tankFront {
+  fill: #c4d0dc;
+  stroke: rgba(28, 26, 25, 0.25);
+  stroke-width: 0.75;
+}
+
+.tankRight {
+  fill: #b2c0cf;
+  stroke: rgba(28, 26, 25, 0.25);
+  stroke-width: 0.75;
+}
+
+.tankTop {
+  fill: #d7e0e8;
+  stroke: rgba(28, 26, 25, 0.25);
+  stroke-width: 0.75;
+}
+
+/* site furniture ------------------------------------------------------------ */
+
+.substation .boxFront {
+  fill: #dcd6c4;
+}
+
+.substation .boxRight {
+  fill: #cfc8b4;
+}
+
+.substation .boxTop {
+  fill: #e8e1d0;
+}
+
+.gatehouse .boxFront {
+  fill: #dfd8c6;
+}
+
+.gatehouse .boxRight {
+  fill: #d0c8b4;
+}
+
+.gatehouse .boxTop {
+  fill: #ece5d6;
+}
+
+.carA .boxFront {
+  fill: var(--color-maroon);
+}
+
+.carA .boxRight {
+  fill: var(--color-maroon-deep);
+}
+
+.carA .boxTop {
+  fill: #b34348;
+}
+
+.carB .boxFront {
+  fill: var(--color-stone);
+}
+
+.carB .boxRight {
+  fill: #6f6a63;
+}
+
+.carB .boxTop {
+  fill: #9a958d;
+}
+
+/* dimensions ---------------------------------------------------------------- */
+
+.dimLine {
+  stroke: rgba(28, 26, 25, 0.4);
+  stroke-width: 1.2;
+  stroke-dasharray: 2 6;
+}
+
+.dimBar {
+  stroke: var(--color-maroon);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.dimText {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  fill: var(--color-maroon);
+}
+
+/* callouts ------------------------------------------------------------------- */
+
+.calloutLine {
+  stroke: var(--color-charcoal);
+  stroke-width: 1.2;
+}
+
+.calloutDot {
+  fill: var(--color-maroon);
+}
+
+.calloutText {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  fill: var(--color-charcoal);
+}
+
+/* north arrow + scale ----------------------------------------------------------- */
+
+.northCircle {
+  fill: none;
+  stroke: var(--color-charcoal);
+  stroke-width: 1.5;
+}
+
+.northNeedle {
+  fill: var(--color-charcoal);
+  stroke: var(--color-charcoal);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.northText {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 18px;
+  fill: var(--color-charcoal);
+}
+
+.scaleBar {
+  stroke: var(--color-charcoal);
+  stroke-width: 2;
+}
+
+.scaleTick {
+  stroke: var(--color-charcoal);
+  stroke-width: 1.5;
+}
+
+.scaleText {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  fill: var(--color-charcoal);
+}
+
+/* overlays ------------------------------------------------------------- */
+
+.plateRef,
+.figureRef,
+.captionLine,
+.notToScale {
+  position: absolute;
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.plateRef {
+  top: var(--space-3xl);
+  left: var(--space-4xl);
+  color: var(--color-charcoal);
+}
+
+.figureRef {
+  top: var(--space-3xl);
+  right: var(--space-4xl);
+  color: var(--color-stone);
+}
+
+.captionLine {
+  bottom: var(--space-3xl);
+  left: var(--space-4xl);
+  color: var(--color-maroon);
+}
+
+.notToScale {
+  bottom: var(--space-3xl);
+  right: var(--space-4xl);
+  color: var(--color-stone);
+}
+
+/* crop marks ------------------------------------------------------------ */
+
+.cropTopLeft,
+.cropTopRight,
+.cropBottomLeft,
+.cropBottomRight {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  z-index: 3;
+}
+
+.cropTopLeft {
+  top: var(--space-md);
+  left: var(--space-md);
+  border-top: 2px solid var(--color-charcoal);
+  border-left: 2px solid var(--color-charcoal);
+}
+
+.cropTopRight {
+  top: var(--space-md);
+  right: var(--space-md);
+  border-top: 2px solid var(--color-charcoal);
+  border-right: 2px solid var(--color-charcoal);
+}
+
+.cropBottomLeft {
+  bottom: var(--space-md);
+  left: var(--space-md);
+  border-bottom: 2px solid var(--color-charcoal);
+  border-left: 2px solid var(--color-charcoal);
+}
+
+.cropBottomRight {
+  bottom: var(--space-md);
+  right: var(--space-md);
+  border-bottom: 2px solid var(--color-charcoal);
+  border-right: 2px solid var(--color-charcoal);
+}
+
+/* assemble-on sequence ----------------------------------------------------- */
+
+.rise,
+.fade,
+.pop {
+  --s: 0;
+}
+
+.rise {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity var(--duration-reveal) var(--ease-standard),
+    transform var(--duration-reveal) var(--ease-standard);
+  transition-delay: calc(var(--s) * 70ms);
+}
+
+.fade {
+  opacity: 0;
+  transition: opacity var(--duration-reveal) var(--ease-standard);
+  transition-delay: calc(var(--s) * 70ms);
+}
+
+.pop {
+  opacity: 0;
+  transform: scale(0.5);
+  transition:
+    opacity 700ms var(--ease-standard),
+    transform 700ms var(--ease-standard);
+  transition-delay: calc(var(--s) * 70ms);
+}
+
+.drawn .rise,
+.drawn .fade,
+.drawn .pop {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .fade,
+  .pop {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .plate {
+    margin-top: var(--space-3xl);
+  }
+
+  .plateRef {
+    top: var(--space-2xl);
+    left: var(--space-3xl);
+  }
+
+  .figureRef {
+    top: var(--space-2xl);
+    right: var(--space-3xl);
+  }
+
+  .captionLine {
+    bottom: var(--space-2xl);
+    left: var(--space-3xl);
+  }
+
+  .notToScale {
+    bottom: var(--space-2xl);
+    right: var(--space-3xl);
+  }
+}
