@@ -1,0 +1,38 @@
+.section {
+  background-color: var(--color-ivory);
+  padding-block: var(--space-5xl) var(--space-10xl);
+}
+
+.numeral {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-metric);
+  line-height: 1;
+  color: var(--color-gold);
+}
+
+.eyebrow {
+  margin-top: var(--space-4xl);
+}
+
+.heading {
+  margin-top: var(--space-4xl);
+}
+
+.statement {
+  margin: var(--space-5xl) 0 0;
+  max-width: 52ch;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--color-charcoal);
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--space-4xl) var(--space-8xl);
+  }
+}

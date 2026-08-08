@@ -1,0 +1,15 @@
+.section {
+  background-color: var(--color-ivory);
+  padding-block: var(--space-10xl) var(--space-12xl);
+}
+
+.heading {
+  margin-top: var(--space-4xl);
+  margin-bottom: var(--space-6xl);
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--space-8xl);
+  }
+}

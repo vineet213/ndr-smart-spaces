@@ -1,0 +1,94 @@
+.section {
+  background-color: var(--color-ivory);
+}
+
+/* document cover ---------------------------------------------------------- */
+
+.folio {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding-block: var(--space-md);
+  border-block: 1px solid var(--color-hairline-light);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+.title {
+  margin: 0;
+  max-width: 16ch;
+  padding-top: var(--space-9xl);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: var(--color-charcoal);
+}
+
+.accent {
+  color: var(--color-maroon);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-md);
+  margin: var(--space-6xl) 0 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+.rule {
+  display: block;
+  height: 1px;
+  margin-top: var(--space-8xl);
+  background-color: var(--color-gold);
+}
+
+/* slim document header ---------------------------------------------------- */
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+.slimTitle {
+  max-width: 20ch;
+  padding-top: var(--space-4xl);
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  line-height: 1.02;
+}
+
+@media (max-width: 767px) {
+  .folio {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .title {
+    padding-top: var(--space-7xl);
+  }
+
+  .rule {
+    margin-top: var(--space-6xl);
+  }
+}

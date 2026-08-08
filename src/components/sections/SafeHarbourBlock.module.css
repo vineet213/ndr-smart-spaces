@@ -1,0 +1,29 @@
+.section {
+  background-color: var(--color-ivory);
+  padding-block: var(--space-8xl);
+  border-block-start: 1px solid var(--color-hairline-light);
+}
+
+.eyebrow {
+  margin: 0;
+}
+
+.heading {
+  margin-top: var(--space-4xl);
+  font-size: var(--font-h3);
+}
+
+.paragraph {
+  margin: var(--space-4xl) 0 0;
+  max-width: 64ch;
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--space-6xl);
+  }
+}

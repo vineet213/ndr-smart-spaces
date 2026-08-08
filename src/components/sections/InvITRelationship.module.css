@@ -1,0 +1,40 @@
+.section {
+  background-color: var(--color-ivory-dim);
+  padding-block: var(--space-10xl);
+}
+
+.numeral {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-metric);
+  line-height: 1;
+  color: var(--color-gold);
+}
+
+.eyebrow {
+  margin-top: var(--space-4xl);
+}
+
+.heading {
+  margin-top: var(--space-4xl);
+}
+
+.body {
+  margin-top: var(--space-4xl);
+  max-width: 56rem;
+}
+
+.linkRow {
+  margin-top: var(--space-6xl);
+}
+
+.note {
+  margin-top: var(--space-6xl);
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--space-8xl);
+  }
+}
