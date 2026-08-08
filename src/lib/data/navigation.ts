@@ -40,6 +40,7 @@ export const headerCta = {
 } as const;
 
 export const navItems: NavItem[] = [
+  { type: "link", label: "Home", href: "/en" },
   { type: "link", label: "About Us", href: "/en/about-us" },
   {
     type: "menu",

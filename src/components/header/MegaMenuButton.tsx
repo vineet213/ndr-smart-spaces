@@ -1,96 +1,164 @@
-import { useEffect, useRef, useState } from "react";
+"use client";
+
+import { useCallback, useEffect, useRef } from "react";
 import { useId } from "react";
-import { useDisclosure } from "@/hooks/useDisclosure";
 import { Icon } from "../ui/Icon";
 import { VisuallyHidden } from "../ui/VisuallyHidden";
 import { cx } from "../ui/cx";
 import { isActivePath, type NavMenu } from "@/lib/data/navigation";
 import styles from "./MegaMenu.module.css";
 
+const OPEN_INTENT_MS = 150;
+const CLOSE_GRACE_MS = 80;
+
 type MegaMenuButtonProps = {
   menu: NavMenu;
   isActive: boolean;
   pathname: string;
+  open: boolean;
+  onOpen: () => void;
+  onClose: () => void;
 };
 
-export function MegaMenuButton({ menu, isActive, pathname }: MegaMenuButtonProps) {
-  const { open, toggle, setOpen } = useDisclosure(false);
-  const [suppressed, setSuppressed] = useState(false);
+/**
+ * The megamenu trigger. One dropdown may be open at a time — the active id is
+ * owned by MainNav and passed down, so opening this item closes every other.
+ * Hover opening runs a 150 ms intent delay; closing a short grace period. The
+ * panel is driven exclusively by the `open` class (never CSS `:hover`), so the
+ * visible state always matches `aria-expanded`.
+ */
+export function MegaMenuButton({
+  menu,
+  isActive,
+  pathname,
+  open,
+  onOpen,
+  onClose,
+}: MegaMenuButtonProps) {
   const itemRef = useRef<HTMLLIElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const suppressRef = useRef(false);
   const panelId = useId();
+
+  const cancelOpen = useCallback(() => {
+    if (openTimer.current) {
+      clearTimeout(openTimer.current);
+      openTimer.current = null;
+    }
+  }, []);
+
+  const cancelClose = useCallback(() => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  }, []);
+
+  const clearTimers = useCallback(() => {
+    cancelOpen();
+    cancelClose();
+  }, [cancelOpen, cancelClose]);
+
+  const openNow = useCallback(() => {
+    suppressRef.current = false;
+    clearTimers();
+    onOpen();
+  }, [onOpen, clearTimers]);
+
+  const openIntent = useCallback(() => {
+    if (suppressRef.current) return;
+    cancelClose();
+    if (open) return;
+    cancelOpen();
+    openTimer.current = setTimeout(() => {
+      openTimer.current = null;
+      onOpen();
+    }, OPEN_INTENT_MS);
+  }, [open, onOpen, cancelOpen, cancelClose]);
+
+  const closeIntent = useCallback(() => {
+    cancelOpen();
+    const node = itemRef.current;
+    if (node && node.contains(document.activeElement)) return;
+    cancelClose();
+    closeTimer.current = setTimeout(() => {
+      closeTimer.current = null;
+      onClose();
+    }, CLOSE_GRACE_MS);
+  }, [onClose, cancelOpen, cancelClose]);
+
+  const handleTriggerClick = useCallback(() => {
+    suppressRef.current = false;
+    clearTimers();
+    if (open) onClose();
+    else onOpen();
+  }, [open, onOpen, onClose, clearTimers]);
+
+  const handleTriggerKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        handleTriggerClick();
+      } else if (event.key === "Escape") {
+        suppressRef.current = true;
+        clearTimers();
+        onClose();
+        triggerRef.current?.focus();
+      } else if (event.key === "ArrowDown" && !open) {
+        event.preventDefault();
+        openNow();
+      }
+    },
+    [handleTriggerClick, onClose, openNow, open, clearTimers],
+  );
+
+  const handleFocusCapture = useCallback(
+    (event: React.FocusEvent<HTMLLIElement>) => {
+      const target = event.target as Element;
+      if (target !== triggerRef.current) {
+        openNow();
+      }
+    },
+    [openNow],
+  );
+
+  const handleBlur = useCallback(
+    (event: React.FocusEvent<HTMLLIElement>) => {
+      const next = event.relatedTarget as Node | null;
+      if (itemRef.current && next && itemRef.current.contains(next)) return;
+      clearTimers();
+      onClose();
+    },
+    [onClose, clearTimers],
+  );
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!window.matchMedia("(min-width: 80rem)").matches) return;
 
-    const node = itemRef.current;
     const onPointerDown = (event: PointerEvent) => {
+      const node = itemRef.current;
       if (node && !node.contains(event.target as Node)) {
-        setSuppressed(false);
-      }
-    };
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setOpen(false);
-        setSuppressed(true);
-        triggerRef.current?.focus();
+        suppressRef.current = false;
+        clearTimers();
+        onClose();
       }
     };
 
     document.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [setOpen]);
-
-  const handleTriggerClick = () => {
-    setSuppressed(false);
-    toggle();
-  };
-
-  const handleTriggerKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      setSuppressed(false);
-      toggle();
-    }
-  };
-
-  const handleFocusCapture = (event: React.FocusEvent<HTMLLIElement>) => {
-    const target = event.target as Element;
-    if (target !== triggerRef.current) {
-      setSuppressed(false);
-    }
-  };
-
-  const handleBlur = (event: React.FocusEvent<HTMLLIElement>) => {
-    const next = event.relatedTarget as Node | null;
-    if (itemRef.current && next && itemRef.current.contains(next)) return;
-    setOpen(false);
-  };
-
-  const handleMouseEnter = () => {
-    setSuppressed(false);
-    setOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    if (itemRef.current && !itemRef.current.contains(document.activeElement)) {
-      setOpen(false);
-    }
-  };
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [onClose, clearTimers]);
 
   return (
     <li
       ref={itemRef}
-      className={cx(styles.item, open && styles.itemOpen, suppressed && styles.itemSuppressed)}
+      className={cx(styles.item, open && styles.itemOpen)}
+      onMouseEnter={openIntent}
+      onMouseLeave={closeIntent}
       onFocusCapture={handleFocusCapture}
       onBlurCapture={handleBlur}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       <button
         ref={triggerRef}

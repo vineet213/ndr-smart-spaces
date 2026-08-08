@@ -1,0 +1,102 @@
+.legend {
+  border-top: 1px solid var(--color-hairline-light);
+}
+
+.label {
+  display: block;
+  padding-top: var(--space-3xl);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+.rows {
+  margin: 0;
+  list-style: none;
+}
+
+.cell {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: var(--space-lg);
+  padding-block: var(--space-lg);
+  border-top: 1px solid var(--color-hairline-light);
+}
+
+.text {
+  min-width: 0;
+}
+
+.mark {
+  margin-top: 6px;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--color-gold);
+}
+
+.name {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-charcoal);
+}
+
+.chapter {
+  margin-right: var(--space-sm);
+  color: var(--color-maroon);
+  font-variant-numeric: tabular-nums;
+}
+
+.fact {
+  display: block;
+  margin-top: var(--space-xs);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-stone);
+}
+
+.count {
+  text-align: right;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-charcoal);
+}
+
+.countUnit {
+  display: block;
+  margin-top: var(--space-xs);
+  font-size: var(--font-meta);
+  font-weight: var(--font-weight-body-regular);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+@media (max-width: 767px) {
+  .label {
+    padding-top: var(--space-2xl);
+  }
+
+  .cell {
+    padding-block: var(--space-md);
+  }
+
+  .fact {
+    display: none;
+  }
+}

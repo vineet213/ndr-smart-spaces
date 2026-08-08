@@ -13,7 +13,7 @@ export type AboutHeroStat = {
 };
 
 export const aboutHero = {
-  eyebrow: "About NDR Smart Spaces · Est. 1954",
+  eyebrow: "About NDR Smart Spaces · Est. 2025",
   headline: "From a rice mill to ",
   headlineAccent: "institutional infrastructure.",
   lede: "NDR Smart Spaces is a diversified infrastructure organization focused on developing, owning, and managing high-quality industrial, commercial and institutional assets.",

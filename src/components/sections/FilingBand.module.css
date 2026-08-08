@@ -1,0 +1,370 @@
+.band {
+  background-color: var(--color-ivory);
+  border-top: 1px solid var(--color-hairline-light);
+  border-bottom: 1px solid var(--color-hairline-light);
+  padding-block: var(--space-7xl) var(--space-6xl);
+}
+
+/* chapter header ------------------------------------------------------ */
+
+.divider {
+  display: block;
+  height: 2px;
+  background-color: var(--color-charcoal);
+}
+
+.chapterMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--color-hairline-light);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+}
+
+.chapterRef {
+  color: var(--color-maroon);
+}
+
+.chapterRun {
+  color: var(--color-stone);
+  font-variant-numeric: tabular-nums;
+}
+
+.heading {
+  position: relative;
+  max-width: 52rem;
+  margin-top: var(--space-6xl);
+}
+
+.chapter {
+  position: absolute;
+  top: -0.4em;
+  right: -0.06em;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(5rem, 12vw, 10rem);
+  line-height: 1;
+  color: rgba(28, 26, 25, 0.05);
+  pointer-events: none;
+  user-select: none;
+}
+
+.title {
+  position: relative;
+  max-width: 18ch;
+  font-size: clamp(2.75rem, 5.5vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+
+.framing {
+  position: relative;
+  max-width: 40rem;
+  margin: var(--space-xl) 0 0;
+  color: var(--color-stone);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+}
+
+/* ledger -------------------------------------------------------------- */
+
+.ledger {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: var(--space-6xl) 0 0;
+  padding: 0;
+  border-top: 2px solid var(--color-charcoal);
+}
+
+.record {
+  min-width: 0;
+}
+
+.recordFiled {
+  grid-column: 1 / -1;
+  padding-block: var(--space-6xl);
+  border-bottom: 1px solid var(--color-hairline-light);
+}
+
+.recordPending {
+  padding: var(--space-3xl) var(--space-xl) var(--space-4xl);
+}
+
+.recordPending + .recordPending {
+  border-left: 1px solid var(--color-hairline-light);
+}
+
+.recordHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-lg);
+}
+
+.recordNumeral {
+  flex: none;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  color: rgba(28, 26, 25, 0.08);
+  font-variant-numeric: tabular-nums;
+}
+
+.recordFiled .recordNumeral {
+  font-size: clamp(3rem, 4.5vw, 4rem);
+  line-height: 1;
+}
+
+.recordPending .recordNumeral {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  color: var(--color-maroon);
+}
+
+.recordZone {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.recordFiled .recordZone {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+}
+
+.recordPending .recordZone {
+  font-size: var(--font-h3);
+  color: var(--color-stone);
+}
+
+.recordRange {
+  margin-left: auto;
+  color: var(--color-gold);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.recordCount {
+  margin-left: auto;
+  color: var(--color-stone);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+}
+
+.recordFact {
+  margin: var(--space-3xl) 0 0;
+  max-width: 36rem;
+  color: var(--color-stone);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+}
+
+.recordMeta {
+  margin: var(--space-3xl) 0 0;
+}
+
+.metaRows {
+  margin: 0;
+  border-top: 1px solid var(--color-hairline-light);
+}
+
+.metaRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding-block: var(--space-sm);
+  border-bottom: 1px solid var(--color-hairline-light);
+}
+
+.metaRow dt {
+  color: var(--color-stone);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+}
+
+.metaRow dd {
+  margin: 0;
+  color: var(--color-charcoal);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+}
+
+.recordPending .metaRow dd {
+  color: var(--color-stone);
+}
+
+.recordFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  margin-top: var(--space-4xl);
+  padding-top: var(--space-3xl);
+  border-top: 1px solid var(--color-hairline-light);
+}
+
+.recordPending .recordFoot {
+  margin-top: var(--space-3xl);
+  padding-top: var(--space-2xl);
+}
+
+.statusTag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+}
+
+.statusMark {
+  flex: none;
+  width: 8px;
+  height: 8px;
+}
+
+.statusFiled {
+  color: var(--color-charcoal);
+  font-variant-numeric: tabular-nums;
+}
+
+.statusFiled .statusMark {
+  background-color: var(--color-gold);
+  border: 1px solid var(--color-gold);
+}
+
+.statusPending {
+  color: var(--color-stone);
+}
+
+.statusPending .statusMark {
+  border: 1px solid rgba(28, 26, 25, 0.35);
+}
+
+/* register handoff ---------------------------------------------------- */
+
+.docket {
+  margin-top: var(--space-8xl);
+  padding-top: var(--space-4xl);
+  border-top: 1px solid var(--color-hairline-light);
+}
+
+.docketRefs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5xl) var(--space-8xl);
+  margin: 0;
+}
+
+.docketRef {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.docketRef dt {
+  color: var(--color-maroon);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+}
+
+.docketRef dd {
+  margin: 0;
+  color: var(--color-stone);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+}
+
+.docketRefStrong dd {
+  color: var(--color-charcoal);
+}
+
+.docketLink {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-4xl);
+  padding-top: var(--space-3xl);
+  border-top: 2px solid var(--color-charcoal);
+}
+
+/* --------------------------------------------------------------------- */
+/* responsive                                                           */
+/* --------------------------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  .ledger {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .recordFiled {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 767px) {
+  .band {
+    padding-block: var(--space-6xl) var(--space-5xl);
+  }
+
+  .heading {
+    margin-top: var(--space-5xl);
+  }
+
+  .ledger {
+    grid-template-columns: 1fr;
+    margin-top: var(--space-6xl);
+  }
+
+  .recordFiled {
+    padding-block: var(--space-4xl);
+  }
+
+  .recordPending + .recordPending {
+    border-left: none;
+  }
+
+  .docketLink {
+    justify-content: flex-start;
+  }
+}

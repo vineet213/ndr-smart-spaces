@@ -1,5 +1,5 @@
 export const hero = {
-  eyebrow: "NDR Smart Spaces · Est. 1954",
+  eyebrow: "NDR Smart Spaces · Est. 2025",
   headline: "From land to listed assets.",
   subhead:
     "A diversified infrastructure organization developing, owning and managing institutional-grade industrial, commercial and institutional assets across India — and the development platform behind NDR InvIT, India's first warehousing InvIT.",

@@ -1,0 +1,140 @@
+.wrapper {
+  width: 100%;
+}
+
+.map {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1020 / 1090;
+}
+
+.coordinates text {
+  fill: rgba(28, 26, 25, 0.45);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: var(--font-weight-body-medium);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+
+.graticule line {
+  stroke: var(--color-charcoal);
+  stroke-width: 1;
+  opacity: 0.05;
+}
+
+.ticks line {
+  stroke: rgba(28, 26, 25, 0.5);
+  stroke-width: 1;
+}
+
+.outline {
+  fill: var(--color-ivory);
+  stroke: rgba(28, 26, 25, 0.5);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.leader {
+  stroke: rgba(28, 26, 25, 0.3);
+  stroke-width: 1;
+}
+
+.anchor {
+  fill: rgba(28, 26, 25, 0.45);
+}
+
+.zoneFrame {
+  fill: rgba(240, 182, 90, 0.07);
+  stroke: rgba(28, 26, 25, 0.34);
+  stroke-width: 1.5;
+}
+
+.nodes > g {
+  opacity: 0;
+  transition: opacity 600ms var(--ease-standard);
+  transition-delay: calc(var(--i, 0) * 60ms);
+}
+
+.isInView .nodes > g {
+  opacity: 1;
+}
+
+.ringHq {
+  fill: rgba(240, 182, 90, 0.12);
+  stroke: var(--color-gold);
+  stroke-width: 2;
+}
+
+.dotHq {
+  fill: var(--color-maroon);
+}
+
+.dotHub {
+  fill: var(--color-gold);
+  stroke: var(--color-ivory);
+  stroke-width: 1.5;
+}
+
+.dotSat {
+  fill: transparent;
+  stroke: rgba(28, 26, 25, 0.6);
+  stroke-width: 1.5;
+}
+
+.dotAsset {
+  fill: var(--color-gold);
+  stroke: rgba(28, 26, 25, 0.55);
+  stroke-width: 1.5;
+}
+
+.plateRef rect {
+  fill: var(--color-ivory);
+  stroke: rgba(28, 26, 25, 0.5);
+  stroke-width: 1;
+}
+
+.plateRefText {
+  fill: rgba(28, 26, 25, 0.8);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: var(--font-weight-body-medium);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+
+.zoneTagLine {
+  stroke: rgba(28, 26, 25, 0.45);
+  stroke-width: 1;
+}
+
+.zoneTagText {
+  fill: rgba(28, 26, 25, 0.72);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: var(--font-weight-body-medium);
+  letter-spacing: 0.14em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nodes > g {
+    opacity: 1;
+    transition: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .map {
+    width: min(100%, 32rem);
+    height: auto;
+    margin-inline: auto;
+  }
+
+  .nodes,
+  .leaders,
+  .zoneTags {
+    display: none;
+  }
+}

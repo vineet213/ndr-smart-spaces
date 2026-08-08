@@ -1,9 +1,16 @@
 .reveal {
   opacity: 0;
-  transform: translateY(var(--space-5xl));
   transition:
     opacity var(--duration-reveal) var(--ease-standard),
     transform var(--duration-reveal) var(--ease-standard);
+}
+
+.rise {
+  transform: translateY(var(--space-3xl));
+}
+
+.fade {
+  transform: translateY(var(--space-lg));
 }
 
 .isInView {
@@ -33,4 +40,12 @@
 
 .d400 {
   transition-delay: 400ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

@@ -6,6 +6,7 @@ import styles from "./Reveal.module.css";
 import { cx } from "../ui/cx";
 
 export type RevealDelay = 0 | 1 | 2 | 3 | 4 | 5;
+export type RevealVariant = "rise" | "fade";
 
 const delayClass: Record<RevealDelay, string> = {
   0: styles.d0,
@@ -16,20 +17,38 @@ const delayClass: Record<RevealDelay, string> = {
   5: styles.d400,
 };
 
+const variantClass: Record<RevealVariant, string> = {
+  rise: styles.rise,
+  fade: styles.fade,
+};
+
 type RevealProps = {
   as?: ElementType;
   delay?: RevealDelay;
+  variant?: RevealVariant;
   className?: string;
   children: ReactNode;
 };
 
-export function Reveal({ as: Tag = "div", delay = 0, className, children }: RevealProps) {
+export function Reveal({
+  as: Tag = "div",
+  delay = 0,
+  variant = "rise",
+  className,
+  children,
+}: RevealProps) {
   const { ref, inView } = useInView<HTMLDivElement>();
 
   return (
     <Tag
       ref={ref}
-      className={cx(styles.reveal, delayClass[delay], inView && styles.isInView, className)}
+      className={cx(
+        styles.reveal,
+        variantClass[variant],
+        delayClass[delay],
+        inView && styles.isInView,
+        className,
+      )}
     >
       {children}
     </Tag>

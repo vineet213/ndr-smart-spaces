@@ -80,20 +80,11 @@
   right: 0;
 }
 
-.item:hover .panel,
-.item:has([aria-expanded="true"]) .panel,
-.item:focus-within .panel {
+.itemOpen .panel {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
   transition-delay: var(--duration-micro);
-}
-
-.itemSuppressed:focus-within:not(:hover) .panel {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-0.5rem);
-  transition-delay: 0ms;
 }
 
 .columns {
