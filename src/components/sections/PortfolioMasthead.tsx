@@ -15,9 +15,17 @@ export function PortfolioMasthead() {
       <Container className={styles.container}>
         <Reveal>
           <div className={styles.cover}>
-            <span className={styles.reference} aria-hidden="true">
-              PL.001
-            </span>
+            <div className={styles.folio} aria-hidden="true">
+              <span className={styles.folioCell}>
+                <span className={styles.folioRef}>PL.001</span>
+              </span>
+              <span className={styles.folioCell}>
+                <span className={styles.folioRun}>{plateRange}</span>
+              </span>
+              <span className={styles.folioCell}>
+                <span className={styles.folioEdition}>{portfolioMasthead.editionPeriod}</span>
+              </span>
+            </div>
             <Eyebrow className={styles.eyebrow}>{portfolioMasthead.eyebrow}</Eyebrow>
             <span className={styles.ruleTop} aria-hidden="true" />
             <Heading variant="hero" id="portfolio-masthead-title" className={styles.title}>

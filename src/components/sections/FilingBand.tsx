@@ -125,7 +125,7 @@ export function FilingBand() {
               </div>
             </dl>
             <div className={styles.docketLink}>
-              <TextLink href="/en/portfolio#register">
+              <TextLink href="/en/portfolio#register" tone="dark">
                 {filingBand.handoffPrefix} {filingBand.handoffSuffix}
                 <Icon name="arrow-right" size="sm" />
               </TextLink>

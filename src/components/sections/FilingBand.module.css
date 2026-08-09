@@ -1,7 +1,8 @@
 .band {
-  background-color: var(--color-ivory);
-  border-top: 1px solid var(--color-hairline-light);
-  border-bottom: 1px solid var(--color-hairline-light);
+  background-color: var(--color-charcoal);
+  color: var(--color-ivory);
+  border-top: 1px solid rgba(240, 182, 90, 0.2);
+  border-bottom: 1px solid rgba(240, 182, 90, 0.2);
   padding-block: var(--space-7xl) var(--space-6xl);
 }
 
@@ -10,7 +11,7 @@
 .divider {
   display: block;
   height: 2px;
-  background-color: var(--color-charcoal);
+  background: linear-gradient(90deg, var(--color-gold) 0%, rgba(240, 182, 90, 0.12) 100%);
 }
 
 .chapterMeta {
@@ -21,7 +22,7 @@
   gap: var(--space-lg);
   margin-top: var(--space-lg);
   padding-bottom: var(--space-lg);
-  border-bottom: 1px solid var(--color-hairline-light);
+  border-bottom: 1px solid rgba(250, 247, 242, 0.18);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
@@ -31,11 +32,11 @@
 }
 
 .chapterRef {
-  color: var(--color-maroon);
+  color: var(--color-gold);
 }
 
 .chapterRun {
-  color: var(--color-stone);
+  color: rgba(250, 247, 242, 0.7);
   font-variant-numeric: tabular-nums;
 }
 
@@ -53,7 +54,7 @@
   font-weight: var(--font-weight-display-light);
   font-size: clamp(5rem, 12vw, 10rem);
   line-height: 1;
-  color: rgba(28, 26, 25, 0.05);
+  color: rgba(240, 182, 90, 0.1);
   pointer-events: none;
   user-select: none;
 }
@@ -64,13 +65,14 @@
   font-size: clamp(2.75rem, 5.5vw, 5rem);
   line-height: 1.05;
   letter-spacing: -0.015em;
+  color: var(--color-ivory);
 }
 
 .framing {
   position: relative;
   max-width: 40rem;
   margin: var(--space-xl) 0 0;
-  color: var(--color-stone);
+  color: rgba(250, 247, 242, 0.75);
   font-size: var(--font-body-size);
   line-height: var(--leading-body);
 }
@@ -82,7 +84,7 @@
   grid-template-columns: repeat(3, 1fr);
   margin: var(--space-6xl) 0 0;
   padding: 0;
-  border-top: 2px solid var(--color-charcoal);
+  border-top: 2px solid var(--color-gold);
 }
 
 .record {
@@ -92,27 +94,46 @@
 
 .recordTab {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 1.5rem;
+  top: -0.9rem;
+  right: var(--space-4xl);
+  width: 3rem;
   height: 1.5rem;
-  border-left: 1px solid var(--color-hairline-light);
-  border-bottom: 1px solid var(--color-hairline-light);
-  background-color: rgba(240, 182, 90, 0.1);
+  border: 1px solid var(--color-charcoal);
+  background-color: var(--color-gold);
 }
+
+/* filed record — the folder ------------------------------------------- */
 
 .recordFiled {
   grid-column: 1 / -1;
-  padding-block: var(--space-6xl);
-  border-bottom: 1px solid var(--color-hairline-light);
+  margin-block: var(--space-5xl) var(--space-3xl);
+  padding: var(--space-4xl) var(--space-5xl);
+  border: 1px solid rgba(240, 182, 90, 0.55);
+  background-color: var(--color-ivory);
+  color: var(--color-charcoal);
 }
+
+.recordFiled .recordTab {
+  background-color: var(--color-gold);
+}
+
+/* pending record — documentation in preparation ----------------------- */
 
 .recordPending {
   padding: var(--space-3xl) var(--space-xl) var(--space-4xl);
+  border: 1px dashed rgba(250, 247, 242, 0.28);
+  background-color: rgba(250, 247, 242, 0.03);
 }
 
 .recordPending + .recordPending {
-  border-left: 1px solid var(--color-hairline-light);
+  border-left: 1px dashed rgba(250, 247, 242, 0.2);
+}
+
+.recordPending .recordTab {
+  top: -0.9rem;
+  width: 2.25rem;
+  border: 1px dashed rgba(250, 247, 242, 0.35);
+  background-color: transparent;
 }
 
 .recordHead {
@@ -126,13 +147,13 @@
   flex: none;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);
-  color: rgba(28, 26, 25, 0.08);
   font-variant-numeric: tabular-nums;
 }
 
 .recordFiled .recordNumeral {
   font-size: clamp(3rem, 4.5vw, 4rem);
   line-height: 1;
+  color: rgba(28, 26, 25, 0.08);
 }
 
 .recordPending .recordNumeral {
@@ -141,7 +162,7 @@
   font-size: var(--font-meta);
   line-height: var(--leading-meta);
   letter-spacing: var(--tracking-meta);
-  color: var(--color-maroon);
+  color: var(--color-gold);
 }
 
 .recordZone {
@@ -153,16 +174,17 @@
 
 .recordFiled .recordZone {
   font-size: clamp(2rem, 3.5vw, 3rem);
+  color: var(--color-charcoal);
 }
 
 .recordPending .recordZone {
   font-size: var(--font-h3);
-  color: var(--color-stone);
+  color: rgba(250, 247, 242, 0.85);
 }
 
 .recordRange {
   margin-left: auto;
-  color: var(--color-gold);
+  color: var(--color-maroon);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-small);
@@ -174,7 +196,7 @@
 
 .recordCount {
   margin-left: auto;
-  color: var(--color-stone);
+  color: rgba(250, 247, 242, 0.6);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
@@ -197,7 +219,7 @@
 
 .metaRows {
   margin: 0;
-  border-top: 1px solid var(--color-hairline-light);
+  border-top: 1px solid rgba(250, 247, 242, 0.16);
 }
 
 .metaRow {
@@ -206,11 +228,11 @@
   justify-content: space-between;
   gap: var(--space-lg);
   padding-block: var(--space-sm);
-  border-bottom: 1px solid var(--color-hairline-light);
+  border-bottom: 1px solid rgba(250, 247, 242, 0.12);
 }
 
 .metaRow dt {
-  color: var(--color-stone);
+  color: rgba(250, 247, 242, 0.6);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
@@ -221,17 +243,14 @@
 
 .metaRow dd {
   margin: 0;
-  color: var(--color-charcoal);
+  color: rgba(250, 247, 242, 0.85);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
   line-height: var(--leading-meta);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
-}
-
-.recordPending .metaRow dd {
-  color: var(--color-stone);
+  font-variant-numeric: tabular-nums;
 }
 
 .recordFoot {
@@ -248,6 +267,7 @@
 .recordPending .recordFoot {
   margin-top: var(--space-3xl);
   padding-top: var(--space-2xl);
+  border-top: 1px solid rgba(250, 247, 242, 0.16);
 }
 
 .statusTag {
@@ -279,11 +299,11 @@
 }
 
 .statusPending {
-  color: var(--color-stone);
+  color: rgba(250, 247, 242, 0.6);
 }
 
 .statusPending .statusMark {
-  border: 1px solid rgba(28, 26, 25, 0.35);
+  border: 1px dashed rgba(250, 247, 242, 0.4);
 }
 
 /* register handoff ---------------------------------------------------- */
@@ -291,7 +311,7 @@
 .docket {
   margin-top: var(--space-8xl);
   padding-top: var(--space-4xl);
-  border-top: 1px solid var(--color-hairline-light);
+  border-top: 1px solid rgba(250, 247, 242, 0.18);
 }
 
 .docketRefs {
@@ -308,7 +328,7 @@
 }
 
 .docketRef dt {
-  color: var(--color-maroon);
+  color: var(--color-gold);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
@@ -319,7 +339,7 @@
 
 .docketRef dd {
   margin: 0;
-  color: var(--color-stone);
+  color: rgba(250, 247, 242, 0.7);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
@@ -329,7 +349,7 @@
 }
 
 .docketRefStrong dd {
-  color: var(--color-charcoal);
+  color: var(--color-ivory);
 }
 
 .docketLink {
@@ -337,7 +357,7 @@
   justify-content: flex-end;
   margin-top: var(--space-4xl);
   padding-top: var(--space-3xl);
-  border-top: 2px solid var(--color-charcoal);
+  border-top: 2px solid var(--color-gold);
 }
 
 /* --------------------------------------------------------------------- */
@@ -369,11 +389,13 @@
   }
 
   .recordFiled {
-    padding-block: var(--space-4xl);
+    padding: var(--space-4xl);
+    margin-block: var(--space-5xl) var(--space-2xl);
   }
 
   .recordPending + .recordPending {
     border-left: none;
+    border-top: 1px dashed rgba(250, 247, 242, 0.2);
   }
 
   .docketLink {

@@ -10,6 +10,10 @@ import styles from "./ProjectPlate.module.css";
 export function ProjectPlate({ asset, index }: { asset: PortfolioAsset; index: number }) {
   return (
     <article className={styles.card}>
+      <span className={styles.cropCardTopLeft} aria-hidden="true" />
+      <span className={styles.cropCardTopRight} aria-hidden="true" />
+      <span className={styles.cropCardBottomLeft} aria-hidden="true" />
+      <span className={styles.cropCardBottomRight} aria-hidden="true" />
       <Reveal variant="fade" delay={Math.min(index, 5) as RevealDelay} className={styles.inner}>
         <div className={styles.header}>
           <span className={styles.plateNo}>

@@ -1,14 +1,20 @@
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--color-hairline-light);
+  border: 1px solid rgba(28, 26, 25, 0.42);
   background-color: var(--color-ivory);
   padding: var(--space-xl);
-  transition: border-color var(--duration-standard) var(--ease-standard);
+  transition:
+    border-color var(--duration-standard) var(--ease-standard),
+    box-shadow var(--duration-standard) var(--ease-standard),
+    transform var(--duration-standard) var(--ease-standard);
 }
 
 .card:hover {
   border-color: var(--color-gold-40);
+  box-shadow: var(--color-shadow-warm);
+  transform: translateY(-2px);
 }
 
 .inner {
@@ -17,6 +23,49 @@
   height: 100%;
   width: 100%;
 }
+
+/* card corner marks -------------------------------------------------------- */
+
+.cropCardTopLeft,
+.cropCardTopRight,
+.cropCardBottomLeft,
+.cropCardBottomRight {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.cropCardTopLeft {
+  top: -7px;
+  left: -7px;
+  border-top: 2px solid rgba(28, 26, 25, 0.55);
+  border-left: 2px solid rgba(28, 26, 25, 0.55);
+}
+
+.cropCardTopRight {
+  top: -7px;
+  right: -7px;
+  border-top: 2px solid rgba(28, 26, 25, 0.55);
+  border-right: 2px solid rgba(28, 26, 25, 0.55);
+}
+
+.cropCardBottomLeft {
+  bottom: -7px;
+  left: -7px;
+  border-bottom: 2px solid rgba(28, 26, 25, 0.55);
+  border-left: 2px solid rgba(28, 26, 25, 0.55);
+}
+
+.cropCardBottomRight {
+  bottom: -7px;
+  right: -7px;
+  border-bottom: 2px solid rgba(28, 26, 25, 0.55);
+  border-right: 2px solid rgba(28, 26, 25, 0.55);
+}
+
+/* header ------------------------------------------------------------------- */
 
 .header {
   display: flex;
@@ -50,7 +99,10 @@
 
 .reference {
   margin-left: auto;
-  color: rgba(28, 26, 25, 0.45);
+  padding: var(--space-2xs) var(--space-sm);
+  border: 1px solid var(--color-hairline-light);
+  background-color: var(--color-ivory-dim);
+  color: rgba(28, 26, 25, 0.6);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
@@ -60,6 +112,8 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* media --------------------------------------------------------------------- */
+
 .media {
   position: relative;
   display: flex;
@@ -67,16 +121,25 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-md);
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 5 / 3.6;
   margin-top: var(--space-lg);
-  border: 1px solid rgba(28, 26, 25, 0.4);
+  padding: var(--space-lg);
+  border: 1px solid rgba(28, 26, 25, 0.55);
   background-color: var(--color-ivory-dim);
   overflow: hidden;
   transition: border-color var(--duration-standard) var(--ease-standard);
 }
 
+.media::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(28, 26, 25, 0.16);
+  pointer-events: none;
+}
+
 .card:hover .media {
-  border-color: rgba(28, 26, 25, 0.6);
+  border-color: rgba(28, 26, 25, 0.75);
 }
 
 .mediaMark {
@@ -138,13 +201,6 @@
   color: rgba(240, 182, 90, 0.35);
 }
 
-.media {
-  aspect-ratio: 5 / 3.6;
-  padding: var(--space-lg);
-  border: 1px solid rgba(28, 26, 25, 0.34);
-  box-shadow: inset 0 0 0 1px rgba(240, 182, 90, 0.12);
-}
-
 .cropTopLeft,
 .cropTopRight,
 .cropBottomLeft,
@@ -152,35 +208,38 @@
   position: absolute;
   width: 10px;
   height: 10px;
+  z-index: 1;
 }
 
 .cropTopLeft {
-  top: 4px;
-  left: 4px;
-  border-top: 1px solid rgba(28, 26, 25, 0.5);
-  border-left: 1px solid rgba(28, 26, 25, 0.5);
+  top: 10px;
+  left: 10px;
+  border-top: 2px solid rgba(28, 26, 25, 0.55);
+  border-left: 2px solid rgba(28, 26, 25, 0.55);
 }
 
 .cropTopRight {
-  top: 4px;
-  right: 4px;
-  border-top: 1px solid rgba(28, 26, 25, 0.5);
-  border-right: 1px solid rgba(28, 26, 25, 0.5);
+  top: 10px;
+  right: 10px;
+  border-top: 2px solid rgba(28, 26, 25, 0.55);
+  border-right: 2px solid rgba(28, 26, 25, 0.55);
 }
 
 .cropBottomLeft {
-  bottom: 4px;
-  left: 4px;
-  border-bottom: 1px solid rgba(28, 26, 25, 0.5);
-  border-left: 1px solid rgba(28, 26, 25, 0.5);
+  bottom: 10px;
+  left: 10px;
+  border-bottom: 2px solid rgba(28, 26, 25, 0.55);
+  border-left: 2px solid rgba(28, 26, 25, 0.55);
 }
 
 .cropBottomRight {
-  bottom: 4px;
-  right: 4px;
-  border-bottom: 1px solid rgba(28, 26, 25, 0.5);
-  border-right: 1px solid rgba(28, 26, 25, 0.5);
+  bottom: 10px;
+  right: 10px;
+  border-bottom: 2px solid rgba(28, 26, 25, 0.55);
+  border-right: 2px solid rgba(28, 26, 25, 0.55);
 }
+
+/* facts --------------------------------------------------------------------- */
 
 .name {
   margin-top: var(--space-xl);

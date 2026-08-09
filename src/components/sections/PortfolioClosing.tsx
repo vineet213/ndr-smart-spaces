@@ -1,6 +1,11 @@
 import { Container } from "@/components/layout";
 import { Body, Button, Eyebrow, Heading, TextLink } from "@/components/ui";
-import { portfolioClosing } from "@/lib/data/portfolio";
+import {
+  formatPlateRange,
+  portfolioAssets,
+  portfolioClosing,
+  portfolioMasthead,
+} from "@/lib/data/portfolio";
 import { Reveal } from "./Reveal";
 import styles from "./PortfolioClosing.module.css";
 
@@ -25,10 +30,13 @@ function RegisterMark({ className }: { className?: string }) {
 }
 
 export function PortfolioClosing() {
+  const plateRange = formatPlateRange(portfolioAssets.map((asset) => asset.plate));
+
   return (
     <section className={styles.section} aria-labelledby="portfolio-closing-title">
       <Container>
         <Reveal>
+          <span className={styles.headRule} aria-hidden="true" />
           <RegisterMark className={styles.mark} />
           <Eyebrow tone="dark" className={styles.eyebrow}>
             {portfolioClosing.eyebrow}
@@ -64,6 +72,12 @@ export function PortfolioClosing() {
             >
               {portfolioClosing.tertiaryLink.label}
             </TextLink>
+          </div>
+          <div className={styles.colophon} aria-hidden="true">
+            <span className={styles.colophonCell}>
+              {plateRange} · {portfolioMasthead.editionPeriod}
+            </span>
+            <span className={styles.colophonCell}>{portfolioMasthead.eyebrow}</span>
           </div>
         </Reveal>
       </Container>

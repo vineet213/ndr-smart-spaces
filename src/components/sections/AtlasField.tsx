@@ -71,19 +71,29 @@ export function AtlasField() {
                   <span className={styles.cropBottomRight} aria-hidden="true" />
                   <AtlasMap />
                   <p className={styles.mark}>{atlasField.mark}</p>
-                  <span className={styles.plateNote}>
-                    {plateRange} · {portfolioMasthead.editionPeriod}
-                  </span>
-                  <span className={styles.notToScale}>{atlasField.notToScale}</span>
                   <NorthIndicator className={styles.compass} />
-                  <div className={styles.ledger} aria-hidden="true">
-                    <span className={styles.ledgerItem}>Survey ledger</span>
-                    <span className={styles.ledgerItem}>{plateRange}</span>
-                    <span className={styles.ledgerItem}>{portfolioMasthead.editionPeriod}</span>
-                  </div>
-                  <div className={styles.scaleBar} aria-hidden="true">
-                    <span className={styles.scaleTrack} />
-                    <span className={styles.scaleLabel}>25 km</span>
+                  <div className={styles.titleBlock}>
+                    <div className={styles.titleBlockRow}>
+                      <span className={styles.titleBlockCell}>
+                        <span className={styles.titleBlockLabel}>Survey ledger</span>
+                      </span>
+                      <span className={styles.titleBlockCell}>
+                        <span className={styles.notToScale}>{atlasField.notToScale}</span>
+                      </span>
+                    </div>
+                    <div className={styles.titleBlockRow}>
+                      <span className={styles.titleBlockCell}>
+                        <span className={styles.titleBlockRef}>
+                          {plateRange} · {portfolioMasthead.editionPeriod}
+                        </span>
+                      </span>
+                      <span className={styles.titleBlockCell}>
+                        <span className={styles.scaleBar} aria-hidden="true">
+                          <span className={styles.scaleTrack} />
+                          <span className={styles.scaleLabel}>25 km</span>
+                        </span>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

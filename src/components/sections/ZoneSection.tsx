@@ -28,9 +28,14 @@ export function ZoneSection({ zone }: { zone: GeoZone }) {
             <span className={styles.chapter} aria-hidden="true">
               {ZONE_CHAPTERS[zone.id]}
             </span>
-            <span className={styles.plateRun}>
-              <span className={styles.plateRunLabel}>{plateRange}</span>
-            </span>
+            <div className={styles.runningHead}>
+              <span className={styles.runningHeadLabel}>
+                Chapter {ZONE_CHAPTERS[zone.id]} · {zone.name}
+              </span>
+              <span className={styles.plateRun}>
+                <span className={styles.plateRunLabel}>{plateRange}</span>
+              </span>
+            </div>
             <div className={styles.split}>
               <h2 id={`zone-${zone.id}-title`} className={styles.title}>
                 {zone.name}
@@ -58,6 +63,12 @@ export function ZoneSection({ zone }: { zone: GeoZone }) {
             <span className={styles.handoffCount}>
               {locations.length} {atlasField.locationUnitLabel}
             </span>
+          </div>
+          <div className={styles.chapterFolio} aria-hidden="true">
+            <span>
+              {zone.name} · {plateRange}
+            </span>
+            <span>{ZONE_CHAPTERS[zone.id]}</span>
           </div>
         </Reveal>
       </Container>

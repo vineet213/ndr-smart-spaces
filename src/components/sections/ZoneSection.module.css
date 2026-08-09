@@ -1,5 +1,5 @@
 .zone {
-  padding-block: var(--space-6xl) var(--space-5xl);
+  padding-block: var(--space-8xl) var(--space-7xl);
   background-color: var(--color-ivory);
 }
 
@@ -12,26 +12,51 @@
   display: block;
 }
 
+/* translucent chapter numeral -------------------------------------------- */
+
 .chapter {
   position: absolute;
-  top: var(--space-2xl);
-  left: 0;
+  top: -0.35em;
+  right: -0.02em;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);
-  font-size: clamp(5rem, 12vw, 10rem);
+  font-size: clamp(7rem, 16vw, 14rem);
   line-height: 1;
-  color: rgba(28, 26, 25, 0.05);
+  letter-spacing: -0.02em;
+  color: rgba(28, 26, 25, 0.06);
   font-variant-numeric: tabular-nums;
   pointer-events: none;
   user-select: none;
+}
+
+/* running head ------------------------------------------------------------ */
+
+.runningHead {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md);
+  border-top: 2px solid var(--color-maroon);
+  padding-top: var(--space-md);
+}
+
+.runningHeadLabel {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
 }
 
 .plateRun {
   position: relative;
   z-index: 1;
   display: block;
-  border-top: 2px solid var(--color-maroon);
-  padding-top: var(--space-md);
 }
 
 .plateRunLabel {
@@ -44,6 +69,8 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* split ------------------------------------------------------------------ */
+
 .split {
   position: relative;
   z-index: 1;
@@ -51,7 +78,7 @@
   grid-template-columns: 7fr 5fr;
   gap: var(--space-xl);
   align-items: start;
-  margin-top: var(--space-4xl);
+  margin-top: var(--space-5xl);
 }
 
 .title {
@@ -84,12 +111,16 @@
   line-height: var(--leading-body);
 }
 
+/* plates ------------------------------------------------------------------ */
+
 .platesGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-6xl);
-  margin-top: var(--space-5xl);
+  margin-top: var(--space-6xl);
 }
+
+/* handoff ------------------------------------------------------------------ */
 
 .handoff {
   display: flex;
@@ -97,7 +128,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-md);
-  margin-top: var(--space-4xl);
+  margin-top: var(--space-6xl);
   padding-top: var(--space-3xl);
   border-top: 1px solid var(--color-hairline-light);
 }
@@ -112,20 +143,34 @@
   text-transform: uppercase;
 }
 
-@media (max-width: 767px) {
-  .platesGrid {
-    grid-template-columns: 1fr;
-  }
+.chapterFolio {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: rgba(28, 26, 25, 0.45);
+  font-variant-numeric: tabular-nums;
 }
 
 @media (max-width: 767px) {
   .zone {
-    padding-block: var(--space-6xl) var(--space-4xl);
+    padding-block: var(--space-6xl) var(--space-5xl);
   }
 
   .split {
     grid-template-columns: 1fr;
     gap: var(--space-md);
     margin-top: var(--space-4xl);
+  }
+
+  .platesGrid {
+    grid-template-columns: 1fr;
   }
 }

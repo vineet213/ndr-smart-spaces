@@ -17,9 +17,9 @@
   right: 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);
-  font-size: clamp(5rem, 12vw, 10rem);
+  font-size: clamp(6rem, 13vw, 12rem);
   line-height: 1;
-  color: rgba(28, 26, 25, 0.05);
+  color: rgba(28, 26, 25, 0.06);
   font-variant-numeric: tabular-nums;
   pointer-events: none;
   user-select: none;
@@ -31,10 +31,13 @@
 
 .goldRule {
   display: block;
-  width: var(--space-6xl);
+  width: var(--space-7xl);
   height: 2px;
-  background-color: var(--color-gold);
+  background: linear-gradient(90deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
+  box-shadow: 0 1px 0 0 var(--color-hairline-light);
 }
+
+/* the register sheet ------------------------------------------------------ */
 
 .sheet {
   position: relative;
@@ -43,6 +46,15 @@
   border: 1px solid var(--color-hairline-light);
   border-top: 2px solid var(--color-gold);
   background-color: var(--color-ivory);
+  box-shadow: var(--color-shadow-warm);
+}
+
+.sheet::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(28, 26, 25, 0.07);
+  pointer-events: none;
 }
 
 .documentSpine {
@@ -50,8 +62,13 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 0.35rem;
-  background: linear-gradient(180deg, rgba(240, 182, 90, 0.65) 0%, rgba(28, 26, 25, 0.08) 100%);
+  width: 0.4rem;
+  background: linear-gradient(
+    180deg,
+    var(--color-gold) 0%,
+    rgba(240, 182, 90, 0.35) 55%,
+    rgba(28, 26, 25, 0.1) 100%
+  );
 }
 
 .provenance {
@@ -71,22 +88,34 @@
   color: var(--color-stone);
 }
 
+.provenance span:first-child::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: var(--space-sm);
+  background-color: var(--color-gold);
+}
+
 .provenance span:last-child {
   color: var(--color-charcoal);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
+/* summary figures ---------------------------------------------------------- */
+
 .summary {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-top: var(--space-2xl);
+  border-top: 2px solid var(--color-charcoal);
   border-bottom: 1px solid var(--color-hairline-light);
 }
 
 .summaryCell {
   min-width: 0;
-  padding: var(--space-2xl) var(--space-3xl) var(--space-2xl) 0;
+  padding: var(--space-2xl) var(--space-3xl) var(--space-3xl) 0;
 }
 
 .summaryCell + .summaryCell {
@@ -102,19 +131,21 @@
   line-height: var(--leading-meta);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
-  color: var(--color-stone);
+  color: var(--color-maroon);
 }
 
 .summaryValue {
   margin: var(--space-sm) 0 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-h3);
-  line-height: var(--leading-h3);
+  font-size: var(--font-metric);
+  line-height: var(--leading-metric);
   letter-spacing: var(--tracking-h2);
   font-variant-numeric: tabular-nums;
   color: var(--color-charcoal);
 }
+
+/* toolbar ------------------------------------------------------------------ */
 
 .toolbar {
   display: flex;
@@ -179,6 +210,7 @@
 
 .folioActive {
   border-bottom-color: var(--color-gold);
+  box-shadow: inset 0 -1px 0 rgba(28, 26, 25, 0.35);
 }
 
 .folioActive .folioName {
@@ -218,6 +250,8 @@
   cursor: pointer;
 }
 
+/* panels ------------------------------------------------------------------- */
+
 .panels {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.5fr);
@@ -227,10 +261,20 @@
 }
 
 .locatorPanel {
+  position: relative;
   min-width: 0;
   padding: var(--space-lg);
-  border: 1px solid var(--color-hairline-light);
-  background-color: var(--color-ivory-dim);
+  border: 1px solid rgba(28, 26, 25, 0.5);
+  background-color: var(--color-ivory);
+  box-shadow: inset 0 0 0 1px rgba(240, 182, 90, 0.14);
+}
+
+.locatorPanel::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(28, 26, 25, 0.14);
+  pointer-events: none;
 }
 
 .tablePanel {
@@ -256,6 +300,8 @@
   }
 }
 
+/* the ruled table ---------------------------------------------------------- */
+
 .table {
   width: 100%;
   min-width: 44rem;
@@ -267,7 +313,8 @@
 .columnHeader {
   padding: var(--space-md) var(--space-lg);
   background-color: var(--color-ivory-dim);
-  border-bottom: 1px solid var(--color-hairline-dark);
+  border-bottom: 2px solid var(--color-charcoal);
+  box-shadow: inset 0 -1px 0 var(--color-gold);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
@@ -276,6 +323,7 @@
   text-transform: uppercase;
   color: var(--color-charcoal);
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .columnSize {
@@ -292,8 +340,9 @@
 }
 
 .table td {
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-sm) var(--space-lg);
   border-bottom: 1px solid var(--color-hairline-light);
+  border-right: 1px solid rgba(28, 26, 25, 0.07);
   color: var(--color-charcoal);
   font-size: var(--font-body-size);
   line-height: var(--leading-body);
@@ -302,8 +351,16 @@
   transition: background-color var(--duration-standard) var(--ease-standard);
 }
 
+.table th:not(:first-child) {
+  border-right: 1px solid rgba(28, 26, 25, 0.07);
+}
+
 .table td:first-child {
   border-right: 1px solid var(--color-hairline-light);
+}
+
+.table td:last-child {
+  border-right: none;
 }
 
 .table tbody tr {
@@ -327,6 +384,7 @@
   width: 12px;
   height: 12px;
   border: 1px solid var(--color-gold);
+  background-color: rgba(240, 182, 90, 0.12);
   transition: background-color var(--duration-standard) var(--ease-standard);
 }
 
@@ -375,6 +433,8 @@
 .table tbody tr.rowActive .plateMark {
   background-color: var(--color-gold);
 }
+
+/* empty states -------------------------------------------------------------- */
 
 .noRecords {
   display: flex;
@@ -437,11 +497,15 @@
   line-height: var(--leading-body);
 }
 
+/* footer -------------------------------------------------------------------- */
+
 .footer {
+  position: relative;
   display: grid;
   gap: var(--space-md);
   margin-top: var(--space-6xl);
-  border-top: 1px solid var(--color-hairline-light);
+  border-top: 2px solid var(--color-charcoal);
+  box-shadow: inset 0 1px 0 var(--color-gold);
   padding-top: var(--space-4xl);
 }
 
@@ -470,6 +534,12 @@
 
   .table {
     min-width: 0;
+  }
+
+  .table thead th {
+    position: sticky;
+    top: var(--header-height);
+    z-index: 2;
   }
 }
 
@@ -579,6 +649,7 @@
     gap: var(--space-lg);
     padding: var(--space-xs) 0;
     border-bottom: none;
+    border-right: none;
   }
 
   .table td:first-child {
