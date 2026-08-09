@@ -5,7 +5,7 @@
 .list {
   display: flex;
   align-items: stretch;
-  gap: var(--space-xl);
+  gap: var(--space-lg);
 }
 
 .item {

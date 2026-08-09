@@ -45,7 +45,7 @@ export function Footer() {
         </div>
 
         <Grid className={styles.mainGrid}>
-          <GridItem span={5} className={styles.brand}>
+          <GridItem span={4} className={styles.brand}>
             <Link href="/en" aria-label="NDR Smart Spaces — home">
               <Image
                 src="/logos/ndr-smart-spaces-lockup-light.svg"
@@ -66,12 +66,11 @@ export function Footer() {
               ))}
             </ul>
           </GridItem>
-          <GridItem span={3}>
-            <FooterNavColumn heading="Sitemap" links={footer.sitemap} />
-          </GridItem>
-          <GridItem span={4}>
-            <FooterNavColumn heading="Investor" links={footer.investor} />
-          </GridItem>
+          {footer.groups.map((group) => (
+            <GridItem key={group.heading} span={2}>
+              <FooterNavColumn heading={group.heading} links={group.links} />
+            </GridItem>
+          ))}
         </Grid>
       </Container>
 

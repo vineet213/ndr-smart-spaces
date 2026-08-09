@@ -10,7 +10,7 @@ export function DivisionPlate({ division }: DivisionPlateProps) {
   const external = division.route.external ?? false;
 
   return (
-    <article className={styles.plate}>
+    <article id={division.anchor} className={styles.plate}>
       <div className={styles.rule} aria-hidden="true">
         <span className={styles.ruleCode}>DIV.{division.index}</span>
       </div>

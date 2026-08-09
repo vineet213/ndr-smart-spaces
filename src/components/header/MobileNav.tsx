@@ -3,10 +3,14 @@ import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { Icon } from "../ui/Icon";
 import { Button } from "../ui/Button";
-import { TextLink } from "../ui/TextLink";
 import { VisuallyHidden } from "../ui/VisuallyHidden";
 import { cx } from "../ui/cx";
-import { headerCta, mobileMenuFooter, navItems, utilityStrip } from "@/lib/data/navigation";
+import {
+  headerCta,
+  mobileMenuFooter,
+  mobileNavItems,
+  utilityStrip,
+} from "@/lib/data/navigation";
 import styles from "./MobileNav.module.css";
 
 type MobileNavProps = {
@@ -55,46 +59,63 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
               </a>
             </div>
           </div>
-          <button type="button" className={styles.close} onClick={onClose} aria-label="Close menu">
+          <button
+            type="button"
+            className={styles.close}
+            aria-label="Close menu"
+            onClick={onClose}
+          >
             <Icon name="close" />
           </button>
         </div>
 
-        <nav className={styles.nav} aria-label="Menu">
+        <nav className={styles.nav} aria-label="Site">
           <ul className={styles.list}>
-            {navItems.map((item) =>
+            {mobileNavItems.map((item) =>
               item.type === "link" ? (
                 <li key={item.href}>
                   <a className={styles.link} href={item.href} onClick={onClose}>
                     {item.label}
+                    <Icon name="arrow-right" className={styles.linkIcon} />
                   </a>
                 </li>
               ) : (
                 <li key={item.id}>
                   <a className={styles.link} href={item.href} onClick={onClose}>
                     {item.label}
+                    <Icon name="chevron-down" className={styles.linkIcon} />
                   </a>
-                  <ul className={styles.subList}>
-                    {item.columns
-                      .flatMap((column) => column.links)
-                      .map((child) => (
-                        <li key={child.href}>
-                          <a
-                            className={styles.subLink}
-                            href={child.href}
-                            onClick={onClose}
-                            {...(child.external
-                              ? { target: "_blank", rel: "noopener noreferrer" }
-                              : {})}
-                          >
-                            {child.label}
-                            {child.external ? (
-                              <Icon name="arrow-up-right" className={styles.externalIcon} />
-                            ) : null}
-                          </a>
-                        </li>
-                      ))}
-                  </ul>
+                  <div className={styles.groups}>
+                    {item.columns.map((column) => (
+                      <div key={column.heading} className={styles.group}>
+                        <p className={cx("text-label-meta", styles.groupHeading)}>
+                          {column.heading}
+                        </p>
+                        <ul className={styles.subList}>
+                          {column.links.map((link) => (
+                            <li key={link.href}>
+                              <a
+                                className={styles.subLink}
+                                href={link.href}
+                                onClick={onClose}
+                                {...(link.external
+                                  ? { target: "_blank", rel: "noopener noreferrer" }
+                                  : {})}
+                              >
+                                {link.label}
+                                {link.external && (
+                                  <Icon
+                                    name="arrow-up-right"
+                                    className={styles.externalIcon}
+                                  />
+                                )}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
                 </li>
               ),
             )}
@@ -102,35 +123,30 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
         </nav>
 
         <div className={styles.ctas}>
-          <TextLink
-            tone="dark"
-            href={headerCta.investor.href}
-            onClick={onClose}
-            className={styles.investorCta}
-          >
-            {headerCta.investor.label}
-          </TextLink>
           <Button
-            tone="dark"
             href={headerCta.enquiry.href}
-            onClick={onClose}
+            tone="dark"
             className={styles.enquiryCta}
+            onClick={onClose}
           >
             {headerCta.enquiry.label}
           </Button>
         </div>
 
         <div className={styles.footer}>
-          <p className={cx("text-label-meta", styles.footerHeading)}>{mobileMenuFooter.heading}</p>
-          <ul className={styles.emails}>
+          <p className={styles.footerHeading}>{mobileMenuFooter.heading}</p>
+          <div className={styles.emails}>
             {mobileMenuFooter.emails.map((email) => (
-              <li key={email.href}>
-                <a className={styles.email} href={email.href} onClick={onClose}>
-                  {email.label}
-                </a>
-              </li>
+              <a key={email} className={styles.email} href={`mailto:${email}`}>
+                {email}
+              </a>
             ))}
-          </ul>
+          </div>
+          {mobileMenuFooter.notes.map((note) => (
+            <p key={note} className={styles.footerNote}>
+              {note}
+            </p>
+          ))}
         </div>
       </div>
     </div>

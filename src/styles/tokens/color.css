@@ -20,6 +20,7 @@
   --color-text-secondary: var(--color-stone);
   --color-ink: var(--color-charcoal);
   --color-ink-soft: var(--color-stone);
+  --color-ink-muted: #5f5a54;
   --color-text-inverse: var(--color-ivory);
   --color-text-inverse-90: rgba(250, 247, 242, 0.9);
   --color-text-inverse-85: rgba(250, 247, 242, 0.85);

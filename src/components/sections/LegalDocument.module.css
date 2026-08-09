@@ -1,0 +1,128 @@
+.cover {
+  position: relative;
+  border-bottom: 2px solid var(--color-gold);
+}
+
+.coverInner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xl);
+  max-width: 46rem;
+  padding-block: var(--space-9xl) var(--space-10xl);
+}
+
+.eyebrow {
+  color: var(--color-gold);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: var(--color-ivory);
+  text-wrap: balance;
+}
+
+.lede {
+  max-width: 42ch;
+  color: var(--color-text-inverse-85);
+}
+
+.edition {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-text-inverse-50);
+}
+
+.body {
+  background-color: var(--color-ivory);
+}
+
+.bodyInner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-9xl);
+  max-width: 46rem;
+  padding-block: var(--space-9xl) var(--space-12xl);
+}
+
+.block {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-5xl);
+}
+
+.blockMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.blockIndex {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  color: var(--color-gold);
+}
+
+.blockRule {
+  width: 2rem;
+  height: 1px;
+  background-color: var(--color-hairline-light);
+}
+
+.blockContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-h3);
+  line-height: var(--leading-h3);
+  color: var(--color-charcoal-deep);
+}
+
+.paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.paragraph {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: 1.0625rem;
+  line-height: var(--leading-body);
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 767px) {
+  .coverInner,
+  .bodyInner {
+    padding-block: var(--space-7xl) var(--space-9xl);
+  }
+
+  .block {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .blockMeta {
+    gap: var(--space-sm);
+  }
+}

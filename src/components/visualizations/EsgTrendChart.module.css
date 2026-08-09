@@ -1,0 +1,100 @@
+.root {
+  position: relative;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.axis {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  fill: var(--color-stone);
+}
+
+.period {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: 11px;
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  fill: var(--color-stone);
+}
+
+.gridline {
+  stroke: var(--color-hairline-stone);
+  stroke-width: 1;
+}
+
+.area {
+  fill: var(--color-gold-print);
+  opacity: 0;
+  transition: opacity var(--duration-long) var(--ease-standard) 300ms;
+}
+
+.line {
+  fill: none;
+  stroke: var(--color-maroon);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset var(--duration-long) var(--ease-standard);
+}
+
+.dot {
+  fill: var(--color-ivory);
+  stroke: var(--color-maroon);
+  stroke-width: 2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.5);
+  transition:
+    opacity var(--duration-standard) var(--ease-standard) 700ms,
+    transform var(--duration-standard) var(--ease-standard) 700ms;
+}
+
+.latestValue {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 15px;
+  fill: var(--color-charcoal);
+  opacity: 0;
+  transition: opacity var(--duration-standard) var(--ease-standard) 900ms;
+}
+
+.drawn .line {
+  stroke-dashoffset: 0;
+}
+
+.drawn .area {
+  opacity: 1;
+}
+
+.drawn .dot {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.drawn .latestValue {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line,
+  .area,
+  .dot,
+  .latestValue {
+    opacity: 1;
+    stroke-dashoffset: 0;
+    transform: none;
+    transition: none;
+  }
+}

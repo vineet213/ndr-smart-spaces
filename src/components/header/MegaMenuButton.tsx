@@ -26,6 +26,11 @@ type MegaMenuButtonProps = {
  * Hover opening runs a 150 ms intent delay; closing a short grace period. The
  * panel is driven exclusively by the `open` class (never CSS `:hover`), so the
  * visible state always matches `aria-expanded`.
+ *
+ * The trigger is a real link to the publication root (e.g. `/en/business`), so
+ * clicking navigates there. A featured overview row leads each panel, then a
+ * divider, then the child-link columns. Keyboard users open the panel with
+ * ArrowDown and navigate with Enter.
  */
 export function MegaMenuButton({
   menu,
@@ -36,7 +41,7 @@ export function MegaMenuButton({
   onClose,
 }: MegaMenuButtonProps) {
   const itemRef = useRef<HTMLLIElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLAnchorElement>(null);
   const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const suppressRef = useRef(false);
@@ -89,19 +94,9 @@ export function MegaMenuButton({
     }, CLOSE_GRACE_MS);
   }, [onClose, cancelOpen, cancelClose]);
 
-  const handleTriggerClick = useCallback(() => {
-    suppressRef.current = false;
-    clearTimers();
-    if (open) onClose();
-    else onOpen();
-  }, [open, onOpen, onClose, clearTimers]);
-
   const handleTriggerKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        handleTriggerClick();
-      } else if (event.key === "Escape") {
+    (event: React.KeyboardEvent<HTMLAnchorElement>) => {
+      if (event.key === "Escape") {
         suppressRef.current = true;
         clearTimers();
         onClose();
@@ -111,7 +106,7 @@ export function MegaMenuButton({
         openNow();
       }
     },
-    [handleTriggerClick, onClose, openNow, open, clearTimers],
+    [onClose, openNow, open, clearTimers],
   );
 
   const handleFocusCapture = useCallback(
@@ -160,19 +155,18 @@ export function MegaMenuButton({
       onFocusCapture={handleFocusCapture}
       onBlurCapture={handleBlur}
     >
-      <button
+      <a
         ref={triggerRef}
-        type="button"
+        href={menu.href}
         className={cx(styles.trigger, isActive && styles.triggerActive)}
         aria-expanded={open}
         aria-haspopup="true"
         aria-controls={panelId}
-        onClick={handleTriggerClick}
         onKeyDown={handleTriggerKeyDown}
       >
         {menu.label}
         <Icon name="chevron-down" className={styles.chevron} />
-      </button>
+      </a>
 
       <div
         id={panelId}
@@ -180,6 +174,20 @@ export function MegaMenuButton({
         aria-label={menu.label}
         className={cx(styles.panel, menu.align === "right" ? styles.panelRight : styles.panelLeft)}
       >
+        {menu.overview ? (
+          <div className={styles.overview}>
+            <a
+              href={menu.overview.href}
+              className={cx(
+                styles.overviewLink,
+                isActivePath(pathname, menu.overview.href) && styles.overviewLinkActive,
+              )}
+            >
+              <span className={styles.overviewLabel}>{menu.overview.label}</span>
+              <span className={styles.overviewTagline}>{menu.overview.tagline}</span>
+            </a>
+          </div>
+        ) : null}
         <div className={styles.columns}>
           {menu.columns.map((column) => (
             <div key={column.heading} className={styles.column}>

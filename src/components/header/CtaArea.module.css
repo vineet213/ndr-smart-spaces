@@ -4,12 +4,6 @@
   gap: var(--space-lg);
 }
 
-.investor {
-  display: none;
-  align-items: center;
-  min-height: var(--space-6xl);
-}
-
 .enquiry {
   display: none;
   flex-shrink: 0;
@@ -17,12 +11,6 @@
 
 @media (min-width: 768px) {
   .enquiry {
-    display: inline-flex;
-  }
-}
-
-@media (min-width: 1280px) {
-  .investor {
     display: inline-flex;
   }
 }

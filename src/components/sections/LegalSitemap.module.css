@@ -1,0 +1,102 @@
+.cover {
+  position: relative;
+  border-bottom: 2px solid var(--color-gold);
+}
+
+.coverInner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xl);
+  max-width: 46rem;
+  padding-block: var(--space-9xl) var(--space-10xl);
+}
+
+.eyebrow {
+  color: var(--color-gold);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: var(--color-ivory);
+  text-wrap: balance;
+}
+
+.lede {
+  max-width: 42ch;
+  color: var(--color-text-inverse-85);
+}
+
+.body {
+  background-color: var(--color-ivory);
+}
+
+.bodyInner {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-10xl) var(--space-8xl);
+  max-width: 68rem;
+  padding-block: var(--space-9xl) var(--space-12xl);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.groupHeading {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+.groupList {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  border-top: 1px solid var(--color-hairline-light);
+}
+
+.groupLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: var(--space-6xl);
+  padding-block: var(--space-sm);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-hairline-light);
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.groupLink:hover {
+  color: var(--color-maroon);
+}
+
+@media (max-width: 767px) {
+  .coverInner,
+  .bodyInner {
+    padding-block: var(--space-7xl) var(--space-9xl);
+  }
+
+  .bodyInner {
+    grid-template-columns: 1fr;
+  }
+}

@@ -84,12 +84,15 @@
 .link {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
   min-height: var(--space-6xl);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-nav);
   line-height: var(--leading-nav);
   color: var(--color-ivory);
+  text-decoration: none;
   border-bottom: 1px solid var(--color-hairline-dark);
   transition: color var(--duration-standard) var(--ease-standard);
 }
@@ -98,10 +101,30 @@
   color: var(--color-gold);
 }
 
+.linkIcon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-gold);
+}
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding-bottom: var(--space-2xl);
+}
+
+.groupHeading {
+  margin-bottom: var(--space-xs);
+  margin-inline-start: var(--space-lg);
+  color: var(--color-gold);
+}
+
 .subList {
   display: flex;
   flex-direction: column;
-  padding-bottom: var(--space-2xl);
+  margin-inline-start: var(--space-lg);
+  border-left: 1px solid var(--color-hairline-dark);
 }
 
 .subLink {
@@ -114,6 +137,7 @@
   font-size: var(--font-small);
   line-height: var(--leading-small);
   color: var(--color-text-inverse-80);
+  text-decoration: none;
 }
 
 .subLink:hover {
@@ -123,6 +147,7 @@
 .externalIcon {
   width: 0.875rem;
   height: 0.875rem;
+  color: var(--color-text-inverse-50);
 }
 
 .ctas {
@@ -130,12 +155,6 @@
   flex-direction: column;
   align-items: stretch;
   gap: var(--space-lg);
-}
-
-.investorCta {
-  width: 100%;
-  justify-content: center;
-  min-height: var(--space-6xl);
 }
 
 .enquiryCta {
@@ -172,6 +191,13 @@
 
 .email:hover {
   color: var(--color-gold);
+}
+
+.footerNote {
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-inverse-50);
 }
 
 @media (min-width: 1280px) {

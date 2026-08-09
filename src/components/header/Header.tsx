@@ -19,7 +19,7 @@ export function Header() {
     <header className={styles.header}>
       <UtilityStrip />
       <div className={cx(styles.navBar, scrolled && styles.navBarScrolled)}>
-        <div className={cx("container", styles.navContainer)}>
+        <div className={styles.navContainer}>
           <LogoWordmark />
           <MainNav />
           <CtaArea />

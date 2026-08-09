@@ -1,0 +1,126 @@
+.root {
+  padding-block: var(--space-3xl);
+  border-block-start: 1px solid var(--color-hairline-stone);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-lg);
+}
+
+.code {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-maroon);
+}
+
+.label {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+.status {
+  margin-inline-start: auto;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+  white-space: nowrap;
+}
+
+.track {
+  position: relative;
+  height: 14px;
+  margin-top: var(--space-2xl);
+  background-color: var(--color-hairline-light);
+}
+
+.fill {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 0;
+  background-color: var(--color-maroon);
+  transition: width var(--duration-long) var(--ease-standard) 150ms;
+}
+
+.drawn .fill {
+  width: var(--progress);
+}
+
+.marker {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  left: var(--target);
+  width: 2px;
+  background-color: var(--color-gold);
+  opacity: 0;
+  transition: opacity var(--duration-standard) var(--ease-standard) 1100ms;
+}
+
+.drawn .marker {
+  opacity: 1;
+}
+
+.meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
+}
+
+.target {
+  text-align: right;
+}
+
+@media (max-width: 767px) {
+  .head {
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+
+  .status {
+    margin-inline-start: 0;
+  }
+
+  .meta {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .target {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill,
+  .marker {
+    transition: none;
+  }
+
+  .drawn .fill {
+    width: var(--progress);
+  }
+
+  .drawn .marker {
+    opacity: 1;
+  }
+}

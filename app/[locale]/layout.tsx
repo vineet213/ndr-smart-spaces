@@ -1,5 +1,10 @@
 import type { ReactNode } from "react";
 import { Header } from "@/components/header";
+import { runNavigationValidation } from "@/lib/navigationValidation";
+
+if (process.env.NODE_ENV === "development") {
+  runNavigationValidation();
+}
 
 export function generateStaticParams() {
   return [{ locale: "en" }];

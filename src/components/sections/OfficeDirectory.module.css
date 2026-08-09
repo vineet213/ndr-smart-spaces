@@ -1,0 +1,144 @@
+.section {
+  background-color: var(--color-ivory);
+  padding-block: var(--space-7xl);
+}
+
+.eyebrow {
+  margin-top: var(--space-5xl);
+}
+
+.heading {
+  margin-top: var(--space-4xl);
+}
+
+.lede {
+  max-width: 56ch;
+  margin-top: var(--space-4xl);
+}
+
+/* office register -------------------------------------------------------- */
+
+.directory {
+  margin-top: var(--space-7xl);
+  border-block-end: 1px solid var(--color-hairline-stone);
+}
+
+.office {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18rem;
+  column-gap: var(--space-6xl);
+  align-items: baseline;
+  padding-block: var(--space-5xl);
+  border-block-start: 1px solid var(--color-hairline-stone);
+}
+
+.officeKind {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.officeName {
+  margin: var(--space-3xl) 0 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-h3);
+  line-height: var(--leading-h3);
+  color: var(--color-charcoal);
+}
+
+.lines {
+  list-style: none;
+  margin: var(--space-3xl) 0 0;
+  padding: 0;
+}
+
+.line {
+  margin-top: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-ink-muted);
+}
+
+/* contact block ---------------------------------------------------------- */
+
+.contact {
+  padding-left: var(--space-6xl);
+  border-left: 1px solid var(--color-hairline-stone);
+}
+
+.contactRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding-block: var(--space-md);
+}
+
+.contactRow + .contactRow {
+  border-top: 1px solid var(--color-hairline-stone);
+}
+
+.contactLabel {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-maroon);
+}
+
+.contactValue {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-charcoal);
+}
+
+.contactEmail {
+  align-self: flex-start;
+  font-weight: var(--font-weight-body-medium);
+}
+
+.directions {
+  align-self: flex-start;
+  margin-top: var(--space-3xl);
+}
+
+.note {
+  margin: var(--space-6xl) 0 0;
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-hairline-stone);
+}
+
+@media (max-width: 1023px) {
+  .office {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-5xl);
+  }
+
+  .contact {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--color-hairline-stone);
+    padding-top: var(--space-4xl);
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--space-5xl);
+  }
+
+  .office {
+    padding-block: var(--space-4xl);
+  }
+}

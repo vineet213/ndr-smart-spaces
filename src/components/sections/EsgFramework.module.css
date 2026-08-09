@@ -1,0 +1,120 @@
+.section {
+  background-color: var(--color-ivory-dim);
+  padding-block: var(--space-12xl);
+}
+
+.eyebrow {
+  margin-top: var(--space-5xl);
+}
+
+.heading {
+  margin-top: var(--space-4xl);
+}
+
+.lede {
+  max-width: 56ch;
+  margin-top: var(--space-4xl);
+}
+
+.pillars {
+  margin-top: var(--space-8xl);
+  align-items: start;
+}
+
+.pillar {
+  padding: var(--space-5xl);
+  background-color: var(--color-ivory);
+  border: 1px solid var(--color-hairline-stone);
+  border-top: 3px solid var(--color-maroon);
+  height: 100%;
+}
+
+.chapter {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-gold);
+}
+
+.name {
+  margin: var(--space-4xl) 0 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-h3);
+  line-height: var(--leading-h3);
+  color: var(--color-charcoal);
+}
+
+.focus {
+  margin: var(--space-lg) 0 0;
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
+}
+
+.items {
+  list-style: none;
+  margin: var(--space-5xl) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--color-hairline-stone);
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  column-gap: var(--space-lg);
+  align-items: baseline;
+  padding-block: var(--space-lg);
+  border-bottom: 1px solid var(--color-hairline-stone);
+}
+
+.itemRef {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-maroon);
+}
+
+.itemBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.itemLabel {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+.itemNote {
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
+}
+
+@media (max-width: 1023px) {
+  .pillars {
+    gap: var(--space-6xl);
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--space-8xl);
+  }
+
+  .pillar {
+    padding: var(--space-4xl);
+  }
+}

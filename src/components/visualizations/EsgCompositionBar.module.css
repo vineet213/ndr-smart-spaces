@@ -1,0 +1,110 @@
+.root {
+  padding-block: var(--space-3xl);
+  border-block-start: 1px solid var(--color-hairline-stone);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-lg);
+}
+
+.code {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-maroon);
+}
+
+.title {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-charcoal);
+}
+
+.unit {
+  margin-inline-start: auto;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+.bar {
+  display: flex;
+  height: 18px;
+  margin-top: var(--space-2xl);
+  overflow: hidden;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-long) var(--ease-standard) 150ms;
+}
+
+.drawn .bar {
+  transform: scaleX(1);
+}
+
+.segment {
+  height: 100%;
+}
+
+.legend {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg) var(--space-6xl);
+  margin: var(--space-3xl) 0 0;
+  padding: 0;
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-charcoal);
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
+.entryValue {
+  margin-inline-start: auto;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-stone);
+}
+
+@media (max-width: 767px) {
+  .head {
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+
+  .unit {
+    margin-inline-start: 0;
+  }
+
+  .legend {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    transform: scaleX(1);
+    transition: none;
+  }
+}

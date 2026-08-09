@@ -178,14 +178,14 @@ export const businessHighlights = {
       title: "Grade A Warehousing",
       body: "Strategically located, spec-forward facilities near highways, ports, railways and airports — serving retail, e-commerce, 3PL and manufacturing.",
       proof: "99% greenfield",
-      href: "/en/business/grade-a-warehousing",
+      href: "/en/business#grade-a-warehousing",
     },
     {
       index: "02",
       title: "NDR Asset Management",
       body: "End-to-end project planning, execution and delivery, plus ongoing portfolio operations and maintenance.",
       proof: "100%-owned project management arm",
-      href: "/en/business/ndr-asset-management",
+      href: "/en/business#ndr-asset-management",
     },
     {
       index: "03",
@@ -199,7 +199,7 @@ export const businessHighlights = {
   partnership: {
     title: "The NDR InvIT relationship",
     line: "Completed assets are offered to NDR InvIT under a Right of First Offer, recycling capital into new development. A transparent, disciplined engine that keeps building.",
-    cta: { label: "The capital model", href: "/en/business/ndr-invit" },
+    cta: { label: "The capital model", href: "/en/business#capital" },
   },
 } as const;
 
@@ -362,21 +362,44 @@ export const footer = {
     { label: "NDR InvIT Trust", href: "https://ndrinvit.com", external: true },
     { label: "Ave Acres", href: "https://aveacres.com", external: true },
   ],
-  sitemap: [
-    { label: "About Us", href: "/en/about-us" },
-    { label: "Business", href: "/en/business" },
-    { label: "Portfolio", href: "/en/portfolio" },
-    { label: "Investor Centre", href: "/en/investor-centre" },
-    { label: "ESG", href: "/en/esg" },
-    { label: "Media", href: "/en/media" },
-    { label: "Contact", href: "/en/contact" },
-  ],
-  investor: [
-    { label: "Investor Overview", href: "/en/investor-centre" },
-    { label: "Reports & Disclosures", href: "/en/investor-centre/reports-disclosures" },
-    { label: "Financial Results", href: "/en/investor-centre/financial-results" },
-    { label: "Announcements", href: "/en/investor-centre/announcements" },
-    { label: "Downloads", href: "/en/investor-centre/downloads" },
+  groups: [
+    {
+      heading: "Corporate",
+      links: [
+        { label: "About Us & Our People", href: "/en/about-us" },
+        { label: "Investor Centre", href: "/en/investor-centre" },
+        { label: "Contact", href: "/en/contact" },
+      ],
+    },
+    {
+      heading: "Business",
+      links: [
+        { label: "Business", href: "/en/business" },
+        { label: "Portfolio", href: "/en/portfolio" },
+      ],
+    },
+    {
+      heading: "Investor",
+      links: [
+        {
+          label: "Investment Highlights",
+          href: "/en/investor-centre/investment-highlights",
+        },
+        {
+          label: "Reports & Disclosures",
+          href: "/en/investor-centre/reports-disclosures",
+        },
+        { label: "Financial Results", href: "/en/investor-centre/financial-results" },
+        { label: "Announcements", href: "/en/investor-centre/announcements" },
+      ],
+    },
+    {
+      heading: "ESG & Media",
+      links: [
+        { label: "ESG & Sustainability", href: "/en/esg" },
+        { label: "Media & Newsroom", href: "/en/media" },
+      ],
+    },
   ],
   contact: {
     address: "No. 56/1, next to GT Reddy Cars, Bazulla Road, T. Nagar, Chennai, Tamil Nadu 600017",

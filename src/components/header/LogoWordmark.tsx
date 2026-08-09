@@ -8,8 +8,8 @@ export function LogoWordmark() {
       <Image
         src="/logos/ndr-smart-spaces-lockup.svg"
         alt=""
-        width={175}
-        height={40}
+        width={190}
+        height={43}
         className={styles.logo}
       />
     </a>

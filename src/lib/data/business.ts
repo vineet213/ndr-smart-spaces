@@ -71,6 +71,7 @@ export type Division = {
   proofSource: string;
   route: DivisionRoute;
   source: string;
+  anchor?: string;
 };
 
 export const divisions = [
@@ -89,7 +90,8 @@ export const divisions = [
     ],
     proof: "99% greenfield",
     proofSource: "NDR Corporate Presentation",
-    route: { label: "Grade A Warehousing", href: "/en/business/grade-a-warehousing" },
+    anchor: "grade-a-warehousing",
+    route: { label: "Grade A Warehousing", href: "/en/business#grade-a-warehousing" },
     source: "Client IA response · Post-Demerger business note · NDR Corporate Presentation",
   },
   {
@@ -111,7 +113,8 @@ export const divisions = [
     ],
     proof: "100%-owned project management arm",
     proofSource: "Approved homepage content",
-    route: { label: "NDR Asset Management", href: "/en/business/ndr-asset-management" },
+    anchor: "ndr-asset-management",
+    route: { label: "NDR Asset Management", href: "/en/business#ndr-asset-management" },
     source: "Client IA response · Post-Demerger business note",
   },
   {
