@@ -3,7 +3,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-sm);
-  padding-block: var(--space-xs);
+  padding-block: var(--space-sm);
   text-decoration: none;
   transition: color var(--duration-standard) var(--ease-standard);
 }

@@ -1,7 +1,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4xl);
+  gap: var(--space-5xl);
 }
 
 /* routing indicator ------------------------------------------------------ */
@@ -64,7 +64,7 @@
   border: 0;
   border-bottom: 1px solid var(--color-hairline-stone);
   border-radius: 0;
-  padding-block: var(--space-sm);
+  padding-block: var(--space-md);
   transition: border-color var(--duration-standard) var(--ease-standard);
 }
 
@@ -103,11 +103,11 @@
 }
 
 .submit {
-  align-self: flex-start;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: var(--space-6xl);
+  width: 100%;
+  min-height: var(--space-7xl);
   padding-inline: var(--space-4xl);
   border: 0;
   border-radius: var(--radius-sm);
@@ -149,4 +149,14 @@
   border-radius: var(--radius-md);
   background-color: rgba(110, 31, 38, 0.05);
   border: 1px solid var(--color-maroon-print);
+}
+
+@media (max-width: 767px) {
+  .form {
+    gap: var(--space-4xl);
+  }
+
+  .submit {
+    min-height: var(--space-6xl);
+  }
 }

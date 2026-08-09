@@ -9,7 +9,6 @@ export function ContactClosing() {
     <section className={styles.section} aria-labelledby="contact-closing-title">
       <Container>
         <Reveal>
-          <span className={styles.goldRule} aria-hidden="true" />
           <Eyebrow tone="dark" className={styles.eyebrow}>
             {contactClosing.eyebrow}
           </Eyebrow>
@@ -27,9 +26,6 @@ export function ContactClosing() {
           <div className={styles.ctas}>
             <Button href={contactClosing.primaryCta.href} tone="dark">
               {contactClosing.primaryCta.label}
-            </Button>
-            <Button variant="secondary" tone="dark" href={contactClosing.secondaryCta.href}>
-              {contactClosing.secondaryCta.label}
             </Button>
             <TextLink
               tone="dark"

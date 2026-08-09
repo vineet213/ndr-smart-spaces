@@ -27,6 +27,12 @@ export function EsgDisclosures() {
               className={styles.group}
             >
               <p className={styles.category}>{group.category}</p>
+              <div className={styles.head} aria-hidden="true">
+                <span>Ref</span>
+                <span>Document</span>
+                <span>As on</span>
+                <span>Status</span>
+              </div>
               <ol className={styles.documents}>
                 {group.documents.map((document) => (
                   <li key={document.ref} className={styles.document}>

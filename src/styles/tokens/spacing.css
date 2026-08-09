@@ -22,6 +22,10 @@
   --gutter-tablet: 1.25rem;
   --gutter-desktop: 1.5rem;
 
+  --space-2: var(--space-sm);
+  --space-3: var(--space-md);
+  --space-4: var(--space-lg);
+
   --margin-mobile: 1.25rem;
   --margin-tablet: 1.5rem;
   --margin-desktop: 5rem;

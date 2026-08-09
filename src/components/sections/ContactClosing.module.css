@@ -4,16 +4,8 @@
   padding-block: var(--space-12xl);
 }
 
-.goldRule {
-  display: block;
-  width: var(--space-8xl);
-  height: 3px;
-  margin-top: var(--space-6xl);
-  background-color: var(--color-gold);
-}
-
 .eyebrow {
-  margin-top: var(--space-6xl);
+  margin: 0;
 }
 
 .title {

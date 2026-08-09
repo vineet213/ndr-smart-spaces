@@ -742,18 +742,17 @@ export type ImpactCategoryDef = {
 };
 
 export const IMPACT_CATEGORIES: readonly ImpactCategoryDef[] = [
-  { key: "energy", label: "Energy", color: "#f0b65a" },
-  { key: "water", label: "Water", color: "#c9636a" },
-  { key: "waste", label: "Waste", color: "#f5c97f" },
-  { key: "green-building", label: "Green building", color: "#faf7f2" },
-  { key: "community", label: "Community", color: "#7d7871" },
+  { key: "energy", label: "Energy", color: "var(--color-gold)" },
+  { key: "water", label: "Water", color: "var(--color-maroon-bright)" },
+  { key: "waste", label: "Waste", color: "var(--color-gold-light)" },
+  { key: "green-building", label: "Green building", color: "var(--color-ivory)" },
+  { key: "community", label: "Community", color: "var(--color-stone)" },
 ] as const;
 
 export const esgImpactMap = {
   eyebrow: "Impact map",
   heading: "Where the work is done.",
   lede: "Sustainability initiatives mapped to the locations where the company operates — each recorded with its category and status.",
-  note: "Schematic outline · not to scale. Initiatives are draft placeholders pending confirmation.",
   captionLead: "Fig. 02 · Ledger · Impact map",
   captionDetail: "Each initiative is recorded by category and status in the register below.",
   source: "Source: Draft — initiative register",

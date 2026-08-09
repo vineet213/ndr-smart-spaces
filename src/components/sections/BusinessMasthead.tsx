@@ -5,6 +5,8 @@ import styles from "./BusinessMasthead.module.css";
 export function BusinessMasthead() {
   return (
     <Section tone="charcoal" ariaLabelledby="business-masthead-title" className={styles.section}>
+      <span className={styles.ruleTop} aria-hidden="true" />
+
       <Container className={styles.folio}>
         <span>NDR Smart Spaces · Business</span>
         <span>{businessMasthead.folio}</span>
@@ -23,6 +25,11 @@ export function BusinessMasthead() {
             {businessMasthead.headline.after}
           </h1>
           <p className={styles.statement}>{businessMasthead.statement}</p>
+          <p className={styles.meta}>
+            <span>{businessMasthead.asOn}</span>
+            <span aria-hidden="true">·</span>
+            <span>{businessMasthead.edition}</span>
+          </p>
         </div>
       </Container>
 

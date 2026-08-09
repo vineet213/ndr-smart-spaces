@@ -2,16 +2,18 @@ import { Container } from "@/components/layout";
 import { Eyebrow, Heading, Lede, SourceFootnote, TextLink } from "@/components/ui";
 import { ExternalLink } from "@/components/ui";
 import { officeDirectory } from "@/lib/data/contact";
-import { ContactDocHeader } from "./ContactDocHeader";
 import { Reveal, type RevealDelay } from "./Reveal";
 import styles from "./OfficeDirectory.module.css";
+
+function phoneHref(phone: string): string {
+  return `tel:${phone.replace(/[^\d+]/g, "")}`;
+}
 
 export function OfficeDirectory() {
   return (
     <section className={styles.section} id="directory" aria-labelledby="directory-title">
       <Container>
         <Reveal>
-          <ContactDocHeader numeral="01" code="Office directory" />
           <Eyebrow className={styles.eyebrow}>{officeDirectory.eyebrow}</Eyebrow>
           <Heading variant="section" id="directory-title" className={styles.heading}>
             {officeDirectory.heading}
@@ -37,7 +39,9 @@ export function OfficeDirectory() {
               <div className={styles.contact}>
                 <div className={styles.contactRow}>
                   <span className={styles.contactLabel}>Phone</span>
-                  <span className={styles.contactValue}>{office.phone}</span>
+                  <a className={styles.contactPhone} href={phoneHref(office.phone)}>
+                    {office.phone}
+                  </a>
                 </div>
                 <div className={styles.contactRow}>
                   <span className={styles.contactLabel}>Email</span>
@@ -47,7 +51,7 @@ export function OfficeDirectory() {
                 </div>
                 <div className={styles.contactRow}>
                   <span className={styles.contactLabel}>Hours</span>
-                  <span className={styles.contactValue}>{office.hours}</span>
+                  <span className={styles.contactHours}>{office.hours}</span>
                 </div>
                 {office.directions ? (
                   <ExternalLink href={office.directions.href} className={styles.directions}>

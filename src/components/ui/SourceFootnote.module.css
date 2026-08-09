@@ -3,7 +3,7 @@
 }
 
 .onLight {
-  color: var(--color-text-secondary);
+  color: var(--color-ink-muted);
 }
 
 .onDark {

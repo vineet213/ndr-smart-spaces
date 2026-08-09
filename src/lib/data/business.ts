@@ -53,6 +53,8 @@ export const businessChapters = [
 export const businessMasthead = {
   folio: "OP. MANUAL · FY26",
   controlCaption: "Cover · Sheet 01 of 06",
+  asOn: "As on 31 March 2026",
+  edition: "Edition FY26 · Volume I",
   statement:
     "Developing, owning and managing high-quality industrial, commercial and institutional assets for over 60 years.",
   headline: { before: "The ", accent: "operating", after: " manual." },

@@ -25,10 +25,10 @@
 
 .office {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 18rem;
-  column-gap: var(--space-6xl);
-  align-items: baseline;
-  padding-block: var(--space-5xl);
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  column-gap: var(--space-8xl);
+  align-items: start;
+  padding-block: var(--space-6xl);
   border-block-start: 1px solid var(--color-hairline-stone);
 }
 
@@ -39,15 +39,15 @@
   line-height: var(--leading-meta);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
-  color: var(--color-ink-soft);
+  color: var(--color-maroon-print);
 }
 
 .officeName {
   margin: var(--space-3xl) 0 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-h3);
-  line-height: var(--leading-h3);
+  font-size: clamp(1.5rem, 2.4vw, 2.125rem);
+  line-height: 1.1;
   color: var(--color-charcoal);
 }
 
@@ -58,7 +58,7 @@
 }
 
 .line {
-  margin-top: var(--space-md);
+  margin-top: var(--space-sm);
   font-family: var(--font-body);
   font-size: var(--font-body-size);
   line-height: var(--leading-body);
@@ -68,20 +68,15 @@
 /* contact block ---------------------------------------------------------- */
 
 .contact {
-  padding-left: var(--space-6xl);
-  border-left: 1px solid var(--color-hairline-stone);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
 }
 
 .contactRow {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  margin: 0;
-  padding-block: var(--space-md);
-}
-
-.contactRow + .contactRow {
-  border-top: 1px solid var(--color-hairline-stone);
 }
 
 .contactLabel {
@@ -91,26 +86,44 @@
   line-height: var(--leading-meta);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
-  color: var(--color-maroon);
+  color: var(--color-maroon-print);
 }
 
-.contactValue {
+.contactPhone {
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-body-size);
-  line-height: var(--leading-body);
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  line-height: 1.2;
   font-variant-numeric: tabular-nums;
   color: var(--color-charcoal);
+  text-decoration: none;
+  align-self: flex-start;
+  padding-block: var(--space-2xs);
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.contactPhone:hover {
+  color: var(--color-maroon);
 }
 
 .contactEmail {
   align-self: flex-start;
+  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
   font-weight: var(--font-weight-body-medium);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.contactHours {
+  font-family: var(--font-body);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-ink-muted);
 }
 
 .directions {
   align-self: flex-start;
-  margin-top: var(--space-3xl);
+  margin-top: var(--space-2xl);
 }
 
 .note {
@@ -126,8 +139,6 @@
   }
 
   .contact {
-    padding-left: 0;
-    border-left: 0;
     border-top: 1px solid var(--color-hairline-stone);
     padding-top: var(--space-4xl);
   }

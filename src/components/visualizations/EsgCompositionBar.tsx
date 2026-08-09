@@ -5,7 +5,13 @@ import { useInView } from "@/hooks/useInView";
 import { cx } from "../ui/cx";
 import styles from "./EsgCompositionBar.module.css";
 
-const SEGMENT_COLORS = ["#6e1f26", "#f0b65a", "#c9636a", "#7d7871", "#f5c97f"] as const;
+const SEGMENT_COLORS = [
+  "var(--color-maroon-print)",
+  "var(--color-gold)",
+  "var(--color-maroon-bright)",
+  "var(--color-stone)",
+  "var(--color-gold-light)",
+] as const;
 
 const colorAt = (index: number) => SEGMENT_COLORS[index % SEGMENT_COLORS.length];
 

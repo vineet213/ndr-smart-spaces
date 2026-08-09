@@ -5,6 +5,8 @@ import styles from "./EsgMasthead.module.css";
 export function EsgMasthead() {
   return (
     <Section tone="charcoal" ariaLabelledby="esg-masthead-title" className={styles.section}>
+      <span className={styles.ruleTop} aria-hidden="true" />
+
       <Container className={styles.folio}>
         <span>{esgMasthead.registry}</span>
         <span>{esgMasthead.section}</span>

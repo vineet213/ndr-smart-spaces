@@ -12,7 +12,7 @@
 
 .ruleTop {
   display: block;
-  height: 3px;
+  height: 2px;
   background: linear-gradient(
     90deg,
     rgba(240, 182, 90, 0) 0%,
@@ -87,14 +87,14 @@
 
 .watermark {
   position: absolute;
-  top: -0.02em;
-  right: -0.08em;
+  top: -0.04em;
+  right: -0.02em;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);
-  font-size: clamp(8rem, 18vw, 16rem);
+  font-size: clamp(7rem, 15vw, 13rem);
   line-height: 1;
-  letter-spacing: 0.1em;
-  color: rgba(250, 247, 242, 0.045);
+  letter-spacing: -0.04em;
+  color: rgba(250, 247, 242, 0.04);
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -107,7 +107,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: var(--space-4);
+  gap: var(--space-md);
   margin: 0;
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
@@ -131,7 +131,7 @@
   display: inline-block;
   width: 7px;
   height: 7px;
-  margin-left: var(--space-4);
+  margin-left: var(--space-md);
   background-color: var(--color-gold);
 }
 
@@ -143,8 +143,8 @@
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);
   font-size: clamp(3.75rem, 10vw, 9rem);
-  line-height: 0.92;
-  letter-spacing: -0.03em;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
   color: var(--color-ivory);
   text-wrap: balance;
   animation: title-rise 1000ms var(--ease-standard) 180ms both;
@@ -162,7 +162,7 @@
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);
   font-size: clamp(1.5rem, 3vw, 2.5rem);
-  line-height: 1.25;
+  line-height: 1.2;
   letter-spacing: -0.01em;
   color: var(--color-text-inverse-85);
   animation: rise-fade var(--duration-long) var(--ease-standard) 320ms both;
@@ -288,12 +288,12 @@
   .publication {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-2);
+    gap: var(--space-sm);
   }
 
   .watermark {
-    font-size: clamp(7rem, 34vw, 10rem);
-    letter-spacing: 0.06em;
+    font-size: clamp(6rem, 30vw, 9rem);
+    letter-spacing: -0.04em;
   }
 
   .title {

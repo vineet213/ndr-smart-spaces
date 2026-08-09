@@ -237,3 +237,20 @@
     padding-left: var(--space-4xl);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .list::after {
+    transform: scaleY(1);
+    transition: none;
+  }
+
+  .item,
+  .year,
+  .node,
+  .node::after,
+  .title,
+  .caption,
+  .detail {
+    transition: none;
+  }
+}

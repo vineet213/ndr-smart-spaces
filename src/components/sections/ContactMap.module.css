@@ -79,6 +79,11 @@
   aspect-ratio: 930 / 1000;
 }
 
+.ticks line {
+  stroke: rgba(28, 26, 25, 0.6);
+  stroke-width: 1;
+}
+
 .outline {
   fill: rgba(240, 182, 90, 0.05);
   stroke: rgba(28, 26, 25, 0.6);
@@ -143,79 +148,9 @@
   color: var(--color-stone);
 }
 
-/* documentary legend --------------------------------------------------------- */
-
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-5);
-  margin-top: var(--space-4xl);
-}
-
-.legendLabel {
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-meta);
-  line-height: var(--leading-meta);
-  letter-spacing: var(--tracking-meta);
-  text-transform: uppercase;
-  color: var(--color-stone);
-}
-
-.legendList {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-5);
-  margin: 0;
-  padding: 0;
-}
-
-.legendItem {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.legendMark {
-  flex: none;
-  position: relative;
-  width: 10px;
-  height: 10px;
-}
-
-.legendMarkHq {
-  border: 1px solid var(--color-gold);
-  border-radius: 50%;
-}
-
-.legendMarkHq::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 3px;
-  height: 3px;
-  background-color: var(--color-maroon);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.legendText {
-  font-family: var(--font-body);
-  font-size: var(--font-small);
-  line-height: var(--leading-small);
-  color: var(--color-stone);
-}
-
 /* caption ---------------------------------------------------------------------- */
 
 .caption {
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
-  column-gap: var(--space-6xl);
-  align-items: baseline;
   margin-top: var(--space-4xl);
   padding-top: var(--space-lg);
   border-top: 1px solid var(--color-hairline-light);
@@ -223,15 +158,6 @@
   font-size: var(--font-small);
   line-height: var(--leading-small);
   color: var(--color-stone);
-}
-
-.captionLead {
-  margin: 0;
-  color: var(--color-charcoal);
-}
-
-.captionDetail {
-  margin: 0;
 }
 
 .notToScale {
@@ -312,11 +238,6 @@
 
   .locatorCoords {
     grid-column: 1;
-  }
-
-  .caption {
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
   }
 }
 

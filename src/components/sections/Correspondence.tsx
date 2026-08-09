@@ -1,7 +1,6 @@
 import { Container, Grid, GridItem } from "@/components/layout";
 import { Eyebrow, Heading } from "@/components/ui";
 import { correspondenceForm } from "@/lib/data/contact";
-import { ContactDocHeader } from "./ContactDocHeader";
 import { CorrespondenceForm } from "./CorrespondenceForm";
 import { Reveal } from "./Reveal";
 import styles from "./Correspondence.module.css";
@@ -17,7 +16,6 @@ export function Correspondence() {
         <Grid>
           <GridItem span={7} className={styles.intro}>
             <Reveal>
-              <ContactDocHeader numeral="02" code="Business enquiry" />
               <Eyebrow className={styles.eyebrow}>{correspondenceForm.eyebrow}</Eyebrow>
               <Heading variant="section" id="correspondence-title" className={styles.heading}>
                 {correspondenceForm.heading}

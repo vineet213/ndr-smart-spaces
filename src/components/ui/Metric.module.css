@@ -2,6 +2,7 @@
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
   line-height: var(--leading-metric);
+  font-variant-numeric: tabular-nums;
 }
 
 .hero {

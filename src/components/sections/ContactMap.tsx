@@ -1,11 +1,9 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { Container } from "@/components/layout";
 import { Eyebrow, Heading, Lede, SourceFootnote } from "@/components/ui";
 import { ExternalLink } from "@/components/ui";
 import { contactMap } from "@/lib/data/contact";
-import { ContactDocHeader } from "./ContactDocHeader";
 import { Reveal } from "./Reveal";
-import { cx } from "../ui/cx";
 import styles from "./ContactMap.module.css";
 
 const VIEWBOX = `${contactMap.mapViewbox.width} ${contactMap.mapViewbox.height}`;
@@ -14,12 +12,26 @@ function formatCoordinate(value: number): string {
   return value.toFixed(4).replace(/\.?0+$/, "");
 }
 
+function EdgeTicks() {
+  const W = contactMap.mapViewbox.width;
+  const H = contactMap.mapViewbox.height;
+  const ticks: ReactNode[] = [];
+  for (let x = 0; x <= W; x += 80) {
+    ticks.push(<line key={`t${x}`} x1={x} y1={0} x2={x} y2={7} />);
+    ticks.push(<line key={`b${x}`} x1={x} y1={H} x2={x} y2={H - 7} />);
+  }
+  for (let y = 0; y <= H; y += 80) {
+    ticks.push(<line key={`l${y}`} x1={0} y1={y} x2={7} y2={y} />);
+    ticks.push(<line key={`r${y}`} x1={W} y1={y} x2={W - 7} y2={y} />);
+  }
+  return <g className={styles.ticks}>{ticks}</g>;
+}
+
 export function ContactMap() {
   return (
     <section className={styles.section} id="location" aria-labelledby="contact-map-title">
       <Container>
         <Reveal>
-          <ContactDocHeader numeral="03" code="Office locations" tone="dark" />
           <Eyebrow tone="dark" className={styles.eyebrow}>
             {contactMap.eyebrow}
           </Eyebrow>
@@ -42,6 +54,7 @@ export function ContactMap() {
               aria-label="Schematic map of India showing the NDR Smart Spaces corporate office in Chennai."
               focusable="false"
             >
+              <EdgeTicks />
               <path className={styles.outline} d={contactMap.indiaOutline} />
               <g className={styles.markers}>
                 {contactMap.markers.map((marker, index) => (
@@ -71,24 +84,7 @@ export function ContactMap() {
             ))}
           </div>
 
-          <div className={styles.legend}>
-            <span className={styles.legendLabel}>Legend</span>
-            <ul className={styles.legendList}>
-              {contactMap.legend.map((item) => (
-                <li key={item.key} className={styles.legendItem}>
-                  <span
-                    className={cx(styles.legendMark, item.key === "hq" && styles.legendMarkHq)}
-                    aria-hidden="true"
-                  />
-                  <span className={styles.legendText}>{item.label}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           <div className={styles.caption}>
-            <p className={styles.captionLead}>{contactMap.captionLead}</p>
-            <p className={styles.captionDetail}>{contactMap.captionDetail}</p>
             <p className={styles.notToScale}>{contactMap.notToScale}</p>
           </div>
 

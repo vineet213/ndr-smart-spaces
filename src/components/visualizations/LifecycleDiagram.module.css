@@ -516,3 +516,46 @@
     display: block;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .rings,
+  .connectors,
+  .seal,
+  .nodeEnter {
+    opacity: 1;
+    animation: none;
+  }
+
+  .drawn .nodeEnter .nodeMark {
+    transform: scale(1);
+    animation: none;
+  }
+
+  .ring,
+  .innerRing,
+  .connector,
+  .returnPath,
+  .returnTick,
+  .returnChevron,
+  .nodeMark,
+  .nodeTick,
+  .sealOuter,
+  .sealInner,
+  .sealTick,
+  .sealTickNode,
+  .centerRule {
+    transition: none;
+  }
+
+  .connectorOn,
+  .returnPathOn,
+  .returnTickOn,
+  .returnLabelOn,
+  .nodeHaloOn,
+  .nodeTickOn,
+  .nodeNumActive,
+  .nodeNameActive {
+    opacity: 1;
+    stroke-opacity: 1;
+  }
+}

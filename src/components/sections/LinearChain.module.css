@@ -150,3 +150,25 @@
     padding-right: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .spine {
+    transform: scaleX(1);
+    transition: none;
+  }
+
+  .mark {
+    opacity: 1;
+    transition: none;
+  }
+
+  .nodeIndex {
+    transition: none;
+  }
+
+  @media (max-width: 767px) {
+    .spine {
+      transform: scaleY(1);
+    }
+  }
+}

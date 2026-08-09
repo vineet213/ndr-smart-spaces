@@ -12,11 +12,11 @@
 }
 
 .completed {
-  color: var(--color-charcoal);
+  color: var(--color-maroon);
 }
 
 .ongoing {
-  color: var(--color-maroon);
+  color: var(--color-ink-muted);
 }
 
 .dot {
@@ -25,8 +25,4 @@
   height: 6px;
   border-radius: 50%;
   background-color: var(--color-gold);
-}
-
-.ongoing .dot {
-  background-color: var(--color-maroon);
 }

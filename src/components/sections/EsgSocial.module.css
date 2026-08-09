@@ -26,9 +26,9 @@
 .row {
   display: grid;
   grid-template-columns: 6rem 1fr 14rem;
-  column-gap: var(--space-6xl);
+  column-gap: var(--space-2xl);
   align-items: baseline;
-  padding-block: var(--space-5xl);
+  padding-block: var(--space-2xl);
   border-block-start: 1px solid var(--color-hairline-stone);
 }
 

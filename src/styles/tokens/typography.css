@@ -22,6 +22,9 @@
   --font-metric: 2.75rem;
   --font-journey-year: 1.75rem;
 
+  --text-2xs: var(--font-meta);
+  --text-sm: var(--font-small);
+
   --leading-hero: 1;
   --leading-h2: 1.05;
   --leading-h3: 1.2;

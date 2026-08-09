@@ -144,3 +144,10 @@
     min-height: 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .rule {
+    transform: scaleX(1);
+    transition: none;
+  }
+}

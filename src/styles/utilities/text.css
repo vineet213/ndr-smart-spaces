@@ -22,3 +22,7 @@
   font-size: var(--font-small);
   line-height: var(--leading-small);
 }
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}

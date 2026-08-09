@@ -13,13 +13,10 @@ import { projectPlace, INDIA_OUTLINE, MAP_VIEWBOX } from "./portfolio";
 /* masthead ---------------------------------------------------------------- */
 
 export const contactMasthead = {
-  registry: "NDR Smart Spaces Pvt. Ltd. — an NDR Group platform",
   publication: "Contact",
-  section: "Contact",
-  title: { before: "Contact ", accent: "NDR Smart Spaces", after: "." },
+  title: { before: "Contact ", accent: "NDR Smart Spaces" },
   statement:
-    "Corporate offices, investor relations, media contacts, ESG inquiries, and business development.",
-  watermark: "CO",
+    "Corporate offices, business development, investor relations, media inquiries, and ESG contacts.",
 } as const;
 
 /* office directory -------------------------------------------------------- */
@@ -102,13 +99,11 @@ export const officeDirectory = {
 export type InquiryDesk = {
   key: "business" | "investor" | "media" | "esg" | "general";
   label: string;
-  purpose: string;
   route: string;
   recipient: string;
   href: string;
   phone: string;
   response: string;
-  note: string;
 };
 
 export const inquiryRouting = {
@@ -120,57 +115,47 @@ export const inquiryRouting = {
     {
       key: "business",
       label: "Business",
-      purpose: "Commercial correspondence",
       route: "Grade A Warehousing · Asset Management · Land & Plotting · Partnerships",
       recipient: "project@ndrsmart.com",
       href: "mailto:project@ndrsmart.com",
       phone: "+91 44 4296 1203",
       response: "Within 2 business days",
-      note: "The commercial desk — warehousing, asset management, land and partnerships.",
     },
     {
       key: "investor",
       label: "Investor relations",
-      purpose: "Investor correspondence",
       route: "Investor centre · reports & disclosures · investor queries",
       recipient: "compliance@ndrsmart.com",
       href: "mailto:compliance@ndrsmart.com",
       phone: "+91 44 4296 1202",
       response: "Within 2 business days",
-      note: "The investor desk — the investor centre, its disclosures and investor queries.",
     },
     {
       key: "media",
       label: "Media",
-      purpose: "Press & media correspondence",
       route: "Press releases · coverage · interviews",
       recipient: "compliance@ndrsmart.com",
       href: "mailto:compliance@ndrsmart.com",
       phone: "+91 44 4296 1204",
       response: "Within 2 business days",
-      note: "The press desk — journalists and editors writing to the newsroom.",
     },
     {
       key: "esg",
       label: "ESG & sustainability",
-      purpose: "Sustainability correspondence",
       route: "Sustainability · ESG disclosures · climate",
       recipient: "compliance@ndrsmart.com",
       href: "mailto:compliance@ndrsmart.com",
       phone: "+91 44 4296 1205",
       response: "Within 2 business days",
-      note: "The ESG desk — the sustainability ledger and its disclosures.",
     },
     {
       key: "general",
       label: "General",
-      purpose: "All other correspondence",
       route: "Enquiries not covered by the desks above",
       recipient: "project@ndrsmart.com",
       href: "mailto:project@ndrsmart.com",
       phone: "+91 44 4296 1200",
       response: "Within 2 business days",
-      note: "The general line — anything the desks above do not cover.",
     },
   ] as readonly InquiryDesk[],
 } as const;
@@ -229,9 +214,6 @@ export const contactMap = {
   eyebrow: "Office locations",
   heading: "The office on the map.",
   lede: "The corporate office in Chennai — the company's primary correspondence address — plotted on the group's schematic outline of India.",
-  captionLead: "Fig. 01 · Office locations",
-  captionDetail:
-    "The corporate office is the primary correspondence address. The registered office and regional offices are listed in the office directory.",
   frameMark: "NDR Smart Spaces",
   plateRef: "Office locations",
   notToScale: "Schematic outline · not to scale",
@@ -240,10 +222,6 @@ export const contactMap = {
     href: "https://www.google.com/maps/dir/13.0520847,80.246055/NDR+INVIT,+56-79,+Bazulla+Rd,+Bharathy+Nagar,+Rama+Kamat+Puram,+Chennai,+Greater+Chennai,+Tamil+Nadu+600017",
   },
   source: "Source: Corporate office record",
-  legend: [{ key: "hq", label: "Corporate office — Chennai" }] as readonly {
-    key: "hq";
-    label: string;
-  }[],
   mapViewbox: MAP_VIEWBOX,
   indiaOutline: INDIA_OUTLINE,
   markers: [
@@ -274,8 +252,7 @@ export const contactMap = {
 export const contactClosing = {
   eyebrow: "Contact",
   line: "Contact NDR Smart Spaces.",
-  body: "Business, investor, media, and partnership inquiries.",
+  body: "Business, investor, media and general enquiries.",
   primaryCta: { label: "Send an enquiry", href: "/en/contact#business-enquiry" },
-  secondaryCta: { label: "Open the Press Register", href: "/en/media" },
   tertiaryLink: { label: "NDR InvIT Trust", href: "https://ndrinvit.com" },
 } as const;

@@ -35,6 +35,7 @@
   line-height: var(--leading-meta);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
   color: var(--color-stone);
 }
 

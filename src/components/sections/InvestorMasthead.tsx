@@ -1,7 +1,5 @@
-import { Container } from "@/components/layout";
+import { Container, Section } from "@/components/layout";
 import { investorMasthead } from "@/lib/data/investor";
-import { Reveal } from "./Reveal";
-import { Rule } from "./Rule";
 import styles from "./InvestorMasthead.module.css";
 import { cx } from "../ui/cx";
 
@@ -25,42 +23,55 @@ export function InvestorMasthead({
   const isCover = variant === "cover";
 
   return (
-    <section className={styles.section} aria-labelledby={id}>
+    <Section tone="charcoal" ariaLabelledby={id} className={styles.section}>
+      <span className={styles.ruleTop} aria-hidden="true" />
+
       <Container className={styles.inner}>
         {isCover ? (
-          <Reveal>
+          <>
             <p className={styles.folio}>
               <span>{investorMasthead.registry}</span>
               <span>{investorMasthead.section}</span>
             </p>
-            <h1 id={id} className={styles.title}>
-              {title.before}
-              {title.accent ? <span className={styles.accent}>{title.accent}</span> : null}
-              {title.after}
-            </h1>
-            <p className={styles.meta}>
-              <span>{asOn}</span>
-              <span aria-hidden="true">·</span>
-              <span>{edition}</span>
-            </p>
-            <Rule className={styles.rule} />
-          </Reveal>
+            <div className={styles.hero}>
+              <span className={styles.watermark} aria-hidden="true">
+                {investorMasthead.watermark}
+              </span>
+              <h1 id={id} className={styles.title}>
+                {title.before}
+                {title.accent ? <span className={styles.accent}>{title.accent}</span> : null}
+                {title.after}
+              </h1>
+              <p className={styles.meta}>
+                <span>{asOn}</span>
+                <span aria-hidden="true">·</span>
+                <span>{edition}</span>
+              </p>
+            </div>
+            <span className={styles.rule} aria-hidden="true" />
+          </>
         ) : (
-          <Reveal>
+          <>
             {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
-            <h1 id={id} className={cx(styles.title, styles.slimTitle)}>
-              {title.before}
-              {title.accent ? <span className={styles.accent}>{title.accent}</span> : null}
-              {title.after}
-            </h1>
-            <p className={styles.meta}>
-              <span>{asOn}</span>
-              <span aria-hidden="true">·</span>
-              <span>{edition}</span>
-            </p>
-          </Reveal>
+            <div className={styles.hero}>
+              <span className={styles.watermark} aria-hidden="true">
+                {investorMasthead.watermark}
+              </span>
+              <h1 id={id} className={cx(styles.title, styles.slimTitle)}>
+                {title.before}
+                {title.accent ? <span className={styles.accent}>{title.accent}</span> : null}
+                {title.after}
+              </h1>
+              <p className={styles.meta}>
+                <span>{asOn}</span>
+                <span aria-hidden="true">·</span>
+                <span>{edition}</span>
+              </p>
+            </div>
+            <span className={styles.rule} aria-hidden="true" />
+          </>
         )}
       </Container>
-    </section>
+    </Section>
   );
 }

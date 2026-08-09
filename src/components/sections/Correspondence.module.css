@@ -64,8 +64,6 @@
 
 .card {
   padding: var(--space-6xl);
-  border-top: 1px solid var(--color-charcoal);
-  border-bottom: 1px solid var(--color-hairline-stone);
   background-color: var(--color-ivory-dim);
 }
 

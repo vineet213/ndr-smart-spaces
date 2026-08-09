@@ -24,6 +24,7 @@ export const investorMasthead = {
   title: { before: "The ", accent: "financial", after: " statement." },
   asOn: "As on 31 March 2026",
   edition: "Edition FY26 · Volume I",
+  watermark: "ST",
 } as const;
 
 export const investorEdition = {
