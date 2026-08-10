@@ -10,6 +10,8 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "verify:cms": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-verify.js",
+    "verify:cms:baseline": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-verify.js --record-baseline",
     "prepare": "husky"
   },
   "dependencies": {

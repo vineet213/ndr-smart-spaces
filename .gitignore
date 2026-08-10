@@ -28,6 +28,9 @@ pnpm-debug.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# CMS foundation build output (scripts/tsconfig.cms.json)
+/.cms-build/
+
 # IDE
 .vscode/
 .idea/
