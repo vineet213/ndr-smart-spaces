@@ -1,0 +1,1672 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NDR CMS — Admin</title>
+    <style>
+      :root {
+        --bg: #0f1115;
+        --panel: #171a21;
+        --panel-2: #1d2129;
+        --border: #2a2f3a;
+        --text: #e6e8ee;
+        --muted: #9aa3b2;
+        --accent: #4f8cff;
+        --accent-2: #7aa7ff;
+        --good: #3ecf8e;
+        --warn: #e6b53f;
+        --bad: #e5566e;
+        --mono: "SFMono-Regular", Consolas, monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font:
+          14px/1.5 -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+      .app {
+        display: grid;
+        grid-template-columns: 248px 1fr;
+        min-height: 100vh;
+      }
+      /* Sidebar */
+      .sidebar {
+        background: var(--panel);
+        border-right: 1px solid var(--border);
+        padding: 16px 12px;
+      }
+      .brand {
+        font-weight: 700;
+        font-size: 15px;
+        letter-spacing: 0.4px;
+        padding: 2px 10px 14px;
+      }
+      .brand span {
+        color: var(--muted);
+        font-weight: 400;
+        display: block;
+        font-size: 12px;
+      }
+      .nav-item {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 9px 10px;
+        margin: 2px 0;
+        border-radius: 8px;
+        background: none;
+        border: none;
+        color: var(--text);
+        cursor: pointer;
+      }
+      .nav-item:hover {
+        background: var(--panel-2);
+      }
+      .nav-item.active {
+        background: var(--accent);
+        color: #fff;
+      }
+      .nav-item small {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .nav-item.active small {
+        color: rgba(255, 255, 255, 0.8);
+      }
+      /* Main */
+      .main {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 18px;
+        border-bottom: 1px solid var(--border);
+        background: var(--panel);
+        flex-wrap: wrap;
+      }
+      .topbar input {
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        border-radius: 6px;
+        padding: 6px 9px;
+        font-size: 13px;
+      }
+      .topbar label {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .spacer {
+        flex: 1;
+      }
+      button {
+        background: var(--panel-2);
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        padding: 7px 12px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      button:hover {
+        border-color: var(--accent-2);
+      }
+      button.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+      }
+      button.primary:hover {
+        background: var(--accent-2);
+      }
+      button.ghost {
+        background: none;
+      }
+      button.danger {
+        color: var(--bad);
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      .content {
+        padding: 20px 26px;
+        max-width: 980px;
+        width: 100%;
+      }
+      .editor-head {
+        margin-bottom: 18px;
+      }
+      .editor-head h1 {
+        font-size: 22px;
+        margin: 0 0 4px;
+      }
+      .editor-head p {
+        color: var(--muted);
+        margin: 0;
+      }
+      .toolbar {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      /* Cards & forms */
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px;
+        margin-bottom: 14px;
+      }
+      .card h3 {
+        margin: 0 0 12px;
+        font-size: 15px;
+      }
+      .row {
+        margin-bottom: 12px;
+      }
+      .row label {
+        display: block;
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 4px;
+      }
+      .row .req::after {
+        content: " *";
+        color: var(--bad);
+      }
+      .row input[type="text"],
+      .row input[type="email"],
+      .row input[type="url"],
+      .row input[type="number"],
+      .row textarea,
+      .row select {
+        width: 100%;
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        border-radius: 6px;
+        padding: 8px 10px;
+        font-size: 13px;
+        font-family: inherit;
+      }
+      .row textarea {
+        min-height: 70px;
+        resize: vertical;
+      }
+      .row input[type="checkbox"] {
+        transform: scale(1.15);
+      }
+      .helper {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 3px;
+      }
+      fieldset.group {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px;
+        margin: 0 0 14px;
+      }
+      fieldset.group legend {
+        font-size: 12px;
+        color: var(--accent-2);
+        padding: 0 6px;
+      }
+      .item-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 12px;
+        margin: 8px 0;
+        background: var(--panel-2);
+      }
+      .item-card .item-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+      .item-head .item-title {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .link-rows .link-row {
+        display: grid;
+        grid-template-columns: 1fr 1.4fr auto auto;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .link-row input {
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        border-radius: 6px;
+        padding: 7px 9px;
+        font-size: 13px;
+      }
+      .mini {
+        font-size: 11px;
+        padding: 5px 8px;
+      }
+      .map-row {
+        display: grid;
+        grid-template-columns: 1fr 1.4fr auto;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .map-row input {
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        border-radius: 6px;
+        padding: 7px 9px;
+        font-size: 13px;
+      }
+      /* Records list */
+      .record-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        margin-bottom: 8px;
+        background: var(--panel);
+      }
+      .record-row .grow {
+        flex: 1;
+        min-width: 0;
+      }
+      .record-row .title {
+        font-weight: 600;
+      }
+      .record-row .meta {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .pill {
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+      .pill.draft {
+        background: #2a2f3a;
+        color: var(--muted);
+      }
+      .pill.pending {
+        background: #3a3320;
+        color: var(--warn);
+      }
+      .pill.published,
+      .pill.external {
+        background: #123322;
+        color: var(--good);
+      }
+      .pill.archived {
+        background: #331219;
+        color: var(--bad);
+      }
+      /* Audit */
+      .drawer {
+        position: fixed;
+        inset: 0;
+        background: rgba(5, 7, 10, 0.7);
+        display: none;
+        align-items: flex-start;
+        justify-content: flex-end;
+        z-index: 40;
+      }
+      .drawer.open {
+        display: flex;
+      }
+      .drawer-panel {
+        width: min(620px, 94vw);
+        height: 100vh;
+        background: var(--panel);
+        border-left: 1px solid var(--border);
+        overflow: auto;
+        padding: 18px;
+      }
+      .audit-item {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 12px;
+        margin-bottom: 8px;
+        font-size: 13px;
+      }
+      .audit-item .top {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .audit-item .mono {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .audit-item .act {
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 0.4px;
+      }
+      .act.create {
+        color: var(--good);
+      }
+      .act.update {
+        color: var(--accent-2);
+      }
+      .act.publish {
+        color: var(--good);
+      }
+      .act.archive {
+        color: var(--warn);
+      }
+      .act.restore {
+        color: var(--accent-2);
+      }
+      .act.delete {
+        color: var(--bad);
+      }
+      /* Toast */
+      #toasts {
+        position: fixed;
+        bottom: 18px;
+        right: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        z-index: 60;
+      }
+      .toast {
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent);
+        border-radius: 8px;
+        padding: 10px 14px;
+        max-width: 360px;
+        font-size: 13px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+      }
+      .toast.ok {
+        border-left-color: var(--good);
+      }
+      .toast.err {
+        border-left-color: var(--bad);
+      }
+      .error-list {
+        background: #2a1620;
+        border: 1px solid var(--bad);
+        border-radius: 8px;
+        padding: 10px 14px;
+        margin: 10px 0;
+      }
+      .error-list li {
+        color: var(--bad);
+      }
+      .empty {
+        color: var(--muted);
+        text-align: center;
+        padding: 40px 0;
+      }
+      .kv {
+        display: grid;
+        grid-template-columns: 130px 1fr;
+        gap: 6px 12px;
+        font-size: 13px;
+      }
+      .kv dt {
+        color: var(--muted);
+      }
+      .kv dd {
+        margin: 0;
+      }
+      @media (max-width: 720px) {
+        .app {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          display: flex;
+          overflow-x: auto;
+        }
+        .nav-item {
+          white-space: nowrap;
+        }
+        .link-rows .link-row {
+          grid-template-columns: 1fr;
+        }
+        .map-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <nav class="sidebar" id="sidebar"></nav>
+      <div class="main">
+        <div class="topbar">
+          <label>User <input id="inp-user" value="local-admin" size="14" /></label>
+          <label
+            >Role
+            <select id="sel-role">
+              <option>super-admin</option>
+              <option>investor-editor</option>
+              <option>business-editor</option>
+              <option>governance-editor</option>
+            </select>
+          </label>
+          <span class="spacer"></span>
+          <button id="btn-export" title="Regenerate managed modules and verify byte-stability">
+            Regenerate export
+          </button>
+          <button id="btn-audit">Audit log</button>
+          <button id="btn-refresh">Refresh</button>
+        </div>
+        <div class="content" id="content"></div>
+      </div>
+    </div>
+
+    <div class="drawer" id="drawer"><div class="drawer-panel" id="drawer-panel"></div></div>
+    <div id="toasts"></div>
+
+    <script>
+      "use strict";
+
+      /* ---------- tiny DOM helpers ---------- */
+      const $ = (id) => document.getElementById(id);
+      function el(tag, attrs, ...children) {
+        const node = document.createElement(tag);
+        if (attrs)
+          for (const [k, v] of Object.entries(attrs)) {
+            if (k === "class") node.className = v;
+            else if (k === "dataset")
+              for (const [dk, dv] of Object.entries(v)) node.dataset[dk] = dv;
+            else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
+            else node[k] = v;
+          }
+        for (const child of children) {
+          if (child == null) continue;
+          node.append(typeof child === "string" ? document.createTextNode(child) : child);
+        }
+        return node;
+      }
+
+      /* ---------- state ---------- */
+      const state = {
+        meta: null,
+        currentKey: null,
+        records: {}, // key -> { records: [], audit: [] }
+        draft: null, // current editable object (bound to DOM)
+        files: {}, // path -> { name, mime, dataBase64 }
+      };
+      const EDITOR_ORDER = [
+        "corporate-settings",
+        "publication-settings",
+        "brand-settings",
+        "navigation",
+        "footer",
+        "documents",
+        "media",
+        "metrics",
+        "locations",
+        "portfolio-assets",
+        "business-verticals",
+        "esg-initiatives",
+        "governance-records",
+        "contact-directory",
+      ];
+      const STATUS_ORDER = ["draft", "pending", "published", "external", "archived"];
+
+      function ctx() {
+        return { user: $("inp-user").value.trim() || "local-admin", role: $("sel-role").value };
+      }
+
+      /* ---------- api ---------- */
+      async function api(path, options) {
+        const res = await fetch(path, options);
+        const body = await res.json().catch(() => ({ error: "invalid response" }));
+        if (!res.ok)
+          throw Object.assign(new Error(body.error || `HTTP ${res.status}`), {
+            issues: body.issues || [],
+          });
+        return body;
+      }
+      function toast(text, kind) {
+        $("toasts").append(el("div", { class: "toast " + (kind || "") }, text));
+        setTimeout(() => $("toasts").lastChild.remove(), 3800);
+      }
+
+      /* ---------- path binding ---------- */
+      function getPath(obj, path) {
+        let cur = obj;
+        for (const key of path) {
+          if (cur == null) return undefined;
+          cur = cur[key];
+        }
+        return cur;
+      }
+      function setPath(obj, path, value) {
+        let cur = obj;
+        for (let i = 0; i < path.length - 1; i++) {
+          if (cur[path[i]] == null) cur[path[i]] = {};
+          cur = cur[path[i]];
+        }
+        cur[path[path.length - 1]] = value;
+      }
+      function draftDefaults() {
+        return JSON.parse(
+          JSON.stringify(state.records[state.currentKey]?.records?.[0]?.data ?? {}),
+        );
+      }
+
+      /* ---------- sidebar ---------- */
+      function renderSidebar() {
+        const nav = $("sidebar");
+        nav.innerHTML = "";
+        nav.append(
+          el("div", { class: "brand" }, "NDR CMS", el("span", null, "Phase 1.1 — editorial admin")),
+        );
+        for (const key of EDITOR_ORDER) {
+          const schema = state.meta.schemas.find((s) => s.key === key);
+          if (!schema) continue;
+          const item = el(
+            "button",
+            {
+              class: "nav-item" + (state.currentKey === key ? " active" : ""),
+              onclick: () => openEditor(key),
+            },
+            schema.label,
+            el("small", null, schema.description),
+          );
+          nav.append(item);
+        }
+      }
+
+      /* ---------- editor routing ---------- */
+      async function openEditor(key) {
+        state.currentKey = key;
+        state.draft = null;
+        state.files = {};
+        renderSidebar();
+        try {
+          if (!state.records[key])
+            state.records[key] = await api(`/api/c/${encodeURIComponent(key)}`);
+        } catch (error) {
+          return renderError(error.message);
+        }
+        const schema = state.meta.schemas.find((s) => s.key === key);
+        if (schema.editor === "navigation") renderNav();
+        else if (schema.editor === "footer") renderFooter();
+        else if (schema.singleRecord) renderSettingsForm(schema);
+        else renderRecordList(schema);
+      }
+
+      function renderError(message) {
+        $("content").append(
+          el("div", { class: "error-list" }, el("ul", null, el("li", null, message))),
+        );
+      }
+
+      /* ---------- settings (schema-driven) ---------- */
+      function renderSettingsForm(schema) {
+        const record = state.records[schema.key].records[0] || null;
+        state.draft = JSON.parse(JSON.stringify(record?.data ?? {}));
+        const form = el("div");
+        form.append(editorHeader(schema, record, () => saveSettings(schema.key)));
+        for (const field of schema.fields) form.append(fieldWidget(field, [field.key]));
+        $("content").replaceChildren(form);
+      }
+
+      function saveSettings(key) {
+        return saveRecord(key, null, state.draft);
+      }
+
+      /* ---------- records list (documents/media) ---------- */
+      function renderRecordList(schema) {
+        const records = state.records[schema.key].records;
+        const list = el(
+          "div",
+          { class: "card" },
+          el(
+            "div",
+            { class: "toolbar" },
+            el("h3", { style: "margin:0" }, `${schema.label} (${records.length})`),
+            el("span", { class: "spacer" }),
+            el(
+              "button",
+              { class: "primary", onclick: () => openRecordForm(schema, null) },
+              "+ New record",
+            ),
+          ),
+          el(
+            "div",
+            null,
+            records.length === 0
+              ? el("div", { class: "empty" }, "No records yet — create one.")
+              : records.map((record) => recordRow(schema, record)),
+          ),
+        );
+        const head = el(
+          "div",
+          null,
+          editorHeader(schema, records[0], () => openRecordForm(schema, records[0])),
+        );
+        $("content").replaceChildren(head, list);
+      }
+
+      function recordRow(schema, record) {
+        const title = record.data.title || record.data.name || record.id;
+        const metaBits = [
+          record.status,
+          `rev ${record.revision}`,
+          record.data.ref && `ref ${record.data.ref}`,
+          record.version && `v${record.version}`,
+        ]
+          .filter(Boolean)
+          .join(" · ");
+        return el(
+          "div",
+          { class: "record-row" },
+          el(
+            "div",
+            { class: "grow" },
+            el("div", { class: "title" }, String(title)),
+            el("div", { class: "meta" }, metaBits),
+          ),
+          el("span", { class: "pill " + record.status }, record.status),
+          statusActions(schema, record),
+          el("button", { class: "ghost", onclick: () => openRecordForm(schema, record) }, "Edit"),
+        );
+      }
+
+      function statusActions(schema, record) {
+        const row = el("div", { style: "display:flex;gap:6px" });
+        const role = ctx().role;
+        const add = (label, to) =>
+          row.append(
+            el(
+              "button",
+              { class: "mini", onclick: () => transition(schema.key, record.id, to) },
+              label,
+            ),
+          );
+        if (record.status === "draft" || record.status === "pending") add("Publish", "published");
+        if (record.status === "archived") add("Restore", "draft");
+        if (record.status === "published" || record.status === "external" || role === "super-admin")
+          add("Archive", "archived");
+        return row;
+      }
+
+      function openRecordForm(schema, record) {
+        const isNew = record === null;
+        state.draft = JSON.parse(JSON.stringify(record?.data ?? {}));
+        state.files = {};
+        const form = el("div", null);
+        form.append(
+          el(
+            "div",
+            { class: "toolbar" },
+            el("button", { onclick: () => openEditor(schema.key) }, "← Back"),
+            el("span", { class: "spacer" }),
+            el(
+              "span",
+              { style: "color:var(--muted);font-size:12px" },
+              isNew
+                ? "Creating new record"
+                : `${record.status} · rev ${record.revision}${record.data.ref ? " · " + record.data.ref : ""}`,
+            ),
+          ),
+        );
+        const card = el(
+          "div",
+          { class: "card" },
+          el(
+            "h3",
+            null,
+            isNew
+              ? `New ${schema.label.replace(" Register", "")}`
+              : String(record.data.title || record.data.name || record.id),
+          ),
+        );
+        for (const field of schema.fields) card.append(fieldWidget(field, [field.key]));
+        if (schema.statusEnabled && !isNew) {
+          card.append(
+            el(
+              "div",
+              { class: "row" },
+              el("label", null, "Status"),
+              el(
+                "select",
+                {
+                  onchange: (e) => {
+                    state.draftStatus = e.target.value;
+                  },
+                },
+                ...STATUS_ORDER.map((s) =>
+                  el("option", { value: s, selected: s === record.status }, s),
+                ),
+              ),
+            ),
+          );
+        }
+        card.append(
+          el(
+            "div",
+            { class: "toolbar" },
+            el(
+              "button",
+              { class: "primary", onclick: () => saveDraft(schema, record) },
+              isNew ? "Create record" : "Save changes",
+            ),
+          ),
+        );
+        form.append(card);
+        $("content").replaceChildren(form);
+      }
+
+      function saveDraft(schema, record) {
+        const data = state.draft;
+        const status = record === null ? "draft" : state.draftStatus || record.status;
+        return saveRecord(schema.key, record?.id ?? null, data, status);
+      }
+
+      async function saveRecord(key, id, data, status) {
+        const payload = { data, status, ...ctx() };
+        if (id) payload.id = id;
+        const filePaths = Object.keys(state.files);
+        if (filePaths.length) payload.file = state.files[filePaths[0]];
+        try {
+          const result = await api(`/api/c/${encodeURIComponent(key)}?action=save`, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          state.records[key] = await api(`/api/c/${encodeURIComponent(key)}`);
+          toast(`Saved ${result.issuedRef ? `— ref ${result.issuedRef}` : ""}`, "ok");
+          openEditor(key);
+          return result;
+        } catch (error) {
+          renderValidationError(error);
+          throw error;
+        }
+      }
+
+      function renderValidationError(error) {
+        const box = el("div", { class: "error-list" }, el("ul", null));
+        const issues =
+          error.issues && error.issues.length
+            ? error.issues.map((i) => i.message)
+            : [error.message];
+        for (const message of issues) box.firstChild.append(el("li", null, message));
+        const content = $("content");
+        content.append(box);
+        toast("Validation failed", "err");
+        box.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      async function transition(key, id, status) {
+        try {
+          await api(`/api/c/${encodeURIComponent(key)}?action=transition`, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ id, status, ...ctx() }),
+          });
+          state.records[key] = await api(`/api/c/${encodeURIComponent(key)}`);
+          toast(`Status → ${status}`, "ok");
+          openEditor(key);
+        } catch (error) {
+          renderValidationError(error);
+        }
+      }
+
+      /* ---------- generic field widgets ---------- */
+      function fieldWidget(field, path) {
+        const value = getPath(state.draft, path);
+        switch (field.kind) {
+          case "text":
+          case "email":
+          case "url":
+          case "number":
+          case "select":
+          case "textarea":
+            return scalarField(field, path, value);
+          case "boolean":
+            return boolField(field, path, value);
+          case "object":
+            return objectField(field, path, value);
+          case "map":
+            return mapField(field, path, value);
+          case "list":
+            return listField(field, path, value);
+          case "file":
+            return fileField(field, path, value);
+          default:
+            return el("div");
+        }
+      }
+
+      function scalarField(field, path, value) {
+        const type =
+          field.kind === "email"
+            ? "email"
+            : field.kind === "url"
+              ? "url"
+              : field.kind === "number"
+                ? "number"
+                : field.kind === "textarea"
+                  ? undefined
+                  : "text";
+        const input = el(type === "textarea" ? "textarea" : type === "number" ? "input" : "input", {
+          type: type || "text",
+          value: value == null ? "" : String(value),
+          placeholder: field.placeholder || "",
+          oninput: (e) => {
+            const next = field.kind === "number" ? Number(e.target.value) : e.target.value;
+            setPath(state.draft, path, next);
+          },
+        });
+        if (field.kind === "select") {
+          return fieldRow(
+            field,
+            path,
+            el(
+              "select",
+              { onchange: (e) => setPath(state.draft, path, e.target.value) },
+              ...(field.options || []).map((opt) =>
+                el("option", { value: opt, selected: String(value) === opt }, opt),
+              ),
+            ),
+          );
+        }
+        return fieldRow(field, path, input, field.helper);
+      }
+
+      function boolField(field, path, value) {
+        return fieldRow(
+          field,
+          path,
+          el("input", {
+            type: "checkbox",
+            checked: !!value,
+            onchange: (e) => setPath(state.draft, path, e.target.checked),
+          }),
+          field.helper,
+        );
+      }
+
+      function objectField(field, path, value) {
+        if (value == null) {
+          setPath(state.draft, path, {});
+          value = {};
+        }
+        const set = el("fieldset", { class: "group" }, el("legend", null, field.label));
+        for (const child of field.fields || [])
+          set.append(fieldWidget(child, [...path, child.key]));
+        return set;
+      }
+
+      function mapField(field, path, value) {
+        const entries = value && typeof value === "object" ? Object.entries(value) : [];
+        const set = el("fieldset", { class: "group" }, el("legend", null, field.label));
+        const rows = el("div");
+        const sync = () => {
+          const next = {};
+          for (const input of rows.querySelectorAll(".map-row")) {
+            const k = input.dataset.k,
+              v = input.dataset.v;
+            if (k && v) next[k] = v;
+          }
+          setPath(state.draft, path, next);
+        };
+        const addRow = (k, v) => {
+          const ki = el("input", {
+            type: "text",
+            value: k || "",
+            placeholder: field.keyLabel || "Key",
+          });
+          const vi = el("input", {
+            type: "text",
+            value: v || "",
+            placeholder: field.valueLabel || "Value",
+          });
+          const row = el("div", { class: "map-row" });
+          const refresh = () => {
+            if (row.dataset.k === ki.value && row.dataset.v === vi.value) return;
+            row.dataset.k = ki.value;
+            row.dataset.v = vi.value;
+            sync();
+          };
+          ki.addEventListener("input", refresh);
+          vi.addEventListener("input", refresh);
+          row.append(
+            ki,
+            vi,
+            el(
+              "button",
+              {
+                class: "mini danger",
+                onclick: () => {
+                  row.remove();
+                  sync();
+                },
+              },
+              "Remove",
+            ),
+          );
+          rows.append(row);
+          sync();
+        };
+        for (const [k, v] of entries) addRow(k, String(v));
+        set.append(
+          rows,
+          el(
+            "button",
+            {
+              class: "mini",
+              onclick: () => {
+                addRow("", "");
+              },
+            },
+            `+ Add ${field.valueLabel || "pair"}`,
+          ),
+        );
+        return set;
+      }
+
+      function listField(field, path, value) {
+        if (!Array.isArray(value)) {
+          setPath(state.draft, path, []);
+          value = [];
+        }
+        const set = el("fieldset", { class: "group" }, el("legend", null, field.label));
+        const container = el("div");
+        const redraw = () => {
+          container.innerHTML = "";
+          const items = getPath(state.draft, path) || [];
+          items.forEach((_, index) => {
+            const card = el(
+              "div",
+              { class: "item-card" },
+              el(
+                "div",
+                { class: "item-head" },
+                el("span", { class: "item-title" }, `#${index + 1}`),
+                el(
+                  "button",
+                  {
+                    class: "mini danger",
+                    onclick: () => {
+                      const list = getPath(state.draft, path) || [];
+                      list.splice(index, 1);
+                      setPath(state.draft, path, list);
+                      redraw();
+                    },
+                  },
+                  "Remove",
+                ),
+              ),
+            );
+            for (const child of field.itemFields || [])
+              card.append(fieldWidget(child, [...path, index, child.key]));
+            container.append(card);
+          });
+        };
+        redraw();
+        set.append(
+          container,
+          el(
+            "button",
+            {
+              class: "mini",
+              onclick: () => {
+                const list = getPath(state.draft, path) || [];
+                list.push({});
+                setPath(state.draft, path, list);
+                redraw();
+              },
+            },
+            `+ Add ${field.itemFields?.[0]?.label || "item"}`,
+          ),
+        );
+        return set;
+      }
+
+      function fileField(field, path, value) {
+        const holder = el("div");
+        const current = typeof value === "string" ? value : "";
+        const note = el(
+          "div",
+          { class: "helper" },
+          current ? `Stored file: ${current}` : "No file uploaded.",
+        );
+        const input = el("input", {
+          type: "file",
+          onchange: (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+              const dataBase64 = String(reader.result).split(",")[1];
+              state.files[path.join(".")] = {
+                name: file.name,
+                mime: file.type || "application/octet-stream",
+                dataBase64,
+              };
+              note.textContent = `Will upload: ${file.name} (${file.type || "unknown"})`;
+            };
+            reader.readAsDataURL(file);
+          },
+        });
+        return fieldRow(field, path, input, note.textContent);
+      }
+
+      function fieldRow(field, path, control, helperText) {
+        return el(
+          "div",
+          { class: "row" },
+          el("label", { class: field.required ? "req" : "" }, field.label),
+          control,
+          helperText ? el("div", { class: "helper" }, helperText) : el("div"),
+        );
+      }
+
+      /* ---------- navigation editor ---------- */
+      const LINK_FIELDS = [
+        { key: "label", label: "Label" },
+        { key: "href", label: "Href" },
+      ];
+
+      function linkListWidget(path, surfaceName) {
+        const container = el("div", { class: "link-rows" });
+        const sync = () => {
+          const next = [];
+          for (const row of container.children) {
+            if (!row.dataset.live) continue;
+            next.push({ label: row.dataset.label || "", href: row.dataset.href || "" });
+          }
+          setPath(state.draft, path, next);
+        };
+        const addRow = (label, href) => {
+          const li = el("input", { type: "text", value: label || "", placeholder: "Label" });
+          const hi = el("input", {
+            type: "text",
+            value: href || "",
+            placeholder: "/en/… or https://…",
+          });
+          const row = el("div", { class: "link-row" });
+          const commit = () => {
+            row.dataset.label = li.value;
+            row.dataset.href = hi.value;
+            sync();
+          };
+          li.addEventListener("input", commit);
+          hi.addEventListener("input", commit);
+          row.dataset.live = "true";
+          row.dataset.label = label || "";
+          row.dataset.href = href || "";
+          row.append(
+            li,
+            hi,
+            el(
+              "button",
+              {
+                class: "mini danger",
+                onclick: () => {
+                  row.remove();
+                  sync();
+                },
+              },
+              "✕",
+            ),
+          );
+          container.append(row);
+        };
+        (getPath(state.draft, path) || []).forEach((link) => addRow(link.label, link.href));
+        return el(
+          "fieldset",
+          { class: "group" },
+          el("legend", null, surfaceName),
+          container,
+          el(
+            "button",
+            {
+              class: "mini",
+              onclick: () => {
+                addRow("", "");
+                sync();
+              },
+            },
+            "+ Add link",
+          ),
+        );
+      }
+
+      function linkPairWidget(path, label) {
+        return el(
+          "fieldset",
+          { class: "group" },
+          el("legend", null, label),
+          el(
+            "div",
+            { class: "link-rows" },
+            el(
+              "div",
+              { class: "link-row" },
+              el("input", {
+                type: "text",
+                value: String(getPath(state.draft, [path, "label"]) || ""),
+                placeholder: "Label",
+                oninput: (e) => setPath(state.draft, [path, "label"], e.target.value),
+              }),
+              el("input", {
+                type: "text",
+                value: String(getPath(state.draft, [path, "href"]) || ""),
+                placeholder: "Href",
+                oninput: (e) => setPath(state.draft, [path, "href"], e.target.value),
+              }),
+            ),
+          ),
+        );
+      }
+
+      function columnWidget(parentPath, index, col) {
+        const card = el(
+          "div",
+          { class: "item-card" },
+          el(
+            "div",
+            { class: "row" },
+            el("label", null, "Column heading"),
+            el("input", {
+              type: "text",
+              value: col.heading || "",
+              oninput: (e) =>
+                setPath(state.draft, [...parentPath, index, "heading"], e.target.value),
+            }),
+          ),
+          linkListWidget([...parentPath, index, "links"], "Links"),
+        );
+        return card;
+      }
+
+      function renderNav() {
+        const record = state.records.navigation.records[0] || null;
+        state.draft = JSON.parse(JSON.stringify(record?.data ?? {}));
+        const form = el("div");
+        form.append(editorHeader(navSchema(), record, () => saveSettings("navigation")));
+        form.append(
+          el(
+            "div",
+            { class: "card" },
+            el("h3", null, "Home"),
+            linkPairWidget("siteHome", "Site home"),
+          ),
+        );
+        form.append(
+          el(
+            "div",
+            { class: "card" },
+            el("h3", null, "Utility strip"),
+            linkListWidget(["utilityStrip"], "Utility strip"),
+          ),
+        );
+        form.append(
+          el(
+            "div",
+            { class: "card" },
+            el("h3", null, "Header CTA"),
+            linkPairWidget("headerCta", "Header CTA"),
+          ),
+        );
+        form.append(
+          el(
+            "div",
+            { class: "card" },
+            el("h3", null, "Primary navigation"),
+            el("div", { id: "nav-items" }),
+          ),
+        );
+        form.append(
+          el(
+            "div",
+            { class: "card" },
+            el("h3", null, "Mobile navigation"),
+            linkListWidget(["mobileNavItems"], "Mobile nav"),
+            linkListWidget(["mobileMenuFooter"], "Mobile menu footer"),
+          ),
+        );
+        $("content").replaceChildren(form);
+        const itemsBox = $("nav-items");
+        const addMenuButton = el(
+          "button",
+          {
+            class: "mini",
+            onclick: () => {
+              state.draft.navItems = state.draft.navItems || [];
+              state.draft.navItems.push({ label: "", href: "", columns: [] });
+              drawItems();
+            },
+          },
+          "+ Add menu",
+        );
+        const drawItems = () => {
+          itemsBox.innerHTML = "";
+          const items = state.draft.navItems || [];
+          items.forEach((item, index) => {
+            const card = el(
+              "div",
+              { class: "item-card" },
+              el(
+                "div",
+                { class: "item-head" },
+                el("span", { class: "item-title" }, `Menu ${index + 1}`),
+                el(
+                  "button",
+                  {
+                    class: "mini danger",
+                    onclick: () => {
+                      state.draft.navItems.splice(index, 1);
+                      drawItems();
+                    },
+                  },
+                  "Remove menu",
+                ),
+              ),
+              el(
+                "div",
+                { style: "display:grid;grid-template-columns:1fr 1.4fr;gap:8px" },
+                el("input", {
+                  type: "text",
+                  value: item.label || "",
+                  placeholder: "Menu label",
+                  oninput: (e) => {
+                    item.label = e.target.value;
+                  },
+                }),
+                el("input", {
+                  type: "text",
+                  value: item.href || "",
+                  placeholder: "Menu href",
+                  oninput: (e) => {
+                    item.href = e.target.value;
+                  },
+                }),
+              ),
+              el(
+                "div",
+                null,
+                (item.columns || []).map((col, ci) =>
+                  columnWidget(["navItems", index, "columns"], ci, col),
+                ),
+                el(
+                  "button",
+                  {
+                    class: "mini",
+                    onclick: () => {
+                      item.columns = item.columns || [];
+                      item.columns.push({ heading: "", links: [] });
+                      drawItems();
+                    },
+                  },
+                  "+ Add column",
+                ),
+              ),
+            );
+            itemsBox.append(card);
+          });
+        };
+        drawItems();
+        itemsBox.append(addMenuButton);
+      }
+
+      function navSchema() {
+        return state.meta.schemas.find((s) => s.key === "navigation");
+      }
+
+      /* ---------- footer editor ---------- */
+      function renderFooter() {
+        const record = state.records.footer.records[0] || null;
+        state.draft = JSON.parse(JSON.stringify(record?.data ?? {}));
+        const form = el("div");
+        form.append(editorHeader(footerSchema(), record, () => saveSettings("footer")));
+        form.append(
+          el(
+            "div",
+            { class: "card" },
+            el(
+              "div",
+              { class: "row" },
+              el("label", { class: "req" }, "Descriptor"),
+              el("input", {
+                type: "text",
+                value: state.draft.descriptor || "",
+                oninput: (e) => {
+                  state.draft.descriptor = e.target.value;
+                },
+              }),
+            ),
+            linkListWidget(["ecosystem"], "Ecosystem links"),
+          ),
+        );
+        form.append(
+          el(
+            "div",
+            { class: "card" },
+            el("h3", null, "Link groups"),
+            el("div", { id: "footer-groups" }),
+          ),
+        );
+        form.append(
+          el(
+            "div",
+            { class: "card" },
+            linkListWidget(["legal"], "Legal links"),
+            linkListWidget(["socialLinks"], "Social links"),
+          ),
+        );
+        form.append(
+          el(
+            "div",
+            { class: "card" },
+            el("h3", null, "Contact"),
+            el(
+              "div",
+              { class: "row" },
+              el("label", { class: "req" }, "Heading"),
+              el("input", {
+                type: "text",
+                value: state.draft.contact?.heading || "",
+                oninput: (e) => {
+                  state.draft.contact = state.draft.contact || {};
+                  state.draft.contact.heading = e.target.value;
+                },
+              }),
+            ),
+            el(
+              "div",
+              { class: "row" },
+              el("label", { class: "req" }, "Address"),
+              el(
+                "textarea",
+                {
+                  oninput: (e) => {
+                    state.draft.contact = state.draft.contact || {};
+                    state.draft.contact.address = e.target.value;
+                  },
+                },
+                state.draft.contact?.address || "",
+              ),
+            ),
+            linkListWidget(["contact", "emails"], "Emails"),
+          ),
+        );
+        form.append(
+          el(
+            "div",
+            { class: "card" },
+            el(
+              "div",
+              { class: "row" },
+              el("label", { class: "req" }, "Copyright line"),
+              el("input", {
+                type: "text",
+                value: state.draft.copyright || "",
+                oninput: (e) => {
+                  state.draft.copyright = e.target.value;
+                },
+              }),
+            ),
+          ),
+        );
+        $("content").replaceChildren(form);
+        const groupsBox = $("footer-groups");
+        const drawGroups = () => {
+          groupsBox.innerHTML = "";
+          (state.draft.groups || []).forEach((group, index) => {
+            const card = el(
+              "div",
+              { class: "item-card" },
+              el(
+                "div",
+                { class: "item-head" },
+                el("span", { class: "item-title" }, `Group ${index + 1}`),
+                el(
+                  "button",
+                  {
+                    class: "mini danger",
+                    onclick: () => {
+                      state.draft.groups.splice(index, 1);
+                      drawGroups();
+                    },
+                  },
+                  "Remove group",
+                ),
+              ),
+              el(
+                "div",
+                { class: "row" },
+                el("label", null, "Heading"),
+                el("input", {
+                  type: "text",
+                  value: group.heading || "",
+                  oninput: (e) => {
+                    group.heading = e.target.value;
+                  },
+                }),
+              ),
+              linkListWidget(["groups", index, "links"], "Links"),
+            );
+            groupsBox.append(card);
+          });
+        };
+        drawGroups();
+        groupsBox.insertAdjacentElement(
+          "afterend",
+          el(
+            "button",
+            {
+              class: "mini",
+              onclick: () => {
+                state.draft.groups = state.draft.groups || [];
+                state.draft.groups.push({ heading: "", links: [] });
+                drawGroups();
+              },
+            },
+            "+ Add group",
+          ).outerHTML,
+        );
+      }
+
+      function footerSchema() {
+        return state.meta.schemas.find((s) => s.key === "footer");
+      }
+
+      /* ---------- shared header / save ---------- */
+      function editorHeader(schema, record, onSave) {
+        return el(
+          "div",
+          { class: "editor-head" },
+          el("h1", null, schema.label),
+          el("p", null, schema.description),
+          el(
+            "div",
+            { class: "toolbar" },
+            record
+              ? el(
+                  "span",
+                  { style: "color:var(--muted);font-size:12px" },
+                  `updated ${new Date(record.updatedAt).toLocaleString()}`,
+                )
+              : el("span", { style: "color:var(--muted);font-size:12px" }, "Not created yet"),
+            el("span", { class: "spacer" }),
+            el("button", { class: "primary", onclick: onSave }, "Save"),
+          ),
+        );
+      }
+
+      function renderEditor() {
+        openEditor(state.currentKey);
+      }
+
+      /* ---------- audit ---------- */
+      function openAudit() {
+        const panel = $("drawer-panel");
+        panel.innerHTML = "";
+        panel.append(
+          el(
+            "div",
+            { class: "toolbar" },
+            el("h3", { style: "margin:0" }, "Audit log"),
+            el("span", { class: "spacer" }),
+            el("button", { class: "ghost", onclick: () => closeDrawer() }, "Close"),
+          ),
+        );
+        const list = el("div");
+        panel.append(list);
+        loadAudit(list);
+      }
+
+      async function loadAudit(list) {
+        list.append(el("div", { class: "empty" }, "Loading…"));
+        try {
+          const { entries, chain } = await api("/api/audit");
+          list.innerHTML = "";
+          list.append(
+            el(
+              "div",
+              { class: "helper", style: "margin-bottom:10px" },
+              `${entries.length} entries · chain ${chain.valid ? "verified ✓" : "BROKEN at seq " + chain.lastVerifiedSeq}`,
+            ),
+          );
+          for (const entry of entries.slice().reverse()) {
+            list.append(
+              el(
+                "div",
+                { class: "audit-item" },
+                el(
+                  "div",
+                  { class: "top" },
+                  el("span", { class: "act " + entry.action }, entry.action),
+                  el("span", { class: "mono" }, `#${entry.seq}`),
+                  el("span", null, entry.collection),
+                  entry.recordId && el("span", { class: "mono" }, entry.recordId),
+                  el("span", { class: "mono" }, new Date(entry.timestamp).toLocaleString()),
+                ),
+                el(
+                  "div",
+                  { class: "top" },
+                  el("span", { class: "mono" }, entry.user),
+                  el("span", { class: "mono" }, entry.role),
+                  entry.statusChange &&
+                    el(
+                      "span",
+                      { class: "mono" },
+                      `${entry.statusChange.from} → ${entry.statusChange.to}`,
+                    ),
+                  entry.documentVersion &&
+                    el(
+                      "span",
+                      { class: "mono" },
+                      `v${entry.documentVersion.from}→v${entry.documentVersion.to}`,
+                    ),
+                  entry.registryRef && el("span", { class: "mono" }, `ref ${entry.registryRef}`),
+                ),
+                el(
+                  "div",
+                  { class: "mono", style: "margin-top:6px;word-break:break-all" },
+                  `hash ${entry.hash.slice(0, 16)}… prev ${entry.prevHash.slice(0, 10)}`,
+                ),
+              ),
+            );
+          }
+        } catch (error) {
+          list.replaceChildren(el("div", { class: "error-list" }, error.message));
+        }
+      }
+
+      function closeDrawer() {
+        $("drawer").classList.remove("open");
+      }
+
+      /* ---------- export ---------- */
+      async function runExport() {
+        toast("Regenerating managed modules…");
+        try {
+          const result = await api("/api/export", { method: "POST" });
+          const lines = [
+            `Generated modules: ${result.generated.map((g) => `${g.fileName}${g.byteIdentical ? " ✓" : " DRIFT"}`).join(", ") || "none"}`,
+            `Deterministic: ${result.generatedValid}`,
+            `Pass-through modules stable: ${result.contract.stable}`,
+            `Audit chain: ${result.audit.valid ? "verified" : "BROKEN"}`,
+          ];
+          toast(
+            `Export ${result.ok ? "clean" : "drift detected"} — ${lines[0]}`,
+            result.ok ? "ok" : "err",
+          );
+          const panel = $("drawer-panel");
+          panel.innerHTML = "";
+          panel.append(
+            el(
+              "div",
+              { class: "toolbar" },
+              el("h3", { style: "margin:0" }, "Export report"),
+              el("span", { class: "spacer" }),
+              el("button", { class: "ghost", onclick: () => closeDrawer() }, "Close"),
+            ),
+          );
+          for (const line of lines) panel.append(el("div", { class: "audit-item" }, line));
+          $("drawer").classList.add("open");
+        } catch (error) {
+          renderValidationError(error);
+        }
+      }
+
+      /* ---------- boot ---------- */
+      async function boot() {
+        $("btn-audit").addEventListener("click", openAudit);
+        $("btn-export").addEventListener("click", runExport);
+        $("btn-refresh").addEventListener("click", () => openEditor(state.currentKey));
+        $("drawer").addEventListener("click", (e) => {
+          if (e.target.id === "drawer") closeDrawer();
+        });
+        document.addEventListener("keydown", (e) => {
+          if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+            e.preventDefault();
+            const active = document.querySelector(".editor-head .primary");
+            if (active) active.click();
+          }
+        });
+        try {
+          state.meta = await api("/api/meta");
+        } catch (error) {
+          document.body.replaceChildren(
+            el("div", { class: "error-list", style: "padding:20px" }, error.message),
+          );
+          return;
+        }
+        renderSidebar();
+        await openEditor(EDITOR_ORDER[0]);
+      }
+      boot();
+    </script>
+  </body>
+</html>

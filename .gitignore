@@ -31,6 +31,12 @@ next-env.d.ts
 # CMS foundation build output (scripts/tsconfig.cms.json)
 /.cms-build/
 
+# CMS admin local content store (dev server persistence)
+/.cms-store/
+
+# CMS generated content modules (regenerated on export, §16.2)
+/src/lib/data/generated/
+
 # IDE
 .vscode/
 .idea/

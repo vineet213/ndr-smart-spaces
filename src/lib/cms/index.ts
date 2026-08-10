@@ -12,3 +12,4 @@ export * from "./registry";
 export * from "./audit";
 export * from "./validation";
 export * from "./export";
+export * from "./editor";
