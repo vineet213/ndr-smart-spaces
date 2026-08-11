@@ -31,6 +31,8 @@ export type SaveInput = {
   data: JsonValue;
   status?: PublicationStatus;
   file?: { name: string; mime: string; dataBase64: string };
+  /** Deterministic ordering key — seeding only; defaults to the previous value or now (§2A). */
+  order?: string;
 } & EditorContext;
 
 export type SaveResult = {
@@ -111,7 +113,9 @@ export class CollectionEditor {
         ? await this.content.get(schema.key, input.id)
         : null;
     const isNew = existing === null;
-    const id = isNew ? await this.resolveId(schema.key, input) : (input.id as string);
+    const id = isNew
+      ? (input.id || (await this.resolveId(schema.key, input)))
+      : (input.id as string);
 
     let data = sortKeys(input.data);
     const nextStatus: PublicationStatus =
@@ -176,7 +180,7 @@ export class CollectionEditor {
       updatedAt: now,
       revision: (existing?.revision ?? 0) + 1,
       version,
-      order: existing?.order ?? now,
+      order: input.order ?? existing?.order ?? now,
       data,
     };
 

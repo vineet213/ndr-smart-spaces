@@ -1,0 +1,2711 @@
+{
+  "phase": "2A",
+  "generatedAt": "2026-08-11T14:06:56.336Z",
+  "verdict": "PASS",
+  "counts": {
+    "total": 362,
+    "passed": 362,
+    "failed": 0,
+    "unintended": 0
+  },
+  "results": [
+    {
+      "id": "corporate-settings.count",
+      "layer": "inventory/data",
+      "description": "corporate-settings has exactly 1 records",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "corporate-settings.default.status",
+      "layer": "inventory/data",
+      "description": "default has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "corporate-settings.default.order",
+      "layer": "inventory/data",
+      "description": "default has order 0000",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0000"
+    },
+    {
+      "id": "corporate-settings.default.data",
+      "layer": "inventory/data",
+      "description": "default payload matches the source mapping",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "publication-settings.count",
+      "layer": "inventory/data",
+      "description": "publication-settings has exactly 1 records",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "publication-settings.default.status",
+      "layer": "inventory/data",
+      "description": "default has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "publication-settings.default.order",
+      "layer": "inventory/data",
+      "description": "default has order 0000",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0000"
+    },
+    {
+      "id": "publication-settings.default.data",
+      "layer": "inventory/data",
+      "description": "default payload matches the source mapping",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "brand-settings.count",
+      "layer": "inventory/data",
+      "description": "brand-settings has exactly 1 records",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "brand-settings.default.status",
+      "layer": "inventory/data",
+      "description": "default has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "brand-settings.default.order",
+      "layer": "inventory/data",
+      "description": "default has order 0000",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0000"
+    },
+    {
+      "id": "brand-settings.default.data",
+      "layer": "inventory/data",
+      "description": "default payload matches the source mapping",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "navigation.count",
+      "layer": "inventory/data",
+      "description": "navigation has exactly 1 records",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "navigation.default.status",
+      "layer": "inventory/data",
+      "description": "default has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "navigation.default.order",
+      "layer": "inventory/data",
+      "description": "default has order 0000",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0000"
+    },
+    {
+      "id": "navigation.default.data",
+      "layer": "inventory/data",
+      "description": "default payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "footer.count",
+      "layer": "inventory/data",
+      "description": "footer has exactly 1 records",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "footer.default.status",
+      "layer": "inventory/data",
+      "description": "default has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "footer.default.order",
+      "layer": "inventory/data",
+      "description": "default has order 0000",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0000"
+    },
+    {
+      "id": "footer.default.data",
+      "layer": "inventory/data",
+      "description": "default payload matches the source mapping",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "metrics.count",
+      "layer": "inventory/data",
+      "description": "metrics has exactly 22 records",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m1.status",
+      "layer": "inventory/data",
+      "description": "m1 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m1.order",
+      "layer": "inventory/data",
+      "description": "m1 has order 0000",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0000"
+    },
+    {
+      "id": "metrics.m1.data",
+      "layer": "inventory/data",
+      "description": "m1 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m2.status",
+      "layer": "inventory/data",
+      "description": "m2 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m2.order",
+      "layer": "inventory/data",
+      "description": "m2 has order 0001",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0001"
+    },
+    {
+      "id": "metrics.m2.data",
+      "layer": "inventory/data",
+      "description": "m2 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m3.status",
+      "layer": "inventory/data",
+      "description": "m3 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m3.order",
+      "layer": "inventory/data",
+      "description": "m3 has order 0002",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0002"
+    },
+    {
+      "id": "metrics.m3.data",
+      "layer": "inventory/data",
+      "description": "m3 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m4.status",
+      "layer": "inventory/data",
+      "description": "m4 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m4.order",
+      "layer": "inventory/data",
+      "description": "m4 has order 0003",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0003"
+    },
+    {
+      "id": "metrics.m4.data",
+      "layer": "inventory/data",
+      "description": "m4 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m5.status",
+      "layer": "inventory/data",
+      "description": "m5 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m5.order",
+      "layer": "inventory/data",
+      "description": "m5 has order 0004",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0004"
+    },
+    {
+      "id": "metrics.m5.data",
+      "layer": "inventory/data",
+      "description": "m5 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m6.status",
+      "layer": "inventory/data",
+      "description": "m6 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m6.order",
+      "layer": "inventory/data",
+      "description": "m6 has order 0005",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0005"
+    },
+    {
+      "id": "metrics.m6.data",
+      "layer": "inventory/data",
+      "description": "m6 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m7.status",
+      "layer": "inventory/data",
+      "description": "m7 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m7.order",
+      "layer": "inventory/data",
+      "description": "m7 has order 0006",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0006"
+    },
+    {
+      "id": "metrics.m7.data",
+      "layer": "inventory/data",
+      "description": "m7 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m8.status",
+      "layer": "inventory/data",
+      "description": "m8 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m8.order",
+      "layer": "inventory/data",
+      "description": "m8 has order 0007",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0007"
+    },
+    {
+      "id": "metrics.m8.data",
+      "layer": "inventory/data",
+      "description": "m8 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m9.status",
+      "layer": "inventory/data",
+      "description": "m9 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m9.order",
+      "layer": "inventory/data",
+      "description": "m9 has order 0008",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0008"
+    },
+    {
+      "id": "metrics.m9.data",
+      "layer": "inventory/data",
+      "description": "m9 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m10.status",
+      "layer": "inventory/data",
+      "description": "m10 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m10.order",
+      "layer": "inventory/data",
+      "description": "m10 has order 0009",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0009"
+    },
+    {
+      "id": "metrics.m10.data",
+      "layer": "inventory/data",
+      "description": "m10 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m11.status",
+      "layer": "inventory/data",
+      "description": "m11 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m11.order",
+      "layer": "inventory/data",
+      "description": "m11 has order 0010",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0010"
+    },
+    {
+      "id": "metrics.m11.data",
+      "layer": "inventory/data",
+      "description": "m11 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m12.status",
+      "layer": "inventory/data",
+      "description": "m12 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m12.order",
+      "layer": "inventory/data",
+      "description": "m12 has order 0011",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0011"
+    },
+    {
+      "id": "metrics.m12.data",
+      "layer": "inventory/data",
+      "description": "m12 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m13.status",
+      "layer": "inventory/data",
+      "description": "m13 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m13.order",
+      "layer": "inventory/data",
+      "description": "m13 has order 0012",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0012"
+    },
+    {
+      "id": "metrics.m13.data",
+      "layer": "inventory/data",
+      "description": "m13 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m14.status",
+      "layer": "inventory/data",
+      "description": "m14 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m14.order",
+      "layer": "inventory/data",
+      "description": "m14 has order 0013",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0013"
+    },
+    {
+      "id": "metrics.m14.data",
+      "layer": "inventory/data",
+      "description": "m14 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m15.status",
+      "layer": "inventory/data",
+      "description": "m15 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m15.order",
+      "layer": "inventory/data",
+      "description": "m15 has order 0014",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0014"
+    },
+    {
+      "id": "metrics.m15.data",
+      "layer": "inventory/data",
+      "description": "m15 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.m16.status",
+      "layer": "inventory/data",
+      "description": "m16 has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "metrics.m16.order",
+      "layer": "inventory/data",
+      "description": "m16 has order 0015",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0015"
+    },
+    {
+      "id": "metrics.m16.data",
+      "layer": "inventory/data",
+      "description": "m16 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.en-ren.status",
+      "layer": "inventory/data",
+      "description": "en-ren has status draft",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found draft"
+    },
+    {
+      "id": "metrics.en-ren.order",
+      "layer": "inventory/data",
+      "description": "en-ren has order 0016",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0016"
+    },
+    {
+      "id": "metrics.en-ren.data",
+      "layer": "inventory/data",
+      "description": "en-ren payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.en-wat.status",
+      "layer": "inventory/data",
+      "description": "en-wat has status draft",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found draft"
+    },
+    {
+      "id": "metrics.en-wat.order",
+      "layer": "inventory/data",
+      "description": "en-wat has order 0017",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0017"
+    },
+    {
+      "id": "metrics.en-wat.data",
+      "layer": "inventory/data",
+      "description": "en-wat payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.en-wst.status",
+      "layer": "inventory/data",
+      "description": "en-wst has status draft",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found draft"
+    },
+    {
+      "id": "metrics.en-wst.order",
+      "layer": "inventory/data",
+      "description": "en-wst has order 0018",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0018"
+    },
+    {
+      "id": "metrics.en-wst.data",
+      "layer": "inventory/data",
+      "description": "en-wst payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.en-ene.status",
+      "layer": "inventory/data",
+      "description": "en-ene has status draft",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found draft"
+    },
+    {
+      "id": "metrics.en-ene.order",
+      "layer": "inventory/data",
+      "description": "en-ene has order 0019",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0019"
+    },
+    {
+      "id": "metrics.en-ene.data",
+      "layer": "inventory/data",
+      "description": "en-ene payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.en-grn.status",
+      "layer": "inventory/data",
+      "description": "en-grn has status draft",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found draft"
+    },
+    {
+      "id": "metrics.en-grn.order",
+      "layer": "inventory/data",
+      "description": "en-grn has order 0020",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0020"
+    },
+    {
+      "id": "metrics.en-grn.data",
+      "layer": "inventory/data",
+      "description": "en-grn payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "metrics.en-nzp.status",
+      "layer": "inventory/data",
+      "description": "en-nzp has status draft",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found draft"
+    },
+    {
+      "id": "metrics.en-nzp.order",
+      "layer": "inventory/data",
+      "description": "en-nzp has order 0021",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0021"
+    },
+    {
+      "id": "metrics.en-nzp.data",
+      "layer": "inventory/data",
+      "description": "en-nzp payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.count",
+      "layer": "inventory/data",
+      "description": "locations has exactly 17 records",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.chennai-hq.status",
+      "layer": "inventory/data",
+      "description": "chennai-hq has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.chennai-hq.order",
+      "layer": "inventory/data",
+      "description": "chennai-hq has order 0000",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0000"
+    },
+    {
+      "id": "locations.chennai-hq.data",
+      "layer": "inventory/data",
+      "description": "chennai-hq payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.nallur.status",
+      "layer": "inventory/data",
+      "description": "nallur has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.nallur.order",
+      "layer": "inventory/data",
+      "description": "nallur has order 0001",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0001"
+    },
+    {
+      "id": "locations.nallur.data",
+      "layer": "inventory/data",
+      "description": "nallur payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.bidadi.status",
+      "layer": "inventory/data",
+      "description": "bidadi has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.bidadi.order",
+      "layer": "inventory/data",
+      "description": "bidadi has order 0002",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0002"
+    },
+    {
+      "id": "locations.bidadi.data",
+      "layer": "inventory/data",
+      "description": "bidadi payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.hyderabad.status",
+      "layer": "inventory/data",
+      "description": "hyderabad has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.hyderabad.order",
+      "layer": "inventory/data",
+      "description": "hyderabad has order 0003",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0003"
+    },
+    {
+      "id": "locations.hyderabad.data",
+      "layer": "inventory/data",
+      "description": "hyderabad payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.pune.status",
+      "layer": "inventory/data",
+      "description": "pune has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.pune.order",
+      "layer": "inventory/data",
+      "description": "pune has order 0004",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0004"
+    },
+    {
+      "id": "locations.pune.data",
+      "layer": "inventory/data",
+      "description": "pune payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.kolkata.status",
+      "layer": "inventory/data",
+      "description": "kolkata has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.kolkata.order",
+      "layer": "inventory/data",
+      "description": "kolkata has order 0005",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0005"
+    },
+    {
+      "id": "locations.kolkata.data",
+      "layer": "inventory/data",
+      "description": "kolkata payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.ghaziabad.status",
+      "layer": "inventory/data",
+      "description": "ghaziabad has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.ghaziabad.order",
+      "layer": "inventory/data",
+      "description": "ghaziabad has order 0006",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0006"
+    },
+    {
+      "id": "locations.ghaziabad.data",
+      "layer": "inventory/data",
+      "description": "ghaziabad payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.walajapet.status",
+      "layer": "inventory/data",
+      "description": "walajapet has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.walajapet.order",
+      "layer": "inventory/data",
+      "description": "walajapet has order 0007",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0007"
+    },
+    {
+      "id": "locations.walajapet.data",
+      "layer": "inventory/data",
+      "description": "walajapet payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.oragadam.status",
+      "layer": "inventory/data",
+      "description": "oragadam has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.oragadam.order",
+      "layer": "inventory/data",
+      "description": "oragadam has order 0008",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0008"
+    },
+    {
+      "id": "locations.oragadam.data",
+      "layer": "inventory/data",
+      "description": "oragadam payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.krishnapuram-kandigai.status",
+      "layer": "inventory/data",
+      "description": "krishnapuram-kandigai has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.krishnapuram-kandigai.order",
+      "layer": "inventory/data",
+      "description": "krishnapuram-kandigai has order 0009",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0009"
+    },
+    {
+      "id": "locations.krishnapuram-kandigai.data",
+      "layer": "inventory/data",
+      "description": "krishnapuram-kandigai payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.hosur.status",
+      "layer": "inventory/data",
+      "description": "hosur has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.hosur.order",
+      "layer": "inventory/data",
+      "description": "hosur has order 0010",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0010"
+    },
+    {
+      "id": "locations.hosur.data",
+      "layer": "inventory/data",
+      "description": "hosur payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.kochi.status",
+      "layer": "inventory/data",
+      "description": "kochi has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.kochi.order",
+      "layer": "inventory/data",
+      "description": "kochi has order 0011",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0011"
+    },
+    {
+      "id": "locations.kochi.data",
+      "layer": "inventory/data",
+      "description": "kochi payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.varanasi.status",
+      "layer": "inventory/data",
+      "description": "varanasi has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.varanasi.order",
+      "layer": "inventory/data",
+      "description": "varanasi has order 0012",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0012"
+    },
+    {
+      "id": "locations.varanasi.data",
+      "layer": "inventory/data",
+      "description": "varanasi payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.lucknow.status",
+      "layer": "inventory/data",
+      "description": "lucknow has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.lucknow.order",
+      "layer": "inventory/data",
+      "description": "lucknow has order 0013",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0013"
+    },
+    {
+      "id": "locations.lucknow.data",
+      "layer": "inventory/data",
+      "description": "lucknow payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.kanpur.status",
+      "layer": "inventory/data",
+      "description": "kanpur has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.kanpur.order",
+      "layer": "inventory/data",
+      "description": "kanpur has order 0014",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0014"
+    },
+    {
+      "id": "locations.kanpur.data",
+      "layer": "inventory/data",
+      "description": "kanpur payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.coimbatore.status",
+      "layer": "inventory/data",
+      "description": "coimbatore has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.coimbatore.order",
+      "layer": "inventory/data",
+      "description": "coimbatore has order 0015",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0015"
+    },
+    {
+      "id": "locations.coimbatore.data",
+      "layer": "inventory/data",
+      "description": "coimbatore payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.puducherry.status",
+      "layer": "inventory/data",
+      "description": "puducherry has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.puducherry.order",
+      "layer": "inventory/data",
+      "description": "puducherry has order 0016",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0016"
+    },
+    {
+      "id": "locations.puducherry.data",
+      "layer": "inventory/data",
+      "description": "puducherry payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "portfolio-assets.count",
+      "layer": "inventory/data",
+      "description": "portfolio-assets has exactly 2 records",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "portfolio-assets.amazon-coimbatore.status",
+      "layer": "inventory/data",
+      "description": "amazon-coimbatore has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "portfolio-assets.amazon-coimbatore.order",
+      "layer": "inventory/data",
+      "description": "amazon-coimbatore has order 0000",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0000"
+    },
+    {
+      "id": "portfolio-assets.amazon-coimbatore.data",
+      "layer": "inventory/data",
+      "description": "amazon-coimbatore payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "portfolio-assets.lenovo-puducherry.status",
+      "layer": "inventory/data",
+      "description": "lenovo-puducherry has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "portfolio-assets.lenovo-puducherry.order",
+      "layer": "inventory/data",
+      "description": "lenovo-puducherry has order 0001",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0001"
+    },
+    {
+      "id": "portfolio-assets.lenovo-puducherry.data",
+      "layer": "inventory/data",
+      "description": "lenovo-puducherry payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "business-verticals.count",
+      "layer": "inventory/data",
+      "description": "business-verticals has exactly 3 records",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "business-verticals.grade-a-warehousing.status",
+      "layer": "inventory/data",
+      "description": "grade-a-warehousing has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "business-verticals.grade-a-warehousing.order",
+      "layer": "inventory/data",
+      "description": "grade-a-warehousing has order 0000",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0000"
+    },
+    {
+      "id": "business-verticals.grade-a-warehousing.data",
+      "layer": "inventory/data",
+      "description": "grade-a-warehousing payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "business-verticals.ndr-asset-management.status",
+      "layer": "inventory/data",
+      "description": "ndr-asset-management has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "business-verticals.ndr-asset-management.order",
+      "layer": "inventory/data",
+      "description": "ndr-asset-management has order 0001",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0001"
+    },
+    {
+      "id": "business-verticals.ndr-asset-management.data",
+      "layer": "inventory/data",
+      "description": "ndr-asset-management payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "business-verticals.residential-plotting-ave-acres.status",
+      "layer": "inventory/data",
+      "description": "residential-plotting-ave-acres has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "business-verticals.residential-plotting-ave-acres.order",
+      "layer": "inventory/data",
+      "description": "residential-plotting-ave-acres has order 0002",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0002"
+    },
+    {
+      "id": "business-verticals.residential-plotting-ave-acres.data",
+      "layer": "inventory/data",
+      "description": "residential-plotting-ave-acres payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "esg-initiatives.count",
+      "layer": "inventory/data",
+      "description": "esg-initiatives has exactly 8 records",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "esg-initiatives.chennai-solar.status",
+      "layer": "inventory/data",
+      "description": "chennai-solar has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "esg-initiatives.chennai-solar.order",
+      "layer": "inventory/data",
+      "description": "chennai-solar has order 0000",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0000"
+    },
+    {
+      "id": "esg-initiatives.chennai-solar.data",
+      "layer": "inventory/data",
+      "description": "chennai-solar payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "esg-initiatives.bidadi-water.status",
+      "layer": "inventory/data",
+      "description": "bidadi-water has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "esg-initiatives.bidadi-water.order",
+      "layer": "inventory/data",
+      "description": "bidadi-water has order 0001",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0001"
+    },
+    {
+      "id": "esg-initiatives.bidadi-water.data",
+      "layer": "inventory/data",
+      "description": "bidadi-water payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "esg-initiatives.coimbatore-build.status",
+      "layer": "inventory/data",
+      "description": "coimbatore-build has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "esg-initiatives.coimbatore-build.order",
+      "layer": "inventory/data",
+      "description": "coimbatore-build has order 0002",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0002"
+    },
+    {
+      "id": "esg-initiatives.coimbatore-build.data",
+      "layer": "inventory/data",
+      "description": "coimbatore-build payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "esg-initiatives.ghaziabad-community.status",
+      "layer": "inventory/data",
+      "description": "ghaziabad-community has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "esg-initiatives.ghaziabad-community.order",
+      "layer": "inventory/data",
+      "description": "ghaziabad-community has order 0003",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0003"
+    },
+    {
+      "id": "esg-initiatives.ghaziabad-community.data",
+      "layer": "inventory/data",
+      "description": "ghaziabad-community payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "esg-initiatives.hyderabad-waste.status",
+      "layer": "inventory/data",
+      "description": "hyderabad-waste has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "esg-initiatives.hyderabad-waste.order",
+      "layer": "inventory/data",
+      "description": "hyderabad-waste has order 0004",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0004"
+    },
+    {
+      "id": "esg-initiatives.hyderabad-waste.data",
+      "layer": "inventory/data",
+      "description": "hyderabad-waste payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "esg-initiatives.pune-retrofit.status",
+      "layer": "inventory/data",
+      "description": "pune-retrofit has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "esg-initiatives.pune-retrofit.order",
+      "layer": "inventory/data",
+      "description": "pune-retrofit has order 0005",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0005"
+    },
+    {
+      "id": "esg-initiatives.pune-retrofit.data",
+      "layer": "inventory/data",
+      "description": "pune-retrofit payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "esg-initiatives.kolkata-community.status",
+      "layer": "inventory/data",
+      "description": "kolkata-community has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "esg-initiatives.kolkata-community.order",
+      "layer": "inventory/data",
+      "description": "kolkata-community has order 0006",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0006"
+    },
+    {
+      "id": "esg-initiatives.kolkata-community.data",
+      "layer": "inventory/data",
+      "description": "kolkata-community payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "esg-initiatives.hosur-training.status",
+      "layer": "inventory/data",
+      "description": "hosur-training has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "esg-initiatives.hosur-training.order",
+      "layer": "inventory/data",
+      "description": "hosur-training has order 0007",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0007"
+    },
+    {
+      "id": "esg-initiatives.hosur-training.data",
+      "layer": "inventory/data",
+      "description": "hosur-training payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "governance-records.count",
+      "layer": "inventory/data",
+      "description": "governance-records has exactly 8 records",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "governance-records.esg-comm.status",
+      "layer": "inventory/data",
+      "description": "esg-comm has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "governance-records.esg-comm.order",
+      "layer": "inventory/data",
+      "description": "esg-comm has order 0000",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0000"
+    },
+    {
+      "id": "governance-records.esg-comm.data",
+      "layer": "inventory/data",
+      "description": "esg-comm payload matches the source mapping",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "governance-records.csr-comm.status",
+      "layer": "inventory/data",
+      "description": "csr-comm has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "governance-records.csr-comm.order",
+      "layer": "inventory/data",
+      "description": "csr-comm has order 0001",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0001"
+    },
+    {
+      "id": "governance-records.csr-comm.data",
+      "layer": "inventory/data",
+      "description": "csr-comm payload matches the source mapping",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "governance-records.risk-comm.status",
+      "layer": "inventory/data",
+      "description": "risk-comm has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "governance-records.risk-comm.order",
+      "layer": "inventory/data",
+      "description": "risk-comm has order 0002",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0002"
+    },
+    {
+      "id": "governance-records.risk-comm.data",
+      "layer": "inventory/data",
+      "description": "risk-comm payload matches the source mapping",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "governance-records.audit-comm.status",
+      "layer": "inventory/data",
+      "description": "audit-comm has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "governance-records.audit-comm.order",
+      "layer": "inventory/data",
+      "description": "audit-comm has order 0003",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0003"
+    },
+    {
+      "id": "governance-records.audit-comm.data",
+      "layer": "inventory/data",
+      "description": "audit-comm payload matches the source mapping",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "governance-records.pol-whistle.status",
+      "layer": "inventory/data",
+      "description": "pol-whistle has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "governance-records.pol-whistle.order",
+      "layer": "inventory/data",
+      "description": "pol-whistle has order 0004",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0004"
+    },
+    {
+      "id": "governance-records.pol-whistle.data",
+      "layer": "inventory/data",
+      "description": "pol-whistle payload matches the source mapping",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "governance-records.pol-ethics.status",
+      "layer": "inventory/data",
+      "description": "pol-ethics has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "governance-records.pol-ethics.order",
+      "layer": "inventory/data",
+      "description": "pol-ethics has order 0005",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0005"
+    },
+    {
+      "id": "governance-records.pol-ethics.data",
+      "layer": "inventory/data",
+      "description": "pol-ethics payload matches the source mapping",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "governance-records.pol-hr.status",
+      "layer": "inventory/data",
+      "description": "pol-hr has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "governance-records.pol-hr.order",
+      "layer": "inventory/data",
+      "description": "pol-hr has order 0006",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0006"
+    },
+    {
+      "id": "governance-records.pol-hr.data",
+      "layer": "inventory/data",
+      "description": "pol-hr payload matches the source mapping",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "governance-records.pol-env.status",
+      "layer": "inventory/data",
+      "description": "pol-env has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "governance-records.pol-env.order",
+      "layer": "inventory/data",
+      "description": "pol-env has order 0007",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0007"
+    },
+    {
+      "id": "governance-records.pol-env.data",
+      "layer": "inventory/data",
+      "description": "pol-env payload matches the source mapping",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "documents.count",
+      "layer": "inventory/data",
+      "description": "documents has exactly 5 records",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "documents.ds-01.status",
+      "layer": "inventory/data",
+      "description": "ds-01 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "documents.ds-01.order",
+      "layer": "inventory/data",
+      "description": "ds-01 has order 0000",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0000"
+    },
+    {
+      "id": "documents.ds-01.data",
+      "layer": "inventory/data",
+      "description": "ds-01 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "documents.ds-02.status",
+      "layer": "inventory/data",
+      "description": "ds-02 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "documents.ds-02.order",
+      "layer": "inventory/data",
+      "description": "ds-02 has order 0001",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0001"
+    },
+    {
+      "id": "documents.ds-02.data",
+      "layer": "inventory/data",
+      "description": "ds-02 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "documents.ds-03.status",
+      "layer": "inventory/data",
+      "description": "ds-03 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "documents.ds-03.order",
+      "layer": "inventory/data",
+      "description": "ds-03 has order 0002",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0002"
+    },
+    {
+      "id": "documents.ds-03.data",
+      "layer": "inventory/data",
+      "description": "ds-03 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "documents.ds-04.status",
+      "layer": "inventory/data",
+      "description": "ds-04 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "documents.ds-04.order",
+      "layer": "inventory/data",
+      "description": "ds-04 has order 0003",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0003"
+    },
+    {
+      "id": "documents.ds-04.data",
+      "layer": "inventory/data",
+      "description": "ds-04 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "documents.ds-05.status",
+      "layer": "inventory/data",
+      "description": "ds-05 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "documents.ds-05.order",
+      "layer": "inventory/data",
+      "description": "ds-05 has order 0004",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0004"
+    },
+    {
+      "id": "documents.ds-05.data",
+      "layer": "inventory/data",
+      "description": "ds-05 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.count",
+      "layer": "inventory/data",
+      "description": "media has exactly 4 records",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.mk-01.status",
+      "layer": "inventory/data",
+      "description": "mk-01 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.mk-01.order",
+      "layer": "inventory/data",
+      "description": "mk-01 has order 0000",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0000"
+    },
+    {
+      "id": "media.mk-01.data",
+      "layer": "inventory/data",
+      "description": "mk-01 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.mk-02.status",
+      "layer": "inventory/data",
+      "description": "mk-02 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.mk-02.order",
+      "layer": "inventory/data",
+      "description": "mk-02 has order 0001",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0001"
+    },
+    {
+      "id": "media.mk-02.data",
+      "layer": "inventory/data",
+      "description": "mk-02 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.mk-03.status",
+      "layer": "inventory/data",
+      "description": "mk-03 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.mk-03.order",
+      "layer": "inventory/data",
+      "description": "mk-03 has order 0002",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0002"
+    },
+    {
+      "id": "media.mk-03.data",
+      "layer": "inventory/data",
+      "description": "mk-03 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.mk-04.status",
+      "layer": "inventory/data",
+      "description": "mk-04 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.mk-04.order",
+      "layer": "inventory/data",
+      "description": "mk-04 has order 0003",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0003"
+    },
+    {
+      "id": "media.mk-04.data",
+      "layer": "inventory/data",
+      "description": "mk-04 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "contact-directory.count",
+      "layer": "inventory/data",
+      "description": "contact-directory has exactly 5 records",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "contact-directory.corporate.status",
+      "layer": "inventory/data",
+      "description": "corporate has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "contact-directory.corporate.order",
+      "layer": "inventory/data",
+      "description": "corporate has order 0000",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0000"
+    },
+    {
+      "id": "contact-directory.corporate.data",
+      "layer": "inventory/data",
+      "description": "corporate payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "contact-directory.registered.status",
+      "layer": "inventory/data",
+      "description": "registered has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "contact-directory.registered.order",
+      "layer": "inventory/data",
+      "description": "registered has order 0001",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0001"
+    },
+    {
+      "id": "contact-directory.registered.data",
+      "layer": "inventory/data",
+      "description": "registered payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "contact-directory.investor.status",
+      "layer": "inventory/data",
+      "description": "investor has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "contact-directory.investor.order",
+      "layer": "inventory/data",
+      "description": "investor has order 0002",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0002"
+    },
+    {
+      "id": "contact-directory.investor.data",
+      "layer": "inventory/data",
+      "description": "investor payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "contact-directory.business.status",
+      "layer": "inventory/data",
+      "description": "business has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "contact-directory.business.order",
+      "layer": "inventory/data",
+      "description": "business has order 0003",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0003"
+    },
+    {
+      "id": "contact-directory.business.data",
+      "layer": "inventory/data",
+      "description": "business payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "contact-directory.media.status",
+      "layer": "inventory/data",
+      "description": "media has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "contact-directory.media.order",
+      "layer": "inventory/data",
+      "description": "media has order 0004",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0004"
+    },
+    {
+      "id": "contact-directory.media.data",
+      "layer": "inventory/data",
+      "description": "media payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "governance-records.refs",
+      "layer": "data",
+      "description": "GV-REG references match the registry sequence GV-REG-001…008",
+      "classification": "migration-related",
+      "passed": true,
+      "detail": "found [\"GV-REG-001\",\"GV-REG-002\",\"GV-REG-003\",\"GV-REG-004\",\"GV-REG-005\",\"GV-REG-006\",\"GV-REG-007\",\"GV-REG-008\"]"
+    },
+    {
+      "id": "generated.registers-empty",
+      "layer": "generated",
+      "description": "draft/pending-only registers produce no module (documents, media, governance-records)",
+      "classification": "expected",
+      "passed": true,
+      "detail": "generated: brandSettings.ts, businessVerticals.ts, contactDirectory.ts, corporateSettings.ts, esgInitiatives.ts, footer.ts, locations.ts, metrics.ts, navigation.ts, portfolioAssets.ts, publicationSettings.ts"
+    },
+    {
+      "id": "generated.no-strays",
+      "layer": "generated",
+      "description": "generated directory holds exactly the expected module set",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "generated.brandSettings.ts",
+      "layer": "generated",
+      "description": "brandSettings.ts is byte-identical on disk",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "generated.businessVerticals.ts",
+      "layer": "generated",
+      "description": "businessVerticals.ts is byte-identical on disk",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "generated.contactDirectory.ts",
+      "layer": "generated",
+      "description": "contactDirectory.ts is byte-identical on disk",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "generated.corporateSettings.ts",
+      "layer": "generated",
+      "description": "corporateSettings.ts is byte-identical on disk",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "generated.esgInitiatives.ts",
+      "layer": "generated",
+      "description": "esgInitiatives.ts is byte-identical on disk",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "generated.footer.ts",
+      "layer": "generated",
+      "description": "footer.ts is byte-identical on disk",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "generated.locations.ts",
+      "layer": "generated",
+      "description": "locations.ts is byte-identical on disk",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "generated.metrics.ts",
+      "layer": "generated",
+      "description": "metrics.ts is byte-identical on disk",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "generated.navigation.ts",
+      "layer": "generated",
+      "description": "navigation.ts is byte-identical on disk",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "generated.portfolioAssets.ts",
+      "layer": "generated",
+      "description": "portfolioAssets.ts is byte-identical on disk",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "generated.publicationSettings.ts",
+      "layer": "generated",
+      "description": "publicationSettings.ts is byte-identical on disk",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "generated.deterministic",
+      "layer": "generated",
+      "description": "regeneration is deterministic and byte-stable",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.published-count",
+      "layer": "fidelity",
+      "description": "published metrics == 16 (M1…M16)",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 16"
+    },
+    {
+      "id": "fidelity.metrics.M1",
+      "layer": "fidelity",
+      "description": "metric M1 (Industrial experience) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M2",
+      "layer": "fidelity",
+      "description": "metric M2 (Founded) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M3",
+      "layer": "fidelity",
+      "description": "metric M3 (Portfolio occupancy) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M4",
+      "layer": "fidelity",
+      "description": "metric M4 (Consumption-market access) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M5",
+      "layer": "fidelity",
+      "description": "metric M5 (Clientele) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M6",
+      "layer": "fidelity",
+      "description": "metric M6 (Developer standing) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M7",
+      "layer": "fidelity",
+      "description": "metric M7 (NDR InvIT valuation) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M8",
+      "layer": "fidelity",
+      "description": "metric M8 (NDR InvIT IPO) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M9",
+      "layer": "fidelity",
+      "description": "metric M9 (MLG monetization) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M10",
+      "layer": "fidelity",
+      "description": "metric M10 (Institutional investment) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M11",
+      "layer": "fidelity",
+      "description": "metric M11 (Institutional investment) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M12",
+      "layer": "fidelity",
+      "description": "metric M12 (Fundraise) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M13",
+      "layer": "fidelity",
+      "description": "metric M13 (Early institutional backing) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M14",
+      "layer": "fidelity",
+      "description": "metric M14 (Greenfield share) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M15",
+      "layer": "fidelity",
+      "description": "metric M15 (Debt standing) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.M16",
+      "layer": "fidelity",
+      "description": "metric M16 (Geographic reach) carries the source fields verbatim",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.en-count",
+      "layer": "fidelity",
+      "description": "draft metrics == 6 (EN-01…06, source-draft)",
+      "classification": "migration-related",
+      "passed": true,
+      "detail": "found 6"
+    },
+    {
+      "id": "fidelity.metrics.EN-REN",
+      "layer": "fidelity",
+      "description": "environment metric EN-01 (Renewable energy share) carries the source fields verbatim",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.EN-WAT",
+      "layer": "fidelity",
+      "description": "environment metric EN-02 (Water intensity) carries the source fields verbatim",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.EN-WST",
+      "layer": "fidelity",
+      "description": "environment metric EN-03 (Waste diversion) carries the source fields verbatim",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.EN-ENE",
+      "layer": "fidelity",
+      "description": "environment metric EN-04 (Energy intensity) carries the source fields verbatim",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.EN-GRN",
+      "layer": "fidelity",
+      "description": "environment metric EN-05 (Green building share) carries the source fields verbatim",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.metrics.EN-NZP",
+      "layer": "fidelity",
+      "description": "environment metric EN-06 (Net-zero pathway) carries the source fields verbatim",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.chennai-hq",
+      "layer": "fidelity",
+      "description": "location chennai-hq (Chennai) preserves coordinates, offsets and visibility",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.nallur",
+      "layer": "fidelity",
+      "description": "location nallur (Nallur) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.bidadi",
+      "layer": "fidelity",
+      "description": "location bidadi (Bidadi) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.hyderabad",
+      "layer": "fidelity",
+      "description": "location hyderabad (Hyderabad) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.pune",
+      "layer": "fidelity",
+      "description": "location pune (Pune) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.kolkata",
+      "layer": "fidelity",
+      "description": "location kolkata (Kolkata) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.ghaziabad",
+      "layer": "fidelity",
+      "description": "location ghaziabad (Ghaziabad) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.walajapet",
+      "layer": "fidelity",
+      "description": "location walajapet (Walajapet) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.oragadam",
+      "layer": "fidelity",
+      "description": "location oragadam (Oragadam) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.krishnapuram-kandigai",
+      "layer": "fidelity",
+      "description": "location krishnapuram-kandigai (Krishnapuram Kandigai) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.hosur",
+      "layer": "fidelity",
+      "description": "location hosur (Hosur) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.kochi",
+      "layer": "fidelity",
+      "description": "location kochi (Kochi) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.varanasi",
+      "layer": "fidelity",
+      "description": "location varanasi (Varanasi) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.lucknow",
+      "layer": "fidelity",
+      "description": "location lucknow (Lucknow) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.kanpur",
+      "layer": "fidelity",
+      "description": "location kanpur (Kanpur) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.coimbatore",
+      "layer": "fidelity",
+      "description": "location coimbatore (Coimbatore) preserves coordinates, offsets and visibility",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.puducherry",
+      "layer": "fidelity",
+      "description": "location puducherry (Puducherry) preserves coordinates, offsets and visibility",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.assets.amazon-coimbatore",
+      "layer": "fidelity",
+      "description": "asset amazon-coimbatore preserves the catalogue fields",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.assets.lenovo-puducherry",
+      "layer": "fidelity",
+      "description": "asset lenovo-puducherry preserves the catalogue fields",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.verticals.01",
+      "layer": "fidelity",
+      "description": "vertical 01 (Grade A Warehousing) preserves the division fields",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.verticals.02",
+      "layer": "fidelity",
+      "description": "vertical 02 (NDR Asset Management) preserves the division fields",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.verticals.03",
+      "layer": "fidelity",
+      "description": "vertical 03 (Residential Plotting — Ave Acres) preserves the division fields",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.initiatives.chennai-solar",
+      "layer": "fidelity",
+      "description": "initiative IM-01 (Portfolio solar programme) preserves the impact fields",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.initiatives.bidadi-water",
+      "layer": "fidelity",
+      "description": "initiative IM-02 (Water stewardship) preserves the impact fields",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.initiatives.coimbatore-build",
+      "layer": "fidelity",
+      "description": "initiative IM-03 (Green building certification) preserves the impact fields",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.initiatives.ghaziabad-community",
+      "layer": "fidelity",
+      "description": "initiative IM-04 (Community engagement) preserves the impact fields",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.initiatives.hyderabad-waste",
+      "layer": "fidelity",
+      "description": "initiative IM-05 (Waste management hub) preserves the impact fields",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.initiatives.pune-retrofit",
+      "layer": "fidelity",
+      "description": "initiative IM-06 (Energy retrofit) preserves the impact fields",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.initiatives.kolkata-community",
+      "layer": "fidelity",
+      "description": "initiative IM-07 (Community engagement) preserves the impact fields",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.initiatives.hosur-training",
+      "layer": "fidelity",
+      "description": "initiative IM-08 (Skilling & training) preserves the impact fields",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.governance.esg-comm",
+      "layer": "fidelity",
+      "description": "governance record GC-01 (ESG Committee) preserved with GV-REG reference",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.governance.csr-comm",
+      "layer": "fidelity",
+      "description": "governance record GC-02 (CSR Committee) preserved with GV-REG reference",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.governance.risk-comm",
+      "layer": "fidelity",
+      "description": "governance record GC-03 (Risk Committee) preserved with GV-REG reference",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.governance.audit-comm",
+      "layer": "fidelity",
+      "description": "governance record GC-04 (Audit Committee) preserved with GV-REG reference",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.governance.pol-whistle",
+      "layer": "fidelity",
+      "description": "governance record GP-01 (Whistle-blower policy) preserved with GV-REG reference",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.governance.pol-ethics",
+      "layer": "fidelity",
+      "description": "governance record GP-02 (Code of conduct) preserved with GV-REG reference",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.governance.pol-hr",
+      "layer": "fidelity",
+      "description": "governance record GP-03 (Human rights policy) preserved with GV-REG reference",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.governance.pol-env",
+      "layer": "fidelity",
+      "description": "governance record GP-04 (Environmental policy) preserved with GV-REG reference",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.documents.DS-01",
+      "layer": "fidelity",
+      "description": "document DS-01 (Annual Report) preserved with explicit ref",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.documents.DS-02",
+      "layer": "fidelity",
+      "description": "document DS-02 (ESG Report) preserved with explicit ref",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.documents.DS-03",
+      "layer": "fidelity",
+      "description": "document DS-03 (BRSR) preserved with explicit ref",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.documents.DS-04",
+      "layer": "fidelity",
+      "description": "document DS-04 (GHG inventory) preserved with explicit ref",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.documents.DS-05",
+      "layer": "fidelity",
+      "description": "document DS-05 (Policy register) preserved with explicit ref",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.MK-01",
+      "layer": "fidelity",
+      "description": "media kit item MK-01 (Company profile) preserved as a pending asset",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.MK-02",
+      "layer": "fidelity",
+      "description": "media kit item MK-02 (Logo suite) preserved as a pending asset",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.MK-03",
+      "layer": "fidelity",
+      "description": "media kit item MK-03 (Brand guidance) preserved as a pending asset",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.MK-04",
+      "layer": "fidelity",
+      "description": "media kit item MK-04 (Key statistics) preserved as a pending asset",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.directory.corporate",
+      "layer": "fidelity",
+      "description": "directory entry corporate (NDR Smart Spaces Pvt. Ltd.) preserved",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.directory.registered",
+      "layer": "fidelity",
+      "description": "directory entry registered (Registered office) preserved",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.directory.investor",
+      "layer": "fidelity",
+      "description": "directory entry investor (Investor relations desk) preserved",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.directory.business",
+      "layer": "fidelity",
+      "description": "directory entry business (Business development desk) preserved",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.directory.media",
+      "layer": "fidelity",
+      "description": "directory entry media (Media relations desk) preserved",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.navigation",
+      "layer": "fidelity",
+      "description": "navigation record carries the frozen header/nav data byte-for-byte",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.footer",
+      "layer": "fidelity",
+      "description": "footer record carries the frozen footer data (with correspondence heading)",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.settings.corporate",
+      "layer": "fidelity",
+      "description": "corporate settings carry the legal, contact and external-link record",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.settings.publication",
+      "layer": "fidelity",
+      "description": "publication settings carry the edition, prefix and numbering rules",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.settings.brand",
+      "layer": "fidelity",
+      "description": "brand settings carry logos, favicon and SEO defaults (no OG image or social links)",
+      "classification": "migration-related",
+      "passed": true
+    },
+    {
+      "id": "fidelity.settings.corporate.address-source",
+      "layer": "fidelity",
+      "description": "corporate office address matches the frozen homepage contact record",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "relations.asset-location.amazon-coimbatore",
+      "layer": "relations",
+      "description": "asset amazon-coimbatore → published location coimbatore with matching zone",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "relations.asset-location.lenovo-puducherry",
+      "layer": "relations",
+      "description": "asset lenovo-puducherry → published location puducherry with matching zone",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "relations.initiative-location.chennai-solar",
+      "layer": "relations",
+      "description": "initiative chennai-solar → published location chennai-hq",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "relations.initiative-location.bidadi-water",
+      "layer": "relations",
+      "description": "initiative bidadi-water → published location bidadi",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "relations.initiative-location.coimbatore-build",
+      "layer": "relations",
+      "description": "initiative coimbatore-build → published location coimbatore",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "relations.initiative-location.ghaziabad-community",
+      "layer": "relations",
+      "description": "initiative ghaziabad-community → published location ghaziabad",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "relations.initiative-location.hyderabad-waste",
+      "layer": "relations",
+      "description": "initiative hyderabad-waste → published location hyderabad",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "relations.initiative-location.pune-retrofit",
+      "layer": "relations",
+      "description": "initiative pune-retrofit → published location pune",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "relations.initiative-location.kolkata-community",
+      "layer": "relations",
+      "description": "initiative kolkata-community → published location kolkata",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "relations.initiative-location.hosur-training",
+      "layer": "relations",
+      "description": "initiative hosur-training → published location hosur",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "relations.metric-keys-unique",
+      "layer": "relations",
+      "description": "metric keys unique (22 records)",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "relations.document-refs-unique",
+      "layer": "relations",
+      "description": "document refs unique (5 records)",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "relations.registry-ledger",
+      "layer": "relations",
+      "description": "registry ledger records exactly 8 issues (the GV-REG refs)",
+      "classification": "migration-related",
+      "passed": true,
+      "detail": "found 8"
+    },
+    {
+      "id": "relations.audit-chain",
+      "layer": "relations",
+      "description": "audit chain intact — 79 create entries (one per seeded record)",
+      "classification": "expected",
+      "passed": true,
+      "detail": "valid=true, verified=79, expected=79"
+    }
+  ]
+}

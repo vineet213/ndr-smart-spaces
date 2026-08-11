@@ -18,6 +18,11 @@ export type GeneratedFile = {
 };
 
 const SETTINGS_KEYS = ["corporate-settings", "publication-settings", "brand-settings"] as const;
+const SETTINGS_FILES: Record<string, string> = {
+  "corporate-settings": "corporateSettings.ts",
+  "publication-settings": "publicationSettings.ts",
+  "brand-settings": "brandSettings.ts",
+};
 const SETTINGS_EXPORTS: Record<string, string> = {
   "corporate-settings": "corporateSettings",
   "publication-settings": "publicationSettings",
@@ -56,7 +61,7 @@ async function registerFile(
 export async function generateMerged(content: ContentStore): Promise<GeneratedFile[]> {
   const files: GeneratedFile[] = [];
   for (const key of SETTINGS_KEYS) {
-    const file = await recordFile(content, key, "settings.ts", SETTINGS_EXPORTS[key]);
+    const file = await recordFile(content, key, SETTINGS_FILES[key], SETTINGS_EXPORTS[key]);
     if (file) files.push(file);
   }
   const navigation = await recordFile(content, "navigation", "navigation.ts", "navigation");
