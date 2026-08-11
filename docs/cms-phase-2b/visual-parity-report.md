@@ -100,3 +100,57 @@ contact offset), directory `eyebrow`/`heading`/`lede`/`note`, form and routing c
   `fidelity.locations.chennai-hq` confirm the derived offices and contact offset match the store).
 - `npx tsc --noEmit` (app) PASS.
 
+---
+
+# Milestone 3 — Media Page Integration
+
+- Scope: `src/lib/data/media.ts` now derives the media kit, the press archive, the edition block, the
+  publication reference, the press contact and the register codes from the CMS-generated modules.
+- Verdict: **PASS — zero unintended visual differences.**
+
+## Wiring
+
+| Data | Source |
+| --- | --- |
+| Media kit (all four items: ref, label, note, format, classification, revision, status) | `generated/media.ts` → `media-kit` folder |
+| Press archive (PR-001…PR-003, UP-001: id, ref, date, category, title, note, status, href, external) | `generated/media.ts` → `press-archive` folder (seeded from `PRESS_ARCHIVE_ENTRIES`) |
+| Edition block (`asOn`, `edition`) | `generated/publicationSettings.ts` (`asOnDate`, `editionPeriod`) |
+| Publication reference (`NDR-PR-FY26`) | `generated/publicationSettings.ts` → `editionPeriod` |
+| Press contact (response expectation, departments, address) | `generated/contactDirectory.ts` (media + business desks) and `generated/corporateSettings.ts` |
+| Featured spread (`PR-002`) | Press archive record referenced by `ref`/`status` |
+
+Frozen presentation fields preserved: masthead and statement copy, the featured spread copy, register
+notes and desk labels. The seed extends the media collection with the four `press-archive` records and
+every generated record keeps its system `id` + `status`; the runtime modules derive the typed rows from
+the collection exactly as the frozen modules did.
+
+## Result
+
+| Metric | Value |
+| --- | --- |
+| HTML pages compared | 24 |
+| Byte-identical after normalization | 24 |
+| Differences | 0 |
+
+## Evidence (out/en/media/index.html)
+
+- Media kit rows render — "Company profile", "Logo suite", "Brand guidance", "Key statistics" with
+  formats "PDF" / "SVG / PNG" and revision labels.
+- Press archive rows render — "NDR InvIT Trust incorporated" (2015, external), "NDR InvIT lists on the
+  NSE through an INR 8.8 bn IPO" (2018, external, featured), "NDR Smart Spaces completes the MLG
+  monetization to NDR InvIT" (FY26*, draft), "ESG — The Sustainability Ledger, Edition FY26" (draft).
+- Edition block renders "As on 31 March 2026 · Edition FY26 · Volume I" with publication reference
+  "NDR-PR-FY26" and the press contact desk copy.
+
+## Supporting verification
+
+- `npm run seed:cms` — PASS: 83 records across 14 collections; "generated exports byte-identical: true".
+- `npm run verify:parity` — PASS: 393 checks, 0 failed, 0 unintended. Five new `integration.media.*`
+  checks assert the media kit, press archive, edition, press contact and featured spread derive
+  byte-for-byte from the generated CMS modules; `fidelity.media.*` confirms the seeded `press-archive`
+  records preserve the frozen press entries.
+- `npm run verify:cms` — PASS: full foundation verification (validation, byte-stable export contract,
+  reference registry, audit chain, Phase 1 end-to-end), including the corrected Phase 2B full-register
+  emission checks.
+- `npx tsc --noEmit` (app) and `npm run lint` PASS; `npm run build` PASS.
+

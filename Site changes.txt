@@ -1,0 +1,46 @@
+Site changes
+
+Overall site change: remove the the word monetise as it doesn't go along with legal terms
+
+Non-confirmed: Popup on homepage
+
+1.Homepage
+remove investment highlights waala panel
+remove invit trust link
+
+2.About us
+Integrated business model wala whole panel needs to go in the business wala page
+Why NDR wala panel needs to go to portfolio 
+Key Numbers wala panel needs to be removed
+
+3.Business
+Each BUsiness VErtical needs a different page under business model
+Remove 02 and 04 panel
+THe 03 panel needs to have a horizontal graph that was shown in the pdf
+05 needs to go under Grade A Warehousing
+
+4.Portfolio
+The first panel needs to have a maroon background like that of homepage|
+Make the map interactive
+
+5. Investor-centre
+Empty out the data and dont display anything for now, make sure the admin panel has a palce to put details though
+04Thecapital-market record needs to go in corp governance
+Annual report in corp governance too
+
+6. ESG 
+Remove anything related to environmental records
+Remove  panel nos, 05 06 07 and 10
+Replace and redesign 04th panel wuth name "esg initiator on site" with vsible images and texts
+
+7.Media
+The first panel of this page should have non static slideshow type of stuff that is editable and evrything
+Remove 01 02 04 05 06 panel
+03 should come below the main panel
+
+8.Contact 
+The whole office directory panel should be cms available via admin panel
+Only Keep Smart Spaces, HR and Grievance with editable formats for evreyhting and the client should be able to add or reduce the number of contacts they wanna keep on that page
+Remove Map
+
+

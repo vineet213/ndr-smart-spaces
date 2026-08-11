@@ -37,7 +37,7 @@ import {
 import { geoLocations, portfolioAssets } from "../../src/lib/data/portfolio";
 import { mapLocations, footer as homepageFooter } from "../../src/lib/data/homepage";
 import { officeDirectory, contactMap } from "../../src/lib/data/contact";
-import { mediaKit } from "../../src/lib/data/media";
+import { mediaKit, PRESS_ARCHIVE_ENTRIES } from "../../src/lib/data/media";
 import { divisions } from "../../src/lib/data/business";
 import {
   siteHome,
@@ -298,27 +298,47 @@ const documentRecords: SeedRecordSpec[] = [];
 
 /* media ------------------------------------------------------------------------ */
 
-const mediaRecords: SeedRecordSpec[] = mediaKit.items.map((item, index) => {
-  const isSvg = item.format.includes("SVG");
-  return {
-    id: slugify(item.ref),
-    status: "pending",
-    order: pad(index),
+const mediaRecords: SeedRecordSpec[] = [
+  ...mediaKit.items.map((item, index) => {
+    const isSvg = item.format.includes("SVG");
+    return {
+      id: slugify(item.ref),
+      status: "pending" as const,
+      order: pad(index),
+      data: {
+        ref: item.ref,
+        label: item.label,
+        name: `${slugify(item.label)}.${isSvg ? "svg" : "pdf"}`,
+        kind: isSvg ? ("logo" as const) : ("pdf" as const),
+        folder: "media-kit",
+        mime: isSvg ? "image/svg+xml" : "application/pdf",
+        caption: item.note,
+        format: item.format,
+        classification: item.classification,
+        revision: item.revision,
+        status: item.status,
+      },
+    };
+  }),
+  ...PRESS_ARCHIVE_ENTRIES.map((entry, index) => ({
+    id: slugify(entry.ref),
+    status: "pending" as const,
+    order: pad(mediaKit.items.length + index),
     data: {
-      ref: item.ref,
-      label: item.label,
-      name: `${slugify(item.label)}.${isSvg ? "svg" : "pdf"}`,
-      kind: isSvg ? "logo" : "pdf",
-      folder: "media-kit",
-      mime: isSvg ? "image/svg+xml" : "application/pdf",
-      caption: item.note,
-      format: item.format,
-      classification: item.classification,
-      revision: item.revision,
-      status: item.status,
+      ref: entry.ref,
+      label: entry.title,
+      name: `${slugify(entry.id)}.pdf`,
+      kind: "pdf" as const,
+      folder: "press-archive",
+      ...(entry.note !== undefined ? { caption: entry.note } : {}),
+      recordStatus: entry.status,
+      date: entry.date,
+      category: entry.category,
+      ...(entry.href ? { href: entry.href } : {}),
+      ...(entry.external ? { external: true } : {}),
     },
-  };
-});
+  })),
+];
 
 /* contact directory ------------------------------------------------------------- */
 

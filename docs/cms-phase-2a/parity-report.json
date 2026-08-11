@@ -1,10 +1,10 @@
 {
   "phase": "2A/2B",
-  "generatedAt": "2026-08-11T17:59:48.340Z",
+  "generatedAt": "2026-08-11T18:29:01.075Z",
   "verdict": "PASS",
   "counts": {
-    "total": 371,
-    "passed": 371,
+    "total": 393,
+    "passed": 393,
     "failed": 0,
     "unintended": 0
   },
@@ -1706,7 +1706,7 @@
     {
       "id": "media.count",
       "layer": "inventory/data",
-      "description": "media has exactly 4 records",
+      "description": "media has exactly 8 records",
       "classification": "expected",
       "passed": true
     },
@@ -1799,6 +1799,98 @@
       "id": "media.mk-04.data",
       "layer": "inventory/data",
       "description": "mk-04 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.pr-001.status",
+      "layer": "inventory/data",
+      "description": "pr-001 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.pr-001.order",
+      "layer": "inventory/data",
+      "description": "pr-001 has order 0004",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0004"
+    },
+    {
+      "id": "media.pr-001.data",
+      "layer": "inventory/data",
+      "description": "pr-001 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.pr-002.status",
+      "layer": "inventory/data",
+      "description": "pr-002 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.pr-002.order",
+      "layer": "inventory/data",
+      "description": "pr-002 has order 0005",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0005"
+    },
+    {
+      "id": "media.pr-002.data",
+      "layer": "inventory/data",
+      "description": "pr-002 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.pr-003.status",
+      "layer": "inventory/data",
+      "description": "pr-003 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.pr-003.order",
+      "layer": "inventory/data",
+      "description": "pr-003 has order 0006",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0006"
+    },
+    {
+      "id": "media.pr-003.data",
+      "layer": "inventory/data",
+      "description": "pr-003 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.up-001.status",
+      "layer": "inventory/data",
+      "description": "up-001 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.up-001.order",
+      "layer": "inventory/data",
+      "description": "up-001 has order 0007",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0007"
+    },
+    {
+      "id": "media.up-001.data",
+      "layer": "inventory/data",
+      "description": "up-001 payload matches the source mapping",
       "classification": "expected",
       "passed": true
     },
@@ -2552,6 +2644,42 @@
       "passed": true
     },
     {
+      "id": "fidelity.media.PR-001",
+      "layer": "fidelity",
+      "description": "press record PR-001 (NDR InvIT Trust incorporated) preserved as a pending archive entry",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.PR-002",
+      "layer": "fidelity",
+      "description": "press record PR-002 (NDR InvIT lists on the NSE through an INR 8.8 bn IPO) preserved as a pending archive entry",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.PR-003",
+      "layer": "fidelity",
+      "description": "press record PR-003 (NDR Smart Spaces completes the MLG monetization to NDR InvIT) preserved as a pending archive entry",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.UP-001",
+      "layer": "fidelity",
+      "description": "press record UP-001 (ESG — The Sustainability Ledger, Edition FY26) preserved as a pending archive entry",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.press-count",
+      "layer": "fidelity",
+      "description": "press archive == 4 records (PR-001…UP-001)",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 4"
+    },
+    {
       "id": "fidelity.directory.corporate",
       "layer": "fidelity",
       "description": "directory entry corporate (NDR Smart Spaces Pvt. Ltd.) preserved",
@@ -2671,6 +2799,41 @@
       "passed": true
     },
     {
+      "id": "integration.media.kit",
+      "layer": "integration",
+      "description": "media kit items derive from the generated media collection (media-kit folder)",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "integration.media.press-archive",
+      "layer": "integration",
+      "description": "press archive entries derive from the media collection and stay byte-equal to the frozen source",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "integration.media.edition",
+      "layer": "integration",
+      "description": "edition and publication reference derive from the publication settings (FY26)",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "integration.media.press-contact",
+      "layer": "integration",
+      "description": "press contact derives from the contact directory and corporate settings",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "integration.media.featured",
+      "layer": "integration",
+      "description": "featured publication references the PR-002 press record from the archive",
+      "classification": "expected",
+      "passed": true
+    },
+    {
       "id": "relations.asset-location.amazon-coimbatore",
       "layer": "relations",
       "description": "asset amazon-coimbatore → published location coimbatore with matching zone",
@@ -2765,10 +2928,10 @@
     {
       "id": "relations.audit-chain",
       "layer": "relations",
-      "description": "audit chain intact — 79 create entries (one per seeded record)",
+      "description": "audit chain intact — 83 create entries (one per seeded record)",
       "classification": "expected",
       "passed": true,
-      "detail": "valid=true, verified=79, expected=79"
+      "detail": "valid=true, verified=83, expected=83"
     }
   ]
 }

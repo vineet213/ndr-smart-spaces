@@ -59,7 +59,15 @@ import {
   mapLocations,
 } from "../src/lib/data/homepage";
 import { officeDirectory, contactMap } from "../src/lib/data/contact";
-import { mediaKit } from "../src/lib/data/media";
+import {
+  MEDIA_EDITION,
+  MEDIA_PUBLICATION,
+  PRESS_ARCHIVE_ENTRIES,
+  mediaFeatured,
+  mediaKit,
+  pressArchive,
+  pressContact,
+} from "../src/lib/data/media";
 import { divisions } from "../src/lib/data/business";
 import { footer as homepageFooter, contact as homepageContact } from "../src/lib/data/homepage";
 import {
@@ -75,6 +83,10 @@ import { footer as cmsFooter } from "../src/lib/data/generated/footer";
 import { metrics as cmsMetrics } from "../src/lib/data/generated/metrics";
 import { businessVerticals as cmsVerticals } from "../src/lib/data/generated/businessVerticals";
 import { locations as cmsLocations } from "../src/lib/data/generated/locations";
+import { media as cmsMedia } from "../src/lib/data/generated/media";
+import { publicationSettings } from "../src/lib/data/generated/publicationSettings";
+import { corporateSettings } from "../src/lib/data/generated/corporateSettings";
+import { contactDirectory } from "../src/lib/data/generated/contactDirectory";
 
 const ROOT = process.cwd();
 const STORE_FILE = join(ROOT, ".cms-store", "content.json");
@@ -274,6 +286,7 @@ async function main(): Promise<void> {
 
   await verifyNavigationIntegration();
   await verifyHomepageIntegration();
+  await verifyMediaIntegration();
 
   /* Relationships and integrity ---------------------------------------------- */
 
@@ -710,13 +723,18 @@ async function verifyDocuments(content: ContentStore): Promise<void> {
 
 async function verifyMedia(content: ContentStore): Promise<void> {
   const records = await content.list("media");
-  mediaKit.items.forEach((item, index) => {
-    const record = records[index];
-    const d = asRecord(record?.data ?? {});
-    const isSvg = item.format.includes("SVG");
-    const name = `${item.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")}.${isSvg ? "svg" : "pdf"}`;
+
+  const kitRecords = records.filter((record) => text(record.data, "folder") === "media-kit");
+  kitRecords.forEach((record, index) => {
+    const item = mediaKit.items[index];
+    const d = asRecord(record.data);
+    const isSvg = Boolean(item) && item.format.includes("SVG");
+    const name = item
+      ? `${item.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")}.${isSvg ? "svg" : "pdf"}`
+      : null;
     const pass =
       record?.status === "pending" &&
+      item !== undefined &&
       d.ref === item.ref &&
       d.label === item.label &&
       d.name === name &&
@@ -729,14 +747,49 @@ async function verifyMedia(content: ContentStore): Promise<void> {
       d.revision === item.revision &&
       d.status === item.status;
     check(
-      `fidelity.media.${item.ref}`,
+      `fidelity.media.${item?.ref ?? record.id}`,
       "fidelity",
-      `media kit item ${item.ref} (${item.label}) preserved as a pending asset`,
+      `media kit item ${item?.ref ?? index} (${item?.label ?? record.id}) preserved as a pending asset`,
       "migration-related",
       Boolean(pass),
       undefined,
     );
   });
+
+  const pressRecords = records.filter((record) => text(record.data, "folder") === "press-archive");
+  PRESS_ARCHIVE_ENTRIES.forEach((entry) => {
+    const record = pressRecords.find((candidate) => candidate.id === entry.id);
+    const d = asRecord(record?.data ?? {});
+    const pass =
+      record?.status === "pending" &&
+      d.ref === entry.ref &&
+      d.label === entry.title &&
+      d.kind === "pdf" &&
+      d.folder === "press-archive" &&
+      d.caption === entry.note &&
+      d.recordStatus === entry.status &&
+      d.date === entry.date &&
+      d.category === entry.category &&
+      (entry.href ? d.href === entry.href : d.href === undefined) &&
+      (entry.external ? d.external === true : d.external === undefined);
+    check(
+      `fidelity.media.${entry.ref}`,
+      "fidelity",
+      `press record ${entry.ref} (${entry.title}) preserved as a pending archive entry`,
+      "expected",
+      Boolean(pass),
+      undefined,
+    );
+  });
+
+  check(
+    "fidelity.media.press-count",
+    "fidelity",
+    `press archive == ${PRESS_ARCHIVE_ENTRIES.length} records (PR-001…UP-001)`,
+    "expected",
+    pressRecords.length === PRESS_ARCHIVE_ENTRIES.length,
+    `found ${pressRecords.length}`,
+  );
 }
 
 async function verifyDirectory(content: ContentStore): Promise<void> {
@@ -1037,6 +1090,134 @@ async function verifyHomepageIntegration(): Promise<void> {
     "homepage keeps esg null and latestUpdates empty — no new sections introduced",
     "expected",
     esg === null && latestUpdates.length === 0,
+    undefined,
+  );
+}
+
+async function verifyMediaIntegration(): Promise<void> {
+  type CmsMediaRecord = {
+    id: string;
+    status: string;
+    folder: string;
+    ref?: string;
+    label?: string;
+    caption?: string;
+    format?: string;
+    classification?: string;
+    revision?: string;
+    date?: string;
+    category?: string;
+    recordStatus?: string;
+    href?: string;
+    external?: boolean;
+  };
+  const mediaRecords = cmsMedia as unknown as readonly CmsMediaRecord[];
+
+  const kitSources = mediaRecords.filter((record) => record.folder === "media-kit");
+  const kitOk =
+    kitSources.length === mediaKit.items.length &&
+    mediaKit.items.every((item, index) => {
+      const source = kitSources[index];
+      return (
+        source.ref === item.ref &&
+        source.label === item.label &&
+        source.caption === item.note &&
+        source.format === item.format &&
+        source.classification === item.classification &&
+        source.revision === item.revision &&
+        source.status === item.status
+      );
+    });
+  check(
+    "integration.media.kit",
+    "integration",
+    "media kit items derive from the generated media collection (media-kit folder)",
+    "expected",
+    kitOk,
+    undefined,
+  );
+
+  const pressSources = mediaRecords.filter((record) => record.folder === "press-archive");
+  const pressMatchesSources =
+    pressSources.length === pressArchive.entries.length &&
+    pressArchive.entries.every((entry, index) => {
+      const source = pressSources[index];
+      return (
+        entry.id === source.id &&
+        entry.ref === source.ref &&
+        entry.date === source.date &&
+        entry.category === source.category &&
+        entry.title === source.label &&
+        (entry.note ?? null) === (source.caption ?? null) &&
+        entry.status === source.recordStatus &&
+        (entry.href ?? null) === (source.href ?? null) &&
+        Boolean(entry.external) === (source.external === true)
+      );
+    });
+  const pressMatchesFrozen =
+    pressSources.length === PRESS_ARCHIVE_ENTRIES.length &&
+    pressArchive.entries.every((entry, index) => {
+      const source = PRESS_ARCHIVE_ENTRIES[index];
+      return (
+        entry.id === source.id &&
+        entry.ref === source.ref &&
+        entry.date === source.date &&
+        entry.category === source.category &&
+        entry.title === source.title &&
+        (entry.note ?? null) === (source.note ?? null) &&
+        entry.status === source.status &&
+        (entry.href ?? null) === (source.href ?? null) &&
+        Boolean(entry.external) === (source.external === true)
+      );
+    });
+  check(
+    "integration.media.press-archive",
+    "integration",
+    "press archive entries derive from the media collection and stay byte-equal to the frozen source",
+    "expected",
+    pressMatchesSources && pressMatchesFrozen,
+    undefined,
+  );
+
+  check(
+    "integration.media.edition",
+    "integration",
+    "edition and publication reference derive from the publication settings (FY26)",
+    "expected",
+    MEDIA_EDITION.asOn === publicationSettings.asOnDate &&
+      MEDIA_EDITION.edition === `Edition ${publicationSettings.editionPeriod} · Volume I` &&
+      MEDIA_PUBLICATION.ref === `NDR-PR-${publicationSettings.editionPeriod}`,
+    undefined,
+  );
+
+  const pressDesk = contactDirectory.find((entry) => entry.key === "media");
+  const businessDesk = contactDirectory.find((entry) => entry.key === "business");
+  const contactOk =
+    pressContact.response.value === corporateSettings.pressResponseExpectation &&
+    pressContact.departments[0].value === pressDesk?.email.label &&
+    pressContact.departments[0].href === pressDesk?.email.href &&
+    pressContact.departments[1].value === businessDesk?.email.label &&
+    pressContact.departments[1].href === businessDesk?.email.href &&
+    pressContact.address ===
+      corporateSettings.addresses[0].lines.map((line) => line.value).join(", ");
+  check(
+    "integration.media.press-contact",
+    "integration",
+    "press contact derives from the contact directory and corporate settings",
+    "expected",
+    Boolean(contactOk),
+    undefined,
+  );
+
+  const featuredOk = pressArchive.entries.some(
+    (entry) => entry.ref === mediaFeatured.ref && entry.status === mediaFeatured.status,
+  );
+  check(
+    "integration.media.featured",
+    "integration",
+    "featured publication references the PR-002 press record from the archive",
+    "expected",
+    featuredOk,
     undefined,
   );
 }

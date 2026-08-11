@@ -449,9 +449,11 @@ async function main(): Promise<void> {
   const draftContent = new ContentStore(draftOnly);
   await new ContentStore(draftOnly).put("documents", { ...documentRecord.record, status: "draft" });
   const draftGenerated = await generateMerged(draftContent);
+  const draftDocuments =
+    draftGenerated.find((file) => file.fileName === "documents.ts")?.source ?? "";
   assert(
-    draftGenerated.every((file) => file.fileName !== "documents.ts"),
-    "draft-only registers produce no documents module",
+    draftDocuments.includes("DOC-001") && draftDocuments.includes('"status": "draft"'),
+    "draft-only registers emit the documents module in full with the status preserved",
   );
   writeGenerated(generatedDir, generated);
   const generatedCheck = await verifyGeneratedExports(editorContent, generatedDir);
@@ -898,14 +900,18 @@ async function main(): Promise<void> {
   });
   const afterDraft = await generateMerged(sharedContent);
   const draftOnlySource = afterDraft.find((file) => file.fileName === "metrics.ts")?.source ?? "";
-  assert(!draftOnlySource.includes("M19"), "draft-only metrics stay out of the generated ledger");
-  writeGenerated(sharedGeneratedDir, sharedGenerated);
+  assert(
+    draftOnlySource.includes("M19") && draftOnlySource.includes('"status": "draft"'),
+    "draft rows stay in the generated ledger with their status preserved",
+  );
+  const sharedFinal = await generateMerged(sharedContent);
+  writeGenerated(sharedGeneratedDir, sharedFinal);
   const sharedGeneratedCheck = await verifyGeneratedExports(sharedContent, sharedGeneratedDir);
   assert(sharedGeneratedCheck.valid, "all generated modules are byte-identical after regeneration");
   const sharedPass2 = await generateMerged(sharedContent);
   assert(
-    sharedPass2.length === sharedGenerated.length &&
-      sharedGenerated.every((file, i) => file.source === sharedPass2[i].source),
+    sharedPass2.length === sharedFinal.length &&
+      sharedFinal.every((file, i) => file.source === sharedPass2[i].source),
     "shared module bytes are deterministic across passes",
   );
   const sharedChain = await sharedAudit.verify();

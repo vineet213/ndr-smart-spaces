@@ -1,9 +1,9 @@
 # CMS Phase 2A/2B — Parity Report
 
-- Generated: 2026-08-11T17:59:48.342Z
+- Generated: 2026-08-11T18:29:01.077Z
 - Store: `.cms-store/content.json`
 - Generated modules: `src/lib/data/generated/`
-- Verdict: **PASS** — 371/371 checks passed, 0 failed, 0 unintended
+- Verdict: **PASS** — 393/393 checks passed, 0 failed, 0 unintended
 
 ## inventory/data
 
@@ -231,7 +231,7 @@
 | ds-05 has status pending <br><small>found pending</small> | PASS | expected |
 | ds-05 has order 0004 <br><small>found 0004</small> | PASS | expected |
 | ds-05 payload matches the source mapping | PASS | expected |
-| media has exactly 4 records | PASS | expected |
+| media has exactly 8 records | PASS | expected |
 | mk-01 has status pending <br><small>found pending</small> | PASS | expected |
 | mk-01 has order 0000 <br><small>found 0000</small> | PASS | expected |
 | mk-01 payload matches the source mapping | PASS | expected |
@@ -244,6 +244,18 @@
 | mk-04 has status pending <br><small>found pending</small> | PASS | expected |
 | mk-04 has order 0003 <br><small>found 0003</small> | PASS | expected |
 | mk-04 payload matches the source mapping | PASS | expected |
+| pr-001 has status pending <br><small>found pending</small> | PASS | expected |
+| pr-001 has order 0004 <br><small>found 0004</small> | PASS | expected |
+| pr-001 payload matches the source mapping | PASS | expected |
+| pr-002 has status pending <br><small>found pending</small> | PASS | expected |
+| pr-002 has order 0005 <br><small>found 0005</small> | PASS | expected |
+| pr-002 payload matches the source mapping | PASS | expected |
+| pr-003 has status pending <br><small>found pending</small> | PASS | expected |
+| pr-003 has order 0006 <br><small>found 0006</small> | PASS | expected |
+| pr-003 payload matches the source mapping | PASS | expected |
+| up-001 has status pending <br><small>found pending</small> | PASS | expected |
+| up-001 has order 0007 <br><small>found 0007</small> | PASS | expected |
+| up-001 payload matches the source mapping | PASS | expected |
 | contact-directory has exactly 5 records | PASS | expected |
 | corporate has status published <br><small>found published</small> | PASS | expected |
 | corporate has order 0000 <br><small>found 0000</small> | PASS | expected |
@@ -364,6 +376,11 @@
 | media kit item MK-02 (Logo suite) preserved as a pending asset | PASS | migration-related |
 | media kit item MK-03 (Brand guidance) preserved as a pending asset | PASS | migration-related |
 | media kit item MK-04 (Key statistics) preserved as a pending asset | PASS | migration-related |
+| press record PR-001 (NDR InvIT Trust incorporated) preserved as a pending archive entry | PASS | expected |
+| press record PR-002 (NDR InvIT lists on the NSE through an INR 8.8 bn IPO) preserved as a pending archive entry | PASS | expected |
+| press record PR-003 (NDR Smart Spaces completes the MLG monetization to NDR InvIT) preserved as a pending archive entry | PASS | expected |
+| press record UP-001 (ESG — The Sustainability Ledger, Edition FY26) preserved as a pending archive entry | PASS | expected |
+| press archive == 4 records (PR-001…UP-001) <br><small>found 4</small> | PASS | expected |
 | directory entry corporate (NDR Smart Spaces Pvt. Ltd.) preserved | PASS | migration-related |
 | directory entry registered (Registered office) preserved | PASS | expected |
 | directory entry investor (Investor relations desk) preserved | PASS | expected |
@@ -386,6 +403,11 @@
 | map markers derive from the generated locations (homepage-visible, Chennai aliased to Headquarters) | PASS | expected |
 | footer re-exports the generated footer byte-for-byte | PASS | expected |
 | homepage keeps esg null and latestUpdates empty — no new sections introduced | PASS | expected |
+| media kit items derive from the generated media collection (media-kit folder) | PASS | expected |
+| press archive entries derive from the media collection and stay byte-equal to the frozen source | PASS | expected |
+| edition and publication reference derive from the publication settings (FY26) | PASS | expected |
+| press contact derives from the contact directory and corporate settings | PASS | expected |
+| featured publication references the PR-002 press record from the archive | PASS | expected |
 
 ## relations
 
@@ -404,11 +426,11 @@
 | metric keys unique (22 records) | PASS | expected |
 | document refs unique (5 records) | PASS | expected |
 | registry ledger records exactly 8 issues (the GV-REG refs) <br><small>found 8</small> | PASS | migration-related |
-| audit chain intact — 79 create entries (one per seeded record) <br><small>valid=true, verified=79, expected=79</small> | PASS | expected |
+| audit chain intact — 83 create entries (one per seeded record) <br><small>valid=true, verified=83, expected=83</small> | PASS | expected |
 
 ## Summary
 
-- Total: 371
-- Passed: 371
+- Total: 393
+- Passed: 393
 - Failed: 0
 - Unintended: 0
