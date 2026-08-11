@@ -1,0 +1,25 @@
+export const publicationSettings = {
+  "asOnDate": "As on 31 March 2026",
+  "copyrightLine": "\u00a9 2026 NDR Smart Spaces Pvt. Ltd.",
+  "documentPrefixes": {
+    "CE-": "Certification reference",
+    "DOC-": "Document reference",
+    "DS-": "ESG disclosure reference",
+    "GC-": "Governance committee code",
+    "GP-": "Governance policy code",
+    "GV-REG-": "Governance register number",
+    "IM-": "ESG initiative code",
+    "MK-": "Media kit asset",
+    "PC-": "Press correspondence reference",
+    "PR-": "Press reference",
+  },
+  "editionPeriod": "FY26",
+  "numberingRules": {
+    "doc": "DOC-NNN",
+    "fig": "FIG-NNN",
+    "plate": "NN catalogue plate",
+    "ref": "PR-NNN",
+    "register": "GV-REG-NNN",
+    "volume": "Roman numeral",
+  },
+} as const;

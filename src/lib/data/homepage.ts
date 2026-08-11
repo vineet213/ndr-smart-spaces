@@ -1,3 +1,32 @@
+import { footer as cmsFooter } from "./generated/footer";
+import { locations as cmsLocations } from "./generated/locations";
+import { metrics as cmsMetrics } from "./generated/metrics";
+import { businessVerticals as cmsVerticals } from "./generated/businessVerticals";
+
+const HERO_STAT_KEYS = [
+  { key: "M1", label: "Years of industrial experience" },
+  { key: "M5", label: "Fortune Global 500 companies served" },
+  { key: "M3", label: "Portfolio occupancy" },
+] as const;
+
+function heroStatValue(raw: string): number {
+  const match = /^([0-9]+(?:\.[0-9]+)?)/.exec(raw);
+  return match ? Number(match[1]) : 0;
+}
+
+function heroStatSuffix(raw: string): string {
+  const match = /^[0-9][0-9,.]*([+%]?)/.exec(raw);
+  return match ? match[1] : "";
+}
+
+const heroStats: readonly { value: number; suffix: string; label: string }[] = HERO_STAT_KEYS.map(
+  ({ key, label }) => {
+    const metric = cmsMetrics.find((entry) => entry.key === key);
+    const raw = metric?.value ?? "";
+    return { value: heroStatValue(raw), suffix: heroStatSuffix(raw), label };
+  },
+);
+
 export const hero = {
   eyebrow: "NDR Smart Spaces · Est. 2025",
   headline: "From land to listed assets.",
@@ -5,11 +34,7 @@ export const hero = {
     "A diversified infrastructure organization developing, owning and managing institutional-grade industrial, commercial and institutional assets across India — and the development platform behind NDR InvIT, India's first warehousing InvIT.",
   primaryCta: { label: "Explore Our Business Verticals", href: "/en/business#verticals" },
   secondaryCta: { label: "Investor Centre", href: "/en/investor-centre" },
-  stats: [
-    { value: 60, suffix: "+", label: "Years of industrial experience" },
-    { value: 100, suffix: "+", label: "Fortune Global 500 companies served" },
-    { value: 98, suffix: "%", label: "Portfolio occupancy" },
-  ],
+  stats: heroStats,
   statsSource: "Source: NDR Corporate Presentation, FY26",
   image: null as { src: string; alt: string } | null,
 } as const;
@@ -79,54 +104,25 @@ export const portfolioPresence = {
   viewPortfolio: "View Portfolio",
 } as const;
 
-export const mapLocations: MapLocation[] = [
-  { name: "Headquarters", zone: "south", tier: "hq", x: 388, y: 826, line: "Chennai, Tamil Nadu" },
-  {
-    name: "Nallur",
-    zone: "south",
-    tier: "hub",
-    x: 412,
-    y: 863,
-    line: "Chennai, Tamil Nadu",
-    leaderTo: { x: 402, y: 848 },
-  },
-  { name: "Bidadi", zone: "south", tier: "hub", x: 287, y: 837, line: "Bengaluru, Karnataka" },
-  { name: "Hyderabad", zone: "west", tier: "hub", x: 328, y: 679, line: "Telangana" },
-  { name: "Pune", zone: "west", tier: "hub", x: 181, y: 640, line: "Maharashtra" },
-  { name: "Kolkata", zone: "east", tier: "hub", x: 642, y: 501, line: "West Bengal" },
-  { name: "Ghaziabad", zone: "north", tier: "hub", x: 295, y: 290, line: "NCR, Uttar Pradesh" },
-  {
-    name: "Walajapet",
-    zone: "south",
-    tier: "satellite",
-    x: 346,
-    y: 829,
-    line: "Chennai, Tamil Nadu",
-  },
-  {
-    name: "Oragadam",
-    zone: "south",
-    tier: "satellite",
-    x: 356,
-    y: 805,
-    line: "Chennai, Tamil Nadu",
-    leaderTo: { x: 366, y: 812 },
-  },
-  {
-    name: "Krishnapuram Kandigai",
-    zone: "south",
-    tier: "satellite",
-    x: 363,
-    y: 854,
-    line: "Chennai, Tamil Nadu",
-    leaderTo: { x: 370, y: 846 },
-  },
-  { name: "Hosur", zone: "south", tier: "satellite", x: 313, y: 840, line: "Tamil Nadu" },
-  { name: "Kochi", zone: "south", tier: "satellite", x: 259, y: 933, line: "Kerala" },
-  { name: "Varanasi", zone: "east", tier: "satellite", x: 471, y: 406, line: "Uttar Pradesh" },
-  { name: "Lucknow", zone: "east", tier: "satellite", x: 407, y: 352, line: "Uttar Pradesh" },
-  { name: "Kanpur", zone: "east", tier: "satellite", x: 386, y: 367, line: "Uttar Pradesh" },
-] as const;
+const HOMEPAGE_MAP_NAMES: Record<string, string> = { Chennai: "Headquarters" };
+
+const homepageMapLocations: MapLocation[] = [];
+
+for (const location of cmsLocations) {
+  if (!("homepageOffset" in location) || !location.visible.homepage) continue;
+  const offset = location.homepageOffset;
+  homepageMapLocations.push({
+    name: HOMEPAGE_MAP_NAMES[location.name] ?? location.name,
+    zone: location.zone,
+    tier: location.tier,
+    x: offset.x,
+    y: offset.y,
+    line: location.line,
+    ...("leaderTo" in offset ? { leaderTo: offset.leaderTo } : {}),
+  });
+}
+
+export const mapLocations: MapLocation[] = homepageMapLocations;
 
 export const companyOverview = {
   eyebrow: "Company overview",
@@ -169,39 +165,35 @@ export const journey = [
   },
 ] as const;
 
+const BUSINESS_HIGHLIGHT_BODY: Record<string, string> = {
+  "01": "Strategically located, spec-forward facilities near highways, ports, railways and airports — serving retail, e-commerce, 3PL and manufacturing.",
+  "02": "End-to-end project planning, execution and delivery, plus ongoing portfolio operations and maintenance.",
+  "03": "RERA-compliant plotted layouts developed through the group's plotting entity.",
+};
+
+const BUSINESS_HIGHLIGHT_PROOF: Record<string, string> = {
+  "01": "99% greenfield",
+  "02": "100%-owned project management arm",
+  "03": "Trusted plotted development",
+};
+
 export const businessHighlights = {
   eyebrow: "Business highlights",
   heading: "Three engines, one capital channel.",
-  verticals: [
-    {
-      index: "01",
-      title: "Grade A Warehousing",
-      body: "Strategically located, spec-forward facilities near highways, ports, railways and airports — serving retail, e-commerce, 3PL and manufacturing.",
-      proof: "99% greenfield",
-      href: "/en/business#grade-a-warehousing",
-    },
-    {
-      index: "02",
-      title: "NDR Asset Management",
-      body: "End-to-end project planning, execution and delivery, plus ongoing portfolio operations and maintenance.",
-      proof: "100%-owned project management arm",
-      href: "/en/business#ndr-asset-management",
-    },
-    {
-      index: "03",
-      title: "Residential Plotting — Ave Acres",
-      body: "RERA-compliant plotted layouts developed through the group's plotting entity.",
-      proof: "Trusted plotted development",
-      href: "https://aveacres.com",
-      external: true,
-    },
-  ],
+  verticals: cmsVerticals.map((vertical) => ({
+    index: vertical.index,
+    title: vertical.title,
+    body: BUSINESS_HIGHLIGHT_BODY[vertical.index] ?? "",
+    proof: BUSINESS_HIGHLIGHT_PROOF[vertical.index] ?? "",
+    href: vertical.route.href,
+    ...("external" in vertical.route && vertical.route.external ? { external: true } : {}),
+  })),
   partnership: {
     title: "The NDR InvIT relationship",
     line: "Completed assets are offered to NDR InvIT under a Right of First Offer, recycling capital into new development. A transparent, disciplined engine that keeps building.",
     cta: { label: "The capital model", href: "/en/business#capital" },
   },
-} as const;
+};
 
 export const investmentHighlights = {
   eyebrow: "Investment highlights",
@@ -355,64 +347,4 @@ export const contact = {
   },
 } as const;
 
-export const footer = {
-  descriptor:
-    "A diversified infrastructure organization developing, owning and managing institutional-grade industrial, commercial and institutional assets since 1954.",
-  ecosystem: [
-    { label: "NDR InvIT Trust", href: "https://ndrinvit.com", external: true },
-    { label: "Ave Acres", href: "https://aveacres.com", external: true },
-  ],
-  groups: [
-    {
-      heading: "Corporate",
-      links: [
-        { label: "About Us & Our People", href: "/en/about-us" },
-        { label: "Investor Centre", href: "/en/investor-centre" },
-        { label: "Contact", href: "/en/contact" },
-      ],
-    },
-    {
-      heading: "Business",
-      links: [
-        { label: "Business", href: "/en/business" },
-        { label: "Portfolio", href: "/en/portfolio" },
-      ],
-    },
-    {
-      heading: "Investor",
-      links: [
-        {
-          label: "Investment Highlights",
-          href: "/en/investor-centre/investment-highlights",
-        },
-        {
-          label: "Reports & Disclosures",
-          href: "/en/investor-centre/reports-disclosures",
-        },
-        { label: "Financial Results", href: "/en/investor-centre/financial-results" },
-        { label: "Announcements", href: "/en/investor-centre/announcements" },
-      ],
-    },
-    {
-      heading: "ESG & Media",
-      links: [
-        { label: "ESG & Sustainability", href: "/en/esg" },
-        { label: "Media & Newsroom", href: "/en/media" },
-      ],
-    },
-  ],
-  contact: {
-    address: "No. 56/1, next to GT Reddy Cars, Bazulla Road, T. Nagar, Chennai, Tamil Nadu 600017",
-    emails: [
-      { label: "compliance@ndrsmart.com", href: "mailto:compliance@ndrsmart.com" },
-      { label: "project@ndrsmart.com", href: "mailto:project@ndrsmart.com" },
-    ],
-  },
-  legal: [
-    { label: "Privacy Policy", href: "/en/privacy-policy" },
-    { label: "Terms & Conditions", href: "/en/terms" },
-    { label: "Disclaimer", href: "/en/disclaimer" },
-    { label: "Website Sitemap", href: "/en/sitemap" },
-  ],
-  copyright: "© 2026 NDR Smart Spaces Pvt. Ltd.",
-} as const;
+export const footer = cmsFooter;

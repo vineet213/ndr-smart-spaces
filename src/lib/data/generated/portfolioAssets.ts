@@ -1,0 +1,28 @@
+export const portfolioAssets = [
+  {
+    "id": "amazon-coimbatore",
+    "status": "completed",
+    "city": "Coimbatore",
+    "class": "warehousing",
+    "locationId": "coimbatore",
+    "name": "Amazon Fulfilment Centre",
+    "occupier": "Amazon",
+    "plate": "01",
+    "sizeSqFt": 600000,
+    "source": "NDR Corporate Presentation",
+    "zone": "south",
+  },
+  {
+    "id": "lenovo-puducherry",
+    "status": "completed",
+    "city": "Puducherry",
+    "class": "industrial",
+    "completedYear": "2002",
+    "locationId": "puducherry",
+    "name": "Lenovo Industrial Facility",
+    "occupier": "Lenovo",
+    "plate": "02",
+    "source": "Approved homepage content",
+    "zone": "south",
+  },
+] as const;

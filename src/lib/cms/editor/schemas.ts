@@ -227,6 +227,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
       { key: "type", label: "Type", kind: "text", required: true },
       { key: "asOn", label: "Reporting period", kind: "text", placeholder: "As on 31 March 2026" },
       { key: "note", label: "Note", kind: "textarea" },
+      { key: "edition", label: "Edition", kind: "text" },
       { key: "href", label: "External href", kind: "url" },
       { key: "size", label: "Size label", kind: "text" },
       { key: "revision", label: "Revision", kind: "text" },

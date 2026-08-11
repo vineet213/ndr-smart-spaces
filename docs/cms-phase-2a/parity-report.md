@@ -1,9 +1,9 @@
-# CMS Phase 2A — Parity Report
+# CMS Phase 2A/2B — Parity Report
 
-- Generated: 2026-08-11T14:06:56.338Z
+- Generated: 2026-08-11T17:59:48.342Z
 - Store: `.cms-store/content.json`
 - Generated modules: `src/lib/data/generated/`
-- Verdict: **PASS** — 362/362 checks passed, 0 failed, 0 unintended
+- Verdict: **PASS** — 371/371 checks passed, 0 failed, 0 unintended
 
 ## inventory/data
 
@@ -271,15 +271,18 @@
 
 | Check | Result | Class |
 | --- | --- | --- |
-| draft/pending-only registers produce no module (documents, media, governance-records) <br><small>generated: brandSettings.ts, businessVerticals.ts, contactDirectory.ts, corporateSettings.ts, esgInitiatives.ts, footer.ts, locations.ts, metrics.ts, navigation.ts, portfolioAssets.ts, publicationSettings.ts</small> | PASS | expected |
+| every seeded collection emits a module (documents, media, governance-records included) <br><small>generated: brandSettings.ts, businessVerticals.ts, contactDirectory.ts, corporateSettings.ts, documents.ts, esgInitiatives.ts, footer.ts, governanceRecords.ts, locations.ts, media.ts, metrics.ts, navigation.ts, portfolioAssets.ts, publicationSettings.ts</small> | PASS | expected |
 | generated directory holds exactly the expected module set | PASS | expected |
 | brandSettings.ts is byte-identical on disk | PASS | expected |
 | businessVerticals.ts is byte-identical on disk | PASS | expected |
 | contactDirectory.ts is byte-identical on disk | PASS | expected |
 | corporateSettings.ts is byte-identical on disk | PASS | expected |
+| documents.ts is byte-identical on disk | PASS | expected |
 | esgInitiatives.ts is byte-identical on disk | PASS | expected |
 | footer.ts is byte-identical on disk | PASS | expected |
+| governanceRecords.ts is byte-identical on disk | PASS | expected |
 | locations.ts is byte-identical on disk | PASS | expected |
+| media.ts is byte-identical on disk | PASS | expected |
 | metrics.ts is byte-identical on disk | PASS | expected |
 | navigation.ts is byte-identical on disk | PASS | expected |
 | portfolioAssets.ts is byte-identical on disk | PASS | expected |
@@ -373,6 +376,17 @@
 | brand settings carry logos, favicon and SEO defaults (no OG image or social links) | PASS | migration-related |
 | corporate office address matches the frozen homepage contact record | PASS | expected |
 
+## integration
+
+| Check | Result | Class |
+| --- | --- | --- |
+| navigation module re-exports the generated CMS navigation byte-for-byte | PASS | expected |
+| hero stats derive from the published metrics (M1 60+ · M5 100+ · M3 98%) | PASS | expected |
+| business highlight verticals derive from the generated business verticals (Ave Acres external) | PASS | expected |
+| map markers derive from the generated locations (homepage-visible, Chennai aliased to Headquarters) | PASS | expected |
+| footer re-exports the generated footer byte-for-byte | PASS | expected |
+| homepage keeps esg null and latestUpdates empty — no new sections introduced | PASS | expected |
+
 ## relations
 
 | Check | Result | Class |
@@ -394,7 +408,7 @@
 
 ## Summary
 
-- Total: 362
-- Passed: 362
+- Total: 371
+- Passed: 371
 - Failed: 0
 - Unintended: 0

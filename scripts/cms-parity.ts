@@ -16,6 +16,9 @@
  *   4. Source fidelity — independent field checks straight against the frozen
  *                    modules (not the mappings) plus cross-collection
  *                    relationship and uniqueness checks.
+ *   5. Integration fidelity (Phase 2B) — the runtime data modules
+ *                    (homepage, navigation) re-export or derive from the
+ *                    generated CMS modules byte-for-byte.
  *
  * Every check is classified `expected`, `migration-related` (a documented,
  * reversible deviation the migration introduces) or `unintended`. Any
@@ -48,7 +51,13 @@ import {
   esgImpactMap,
 } from "../src/lib/data/esg";
 import { geoLocations, portfolioAssets } from "../src/lib/data/portfolio";
-import { mapLocations } from "../src/lib/data/homepage";
+import {
+  businessHighlights,
+  esg,
+  hero,
+  latestUpdates,
+  mapLocations,
+} from "../src/lib/data/homepage";
 import { officeDirectory, contactMap } from "../src/lib/data/contact";
 import { mediaKit } from "../src/lib/data/media";
 import { divisions } from "../src/lib/data/business";
@@ -61,6 +70,11 @@ import {
   utilityStrip,
   headerCta,
 } from "../src/lib/data/navigation";
+import { navigation as cmsNavigation } from "../src/lib/data/generated/navigation";
+import { footer as cmsFooter } from "../src/lib/data/generated/footer";
+import { metrics as cmsMetrics } from "../src/lib/data/generated/metrics";
+import { businessVerticals as cmsVerticals } from "../src/lib/data/generated/businessVerticals";
+import { locations as cmsLocations } from "../src/lib/data/generated/locations";
 
 const ROOT = process.cwd();
 const STORE_FILE = join(ROOT, ".cms-store", "content.json");
@@ -193,13 +207,13 @@ async function main(): Promise<void> {
     const expectedSet = new Set(expectedNames);
 
     check(
-      "generated.registers-empty",
+      "generated.registers-complete",
       "generated",
-      "draft/pending-only registers produce no module (documents, media, governance-records)",
+      "every seeded collection emits a module (documents, media, governance-records included)",
       "expected",
-      !expectedNames.includes("documents.ts") &&
-        !expectedNames.includes("media.ts") &&
-        !expectedNames.includes("governanceRecords.ts"),
+      expectedNames.includes("documents.ts") &&
+        expectedNames.includes("media.ts") &&
+        expectedNames.includes("governanceRecords.ts"),
       `generated: ${expectedNames.join(", ")}`,
     );
 
@@ -255,6 +269,11 @@ async function main(): Promise<void> {
   await verifyNavigation(content);
   await verifyFooter(content);
   await verifySettings(content);
+
+  /* Layer 5 — Phase 2B integration fidelity ----------------------------------- */
+
+  await verifyNavigationIntegration();
+  await verifyHomepageIntegration();
 
   /* Relationships and integrity ---------------------------------------------- */
 
@@ -346,7 +365,7 @@ async function main(): Promise<void> {
 
   mkdirSync(REPORT_DIR, { recursive: true });
   const report = {
-    phase: "2A",
+    phase: "2A/2B",
     generatedAt: new Date().toISOString(),
     verdict,
     counts: {
@@ -646,7 +665,14 @@ async function verifyGovernance(content: ContentStore): Promise<void> {
 
 async function verifyDocuments(content: ContentStore): Promise<void> {
   const records = await content.list("documents");
-  const expected: { ref: string; title: string; category: string; asOn: string; note?: string }[] = [];
+  const expected: {
+    ref: string;
+    title: string;
+    category: string;
+    asOn: string;
+    note?: string;
+    edition?: string;
+  }[] = [];
   for (const group of esgDisclosures.groups) {
     for (const document of group.documents) {
       expected.push({
@@ -654,7 +680,8 @@ async function verifyDocuments(content: ContentStore): Promise<void> {
         title: document.title,
         category: group.category,
         asOn: document.asOn,
-        note: document.note ?? document.edition,
+        ...(document.note ? { note: document.note } : {}),
+        ...(document.edition ? { edition: document.edition } : {}),
       });
     }
   }
@@ -668,7 +695,8 @@ async function verifyDocuments(content: ContentStore): Promise<void> {
       d.type === item.title &&
       d.asOn === item.asOn &&
       d.ref === item.ref &&
-      (item.note ? d.note === item.note : d.note === undefined);
+      (item.note ? d.note === item.note : d.note === undefined) &&
+      (item.edition ? d.edition === item.edition : d.edition === undefined);
     check(
       `fidelity.documents.${item.ref}`,
       "fidelity",
@@ -689,11 +717,17 @@ async function verifyMedia(content: ContentStore): Promise<void> {
     const name = `${item.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")}.${isSvg ? "svg" : "pdf"}`;
     const pass =
       record?.status === "pending" &&
+      d.ref === item.ref &&
+      d.label === item.label &&
       d.name === name &&
       d.kind === (isSvg ? "logo" : "pdf") &&
       d.folder === "media-kit" &&
       d.mime === (isSvg ? "image/svg+xml" : "application/pdf") &&
-      d.caption === item.note;
+      d.caption === item.note &&
+      d.format === item.format &&
+      d.classification === item.classification &&
+      d.revision === item.revision &&
+      d.status === item.status;
     check(
       `fidelity.media.${item.ref}`,
       "fidelity",
@@ -895,6 +929,118 @@ async function verifySettings(content: ContentStore): Promise<void> {
   );
 }
 
+/* Phase 2B integration helpers ------------------------------------------------- */
+
+async function verifyNavigationIntegration(): Promise<void> {
+  const equal =
+    jsonEqual(utilityStrip as unknown as JsonValue, cmsNavigation.utilityStrip as unknown as JsonValue) &&
+    jsonEqual(headerCta as unknown as JsonValue, cmsNavigation.headerCta as unknown as JsonValue) &&
+    jsonEqual(navItems as unknown as JsonValue, cmsNavigation.navItems as unknown as JsonValue) &&
+    jsonEqual(mobileNavItems as unknown as JsonValue, cmsNavigation.mobileNavItems as unknown as JsonValue) &&
+    jsonEqual(mobileMenuFooter as unknown as JsonValue, cmsNavigation.mobileMenuFooter as unknown as JsonValue) &&
+    siteHome === cmsNavigation.siteHome;
+  check(
+    "integration.navigation",
+    "integration",
+    "navigation module re-exports the generated CMS navigation byte-for-byte",
+    "expected",
+    equal,
+    undefined,
+  );
+}
+
+async function verifyHomepageIntegration(): Promise<void> {
+  const statByKey = new Map(cmsMetrics.map((metric) => [metric.key, metric.value]));
+  const heroKeys = ["M1", "M5", "M3"] as const;
+  const heroOk =
+    hero.stats.length === heroKeys.length &&
+    hero.stats.every((stat, index) => {
+      const raw = statByKey.get(heroKeys[index]) ?? "";
+      const expectedValue = Number(/^([0-9]+(?:\.[0-9]+)?)/.exec(raw)?.[1] ?? 0);
+      const expectedSuffix = /^[0-9][0-9,.]*([+%]?)/.exec(raw)?.[1] ?? "";
+      return stat.value === expectedValue && stat.suffix === expectedSuffix;
+    });
+  check(
+    "integration.homepage.hero",
+    "integration",
+    "hero stats derive from the published metrics (M1 60+ · M5 100+ · M3 98%)",
+    "expected",
+    heroOk,
+    undefined,
+  );
+
+  const verticalsOk =
+    businessHighlights.verticals.length === cmsVerticals.length &&
+    businessHighlights.verticals.every((vertical, index) => {
+      const source = cmsVerticals[index];
+      return (
+        vertical.index === source.index &&
+        vertical.title === source.title &&
+        vertical.href === source.route.href &&
+        Boolean(vertical.external) === ("external" in source.route && source.route.external === true)
+      );
+    });
+  check(
+    "integration.homepage.verticals",
+    "integration",
+    "business highlight verticals derive from the generated business verticals (Ave Acres external)",
+    "expected",
+    verticalsOk,
+    undefined,
+  );
+
+  const expectedMap: {
+    name: string;
+    zone: string;
+    tier: string;
+    x: number;
+    y: number;
+    line: string;
+    leaderTo?: { x: number; y: number };
+  }[] = [];
+  for (const location of cmsLocations) {
+    if (!("homepageOffset" in location) || !location.visible.homepage) continue;
+    const offset = location.homepageOffset;
+    expectedMap.push({
+      name: location.name === "Chennai" ? "Headquarters" : location.name,
+      zone: location.zone,
+      tier: location.tier,
+      x: offset.x,
+      y: offset.y,
+      line: location.line,
+      ...("leaderTo" in offset ? { leaderTo: offset.leaderTo } : {}),
+    });
+  }
+  const mapOk = jsonEqual(mapLocations as unknown as JsonValue, expectedMap as unknown as JsonValue);
+  check(
+    "integration.homepage.map",
+    "integration",
+    "map markers derive from the generated locations (homepage-visible, Chennai aliased to Headquarters)",
+    "expected",
+    mapOk,
+    undefined,
+  );
+
+  const footerOk = jsonEqual(homepageFooter as unknown as JsonValue, cmsFooter as unknown as JsonValue);
+  check(
+    "integration.homepage.footer",
+    "integration",
+    "footer re-exports the generated footer byte-for-byte",
+    "expected",
+    footerOk,
+    undefined,
+  );
+
+  check(
+    "integration.homepage.no-new-sections",
+    "integration",
+    "homepage keeps esg null and latestUpdates empty — no new sections introduced",
+    "expected",
+    esg === null && latestUpdates.length === 0,
+    undefined,
+  );
+}
+
 function renderMarkdown(report: unknown): string {
   const r = report as {
     verdict: string;
@@ -902,7 +1048,7 @@ function renderMarkdown(report: unknown): string {
     results: CheckResult[];
   };
   const lines: string[] = [];
-  lines.push("# CMS Phase 2A — Parity Report");
+  lines.push("# CMS Phase 2A/2B — Parity Report");
   lines.push("");
   lines.push(`- Generated: ${new Date().toISOString()}`);
   lines.push(`- Store: \`.cms-store/content.json\``);

@@ -34,8 +34,9 @@ next-env.d.ts
 # CMS admin local content store (dev server persistence)
 /.cms-store/
 
-# CMS generated content modules (regenerated on export, §16.2)
-/src/lib/data/generated/
+# CMS generated content modules — committed (Phase 2B): the frontend compiles
+# against them and `seed:cms` regenerates them byte-identically (§16.2)
+# /src/lib/data/generated/
 
 # IDE
 .vscode/

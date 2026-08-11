@@ -4,8 +4,12 @@
  * Phase 1.1 collections are emitted into `src/lib/data/generated/` as typed
  * `as const` modules (blueprint §16.2). Hand-written modules stay frozen; the
  * generated modules are deterministic (same content → same bytes) and the
- * verifier confirms the published set (documents/media render only when
- * `published`/`external`) plus byte identity against the last generated state.
+ * verifier confirms byte identity against the last generated state.
+ *
+ * Since Phase 2B every register module is emitted in full — each row carries
+ * its system `id` and `status` alongside the editable payload, so the frontend
+ * renders the complete ledger state (pending rows included) exactly as the
+ * frozen handwritten modules did.
  */
 
 import { ContentStore } from "./contentStore";
@@ -46,12 +50,14 @@ async function registerFile(
   fileName: string,
   exportName: string,
 ): Promise<GeneratedFile | null> {
-  const records = (await content.list(key)).filter(
-    (record) => record.status === "published" || record.status === "external",
-  );
-  const rows = records.map((record) => record.data as JsonValue);
+  const records = await content.list(key);
+  const rows = records.map((record) => ({
+    id: record.id,
+    status: record.status,
+    ...(record.data as object),
+  }));
   if (rows.length === 0) return null;
-  return { fileName, source: serializeAsConst(exportName, rows as JsonLike) };
+  return { fileName, source: serializeAsConst(exportName, rows as unknown as JsonLike) };
 }
 
 /**
@@ -68,9 +74,9 @@ export async function generateMerged(content: ContentStore): Promise<GeneratedFi
   if (navigation) files.push(navigation);
   const footer = await recordFile(content, "footer", "footer.ts", "footer");
   if (footer) files.push(footer);
-  const documents = await registerFile(content, "documents", "documents.ts", "publishedDocuments");
+  const documents = await registerFile(content, "documents", "documents.ts", "documents");
   if (documents) files.push(documents);
-  const media = await registerFile(content, "media", "media.ts", "publishedMedia");
+  const media = await registerFile(content, "media", "media.ts", "media");
   if (media) files.push(media);
   const metrics = await registerFile(content, "metrics", "metrics.ts", "metrics");
   if (metrics) files.push(metrics);

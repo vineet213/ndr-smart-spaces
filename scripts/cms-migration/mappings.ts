@@ -288,7 +288,8 @@ const documentRecords: SeedRecordSpec[] = [];
           type: document.title,
           asOn: document.asOn,
           ref: document.ref,
-          ...(document.note || document.edition ? { note: document.note ?? document.edition } : {}),
+          ...(document.note ? { note: document.note } : {}),
+          ...(document.edition ? { edition: document.edition } : {}),
         },
       });
     }
@@ -304,11 +305,17 @@ const mediaRecords: SeedRecordSpec[] = mediaKit.items.map((item, index) => {
     status: "pending",
     order: pad(index),
     data: {
+      ref: item.ref,
+      label: item.label,
       name: `${slugify(item.label)}.${isSvg ? "svg" : "pdf"}`,
       kind: isSvg ? "logo" : "pdf",
       folder: "media-kit",
       mime: isSvg ? "image/svg+xml" : "application/pdf",
       caption: item.note,
+      format: item.format,
+      classification: item.classification,
+      revision: item.revision,
+      status: item.status,
     },
   };
 });
