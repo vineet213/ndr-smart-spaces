@@ -38,7 +38,7 @@ import { geoLocations, portfolioAssets } from "../../src/lib/data/portfolio";
 import { mapLocations, footer as homepageFooter } from "../../src/lib/data/homepage";
 import { officeDirectory, contactMap } from "../../src/lib/data/contact";
 import { mediaKit, PRESS_ARCHIVE_ENTRIES } from "../../src/lib/data/media";
-import { divisions } from "../../src/lib/data/business";
+import { divisions, VERTICAL_PROOF_METRIC_KEYS } from "../../src/lib/data/business";
 import {
   siteHome,
   utilityStrip,
@@ -203,7 +203,9 @@ const verticalRecords: SeedRecordSpec[] = divisions.map((division, index) => ({
       href: division.route.href,
       ...("external" in division.route ? { external: true } : {}),
     },
-    metrics: [],
+    metrics: (VERTICAL_PROOF_METRIC_KEYS[division.index] ?? []).map((metricKey) => ({
+      metricKey,
+    })),
     source: division.source,
   }),
 }));

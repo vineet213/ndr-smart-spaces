@@ -1,9 +1,9 @@
 # CMS Phase 2A/2B — Parity Report
 
-- Generated: 2026-08-11T18:29:01.077Z
+- Generated: 2026-08-19T16:54:58.532Z
 - Store: `.cms-store/content.json`
 - Generated modules: `src/lib/data/generated/`
-- Verdict: **PASS** — 393/393 checks passed, 0 failed, 0 unintended
+- Verdict: **PASS** — 400/400 checks passed, 0 failed, 0 unintended
 
 ## inventory/data
 
@@ -348,9 +348,9 @@
 | location puducherry (Puducherry) preserves coordinates, offsets and visibility | PASS | migration-related |
 | asset amazon-coimbatore preserves the catalogue fields | PASS | expected |
 | asset lenovo-puducherry preserves the catalogue fields | PASS | expected |
-| vertical 01 (Grade A Warehousing) preserves the division fields | PASS | migration-related |
-| vertical 02 (NDR Asset Management) preserves the division fields | PASS | migration-related |
-| vertical 03 (Residential Plotting — Ave Acres) preserves the division fields | PASS | expected |
+| vertical 01 (Grade A Warehousing) preserves the division fields and proof-metric references | PASS | migration-related |
+| vertical 02 (NDR Asset Management) preserves the division fields and proof-metric references | PASS | migration-related |
+| vertical 03 (Residential Plotting — Ave Acres) preserves the division fields and proof-metric references | PASS | expected |
 | initiative IM-01 (Portfolio solar programme) preserves the impact fields | PASS | expected |
 | initiative IM-02 (Water stewardship) preserves the impact fields | PASS | expected |
 | initiative IM-03 (Green building certification) preserves the impact fields | PASS | expected |
@@ -408,6 +408,13 @@
 | edition and publication reference derive from the publication settings (FY26) | PASS | expected |
 | press contact derives from the contact directory and corporate settings | PASS | expected |
 | featured publication references the PR-002 press record from the archive | PASS | expected |
+| geoLocations derive from the generated locations collection (portfolio offsets, byte-equal) | PASS | expected |
+| portfolio map offsets stay consistent with the frozen projection (projectPlace) | PASS | expected |
+| portfolioAssets derive from the generated portfolio-assets collection (byte-equal) | PASS | expected |
+| portfolio edition line derives from the publication settings (FY26) | PASS | expected |
+| divisions derive from the generated business-verticals collection (byte-equal) | PASS | expected |
+| vertical proof metrics resolve against the published metrics ledger (01 → M14) | PASS | expected |
+| business masthead as-on/edition line derives from the publication settings (FY26) | PASS | expected |
 
 ## relations
 
@@ -430,7 +437,7 @@
 
 ## Summary
 
-- Total: 393
-- Passed: 393
+- Total: 400
+- Passed: 400
 - Failed: 0
 - Unintended: 0

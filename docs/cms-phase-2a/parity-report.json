@@ -1,10 +1,10 @@
 {
   "phase": "2A/2B",
-  "generatedAt": "2026-08-11T18:29:01.075Z",
+  "generatedAt": "2026-08-19T16:54:58.525Z",
   "verdict": "PASS",
   "counts": {
-    "total": 393,
-    "passed": 393,
+    "total": 400,
+    "passed": 400,
     "failed": 0,
     "unintended": 0
   },
@@ -2273,42 +2273,42 @@
       "detail": "found 6"
     },
     {
-      "id": "fidelity.metrics.EN-REN",
+      "id": "fidelity.metrics.en-ren",
       "layer": "fidelity",
       "description": "environment metric EN-01 (Renewable energy share) carries the source fields verbatim",
       "classification": "migration-related",
       "passed": true
     },
     {
-      "id": "fidelity.metrics.EN-WAT",
+      "id": "fidelity.metrics.en-wat",
       "layer": "fidelity",
       "description": "environment metric EN-02 (Water intensity) carries the source fields verbatim",
       "classification": "migration-related",
       "passed": true
     },
     {
-      "id": "fidelity.metrics.EN-WST",
+      "id": "fidelity.metrics.en-wst",
       "layer": "fidelity",
       "description": "environment metric EN-03 (Waste diversion) carries the source fields verbatim",
       "classification": "migration-related",
       "passed": true
     },
     {
-      "id": "fidelity.metrics.EN-ENE",
+      "id": "fidelity.metrics.en-ene",
       "layer": "fidelity",
       "description": "environment metric EN-04 (Energy intensity) carries the source fields verbatim",
       "classification": "migration-related",
       "passed": true
     },
     {
-      "id": "fidelity.metrics.EN-GRN",
+      "id": "fidelity.metrics.en-grn",
       "layer": "fidelity",
       "description": "environment metric EN-05 (Green building share) carries the source fields verbatim",
       "classification": "migration-related",
       "passed": true
     },
     {
-      "id": "fidelity.metrics.EN-NZP",
+      "id": "fidelity.metrics.en-nzp",
       "layer": "fidelity",
       "description": "environment metric EN-06 (Net-zero pathway) carries the source fields verbatim",
       "classification": "migration-related",
@@ -2450,21 +2450,21 @@
     {
       "id": "fidelity.verticals.01",
       "layer": "fidelity",
-      "description": "vertical 01 (Grade A Warehousing) preserves the division fields",
+      "description": "vertical 01 (Grade A Warehousing) preserves the division fields and proof-metric references",
       "classification": "migration-related",
       "passed": true
     },
     {
       "id": "fidelity.verticals.02",
       "layer": "fidelity",
-      "description": "vertical 02 (NDR Asset Management) preserves the division fields",
+      "description": "vertical 02 (NDR Asset Management) preserves the division fields and proof-metric references",
       "classification": "migration-related",
       "passed": true
     },
     {
       "id": "fidelity.verticals.03",
       "layer": "fidelity",
-      "description": "vertical 03 (Residential Plotting — Ave Acres) preserves the division fields",
+      "description": "vertical 03 (Residential Plotting — Ave Acres) preserves the division fields and proof-metric references",
       "classification": "expected",
       "passed": true
     },
@@ -2830,6 +2830,55 @@
       "id": "integration.media.featured",
       "layer": "integration",
       "description": "featured publication references the PR-002 press record from the archive",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "integration.portfolio.locations",
+      "layer": "integration",
+      "description": "geoLocations derive from the generated locations collection (portfolio offsets, byte-equal)",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "integration.portfolio.projection",
+      "layer": "integration",
+      "description": "portfolio map offsets stay consistent with the frozen projection (projectPlace)",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "integration.portfolio.assets",
+      "layer": "integration",
+      "description": "portfolioAssets derive from the generated portfolio-assets collection (byte-equal)",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "integration.portfolio.edition",
+      "layer": "integration",
+      "description": "portfolio edition line derives from the publication settings (FY26)",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "integration.business.verticals",
+      "layer": "integration",
+      "description": "divisions derive from the generated business-verticals collection (byte-equal)",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "integration.business.proof-metrics",
+      "layer": "integration",
+      "description": "vertical proof metrics resolve against the published metrics ledger (01 → M14)",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "integration.business.masthead",
+      "layer": "integration",
+      "description": "business masthead as-on/edition line derives from the publication settings (FY26)",
       "classification": "expected",
       "passed": true
     },

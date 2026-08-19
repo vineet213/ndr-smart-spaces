@@ -50,7 +50,13 @@ import {
   esgGovernance,
   esgImpactMap,
 } from "../src/lib/data/esg";
-import { geoLocations, portfolioAssets } from "../src/lib/data/portfolio";
+import {
+  geoLocations,
+  portfolioAssets,
+  portfolioMasthead,
+  portfolioRegister,
+  projectPlace,
+} from "../src/lib/data/portfolio";
 import {
   businessHighlights,
   esg,
@@ -68,7 +74,11 @@ import {
   pressArchive,
   pressContact,
 } from "../src/lib/data/media";
-import { divisions } from "../src/lib/data/business";
+import {
+  businessMasthead,
+  divisions,
+  VERTICAL_PROOF_METRIC_KEYS,
+} from "../src/lib/data/business";
 import { footer as homepageFooter, contact as homepageContact } from "../src/lib/data/homepage";
 import {
   navItems,
@@ -83,6 +93,7 @@ import { footer as cmsFooter } from "../src/lib/data/generated/footer";
 import { metrics as cmsMetrics } from "../src/lib/data/generated/metrics";
 import { businessVerticals as cmsVerticals } from "../src/lib/data/generated/businessVerticals";
 import { locations as cmsLocations } from "../src/lib/data/generated/locations";
+import { portfolioAssets as cmsPortfolioAssets } from "../src/lib/data/generated/portfolioAssets";
 import { media as cmsMedia } from "../src/lib/data/generated/media";
 import { publicationSettings } from "../src/lib/data/generated/publicationSettings";
 import { corporateSettings } from "../src/lib/data/generated/corporateSettings";
@@ -287,6 +298,8 @@ async function main(): Promise<void> {
   await verifyNavigationIntegration();
   await verifyHomepageIntegration();
   await verifyMediaIntegration();
+  await verifyPortfolioIntegration();
+  await verifyBusinessIntegration();
 
   /* Relationships and integrity ---------------------------------------------- */
 
@@ -574,6 +587,12 @@ async function verifyAssets(content: ContentStore): Promise<void> {
 
 async function verifyVerticals(content: ContentStore): Promise<void> {
   const records = await content.list("business-verticals");
+  const metrics = await content.list("metrics");
+  const publishedMetricKeys = new Set(
+    metrics
+      .filter((record) => record.status === "published")
+      .map((record) => text(record.data, "key")),
+  );
   divisions.forEach((division, index) => {
     const record = records[index];
     const d = asRecord(record?.data ?? {});
@@ -582,6 +601,13 @@ async function verifyVerticals(content: ContentStore): Promise<void> {
       ? (d.spec as { label?: string; value?: string }[]).map((row) => row.label + "|" + row.value)
       : [];
     const expectedSpec = division.spec.map((row) => row.label + "|" + row.value);
+    const metricKeys = Array.isArray(d.metrics)
+      ? (d.metrics as { metricKey?: string }[]).map((item) => item.metricKey ?? "")
+      : [];
+    const expectedMetricKeys = VERTICAL_PROOF_METRIC_KEYS[division.index] ?? [];
+    const metricsMatch =
+      JSON.stringify(metricKeys) === JSON.stringify(expectedMetricKeys) &&
+      metricKeys.every((key) => publishedMetricKeys.has(key));
     const pass =
       record?.status === "published" &&
       d.title === division.title &&
@@ -594,13 +620,12 @@ async function verifyVerticals(content: ContentStore): Promise<void> {
       route.href === division.route.href &&
       ("external" in division.route ? route.external === true : route.external === undefined) &&
       JSON.stringify(spec) === JSON.stringify(expectedSpec) &&
-      Array.isArray(d.metrics) &&
-      (d.metrics as JsonValue[]).length === 0 &&
+      metricsMatch &&
       d.source === division.source;
     check(
       `fidelity.verticals.${division.index}`,
       "fidelity",
-      `vertical ${division.index} (${division.title}) preserves the division fields`,
+      `vertical ${division.index} (${division.title}) preserves the division fields and proof-metric references`,
       "anchor" in division ? "migration-related" : "expected",
       Boolean(pass),
       undefined,
@@ -1218,6 +1243,202 @@ async function verifyMediaIntegration(): Promise<void> {
     "featured publication references the PR-002 press record from the archive",
     "expected",
     featuredOk,
+    undefined,
+  );
+}
+
+async function verifyPortfolioIntegration(): Promise<void> {
+  type CmsLocationRecord = {
+    id: string;
+    name: string;
+    zone: "south" | "west" | "east" | "north";
+    tier: "hq" | "hub" | "satellite";
+    lat: number;
+    lon: number;
+    line: string;
+    visible: { portfolio: boolean };
+    portfolioOffset: {
+      x: number;
+      y: number;
+      labelSide?: "left" | "right";
+      leaderTo?: { x: number; y: number };
+    };
+  };
+  const locationSources = cmsLocations as unknown as readonly CmsLocationRecord[];
+  const portfolioLocations = locationSources.filter((location) => location.visible.portfolio);
+
+  const locationsOk =
+    geoLocations.length === portfolioLocations.length &&
+    geoLocations.every((geo, index) => {
+      const source = portfolioLocations[index];
+      const offset = source.portfolioOffset;
+      return (
+        geo.id === source.id &&
+        geo.name === source.name &&
+        geo.zone === source.zone &&
+        geo.tier === source.tier &&
+        geo.lat === source.lat &&
+        geo.lon === source.lon &&
+        geo.line === source.line &&
+        geo.x === offset.x &&
+        geo.y === offset.y &&
+        (offset.labelSide !== undefined
+          ? geo.labelSide === offset.labelSide
+          : geo.labelSide === undefined) &&
+        (offset.leaderTo !== undefined
+          ? geo.leaderTo?.x === offset.leaderTo.x && geo.leaderTo?.y === offset.leaderTo.y
+          : geo.leaderTo === undefined)
+      );
+    });
+  check(
+    "integration.portfolio.locations",
+    "integration",
+    "geoLocations derive from the generated locations collection (portfolio offsets, byte-equal)",
+    "expected",
+    locationsOk,
+    undefined,
+  );
+
+  const projectionOk =
+    geoLocations.length === portfolioLocations.length &&
+    geoLocations.every(
+      (geo) =>
+        geo.x === projectPlace(geo.lat, geo.lon).x && geo.y === projectPlace(geo.lat, geo.lon).y,
+    );
+  check(
+    "integration.portfolio.projection",
+    "integration",
+    "portfolio map offsets stay consistent with the frozen projection (projectPlace)",
+    "expected",
+    projectionOk,
+    undefined,
+  );
+
+  type CmsPortfolioAsset = {
+    id: string;
+    plate: string;
+    name: string;
+    city: string;
+    zone: "south" | "west" | "east" | "north";
+    class: "warehousing" | "industrial" | "commercial" | "institutional";
+    status: "completed" | "ongoing";
+    locationId?: string;
+    sizeSqFt?: number;
+    occupier?: string;
+    completedYear?: string;
+    source: string;
+  };
+  const assetSources = cmsPortfolioAssets as unknown as readonly CmsPortfolioAsset[];
+
+  const assetsOk =
+    portfolioAssets.length === assetSources.length &&
+    portfolioAssets.every((asset, index) => {
+      const source = assetSources[index];
+      return (
+        asset.id === source.id &&
+        asset.plate === source.plate &&
+        asset.name === source.name &&
+        asset.city === source.city &&
+        asset.zone === source.zone &&
+        (asset.locationId ?? null) === (source.locationId ?? null) &&
+        asset.class === source.class &&
+        asset.status === source.status &&
+        (asset.sizeSqFt ?? null) === (source.sizeSqFt ?? null) &&
+        (asset.occupier ?? null) === (source.occupier ?? null) &&
+        (asset.completedYear ?? null) === (source.completedYear ?? null) &&
+        asset.source === source.source
+      );
+    });
+  check(
+    "integration.portfolio.assets",
+    "integration",
+    "portfolioAssets derive from the generated portfolio-assets collection (byte-equal)",
+    "expected",
+    assetsOk,
+    undefined,
+  );
+
+  check(
+    "integration.portfolio.edition",
+    "integration",
+    "portfolio edition line derives from the publication settings (FY26)",
+    "expected",
+    portfolioMasthead.editionPeriod === `Edition ${publicationSettings.editionPeriod}` &&
+      portfolioRegister.summary.editionValue === publicationSettings.editionPeriod,
+    undefined,
+  );
+}
+
+async function verifyBusinessIntegration(): Promise<void> {
+  type CmsVerticalRecord = {
+    id: string;
+    index: string;
+    title: string;
+    writeup: string;
+    proof: string;
+    proofSource: string;
+    anchor?: string;
+    source: string;
+    spec: readonly { label: string; value: string }[];
+    route: { label: string; href: string; external?: boolean };
+    metrics: readonly { metricKey?: string }[];
+  };
+  const verticalSources = cmsVerticals as unknown as readonly CmsVerticalRecord[];
+
+  const verticalsOk =
+    divisions.length === verticalSources.length &&
+    divisions.every((division, index) => {
+      const source = verticalSources[index];
+      return (
+        division.index === source.index &&
+        division.title === source.title &&
+        division.writeup === source.writeup &&
+        JSON.stringify(division.spec) === JSON.stringify(source.spec) &&
+        division.proof === source.proof &&
+        division.proofSource === source.proofSource &&
+        (division.anchor ?? null) === (source.anchor ?? null) &&
+        division.route.label === source.route.label &&
+        division.route.href === source.route.href &&
+        (division.route.external === true) === (source.route.external === true) &&
+        division.source === source.source &&
+        division.metrics.length === source.metrics.length &&
+        division.metrics.every((metric, j) => metric.key === source.metrics[j]?.metricKey)
+      );
+    });
+  check(
+    "integration.business.verticals",
+    "integration",
+    "divisions derive from the generated business-verticals collection (byte-equal)",
+    "expected",
+    verticalsOk,
+    undefined,
+  );
+
+  const publishedMetricKeys = new Set<string>(
+    cmsMetrics.filter((metric) => metric.status === "published").map((metric) => metric.key),
+  );
+  const proofMetricsOk =
+    divisions.every((division) =>
+      division.metrics.every((metric) => publishedMetricKeys.has(metric.key)),
+    ) &&
+    divisions.length > 0 &&
+    divisions[0].metrics.some((metric) => metric.key === "M14");
+  check(
+    "integration.business.proof-metrics",
+    "integration",
+    "vertical proof metrics resolve against the published metrics ledger (01 → M14)",
+    "expected",
+    Boolean(proofMetricsOk),
+    undefined,
+  );
+
+  check(
+    "integration.business.masthead",
+    "integration",
+    "business masthead as-on/edition line derives from the publication settings (FY26)",
+    "expected",
+    businessMasthead.asOn === publicationSettings.asOnDate &&
+      businessMasthead.edition === `Edition ${publicationSettings.editionPeriod} · Volume I`,
     undefined,
   );
 }

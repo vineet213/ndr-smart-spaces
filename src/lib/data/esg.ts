@@ -1,4 +1,8 @@
 import { projectPlace, INDIA_OUTLINE, MAP_VIEWBOX } from "./portfolio";
+import { metrics as cmsMetrics } from "./generated/metrics";
+import { esgInitiatives as cmsInitiatives } from "./generated/esgInitiatives";
+import { governanceRecords as cmsGovernanceRecords } from "./generated/governanceRecords";
+import { documents as cmsDocuments } from "./generated/documents";
 
 /**
  * ESG & Sustainability — The Sustainability Ledger.
@@ -10,6 +14,12 @@ import { projectPlace, INDIA_OUTLINE, MAP_VIEWBOX } from "./portfolio";
  *
  * Draft convention (inherited from the Investor Centre): periods flagged with
  * * are client-confirm. Provenance banners in each section restate the rule.
+ *
+ * Phase 2B — environment metrics flow from the shared Metrics ledger (§11.3),
+ * impact-map initiatives from the ESG Initiatives collection, governance
+ * registers from Governance Records, and disclosures from Documents. Editorial
+ * sections that have no CMS counterpart — masthead, statement, framework,
+ * social, certifications, dashboard, closing — stay frozen.
  */
 
 export const ESG_EDITION = {
@@ -192,74 +202,22 @@ export const esgEnvironment = {
   heading: "The environmental record.",
   lede: "How the portfolio consumes energy and water, manages waste, and maps its emissions — measured on the same assets the company develops and owns.",
   note: "Headline figures marked * are placeholders pending confirmation against the approved ESG data source.",
-  metrics: [
-    {
-      id: "EN-REN",
-      code: "EN-01",
-      stat: "Renewable energy share",
-      value: "51",
-      unit: "%",
-      period: "FY26 *",
-      source: "Draft — internal energy records",
-      trend: "up",
-      draft: true,
-    },
-    {
-      id: "EN-WAT",
-      code: "EN-02",
-      stat: "Water intensity",
-      value: "0.31",
-      unit: "kl / sq ft · year",
-      period: "FY26 *",
-      source: "Draft — internal water records",
-      trend: "down",
-      draft: true,
-    },
-    {
-      id: "EN-WST",
-      code: "EN-03",
-      stat: "Waste diversion",
-      value: "85",
-      unit: "%",
-      period: "FY26 *",
-      source: "Draft — internal waste records",
-      trend: "up",
-      draft: true,
-    },
-    {
-      id: "EN-ENE",
-      code: "EN-04",
-      stat: "Energy intensity",
-      value: "6.8",
-      unit: "kWh / sq ft · year",
-      period: "FY26 *",
-      source: "Draft — internal energy records",
-      trend: "down",
-      draft: true,
-    },
-    {
-      id: "EN-GRN",
-      code: "EN-05",
-      stat: "Green building share",
-      value: "34",
-      unit: "% of portfolio",
-      period: "FY26 *",
-      source: "Draft — certification pipeline",
-      trend: "up",
-      draft: true,
-    },
-    {
-      id: "EN-NZP",
-      code: "EN-06",
-      stat: "Net-zero pathway",
-      value: "Registered",
-      unit: "science-aligned",
-      period: "Commitment *",
-      source: "Approved design direction · pending board confirmation",
-      trend: "up",
-      draft: true,
-    },
-  ] as const satisfies readonly EsgEnvironmentMetric[],
+  metrics: cmsMetrics
+    .filter(
+      (record): record is typeof record & { key: string; trend: string; unit: string } =>
+        typeof record.key === "string" && record.key.startsWith("EN-"),
+    )
+    .map((record) => ({
+      id: record.id,
+      code: record.key,
+      stat: record.name,
+      value: record.value,
+      unit: record.unit,
+      period: record.period,
+      source: record.source,
+      trend: record.trend as "up" | "down",
+      ...(record.status === "draft" ? { draft: true as const } : {}),
+    })) as readonly EsgEnvironmentMetric[],
   categories: [
     {
       code: "EN-01",
@@ -384,6 +342,39 @@ export type EsgRegister = {
   rows: readonly EsgRegisterRow[];
 };
 
+type CmsGovernanceRecord = {
+  id: string;
+  status: string;
+  kind: string;
+  sourceRef: string;
+  summary: string;
+  title: string;
+};
+
+const cmsGovData = cmsGovernanceRecords as unknown as readonly CmsGovernanceRecord[];
+
+const committeeRecords = cmsGovData
+  .filter((record) => record.kind === "committee")
+  .map((record) => ({
+    id: record.id,
+    ref: record.sourceRef,
+    asOn: "—" as const,
+    entry: record.title,
+    note: record.summary,
+    status: (record.status === "published" ? "published" : "pending") as EsgRecordStatus,
+  }));
+
+const policyRecords = cmsGovData
+  .filter((record) => record.kind === "policy")
+  .map((record) => ({
+    id: record.id,
+    ref: record.sourceRef,
+    asOn: "—" as const,
+    entry: record.title,
+    note: record.summary,
+    status: (record.status === "published" ? "published" : "pending") as EsgRecordStatus,
+  }));
+
 export const esgGovernance = {
   eyebrow: "Governance",
   heading: "The governance record.",
@@ -423,77 +414,11 @@ export const esgGovernance = {
   registers: [
     {
       title: "Committees",
-      rows: [
-        {
-          id: "esg-comm",
-          ref: "GC-01",
-          asOn: "—",
-          entry: "ESG Committee",
-          note: "Oversees the sustainability programme.",
-          status: "pending",
-        },
-        {
-          id: "csr-comm",
-          ref: "GC-02",
-          asOn: "—",
-          entry: "CSR Committee",
-          note: "Governs community investment.",
-          status: "pending",
-        },
-        {
-          id: "risk-comm",
-          ref: "GC-03",
-          asOn: "—",
-          entry: "Risk Committee",
-          note: "Holds sustainability risk.",
-          status: "pending",
-        },
-        {
-          id: "audit-comm",
-          ref: "GC-04",
-          asOn: "—",
-          entry: "Audit Committee",
-          note: "Reviews disclosure integrity.",
-          status: "pending",
-        },
-      ],
+      rows: committeeRecords,
     },
     {
       title: "Policies",
-      rows: [
-        {
-          id: "pol-whistle",
-          ref: "GP-01",
-          asOn: "—",
-          entry: "Whistle-blower policy",
-          note: "Reporting channel for concerns.",
-          status: "pending",
-        },
-        {
-          id: "pol-ethics",
-          ref: "GP-02",
-          asOn: "—",
-          entry: "Code of conduct",
-          note: "Business ethics across the group.",
-          status: "pending",
-        },
-        {
-          id: "pol-hr",
-          ref: "GP-03",
-          asOn: "—",
-          entry: "Human rights policy",
-          note: "Workforce and community standards.",
-          status: "pending",
-        },
-        {
-          id: "pol-env",
-          ref: "GP-04",
-          asOn: "—",
-          entry: "Environmental policy",
-          note: "Environmental commitments in operations.",
-          status: "pending",
-        },
-      ],
+      rows: policyRecords,
     },
     {
       title: "Disclosure index",
@@ -749,6 +674,39 @@ export const IMPACT_CATEGORIES: readonly ImpactCategoryDef[] = [
   { key: "community", label: "Community", color: "var(--color-stone)" },
 ] as const;
 
+type CmsInitiativeRecord = {
+  id: string;
+  status: string;
+  category: ImpactCategory;
+  code: string;
+  lat: number;
+  lon: number;
+  name: string;
+  note?: string;
+  place: string;
+  region: string;
+};
+
+const cmsInitiativeData = cmsInitiatives as unknown as readonly CmsInitiativeRecord[];
+
+const cmsDerivedInitiatives: readonly ImpactInitiative[] = cmsInitiativeData.map((record) => {
+  const projected = projectPlace(record.lat, record.lon);
+  return {
+    id: record.id,
+    code: record.code,
+    name: record.name,
+    place: record.place,
+    region: record.region,
+    category: record.category,
+    status: record.status,
+    lat: record.lat,
+    lon: record.lon,
+    x: projected.x,
+    y: projected.y,
+    note: record.note ?? "",
+  };
+});
+
 export const esgImpactMap = {
   eyebrow: "Impact map",
   heading: "Where the work is done.",
@@ -759,120 +717,7 @@ export const esgImpactMap = {
   notToScale: "Schematic outline · not to scale",
   mapViewbox: MAP_VIEWBOX,
   indiaOutline: INDIA_OUTLINE,
-  initiatives: [
-    {
-      id: "chennai-solar",
-      code: "IM-01",
-      name: "Portfolio solar programme",
-      place: "Chennai",
-      region: "Tamil Nadu",
-      category: "energy",
-      status: "Operational",
-      lat: 13.0887,
-      lon: 80.2707,
-      x: projectPlace(13.0887, 80.2707).x,
-      y: projectPlace(13.0887, 80.2707).y,
-      note: "On-site solar capacity across the Chennai portfolio.",
-    },
-    {
-      id: "bidadi-water",
-      code: "IM-02",
-      name: "Water stewardship",
-      place: "Bidadi",
-      region: "Karnataka",
-      category: "water",
-      status: "Operational",
-      lat: 12.8456,
-      lon: 77.4861,
-      x: projectPlace(12.8456, 77.4861).x,
-      y: projectPlace(12.8456, 77.4861).y,
-      note: "Rainwater management and recycling at the Bidadi campus.",
-    },
-    {
-      id: "coimbatore-build",
-      code: "IM-03",
-      name: "Green building certification",
-      place: "Coimbatore",
-      region: "Tamil Nadu",
-      category: "green-building",
-      status: "In certification",
-      lat: 11.0168,
-      lon: 76.9558,
-      x: projectPlace(11.0168, 76.9558).x,
-      y: projectPlace(11.0168, 76.9558).y,
-      note: "The Amazon fulfilment centre advanced through green-building certification.",
-    },
-    {
-      id: "ghaziabad-community",
-      code: "IM-04",
-      name: "Community engagement",
-      place: "Ghaziabad",
-      region: "NCR, Uttar Pradesh",
-      category: "community",
-      status: "Operational",
-      lat: 28.67,
-      lon: 77.42,
-      x: projectPlace(28.67, 77.42).x,
-      y: projectPlace(28.67, 77.42).y,
-      note: "Community initiatives run alongside the NCR operations.",
-    },
-    {
-      id: "hyderabad-waste",
-      code: "IM-05",
-      name: "Waste management hub",
-      place: "Hyderabad",
-      region: "Telangana",
-      category: "waste",
-      status: "Under development",
-      lat: 17.385,
-      lon: 78.487,
-      x: projectPlace(17.385, 78.487).x,
-      y: projectPlace(17.385, 78.487).y,
-      note: "Centralised waste handling for the Hyderabad portfolio.",
-    },
-    {
-      id: "pune-retrofit",
-      code: "IM-06",
-      name: "Energy retrofit",
-      place: "Pune",
-      region: "Maharashtra",
-      category: "energy",
-      status: "Planned",
-      lat: 18.52,
-      lon: 73.856,
-      x: projectPlace(18.52, 73.856).x,
-      y: projectPlace(18.52, 73.856).y,
-      note: "Retrofit programme for the existing Pune campus.",
-    },
-    {
-      id: "kolkata-community",
-      code: "IM-07",
-      name: "Community engagement",
-      place: "Kolkata",
-      region: "West Bengal",
-      category: "community",
-      status: "Planned",
-      lat: 22.5727,
-      lon: 88.3639,
-      x: projectPlace(22.5727, 88.3639).x,
-      y: projectPlace(22.5727, 88.3639).y,
-      note: "Community initiatives scoped for the East zone.",
-    },
-    {
-      id: "hosur-training",
-      code: "IM-08",
-      name: "Skilling & training",
-      place: "Hosur",
-      region: "Tamil Nadu",
-      category: "community",
-      status: "Scoping",
-      lat: 12.7407,
-      lon: 77.8257,
-      x: projectPlace(12.7407, 77.8257).x,
-      y: projectPlace(12.7407, 77.8257).y,
-      note: "Local skilling programme in scoping at Hosur.",
-    },
-  ] as const satisfies readonly ImpactInitiative[],
+  initiatives: cmsDerivedInitiatives,
   categories: IMPACT_CATEGORIES,
 } as const;
 
@@ -947,68 +792,58 @@ export type EsgDocumentGroup = {
   documents: readonly EsgDocument[];
 };
 
+type CmsDocumentRecord = {
+  id: string;
+  status: string;
+  asOn: string;
+  category: string;
+  note?: string;
+  ref: string;
+  title: string;
+  edition?: string;
+};
+
+const cmsDocData = cmsDocuments as unknown as readonly CmsDocumentRecord[];
+
+const docByCategory = new Map<string, CmsDocumentRecord[]>();
+for (const doc of cmsDocData) {
+  const group = docByCategory.get(doc.category);
+  if (group) {
+    group.push(doc);
+  } else {
+    docByCategory.set(doc.category, [doc]);
+  }
+}
+
+const CATEGORY_ORDER = [
+  "Annual reporting",
+  "Sustainability reporting",
+  "Climate & environment",
+  "Governance",
+];
+
+const cmsDisclosureGroups: readonly EsgDocumentGroup[] = CATEGORY_ORDER.map((category) => ({
+  category,
+  documents: (docByCategory.get(category) ?? []).map((doc) => ({
+    ref: doc.ref,
+    title: doc.title,
+    asOn: doc.asOn,
+    status: (doc.status === "published"
+      ? "published"
+      : doc.status === "draft"
+        ? "draft"
+        : "pending") as EsgRecordStatus,
+    ...(doc.edition ? { edition: doc.edition } : {}),
+    ...(doc.note ? { note: doc.note } : {}),
+  })),
+}));
+
 export const esgDisclosures = {
   eyebrow: "Disclosures",
   heading: "The disclosure archive.",
   lede: "The records of this ledger — annual, sustainability, climate and governance filings. Documents publish as they are approved.",
   note: "The archive is being filed. Documents publish as approvals land.",
-  groups: [
-    {
-      category: "Annual reporting",
-      documents: [
-        {
-          ref: "DS-01",
-          title: "Annual Report",
-          asOn: "FY26",
-          status: "pending",
-          note: "The annual record of the company.",
-        },
-      ],
-    },
-    {
-      category: "Sustainability reporting",
-      documents: [
-        {
-          ref: "DS-02",
-          title: "ESG Report",
-          asOn: "FY26",
-          status: "pending",
-          edition: "This edition — the Sustainability Ledger",
-        },
-        {
-          ref: "DS-03",
-          title: "BRSR",
-          asOn: "—",
-          status: "pending",
-          note: "Business Responsibility & Sustainability Report.",
-        },
-      ],
-    },
-    {
-      category: "Climate & environment",
-      documents: [
-        {
-          ref: "DS-04",
-          title: "GHG inventory",
-          asOn: "—",
-          status: "pending",
-          note: "Scope 1 and 2 inventory.",
-        },
-      ],
-    },
-    {
-      category: "Governance",
-      documents: [
-        {
-          ref: "DS-05",
-          title: "Policy register",
-          asOn: "—",
-          status: "pending",
-          note: "Published policies of the group.",
-        },
-      ],
-    },
-  ] as readonly EsgDocumentGroup[],
+  groups: cmsDisclosureGroups,
 } as const;
 
 /* closing ----------------------------------------------------------------- */

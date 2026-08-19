@@ -4,7 +4,11 @@ export const businessVerticals = [
     "status": "published",
     "anchor": "grade-a-warehousing",
     "index": "01",
-    "metrics": [],
+    "metrics": [
+      {
+        "metricKey": "M14",
+      },
+    ],
     "proof": "99% greenfield",
     "proofSource": "NDR Corporate Presentation",
     "route": {
