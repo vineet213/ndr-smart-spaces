@@ -3,10 +3,9 @@ import {
   BusinessStickyIndex,
   BusinessMasthead,
   OperatingDivisions,
-  CapabilityMatrix,
-  CorporateStructure,
-  CapitalDeployment,
+  BusinessModel,
   ExecutionFramework,
+  CorporateStructure,
   BusinessClosing,
   Footer,
 } from "@/components/sections";
@@ -14,7 +13,7 @@ import {
 export const metadata: Metadata = {
   title: "Business",
   description:
-    "The operating manual of NDR Smart Spaces — operating divisions, capabilities, corporate structure, capital deployment and the delivery process.",
+    "The operating manual of NDR Smart Spaces — the integrated business model, operating divisions, execution framework, corporate structure and the delivery process.",
 };
 
 export default function BusinessPage() {
@@ -23,10 +22,9 @@ export default function BusinessPage() {
       <BusinessStickyIndex />
       <BusinessMasthead />
       <OperatingDivisions />
-      <CapabilityMatrix />
-      <CorporateStructure />
-      <CapitalDeployment />
       <ExecutionFramework />
+      <BusinessModel />
+      <CorporateStructure />
       <BusinessClosing />
       <Footer />
     </>

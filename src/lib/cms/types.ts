@@ -47,6 +47,7 @@ export const COLLECTIONS = [
   "corporate-settings",
   "publication-settings",
   "brand-settings",
+  "slideshows",
 ] as const;
 
 export type CollectionName = (typeof COLLECTIONS)[number];

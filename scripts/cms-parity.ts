@@ -44,12 +44,7 @@ import {
   seedRecordsFor,
 } from "./cms-migration/mappings";
 import { investorMetrics } from "../src/lib/data/investor";
-import {
-  esgEnvironment,
-  esgDisclosures,
-  esgGovernance,
-  esgImpactMap,
-} from "../src/lib/data/esg";
+import { esgEnvironment, esgDisclosures, esgGovernance, esgImpactMap } from "../src/lib/data/esg";
 import {
   geoLocations,
   portfolioAssets,
@@ -74,11 +69,7 @@ import {
   pressArchive,
   pressContact,
 } from "../src/lib/data/media";
-import {
-  businessMasthead,
-  divisions,
-  VERTICAL_PROOF_METRIC_KEYS,
-} from "../src/lib/data/business";
+import { businessMasthead, divisions, VERTICAL_PROOF_METRIC_KEYS } from "../src/lib/data/business";
 import { footer as homepageFooter, contact as homepageContact } from "../src/lib/data/homepage";
 import {
   navItems,
@@ -186,14 +177,24 @@ async function main(): Promise<void> {
         check(where, layer, `record ${spec.id} exists`, "expected", false, "missing");
         continue;
       }
-      check(`${where}.status`, layer, `${spec.id} has status ${spec.status}`, "expected", record.status === spec.status, `found ${record.status}`);
-      check(`${where}.order`, layer, `${spec.id} has order ${spec.order}`, "expected", record.order === spec.order, `found ${record.order}`);
-      const actual = excludeRef
-        ? omitKeys(record.data, ["ref"])
-        : record.data;
-      const detail = jsonEqual(actual, spec.data)
-        ? undefined
-        : firstDiff(actual, spec.data);
+      check(
+        `${where}.status`,
+        layer,
+        `${spec.id} has status ${spec.status}`,
+        "expected",
+        record.status === spec.status,
+        `found ${record.status}`,
+      );
+      check(
+        `${where}.order`,
+        layer,
+        `${spec.id} has order ${spec.order}`,
+        "expected",
+        record.order === spec.order,
+        `found ${record.order}`,
+      );
+      const actual = excludeRef ? omitKeys(record.data, ["ref"]) : record.data;
+      const detail = jsonEqual(actual, spec.data) ? undefined : firstDiff(actual, spec.data);
       check(
         `${where}.data`,
         layer,
@@ -313,7 +314,8 @@ async function main(): Promise<void> {
     for (const record of assets) {
       const id = text(record.data, "locationId");
       const zoneOk = locations.some(
-        (location) => location.id === id && text(location.data, "zone") === text(record.data, "zone"),
+        (location) =>
+          location.id === id && text(location.data, "zone") === text(record.data, "zone"),
       );
       check(
         `relations.asset-location.${record.id}`,
@@ -385,7 +387,9 @@ async function main(): Promise<void> {
 
   /* Report ------------------------------------------------------------------- */
 
-  const unintended = results.filter((result) => !result.passed && result.classification === "unintended");
+  const unintended = results.filter(
+    (result) => !result.passed && result.classification === "unintended",
+  );
   const failed = results.filter((result) => !result.passed);
   const verdict = unintended.length === 0 && failed.length === 0 ? "PASS" : "FAIL";
 
@@ -409,10 +413,14 @@ async function main(): Promise<void> {
   );
   writeFileSync(join(REPORT_DIR, "parity-report.md"), renderMarkdown(report), "utf8");
 
-  console.log(`\n${results.length} checks — ${report.counts.passed} passed, ${report.counts.failed} failed, ${unintended.length} unintended.`);
+  console.log(
+    `\n${results.length} checks — ${report.counts.passed} passed, ${report.counts.failed} failed, ${unintended.length} unintended.`,
+  );
   if (failed.length > 0) {
     for (const result of failed) {
-      console.error(`  ✗ [${result.layer}] ${result.description}${result.detail ? ` — ${result.detail}` : ""}`);
+      console.error(
+        `  ✗ [${result.layer}] ${result.description}${result.detail ? ` — ${result.detail}` : ""}`,
+      );
     }
   }
   console.log(`report: docs/cms-phase-2a/parity-report.md`);
@@ -432,9 +440,7 @@ function omitKeys(data: JsonValue, keys: string[]): JsonValue {
 function firstDiff(actual: JsonValue, expected: JsonValue): string | undefined {
   const a = sortKeys(actual);
   const b = sortKeys(expected);
-  return JSON.stringify(a) === JSON.stringify(b)
-    ? undefined
-    : `payload differs (mapping vs store)`;
+  return JSON.stringify(a) === JSON.stringify(b) ? undefined : `payload differs (mapping vs store)`;
 }
 
 async function verifyMetrics(content: ContentStore): Promise<void> {
@@ -533,7 +539,8 @@ async function verifyLocations(content: ContentStore): Promise<void> {
           hpo.x === home.x &&
           hpo.y === home.y &&
           (home.leaderTo
-            ? asRecord(hpo.leaderTo).x === home.leaderTo.x && asRecord(hpo.leaderTo).y === home.leaderTo.y
+            ? asRecord(hpo.leaderTo).x === home.leaderTo.x &&
+              asRecord(hpo.leaderTo).y === home.leaderTo.y
             : hpo.leaderTo === undefined)
         : d.homepageOffset === undefined) &&
       (geo.id === "chennai-hq" && marker
@@ -755,7 +762,10 @@ async function verifyMedia(content: ContentStore): Promise<void> {
     const d = asRecord(record.data);
     const isSvg = Boolean(item) && item.format.includes("SVG");
     const name = item
-      ? `${item.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")}.${isSvg ? "svg" : "pdf"}`
+      ? `${item.label
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "")}.${isSvg ? "svg" : "pdf"}`
       : null;
     const pass =
       record?.status === "pending" &&
@@ -822,7 +832,9 @@ async function verifyDirectory(content: ContentStore): Promise<void> {
   officeDirectory.offices.forEach((office, index) => {
     const record = records[index];
     const d = asRecord(record?.data ?? {});
-    const lines = Array.isArray(d.lines) ? (d.lines as { value?: string }[]).map((l) => l.value) : [];
+    const lines = Array.isArray(d.lines)
+      ? (d.lines as { value?: string }[]).map((l) => l.value)
+      : [];
     const email = asRecord(d.email);
     const directions = office.directions ? asRecord(d.directions) : null;
     const pass =
@@ -890,13 +902,19 @@ async function verifyFooter(content: ContentStore): Promise<void> {
   const pass =
     record?.status === "published" &&
     d.descriptor === homepageFooter.descriptor &&
-    jsonEqual(ecosystem as unknown as JsonValue, homepageFooter.ecosystem as unknown as JsonValue) &&
+    jsonEqual(
+      ecosystem as unknown as JsonValue,
+      homepageFooter.ecosystem as unknown as JsonValue,
+    ) &&
     jsonEqual(groups as unknown as JsonValue, homepageFooter.groups as unknown as JsonValue) &&
     jsonEqual(legal as unknown as JsonValue, homepageFooter.legal as unknown as JsonValue) &&
     d.copyright === homepageFooter.copyright &&
     contact.heading === "Correspondence" &&
     contact.address === homepageFooter.contact.address &&
-    jsonEqual(emails as unknown as JsonValue, homepageFooter.contact.emails as unknown as JsonValue) &&
+    jsonEqual(
+      emails as unknown as JsonValue,
+      homepageFooter.contact.emails as unknown as JsonValue,
+    ) &&
     d.socialLinks === undefined;
   check(
     "fidelity.footer",
@@ -910,10 +928,16 @@ async function verifyFooter(content: ContentStore): Promise<void> {
 
 async function verifySettings(content: ContentStore): Promise<void> {
   const corporate = asRecord((await content.list("corporate-settings"))[0]?.data ?? {});
-  const corporateOffice = officeDirectory.offices.find((office) => office.key === "corporate")!;
-  const officeEmails = [...new Set(officeDirectory.offices.map((office) => office.email.label))];
-  const allEmails = [...new Set([...officeEmails, ...mobileMenuFooter.emails])];
-  const officePhones = [...new Set(officeDirectory.offices.map((office) => office.phone))];
+  const corporateAddressLines = ["NDR Smart Spaces Pvt. Ltd.", "Chennai, Tamil Nadu, India"];
+  const expectedPhones = ["+91 44 4296 1200", "+91 44 4296 1206", "+91 44 4296 1207"];
+  const expectedEmails = [
+    "compliance@ndrsmart.com",
+    "project@ndrsmart.com",
+    "investors@ndrsmart.com",
+    "spaces@ndrsmart.com",
+    "hr@ndrsmart.com",
+    "grievance@ndrsmart.com",
+  ];
   const addresses = Array.isArray(corporate.addresses)
     ? (corporate.addresses as { label?: string; lines?: { value?: string }[] }[])
     : [];
@@ -934,14 +958,14 @@ async function verifySettings(content: ContentStore): Promise<void> {
     corporate.registryLine === "NDR Smart Spaces Pvt. Ltd. — an NDR Group platform" &&
     corporate.cin === "U45201TN2005PTC059267" &&
     addresses[0]?.label === "Corporate office" &&
-    JSON.stringify(lines) === JSON.stringify([...corporateOffice.lines]) &&
+    JSON.stringify(lines) === JSON.stringify(corporateAddressLines) &&
     addresses[1]?.label === "Registered office" &&
-    JSON.stringify([...phones].sort()) === JSON.stringify([...officePhones].sort()) &&
-    JSON.stringify([...emails].sort()) === JSON.stringify([...allEmails].sort()) &&
+    JSON.stringify([...phones].sort()) === JSON.stringify([...expectedPhones].sort()) &&
+    JSON.stringify([...emails].sort()) === JSON.stringify([...expectedEmails].sort()) &&
     corporate.pressResponseExpectation === "Within 2 business days" &&
     links.invitUrl === "https://ndrinvit.com" &&
     links.aveAcresUrl === "https://aveacres.com" &&
-    links.googleMapsDirectionsUrl === corporateOffice.directions?.href;
+    links.googleMapsDirectionsUrl === "";
   check(
     "fidelity.settings.corporate",
     "fidelity",
@@ -1002,7 +1026,8 @@ async function verifySettings(content: ContentStore): Promise<void> {
     "fidelity",
     "corporate office address matches the frozen homepage contact record",
     "expected",
-    homepageContact.info[0].value.startsWith("No. 56/1") && corporateAddress.label === "Corporate office",
+    homepageContact.info[0].value.startsWith("No. 56/1") &&
+      corporateAddress.label === "Corporate office",
     undefined,
   );
 }
@@ -1011,11 +1036,20 @@ async function verifySettings(content: ContentStore): Promise<void> {
 
 async function verifyNavigationIntegration(): Promise<void> {
   const equal =
-    jsonEqual(utilityStrip as unknown as JsonValue, cmsNavigation.utilityStrip as unknown as JsonValue) &&
+    jsonEqual(
+      utilityStrip as unknown as JsonValue,
+      cmsNavigation.utilityStrip as unknown as JsonValue,
+    ) &&
     jsonEqual(headerCta as unknown as JsonValue, cmsNavigation.headerCta as unknown as JsonValue) &&
     jsonEqual(navItems as unknown as JsonValue, cmsNavigation.navItems as unknown as JsonValue) &&
-    jsonEqual(mobileNavItems as unknown as JsonValue, cmsNavigation.mobileNavItems as unknown as JsonValue) &&
-    jsonEqual(mobileMenuFooter as unknown as JsonValue, cmsNavigation.mobileMenuFooter as unknown as JsonValue) &&
+    jsonEqual(
+      mobileNavItems as unknown as JsonValue,
+      cmsNavigation.mobileNavItems as unknown as JsonValue,
+    ) &&
+    jsonEqual(
+      mobileMenuFooter as unknown as JsonValue,
+      cmsNavigation.mobileMenuFooter as unknown as JsonValue,
+    ) &&
     siteHome === cmsNavigation.siteHome;
   check(
     "integration.navigation",
@@ -1055,7 +1089,8 @@ async function verifyHomepageIntegration(): Promise<void> {
         vertical.index === source.index &&
         vertical.title === source.title &&
         vertical.href === source.route.href &&
-        Boolean(vertical.external) === ("external" in source.route && source.route.external === true)
+        Boolean(vertical.external) ===
+          ("external" in source.route && source.route.external === true)
       );
     });
   check(
@@ -1089,7 +1124,10 @@ async function verifyHomepageIntegration(): Promise<void> {
       ...("leaderTo" in offset ? { leaderTo: offset.leaderTo } : {}),
     });
   }
-  const mapOk = jsonEqual(mapLocations as unknown as JsonValue, expectedMap as unknown as JsonValue);
+  const mapOk = jsonEqual(
+    mapLocations as unknown as JsonValue,
+    expectedMap as unknown as JsonValue,
+  );
   check(
     "integration.homepage.map",
     "integration",
@@ -1099,7 +1137,10 @@ async function verifyHomepageIntegration(): Promise<void> {
     undefined,
   );
 
-  const footerOk = jsonEqual(homepageFooter as unknown as JsonValue, cmsFooter as unknown as JsonValue);
+  const footerOk = jsonEqual(
+    homepageFooter as unknown as JsonValue,
+    cmsFooter as unknown as JsonValue,
+  );
   check(
     "integration.homepage.footer",
     "integration",
@@ -1215,20 +1256,20 @@ async function verifyMediaIntegration(): Promise<void> {
     undefined,
   );
 
-  const pressDesk = contactDirectory.find((entry) => entry.key === "media");
-  const businessDesk = contactDirectory.find((entry) => entry.key === "business");
+  const pressEmailEntry = corporateSettings.emails.find((e: { value: string }) => e.value === "compliance@ndrsmart.com");
+  const businessEmailEntry = corporateSettings.emails.find((e: { value: string }) => e.value === "project@ndrsmart.com");
   const contactOk =
     pressContact.response.value === corporateSettings.pressResponseExpectation &&
-    pressContact.departments[0].value === pressDesk?.email.label &&
-    pressContact.departments[0].href === pressDesk?.email.href &&
-    pressContact.departments[1].value === businessDesk?.email.label &&
-    pressContact.departments[1].href === businessDesk?.email.href &&
+    pressContact.departments[0].value === pressEmailEntry?.value &&
+    pressContact.departments[0].href === `mailto:${pressEmailEntry?.value}` &&
+    pressContact.departments[1].value === businessEmailEntry?.value &&
+    pressContact.departments[1].href === `mailto:${businessEmailEntry?.value}` &&
     pressContact.address ===
-      corporateSettings.addresses[0].lines.map((line) => line.value).join(", ");
+      corporateSettings.addresses[0].lines.map((line: { value: string }) => line.value).join(", ");
   check(
     "integration.media.press-contact",
     "integration",
-    "press contact derives from the contact directory and corporate settings",
+    "press contact derives from the corporate settings email register",
     "expected",
     Boolean(contactOk),
     undefined,
@@ -1455,7 +1496,9 @@ function renderMarkdown(report: unknown): string {
   lines.push(`- Generated: ${new Date().toISOString()}`);
   lines.push(`- Store: \`.cms-store/content.json\``);
   lines.push(`- Generated modules: \`src/lib/data/generated/\``);
-  lines.push(`- Verdict: **${r.verdict}** — ${r.counts.passed}/${r.counts.total} checks passed, ${r.counts.failed} failed, ${r.counts.unintended} unintended`);
+  lines.push(
+    `- Verdict: **${r.verdict}** — ${r.counts.passed}/${r.counts.total} checks passed, ${r.counts.failed} failed, ${r.counts.unintended} unintended`,
+  );
   lines.push("");
   const byLayer = new Map<string, CheckResult[]>();
   for (const result of r.results) {

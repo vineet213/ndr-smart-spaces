@@ -14,7 +14,8 @@
  */
 
 import { rmSync, writeFileSync } from "node:fs";
-import { join } from "node:path";import {
+import { join } from "node:path";
+import {
   CollectionEditor,
   ContentStore,
   FileStore,

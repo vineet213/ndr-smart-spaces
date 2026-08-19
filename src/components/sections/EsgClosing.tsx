@@ -10,7 +10,7 @@ export function EsgClosing() {
     <section className={styles.section} aria-labelledby="esg-closing-title">
       <Container>
         <Reveal>
-          <EsgDocHeader numeral="10" code="REF 10 · CLOSING" tone="dark" />
+          <EsgDocHeader numeral="05" code="REF 05 · CLOSING" tone="dark" />
           <span className={styles.goldRule} aria-hidden="true" />
           <Eyebrow tone="dark" className={styles.eyebrow}>
             {esgClosing.eyebrow}

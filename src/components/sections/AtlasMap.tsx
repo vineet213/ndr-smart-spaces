@@ -1,6 +1,7 @@
 "use client";
 
 import type { CSSProperties, ReactNode } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useInView } from "@/hooks/useInView";
 import {
   INDIA_OUTLINE,
@@ -85,14 +86,53 @@ function NodeMark({ x, y, tier }: { x: number; y: number; tier: LocationTier }) 
 
 export function AtlasMap() {
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.15 });
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+
+  const handleNodeEnter = useCallback((location: GeoLocation, e: React.MouseEvent) => {
+    setHoveredId(location.id);
+    const svg = svgRef.current;
+    if (!svg) return;
+    const rect = svg.getBoundingClientRect();
+    const scaleX = 1020 / rect.width;
+    const scaleY = 1090 / rect.height;
+    setTooltipPos({
+      x: (e.clientX - rect.left) * scaleX,
+      y: (e.clientY - rect.top) * scaleY - 16,
+    });
+  }, []);
+
+  const handleNodeLeave = useCallback(() => {
+    setHoveredId(null);
+    setTooltipPos(null);
+  }, []);
+
+  const scrollToRegister = useCallback(() => {
+    const register = document.getElementById("register");
+    if (register) {
+      register.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
+
+  const handleNodeKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        scrollToRegister();
+      }
+    },
+    [scrollToRegister],
+  );
 
   return (
     <div ref={ref} className={cx(styles.wrapper, inView && styles.isInView)}>
       <svg
+        ref={svgRef}
         viewBox={ATLAS_VIEWBOX}
         className={styles.map}
         role="img"
-        aria-label="Survey map of India showing NDR Smart Spaces locations across four zones — south, west, east and north."
+        aria-label="Interactive map of India showing NDR Smart Spaces locations across four zones — click a location to view details in the register below."
         focusable="false"
       >
         <EdgeTicks />
@@ -133,8 +173,21 @@ export function AtlasMap() {
           <g className={styles.nodes}>
             {geoLocations.map((location: GeoLocation, index: number) => {
               const plate = plateAtLocation(location.id);
+              const isActive = hoveredId === location.id;
               return (
-                <g key={location.id} style={{ "--i": index } as CSSProperties}>
+                <g
+                  key={location.id}
+                  style={{ "--i": index } as CSSProperties}
+                  className={cx(styles.nodeGroup, isActive && styles.nodeActive)}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`${location.name}, ${location.zone} zone${plate ? ` — plate ${plate}` : ""}`}
+                  onMouseEnter={(e) => handleNodeEnter(location, e)}
+                  onMouseMove={(e) => handleNodeEnter(location, e)}
+                  onMouseLeave={handleNodeLeave}
+                  onClick={scrollToRegister}
+                  onKeyDown={handleNodeKeyDown}
+                >
                   {plate ? (
                     <g className={styles.plateRef}>
                       <rect x={location.x + 8} y={location.y - 9} width={36} height={18} />
@@ -169,6 +222,20 @@ export function AtlasMap() {
             ))}
           </g>
         </g>
+        {hoveredId && tooltipPos && (
+          <g className={styles.tooltip}>
+            <rect
+              x={tooltipPos.x - 4}
+              y={tooltipPos.y - 12}
+              width={(geoLocations.find((l) => l.id === hoveredId)?.name.length ?? 0) * 7.5 + 16}
+              height={18}
+              rx={3}
+            />
+            <text x={tooltipPos.x + 4} y={tooltipPos.y + 1} className={styles.tooltipText}>
+              {geoLocations.find((l) => l.id === hoveredId)?.name ?? ""}
+            </text>
+          </g>
+        )}
       </svg>
     </div>
   );

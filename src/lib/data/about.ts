@@ -90,7 +90,7 @@ export const aboutTimeline = {
       title: "NDR InvIT Trust incorporated",
       caption: "The group's infrastructure investment trust is established.",
       detail:
-        "The capital channel is formed — the vehicle through which completed assets are offered and monetized.",
+        "The capital channel is formed — the vehicle through which completed assets are offered to NDR InvIT.",
     },
     {
       year: "2018",
@@ -101,9 +101,9 @@ export const aboutTimeline = {
     },
     {
       year: "2025–26",
-      title: "SPV monetizations",
+      title: "SPV transfers",
       caption: "MLG (INR 143.9 cr) and SPV transfers to NDR InvIT complete the capital cycle.",
-      detail: "Monetized capital recycles into new development — the loop closes and begins again.",
+      detail: "Capital recycles into new development — the loop closes and begins again.",
     },
   ] as readonly TimelineNode[],
 } as const;

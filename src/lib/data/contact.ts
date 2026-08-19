@@ -26,7 +26,7 @@ export const contactMasthead = {
   publication: "Contact",
   title: { before: "Contact ", accent: "NDR Smart Spaces" },
   statement:
-    "Corporate offices, business development, investor relations, media inquiries, and ESG contacts.",
+    "Smart Spaces, HR and Grievance — the desks that answer your enquiry.",
 } as const;
 
 /* office directory -------------------------------------------------------- */
@@ -50,13 +50,15 @@ const cmsOffices: readonly ContactOffice[] = cmsDirectory.map((entry) => ({
   phone: entry.phone,
   email: { label: entry.email.label, href: entry.email.href },
   hours: entry.hours,
-  ...("directions" in entry ? { directions: entry.directions } : {}),
+  ...("directions" in entry
+    ? { directions: entry.directions as { label: string; href: string; external: boolean } }
+    : {}),
 }));
 
 export const officeDirectory = {
   eyebrow: "Office directory",
   heading: "Where to reach us.",
-  lede: "Five addresses that receive correspondence — the corporate and registered offices, and the desks that answer investor, business and media enquiries.",
+  lede: "Three desks that receive correspondence — Smart Spaces, Human Resources, and Grievance Redressal.",
   note: "Phone numbers and office hours are draft particulars awaiting client confirmation before go-live. Hours are Indian Standard Time (IST).",
   offices: cmsOffices,
 } as const;
@@ -223,7 +225,6 @@ export const contactMap = {
 export const contactClosing = {
   eyebrow: "Contact",
   line: "Contact NDR Smart Spaces.",
-  body: "Business, investor, media and general enquiries.",
+  body: "Smart Spaces, HR and Grievance enquiries.",
   primaryCta: { label: "Send an enquiry", href: "/en/contact#business-enquiry" },
-  tertiaryLink: { label: "NDR InvIT Trust", href: "https://ndrinvit.com" },
 } as const;

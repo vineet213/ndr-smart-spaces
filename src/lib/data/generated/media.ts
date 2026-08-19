@@ -93,7 +93,7 @@ export const media = [
     "date": "FY26*",
     "folder": "press-archive",
     "kind": "pdf",
-    "label": "NDR Smart Spaces completes the MLG monetization to NDR InvIT",
+    "label": "NDR Smart Spaces completes the MLG transfer to NDR InvIT",
     "name": "pr-003.pdf",
     "recordStatus": "draft",
     "ref": "PR-003",

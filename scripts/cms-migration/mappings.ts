@@ -25,9 +25,7 @@
  */
 
 import type { JsonValue, PublicationStatus } from "../../src/lib/cms";
-import {
-  investorMetrics,
-} from "../../src/lib/data/investor";
+import { investorMetrics } from "../../src/lib/data/investor";
 import {
   esgEnvironment,
   esgGovernance,
@@ -111,9 +109,9 @@ const geoByName = new Map(geoLocations.map((location) => [location.name, locatio
 const HOMEPAGE_MAP_NAMES: Record<string, string> = { Chennai: "Headquarters" };
 
 /** Homepage map location for a geo location, matched by name (Chennai → Headquarters). */
-function homepageLocationFor(geo: (typeof geoLocations)[number]):
-  | (typeof mapLocations)[number]
-  | undefined {
+function homepageLocationFor(
+  geo: (typeof geoLocations)[number],
+): (typeof mapLocations)[number] | undefined {
   const mapName = HOMEPAGE_MAP_NAMES[geo.name] ?? geo.name;
   return mapLocations.find((location) => location.name === mapName);
 }
@@ -344,29 +342,50 @@ const mediaRecords: SeedRecordSpec[] = [
 
 /* contact directory ------------------------------------------------------------- */
 
-const directoryRecords: SeedRecordSpec[] = officeDirectory.offices.map((office, index) => ({
-  id: office.key,
-  status: "published",
-  order: pad(index),
-  data: {
-    name: office.name,
-    key: office.key,
-    kind: office.kind,
-    lines: office.lines.map((line) => ({ value: line })),
-    phone: office.phone,
-    email: { label: office.email.label, href: office.email.href },
-    hours: office.hours,
-    ...(office.directions
-      ? {
-          directions: {
-            label: office.directions.label,
-            href: office.directions.href,
-            external: true,
-          },
-        }
-      : {}),
+const directoryRecords: SeedRecordSpec[] = [
+  {
+    id: "smart-spaces",
+    status: "published",
+    order: "0000",
+    data: {
+      name: "Smart Spaces Desk",
+      key: "smart-spaces",
+      kind: "Smart Spaces",
+      lines: [{ value: "NDR Smart Spaces Pvt. Ltd." }, { value: "Chennai, Tamil Nadu, India" }],
+      phone: "+91 44 4296 1200",
+      email: { label: "spaces@ndrsmart.com", href: "mailto:spaces@ndrsmart.com" },
+      hours: "Monday – Saturday · 9:30 AM – 6:30 PM IST",
+    },
   },
-}));
+  {
+    id: "hr",
+    status: "published",
+    order: "0001",
+    data: {
+      name: "Human Resources",
+      key: "hr",
+      kind: "HR",
+      lines: [{ value: "NDR Smart Spaces Pvt. Ltd." }, { value: "Chennai, Tamil Nadu, India" }],
+      phone: "+91 44 4296 1206",
+      email: { label: "hr@ndrsmart.com", href: "mailto:hr@ndrsmart.com" },
+      hours: "Monday – Saturday · 9:30 AM – 6:30 PM IST",
+    },
+  },
+  {
+    id: "grievance",
+    status: "published",
+    order: "0002",
+    data: {
+      name: "Grievance Redressal",
+      key: "grievance",
+      kind: "Grievance",
+      lines: [{ value: "NDR Smart Spaces Pvt. Ltd." }, { value: "Chennai, Tamil Nadu, India" }],
+      phone: "+91 44 4296 1207",
+      email: { label: "grievance@ndrsmart.com", href: "mailto:grievance@ndrsmart.com" },
+      hours: "Monday – Saturday · 9:30 AM – 6:30 PM IST",
+    },
+  },
+];
 
 /* navigation --------------------------------------------------------------------- */
 
@@ -416,8 +435,6 @@ const footerRecord: SeedRecordSpec = {
 
 /* settings ------------------------------------------------------------------------- */
 
-const corporateOffice = officeDirectory.offices.find((office) => office.key === "corporate")!;
-
 const corporateSettingsRecord: SeedRecordSpec = {
   id: "default",
   status: "published",
@@ -430,27 +447,34 @@ const corporateSettingsRecord: SeedRecordSpec = {
     addresses: [
       {
         label: "Corporate office",
-        lines: corporateOffice.lines.map((line) => ({ value: line })),
+        lines: [
+          { value: "NDR Smart Spaces Pvt. Ltd." },
+          { value: "Chennai, Tamil Nadu, India" },
+        ],
       },
       {
         label: "Registered office",
         lines: [{ value: "Registered office address and CIN to be confirmed." }],
       },
     ],
-    phoneNumbers: [...new Set(officeDirectory.offices.map((office) => office.phone))].map(
-      (phone) => ({ value: phone }),
-    ),
+    phoneNumbers: [
+      { value: "+91 44 4296 1200" },
+      { value: "+91 44 4296 1206" },
+      { value: "+91 44 4296 1207" },
+    ],
     emails: [
-      ...new Set([
-        ...officeDirectory.offices.map((office) => office.email.label),
-        ...mobileMenuFooter.emails,
-      ]),
-    ].map((email) => ({ value: email })),
+      { value: "compliance@ndrsmart.com" },
+      { value: "project@ndrsmart.com" },
+      { value: "investors@ndrsmart.com" },
+      { value: "spaces@ndrsmart.com" },
+      { value: "hr@ndrsmart.com" },
+      { value: "grievance@ndrsmart.com" },
+    ],
     pressResponseExpectation: "Within 2 business days",
     externalLinks: {
       invitUrl: "https://ndrinvit.com",
       aveAcresUrl: "https://aveacres.com",
-      googleMapsDirectionsUrl: corporateOffice.directions?.href ?? "",
+      googleMapsDirectionsUrl: "",
     },
   },
 };
@@ -509,6 +533,38 @@ const brandSettingsRecord: SeedRecordSpec = {
   },
 };
 
+const mediaSlideshowSeed: SeedRecordSpec = {
+  id: "media-coverage",
+  status: "published",
+  order: "0001",
+  data: {
+    title: "NDR in the Press",
+    caption: "Selected coverage and features across business and real-estate media.",
+    slides: [
+      {
+        image: "/images/media/coverage-01.jpg",
+        alt: "Business Standard feature on NDR Smart Spaces logistics portfolio",
+        caption: "Business Standard — Logistics portfolio deep-dive",
+      },
+      {
+        image: "/images/media/coverage-02.jpg",
+        alt: "Economic Times coverage of NDR InvIT trust structure",
+        caption: "Economic Times — InvIT trust structure",
+      },
+      {
+        image: "/images/media/coverage-03.jpg",
+        alt: "Moneycontrol report on NDR Grade A warehousing expansion",
+        caption: "Moneycontrol — Grade A warehousing expansion",
+      },
+      {
+        image: "/images/media/coverage-04.jpg",
+        alt: "Livemint profile of NDR Smart Spaces leadership",
+        caption: "Livemint — Leadership profile",
+      },
+    ],
+  } as JsonValue,
+};
+
 /* seed spec ------------------------------------------------------------------------ */
 
 const COLLECTION_RECORDS: Record<string, SeedRecordSpec[]> = {
@@ -526,6 +582,7 @@ const COLLECTION_RECORDS: Record<string, SeedRecordSpec[]> = {
   documents: documentRecords,
   media: mediaRecords,
   "contact-directory": directoryRecords,
+  slideshows: [mediaSlideshowSeed],
 };
 
 /**
@@ -548,6 +605,7 @@ export const SEED_ORDER: readonly string[] = [
   "documents",
   "media",
   "contact-directory",
+  "slideshows",
 ];
 
 export function seedRecordsFor(collectionKey: string): SeedRecordSpec[] {

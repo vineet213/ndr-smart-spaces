@@ -4,10 +4,10 @@ export const corporateSettings = {
       "label": "Corporate office",
       "lines": [
         {
-          "value": "No. 56/1, next to GT Reddy Cars, Bazulla Road, T. Nagar",
+          "value": "NDR Smart Spaces Pvt. Ltd.",
         },
         {
-          "value": "Chennai, Tamil Nadu 600017",
+          "value": "Chennai, Tamil Nadu, India",
         },
       ],
     },
@@ -24,18 +24,27 @@ export const corporateSettings = {
   "companyName": "NDR Smart Spaces",
   "emails": [
     {
-      "value": "project@ndrsmart.com",
+      "value": "compliance@ndrsmart.com",
     },
     {
-      "value": "compliance@ndrsmart.com",
+      "value": "project@ndrsmart.com",
     },
     {
       "value": "investors@ndrsmart.com",
     },
+    {
+      "value": "spaces@ndrsmart.com",
+    },
+    {
+      "value": "hr@ndrsmart.com",
+    },
+    {
+      "value": "grievance@ndrsmart.com",
+    },
   ],
   "externalLinks": {
     "aveAcresUrl": "https://aveacres.com",
-    "googleMapsDirectionsUrl": "https://www.google.com/maps/dir/13.0520847,80.246055/NDR+INVIT,+56-79,+Bazulla+Rd,+Bharathy+Nagar,+Rama+Kamat+Puram,+Chennai,+Greater+Chennai,+Tamil+Nadu+600017",
+    "googleMapsDirectionsUrl": "",
     "invitUrl": "https://ndrinvit.com",
   },
   "legalEntity": "NDR Smart Spaces Pvt. Ltd.",
@@ -44,16 +53,10 @@ export const corporateSettings = {
       "value": "+91 44 4296 1200",
     },
     {
-      "value": "+91 44 4296 1201",
+      "value": "+91 44 4296 1206",
     },
     {
-      "value": "+91 44 4296 1202",
-    },
-    {
-      "value": "+91 44 4296 1203",
-    },
-    {
-      "value": "+91 44 4296 1204",
+      "value": "+91 44 4296 1207",
     },
   ],
   "pressResponseExpectation": "Within 2 business days",

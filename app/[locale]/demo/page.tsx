@@ -124,7 +124,7 @@ export default function DemoPage() {
                   </Stack>
                   <Stack gap="sm">
                     <Eyebrow>Caption · 14</Eyebrow>
-                    <Caption>1954 founded · 2018 InvIT listed · 2026 SPV monetizations.</Caption>
+                    <Caption>1954 founded · 2018 InvIT listed · 2026 SPV transfers.</Caption>
                   </Stack>
                   <Stack gap="sm">
                     <Eyebrow>Source footnote · 14</Eyebrow>

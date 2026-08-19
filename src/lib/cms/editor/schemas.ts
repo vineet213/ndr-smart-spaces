@@ -717,6 +717,27 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
       { key: "note", label: "Note", kind: "textarea" },
     ],
   },
+  {
+    key: "slideshows",
+    label: "Slideshows",
+    editor: "records",
+    statusEnabled: true,
+    description: "Image slideshows with captions for media and editorial pages.",
+    fields: [
+      { key: "title", label: "Title", kind: "text", required: true },
+      { key: "caption", label: "Caption", kind: "textarea" },
+      {
+        key: "slides",
+        label: "Slides",
+        kind: "list",
+        itemFields: [
+          { key: "image", label: "Image path", kind: "text", required: true },
+          { key: "alt", label: "Alt text", kind: "text", required: true },
+          { key: "caption", label: "Caption", kind: "text" },
+        ],
+      },
+    ],
+  },
 ];
 
 export function getEditorSchema(key: string): CollectionEditorSchema | undefined {

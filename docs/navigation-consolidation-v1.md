@@ -89,24 +89,24 @@ full titles consistent with the header. "Investor Overview" dead link removed.
 
 ## Route map after consolidation
 
-| Destination | Canonical entry |
-| --- | --- |
-| `/en` | Logo · mobile Home |
-| `/en/about-us` | About Us (nav) |
-| `/en/business` | Business (nav trigger + footer) · `#verticals`, `#grade-a-warehousing`, `#ndr-asset-management`, `#capital` |
-| `/en/portfolio` | Portfolio (nav + footer) |
-| `/en/investor-centre` | Investor Centre (nav trigger + footer) |
-| `/en/investor-centre/investment-highlights` | Investor menu + footer |
-| `/en/investor-centre/reports-disclosures` | Investor menu + footer |
-| `/en/investor-centre/financial-results` | Investor menu + footer |
-| `/en/investor-centre/annual-reports` | Investor menu |
-| `/en/investor-centre/corporate-governance` | Investor menu |
-| `/en/investor-centre/announcements` | Investor menu + footer |
-| `/en/investor-centre/downloads` | Investor menu |
-| `/en/esg` | ESG & Sustainability (nav + footer) |
-| `/en/media` | Media & Newsroom (nav + footer) |
-| `/en/contact` | Contact & Correspondence (nav + footer) · `#business-enquiry` |
-| `/en/privacy-policy`, `/en/terms`, `/en/disclaimer`, `/en/sitemap` | Footer · Legal |
+| Destination                                                        | Canonical entry                                                                                             |
+| ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `/en`                                                              | Logo · mobile Home                                                                                          |
+| `/en/about-us`                                                     | About Us (nav)                                                                                              |
+| `/en/business`                                                     | Business (nav trigger + footer) · `#verticals`, `#grade-a-warehousing`, `#ndr-asset-management`, `#capital` |
+| `/en/portfolio`                                                    | Portfolio (nav + footer)                                                                                    |
+| `/en/investor-centre`                                              | Investor Centre (nav trigger + footer)                                                                      |
+| `/en/investor-centre/investment-highlights`                        | Investor menu + footer                                                                                      |
+| `/en/investor-centre/reports-disclosures`                          | Investor menu + footer                                                                                      |
+| `/en/investor-centre/financial-results`                            | Investor menu + footer                                                                                      |
+| `/en/investor-centre/annual-reports`                               | Investor menu                                                                                               |
+| `/en/investor-centre/corporate-governance`                         | Investor menu                                                                                               |
+| `/en/investor-centre/announcements`                                | Investor menu + footer                                                                                      |
+| `/en/investor-centre/downloads`                                    | Investor menu                                                                                               |
+| `/en/esg`                                                          | ESG & Sustainability (nav + footer)                                                                         |
+| `/en/media`                                                        | Media & Newsroom (nav + footer)                                                                             |
+| `/en/contact`                                                      | Contact & Correspondence (nav + footer) · `#business-enquiry`                                               |
+| `/en/privacy-policy`, `/en/terms`, `/en/disclaimer`, `/en/sitemap` | Footer · Legal                                                                                              |
 
 ## Verification
 

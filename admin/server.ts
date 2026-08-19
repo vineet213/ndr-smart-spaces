@@ -116,7 +116,7 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
   if (req.method === "GET" && path === "/api/meta") {
     return send(res, 200, {
       schemas: EDITOR_SCHEMAS.map(
-        ({ key, label, editor: kind, singleRecord, statusEnabled, refKind, description }) => ({
+        ({ key, label, editor: kind, singleRecord, statusEnabled, refKind, description, fields }) => ({
           key,
           label,
           editor: kind,
@@ -124,6 +124,7 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
           statusEnabled,
           refKind,
           description,
+          fields,
         }),
       ),
       publicationStatuses: ["draft", "pending", "published", "archived", "external"],

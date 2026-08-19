@@ -46,7 +46,7 @@ export const navigation = {
               "label": "Residential Plotting \u2014 Ave Acres",
             },
             {
-              "href": "/en/business#capital",
+              "href": "/en/business#business-model-title",
               "label": "The NDR InvIT relationship",
             },
           ],
@@ -161,7 +161,7 @@ export const navigation = {
               "label": "Residential Plotting \u2014 Ave Acres",
             },
             {
-              "href": "/en/business#capital",
+              "href": "/en/business#business-model-title",
               "label": "The NDR InvIT relationship",
             },
           ],
@@ -257,9 +257,5 @@ export const navigation = {
       "label": "compliance@ndrsmart.com",
     },
     "entity": "NDR Smart Spaces Pvt. Ltd. \u2014 an NDR Group platform",
-    "invIT": {
-      "href": "https://ndrinvit.com",
-      "label": "NDR InvIT Trust",
-    },
   },
 } as const;

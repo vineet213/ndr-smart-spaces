@@ -3,14 +3,8 @@ import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { Icon } from "../ui/Icon";
 import { Button } from "../ui/Button";
-import { VisuallyHidden } from "../ui/VisuallyHidden";
 import { cx } from "../ui/cx";
-import {
-  headerCta,
-  mobileMenuFooter,
-  mobileNavItems,
-  utilityStrip,
-} from "@/lib/data/navigation";
+import { headerCta, mobileMenuFooter, mobileNavItems, utilityStrip } from "@/lib/data/navigation";
 import styles from "./MobileNav.module.css";
 
 type MobileNavProps = {
@@ -43,28 +37,13 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
             <div className={styles.utilityLinks}>
               <a
                 className={cx("text-label-meta", styles.utilityLink)}
-                href={utilityStrip.invIT.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {utilityStrip.invIT.label}
-                <Icon name="arrow-up-right" className={styles.utilityIcon} />
-                <VisuallyHidden>Opens in a new tab</VisuallyHidden>
-              </a>
-              <a
-                className={cx("text-label-meta", styles.utilityLink)}
                 href={utilityStrip.email.href}
               >
                 {utilityStrip.email.label}
               </a>
             </div>
           </div>
-          <button
-            type="button"
-            className={styles.close}
-            aria-label="Close menu"
-            onClick={onClose}
-          >
+          <button type="button" className={styles.close} aria-label="Close menu" onClick={onClose}>
             <Icon name="close" />
           </button>
         </div>
@@ -104,10 +83,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                               >
                                 {link.label}
                                 {link.external && (
-                                  <Icon
-                                    name="arrow-up-right"
-                                    className={styles.externalIcon}
-                                  />
+                                  <Icon name="arrow-up-right" className={styles.externalIcon} />
                                 )}
                               </a>
                             </li>

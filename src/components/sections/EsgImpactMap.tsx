@@ -1,17 +1,13 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { useMemo } from "react";
 import { Container, Grid, GridItem } from "@/components/layout";
 import { Eyebrow, Heading, Lede, SourceFootnote } from "@/components/ui";
 import { esgImpactMap } from "@/lib/data/esg";
-import type { ImpactCategory } from "@/lib/data/esg";
-import { useInView } from "@/hooks/useInView";
+import type { ImpactCategory, ImpactInitiative } from "@/lib/data/esg";
 import { EsgDocHeader } from "./EsgDocHeader";
 import { Reveal, type RevealDelay } from "./Reveal";
-import { cx } from "../ui/cx";
 import styles from "./EsgImpactMap.module.css";
-
-const VIEWBOX = `${esgImpactMap.mapViewbox.width} ${esgImpactMap.mapViewbox.height}`;
 
 const categoryColor = (category: ImpactCategory): string =>
   esgImpactMap.categories.find((item) => item.key === category)?.color ?? "#f0b65a";
@@ -19,63 +15,56 @@ const categoryColor = (category: ImpactCategory): string =>
 const categoryLabel = (category: ImpactCategory): string =>
   esgImpactMap.categories.find((item) => item.key === category)?.label ?? category;
 
+type SiteGroup = {
+  place: string;
+  region: string;
+  initiatives: ImpactInitiative[];
+};
+
 export function EsgImpactMap() {
-  const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.15 });
   const { initiatives, categories } = esgImpactMap;
 
+  const siteGroups = useMemo(() => {
+    const grouped = new Map<string, SiteGroup>();
+    for (const initiative of initiatives) {
+      const key = `${initiative.place}::${initiative.region}`;
+      if (!grouped.has(key)) {
+        grouped.set(key, {
+          place: initiative.place,
+          region: initiative.region,
+          initiatives: [],
+        });
+      }
+      grouped.get(key)!.initiatives.push(initiative);
+    }
+    return Array.from(grouped.values());
+  }, [initiatives]);
+
   return (
-    <section className={styles.section} id="impact-map" aria-labelledby="esg-impact-map-title">
+    <section
+      className={styles.section}
+      id="initiatives-on-site"
+      aria-labelledby="esg-initiatives-title"
+    >
       <Container>
         <Reveal>
-          <EsgDocHeader numeral="07" code="REF 07 · IMPACT MAP" tone="dark" />
+          <EsgDocHeader numeral="03" code="REF 03 · INITIATIVES ON SITE" tone="dark" />
           <Eyebrow tone="dark" className={styles.eyebrow}>
-            {esgImpactMap.eyebrow}
+            ESG initiatives on site
           </Eyebrow>
           <Heading
             variant="section"
             tone="dark"
-            id="esg-impact-map-title"
+            id="esg-initiatives-title"
             className={styles.heading}
           >
-            {esgImpactMap.heading}
+            Where the work happens.
           </Heading>
           <Lede tone="dark" className={styles.lede}>
-            {esgImpactMap.lede}
+            Each property hosts a measured set of sustainability initiatives — tracked by category,
+            verified by status and recorded as part of the ESG register.
           </Lede>
         </Reveal>
-
-        <div ref={ref} className={cx(styles.mapWrap, inView && styles.isInView)}>
-          <svg
-            viewBox={`0 0 ${VIEWBOX}`}
-            className={styles.map}
-            role="img"
-            aria-label="Schematic map of India showing sustainability initiatives by category — energy, water, waste, green building and community."
-            focusable="false"
-          >
-            <path className={styles.outline} d={esgImpactMap.indiaOutline} />
-            <g className={styles.markers}>
-              {initiatives.map((initiative, index) => {
-                const color = categoryColor(initiative.category);
-                return (
-                  <g
-                    key={initiative.id}
-                    transform={`translate(${initiative.x} ${initiative.y})`}
-                    style={{ "--i": index, "--marker": color } as CSSProperties}
-                  >
-                    <circle r={13} className={styles.halo} />
-                    <circle r={6} className={styles.marker} />
-                  </g>
-                );
-              })}
-            </g>
-          </svg>
-        </div>
-
-        <div className={styles.caption}>
-          <p className={styles.captionLead}>{esgImpactMap.captionLead}</p>
-          <p className={styles.captionDetail}>{esgImpactMap.captionDetail}</p>
-          <p className={styles.notToScale}>{esgImpactMap.notToScale}</p>
-        </div>
 
         <ul className={styles.legend}>
           {categories.map((category) => {
@@ -94,39 +83,45 @@ export function EsgImpactMap() {
           })}
         </ul>
 
-        <ol className={styles.register}>
-          {initiatives.map((initiative, index) => (
+        <div className={styles.sites}>
+          {siteGroups.map((site, groupIndex) => (
             <Reveal
-              key={initiative.id}
-              as="li"
-              delay={(index % 3) as RevealDelay}
-              className={styles.row}
+              key={`${site.place}-${site.region}`}
+              delay={(groupIndex % 3) as RevealDelay}
+              className={styles.siteCard}
             >
-              <span className={styles.rowCode}>{initiative.code}</span>
-              <div className={styles.rowBody}>
-                <h3 className={styles.rowName}>{initiative.name}</h3>
-                <p className={styles.rowPlace}>
-                  {initiative.place}, {initiative.region}
-                </p>
-                <p className={styles.rowNote}>{initiative.note}</p>
+              <div className={styles.siteHeader}>
+                <h3 className={styles.siteName}>{site.place}</h3>
+                <span className={styles.siteRegion}>{site.region}</span>
               </div>
-              <div className={styles.rowMeta}>
-                <span
-                  className={styles.categoryBadge}
-                  style={{ color: categoryColor(initiative.category) }}
-                >
-                  <span
-                    className={styles.categoryDot}
-                    style={{ backgroundColor: categoryColor(initiative.category) }}
-                    aria-hidden="true"
-                  />
-                  {categoryLabel(initiative.category)}
-                </span>
-                <span className={styles.rowStatus}>{initiative.status}</span>
-              </div>
+              <ul className={styles.siteInitiatives}>
+                {site.initiatives.map((initiative) => (
+                  <li key={initiative.id} className={styles.initiative}>
+                    <span className={styles.initiativeCode}>{initiative.code}</span>
+                    <div className={styles.initiativeBody}>
+                      <span className={styles.initiativeName}>{initiative.name}</span>
+                      <p className={styles.initiativeNote}>{initiative.note}</p>
+                    </div>
+                    <div className={styles.initiativeMeta}>
+                      <span
+                        className={styles.categoryBadge}
+                        style={{ color: categoryColor(initiative.category) }}
+                      >
+                        <span
+                          className={styles.categoryDot}
+                          style={{ backgroundColor: categoryColor(initiative.category) }}
+                          aria-hidden="true"
+                        />
+                        {categoryLabel(initiative.category)}
+                      </span>
+                      <span className={styles.initiativeStatus}>{initiative.status}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </Reveal>
           ))}
-        </ol>
+        </div>
 
         <SourceFootnote tone="dark" className={styles.source}>
           {esgImpactMap.source}

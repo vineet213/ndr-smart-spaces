@@ -106,7 +106,7 @@ export const PRESS_ARCHIVE_ENTRIES: readonly PressArchiveEntry[] = [
     ref: "PR-003",
     date: "FY26*",
     category: "press-release",
-    title: "NDR Smart Spaces completes the MLG monetization to NDR InvIT",
+    title: "NDR Smart Spaces completes the MLG transfer to NDR InvIT",
     note: "MLG (INR 143.9 cr) and SPV transfers complete the capital cycle.",
     status: "draft",
   },
@@ -311,8 +311,8 @@ export const mediaKit = {
 
 /* press contact ----------------------------------------------------------- */
 
-const pressDesk = cmsDirectory.find((entry) => entry.key === "media");
-const businessDesk = cmsDirectory.find((entry) => entry.key === "business");
+const pressEmail = cmsCorporate.emails.find((e) => e.value === "compliance@ndrsmart.com") ?? cmsCorporate.emails[0];
+const businessEmail = cmsCorporate.emails.find((e) => e.value === "project@ndrsmart.com") ?? cmsCorporate.emails[1];
 
 export const pressContact = {
   eyebrow: "Press contact",
@@ -328,15 +328,15 @@ export const pressContact = {
     {
       ref: "PC-01",
       label: "Press desk",
-      value: pressDesk?.email.label ?? "compliance@ndrsmart.com",
-      href: pressDesk?.email.href ?? "mailto:compliance@ndrsmart.com",
+      value: pressEmail.value,
+      href: `mailto:${pressEmail.value}`,
       note: "Releases, coverage and interviews — the newsroom register.",
     },
     {
       ref: "PC-02",
       label: "Business desk",
-      value: businessDesk?.email.label ?? "project@ndrsmart.com",
-      href: businessDesk?.email.href ?? "mailto:project@ndrsmart.com",
+      value: businessEmail.value,
+      href: `mailto:${businessEmail.value}`,
       note: "Business enquiries, partnerships and the commercial line.",
     },
   ],

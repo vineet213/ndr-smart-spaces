@@ -160,7 +160,7 @@ export const journey = [
   },
   {
     year: "2025–26",
-    title: "SPV monetizations",
+    title: "SPV transfers",
     caption: "MLG (INR 143.9 cr) and SPV transfers to NDR InvIT complete the capital cycle.",
   },
 ] as const;
@@ -191,13 +191,13 @@ export const businessHighlights = {
   partnership: {
     title: "The NDR InvIT relationship",
     line: "Completed assets are offered to NDR InvIT under a Right of First Offer, recycling capital into new development. A transparent, disciplined engine that keeps building.",
-    cta: { label: "The capital model", href: "/en/business#capital" },
+    cta: { label: "The capital model", href: "/en/business#execution" },
   },
 };
 
 export const investmentHighlights = {
   eyebrow: "Investment highlights",
-  heading: "Develop. Stabilize. Monetize. Rebuild.",
+  heading: "Develop. Stabilize. Transfer. Rebuild.",
   cycleNote:
     "Right of First Offer — NDR InvIT evaluates each eligible asset before any third party.",
   proof: [
@@ -206,7 +206,7 @@ export const investmentHighlights = {
     { name: "$100 mn US global PE", value: "$90 bn+ assets under management" },
     { name: "$60 mn global financial institution", value: "$15 bn across 400 companies" },
     { name: "AAA-rated entity", value: "Long-term bonds · long WALE · low receivable risk" },
-    { name: "INR 143.9 cr MLG monetization", value: "SPV transfers to NDR InvIT" },
+    { name: "INR 143.9 cr MLG transfer", value: "SPV transfers to NDR InvIT" },
   ],
   resilience: [
     "Geographic, industry and client diversification",

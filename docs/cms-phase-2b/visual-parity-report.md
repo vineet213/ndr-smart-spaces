@@ -14,34 +14,34 @@ the baseline.
 Because Next.js re-fingerprints the bundle on every build, the comparison normalizes build-only
 fingerprints before diffing:
 
-| Fingerprint | Normalized to |
-| --- | --- |
-| `/_next/static/chunks/<hash>.js` / `.css` | `/_next/static/chunks/CHUNK.js` / `.css` |
-| `/_next/static/media/<hash>.` | `/_next/static/media/CHUNK.` |
-| `/_next/static/css/<hash>.` | `/_next/static/css/CHUNK.` |
-| `/_next/static/<hash>/<hash>.js` / `.css` | `/_next/static/FH.CHUNK.js` / `.css` |
-| RSC build id (`"b":"<buildId>"`, escaped-quote variants) | `"b":"BUILD_ID"` |
-| `/icon.svg?icon=<hash>.svg` | `/icon.svg?icon=HASH.svg` |
+| Fingerprint                                              | Normalized to                            |
+| -------------------------------------------------------- | ---------------------------------------- |
+| `/_next/static/chunks/<hash>.js` / `.css`                | `/_next/static/chunks/CHUNK.js` / `.css` |
+| `/_next/static/media/<hash>.`                            | `/_next/static/media/CHUNK.`             |
+| `/_next/static/css/<hash>.`                              | `/_next/static/css/CHUNK.`               |
+| `/_next/static/<hash>/<hash>.js` / `.css`                | `/_next/static/FH.CHUNK.js` / `.css`     |
+| RSC build id (`"b":"<buildId>"`, escaped-quote variants) | `"b":"BUILD_ID"`                         |
+| `/icon.svg?icon=<hash>.svg`                              | `/icon.svg?icon=HASH.svg`                |
 
 ## Result
 
-| Metric | Value |
-| --- | --- |
-| HTML pages compared | 24 |
-| Byte-identical after normalization | 24 |
-| Differences | 0 |
-| Missing / extra pages | 0 |
+| Metric                             | Value |
+| ---------------------------------- | ----- |
+| HTML pages compared                | 24    |
+| Byte-identical after normalization | 24    |
+| Differences                        | 0     |
+| Missing / extra pages              | 0     |
 
 ## Checklist
 
-| Requirement | Evidence | Status |
-| --- | --- | --- |
-| Navigation visually identical | Nav items rendered — "About Us", "Business Verticals" mega menu, "Investor Centre" mega menu present in `out/en/index.html`; `integration.navigation` parity check PASS | PASS |
-| Homepage metrics identical | Hero renders `60+` with labels "Years of industrial experience", "Fortune Global 500 companies served", "Portfolio occupancy"; `integration.homepage.hero` parity check PASS (M1 60+ · M5 100+ · M3 98%) | PASS |
-| Homepage map markers identical | Markers render — "Headquarters", "Kochi", "Kanpur" present; `integration.homepage.map` parity check PASS (homepage-visible locations, Chennai aliased to Headquarters) | PASS |
-| Business highlight links identical | Proof strings "99% greenfield", "100%-owned project management arm", "Trusted plotted development" present; `integration.homepage.verticals` parity check PASS (Ave Acres external) | PASS |
-| Footer identical | "Announcements", "Website Sitemap", "© 2026 NDR Smart Spaces Pvt. Ltd." present; `integration.homepage.footer` parity check PASS | PASS |
-| No new sections | `esg-teaser` occurrences 0, `latest-updates` occurrences 0 in `out/en/index.html`; `integration.homepage.no-new-sections` parity check PASS (`esg` null, `latestUpdates` empty) | PASS |
+| Requirement                        | Evidence                                                                                                                                                                                                 | Status |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| Navigation visually identical      | Nav items rendered — "About Us", "Business Verticals" mega menu, "Investor Centre" mega menu present in `out/en/index.html`; `integration.navigation` parity check PASS                                  | PASS   |
+| Homepage metrics identical         | Hero renders `60+` with labels "Years of industrial experience", "Fortune Global 500 companies served", "Portfolio occupancy"; `integration.homepage.hero` parity check PASS (M1 60+ · M5 100+ · M3 98%) | PASS   |
+| Homepage map markers identical     | Markers render — "Headquarters", "Kochi", "Kanpur" present; `integration.homepage.map` parity check PASS (homepage-visible locations, Chennai aliased to Headquarters)                                   | PASS   |
+| Business highlight links identical | Proof strings "99% greenfield", "100%-owned project management arm", "Trusted plotted development" present; `integration.homepage.verticals` parity check PASS (Ave Acres external)                      | PASS   |
+| Footer identical                   | "Announcements", "Website Sitemap", "© 2026 NDR Smart Spaces Pvt. Ltd." present; `integration.homepage.footer` parity check PASS                                                                         | PASS   |
+| No new sections                    | `esg-teaser` occurrences 0, `latest-updates` occurrences 0 in `out/en/index.html`; `integration.homepage.no-new-sections` parity check PASS (`esg` null, `latestUpdates` empty)                          | PASS   |
 
 ## Supporting verification
 
@@ -66,12 +66,12 @@ visual parity pass.
 
 ## Wiring
 
-| Data | Source |
-| --- | --- |
-| Office directory (all five offices: key, kind, name, address lines, phone, email, hours, directions) | `generated/contactDirectory.ts` (`contact-directory` collection) |
-| Map directions URL | `generated/corporateSettings.ts` → `externalLinks.googleMapsDirectionsUrl` |
-| Map marker placement (x/y) | `generated/locations.ts` → `chennai-hq.contactOffset` (fallback 384/828) |
-| Masthead heading, directory/form/routing copy | Frozen editorial copy (no CMS counterpart) |
+| Data                                                                                                 | Source                                                                     |
+| ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Office directory (all five offices: key, kind, name, address lines, phone, email, hours, directions) | `generated/contactDirectory.ts` (`contact-directory` collection)           |
+| Map directions URL                                                                                   | `generated/corporateSettings.ts` → `externalLinks.googleMapsDirectionsUrl` |
+| Map marker placement (x/y)                                                                           | `generated/locations.ts` → `chennai-hq.contactOffset` (fallback 384/828)   |
+| Masthead heading, directory/form/routing copy                                                        | Frozen editorial copy (no CMS counterpart)                                 |
 
 Frozen presentation fields preserved: marker `id`/`name`/`place`/`region`/`lat`/`lon` (the displayed
 "13.0521° N · 80.2461° E" coordinates stay byte-identical; only the projected x/y come from the CMS
@@ -79,11 +79,11 @@ contact offset), directory `eyebrow`/`heading`/`lede`/`note`, form and routing c
 
 ## Result
 
-| Metric | Value |
-| --- | --- |
-| HTML pages compared | 24 |
-| Byte-identical after normalization | 24 |
-| Differences | 0 |
+| Metric                             | Value |
+| ---------------------------------- | ----- |
+| HTML pages compared                | 24    |
+| Byte-identical after normalization | 24    |
+| Differences                        | 0     |
 
 ## Evidence (out/en/contact/index.html)
 
@@ -110,14 +110,14 @@ contact offset), directory `eyebrow`/`heading`/`lede`/`note`, form and routing c
 
 ## Wiring
 
-| Data | Source |
-| --- | --- |
-| Media kit (all four items: ref, label, note, format, classification, revision, status) | `generated/media.ts` → `media-kit` folder |
-| Press archive (PR-001…PR-003, UP-001: id, ref, date, category, title, note, status, href, external) | `generated/media.ts` → `press-archive` folder (seeded from `PRESS_ARCHIVE_ENTRIES`) |
-| Edition block (`asOn`, `edition`) | `generated/publicationSettings.ts` (`asOnDate`, `editionPeriod`) |
-| Publication reference (`NDR-PR-FY26`) | `generated/publicationSettings.ts` → `editionPeriod` |
-| Press contact (response expectation, departments, address) | `generated/contactDirectory.ts` (media + business desks) and `generated/corporateSettings.ts` |
-| Featured spread (`PR-002`) | Press archive record referenced by `ref`/`status` |
+| Data                                                                                                | Source                                                                                        |
+| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Media kit (all four items: ref, label, note, format, classification, revision, status)              | `generated/media.ts` → `media-kit` folder                                                     |
+| Press archive (PR-001…PR-003, UP-001: id, ref, date, category, title, note, status, href, external) | `generated/media.ts` → `press-archive` folder (seeded from `PRESS_ARCHIVE_ENTRIES`)           |
+| Edition block (`asOn`, `edition`)                                                                   | `generated/publicationSettings.ts` (`asOnDate`, `editionPeriod`)                              |
+| Publication reference (`NDR-PR-FY26`)                                                               | `generated/publicationSettings.ts` → `editionPeriod`                                          |
+| Press contact (response expectation, departments, address)                                          | `generated/contactDirectory.ts` (media + business desks) and `generated/corporateSettings.ts` |
+| Featured spread (`PR-002`)                                                                          | Press archive record referenced by `ref`/`status`                                             |
 
 Frozen presentation fields preserved: masthead and statement copy, the featured spread copy, register
 notes and desk labels. The seed extends the media collection with the four `press-archive` records and
@@ -126,11 +126,11 @@ the collection exactly as the frozen modules did.
 
 ## Result
 
-| Metric | Value |
-| --- | --- |
-| HTML pages compared | 24 |
-| Byte-identical after normalization | 24 |
-| Differences | 0 |
+| Metric                             | Value |
+| ---------------------------------- | ----- |
+| HTML pages compared                | 24    |
+| Byte-identical after normalization | 24    |
+| Differences                        | 0     |
 
 ## Evidence (out/en/media/index.html)
 
@@ -153,4 +153,3 @@ the collection exactly as the frozen modules did.
   reference registry, audit chain, Phase 1 end-to-end), including the corrected Phase 2B full-register
   emission checks.
 - `npx tsc --noEmit` (app) and `npm run lint` PASS; `npm run build` PASS.
-

@@ -8,9 +8,10 @@ import styles from "./ContentsRail.module.css";
 const HEADER_TALL = "4.5rem";
 const HEADER_COMPACT = "3.5rem";
 
-const ANCHOR_IDS = investorContents
-  .filter((item) => item.type === "anchor")
-  .map((item) => item.href.replace("#", ""));
+const NAV_ITEMS = investorContents as readonly { label: string; href: string; type: string }[];
+const ANCHOR_IDS = NAV_ITEMS.filter((item) => item.href.startsWith("#")).map((item) =>
+  item.href.slice(1),
+);
 
 export function ContentsRail() {
   const [scrollY, setScrollY] = useState(0);
@@ -55,9 +56,8 @@ export function ContentsRail() {
       aria-label="Document contents"
     >
       <ol className={styles.list}>
-        {investorContents.map((item) => {
-          const isActive =
-            item.type === "anchor" && item.href.replace("#", "") === active;
+        {NAV_ITEMS.map((item) => {
+          const isActive = item.href.startsWith("#") && item.href.slice(1) === active;
           return (
             <li key={item.href + item.label}>
               <a

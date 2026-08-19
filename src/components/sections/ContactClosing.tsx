@@ -27,15 +27,6 @@ export function ContactClosing() {
             <Button href={contactClosing.primaryCta.href} tone="dark">
               {contactClosing.primaryCta.label}
             </Button>
-            <TextLink
-              tone="dark"
-              href={contactClosing.tertiaryLink.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.tertiary}
-            >
-              {contactClosing.tertiaryLink.label}
-            </TextLink>
           </div>
         </Reveal>
       </Container>

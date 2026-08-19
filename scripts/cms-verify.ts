@@ -639,7 +639,7 @@ async function main(): Promise<void> {
       value: "98%",
       period: "As on 31 March 2026",
       source: "NDR Corporate Presentation",
-      usages: [{ target: "/en/investor-centre#capital-strength", label: "Capital strength" }],
+      usages: [{ target: "/en/investor-centre", label: "Capital strength" }],
     },
     status: "draft",
     user: "investor-editor@ndr.com",

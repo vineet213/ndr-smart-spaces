@@ -48,9 +48,6 @@ export const editorialStatement = {
 } as const;
 
 export const investorContents = [
-  { label: "Statement", href: "#statement", type: "anchor" },
-  { label: "Capital strength", href: "#capital-strength", type: "anchor" },
-  { label: "Capital cycle", href: "#capital-cycle", type: "anchor" },
   { label: "Governance", href: "/en/investor-centre/corporate-governance", type: "route" },
   {
     label: "Reports & Disclosures",
@@ -147,7 +144,7 @@ export const capitalMarketTimeline = {
       year: "2015",
       title: "NDR InvIT Trust incorporated",
       caption: "The capital vehicle is established under the NDR group.",
-      detail: "The channel through which completed assets are offered and monetized.",
+      detail: "The channel through which completed assets are offered to NDR InvIT.",
     },
     {
       year: "2018",
@@ -169,9 +166,9 @@ export const capitalMarketTimeline = {
     },
     {
       year: "2025",
-      title: "SPV monetizations",
+      title: "SPV transfers",
       caption: "MLG (INR 143.9 cr) and three SPVs transfer to NDR InvIT.",
-      detail: "Monetized capital recycles into new development — the loop closes.",
+      detail: "Capital recycles into new development — the loop closes.",
     },
     {
       year: "2026",
@@ -187,7 +184,7 @@ export const invitRelationship = {
   heading: "A matter of record.",
   body: [
     "NDR Smart Spaces and NDR InvIT are distinct entities under the NDR group. NDR Smart Spaces is the development platform; NDR InvIT owns and manages income-generating infrastructure assets. To facilitate this relationship, NDR Smart Spaces has granted NDR InvIT a Right of First Offer (ROFO) over eligible assets developed by the company: once an asset is completed and meets the prescribed eligibility criteria, NDR InvIT receives the first opportunity to evaluate and acquire it.",
-    "This framework supports transparent, disciplined asset monetization while giving NDR InvIT visibility into a pipeline of high-quality investment opportunities — and it lets NDR Smart Spaces recycle capital into new development.",
+    "This framework supports transparent, disciplined asset transfer while giving NDR InvIT visibility into a pipeline of high-quality investment opportunities \u2014 and it lets NDR Smart Spaces recycle capital into new development.",
   ],
   external: { label: "NDR InvIT Trust", href: "https://ndrinvit.com" },
   note: "NDR InvIT's own financial results, distributions and disclosures are published by NDR InvIT Trust at ndrinvit.com.",

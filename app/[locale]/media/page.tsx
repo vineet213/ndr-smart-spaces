@@ -1,20 +1,11 @@
 import type { Metadata } from "next";
-import {
-  FeaturedPublication,
-  Footer,
-  MediaClosing,
-  MediaKit,
-  MediaMasthead,
-  MediaStatement,
-  PressArchive,
-  PressContact,
-} from "@/components/sections";
+import { Footer, MediaMasthead, MediaSlideshow, PressArchive } from "@/components/sections";
 import { runMediaValidation } from "@/lib/data/mediaValidation";
 
 export const metadata: Metadata = {
-  title: "Media & Newsroom",
+  title: "Media",
   description:
-    "The press register of NDR Smart Spaces — releases, coverage, interviews and updates, dated and referenced as a public record.",
+    "The press archive and featured coverage of NDR Smart Spaces — press releases, media kit and editorial content.",
 };
 
 if (process.env.NODE_ENV === "development") {
@@ -25,12 +16,8 @@ export default function MediaPage() {
   return (
     <>
       <MediaMasthead />
-      <MediaStatement />
-      <FeaturedPublication />
+      <MediaSlideshow />
       <PressArchive />
-      <MediaKit />
-      <PressContact />
-      <MediaClosing />
       <Footer />
     </>
   );

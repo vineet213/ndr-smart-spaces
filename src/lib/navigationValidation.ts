@@ -1,10 +1,5 @@
 import { footer } from "./data/homepage";
-import {
-  headerCta,
-  mobileNavItems,
-  navItems,
-  type NavItem,
-} from "./data/navigation";
+import { headerCta, mobileNavItems, navItems, type NavItem } from "./data/navigation";
 import { routeAnchors, siteRoutes } from "./routes";
 
 /**

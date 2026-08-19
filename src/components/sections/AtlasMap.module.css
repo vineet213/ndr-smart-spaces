@@ -129,6 +129,61 @@
   }
 }
 
+/* interactive node states ------------------------------------------------ */
+
+.nodeGroup {
+  cursor: pointer;
+  outline: none;
+}
+
+.nodeGroup:focus-visible .ringHq,
+.nodeGroup:focus-visible .dotHub,
+.nodeGroup:focus-visible .dotSat,
+.nodeGroup:focus-visible .dotAsset {
+  filter: drop-shadow(0 0 4px var(--color-gold));
+}
+
+.nodeActive .ringHq {
+  stroke: var(--color-gold-light);
+  stroke-width: 2.5;
+}
+
+.nodeActive .dotHub {
+  r: 5.5;
+  filter: drop-shadow(0 0 3px var(--color-gold));
+}
+
+.nodeActive .dotSat {
+  stroke: var(--color-maroon);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 3px var(--color-maroon));
+}
+
+.nodeActive .dotAsset {
+  r: 6.5;
+  filter: drop-shadow(0 0 3px var(--color-gold));
+}
+
+.nodeActive .plateRef rect {
+  stroke: var(--color-gold);
+  stroke-width: 1.5;
+}
+
+/* tooltip ---------------------------------------------------------------- */
+
+.tooltip rect {
+  fill: var(--color-charcoal);
+  opacity: 0.92;
+}
+
+.tooltipText {
+  fill: var(--color-ivory);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: var(--font-weight-body-medium);
+  letter-spacing: 0.04em;
+}
+
 @media (max-width: 767px) {
   .map {
     width: min(100%, 32rem);

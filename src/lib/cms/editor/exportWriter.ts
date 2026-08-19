@@ -117,6 +117,8 @@ export async function generateMerged(content: ContentStore): Promise<GeneratedFi
     "contactDirectory",
   );
   if (contactDirectory) files.push(contactDirectory);
+  const slideshows = await registerFile(content, "slideshows", "slideshows.ts", "slideshows");
+  if (slideshows) files.push(slideshows);
   return files.sort((a, b) => (a.fileName < b.fileName ? -1 : a.fileName > b.fileName ? 1 : 0));
 }
 

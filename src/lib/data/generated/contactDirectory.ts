@@ -1,100 +1,65 @@
 export const contactDirectory = [
   {
-    "id": "corporate",
+    "id": "smart-spaces",
     "status": "published",
-    "directions": {
-      "external": true,
-      "href": "https://www.google.com/maps/dir/13.0520847,80.246055/NDR+INVIT,+56-79,+Bazulla+Rd,+Bharathy+Nagar,+Rama+Kamat+Puram,+Chennai,+Greater+Chennai,+Tamil+Nadu+600017",
-      "label": "Open in Google Maps",
-    },
     "email": {
-      "href": "mailto:project@ndrsmart.com",
-      "label": "project@ndrsmart.com",
+      "href": "mailto:spaces@ndrsmart.com",
+      "label": "spaces@ndrsmart.com",
     },
     "hours": "Monday \u2013 Saturday \u00b7 9:30 AM \u2013 6:30 PM IST",
-    "key": "corporate",
-    "kind": "Corporate office",
+    "key": "smart-spaces",
+    "kind": "Smart Spaces",
     "lines": [
       {
-        "value": "No. 56/1, next to GT Reddy Cars, Bazulla Road, T. Nagar",
+        "value": "NDR Smart Spaces Pvt. Ltd.",
       },
       {
-        "value": "Chennai, Tamil Nadu 600017",
+        "value": "Chennai, Tamil Nadu, India",
       },
     ],
-    "name": "NDR Smart Spaces Pvt. Ltd.",
+    "name": "Smart Spaces Desk",
     "phone": "+91 44 4296 1200",
   },
   {
-    "id": "registered",
+    "id": "hr",
     "status": "published",
     "email": {
-      "href": "mailto:compliance@ndrsmart.com",
-      "label": "compliance@ndrsmart.com",
+      "href": "mailto:hr@ndrsmart.com",
+      "label": "hr@ndrsmart.com",
     },
     "hours": "Monday \u2013 Saturday \u00b7 9:30 AM \u2013 6:30 PM IST",
-    "key": "registered",
-    "kind": "Registered office",
+    "key": "hr",
+    "kind": "HR",
     "lines": [
       {
-        "value": "Registered office address and CIN to be confirmed.",
+        "value": "NDR Smart Spaces Pvt. Ltd.",
+      },
+      {
+        "value": "Chennai, Tamil Nadu, India",
       },
     ],
-    "name": "Registered office",
-    "phone": "+91 44 4296 1201",
+    "name": "Human Resources",
+    "phone": "+91 44 4296 1206",
   },
   {
-    "id": "investor",
+    "id": "grievance",
     "status": "published",
     "email": {
-      "href": "mailto:compliance@ndrsmart.com",
-      "label": "compliance@ndrsmart.com",
+      "href": "mailto:grievance@ndrsmart.com",
+      "label": "grievance@ndrsmart.com",
     },
     "hours": "Monday \u2013 Saturday \u00b7 9:30 AM \u2013 6:30 PM IST",
-    "key": "investor",
-    "kind": "Investor relations",
+    "key": "grievance",
+    "kind": "Grievance",
     "lines": [
       {
-        "value": "Investor centre \u00b7 reports & disclosures \u00b7 investor queries",
+        "value": "NDR Smart Spaces Pvt. Ltd.",
       },
-    ],
-    "name": "Investor relations desk",
-    "phone": "+91 44 4296 1202",
-  },
-  {
-    "id": "business",
-    "status": "published",
-    "email": {
-      "href": "mailto:project@ndrsmart.com",
-      "label": "project@ndrsmart.com",
-    },
-    "hours": "Monday \u2013 Saturday \u00b7 9:30 AM \u2013 6:30 PM IST",
-    "key": "business",
-    "kind": "Business development",
-    "lines": [
       {
-        "value": "Grade A warehousing \u00b7 asset management \u00b7 land & plotting \u00b7 partnerships",
+        "value": "Chennai, Tamil Nadu, India",
       },
     ],
-    "name": "Business development desk",
-    "phone": "+91 44 4296 1203",
-  },
-  {
-    "id": "media",
-    "status": "published",
-    "email": {
-      "href": "mailto:compliance@ndrsmart.com",
-      "label": "compliance@ndrsmart.com",
-    },
-    "hours": "Monday \u2013 Saturday \u00b7 9:30 AM \u2013 6:30 PM IST",
-    "key": "media",
-    "kind": "Media contact",
-    "lines": [
-      {
-        "value": "Press releases \u00b7 coverage \u00b7 interviews",
-      },
-    ],
-    "name": "Media relations desk",
-    "phone": "+91 44 4296 1204",
+    "name": "Grievance Redressal",
+    "phone": "+91 44 4296 1207",
   },
 ] as const;

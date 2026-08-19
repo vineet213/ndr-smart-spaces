@@ -13,38 +13,38 @@ As of the V1.6 checkpoint (ESG, Media, Contact shipped), the site has the follow
 
 ### 1.1 Dangling links — referenced routes that do not exist
 
-| Link label | Target | Source | Route exists? |
-| --- | --- | --- | --- |
-| Grade A Warehousing | `/en/business/grade-a-warehousing` | Business mega menu | No |
-| NDR Asset Management | `/en/business/ndr-asset-management` | Business mega menu | No |
-| The NDR InvIT relationship | `/en/business/ndr-invit` | Business mega menu | No |
-| Privacy Policy | `/en/privacy-policy` | Footer legal | No |
-| Terms & Conditions | `/en/terms` | Footer legal | No |
-| Disclaimer | `/en/disclaimer` | Footer legal | No |
-| Website Sitemap | `/en/sitemap` | Footer legal | No |
+| Link label                 | Target                              | Source             | Route exists? |
+| -------------------------- | ----------------------------------- | ------------------ | ------------- |
+| Grade A Warehousing        | `/en/business/grade-a-warehousing`  | Business mega menu | No            |
+| NDR Asset Management       | `/en/business/ndr-asset-management` | Business mega menu | No            |
+| The NDR InvIT relationship | `/en/business/ndr-invit`            | Business mega menu | No            |
+| Privacy Policy             | `/en/privacy-policy`                | Footer legal       | No            |
+| Terms & Conditions         | `/en/terms`                         | Footer legal       | No            |
+| Disclaimer                 | `/en/disclaimer`                    | Footer legal       | No            |
+| Website Sitemap            | `/en/sitemap`                       | Footer legal       | No            |
 
 These render 404s today. The three Business vertical pages were the "page identities" template that never got routes; the four legal pages are a separate missing batch.
 
 ### 1.2 Multiple labels resolving to the same destination
 
-| Destination | Reached via |
-| --- | --- |
-| `/en/business` | Top-level "Business" **and** mega-menu "Business Overview" |
-| `/en/portfolio` | Top-level "Portfolio" **and** mega-menu "Asset Portfolio" |
+| Destination           | Reached via                                                                                      |
+| --------------------- | ------------------------------------------------------------------------------------------------ |
+| `/en/business`        | Top-level "Business" **and** mega-menu "Business Overview"                                       |
+| `/en/portfolio`       | Top-level "Portfolio" **and** mega-menu "Asset Portfolio"                                        |
 | `/en/investor-centre` | Top-level "Investor Centre", header CTA "Investor Centre", **and** mega-menu "Investor Overview" |
 
 Each of these pairs is one duplicated entry. The mega-menu "overview" rows duplicate the very top-level item that opens the menu.
 
 ### 1.3 Nav label vs. page title inconsistency
 
-| Nav label | Page `<title>` |
-| --- | --- |
-| ESG | ESG & Sustainability |
-| Media | Media & Newsroom |
-| Contact | Contact & Correspondence |
+| Nav label       | Page `<title>`            |
+| --------------- | ------------------------- |
+| ESG             | ESG & Sustainability      |
+| Media           | Media & Newsroom          |
+| Contact         | Contact & Correspondence  |
 | Investor Centre | Investor Centre (matches) |
-| Business | Business (matches) |
-| Portfolio | Portfolio (matches) |
+| Business        | Business (matches)        |
+| Portfolio       | Portfolio (matches)       |
 
 Three labels are shortened in nav. This is defensible for a tight nav, but the mismatch should be a deliberate, documented choice — or the nav labels should match.
 

@@ -2,14 +2,9 @@ import type { Metadata } from "next";
 import {
   EsgCertifications,
   EsgClosing,
-  EsgDashboard,
-  EsgDisclosures,
-  EsgEnvironment,
   EsgFramework,
-  EsgGovernance,
   EsgImpactMap,
   EsgMasthead,
-  EsgSocial,
   EsgStatement,
   Footer,
 } from "@/components/sections";
@@ -31,13 +26,8 @@ export default function EsgPage() {
       <EsgMasthead />
       <EsgStatement />
       <EsgFramework />
-      <EsgEnvironment />
-      <EsgSocial />
-      <EsgGovernance />
-      <EsgDashboard />
       <EsgImpactMap />
       <EsgCertifications />
-      <EsgDisclosures />
       <EsgClosing />
       <Footer />
     </>

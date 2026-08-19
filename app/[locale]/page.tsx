@@ -4,7 +4,6 @@ import {
   PortfolioPresence,
   CompanyOverview,
   BusinessHighlights,
-  InvestmentHighlights,
   FeaturedProjects,
   MarqueeClients,
   Esg,
@@ -21,7 +20,6 @@ export default function HomePage() {
       <PortfolioPresence />
       <CompanyOverview />
       <BusinessHighlights />
-      <InvestmentHighlights />
       <FeaturedProjects />
       <MarqueeClients />
       <Esg />

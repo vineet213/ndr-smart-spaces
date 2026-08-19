@@ -3,13 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>NDR CMS — Admin</title>
+    <title>NDR Smart Spaces — CMS</title>
     <style>
       :root {
         --bg: #0f1115;
         --panel: #171a21;
         --panel-2: #1d2129;
+        --panel-3: #252a34;
         --border: #2a2f3a;
+        --border-focus: #4f8cff;
         --text: #e6e8ee;
         --muted: #9aa3b2;
         --accent: #4f8cff;
@@ -25,7 +27,7 @@
       body {
         margin: 0;
         font:
-          14px/1.5 -apple-system,
+          13px/1.5 -apple-system,
           "Segoe UI",
           Roboto,
           sans-serif;
@@ -34,38 +36,62 @@
       }
       .app {
         display: grid;
-        grid-template-columns: 248px 1fr;
+        grid-template-columns: 240px 1fr;
         min-height: 100vh;
       }
-      /* Sidebar */
+
+      /* ── sidebar ── */
       .sidebar {
         background: var(--panel);
         border-right: 1px solid var(--border);
-        padding: 16px 12px;
+        padding: 14px 10px;
+        overflow-y: auto;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+        display: flex;
+        flex-direction: column;
       }
       .brand {
         font-weight: 700;
-        font-size: 15px;
-        letter-spacing: 0.4px;
-        padding: 2px 10px 14px;
+        font-size: 14px;
+        letter-spacing: 0.3px;
+        padding: 4px 8px 12px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 10px;
       }
       .brand span {
         color: var(--muted);
         font-weight: 400;
         display: block;
-        font-size: 12px;
+        font-size: 11px;
+        margin-top: 2px;
+      }
+      .sidebar-group {
+        margin-bottom: 8px;
+      }
+      .sidebar-group-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--muted);
+        padding: 6px 8px 3px;
+        font-weight: 600;
       }
       .nav-item {
-        display: block;
+        display: flex;
+        align-items: center;
+        gap: 8px;
         width: 100%;
         text-align: left;
-        padding: 9px 10px;
-        margin: 2px 0;
-        border-radius: 8px;
+        padding: 7px 8px;
+        margin: 1px 0;
+        border-radius: 6px;
         background: none;
         border: none;
         color: var(--text);
         cursor: pointer;
+        font-size: 13px;
       }
       .nav-item:hover {
         background: var(--panel-2);
@@ -74,15 +100,53 @@
         background: var(--accent);
         color: #fff;
       }
-      .nav-item small {
-        display: block;
-        color: var(--muted);
-        font-size: 11px;
+      .nav-item .nav-label {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
-      .nav-item.active small {
+      .nav-item .nav-badge {
+        font-size: 10px;
+        background: var(--panel-3);
+        color: var(--muted);
+        padding: 1px 5px;
+        border-radius: 8px;
+        flex-shrink: 0;
+      }
+      .nav-item.active .nav-badge {
+        background: rgba(255, 255, 255, 0.2);
         color: rgba(255, 255, 255, 0.8);
       }
-      /* Main */
+      .nav-item small {
+        display: none;
+      }
+      .sidebar-search {
+        padding: 0 0 8px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 8px;
+      }
+      .sidebar-search input {
+        width: 100%;
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        border-radius: 5px;
+        padding: 5px 8px;
+        font-size: 12px;
+        outline: none;
+      }
+      .sidebar-search input:focus {
+        border-color: var(--border-focus);
+      }
+      .sidebar-nav {
+        flex: 1;
+        overflow-y: auto;
+        min-height: 0;
+      }
+
+      /* ── main ── */
       .main {
         display: flex;
         flex-direction: column;
@@ -92,21 +156,22 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 10px 18px;
+        padding: 8px 16px;
         border-bottom: 1px solid var(--border);
         background: var(--panel);
         flex-wrap: wrap;
       }
-      .topbar input {
+      .topbar input,
+      .topbar select {
         background: var(--panel-2);
         border: 1px solid var(--border);
         color: var(--text);
-        border-radius: 6px;
-        padding: 6px 9px;
-        font-size: 13px;
+        border-radius: 5px;
+        padding: 5px 8px;
+        font-size: 12px;
       }
       .topbar label {
-        font-size: 12px;
+        font-size: 11px;
         color: var(--muted);
       }
       .spacer {
@@ -116,10 +181,10 @@
         background: var(--panel-2);
         color: var(--text);
         border: 1px solid var(--border);
-        border-radius: 7px;
-        padding: 7px 12px;
+        border-radius: 6px;
+        padding: 6px 11px;
         cursor: pointer;
-        font-size: 13px;
+        font-size: 12px;
       }
       button:hover {
         border-color: var(--accent-2);
@@ -134,57 +199,72 @@
       }
       button.ghost {
         background: none;
+        border-color: transparent;
+      }
+      button.ghost:hover {
+        border-color: var(--border);
       }
       button.danger {
         color: var(--bad);
       }
       button:disabled {
-        opacity: 0.5;
+        opacity: 0.4;
         cursor: default;
+        pointer-events: none;
       }
       .content {
-        padding: 20px 26px;
-        max-width: 980px;
+        padding: 20px 24px;
+        max-width: 960px;
         width: 100%;
       }
+
+      /* ── editor chrome ── */
       .editor-head {
-        margin-bottom: 18px;
+        margin-bottom: 16px;
       }
       .editor-head h1 {
-        font-size: 22px;
-        margin: 0 0 4px;
+        font-size: 20px;
+        margin: 0 0 2px;
+        font-weight: 700;
       }
       .editor-head p {
         color: var(--muted);
         margin: 0;
+        font-size: 12px;
       }
       .toolbar {
         display: flex;
         gap: 8px;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
         flex-wrap: wrap;
         align-items: center;
       }
-      /* Cards & forms */
+      .toolbar .spacer {
+        flex: 1;
+      }
+
+      /* ── cards / forms ── */
       .card {
         background: var(--panel);
         border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 16px;
-        margin-bottom: 14px;
+        border-radius: 8px;
+        padding: 14px;
+        margin-bottom: 12px;
       }
       .card h3 {
-        margin: 0 0 12px;
-        font-size: 15px;
+        margin: 0 0 10px;
+        font-size: 14px;
+        font-weight: 600;
       }
       .row {
-        margin-bottom: 12px;
+        margin-bottom: 10px;
       }
       .row label {
         display: block;
-        font-size: 12px;
+        font-size: 11px;
         color: var(--muted);
-        margin-bottom: 4px;
+        margin-bottom: 3px;
+        font-weight: 500;
       }
       .row .req::after {
         content: " *";
@@ -200,93 +280,111 @@
         background: var(--panel-2);
         border: 1px solid var(--border);
         color: var(--text);
-        border-radius: 6px;
-        padding: 8px 10px;
+        border-radius: 5px;
+        padding: 7px 9px;
         font-size: 13px;
         font-family: inherit;
       }
+      .row input:focus,
+      .row textarea:focus,
+      .row select:focus {
+        border-color: var(--border-focus);
+        outline: none;
+      }
       .row textarea {
-        min-height: 70px;
+        min-height: 60px;
         resize: vertical;
       }
       .row input[type="checkbox"] {
-        transform: scale(1.15);
+        transform: scale(1.1);
+        margin-right: 6px;
       }
       .helper {
-        font-size: 11px;
+        font-size: 10px;
         color: var(--muted);
-        margin-top: 3px;
+        margin-top: 2px;
       }
       fieldset.group {
         border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 12px;
-        margin: 0 0 14px;
+        border-radius: 7px;
+        padding: 10px 12px;
+        margin: 0 0 12px;
       }
       fieldset.group legend {
-        font-size: 12px;
+        font-size: 11px;
         color: var(--accent-2);
-        padding: 0 6px;
+        padding: 0 5px;
+        font-weight: 600;
       }
       .item-card {
         border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 10px 12px;
-        margin: 8px 0;
+        border-radius: 7px;
+        padding: 10px;
+        margin: 6px 0;
         background: var(--panel-2);
       }
       .item-card .item-head {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
       }
       .item-head .item-title {
-        font-size: 12px;
+        font-size: 11px;
         color: var(--muted);
+        font-weight: 600;
       }
       .link-rows .link-row {
         display: grid;
-        grid-template-columns: 1fr 1.4fr auto auto;
-        gap: 8px;
-        margin-bottom: 8px;
+        grid-template-columns: 1fr 1.4fr auto;
+        gap: 6px;
+        margin-bottom: 6px;
       }
       .link-row input {
         background: var(--panel-2);
         border: 1px solid var(--border);
         color: var(--text);
-        border-radius: 6px;
-        padding: 7px 9px;
-        font-size: 13px;
+        border-radius: 5px;
+        padding: 6px 8px;
+        font-size: 12px;
+      }
+      .link-row input:focus {
+        border-color: var(--border-focus);
+        outline: none;
       }
       .mini {
-        font-size: 11px;
-        padding: 5px 8px;
+        font-size: 10px;
+        padding: 4px 7px;
       }
       .map-row {
         display: grid;
         grid-template-columns: 1fr 1.4fr auto;
-        gap: 8px;
-        margin-bottom: 8px;
+        gap: 6px;
+        margin-bottom: 6px;
       }
       .map-row input {
         background: var(--panel-2);
         border: 1px solid var(--border);
         color: var(--text);
-        border-radius: 6px;
-        padding: 7px 9px;
-        font-size: 13px;
+        border-radius: 5px;
+        padding: 6px 8px;
+        font-size: 12px;
       }
-      /* Records list */
+
+      /* ── records list ── */
       .record-row {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr auto auto auto;
         align-items: center;
-        gap: 12px;
-        padding: 12px 14px;
+        gap: 10px;
+        padding: 10px 12px;
         border: 1px solid var(--border);
-        border-radius: 9px;
-        margin-bottom: 8px;
+        border-radius: 7px;
+        margin-bottom: 6px;
         background: var(--panel);
+      }
+      .record-row:hover {
+        border-color: #3a4050;
       }
       .record-row .grow {
         flex: 1;
@@ -294,17 +392,29 @@
       }
       .record-row .title {
         font-weight: 600;
+        font-size: 13px;
       }
       .record-row .meta {
         color: var(--muted);
-        font-size: 12px;
+        font-size: 11px;
+        margin-top: 1px;
+      }
+      .record-row .summary {
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .record-row .summary .sep {
+        margin: 0 4px;
+        opacity: 0.4;
       }
       .pill {
-        font-size: 11px;
-        padding: 2px 8px;
-        border-radius: 20px;
+        font-size: 10px;
+        padding: 2px 7px;
+        border-radius: 12px;
         text-transform: uppercase;
-        letter-spacing: 0.4px;
+        letter-spacing: 0.3px;
+        font-weight: 600;
+        white-space: nowrap;
       }
       .pill.draft {
         background: #2a2f3a;
@@ -323,7 +433,58 @@
         background: #331219;
         color: var(--bad);
       }
-      /* Audit */
+
+      /* ── search / filter ── */
+      .filter-bar {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+      }
+      .filter-bar input {
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        border-radius: 5px;
+        padding: 5px 9px;
+        font-size: 12px;
+        width: 220px;
+      }
+      .filter-bar input:focus {
+        border-color: var(--border-focus);
+        outline: none;
+      }
+      .filter-pill {
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 10px;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: var(--panel-2);
+        color: var(--muted);
+      }
+      .filter-pill.active {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+      }
+      .filter-pill:hover:not(.active) {
+        border-color: var(--accent-2);
+      }
+
+      /* ── unsaved indicator ── */
+      .unsaved-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--warn);
+        display: inline-block;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+
+      /* ── audit drawer ── */
       .drawer {
         position: fixed;
         inset: 0;
@@ -337,36 +498,36 @@
         display: flex;
       }
       .drawer-panel {
-        width: min(620px, 94vw);
+        width: min(600px, 94vw);
         height: 100vh;
         background: var(--panel);
         border-left: 1px solid var(--border);
         overflow: auto;
-        padding: 18px;
+        padding: 16px;
       }
       .audit-item {
         border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 10px 12px;
-        margin-bottom: 8px;
-        font-size: 13px;
+        border-radius: 7px;
+        padding: 8px 10px;
+        margin-bottom: 6px;
+        font-size: 12px;
       }
       .audit-item .top {
         display: flex;
-        gap: 10px;
+        gap: 8px;
         align-items: center;
         flex-wrap: wrap;
       }
       .audit-item .mono {
         font-family: var(--mono);
-        font-size: 12px;
+        font-size: 11px;
         color: var(--muted);
       }
       .audit-item .act {
         font-weight: 700;
         text-transform: uppercase;
-        font-size: 11px;
-        letter-spacing: 0.4px;
+        font-size: 10px;
+        letter-spacing: 0.3px;
       }
       .act.create {
         color: var(--good);
@@ -386,25 +547,26 @@
       .act.delete {
         color: var(--bad);
       }
-      /* Toast */
+
+      /* ── toast ── */
       #toasts {
         position: fixed;
-        bottom: 18px;
-        right: 18px;
+        bottom: 16px;
+        right: 16px;
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 6px;
         z-index: 60;
       }
       .toast {
         background: var(--panel-2);
         border: 1px solid var(--border);
         border-left: 3px solid var(--accent);
-        border-radius: 8px;
-        padding: 10px 14px;
-        max-width: 360px;
-        font-size: 13px;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+        border-radius: 7px;
+        padding: 8px 12px;
+        max-width: 340px;
+        font-size: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
       }
       .toast.ok {
         border-left-color: var(--good);
@@ -412,26 +574,40 @@
       .toast.err {
         border-left-color: var(--bad);
       }
+
+      /* ── misc ── */
       .error-list {
         background: #2a1620;
         border: 1px solid var(--bad);
-        border-radius: 8px;
+        border-radius: 7px;
         padding: 10px 14px;
         margin: 10px 0;
       }
+      .error-list ul {
+        margin: 0;
+        padding-left: 18px;
+      }
       .error-list li {
         color: var(--bad);
+        font-size: 12px;
+        margin-bottom: 4px;
       }
       .empty {
         color: var(--muted);
         text-align: center;
-        padding: 40px 0;
+        padding: 36px 0;
+        font-size: 13px;
+      }
+      .empty small {
+        display: block;
+        margin-top: 4px;
+        font-size: 11px;
       }
       .kv {
         display: grid;
-        grid-template-columns: 130px 1fr;
-        gap: 6px 12px;
-        font-size: 13px;
+        grid-template-columns: 120px 1fr;
+        gap: 4px 10px;
+        font-size: 12px;
       }
       .kv dt {
         color: var(--muted);
@@ -439,6 +615,77 @@
       .kv dd {
         margin: 0;
       }
+      .section-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--muted);
+        font-weight: 600;
+        margin: 16px 0 8px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      /* ── confirm modal ── */
+      .modal-overlay {
+        position: fixed; inset: 0;
+        background: rgba(5,7,10,0.7);
+        display: flex; align-items: center; justify-content: center;
+        z-index: 100;
+      }
+      .modal-box {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 20px 24px;
+        min-width: 300px; max-width: 420px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+      }
+      .modal-box h3 { margin: 0 0 6px; font-size: 16px; }
+      .modal-box p { margin: 0 0 16px; color: var(--muted); font-size: 13px; }
+      .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+      /* ── mobile drawer ── */
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(5,7,10,0.6);
+        z-index: 30;
+      }
+      .sidebar-overlay.open { display: block; }
+      .mobile-toggle {
+        display: none;
+        background: none;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 6px 10px;
+        color: var(--text);
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+      }
+      @media (max-width: 900px) {
+        .app { grid-template-columns: 1fr; }
+        .sidebar {
+          position: fixed;
+          left: 0; top: 0; bottom: 0;
+          width: min(280px, 80vw);
+          height: 100vh;
+          z-index: 31;
+          transform: translateX(-100%);
+          transition: transform 0.2s ease;
+        }
+        .sidebar.open { transform: translateX(0); }
+        .mobile-toggle { display: inline-flex; }
+        .content { padding: 16px; }
+        .topbar { flex-wrap: wrap; }
+        .record-row { grid-template-columns: 1fr; gap: 6px; }
+        .record-row .pill { justify-self: start; }
+        fieldset.group { padding: 8px; }
+        .row input, .row textarea, .row select { font-size: 16px; }
+      }
+
       @media (max-width: 720px) {
         .app {
           grid-template-columns: 1fr;
@@ -446,9 +693,20 @@
         .sidebar {
           display: flex;
           overflow-x: auto;
+          padding: 8px;
+        }
+        .sidebar-group {
+          display: flex;
+          gap: 4px;
+        }
+        .sidebar-group-label {
+          display: none;
         }
         .nav-item {
           white-space: nowrap;
+        }
+        .record-row {
+          grid-template-columns: 1fr;
         }
         .link-rows .link-row {
           grid-template-columns: 1fr;
@@ -461,37 +719,47 @@
   </head>
   <body>
     <div class="app">
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
       <nav class="sidebar" id="sidebar"></nav>
       <div class="main">
         <div class="topbar">
-          <label>User <input id="inp-user" value="local-admin" size="14" /></label>
+          <button class="mobile-toggle" id="btn-menu" title="Toggle menu">&#9776;</button>
+          <label>User <input id="inp-user" value="local-admin" size="12" /></label>
           <label
             >Role
             <select id="sel-role">
               <option>super-admin</option>
+              <option>content-editor</option>
               <option>investor-editor</option>
               <option>business-editor</option>
-              <option>governance-editor</option>
+              <option>esg-editor</option>
+              <option>media-editor</option>
             </select>
           </label>
           <span class="spacer"></span>
           <button id="btn-export" title="Regenerate managed modules and verify byte-stability">
-            Regenerate export
+            Export
           </button>
-          <button id="btn-audit">Audit log</button>
+          <button id="btn-audit">Audit</button>
           <button id="btn-refresh">Refresh</button>
         </div>
         <div class="content" id="content"></div>
       </div>
+      <div class="modal-overlay" id="modal-overlay" style="display:none">
+        <div class="modal-box">
+          <h3 id="modal-title"></h3>
+          <p id="modal-desc"></p>
+          <div class="modal-actions" id="modal-actions"></div>
+        </div>
+      </div>
     </div>
-
     <div class="drawer" id="drawer"><div class="drawer-panel" id="drawer-panel"></div></div>
     <div id="toasts"></div>
 
     <script>
       "use strict";
 
-      /* ---------- tiny DOM helpers ---------- */
+      /* ═══════════════ DOM helpers ═══════════════ */
       const $ = (id) => document.getElementById(id);
       function el(tag, attrs, ...children) {
         const node = document.createElement(tag);
@@ -503,20 +771,28 @@
             else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
             else node[k] = v;
           }
-        for (const child of children) {
-          if (child == null) continue;
-          node.append(typeof child === "string" ? document.createTextNode(child) : child);
+        function appendChild(child) {
+          if (child == null) return;
+          if (Array.isArray(child)) {
+            for (const item of child) appendChild(item);
+          } else node.append(typeof child === "string" ? document.createTextNode(child) : child);
         }
+        for (const child of children) appendChild(child);
         return node;
       }
 
-      /* ---------- state ---------- */
+      /* ═══════════════ State ═══════════════ */
       const state = {
         meta: null,
         currentKey: null,
-        records: {}, // key -> { records: [], audit: [] }
-        draft: null, // current editable object (bound to DOM)
-        files: {}, // path -> { name, mime, dataBase64 }
+        records: {},
+        draft: null,
+        draftStatus: null,
+        files: {},
+        dirty: false,
+        searchQuery: "",
+        statusFilter: "all",
+        sidebarQuery: "",
       };
       const EDITOR_ORDER = [
         "corporate-settings",
@@ -533,6 +809,27 @@
         "esg-initiatives",
         "governance-records",
         "contact-directory",
+        "slideshows",
+      ];
+      const EDITOR_GROUPS = [
+        {
+          label: "Settings",
+          keys: ["corporate-settings", "publication-settings", "brand-settings"],
+        },
+        { label: "Structure", keys: ["navigation", "footer"] },
+        { label: "Content", keys: ["documents", "media", "slideshows"] },
+        {
+          label: "Data",
+          keys: [
+            "metrics",
+            "locations",
+            "portfolio-assets",
+            "business-verticals",
+            "esg-initiatives",
+            "governance-records",
+            "contact-directory",
+          ],
+        },
       ];
       const STATUS_ORDER = ["draft", "pending", "published", "external", "archived"];
 
@@ -540,7 +837,7 @@
         return { user: $("inp-user").value.trim() || "local-admin", role: $("sel-role").value };
       }
 
-      /* ---------- api ---------- */
+      /* ═══════════════ API ═══════════════ */
       async function api(path, options) {
         const res = await fetch(path, options);
         const body = await res.json().catch(() => ({ error: "invalid response" }));
@@ -552,10 +849,12 @@
       }
       function toast(text, kind) {
         $("toasts").append(el("div", { class: "toast " + (kind || "") }, text));
-        setTimeout(() => $("toasts").lastChild.remove(), 3800);
+        setTimeout(() => {
+          if ($("toasts").lastChild) $("toasts").lastChild.remove();
+        }, 3800);
       }
 
-      /* ---------- path binding ---------- */
+      /* ═══════════════ Path binding ═══════════════ */
       function getPath(obj, path) {
         let cur = obj;
         for (const key of path) {
@@ -571,41 +870,129 @@
           cur = cur[path[i]];
         }
         cur[path[path.length - 1]] = value;
-      }
-      function draftDefaults() {
-        return JSON.parse(
-          JSON.stringify(state.records[state.currentKey]?.records?.[0]?.data ?? {}),
-        );
+        state.dirty = true;
       }
 
-      /* ---------- sidebar ---------- */
+      /* ═══════════════ Unsaved changes guard ═══════════════ */
+      function showModal(title, desc, buttons) {
+        return new Promise((resolve) => {
+          $("modal-title").textContent = title;
+          $("modal-desc").textContent = desc || "";
+          $("modal-actions").innerHTML = "";
+          for (const btn of buttons) {
+            const b = el("button", {
+              class: btn.primary ? "primary" : "",
+              onclick: () => { $("modal-overlay").style.display = "none"; resolve(btn.value); },
+            }, btn.label);
+            $("modal-actions").append(b);
+          }
+          $("modal-overlay").style.display = "flex";
+          const overlayClick = (e) => {
+            if (e.target === $("modal-overlay")) {
+              $("modal-overlay").style.display = "none";
+              $("modal-overlay").removeEventListener("click", overlayClick);
+              resolve(null);
+            }
+          };
+          $("modal-overlay").addEventListener("click", overlayClick);
+        });
+      }
+
+      async function checkDirty(msg) {
+        if (!state.dirty) return true;
+        return await showModal("Unsaved changes", msg || "You have unsaved changes that will be lost.", [
+          { label: "Cancel", value: false },
+          { label: "Discard changes", value: true },
+          { label: "Save changes", value: "save", primary: true },
+        ]);
+      }
+      window.addEventListener("beforeunload", (e) => {
+        if (state.dirty) {
+          e.preventDefault();
+          e.returnValue = "";
+        }
+      });
+
+      /* ═══════════════ Sidebar ═══════════════ */
       function renderSidebar() {
         const nav = $("sidebar");
         nav.innerHTML = "";
         nav.append(
-          el("div", { class: "brand" }, "NDR CMS", el("span", null, "Phase 1.1 — editorial admin")),
+          el(
+            "div",
+            { class: "brand" },
+            "NDR Smart Spaces",
+            el("span", null, "Content Management System"),
+          ),
         );
-        for (const key of EDITOR_ORDER) {
-          const schema = state.meta.schemas.find((s) => s.key === key);
-          if (!schema) continue;
-          const item = el(
-            "button",
-            {
-              class: "nav-item" + (state.currentKey === key ? " active" : ""),
-              onclick: () => openEditor(key),
-            },
-            schema.label,
-            el("small", null, schema.description),
-          );
-          nav.append(item);
+        const searchWrap = el("div", { class: "sidebar-search" });
+        const searchInput = el("input", {
+          type: "text",
+          placeholder: "Filter collections\u2026",
+          value: state.sidebarQuery || "",
+          oninput: (e) => { state.sidebarQuery = e.target.value; filterSidebarItems(nav); },
+        });
+        searchWrap.append(searchInput);
+        nav.append(searchWrap);
+        const navContainer = el("div", { class: "sidebar-nav" });
+        for (const group of EDITOR_GROUPS) {
+          const g = el("div", { class: "sidebar-group", "data-group": group.label });
+          g.append(el("div", { class: "sidebar-group-label" }, group.label));
+          for (const key of group.keys) {
+            const schema = state.meta.schemas.find((s) => s.key === key);
+            if (!schema) continue;
+            const recs = state.records[key]?.records;
+            const count = recs ? recs.length : null;
+            const item = el(
+              "button",
+              {
+                class: "nav-item" + (state.currentKey === key ? " active" : ""),
+                "data-key": key,
+                "data-label": schema.label.toLowerCase(),
+                onclick: async () => {
+                  if (await checkDirty("Switch editor? Unsaved changes will be lost.")) openEditor(key);
+                },
+              },
+              el("span", { class: "nav-label" }, schema.label),
+              count != null
+                ? el("span", { class: "nav-badge" }, String(count))
+                : el("span", { class: "nav-badge", style: "opacity:0.3" }, "\u2026"),
+            );
+            g.append(item);
+          }
+          navContainer.append(g);
+        }
+        nav.append(navContainer);
+        filterSidebarItems(nav);
+      }
+
+      function filterSidebarItems(nav) {
+        const q = (state.sidebarQuery || "").toLowerCase();
+        const groups = nav.querySelectorAll(".sidebar-group");
+        for (const g of groups) {
+          const items = g.querySelectorAll(".nav-item");
+          let visible = 0;
+          for (const item of items) {
+            const label = item.getAttribute("data-label") || "";
+            const key = item.getAttribute("data-key") || "";
+            const match = !q || label.includes(q) || key.includes(q);
+            item.style.display = match ? "" : "none";
+            if (match) visible++;
+          }
+          g.style.display = visible ? "" : "none";
         }
       }
 
-      /* ---------- editor routing ---------- */
+      /* ═══════════════ Editor routing ═══════════════ */
       async function openEditor(key) {
+        if (window.innerWidth <= 900) { $("sidebar").classList.remove("open"); $("sidebar-overlay").classList.remove("open"); }
         state.currentKey = key;
         state.draft = null;
+        state.draftStatus = null;
         state.files = {};
+        state.dirty = false;
+        state.searchQuery = "";
+        state.statusFilter = "all";
         renderSidebar();
         try {
           if (!state.records[key])
@@ -626,7 +1013,7 @@
         );
       }
 
-      /* ---------- settings (schema-driven) ---------- */
+      /* ═══════════════ Settings (schema-driven) ═══════════════ */
       function renderSettingsForm(schema) {
         const record = state.records[schema.key].records[0] || null;
         state.draft = JSON.parse(JSON.stringify(record?.data ?? {}));
@@ -640,66 +1027,234 @@
         return saveRecord(key, null, state.draft);
       }
 
-      /* ---------- records list (documents/media) ---------- */
+      /* ═══════════════ Record list ═══════════════ */
       function renderRecordList(schema) {
-        const records = state.records[schema.key].records;
-        const list = el(
-          "div",
-          { class: "card" },
-          el(
-            "div",
-            { class: "toolbar" },
-            el("h3", { style: "margin:0" }, `${schema.label} (${records.length})`),
-            el("span", { class: "spacer" }),
-            el(
-              "button",
-              { class: "primary", onclick: () => openRecordForm(schema, null) },
-              "+ New record",
-            ),
-          ),
-          el(
-            "div",
-            null,
-            records.length === 0
-              ? el("div", { class: "empty" }, "No records yet — create one.")
-              : records.map((record) => recordRow(schema, record)),
-          ),
-        );
+        const allRecords = state.records[schema.key].records;
         const head = el(
           "div",
           null,
-          editorHeader(schema, records[0], () => openRecordForm(schema, records[0])),
+          editorHeader(schema, allRecords[0], () => openRecordForm(schema, allRecords[0])),
         );
-        $("content").replaceChildren(head, list);
+
+        const search = el("input", {
+          type: "text",
+          placeholder: "Search…",
+          value: state.searchQuery,
+          oninput: (e) => {
+            state.searchQuery = e.target.value;
+            refreshRecordList(schema);
+          },
+        });
+
+        const filterBar = el("div", { class: "filter-bar" }, search);
+        const statuses = ["all", ...new Set(allRecords.map((r) => r.status))];
+        for (const s of statuses) {
+          filterBar.append(
+            el(
+              "button",
+              {
+                class: "filter-pill" + (state.statusFilter === s ? " active" : ""),
+                onclick: () => {
+                  state.statusFilter = s;
+                  refreshRecordList(schema);
+                },
+              },
+              s === "all"
+                ? `All (${allRecords.length})`
+                : `${s} (${allRecords.filter((r) => r.status === s).length})`,
+            ),
+          );
+        }
+
+        const listInner = el("div", { id: "record-list-inner" });
+        const list = el("div", { class: "card" }, filterBar, listInner);
+
+        buildRecordListInner(schema, listInner);
+
+        const newBtn = el(
+          "button",
+          { class: "primary", onclick: () => openRecordForm(schema, null) },
+          "+ New record",
+        );
+        $("content").replaceChildren(
+          head,
+          list,
+          el("div", { class: "toolbar" }, el("span", { class: "spacer" }), newBtn),
+        );
       }
 
-      function recordRow(schema, record) {
-        const title = record.data.title || record.data.name || record.id;
-        const metaBits = [
+      function refreshRecordList(schema) {
+        const inner = $("record-list-inner");
+        if (!inner) return;
+        const parent = inner.parentNode;
+        const newInner = el("div", {
+          class: "toolbar",
+          style: "display:contents",
+          id: "record-list-inner",
+        });
+        parent.replaceChild(newInner, inner);
+        buildRecordListInner(schema, newInner);
+      }
+
+      function buildRecordListInner(schema, container) {
+        container.innerHTML = "";
+        const allRecords = state.records[schema.key].records;
+        let filtered = allRecords;
+        if (state.statusFilter !== "all")
+          filtered = filtered.filter((r) => r.status === state.statusFilter);
+        if (state.searchQuery) {
+          const q = state.searchQuery.toLowerCase();
+          filtered = filtered.filter((r) => {
+            const text = recordSearchText(schema, r);
+            return text.toLowerCase().includes(q);
+          });
+        }
+        if (filtered.length === 0) {
+          container.append(
+            el(
+              "div",
+              { class: "empty" },
+              allRecords.length === 0 ? "No records yet." : "No matching records.",
+              el(
+                "small",
+                null,
+                allRecords.length === 0
+                  ? "Create your first record above."
+                  : "Try a different search or filter.",
+              ),
+            ),
+          );
+          return;
+        }
+        for (const record of filtered) container.append(recordRow(schema, record));
+      }
+
+      function recordSearchText(schema, record) {
+        const d = record.data;
+        const parts = [
+          record.id,
           record.status,
-          `rev ${record.revision}`,
-          record.data.ref && `ref ${record.data.ref}`,
-          record.version && `v${record.version}`,
-        ]
-          .filter(Boolean)
-          .join(" · ");
+          d.title,
+          d.name,
+          d.key,
+          d.plate,
+          d.code,
+          d.category,
+          d.kind,
+          d.city,
+          d.region,
+          d.ref,
+          d.email?.label,
+          d.email?.href,
+          d.phone,
+        ].filter(Boolean);
+        return parts.join(" ");
+      }
+
+      /* ═══════════════ Record row — collection-specific summaries ═══════════════ */
+      function recordRow(schema, record) {
+        const summary = recordSummary(schema, record);
         return el(
           "div",
           { class: "record-row" },
           el(
             "div",
             { class: "grow" },
-            el("div", { class: "title" }, String(title)),
-            el("div", { class: "meta" }, metaBits),
+            el("div", { class: "title" }, recordTitle(schema, record)),
+            summary ? el("div", { class: "summary" }, summary) : null,
+            el(
+              "div",
+              { class: "meta" },
+              `rev ${record.revision}${record.data.ref ? " · " + record.data.ref : ""}${record.version ? " · v" + record.version : ""}`,
+            ),
           ),
           el("span", { class: "pill " + record.status }, record.status),
-          statusActions(schema, record),
+          el("div", null, statusActions(schema, record)),
           el("button", { class: "ghost", onclick: () => openRecordForm(schema, record) }, "Edit"),
         );
       }
 
+      function recordTitle(schema, record) {
+        const d = record.data;
+        switch (schema.key) {
+          case "metrics":
+            return `${d.key || "—"} — ${d.name || "Untitled"}`;
+          case "locations":
+            return `${d.name || "Untitled"} — ${d.region || d.zone || ""}`;
+          case "portfolio-assets":
+            return `${d.plate || "—"} — ${d.name || "Untitled"}`;
+          case "business-verticals":
+            return `${d.index || "—"} — ${d.title || "Untitled"}`;
+          case "esg-initiatives":
+            return `${d.code || "—"} — ${d.name || "Untitled"}`;
+          case "governance-records":
+            return `${d.title || "Untitled"} — ${d.kind || ""}`;
+          case "contact-directory":
+            return `${d.name || "Untitled"} — ${d.kind || ""}`;
+          case "documents":
+            return `${d.title || "Untitled"} — ${d.category || ""}`;
+          case "media":
+            return `${d.name || "Untitled"} — ${d.kind || ""}`;
+          default:
+            return d.title || d.name || record.id;
+        }
+      }
+
+      function recordSummary(schema, record) {
+        const d = record.data;
+        const s = (v) => (v ? String(v) : null);
+        const parts = [];
+        switch (schema.key) {
+          case "metrics":
+            if (d.value) parts.push(d.value);
+            if (d.unit) parts.push(d.unit);
+            if (d.period) parts.push(d.period);
+            if (d.source) parts.push(d.source);
+            break;
+          case "locations":
+            if (d.tier) parts.push(d.tier);
+            if (d.zone) parts.push(d.zone);
+            if (d.lat != null && d.lon != null) parts.push(`${d.lat}, ${d.lon}`);
+            break;
+          case "portfolio-assets":
+            if (d.city) parts.push(d.city);
+            if (d.zone) parts.push(d.zone);
+            if (d.class) parts.push(d.class);
+            if (d.occupier) parts.push(d.occupier);
+            break;
+          case "business-verticals":
+            if (d.anchor) parts.push(`#${d.anchor}`);
+            if (d.metrics?.length) parts.push(`${d.metrics.length} metrics`);
+            break;
+          case "esg-initiatives":
+            if (d.place) parts.push(d.place);
+            if (d.category) parts.push(d.category);
+            if (d.status) parts.push(d.status);
+            break;
+          case "governance-records":
+            if (d.holder) parts.push(d.holder);
+            if (d.role) parts.push(d.role);
+            if (d.recordStatus) parts.push(d.recordStatus);
+            break;
+          case "contact-directory":
+            if (d.email?.label) parts.push(d.email.label);
+            if (d.phone) parts.push(d.phone);
+            if (d.hours) parts.push(d.hours);
+            break;
+          case "documents":
+            if (d.type) parts.push(d.type);
+            if (d.asOn) parts.push(d.asOn);
+            break;
+          case "media":
+            if (d.folder) parts.push(d.folder);
+            if (d.alt) parts.push(`alt: ${d.alt.substring(0, 30)}`);
+            break;
+        }
+        return parts.filter(Boolean).join(" · ");
+      }
+
       function statusActions(schema, record) {
-        const row = el("div", { style: "display:flex;gap:6px" });
+        const row = el("div", { style: "display:flex;gap:4px" });
         const role = ctx().role;
         const add = (label, to) =>
           row.append(
@@ -716,26 +1271,41 @@
         return row;
       }
 
+      /* ═══════════════ Record form ═══════════════ */
       function openRecordForm(schema, record) {
         const isNew = record === null;
         state.draft = JSON.parse(JSON.stringify(record?.data ?? {}));
+        state.draftStatus = record?.status ?? null;
         state.files = {};
+        state.dirty = false;
         const form = el("div", null);
+
+        /* toolbar */
         form.append(
           el(
             "div",
             { class: "toolbar" },
-            el("button", { onclick: () => openEditor(schema.key) }, "← Back"),
+            el(
+              "button",
+              {
+                onclick: async () => {
+                  if (await checkDirty("Discard unsaved changes?")) openEditor(schema.key);
+                },
+              },
+              "\u2190 Back",
+            ),
             el("span", { class: "spacer" }),
             el(
               "span",
-              { style: "color:var(--muted);font-size:12px" },
+              { style: "color:var(--muted);font-size:11px" },
               isNew
-                ? "Creating new record"
-                : `${record.status} · rev ${record.revision}${record.data.ref ? " · " + record.data.ref : ""}`,
+                ? "New record"
+                : `${record.status} \u00b7 rev ${record.revision}${record.data.ref ? " \u00b7 " + record.data.ref : ""}`,
             ),
           ),
         );
+
+        /* main form card */
         const card = el(
           "div",
           { class: "card" },
@@ -743,12 +1313,21 @@
             "h3",
             null,
             isNew
-              ? `New ${schema.label.replace(" Register", "")}`
-              : String(record.data.title || record.data.name || record.id),
+              ? `New ${schema.label.replace(" Register", "").replace(" Library", "")}`
+              : recordTitle(schema, record),
           ),
         );
-        for (const field of schema.fields) card.append(fieldWidget(field, [field.key]));
+
+        /* relationship field resolution */
+        const lookupData = buildLookupData();
+
+        for (const field of schema.fields) {
+          card.append(fieldWidget(field, [field.key], lookupData));
+        }
+
+        /* status selector */
         if (schema.statusEnabled && !isNew) {
+          card.append(el("div", { class: "section-label" }, "Publication"));
           card.append(
             el(
               "div",
@@ -759,6 +1338,7 @@
                 {
                   onchange: (e) => {
                     state.draftStatus = e.target.value;
+                    state.dirty = true;
                   },
                 },
                 ...STATUS_ORDER.map((s) =>
@@ -768,17 +1348,32 @@
             ),
           );
         }
+
+        /* save bar */
         card.append(
           el(
             "div",
-            { class: "toolbar" },
+            {
+              class: "toolbar",
+              style: "margin-top:14px;border-top:1px solid var(--border);padding-top:12px",
+            },
             el(
               "button",
               { class: "primary", onclick: () => saveDraft(schema, record) },
               isNew ? "Create record" : "Save changes",
             ),
+            state.dirty ? el("span", { class: "unsaved-dot", title: "Unsaved changes" }) : null,
+            el("span", { class: "spacer" }),
+            !isNew
+              ? el(
+                  "button",
+                  { class: "danger mini", onclick: () => deleteRecord(schema, record) },
+                  "Delete",
+                )
+              : null,
           ),
         );
+
         form.append(card);
         $("content").replaceChildren(form);
       }
@@ -789,6 +1384,53 @@
         return saveRecord(schema.key, record?.id ?? null, data, status);
       }
 
+      /* ═══════════════ Relationship lookup ═══════════════ */
+      function buildLookupData() {
+        const locs = (state.records["locations"]?.records || []).map((r) => ({
+          id: r.id,
+          name: r.data.name,
+          zone: r.data.zone,
+          status: r.status,
+        }));
+        const meds = (state.records["media"]?.records || []).map((r) => ({
+          id: r.id,
+          name: r.data.name,
+          kind: r.data.kind,
+          status: r.status,
+        }));
+        const docs = (state.records["documents"]?.records || []).map((r) => ({
+          id: r.id,
+          ref: r.data.ref,
+          title: r.data.title,
+          status: r.status,
+        }));
+        const metr = (state.records["metrics"]?.records || []).map((r) => ({
+          id: r.id,
+          key: r.data.key,
+          name: r.data.name,
+          status: r.status,
+        }));
+        return { locations: locs, media: meds, documents: docs, metrics: metr };
+      }
+
+      /* ═══════════════ Delete record ═══════════════ */
+      async function deleteRecord(schema, record) {
+        if (!confirm(`Delete "${recordTitle(schema, record)}"? This cannot be undone.`)) return;
+        try {
+          await api(`/api/c/${encodeURIComponent(schema.key)}?action=delete`, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ id: record.id, ...ctx() }),
+          });
+          state.records[schema.key] = await api(`/api/c/${encodeURIComponent(schema.key)}`);
+          toast("Record deleted", "ok");
+          openEditor(schema.key);
+        } catch (error) {
+          renderValidationError(error);
+        }
+      }
+
+      /* ═══════════════ Save / transition ═══════════════ */
       async function saveRecord(key, id, data, status) {
         const payload = { data, status, ...ctx() };
         if (id) payload.id = id;
@@ -801,7 +1443,8 @@
             body: JSON.stringify(payload),
           });
           state.records[key] = await api(`/api/c/${encodeURIComponent(key)}`);
-          toast(`Saved ${result.issuedRef ? `— ref ${result.issuedRef}` : ""}`, "ok");
+          state.dirty = false;
+          toast(`Saved${result.issuedRef ? ` \u2014 ref ${result.issuedRef}` : ""}`, "ok");
           openEditor(key);
           return result;
         } catch (error) {
@@ -812,18 +1455,21 @@
 
       function renderValidationError(error) {
         const box = el("div", { class: "error-list" }, el("ul", null));
-        const issues =
-          error.issues && error.issues.length
-            ? error.issues.map((i) => i.message)
-            : [error.message];
-        for (const message of issues) box.firstChild.append(el("li", null, message));
-        const content = $("content");
-        content.append(box);
+        const issues = error.issues?.length ? error.issues.map((i) => i.message) : [error.message];
+        for (const msg of issues) box.firstChild.append(el("li", null, msg));
+        $("content").append(box);
         toast("Validation failed", "err");
         box.scrollIntoView({ behavior: "smooth", block: "start" });
       }
 
       async function transition(key, id, status) {
+        if (status === "published") {
+          const ok = await showModal("Publish changes?", "Publishing makes this content eligible for the public website. This action is recorded in the audit log.", [
+            { label: "Cancel", value: false },
+            { label: "Publish", value: true, primary: true },
+          ]);
+          if (!ok) return;
+        }
         try {
           await api(`/api/c/${encodeURIComponent(key)}?action=transition`, {
             method: "POST",
@@ -831,16 +1477,38 @@
             body: JSON.stringify({ id, status, ...ctx() }),
           });
           state.records[key] = await api(`/api/c/${encodeURIComponent(key)}`);
-          toast(`Status → ${status}`, "ok");
+          toast(`Status \u2192 ${status}`, "ok");
           openEditor(key);
         } catch (error) {
           renderValidationError(error);
         }
       }
 
-      /* ---------- generic field widgets ---------- */
-      function fieldWidget(field, path) {
+      /* ═══════════════ Field widgets ═══════════════ */
+      function fieldWidget(field, path, lookup) {
         const value = getPath(state.draft, path);
+        /* relationship selectors for well-known ref fields */
+        if (lookup && field.key === "locationId" && field.kind === "text")
+          return relField(field, path, lookup.locations, "id", "name", "zone", "Select location…");
+        if (lookup && field.key === "imageMedia" && field.kind === "text")
+          return relField(
+            field,
+            path,
+            lookup.media.filter((m) => m.kind === "image"),
+            "id",
+            "name",
+            "kind",
+            "Select image…",
+          );
+        if (lookup && field.key === "mediaId" && field.kind === "text")
+          return relField(field, path, lookup.media, "id", "name", "kind", "Select media…");
+        if (lookup && field.key === "ref" && field.kind === "text" && path.includes("documents"))
+          return relField(field, path, lookup.documents, "ref", "title", "ref", "Select document…");
+        if (lookup && field.key === "documentRef" && field.kind === "text")
+          return relField(field, path, lookup.documents, "ref", "title", "ref", "Select document…");
+        if (lookup && field.key === "metricKey" && field.kind === "text")
+          return relField(field, path, lookup.metrics, "key", "name", "key", "Select metric…");
+
         switch (field.kind) {
           case "text":
           case "email":
@@ -852,11 +1520,11 @@
           case "boolean":
             return boolField(field, path, value);
           case "object":
-            return objectField(field, path, value);
+            return objectField(field, path, value, lookup);
           case "map":
             return mapField(field, path, value);
           case "list":
-            return listField(field, path, value);
+            return listField(field, path, value, lookup);
           case "file":
             return fileField(field, path, value);
           default:
@@ -875,7 +1543,7 @@
                 : field.kind === "textarea"
                   ? undefined
                   : "text";
-        const input = el(type === "textarea" ? "textarea" : type === "number" ? "input" : "input", {
+        const input = el(type === "textarea" ? "textarea" : "input", {
           type: type || "text",
           value: value == null ? "" : String(value),
           placeholder: field.placeholder || "",
@@ -913,14 +1581,14 @@
         );
       }
 
-      function objectField(field, path, value) {
+      function objectField(field, path, value, lookup) {
         if (value == null) {
           setPath(state.draft, path, {});
           value = {};
         }
         const set = el("fieldset", { class: "group" }, el("legend", null, field.label));
         for (const child of field.fields || [])
-          set.append(fieldWidget(child, [...path, child.key]));
+          set.append(fieldWidget(child, [...path, child.key], lookup));
         return set;
       }
 
@@ -957,6 +1625,9 @@
           };
           ki.addEventListener("input", refresh);
           vi.addEventListener("input", refresh);
+          row.dataset.live = "true";
+          row.dataset.label = k || "";
+          row.dataset.href = v || "";
           row.append(
             ki,
             vi,
@@ -969,7 +1640,7 @@
                   sync();
                 },
               },
-              "Remove",
+              "\u2715",
             ),
           );
           rows.append(row);
@@ -980,19 +1651,14 @@
           rows,
           el(
             "button",
-            {
-              class: "mini",
-              onclick: () => {
-                addRow("", "");
-              },
-            },
+            { class: "mini", onclick: () => addRow("", "") },
             `+ Add ${field.valueLabel || "pair"}`,
           ),
         );
         return set;
       }
 
-      function listField(field, path, value) {
+      function listField(field, path, value, lookup) {
         if (!Array.isArray(value)) {
           setPath(state.draft, path, []);
           value = [];
@@ -1026,7 +1692,7 @@
               ),
             );
             for (const child of field.itemFields || [])
-              card.append(fieldWidget(child, [...path, index, child.key]));
+              card.append(fieldWidget(child, [...path, index, child.key], lookup));
             container.append(card);
           });
         };
@@ -1051,12 +1717,11 @@
       }
 
       function fileField(field, path, value) {
-        const holder = el("div");
         const current = typeof value === "string" ? value : "";
         const note = el(
           "div",
           { class: "helper" },
-          current ? `Stored file: ${current}` : "No file uploaded.",
+          current ? `Current: ${current}` : "No file uploaded.",
         );
         const input = el("input", {
           type: "file",
@@ -1065,18 +1730,46 @@
             if (!file) return;
             const reader = new FileReader();
             reader.onload = () => {
-              const dataBase64 = String(reader.result).split(",")[1];
               state.files[path.join(".")] = {
                 name: file.name,
                 mime: file.type || "application/octet-stream",
-                dataBase64,
+                dataBase64: String(reader.result).split(",")[1],
               };
               note.textContent = `Will upload: ${file.name} (${file.type || "unknown"})`;
+              state.dirty = true;
             };
             reader.readAsDataURL(file);
           },
         });
         return fieldRow(field, path, input, note.textContent);
+      }
+
+      /* ═══════════════ Relationship selector widget ═══════════════ */
+      function relField(field, path, options, idKey, labelKey, subKey, placeholder) {
+        const value = String(getPath(state.draft, path) || "");
+        const select = el("select", {
+          onchange: (e) => setPath(state.draft, path, e.target.value),
+        });
+        select.append(el("option", { value: "", selected: !value }, placeholder || "None"));
+        for (const opt of options) {
+          const optVal = opt[idKey];
+          const label = `${opt[labelKey] || opt[idKey]}${opt[subKey] ? " \u2014 " + opt[subKey] : ""}${opt.status !== "published" ? " [" + opt.status + "]" : ""}`;
+          select.append(el("option", { value: optVal, selected: value === optVal }, label));
+        }
+        /* also allow manual entry */
+        const manualInput = el("input", {
+          type: "text",
+          value,
+          placeholder: "Or type ID directly",
+          oninput: (e) => setPath(state.draft, path, e.target.value),
+          style: "margin-top:4px",
+        });
+        return fieldRow(
+          field,
+          path,
+          el("div", null, select, manualInput),
+          field.helper || `Select from existing records or type an ID`,
+        );
       }
 
       function fieldRow(field, path, control, helperText) {
@@ -1085,16 +1778,11 @@
           { class: "row" },
           el("label", { class: field.required ? "req" : "" }, field.label),
           control,
-          helperText ? el("div", { class: "helper" }, helperText) : el("div"),
+          helperText ? el("div", { class: "helper" }, helperText) : null,
         );
       }
 
-      /* ---------- navigation editor ---------- */
-      const LINK_FIELDS = [
-        { key: "label", label: "Label" },
-        { key: "href", label: "Href" },
-      ];
-
+      /* ═══════════════ Navigation editor ═══════════════ */
       function linkListWidget(path, surfaceName) {
         const container = el("div", { class: "link-rows" });
         const sync = () => {
@@ -1110,7 +1798,7 @@
           const hi = el("input", {
             type: "text",
             value: href || "",
-            placeholder: "/en/… or https://…",
+            placeholder: "/en/\u2026 or https://\u2026",
           });
           const row = el("div", { class: "link-row" });
           const commit = () => {
@@ -1135,7 +1823,7 @@
                   sync();
                 },
               },
-              "✕",
+              "\u2715",
             ),
           );
           container.append(row);
@@ -1189,7 +1877,7 @@
       }
 
       function columnWidget(parentPath, index, col) {
-        const card = el(
+        return el(
           "div",
           { class: "item-card" },
           el(
@@ -1205,7 +1893,6 @@
           ),
           linkListWidget([...parentPath, index, "links"], "Links"),
         );
-        return card;
       }
 
       function renderNav() {
@@ -1270,79 +1957,78 @@
         );
         const drawItems = () => {
           itemsBox.innerHTML = "";
-          const items = state.draft.navItems || [];
-          items.forEach((item, index) => {
-            const card = el(
-              "div",
-              { class: "item-card" },
+          (state.draft.navItems || []).forEach((item, index) => {
+            itemsBox.append(
               el(
                 "div",
-                { class: "item-head" },
-                el("span", { class: "item-title" }, `Menu ${index + 1}`),
+                { class: "item-card" },
                 el(
-                  "button",
-                  {
-                    class: "mini danger",
-                    onclick: () => {
-                      state.draft.navItems.splice(index, 1);
-                      drawItems();
+                  "div",
+                  { class: "item-head" },
+                  el("span", { class: "item-title" }, `Menu ${index + 1}`),
+                  el(
+                    "button",
+                    {
+                      class: "mini danger",
+                      onclick: () => {
+                        state.draft.navItems.splice(index, 1);
+                        drawItems();
+                      },
                     },
-                  },
-                  "Remove menu",
-                ),
-              ),
-              el(
-                "div",
-                { style: "display:grid;grid-template-columns:1fr 1.4fr;gap:8px" },
-                el("input", {
-                  type: "text",
-                  value: item.label || "",
-                  placeholder: "Menu label",
-                  oninput: (e) => {
-                    item.label = e.target.value;
-                  },
-                }),
-                el("input", {
-                  type: "text",
-                  value: item.href || "",
-                  placeholder: "Menu href",
-                  oninput: (e) => {
-                    item.href = e.target.value;
-                  },
-                }),
-              ),
-              el(
-                "div",
-                null,
-                (item.columns || []).map((col, ci) =>
-                  columnWidget(["navItems", index, "columns"], ci, col),
+                    "Remove",
+                  ),
                 ),
                 el(
-                  "button",
-                  {
-                    class: "mini",
-                    onclick: () => {
-                      item.columns = item.columns || [];
-                      item.columns.push({ heading: "", links: [] });
-                      drawItems();
+                  "div",
+                  { style: "display:grid;grid-template-columns:1fr 1.4fr;gap:6px" },
+                  el("input", {
+                    type: "text",
+                    value: item.label || "",
+                    placeholder: "Label",
+                    oninput: (e) => {
+                      item.label = e.target.value;
                     },
-                  },
-                  "+ Add column",
+                  }),
+                  el("input", {
+                    type: "text",
+                    value: item.href || "",
+                    placeholder: "Href",
+                    oninput: (e) => {
+                      item.href = e.target.value;
+                    },
+                  }),
+                ),
+                el(
+                  "div",
+                  null,
+                  (item.columns || []).map((col, ci) =>
+                    columnWidget(["navItems", index, "columns"], ci, col),
+                  ),
+                  el(
+                    "button",
+                    {
+                      class: "mini",
+                      onclick: () => {
+                        item.columns = item.columns || [];
+                        item.columns.push({ heading: "", links: [] });
+                        drawItems();
+                      },
+                    },
+                    "+ Add column",
+                  ),
                 ),
               ),
             );
-            itemsBox.append(card);
           });
         };
         drawItems();
         itemsBox.append(addMenuButton);
       }
-
       function navSchema() {
         return state.meta.schemas.find((s) => s.key === "navigation");
       }
 
-      /* ---------- footer editor ---------- */
+      /* ═══════════════ Footer editor ═══════════════ */
       function renderFooter() {
         const record = state.records.footer.records[0] || null;
         state.draft = JSON.parse(JSON.stringify(record?.data ?? {}));
@@ -1442,65 +2128,63 @@
         const drawGroups = () => {
           groupsBox.innerHTML = "";
           (state.draft.groups || []).forEach((group, index) => {
-            const card = el(
-              "div",
-              { class: "item-card" },
+            groupsBox.append(
               el(
                 "div",
-                { class: "item-head" },
-                el("span", { class: "item-title" }, `Group ${index + 1}`),
+                { class: "item-card" },
                 el(
-                  "button",
-                  {
-                    class: "mini danger",
-                    onclick: () => {
-                      state.draft.groups.splice(index, 1);
-                      drawGroups();
+                  "div",
+                  { class: "item-head" },
+                  el("span", { class: "item-title" }, `Group ${index + 1}`),
+                  el(
+                    "button",
+                    {
+                      class: "mini danger",
+                      onclick: () => {
+                        state.draft.groups.splice(index, 1);
+                        drawGroups();
+                      },
                     },
-                  },
-                  "Remove group",
+                    "Remove",
+                  ),
                 ),
+                el(
+                  "div",
+                  { class: "row" },
+                  el("label", null, "Heading"),
+                  el("input", {
+                    type: "text",
+                    value: group.heading || "",
+                    oninput: (e) => {
+                      group.heading = e.target.value;
+                    },
+                  }),
+                ),
+                linkListWidget(["groups", index, "links"], "Links"),
               ),
-              el(
-                "div",
-                { class: "row" },
-                el("label", null, "Heading"),
-                el("input", {
-                  type: "text",
-                  value: group.heading || "",
-                  oninput: (e) => {
-                    group.heading = e.target.value;
-                  },
-                }),
-              ),
-              linkListWidget(["groups", index, "links"], "Links"),
             );
-            groupsBox.append(card);
           });
         };
         drawGroups();
-        groupsBox.insertAdjacentElement(
-          "afterend",
-          el(
-            "button",
-            {
-              class: "mini",
-              onclick: () => {
-                state.draft.groups = state.draft.groups || [];
-                state.draft.groups.push({ heading: "", links: [] });
-                drawGroups();
-              },
+        const addBtn = el(
+          "button",
+          {
+            class: "mini",
+            onclick: () => {
+              state.draft.groups = state.draft.groups || [];
+              state.draft.groups.push({ heading: "", links: [] });
+              drawGroups();
             },
-            "+ Add group",
-          ).outerHTML,
+          },
+          "+ Add group",
         );
+        groupsBox.parentNode.insertBefore(addBtn, groupsBox.nextSibling);
       }
-
       function footerSchema() {
         return state.meta.schemas.find((s) => s.key === "footer");
       }
 
-      /* ---------- shared header / save ---------- */
+      /* ═══════════════ Editor header ═══════════════ */
       function editorHeader(schema, record, onSave) {
         return el(
           "div",
@@ -1513,21 +2197,17 @@
             record
               ? el(
                   "span",
-                  { style: "color:var(--muted);font-size:12px" },
-                  `updated ${new Date(record.updatedAt).toLocaleString()}`,
+                  { style: "color:var(--muted);font-size:11px" },
+                  `Updated ${new Date(record.updatedAt).toLocaleString()}`,
                 )
-              : el("span", { style: "color:var(--muted);font-size:12px" }, "Not created yet"),
+              : el("span", { style: "color:var(--muted);font-size:11px" }, "Not yet created"),
             el("span", { class: "spacer" }),
             el("button", { class: "primary", onclick: onSave }, "Save"),
           ),
         );
       }
 
-      function renderEditor() {
-        openEditor(state.currentKey);
-      }
-
-      /* ---------- audit ---------- */
+      /* ═══════════════ Audit ═══════════════ */
       function openAudit() {
         const panel = $("drawer-panel");
         panel.innerHTML = "";
@@ -1537,24 +2217,23 @@
             { class: "toolbar" },
             el("h3", { style: "margin:0" }, "Audit log"),
             el("span", { class: "spacer" }),
-            el("button", { class: "ghost", onclick: () => closeDrawer() }, "Close"),
+            el("button", { class: "ghost", onclick: closeDrawer }, "Close"),
           ),
         );
         const list = el("div");
         panel.append(list);
         loadAudit(list);
       }
-
       async function loadAudit(list) {
-        list.append(el("div", { class: "empty" }, "Loading…"));
+        list.append(el("div", { class: "empty" }, "Loading\u2026"));
         try {
           const { entries, chain } = await api("/api/audit");
           list.innerHTML = "";
           list.append(
             el(
               "div",
-              { class: "helper", style: "margin-bottom:10px" },
-              `${entries.length} entries · chain ${chain.valid ? "verified ✓" : "BROKEN at seq " + chain.lastVerifiedSeq}`,
+              { class: "helper", style: "margin-bottom:8px" },
+              `${entries.length} entries \u00b7 chain ${chain.valid ? "verified \u2713" : "BROKEN at seq " + chain.lastVerifiedSeq}`,
             ),
           );
           for (const entry of entries.slice().reverse()) {
@@ -1568,7 +2247,7 @@
                   el("span", { class: "act " + entry.action }, entry.action),
                   el("span", { class: "mono" }, `#${entry.seq}`),
                   el("span", null, entry.collection),
-                  entry.recordId && el("span", { class: "mono" }, entry.recordId),
+                  entry.recordId ? el("span", { class: "mono" }, entry.recordId) : null,
                   el("span", { class: "mono" }, new Date(entry.timestamp).toLocaleString()),
                 ),
                 el(
@@ -1576,24 +2255,28 @@
                   { class: "top" },
                   el("span", { class: "mono" }, entry.user),
                   el("span", { class: "mono" }, entry.role),
-                  entry.statusChange &&
-                    el(
-                      "span",
-                      { class: "mono" },
-                      `${entry.statusChange.from} → ${entry.statusChange.to}`,
-                    ),
-                  entry.documentVersion &&
-                    el(
-                      "span",
-                      { class: "mono" },
-                      `v${entry.documentVersion.from}→v${entry.documentVersion.to}`,
-                    ),
-                  entry.registryRef && el("span", { class: "mono" }, `ref ${entry.registryRef}`),
+                  entry.statusChange
+                    ? el(
+                        "span",
+                        { class: "mono" },
+                        `${entry.statusChange.from} \u2192 ${entry.statusChange.to}`,
+                      )
+                    : null,
+                  entry.documentVersion
+                    ? el(
+                        "span",
+                        { class: "mono" },
+                        `v${entry.documentVersion.from}\u2192v${entry.documentVersion.to}`,
+                      )
+                    : null,
+                  entry.registryRef
+                    ? el("span", { class: "mono" }, `ref ${entry.registryRef}`)
+                    : null,
                 ),
                 el(
                   "div",
-                  { class: "mono", style: "margin-top:6px;word-break:break-all" },
-                  `hash ${entry.hash.slice(0, 16)}… prev ${entry.prevHash.slice(0, 10)}`,
+                  { class: "mono", style: "margin-top:4px;word-break:break-all" },
+                  `hash ${entry.hash.slice(0, 16)}\u2026 prev ${entry.prevHash.slice(0, 10)}`,
                 ),
               ),
             );
@@ -1602,26 +2285,26 @@
           list.replaceChildren(el("div", { class: "error-list" }, error.message));
         }
       }
-
       function closeDrawer() {
         $("drawer").classList.remove("open");
       }
 
-      /* ---------- export ---------- */
+      /* ═══════════════ Export ═══════════════ */
       async function runExport() {
-        toast("Regenerating managed modules…");
+        toast("Regenerating managed modules\u2026");
         try {
           const result = await api("/api/export", { method: "POST" });
           const lines = [
-            `Generated modules: ${result.generated.map((g) => `${g.fileName}${g.byteIdentical ? " ✓" : " DRIFT"}`).join(", ") || "none"}`,
+            `Generated: ${result.generated.map((g) => `${g.fileName}${g.byteIdentical ? " \u2713" : " DRIFT"}`).join(", ") || "none"}`,
             `Deterministic: ${result.generatedValid}`,
-            `Pass-through modules stable: ${result.contract.stable}`,
+            `Pass-through: ${result.contract.stable}`,
             `Audit chain: ${result.audit.valid ? "verified" : "BROKEN"}`,
           ];
           toast(
-            `Export ${result.ok ? "clean" : "drift detected"} — ${lines[0]}`,
+            `Export ${result.ok ? "clean" : "drift"} \u2014 ${lines[0]}`,
             result.ok ? "ok" : "err",
           );
+          if (result.ok) toast("Modules exported. Run 'npm run build' to update the public site.", "ok");
           const panel = $("drawer-panel");
           panel.innerHTML = "";
           panel.append(
@@ -1630,7 +2313,7 @@
               { class: "toolbar" },
               el("h3", { style: "margin:0" }, "Export report"),
               el("span", { class: "spacer" }),
-              el("button", { class: "ghost", onclick: () => closeDrawer() }, "Close"),
+              el("button", { class: "ghost", onclick: closeDrawer }, "Close"),
             ),
           );
           for (const line of lines) panel.append(el("div", { class: "audit-item" }, line));
@@ -1640,7 +2323,7 @@
         }
       }
 
-      /* ---------- boot ---------- */
+      /* ═══════════════ Boot ═══════════════ */
       async function boot() {
         $("btn-audit").addEventListener("click", openAudit);
         $("btn-export").addEventListener("click", runExport);
@@ -1651,8 +2334,8 @@
         document.addEventListener("keydown", (e) => {
           if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
             e.preventDefault();
-            const active = document.querySelector(".editor-head .primary");
-            if (active) active.click();
+            const btn = document.querySelector(".editor-head .primary");
+            if (btn) btn.click();
           }
         });
         try {
@@ -1663,8 +2346,19 @@
           );
           return;
         }
+        const allKeys = EDITOR_ORDER;
+        await Promise.all(allKeys.map(async (key) => {
+          try { state.records[key] = await api(`/api/c/${encodeURIComponent(key)}`); } catch(e) { /* skip */ }
+        }));
         renderSidebar();
         await openEditor(EDITOR_ORDER[0]);
+
+        function toggleSidebar() {
+          $("sidebar").classList.toggle("open");
+          $("sidebar-overlay").classList.toggle("open");
+        }
+        $("btn-menu").addEventListener("click", toggleSidebar);
+        $("sidebar-overlay").addEventListener("click", toggleSidebar);
       }
       boot();
     </script>

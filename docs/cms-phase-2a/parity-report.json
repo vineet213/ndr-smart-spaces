@@ -1,10 +1,10 @@
 {
   "phase": "2A/2B",
-  "generatedAt": "2026-08-19T16:54:58.525Z",
+  "generatedAt": "2026-08-19T20:57:12.495Z",
   "verdict": "PASS",
   "counts": {
-    "total": 400,
-    "passed": 400,
+    "total": 397,
+    "passed": 397,
     "failed": 0,
     "unintended": 0
   },
@@ -1897,122 +1897,106 @@
     {
       "id": "contact-directory.count",
       "layer": "inventory/data",
-      "description": "contact-directory has exactly 5 records",
+      "description": "contact-directory has exactly 3 records",
       "classification": "expected",
       "passed": true
     },
     {
-      "id": "contact-directory.corporate.status",
+      "id": "contact-directory.smart-spaces.status",
       "layer": "inventory/data",
-      "description": "corporate has status published",
+      "description": "smart-spaces has status published",
       "classification": "expected",
       "passed": true,
       "detail": "found published"
     },
     {
-      "id": "contact-directory.corporate.order",
+      "id": "contact-directory.smart-spaces.order",
       "layer": "inventory/data",
-      "description": "corporate has order 0000",
+      "description": "smart-spaces has order 0000",
       "classification": "expected",
       "passed": true,
       "detail": "found 0000"
     },
     {
-      "id": "contact-directory.corporate.data",
+      "id": "contact-directory.smart-spaces.data",
       "layer": "inventory/data",
-      "description": "corporate payload matches the source mapping",
+      "description": "smart-spaces payload matches the source mapping",
       "classification": "expected",
       "passed": true
     },
     {
-      "id": "contact-directory.registered.status",
+      "id": "contact-directory.hr.status",
       "layer": "inventory/data",
-      "description": "registered has status published",
+      "description": "hr has status published",
       "classification": "expected",
       "passed": true,
       "detail": "found published"
     },
     {
-      "id": "contact-directory.registered.order",
+      "id": "contact-directory.hr.order",
       "layer": "inventory/data",
-      "description": "registered has order 0001",
+      "description": "hr has order 0001",
       "classification": "expected",
       "passed": true,
       "detail": "found 0001"
     },
     {
-      "id": "contact-directory.registered.data",
+      "id": "contact-directory.hr.data",
       "layer": "inventory/data",
-      "description": "registered payload matches the source mapping",
+      "description": "hr payload matches the source mapping",
       "classification": "expected",
       "passed": true
     },
     {
-      "id": "contact-directory.investor.status",
+      "id": "contact-directory.grievance.status",
       "layer": "inventory/data",
-      "description": "investor has status published",
+      "description": "grievance has status published",
       "classification": "expected",
       "passed": true,
       "detail": "found published"
     },
     {
-      "id": "contact-directory.investor.order",
+      "id": "contact-directory.grievance.order",
       "layer": "inventory/data",
-      "description": "investor has order 0002",
+      "description": "grievance has order 0002",
       "classification": "expected",
       "passed": true,
       "detail": "found 0002"
     },
     {
-      "id": "contact-directory.investor.data",
+      "id": "contact-directory.grievance.data",
       "layer": "inventory/data",
-      "description": "investor payload matches the source mapping",
+      "description": "grievance payload matches the source mapping",
       "classification": "expected",
       "passed": true
     },
     {
-      "id": "contact-directory.business.status",
+      "id": "slideshows.count",
       "layer": "inventory/data",
-      "description": "business has status published",
+      "description": "slideshows has exactly 1 records",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "slideshows.media-coverage.status",
+      "layer": "inventory/data",
+      "description": "media-coverage has status published",
       "classification": "expected",
       "passed": true,
       "detail": "found published"
     },
     {
-      "id": "contact-directory.business.order",
+      "id": "slideshows.media-coverage.order",
       "layer": "inventory/data",
-      "description": "business has order 0003",
+      "description": "media-coverage has order 0001",
       "classification": "expected",
       "passed": true,
-      "detail": "found 0003"
+      "detail": "found 0001"
     },
     {
-      "id": "contact-directory.business.data",
+      "id": "slideshows.media-coverage.data",
       "layer": "inventory/data",
-      "description": "business payload matches the source mapping",
-      "classification": "expected",
-      "passed": true
-    },
-    {
-      "id": "contact-directory.media.status",
-      "layer": "inventory/data",
-      "description": "media has status published",
-      "classification": "expected",
-      "passed": true,
-      "detail": "found published"
-    },
-    {
-      "id": "contact-directory.media.order",
-      "layer": "inventory/data",
-      "description": "media has order 0004",
-      "classification": "expected",
-      "passed": true,
-      "detail": "found 0004"
-    },
-    {
-      "id": "contact-directory.media.data",
-      "layer": "inventory/data",
-      "description": "media payload matches the source mapping",
+      "description": "media-coverage payload matches the source mapping",
       "classification": "expected",
       "passed": true
     },
@@ -2030,7 +2014,7 @@
       "description": "every seeded collection emits a module (documents, media, governance-records included)",
       "classification": "expected",
       "passed": true,
-      "detail": "generated: brandSettings.ts, businessVerticals.ts, contactDirectory.ts, corporateSettings.ts, documents.ts, esgInitiatives.ts, footer.ts, governanceRecords.ts, locations.ts, media.ts, metrics.ts, navigation.ts, portfolioAssets.ts, publicationSettings.ts"
+      "detail": "generated: brandSettings.ts, businessVerticals.ts, contactDirectory.ts, corporateSettings.ts, documents.ts, esgInitiatives.ts, footer.ts, governanceRecords.ts, locations.ts, media.ts, metrics.ts, navigation.ts, portfolioAssets.ts, publicationSettings.ts, slideshows.ts"
     },
     {
       "id": "generated.no-strays",
@@ -2134,6 +2118,13 @@
       "id": "generated.publicationSettings.ts",
       "layer": "generated",
       "description": "publicationSettings.ts is byte-identical on disk",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "generated.slideshows.ts",
+      "layer": "generated",
+      "description": "slideshows.ts is byte-identical on disk",
       "classification": "expected",
       "passed": true
     },
@@ -2660,7 +2651,7 @@
     {
       "id": "fidelity.media.PR-003",
       "layer": "fidelity",
-      "description": "press record PR-003 (NDR Smart Spaces completes the MLG monetization to NDR InvIT) preserved as a pending archive entry",
+      "description": "press record PR-003 (NDR Smart Spaces completes the MLG transfer to NDR InvIT) preserved as a pending archive entry",
       "classification": "expected",
       "passed": true
     },
@@ -2680,37 +2671,23 @@
       "detail": "found 4"
     },
     {
-      "id": "fidelity.directory.corporate",
+      "id": "fidelity.directory.smart-spaces",
       "layer": "fidelity",
-      "description": "directory entry corporate (NDR Smart Spaces Pvt. Ltd.) preserved",
-      "classification": "migration-related",
-      "passed": true
-    },
-    {
-      "id": "fidelity.directory.registered",
-      "layer": "fidelity",
-      "description": "directory entry registered (Registered office) preserved",
+      "description": "directory entry smart-spaces (Smart Spaces Desk) preserved",
       "classification": "expected",
       "passed": true
     },
     {
-      "id": "fidelity.directory.investor",
+      "id": "fidelity.directory.hr",
       "layer": "fidelity",
-      "description": "directory entry investor (Investor relations desk) preserved",
+      "description": "directory entry hr (Human Resources) preserved",
       "classification": "expected",
       "passed": true
     },
     {
-      "id": "fidelity.directory.business",
+      "id": "fidelity.directory.grievance",
       "layer": "fidelity",
-      "description": "directory entry business (Business development desk) preserved",
-      "classification": "expected",
-      "passed": true
-    },
-    {
-      "id": "fidelity.directory.media",
-      "layer": "fidelity",
-      "description": "directory entry media (Media relations desk) preserved",
+      "description": "directory entry grievance (Grievance Redressal) preserved",
       "classification": "expected",
       "passed": true
     },
@@ -2822,7 +2799,7 @@
     {
       "id": "integration.media.press-contact",
       "layer": "integration",
-      "description": "press contact derives from the contact directory and corporate settings",
+      "description": "press contact derives from the corporate settings email register",
       "classification": "expected",
       "passed": true
     },
@@ -2977,10 +2954,10 @@
     {
       "id": "relations.audit-chain",
       "layer": "relations",
-      "description": "audit chain intact — 83 create entries (one per seeded record)",
+      "description": "audit chain intact — 82 create entries (one per seeded record)",
       "classification": "expected",
       "passed": true,
-      "detail": "valid=true, verified=83, expected=83"
+      "detail": "valid=true, verified=82, expected=82"
     }
   ]
 }

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import {
   ContactClosing,
-  ContactMap,
   ContactMasthead,
   Correspondence,
   Footer,
@@ -13,7 +12,7 @@ import { runContactValidation } from "@/lib/data/contactValidation";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Corporate offices, investor relations, media contacts, ESG inquiries and business development — reach the NDR Smart Spaces desk that answers your enquiry.",
+    "Smart Spaces, HR and Grievance desks — reach the NDR Smart Spaces team that answers your enquiry.",
 };
 
 if (process.env.NODE_ENV === "development") {
@@ -26,7 +25,6 @@ export default function ContactPage() {
       <ContactMasthead />
       <OfficeDirectory />
       <Correspondence />
-      <ContactMap />
       <InquiryRouting />
       <ContactClosing />
       <Footer />

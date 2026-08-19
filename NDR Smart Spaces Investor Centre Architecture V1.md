@@ -9,7 +9,7 @@ Status: **Architecture V1 — build authority.** Investor Centre retention is a 
 
 ## 0. What this page must be
 
-Investor Centre is **The Financial Statement** — the institutional annual-report register of NDR Smart Spaces. The visitor is a prospective or existing investor, an analyst, or an underwriter. They are not being sold; they are being *reported to*. The page's job is to make the company's capital story and governance verifiable in the register of an equity-research cover page: precise, sourced, hedged where appropriate.
+Investor Centre is **The Financial Statement** — the institutional annual-report register of NDR Smart Spaces. The visitor is a prospective or existing investor, an analyst, or an underwriter. They are not being sold; they are being _reported to_. The page's job is to make the company's capital story and governance verifiable in the register of an equity-research cover page: precise, sourced, hedged where appropriate.
 
 Five immutable rules govern the build:
 
@@ -18,18 +18,18 @@ Five immutable rules govern the build:
 3. **Entity honesty.** NDR Smart Spaces, NDR Asset Management, Ave Acres, and NDR InvIT Trust are named precisely and never conflated. NDR InvIT's own financial results, distributions, credit ratings and shareholding live at `ndrinvit.com` and are linked out, never absorbed. An InvIT figure on this site is always attributed to NDR InvIT Trust.
 4. **Content-gated structure.** The full document ships as structure; rows, tables, and filings render when approved content lands. No empty shells, no invented facts.
 
-**Density doctrine:** the highest density on the site (guide §2.4) — financial density *is* the identity. Marketing whitespace is replaced by the structured margins of a printed statement.
+**Density doctrine:** the highest density on the site (guide §2.4) — financial density _is_ the identity. Marketing whitespace is replaced by the structured margins of a printed statement.
 
 ---
 
 ## 1. Why "The Financial Statement", not a fourth template
 
-| Page      | Document              | Leading evidence device           | Signature interaction                   |
-| --------- | --------------------- | --------------------------------- | --------------------------------------- |
-| Homepage  | Front cover           | Hero stat band, logo grid         | Count-up                                |
-| About     | Founding ledger       | Ledger plates, lifecycle ring     | Draw-in geometry, linked highlight      |
-| Business  | Operating manual      | Matrices, process chains          | Sticky index + row emphasis             |
-| Portfolio | Institutional catalogue | Survey field + asset register    | Register ↔ locator linked highlight     |
+| Page      | Document                | Leading evidence device                      | Signature interaction               |
+| --------- | ----------------------- | -------------------------------------------- | ----------------------------------- |
+| Homepage  | Front cover             | Hero stat band, logo grid                    | Count-up                            |
+| About     | Founding ledger         | Ledger plates, lifecycle ring                | Draw-in geometry, linked highlight  |
+| Business  | Operating manual        | Matrices, process chains                     | Sticky index + row emphasis         |
+| Portfolio | Institutional catalogue | Survey field + asset register                | Register ↔ locator linked highlight |
 | Investor  | **Financial statement** | **Sourced statement tables + contents rail** | **Table row / archive filter tabs** |
 
 ### 1.1 Companion volume, not the same book
@@ -41,7 +41,7 @@ Business established the **operating manual** identity; Investor Centre must est
 - **No About language:** no gold-diamond lifecycle ring as the leading device, no drawn geometry, no ledger top-rule lockup, no record-register slots beyond the board register (governance, licensed).
 - **No Homepage language:** no full-bleed cinematic hero, no count-up, no audience strip, no logo grid, no value-over-label stat cells.
 
-The **contents rail** is the statement's *index of contents* — section titles + "as on", tabular, quiet. It is deliberately not Business's sticky chapter rail with numerals and progress state.
+The **contents rail** is the statement's _index of contents_ — section titles + "as on", tabular, quiet. It is deliberately not Business's sticky chapter rail with numerals and progress state.
 
 ### 1.2 Document hierarchy (the reading order — critical)
 
@@ -53,7 +53,7 @@ The Investor Centre must **not** open like a filing archive. It must first estab
 4. **Governance** — how it is controlled (the flagship governance page).
 5. **Filings** — how it is documented (the archive, financial results, annual reports, announcements, downloads).
 
-The page must feel like a statement that *happens to be archived*, never like a downloads page with a story attached. The landing renders stages 1–3 on the page, routes to stage 4 and stage 5, and the contents rail indexes all five.
+The page must feel like a statement that _happens to be archived_, never like a downloads page with a story attached. The landing renders stages 1–3 on the page, routes to stage 4 and stage 5, and the contents rail indexes all five.
 
 ---
 
@@ -61,16 +61,16 @@ The page must feel like a statement that *happens to be archived*, never like a 
 
 The client IA lists twelve investor sub-pages. `navigation.ts` consolidates these to eight; the four folded sub-pages (Policies · Credit Ratings · Shareholding Information · Distribution Information) become categories inside the **Downloads** archive and are referenced on the overview. This consolidation is approved and preserved.
 
-| Route | Page | Template |
-|---|---|---|
-| `/en/investor-centre` | Investor Overview | **Bespoke — the cover and front matter** |
+| Route                                       | Page                  | Template                                              |
+| ------------------------------------------- | --------------------- | ----------------------------------------------------- |
+| `/en/investor-centre`                       | Investor Overview     | **Bespoke — the cover and front matter**              |
 | `/en/investor-centre/investment-highlights` | Investment Highlights | **Bespoke — the full sourced statement + resilience** |
-| `/en/investor-centre/corporate-governance` | Corporate Governance | **Bespoke — the governance flagship** |
-| `/en/investor-centre/reports-disclosures` | Reports & Disclosures | FilingLibrary — `index` |
-| `/en/investor-centre/financial-results` | Financial Results | FilingLibrary — `table` |
-| `/en/investor-centre/annual-reports` | Annual Reports | FilingLibrary — `index` |
-| `/en/investor-centre/announcements` | Announcements | FilingLibrary — `index` |
-| `/en/investor-centre/downloads` | Downloads | FilingLibrary — `library` |
+| `/en/investor-centre/corporate-governance`  | Corporate Governance  | **Bespoke — the governance flagship**                 |
+| `/en/investor-centre/reports-disclosures`   | Reports & Disclosures | FilingLibrary — `index`                               |
+| `/en/investor-centre/financial-results`     | Financial Results     | FilingLibrary — `table`                               |
+| `/en/investor-centre/annual-reports`        | Annual Reports        | FilingLibrary — `index`                               |
+| `/en/investor-centre/announcements`         | Announcements         | FilingLibrary — `index`                               |
+| `/en/investor-centre/downloads`             | Downloads             | FilingLibrary — `library`                             |
 
 **The FilingLibrary is a reusable institutional component, not five bespoke pages.** Five routes are configuration of one component (three render modes, §3.3). No thin pages: a route with no content renders its designed filing state (§7), never an empty shell. The consolidation also avoids months of empty pages.
 
@@ -95,7 +95,7 @@ Opens like the **front page of an annual report**, in the fixed order:
 ### 3.2 Investment Highlights — the full sourced statement
 
 - **InvestorMasthead** (slim document variant: `Investment Highlights` · as-on line · edition line).
-- **StatementTable** — the complete sourced statement, all sixteen metrics M1–M16 as a ruled document table: `Ref · Stat · Value · Period · Source · Entity`. This is the *statement proper*; the landing's MetricsBand is its cover excerpt. Both draw from the same rows in `investor.ts` — one stat, one source, never two registers. A single footnote block reconciles the statement to the deck and the frozen builds.
+- **StatementTable** — the complete sourced statement, all sixteen metrics M1–M16 as a ruled document table: `Ref · Stat · Value · Period · Source · Entity`. This is the _statement proper_; the landing's MetricsBand is its cover excerpt. Both draw from the same rows in `investor.ts` — one stat, one source, never two registers. A single footnote block reconciles the statement to the deck and the frozen builds.
 - **ResilienceIndex** — qualitative risk & resilience rows sourced to deck §29 (long WALE — stated qualitatively, **no invented figure** · geographic/industry/client diversification · governance and personnel · SPV debt replaced by long-term bonds, AAA-rated entity, sponsor comfort · low receivable risk). Each row hedged and sourced; no metric without a number.
 - **CapitalCycle** reference link back to the landing anchor (one line, not a re-rendered diagram — the signature lives once).
 - **InvestorClosing**.
@@ -106,7 +106,7 @@ The archive is a **documentary archive room, not a download centre.** All five a
 
 - **Mode `index`** (Reports & Disclosures · Annual Reports · Announcements) — ruled archive rows (§3.4) under **filter tabs** (category / year / type, config-driven arrays). Newest first. The leading evidence device is the **document reference code**, not a download button.
 - **Mode `table`** (Financial Results) — the **ruled statement table**: period column (`Q1 FY26` · `FY25` …) · revenue / EBITDA / PAT / PBT columns as approved · tabular numerals · `as on` in the caption · a source footnote · `aria-sort` columns. Rows render only where a statement exists; otherwise the designed filing row (§7).
-- **Mode `library`** (Downloads) — **grouped document records** by category: Policies · Credit Ratings · Shareholding Information · Distribution Information · Presentations. Each record is a ruled row (reference · title · date · type · size · status · action), *not* a card grid. The folded IA routes surface here as category groups.
+- **Mode `library`** (Downloads) — **grouped document records** by category: Policies · Credit Ratings · Shareholding Information · Distribution Information · Presentations. Each record is a ruled row (reference · title · date · type · size · status · action), _not_ a card grid. The folded IA routes surface here as category groups.
 
 Filter config is an **array** — the taxonomy (category, year, type) grows without redesign. The archive ships with its full structure and its filing states; rows appear when filings are approved.
 
@@ -124,11 +124,11 @@ The one moment on the page that is a diagram, and it must be understood **within
   - **03 Offer** — NDR InvIT receives the Right of First Offer over eligible completed assets.
   - **04 Recycle** — capital returns to new development.
 - Gold serif numerals, maroon on charcoal, hairline connectors, generous whitespace. Deterministic SVG (`role="img"`), **passive** — no tooltips, no node interaction, no animation loop.
-- This is a **new diagram**, not About's LifecycleDiagram ring. The capital cycle fulfils the guide's "LifecycleDiagram (capital cycle)" license *intent* without importing About's exclusive ring composition (§11).
+- This is a **new diagram**, not About's LifecycleDiagram ring. The capital cycle fulfils the guide's "LifecycleDiagram (capital cycle)" license _intent_ without importing About's exclusive ring composition (§11).
 
 ### 3.6 SafeHarbourBlock
 
-The full verbatim Slide 2 text, rendered as a document disclosure section on the landing (id `safe-harbour`): the deck's **SAFE HARBOUR** heading + the forward-looking-statement paragraph, copied **exactly** from the source deck at implementation time (the deck file is the canonical text — the extract in the project notes is truncated). Full legible body copy, visible (not collapsed), on a hairline-ruled ivory surface. Every sub-page's footer carries a concise disclaimer line: *"Forward-looking statements — read the full safe-harbour statement."* → `/en/investor-centre#safe-harbour`.
+The full verbatim Slide 2 text, rendered as a document disclosure section on the landing (id `safe-harbour`): the deck's **SAFE HARBOUR** heading + the forward-looking-statement paragraph, copied **exactly** from the source deck at implementation time (the deck file is the canonical text — the extract in the project notes is truncated). Full legible body copy, visible (not collapsed), on a hairline-ruled ivory surface. Every sub-page's footer carries a concise disclaimer line: _"Forward-looking statements — read the full safe-harbour statement."_ → `/en/investor-centre#safe-harbour`.
 
 ### 3.7 Corporate Governance — the flagship
 
@@ -189,7 +189,11 @@ export type StatementRow = {
 export type DocumentGroup = { category: string; documents: Filing[] };
 
 export type Governance = {
-  framework: { title: string; statement: string; rows: { label: string; note: string; source: string }[] };
+  framework: {
+    title: string;
+    statement: string;
+    rows: { label: string; note: string; source: string }[];
+  };
   board: { id: string; name: string; role: string; photo?: { src: string; alt: string } }[];
   committees: { id: string; name: string; charter: string; status: FilingStatus }[];
   policies: Filing[];
@@ -198,26 +202,26 @@ export type Governance = {
 
 ### 4.2 The single source-of-truth table (seed)
 
-All figures cross-checked against the frozen builds (`homepage.ts` · `about.ts` · `business.ts`) and the source deck. *One stat, one source, everywhere.*
+All figures cross-checked against the frozen builds (`homepage.ts` · `about.ts` · `business.ts`) and the source deck. _One stat, one source, everywhere._
 
-| Ref | Stat | Value | Period | Source | Entity | Frozen match |
-|---|---|---|---|---|---|---|
-| M1 | Industrial experience | 60+ years | as on 2026 | Corporate presentation §21 | NDR Smart Spaces | ✓ (60+) |
-| M2 | Founded | 1954 | 1954 | Corporate presentation §4 | NDR Group | ✓ |
-| M3 | Portfolio occupancy | 98% | as on 31 Mar 2026 * | Corporate presentation §21 | NDR Smart Spaces | ✓ |
-| M4 | Consumption-market access | ~80% of India's consumption markets | as on 2026 | Corporate presentation §21 | NDR Smart Spaces | ✓ |
-| M5 | Clientele | 100+ Fortune Global 500 companies | as on 2026 | Corporate presentation §21 | NDR Smart Spaces | ✓ |
-| M6 | Developer standing | Fourth largest warehouse developer in India | as on 2026 | Corporate presentation §21 | NDR Smart Spaces | — |
-| M7 | NDR InvIT valuation | ₹5,000 cr | as on 2026 | Corporate presentation §21 | **NDR InvIT Trust** | — |
-| M8 | NDR InvIT IPO | INR 8.8 bn (₹880 cr), NSE listing | 2018 | Corporate presentation §8 · NSE | **NDR InvIT Trust** | ✓ (₹880 cr, 2018) |
-| M9 | MLG monetization | INR 143.9 cr, sold to NDR InvIT | 2025 | Corporate presentation §8 | NDR Smart Spaces / NDR InvIT | ✓ |
-| M10 | Institutional investment | $100 mn — US global PE, $90 bn+ AUM | 2023–24 * | Corporate presentation §8 | NDR Smart Spaces | ✓ (no year) |
-| M11 | Institutional investment | $60 mn — global financial institution, $15 bn / 400 companies | 2023–24 * | Corporate presentation §8 | NDR Smart Spaces | ✓ (no year) |
-| M12 | Fundraise | $23 mn — US/UK/India PE consortium | 2018 * | Corporate presentation §8 | NDR Smart Spaces | — |
-| M13 | Early institutional backing | $7 mn — Kotak Alternatives | 2011 | Corporate presentation §8 | NDR Smart Spaces | ✓ (Kotak) |
-| M14 | Greenfield share | 99% of industrial projects greenfield | as on 2026 | Corporate presentation §17 | NDR Smart Spaces | ✓ |
-| M15 | Debt standing | Long-term bonds · AAA-rated entity | as on 2026 | Corporate presentation §29 | NDR Smart Spaces group | — |
-| M16 | Geographic reach | Pan-India — Mumbai · NCR · Bengaluru · Chennai · Kolkata · Pune · Goa · Hyderabad · Surat | as on 2026 | Corporate presentation §21 | NDR Smart Spaces | — |
+| Ref | Stat                        | Value                                                                                     | Period              | Source                          | Entity                       | Frozen match      |
+| --- | --------------------------- | ----------------------------------------------------------------------------------------- | ------------------- | ------------------------------- | ---------------------------- | ----------------- |
+| M1  | Industrial experience       | 60+ years                                                                                 | as on 2026          | Corporate presentation §21      | NDR Smart Spaces             | ✓ (60+)           |
+| M2  | Founded                     | 1954                                                                                      | 1954                | Corporate presentation §4       | NDR Group                    | ✓                 |
+| M3  | Portfolio occupancy         | 98%                                                                                       | as on 31 Mar 2026 * | Corporate presentation §21      | NDR Smart Spaces             | ✓                 |
+| M4  | Consumption-market access   | ~80% of India's consumption markets                                                       | as on 2026          | Corporate presentation §21      | NDR Smart Spaces             | ✓                 |
+| M5  | Clientele                   | 100+ Fortune Global 500 companies                                                         | as on 2026          | Corporate presentation §21      | NDR Smart Spaces             | ✓                 |
+| M6  | Developer standing          | Fourth largest warehouse developer in India                                               | as on 2026          | Corporate presentation §21      | NDR Smart Spaces             | —                 |
+| M7  | NDR InvIT valuation         | ₹5,000 cr                                                                                 | as on 2026          | Corporate presentation §21      | **NDR InvIT Trust**          | —                 |
+| M8  | NDR InvIT IPO               | INR 8.8 bn (₹880 cr), NSE listing                                                         | 2018                | Corporate presentation §8 · NSE | **NDR InvIT Trust**          | ✓ (₹880 cr, 2018) |
+| M9  | MLG monetization            | INR 143.9 cr, sold to NDR InvIT                                                           | 2025                | Corporate presentation §8       | NDR Smart Spaces / NDR InvIT | ✓                 |
+| M10 | Institutional investment    | $100 mn — US global PE, $90 bn+ AUM                                                       | 2023–24 *           | Corporate presentation §8       | NDR Smart Spaces             | ✓ (no year)       |
+| M11 | Institutional investment    | $60 mn — global financial institution, $15 bn / 400 companies                             | 2023–24 *           | Corporate presentation §8       | NDR Smart Spaces             | ✓ (no year)       |
+| M12 | Fundraise                   | $23 mn — US/UK/India PE consortium                                                        | 2018 *              | Corporate presentation §8       | NDR Smart Spaces             | —                 |
+| M13 | Early institutional backing | $7 mn — Kotak Alternatives                                                                | 2011                | Corporate presentation §8       | NDR Smart Spaces             | ✓ (Kotak)         |
+| M14 | Greenfield share            | 99% of industrial projects greenfield                                                     | as on 2026          | Corporate presentation §17      | NDR Smart Spaces             | ✓                 |
+| M15 | Debt standing               | Long-term bonds · AAA-rated entity                                                        | as on 2026          | Corporate presentation §29      | NDR Smart Spaces group       | —                 |
+| M16 | Geographic reach            | Pan-India — Mumbai · NCR · Bengaluru · Chennai · Kolkata · Pune · Goa · Hyderabad · Surat | as on 2026          | Corporate presentation §21      | NDR Smart Spaces             | —                 |
 
 \* = period **client-confirm before go-live** (Design Direction §8 "final stat source list").
 

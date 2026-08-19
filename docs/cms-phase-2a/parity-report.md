@@ -1,9 +1,9 @@
 # CMS Phase 2A/2B — Parity Report
 
-- Generated: 2026-08-19T16:54:58.532Z
+- Generated: 2026-08-19T20:57:12.498Z
 - Store: `.cms-store/content.json`
 - Generated modules: `src/lib/data/generated/`
-- Verdict: **PASS** — 400/400 checks passed, 0 failed, 0 unintended
+- Verdict: **PASS** — 397/397 checks passed, 0 failed, 0 unintended
 
 ## inventory/data
 
@@ -256,22 +256,20 @@
 | up-001 has status pending <br><small>found pending</small> | PASS | expected |
 | up-001 has order 0007 <br><small>found 0007</small> | PASS | expected |
 | up-001 payload matches the source mapping | PASS | expected |
-| contact-directory has exactly 5 records | PASS | expected |
-| corporate has status published <br><small>found published</small> | PASS | expected |
-| corporate has order 0000 <br><small>found 0000</small> | PASS | expected |
-| corporate payload matches the source mapping | PASS | expected |
-| registered has status published <br><small>found published</small> | PASS | expected |
-| registered has order 0001 <br><small>found 0001</small> | PASS | expected |
-| registered payload matches the source mapping | PASS | expected |
-| investor has status published <br><small>found published</small> | PASS | expected |
-| investor has order 0002 <br><small>found 0002</small> | PASS | expected |
-| investor payload matches the source mapping | PASS | expected |
-| business has status published <br><small>found published</small> | PASS | expected |
-| business has order 0003 <br><small>found 0003</small> | PASS | expected |
-| business payload matches the source mapping | PASS | expected |
-| media has status published <br><small>found published</small> | PASS | expected |
-| media has order 0004 <br><small>found 0004</small> | PASS | expected |
-| media payload matches the source mapping | PASS | expected |
+| contact-directory has exactly 3 records | PASS | expected |
+| smart-spaces has status published <br><small>found published</small> | PASS | expected |
+| smart-spaces has order 0000 <br><small>found 0000</small> | PASS | expected |
+| smart-spaces payload matches the source mapping | PASS | expected |
+| hr has status published <br><small>found published</small> | PASS | expected |
+| hr has order 0001 <br><small>found 0001</small> | PASS | expected |
+| hr payload matches the source mapping | PASS | expected |
+| grievance has status published <br><small>found published</small> | PASS | expected |
+| grievance has order 0002 <br><small>found 0002</small> | PASS | expected |
+| grievance payload matches the source mapping | PASS | expected |
+| slideshows has exactly 1 records | PASS | expected |
+| media-coverage has status published <br><small>found published</small> | PASS | expected |
+| media-coverage has order 0001 <br><small>found 0001</small> | PASS | expected |
+| media-coverage payload matches the source mapping | PASS | expected |
 
 ## data
 
@@ -283,7 +281,7 @@
 
 | Check | Result | Class |
 | --- | --- | --- |
-| every seeded collection emits a module (documents, media, governance-records included) <br><small>generated: brandSettings.ts, businessVerticals.ts, contactDirectory.ts, corporateSettings.ts, documents.ts, esgInitiatives.ts, footer.ts, governanceRecords.ts, locations.ts, media.ts, metrics.ts, navigation.ts, portfolioAssets.ts, publicationSettings.ts</small> | PASS | expected |
+| every seeded collection emits a module (documents, media, governance-records included) <br><small>generated: brandSettings.ts, businessVerticals.ts, contactDirectory.ts, corporateSettings.ts, documents.ts, esgInitiatives.ts, footer.ts, governanceRecords.ts, locations.ts, media.ts, metrics.ts, navigation.ts, portfolioAssets.ts, publicationSettings.ts, slideshows.ts</small> | PASS | expected |
 | generated directory holds exactly the expected module set | PASS | expected |
 | brandSettings.ts is byte-identical on disk | PASS | expected |
 | businessVerticals.ts is byte-identical on disk | PASS | expected |
@@ -299,6 +297,7 @@
 | navigation.ts is byte-identical on disk | PASS | expected |
 | portfolioAssets.ts is byte-identical on disk | PASS | expected |
 | publicationSettings.ts is byte-identical on disk | PASS | expected |
+| slideshows.ts is byte-identical on disk | PASS | expected |
 | regeneration is deterministic and byte-stable | PASS | expected |
 
 ## fidelity
@@ -378,14 +377,12 @@
 | media kit item MK-04 (Key statistics) preserved as a pending asset | PASS | migration-related |
 | press record PR-001 (NDR InvIT Trust incorporated) preserved as a pending archive entry | PASS | expected |
 | press record PR-002 (NDR InvIT lists on the NSE through an INR 8.8 bn IPO) preserved as a pending archive entry | PASS | expected |
-| press record PR-003 (NDR Smart Spaces completes the MLG monetization to NDR InvIT) preserved as a pending archive entry | PASS | expected |
+| press record PR-003 (NDR Smart Spaces completes the MLG transfer to NDR InvIT) preserved as a pending archive entry | PASS | expected |
 | press record UP-001 (ESG — The Sustainability Ledger, Edition FY26) preserved as a pending archive entry | PASS | expected |
 | press archive == 4 records (PR-001…UP-001) <br><small>found 4</small> | PASS | expected |
-| directory entry corporate (NDR Smart Spaces Pvt. Ltd.) preserved | PASS | migration-related |
-| directory entry registered (Registered office) preserved | PASS | expected |
-| directory entry investor (Investor relations desk) preserved | PASS | expected |
-| directory entry business (Business development desk) preserved | PASS | expected |
-| directory entry media (Media relations desk) preserved | PASS | expected |
+| directory entry smart-spaces (Smart Spaces Desk) preserved | PASS | expected |
+| directory entry hr (Human Resources) preserved | PASS | expected |
+| directory entry grievance (Grievance Redressal) preserved | PASS | expected |
 | navigation record carries the frozen header/nav data byte-for-byte | PASS | expected |
 | footer record carries the frozen footer data (with correspondence heading) | PASS | migration-related |
 | corporate settings carry the legal, contact and external-link record | PASS | migration-related |
@@ -406,7 +403,7 @@
 | media kit items derive from the generated media collection (media-kit folder) | PASS | expected |
 | press archive entries derive from the media collection and stay byte-equal to the frozen source | PASS | expected |
 | edition and publication reference derive from the publication settings (FY26) | PASS | expected |
-| press contact derives from the contact directory and corporate settings | PASS | expected |
+| press contact derives from the corporate settings email register | PASS | expected |
 | featured publication references the PR-002 press record from the archive | PASS | expected |
 | geoLocations derive from the generated locations collection (portfolio offsets, byte-equal) | PASS | expected |
 | portfolio map offsets stay consistent with the frozen projection (projectPlace) | PASS | expected |
@@ -433,11 +430,11 @@
 | metric keys unique (22 records) | PASS | expected |
 | document refs unique (5 records) | PASS | expected |
 | registry ledger records exactly 8 issues (the GV-REG refs) <br><small>found 8</small> | PASS | migration-related |
-| audit chain intact — 83 create entries (one per seeded record) <br><small>valid=true, verified=83, expected=83</small> | PASS | expected |
+| audit chain intact — 82 create entries (one per seeded record) <br><small>valid=true, verified=82, expected=82</small> | PASS | expected |
 
 ## Summary
 
-- Total: 400
-- Passed: 400
+- Total: 397
+- Passed: 397
 - Failed: 0
 - Unintended: 0

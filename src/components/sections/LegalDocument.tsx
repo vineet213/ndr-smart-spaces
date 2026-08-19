@@ -29,9 +29,7 @@ export function LegalDocument({ doc }: { doc: LegalDocumentData }) {
             {doc.sections.map((section, index) => (
               <div key={section.heading} className={styles.block}>
                 <div className={styles.blockMeta} aria-hidden="true">
-                  <span className={styles.blockIndex}>
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+                  <span className={styles.blockIndex}>{String(index + 1).padStart(2, "0")}</span>
                   <span className={styles.blockRule} />
                 </div>
                 <div className={styles.blockContent}>

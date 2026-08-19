@@ -11,16 +11,16 @@ Each public page is a "volume" of a single publication house. The V2 pass made t
 institutional volumes physically identical, so the identity is carried by typography, spacing, rules,
 and register conventions rather than by colour per volume.
 
-| Volume | Page | Watermark | Folio | As-on / edition row |
-| --- | --- | --- | --- | --- |
-| Institutional Introduction | Homepage | — | — | — |
-| Corporate Record | About | — | — | — |
-| Operating Manual | Business | `OP` | `OP. MANUAL · FY26` | added (V2) |
-| Register of Places | Portfolio | — | — | — |
-| Financial Statement | Investor Centre | `ST` | section + registry | present |
-| Sustainability Ledger | ESG | `SL` | section + registry | present |
-| Press Register | Media | `PR` | publication · ref | present |
-| Contact | Contact | `CO` | section + registry | added (V2) |
+| Volume                     | Page            | Watermark | Folio               | As-on / edition row |
+| -------------------------- | --------------- | --------- | ------------------- | ------------------- |
+| Institutional Introduction | Homepage        | —         | —                   | —                   |
+| Corporate Record           | About           | —         | —                   | —                   |
+| Operating Manual           | Business        | `OP`      | `OP. MANUAL · FY26` | added (V2)          |
+| Register of Places         | Portfolio       | —         | —                   | —                   |
+| Financial Statement        | Investor Centre | `ST`      | section + registry  | present             |
+| Sustainability Ledger      | ESG             | `SL`      | section + registry  | present             |
+| Press Register             | Media           | `PR`      | publication · ref   | present             |
+| Contact                    | Contact         | `CO`      | section + registry  | added (V2)          |
 
 ## 2. Canonical cover (charcoal masthead family)
 
@@ -166,89 +166,98 @@ scripts exist for contact/esg/media records (`runContactValidation`, `runEsgVali
 admin layer is built.
 
 ### Mastheads (all five volumes)
-| Field | Source | Notes |
-| --- | --- | --- |
-| registry / section / publication / controlCaption / folio | `business.ts`, `contact.ts`, `esg.ts`, `media.ts`, `investor.ts` | editorial identity — do not change structure |
-| headline / title (before · accent · after) | same | accent word renders gold |
-| statement | same | 42ch measure |
-| asOn / edition | same | shared family value `As on 31 March 2026 · Edition FY26 · Volume I` |
-| watermark | same | 2-letter glyph (OP / SL / PR / CO / ST) |
+
+| Field                                                     | Source                                                           | Notes                                                               |
+| --------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------- |
+| registry / section / publication / controlCaption / folio | `business.ts`, `contact.ts`, `esg.ts`, `media.ts`, `investor.ts` | editorial identity — do not change structure                        |
+| headline / title (before · accent · after)                | same                                                             | accent word renders gold                                            |
+| statement                                                 | same                                                             | 42ch measure                                                        |
+| asOn / edition                                            | same                                                             | shared family value `As on 31 March 2026 · Edition FY26 · Volume I` |
+| watermark                                                 | same                                                             | 2-letter glyph (OP / SL / PR / CO / ST)                             |
 
 ### Business — Operating Manual
-| Content | Source |
-| --- | --- |
-| Chapters (index/label/plate/code) | `business.ts` `businessChapters` |
-| Divisions (writeup, spec rows, proof, proofSource, route) | `business.ts` `divisions` |
-| Capability matrix rows + source | `business.ts` `capabilityMatrix` |
-| Corporate structure branches + source | `business.ts` `corporateStructure` |
-| Capital deployment chain + evidence | `business.ts` `capitalDeployment` |
-| Execution chain + evidence | `business.ts` `execution` |
-| Closing line + CTAs | `business.ts` `businessClosing` |
+
+| Content                                                   | Source                             |
+| --------------------------------------------------------- | ---------------------------------- |
+| Chapters (index/label/plate/code)                         | `business.ts` `businessChapters`   |
+| Divisions (writeup, spec rows, proof, proofSource, route) | `business.ts` `divisions`          |
+| Capability matrix rows + source                           | `business.ts` `capabilityMatrix`   |
+| Corporate structure branches + source                     | `business.ts` `corporateStructure` |
+| Capital deployment chain + evidence                       | `business.ts` `capitalDeployment`  |
+| Execution chain + evidence                                | `business.ts` `execution`          |
+| Closing line + CTAs                                       | `business.ts` `businessClosing`    |
 
 ### Investor Centre — Financial Statement
-| Content | Source |
-| --- | --- |
-| Metric figures (value, period, source, entity) — source of truth per figure | `investor.ts` `investorMetrics` |
-| Editorial statement | `investor.ts` `editorialStatement` |
-| Capital cycle chain | `investor.ts` `capitalCycle` |
-| Capital-market timeline | `investor.ts` `capitalMarketTimeline` |
-| NDR InvIT relationship copy | `investor.ts` `invitRelationship` |
-| Safe-harbour text + disclaimer | `investor.ts` `safeHarbour*` |
-| Resilience register rows | `investor.ts` `resilience` |
-| Filing library configs (filings, groups, statements, tabs) | `investor.ts` `reportsDisclosures` `financialResults` `annualReports` `announcements` `downloads` |
-| Governance record | `investor.ts` `governance` |
-| Closing | `investor.ts` `investorClosing` |
+
+| Content                                                                     | Source                                                                                            |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Metric figures (value, period, source, entity) — source of truth per figure | `investor.ts` `investorMetrics`                                                                   |
+| Editorial statement                                                         | `investor.ts` `editorialStatement`                                                                |
+| Capital cycle chain                                                         | `investor.ts` `capitalCycle`                                                                      |
+| Capital-market timeline                                                     | `investor.ts` `capitalMarketTimeline`                                                             |
+| NDR InvIT relationship copy                                                 | `investor.ts` `invitRelationship`                                                                 |
+| Safe-harbour text + disclaimer                                              | `investor.ts` `safeHarbour*`                                                                      |
+| Resilience register rows                                                    | `investor.ts` `resilience`                                                                        |
+| Filing library configs (filings, groups, statements, tabs)                  | `investor.ts` `reportsDisclosures` `financialResults` `annualReports` `announcements` `downloads` |
+| Governance record                                                           | `investor.ts` `governance`                                                                        |
+| Closing                                                                     | `investor.ts` `investorClosing`                                                                   |
 
 ### ESG — Sustainability Ledger
-| Content | Source |
-| --- | --- |
-| Statement | `esg.ts` `esgStatement` |
-| Framework pillars (refs EN/SO/GV + notes) | `esg.ts` `esgFramework` |
-| Environment metrics/categories | `esg.ts` `esgEnvironment` |
-| Social register rows | `esg.ts` `esgSocial` |
-| Governance register rows | `esg.ts` `esgGovernance` |
-| Dashboard trends / goals / composition | `esg.ts` `esgDashboard` (trends `EsgTrend`, goals `EsgGoal`, composition `EsgComposition`) |
-| Impact map initiatives + categories | `esg.ts` `esgImpactMap`, `IMPACT_CATEGORIES` |
-| Certifications | `esg.ts` `esgCertifications` |
-| Disclosure documents/groups | `esg.ts` `esgDisclosures` |
-| Closing | `esg.ts` `esgClosing` |
+
+| Content                                   | Source                                                                                     |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Statement                                 | `esg.ts` `esgStatement`                                                                    |
+| Framework pillars (refs EN/SO/GV + notes) | `esg.ts` `esgFramework`                                                                    |
+| Environment metrics/categories            | `esg.ts` `esgEnvironment`                                                                  |
+| Social register rows                      | `esg.ts` `esgSocial`                                                                       |
+| Governance register rows                  | `esg.ts` `esgGovernance`                                                                   |
+| Dashboard trends / goals / composition    | `esg.ts` `esgDashboard` (trends `EsgTrend`, goals `EsgGoal`, composition `EsgComposition`) |
+| Impact map initiatives + categories       | `esg.ts` `esgImpactMap`, `IMPACT_CATEGORIES`                                               |
+| Certifications                            | `esg.ts` `esgCertifications`                                                               |
+| Disclosure documents/groups               | `esg.ts` `esgDisclosures`                                                                  |
+| Closing                                   | `esg.ts` `esgClosing`                                                                      |
 
 ### Media — Press Register
-| Content | Source |
-| --- | --- |
-| Featured item | `media.ts` `mediaFeatured` |
-| Archive entries + categories | `media.ts` `pressArchive`, `PRESS_CATEGORIES` |
-| Media-kit items | `media.ts` `mediaKit` |
-| Press contact copy | `media.ts` `pressContact` |
-| Edition / publication refs | `media.ts` `MEDIA_EDITION`, `MEDIA_PUBLICATION` |
-| Closing | `media.ts` `mediaClosing` |
+
+| Content                      | Source                                          |
+| ---------------------------- | ----------------------------------------------- |
+| Featured item                | `media.ts` `mediaFeatured`                      |
+| Archive entries + categories | `media.ts` `pressArchive`, `PRESS_CATEGORIES`   |
+| Media-kit items              | `media.ts` `mediaKit`                           |
+| Press contact copy           | `media.ts` `pressContact`                       |
+| Edition / publication refs   | `media.ts` `MEDIA_EDITION`, `MEDIA_PUBLICATION` |
+| Closing                      | `media.ts` `mediaClosing`                       |
 
 ### Contact
-| Content | Source |
-| --- | --- |
-| Office directory (addresses, phone, hours, email, directions) | `contact.ts` `officeDirectory` |
-| Inquiry routing desks | `contact.ts` `inquiryRouting` |
-| Form fields, routing map, desk labels | `contact.ts` `correspondenceForm` |
-| Map markers / caption / plate ref | `contact.ts` `contactMap` |
-| Closing | `contact.ts` `contactClosing` |
+
+| Content                                                       | Source                            |
+| ------------------------------------------------------------- | --------------------------------- |
+| Office directory (addresses, phone, hours, email, directions) | `contact.ts` `officeDirectory`    |
+| Inquiry routing desks                                         | `contact.ts` `inquiryRouting`     |
+| Form fields, routing map, desk labels                         | `contact.ts` `correspondenceForm` |
+| Map markers / caption / plate ref                             | `contact.ts` `contactMap`         |
+| Closing                                                       | `contact.ts` `contactClosing`     |
 
 ### Portfolio — Register of Places
-| Content | Source |
-| --- | --- |
-| Geographic data (locations, zones, projection, outline) | `portfolio.ts` `geoLocations`, `geoZones`, `PROJECTION`, `INDIA_OUTLINE` |
-| Asset register rows | `portfolio.ts` `portfolioAssets` |
+
+| Content                                                                                         | Source                                                                                                                                              |
+| ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Geographic data (locations, zones, projection, outline)                                         | `portfolio.ts` `geoLocations`, `geoZones`, `PROJECTION`, `INDIA_OUTLINE`                                                                            |
+| Asset register rows                                                                             | `portfolio.ts` `portfolioAssets`                                                                                                                    |
 | Masthead, atlas field, locator index, zone sections, filing band, plate copy, register, closing | `portfolio.ts` `portfolioMasthead`, `atlasField`, `locatorIndex`, `zoneSection`, `filingBand`, `plateCopy`, `portfolioRegister`, `portfolioClosing` |
 
 ### Cross-cutting
-| Content | Source |
-| --- | --- |
-| Homepage blocks (hero, routes, map, journey, highlights, projects, clients, contact, footer) | `homepage.ts` |
-| About volume (hero, story, timeline, principles, model, leadership, numbers, closing) | `about.ts` |
-| Legal documents + sitemap | `legal.ts` |
-| Navigation + mega-menus | `navigation.ts` |
-| Shared design tokens | `src/styles/tokens/*.css` — typography, spacing, colour |
+
+| Content                                                                                      | Source                                                  |
+| -------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| Homepage blocks (hero, routes, map, journey, highlights, projects, clients, contact, footer) | `homepage.ts`                                           |
+| About volume (hero, story, timeline, principles, model, leadership, numbers, closing)        | `about.ts`                                              |
+| Legal documents + sitemap                                                                    | `legal.ts`                                              |
+| Navigation + mega-menus                                                                      | `navigation.ts`                                         |
+| Shared design tokens                                                                         | `src/styles/tokens/*.css` — typography, spacing, colour |
 
 ### Not editable as content (code/config)
+
 - Component structure and behaviour (`src/components/**`).
 - Publication identities and page architecture (fixed by direction).
 - Chart/map geometry constants (`PROJECTION`, `MAP_VIEWBOX`, viewBoxes) — edit via `portfolio.ts`

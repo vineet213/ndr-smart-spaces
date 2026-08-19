@@ -67,6 +67,7 @@ export { EsgCertifications } from "./EsgCertifications";
 export { EsgDisclosures } from "./EsgDisclosures";
 export { EsgClosing } from "./EsgClosing";
 export { MediaMasthead } from "./MediaMasthead";
+export { MediaSlideshow } from "./MediaSlideshow";
 export { MediaStatement } from "./MediaStatement";
 export { FeaturedPublication } from "./FeaturedPublication";
 export { PressArchive } from "./PressArchive";

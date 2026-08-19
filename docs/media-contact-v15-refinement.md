@@ -106,9 +106,9 @@ layer:
 
 - `src/lib/data/media.ts` now exposes `MEDIA_PUBLICATION` (document ref/title/
   classification), richer `mediaMasthead.publication`, `mediaStatement.reference/
-  recorded`, `mediaFeatured.record` (documentary metadata grid), `pressArchive
-  .registerCode/.folio`, `mediaKit.registerCode` + per-item `classification/
-  revision`, `pressContact.response/.registerCode/.departments`, and closing
+recorded`, `mediaFeatured.record` (documentary metadata grid), `pressArchive
+.registerCode/.folio`, `mediaKit.registerCode` + per-item `classification/
+revision`, `pressContact.response/.registerCode/.departments`, and closing
   colophon refs.
 - `src/lib/data/contact.ts` now exposes `CONTACT_PUBLICATION`, office
   `classification`, routing desk `ref/purpose/response`, correspondence intake

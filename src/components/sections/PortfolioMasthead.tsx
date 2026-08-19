@@ -1,4 +1,4 @@
-import { Container } from "@/components/layout";
+import { Container, Section } from "@/components/layout";
 import { Eyebrow, Heading, Lede } from "@/components/ui";
 import { formatPlateRange, portfolioAssets, portfolioMasthead } from "@/lib/data/portfolio";
 import { Reveal } from "./Reveal";
@@ -11,7 +11,7 @@ export function PortfolioMasthead() {
     .join(" · ");
 
   return (
-    <section className={styles.section} aria-labelledby="portfolio-masthead-title">
+    <Section tone="dark" className={styles.section} ariaLabelledby="portfolio-masthead-title">
       <Container className={styles.container}>
         <Reveal>
           <div className={styles.cover}>
@@ -40,6 +40,6 @@ export function PortfolioMasthead() {
           </div>
         </Reveal>
       </Container>
-    </section>
+    </Section>
   );
 }

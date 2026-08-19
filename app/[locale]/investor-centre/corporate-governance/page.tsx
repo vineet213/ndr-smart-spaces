@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Footer, GovernanceManual, InvestorClosing, InvestorMasthead } from "@/components/sections";
+import {
+  CapitalMarketTimeline,
+  Footer,
+  GovernanceManual,
+  InvestorClosing,
+  InvestorMasthead,
+} from "@/components/sections";
 import { governance } from "@/lib/data/investor";
 
 export const metadata: Metadata = {
   title: "Corporate Governance",
   description:
-    "The governance manual of NDR Smart Spaces — the framework, board, committees and policies on record.",
+    "The governance manual and capital market record of NDR Smart Spaces — the framework, board, committees, policies and capital-market timeline.",
 };
 
 export default function CorporateGovernancePage() {
@@ -20,6 +26,7 @@ export default function CorporateGovernancePage() {
         id="corporate-governance-title"
       />
       <GovernanceManual />
+      <CapitalMarketTimeline />
       <InvestorClosing />
       <Footer />
     </>

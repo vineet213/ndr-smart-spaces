@@ -15,7 +15,7 @@ export function EsgCertifications() {
     >
       <Container>
         <Reveal>
-          <EsgDocHeader numeral="08" code="REF 08 · CERTIFICATIONS" />
+          <EsgDocHeader numeral="04" code="REF 04 · CERTIFICATIONS" />
           <Eyebrow className={styles.eyebrow}>{esgCertifications.eyebrow}</Eyebrow>
           <Heading variant="section" id="esg-certifications-title" className={styles.heading}>
             {esgCertifications.heading}

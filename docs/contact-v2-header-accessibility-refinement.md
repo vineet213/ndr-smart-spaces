@@ -22,6 +22,7 @@ footnote. `CONTACT_EDITION`, `CONTACT_PUBLICATION` and `CONTACT_STATUS_*` were
 deleted from `contact.ts`.
 
 ### Masthead
+
 - Charcoal cover and gold rule kept; folio strip reduced to two cells
   (registry + publication).
 - New hierarchy: `CONTACT` (gold label) → **"Contact NDR Smart Spaces."**
@@ -30,6 +31,7 @@ deleted from `contact.ts`.
 - Hero edition/date meta row dropped.
 
 ### Section 01 — Office Directory (`OfficeDirectory`)
+
 - Five entries: **Corporate Office**, **Registered Office**, **Investor
   Relations**, **Business Development**, **Media Contact** — each with address,
   phone, email and office hours, plus directions on the corporate entry.
@@ -38,6 +40,7 @@ deleted from `contact.ts`.
   (Phone · Email · Hours · Directions) on the right.
 
 ### Section 02 — Business Enquiry (`Correspondence` + `CorrespondenceForm`)
+
 - Renamed from "Correspondence form" to **Business Enquiry**.
 - Fields: Name, Company, Work email, Phone (new, optional, `type="tel"`),
   Enquiry type, Message. Submit CTA: **"Send Inquiry"**.
@@ -46,23 +49,27 @@ deleted from `contact.ts`.
 - Phone is validated against a loose pattern only when populated.
 
 ### Section 03 — Office Locations (`ContactMap`)
+
 - Atlas plate kept; coordinates/projection metadata panel and the register
   code line removed; locator simplified to `name — place, region` + coords.
 - Caption now points to the office directory for the registered/regional
   offices; a **"Get directions"** link added under the plate.
 
 ### Section 04 — Contact the Right Team (`InquiryRouting`)
+
 - Heading changed to **"Contact the right team."**; each desk now carries
   purpose, coverage, note, email, phone and response expectation
   ("Within 2 business days"). Desk reference codes removed.
 
 ### Closing (`ContactClosing`)
+
 - Restrained charcoal close: gold rule → "Contact" → **"Contact NDR Smart
   Spaces."** → "Business, investor, media, and partnership inquiries."
 - Colophon, provenance footnote and meta rows removed; primary CTA now points
   to `#business-enquiry`.
 
 ### Validation
+
 `contactValidation.ts` updated to the new shape — office keys unique, every
 office has phone/hours/valid email, routing keys unique, every desk has
 recipient/phone/response, map markers within the viewbox. Dev-only, fails
@@ -73,7 +80,7 @@ loud, never in production.
 ## 2. Header logo enlargement
 
 - Lockup: 175×40 → **190×43** (`LogoWordmark.tsx`), CSS now `width: 11.875rem;
-  height: auto` (`LogoWordmark.module.css`).
+height: auto` (`LogoWordmark.module.css`).
 - Single-row masthead kept; current header height unchanged; the shorter
   "Contact" nav label frees the horizontal room the wider lockup needs, so no
   gap rebalancing was required.
@@ -124,6 +131,7 @@ loud, never in production.
   comfort; `prefers-reduced-motion` handling retained.
 
 ### Content follow-ups (client-confirm)
+
 - Phone numbers and office hours are **draft placeholders** (`+91 44 4296 12xx`,
   Mon–Sat 9:30–18:30 IST), flagged in the directory note and pending client
   confirmation before go-live — per agreed approach.
@@ -134,10 +142,10 @@ loud, never in production.
 
 ## Verification
 
-| Check | Result |
-| --- | --- |
-| `npm run typecheck` | pass |
-| `npm run lint` | pass |
-| `npx prettier --check` (touched files) | pass |
-| `npm run build` | pass — 24 routes, all SSG |
-| Dev smoke test | `/en/contact` + `/en` render; new copy present, old documentary copy absent; overview rows + 190 px lockup in header |
+| Check                                  | Result                                                                                                               |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `npm run typecheck`                    | pass                                                                                                                 |
+| `npm run lint`                         | pass                                                                                                                 |
+| `npx prettier --check` (touched files) | pass                                                                                                                 |
+| `npm run build`                        | pass — 24 routes, all SSG                                                                                            |
+| Dev smoke test                         | `/en/contact` + `/en` render; new copy present, old documentary copy absent; overview rows + 190 px lockup in header |
