@@ -3,7 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 import { Container } from "@/components/layout";
 import { Eyebrow, Heading, SourceFootnote } from "@/components/ui";
-import { slideshows } from "@/lib/data/generated/slideshows";
+import { slideshows } from "@/lib/data/slideshow";
 import { Reveal } from "./Reveal";
 import styles from "./MediaSlideshow.module.css";
 

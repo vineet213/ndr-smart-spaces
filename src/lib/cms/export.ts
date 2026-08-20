@@ -31,7 +31,11 @@ export const DATA_MODULES = [
 
 export type DataModuleName = (typeof DATA_MODULES)[number];
 
-/** Modules the Phase 1 generators own. Grows as Phases 2–3 adopt collections. */
+/**
+ * Modules whose byte stability is guaranteed by the deterministic CMS serializer
+ * rather than the frozen-baseline check. Currently only `navigation` — the sole
+ * handwritten module that was fully replaced by a CMS-generated equivalent.
+ */
 export const MANAGED_MODULES: readonly DataModuleName[] = ["navigation"];
 
 export type JsonLike = string | number | boolean | null | JsonLike[] | { [key: string]: JsonLike };

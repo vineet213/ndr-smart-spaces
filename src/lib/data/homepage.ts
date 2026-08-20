@@ -195,27 +195,6 @@ export const businessHighlights = {
   },
 };
 
-export const investmentHighlights = {
-  eyebrow: "Investment highlights",
-  heading: "Develop. Stabilize. Transfer. Rebuild.",
-  cycleNote:
-    "Right of First Offer — NDR InvIT evaluates each eligible asset before any third party.",
-  proof: [
-    { name: "Kotak Alternatives", value: "Marquee institutional investor" },
-    { name: "Investcorp-led $55 mn", value: "Growth capital round" },
-    { name: "$100 mn US global PE", value: "$90 bn+ assets under management" },
-    { name: "$60 mn global financial institution", value: "$15 bn across 400 companies" },
-    { name: "AAA-rated entity", value: "Long-term bonds · long WALE · low receivable risk" },
-    { name: "INR 143.9 cr MLG transfer", value: "SPV transfers to NDR InvIT" },
-  ],
-  resilience: [
-    "Geographic, industry and client diversification",
-    "Prudent management and governance",
-    "Strong balance sheet",
-  ],
-  link: { label: "Investor Centre", href: "/en/investor-centre" },
-} as const;
-
 export const featuredProjects = {
   eyebrow: "Featured projects",
   heading: "Proof, delivered on time.",

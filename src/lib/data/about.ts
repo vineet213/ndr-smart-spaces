@@ -251,40 +251,6 @@ export const whyNdr = {
   ],
 } as const;
 
-export type AboutNumberStat = {
-  count: CounterStat;
-  label: string;
-  source: string;
-};
-
-export const aboutNumbers = {
-  eyebrow: "Key numbers",
-  heading: "The record, in figures.",
-  lede: "Each figure carries its source and period — one stat, one source.",
-  stats: [
-    {
-      count: { value: 600000, suffix: " sq ft", format: true },
-      label: "Largest single Grade-A delivery — Amazon Fulfilment Centre, Coimbatore",
-      source: "Featured project · NDR Smart Spaces",
-    },
-    {
-      count: { value: 4, suffix: " months" },
-      label: "Concept to delivery for the Amazon facility",
-      source: "Featured project · NDR Smart Spaces",
-    },
-    {
-      count: { value: 880, prefix: "₹", suffix: " cr" },
-      label: "NDR InvIT listing IPO, 2018 (INR 8.8 bn)",
-      source: "NDR InvIT disclosures",
-    },
-    {
-      count: { value: 60, suffix: "+" },
-      label: "Years of industrial experience since 1954",
-      source: "NDR Corporate Presentation, FY26",
-    },
-  ] as readonly AboutNumberStat[],
-} as const;
-
 export const aboutClosing = {
   eyebrow: "Next",
   heading: "From land to listed assets.",

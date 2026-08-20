@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { businessChapters } from "@/lib/data/business";
 import { cx } from "../ui/cx";
 import styles from "./BusinessStickyIndex.module.css";
@@ -8,6 +8,9 @@ import styles from "./BusinessStickyIndex.module.css";
 const STRIP_SHOW_AT = 320;
 const HEADER_TALL = "4.5rem";
 const HEADER_COMPACT = "3.5rem";
+
+/** Chapters whose sections are currently rendered on the Business page. */
+const ACTIVE_CHAPTER_IDS = new Set(["verticals", "structure", "execution"]);
 
 const isDarkLuminance = (bg: string): boolean => {
   const match = bg.match(/[\d.]+/g);
@@ -21,6 +24,11 @@ export function BusinessStickyIndex() {
   const [scrollY, setScrollY] = useState(0);
   const [railTop, setRailTop] = useState<number | null>(null);
   const [onDark, setOnDark] = useState(true);
+
+  const visibleChapters = useMemo(
+    () => businessChapters.filter((ch) => ACTIVE_CHAPTER_IDS.has(ch.id)),
+    [],
+  );
 
   useEffect(() => {
     let raf = 0;
@@ -66,8 +74,8 @@ export function BusinessStickyIndex() {
       }
       const mid = window.innerHeight * 0.45;
       let current = -1;
-      for (let index = 0; index < businessChapters.length; index += 1) {
-        const element = document.getElementById(businessChapters[index].id);
+      for (let index = 0; index < visibleChapters.length; index += 1) {
+        const element = document.getElementById(visibleChapters[index].id);
         if (!element) continue;
         if (element.getBoundingClientRect().top <= mid) current = index;
       }
@@ -84,7 +92,7 @@ export function BusinessStickyIndex() {
       window.removeEventListener("resize", onScrollOrResize);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [visibleChapters]);
 
   const stripVisible = scrollY > STRIP_SHOW_AT;
   const headerCompacted = scrollY > 4;
@@ -97,7 +105,7 @@ export function BusinessStickyIndex() {
         aria-label="Chapter index"
       >
         <ol className={styles.rail}>
-          {businessChapters.map((chapter, index) => (
+          {visibleChapters.map((chapter, index) => (
             <li key={chapter.id} className={styles.railItem}>
               <a
                 href={`#${chapter.id}`}
@@ -120,7 +128,7 @@ export function BusinessStickyIndex() {
         style={{ top: headerCompacted ? HEADER_COMPACT : HEADER_TALL }}
       >
         <ol className={styles.stripList}>
-          {businessChapters.map((chapter, index) => (
+          {visibleChapters.map((chapter, index) => (
             <li key={chapter.id}>
               <a
                 href={`#${chapter.id}`}
