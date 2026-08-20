@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>NDR Smart Spaces — CMS</title>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <style>
       :root {
         --bg: #0f1115;
@@ -687,24 +688,6 @@
       }
 
       @media (max-width: 720px) {
-        .app {
-          grid-template-columns: 1fr;
-        }
-        .sidebar {
-          display: flex;
-          overflow-x: auto;
-          padding: 8px;
-        }
-        .sidebar-group {
-          display: flex;
-          gap: 4px;
-        }
-        .sidebar-group-label {
-          display: none;
-        }
-        .nav-item {
-          white-space: nowrap;
-        }
         .record-row {
           grid-template-columns: 1fr;
         }
@@ -1098,7 +1081,7 @@
       }
 
       function saveSettings(key) {
-        return saveRecord(key, null, state.draft);
+        return saveRecord(key, state.draft.id ?? null, state.draft);
       }
 
       /* ═══════════════ Record list ═══════════════ */
@@ -1534,12 +1517,20 @@
       }
 
       function renderValidationError(error) {
-        const box = el("div", { class: "error-list" }, el("ul", null));
         const issues = error.issues?.length ? error.issues.map((i) => i.message) : [error.message];
-        for (const msg of issues) box.firstChild.append(el("li", null, msg));
-        $("content").append(box);
+        const card = el("div", { class: "card" },
+          el("h3", null, "Save failed"),
+          el("p", { style: "color:var(--bad);margin:0 0 8px" }, "The following issues must be resolved before saving:"),
+        );
+        const list = el("ul", null);
+        for (const msg of issues) list.append(el("li", null, msg));
+        card.append(list);
+        card.append(el("div", { style: "margin-top:12px" },
+          el("button", { onclick: () => openEditor(state.currentKey) }, "\u2190 Back to editor"),
+        ));
+        $("content").replaceChildren(card);
         toast("Validation failed", "err");
-        box.scrollIntoView({ behavior: "smooth", block: "start" });
+        card.scrollIntoView({ behavior: "smooth", block: "start" });
       }
 
       async function transition(key, id, status) {
@@ -1662,10 +1653,7 @@
       }
 
       function objectField(field, path, value, lookup) {
-        if (value == null) {
-          setPath(state.draft, path, {});
-          value = {};
-        }
+        if (value == null) value = {};
         const set = el("fieldset", { class: "group" }, el("legend", null, field.label));
         for (const child of field.fields || [])
           set.append(fieldWidget(child, [...path, child.key], lookup));
@@ -1673,7 +1661,7 @@
       }
 
       function mapField(field, path, value) {
-        const entries = value && typeof value === "object" ? Object.entries(value) : [];
+        const entries = value && typeof value === "object" && !Array.isArray(value) ? Object.entries(value) : [];
         const set = el("fieldset", { class: "group" }, el("legend", null, field.label));
         const rows = el("div");
         const sync = () => {
@@ -1747,7 +1735,8 @@
         const container = el("div");
         const redraw = () => {
           container.innerHTML = "";
-          const items = getPath(state.draft, path) || [];
+          const items = getPath(state.draft, path);
+          if (!Array.isArray(items)) return;
           items.forEach((_, index) => {
             const card = el(
               "div",
@@ -1909,7 +1898,9 @@
           );
           container.append(row);
         };
-        (getPath(state.draft, path) || []).forEach((link) => addRow(link.label, link.href));
+        const current = getPath(state.draft, path);
+        if (Array.isArray(current)) current.forEach((link) => addRow(link.label, link.href));
+        else { setPath(state.draft, path, []); }
         return el(
           "fieldset",
           { class: "group" },
@@ -1930,6 +1921,8 @@
       }
 
       function linkPairWidget(path, label) {
+        const currentLabel = getPath(state.draft, [path, "label"]);
+        const currentHref = getPath(state.draft, [path, "href"]);
         return el(
           "fieldset",
           { class: "group" },
@@ -1942,13 +1935,13 @@
               { class: "link-row" },
               el("input", {
                 type: "text",
-                value: String(getPath(state.draft, [path, "label"]) || ""),
+                value: currentLabel != null ? String(currentLabel) : "",
                 placeholder: "Label",
                 oninput: (e) => setPath(state.draft, [path, "label"], e.target.value),
               }),
               el("input", {
                 type: "text",
-                value: String(getPath(state.draft, [path, "href"]) || ""),
+                value: currentHref != null ? String(currentHref) : "",
                 placeholder: "Href",
                 oninput: (e) => setPath(state.draft, [path, "href"], e.target.value),
               }),
@@ -2018,8 +2011,8 @@
             "div",
             { class: "card" },
             el("h3", null, "Mobile navigation"),
-            linkListWidget(["mobileNavItems"], "Mobile nav"),
-            linkListWidget(["mobileMenuFooter"], "Mobile menu footer"),
+            mobileNavItemsWidget(),
+            mobileMenuFooterWidget(),
           ),
         );
         $("content").replaceChildren(form);
@@ -2031,6 +2024,8 @@
             onclick: () => {
               state.draft.navItems = state.draft.navItems || [];
               state.draft.navItems.push({ label: "", href: "", columns: [] });
+              state.dirty = true;
+              state.dataEdited = true;
               drawItems();
             },
           },
@@ -2038,7 +2033,8 @@
         );
         const drawItems = () => {
           itemsBox.innerHTML = "";
-          (state.draft.navItems || []).forEach((item, index) => {
+          const items = Array.isArray(state.draft.navItems) ? state.draft.navItems : [];
+          items.forEach((item, index) => {
             itemsBox.append(
               el(
                 "div",
@@ -2053,6 +2049,8 @@
                       class: "mini danger",
                       onclick: () => {
                         state.draft.navItems.splice(index, 1);
+                        state.dirty = true;
+                        state.dataEdited = true;
                         drawItems();
                       },
                     },
@@ -2067,7 +2065,7 @@
                     value: item.label || "",
                     placeholder: "Label",
                     oninput: (e) => {
-                      item.label = e.target.value;
+                      setPath(state.draft, ["navItems", index, "label"], e.target.value);
                     },
                   }),
                   el("input", {
@@ -2075,7 +2073,7 @@
                     value: item.href || "",
                     placeholder: "Href",
                     oninput: (e) => {
-                      item.href = e.target.value;
+                      setPath(state.draft, ["navItems", index, "href"], e.target.value);
                     },
                   }),
                 ),
@@ -2092,6 +2090,8 @@
                       onclick: () => {
                         item.columns = item.columns || [];
                         item.columns.push({ heading: "", links: [] });
+                        state.dirty = true;
+                        state.dataEdited = true;
                         drawItems();
                       },
                     },
@@ -2107,6 +2107,196 @@
       }
       function navSchema() {
         return state.meta.schemas.find((s) => s.key === "navigation");
+      }
+      function mobileNavItemsWidget() {
+        const container = el("div");
+        const redraw = () => {
+          container.innerHTML = "";
+          const items = Array.isArray(state.draft.mobileNavItems) ? state.draft.mobileNavItems : [];
+          items.forEach((item, index) => {
+            const card = el(
+              "div",
+              { class: "item-card" },
+              el(
+                "div",
+                { class: "item-head" },
+                el("span", { class: "item-title" }, item.type === "menu" ? "Menu" : "Link"),
+                el(
+                  "button",
+                  {
+                    class: "mini danger",
+                    onclick: () => {
+                      state.draft.mobileNavItems.splice(index, 1);
+                      state.dirty = true;
+                      state.dataEdited = true;
+                      redraw();
+                    },
+                  },
+                  "Remove",
+                ),
+              ),
+              el(
+                "div",
+                { style: "display:grid;grid-template-columns:1fr 1.4fr;gap:6px" },
+                el("input", {
+                  type: "text",
+                  value: item.label || "",
+                  placeholder: "Label",
+                  oninput: (e) =>
+                    setPath(state.draft, ["mobileNavItems", index, "label"], e.target.value),
+                }),
+                el("input", {
+                  type: "text",
+                  value: item.href || "",
+                  placeholder: "Href",
+                  oninput: (e) =>
+                    setPath(state.draft, ["mobileNavItems", index, "href"], e.target.value),
+                }),
+              ),
+            );
+            container.append(card);
+          });
+        };
+        redraw();
+        container.append(
+          el(
+            "button",
+            {
+              class: "mini",
+              onclick: () => {
+                state.draft.mobileNavItems = state.draft.mobileNavItems || [];
+                state.draft.mobileNavItems.push({ type: "link", label: "", href: "" });
+                state.dirty = true;
+                state.dataEdited = true;
+                redraw();
+              },
+            },
+            "+ Add item",
+          ),
+        );
+        return container;
+      }
+      function mobileMenuFooterWidget() {
+        const container = el("div");
+        const redraw = () => {
+          container.innerHTML = "";
+          const data = state.draft.mobileMenuFooter || {};
+          container.append(
+            el(
+              "div",
+              { class: "row" },
+              el("label", null, "Heading"),
+              el("input", {
+                type: "text",
+                value: data.heading || "",
+                oninput: (e) => {
+                  state.draft.mobileMenuFooter = state.draft.mobileMenuFooter || {};
+                  setPath(state.draft, ["mobileMenuFooter", "heading"], e.target.value);
+                },
+              }),
+            ),
+          );
+          const emails = Array.isArray(data.emails) ? data.emails : [];
+          const emailsBox = el("div");
+          emails.forEach((em, i) => {
+            const row = el(
+              "div",
+              { class: "link-row", style: "display:grid;grid-template-columns:1fr auto;gap:6px;margin-bottom:6px" },
+              el("input", {
+                type: "text",
+                value: String(em),
+                placeholder: "Email address",
+                oninput: (e) => {
+                  const arr = getPath(state.draft, ["mobileMenuFooter", "emails"]) || [];
+                  arr[i] = e.target.value;
+                  setPath(state.draft, ["mobileMenuFooter", "emails"], arr);
+                },
+              }),
+              el(
+                "button",
+                {
+                  class: "mini danger",
+                  onclick: () => {
+                    const arr = getPath(state.draft, ["mobileMenuFooter", "emails"]) || [];
+                    arr.splice(i, 1);
+                    setPath(state.draft, ["mobileMenuFooter", "emails"], arr);
+                    redraw();
+                  },
+                },
+                "\u2715",
+              ),
+            );
+            emailsBox.append(row);
+          });
+          container.append(
+            el("div", { class: "row" }, el("label", null, "Emails"), emailsBox),
+            el(
+              "button",
+              {
+                class: "mini",
+                onclick: () => {
+                  state.draft.mobileMenuFooter = state.draft.mobileMenuFooter || {};
+                  const arr = getPath(state.draft, ["mobileMenuFooter", "emails"]) || [];
+                  arr.push("");
+                  setPath(state.draft, ["mobileMenuFooter", "emails"], arr);
+                  redraw();
+                },
+              },
+              "+ Add email",
+            ),
+          );
+          const notes = Array.isArray(data.notes) ? data.notes : [];
+          const notesBox = el("div");
+          notes.forEach((note, i) => {
+            const row = el(
+              "div",
+              { class: "link-row", style: "display:grid;grid-template-columns:1fr auto;gap:6px;margin-bottom:6px" },
+              el("input", {
+                type: "text",
+                value: String(note),
+                placeholder: "Note line",
+                oninput: (e) => {
+                  const arr = getPath(state.draft, ["mobileMenuFooter", "notes"]) || [];
+                  arr[i] = e.target.value;
+                  setPath(state.draft, ["mobileMenuFooter", "notes"], arr);
+                },
+              }),
+              el(
+                "button",
+                {
+                  class: "mini danger",
+                  onclick: () => {
+                    const arr = getPath(state.draft, ["mobileMenuFooter", "notes"]) || [];
+                    arr.splice(i, 1);
+                    setPath(state.draft, ["mobileMenuFooter", "notes"], arr);
+                    redraw();
+                  },
+                },
+                "\u2715",
+              ),
+            );
+            notesBox.append(row);
+          });
+          container.append(
+            el("div", { class: "row" }, el("label", null, "Notes"), notesBox),
+            el(
+              "button",
+              {
+                class: "mini",
+                onclick: () => {
+                  state.draft.mobileMenuFooter = state.draft.mobileMenuFooter || {};
+                  const arr = getPath(state.draft, ["mobileMenuFooter", "notes"]) || [];
+                  arr.push("");
+                  setPath(state.draft, ["mobileMenuFooter", "notes"], arr);
+                  redraw();
+                },
+              },
+              "+ Add note",
+            ),
+          );
+        };
+        redraw();
+        return container;
       }
 
       /* ═══════════════ Footer editor ═══════════════ */
@@ -2127,7 +2317,7 @@
                 type: "text",
                 value: state.draft.descriptor || "",
                 oninput: (e) => {
-                  state.draft.descriptor = e.target.value;
+                  setPath(state.draft, ["descriptor"], e.target.value);
                 },
               }),
             ),
@@ -2163,8 +2353,7 @@
                 type: "text",
                 value: state.draft.contact?.heading || "",
                 oninput: (e) => {
-                  state.draft.contact = state.draft.contact || {};
-                  state.draft.contact.heading = e.target.value;
+                  setPath(state.draft, ["contact", "heading"], e.target.value);
                 },
               }),
             ),
@@ -2176,8 +2365,7 @@
                 "textarea",
                 {
                   oninput: (e) => {
-                    state.draft.contact = state.draft.contact || {};
-                    state.draft.contact.address = e.target.value;
+                    setPath(state.draft, ["contact", "address"], e.target.value);
                   },
                 },
                 state.draft.contact?.address || "",
@@ -2198,7 +2386,7 @@
                 type: "text",
                 value: state.draft.copyright || "",
                 oninput: (e) => {
-                  state.draft.copyright = e.target.value;
+                  setPath(state.draft, ["copyright"], e.target.value);
                 },
               }),
             ),
@@ -2223,6 +2411,8 @@
                       class: "mini danger",
                       onclick: () => {
                         state.draft.groups.splice(index, 1);
+                        state.dirty = true;
+                        state.dataEdited = true;
                         drawGroups();
                       },
                     },
@@ -2237,7 +2427,7 @@
                     type: "text",
                     value: group.heading || "",
                     oninput: (e) => {
-                      group.heading = e.target.value;
+                      setPath(state.draft, ["groups", index, "heading"], e.target.value);
                     },
                   }),
                 ),
@@ -2254,6 +2444,8 @@
             onclick: () => {
               state.draft.groups = state.draft.groups || [];
               state.draft.groups.push({ heading: "", links: [] });
+              state.dirty = true;
+              state.dataEdited = true;
               drawGroups();
             },
           },
@@ -2303,6 +2495,7 @@
         );
         const list = el("div");
         panel.append(list);
+        $("drawer").classList.add("open");
         loadAudit(list);
       }
       async function loadAudit(list) {
@@ -2421,7 +2614,10 @@
         await bootApp();
       }
 
+      let bootAppDone = false;
       async function bootApp() {
+        if (bootAppDone) { renderSidebar(); await openEditor(state.currentKey || EDITOR_ORDER[0]); return; }
+        bootAppDone = true;
         $("btn-audit").addEventListener("click", openAudit);
         $("btn-export").addEventListener("click", runExport);
         $("btn-refresh").addEventListener("click", () => openEditor(state.currentKey));

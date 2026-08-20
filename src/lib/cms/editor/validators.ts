@@ -39,7 +39,7 @@ export function validateFields(schema: CollectionEditorSchema, data: JsonValue):
           severity: "error",
           message: `"${field.label}" is required (${fullPath}).`,
         });
-        continue;
+        if (field.kind !== "object" && field.kind !== "list") continue;
       }
       if (fieldValue === undefined || fieldValue === null) continue;
       switch (field.kind) {
@@ -147,7 +147,7 @@ export function validateFields(schema: CollectionEditorSchema, data: JsonValue):
           break;
         }
         case "object":
-          if (field.fields) walk(field.fields, fieldValue, fullPath);
+          if (field.fields) walk(field.fields, fieldValue ?? {}, fullPath);
           break;
         case "map": {
           if (typeof fieldValue !== "object" || fieldValue === null || Array.isArray(fieldValue)) {

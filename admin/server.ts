@@ -231,6 +231,19 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
   const path = url.pathname;
 
   try {
+    // ── Public: serve favicon ────────────────────────────────────────────────
+    if (req.method === "GET" && (path === "/favicon.ico" || path === "/icon.svg")) {
+      const iconPath = join(ROOT, "public", "icon.svg");
+      if (existsSync(iconPath)) {
+        res.writeHead(200, {
+          "content-type": "image/svg+xml",
+          "cache-control": "public, max-age=86400",
+        });
+        return res.end(readFileSync(iconPath, "utf8"));
+      }
+      return send(res, 404, "");
+    }
+
     // ── Public: serve admin HTML ────────────────────────────────────────────
     if (req.method === "GET" && path === "/") {
       if (!existsSync(ADMIN_HTML))
