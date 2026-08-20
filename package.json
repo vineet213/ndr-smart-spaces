@@ -14,6 +14,7 @@
     "verify:cms:baseline": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-verify.js --record-baseline",
     "seed:cms": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-seed.js",
     "verify:parity": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-parity.js",
+    "verify:rbac": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-rbac.js",
     "cms:admin": "tsc -p admin/tsconfig.json && node .cms-build/admin/server.js",
     "prepare": "husky"
   },

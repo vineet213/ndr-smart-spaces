@@ -26,6 +26,28 @@
   gap: var(--space-lg);
   padding-block: var(--space-lg);
   border-top: 1px solid var(--color-hairline-light);
+  cursor: pointer;
+  transition: background-color 300ms var(--ease-standard), opacity 300ms var(--ease-standard);
+}
+
+.cell:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: -2px;
+  border-radius: var(--radius-sm);
+}
+
+.cellActive {
+  background-color: rgba(240, 182, 90, 0.08);
+  border-top-color: var(--color-gold);
+}
+
+.cellDimmed {
+  opacity: 0.45;
+}
+
+.markActive {
+  background-color: var(--color-gold) !important;
+  border-color: var(--color-gold) !important;
 }
 
 .text {
@@ -85,6 +107,12 @@
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
   color: var(--color-stone);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell {
+    transition: none;
+  }
 }
 
 @media (max-width: 767px) {

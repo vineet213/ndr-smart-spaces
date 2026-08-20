@@ -64,7 +64,6 @@ export { ContactMasthead } from "./ContactMasthead";
 export { OfficeDirectory } from "./OfficeDirectory";
 export { Correspondence } from "./Correspondence";
 export { CorrespondenceForm } from "./CorrespondenceForm";
-export { InquiryRouting } from "./InquiryRouting";
 export { ContactClosing } from "./ContactClosing";
 export { LegalDocument } from "./LegalDocument";
 export { LegalSitemap } from "./LegalSitemap";

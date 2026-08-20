@@ -220,7 +220,7 @@ export const corporateStructure = {
     {
       name: "NDR Asset Management Pvt. Ltd.",
       function: "Project management company",
-      relationship: "PMC fee · 100% ownership",
+      relationship: "Ownership · project management",
     },
     {
       name: "Ave Acres LLP",

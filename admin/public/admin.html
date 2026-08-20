@@ -724,24 +724,18 @@
       <div class="main">
         <div class="topbar">
           <button class="mobile-toggle" id="btn-menu" title="Toggle menu">&#9776;</button>
-          <label>User <input id="inp-user" value="local-admin" size="12" /></label>
-          <label
-            >Role
-            <select id="sel-role">
-              <option>super-admin</option>
-              <option>content-editor</option>
-              <option>investor-editor</option>
-              <option>business-editor</option>
-              <option>esg-editor</option>
-              <option>media-editor</option>
-            </select>
-          </label>
+          <span id="session-info" style="display:none">
+            <span id="session-user" class="mono"></span>
+            <span style="opacity:0.5;margin:0 4px">·</span>
+            <span id="session-role" class="mono"></span>
+          </span>
           <span class="spacer"></span>
           <button id="btn-export" title="Regenerate managed modules and verify byte-stability">
             Export
           </button>
           <button id="btn-audit">Audit</button>
           <button id="btn-refresh">Refresh</button>
+          <button id="btn-logout" style="display:none" title="Sign out">Logout</button>
         </div>
         <div class="content" id="content"></div>
       </div>
@@ -755,6 +749,16 @@
     </div>
     <div class="drawer" id="drawer"><div class="drawer-panel" id="drawer-panel"></div></div>
     <div id="toasts"></div>
+    <div id="login-overlay" style="display:none;position:fixed;inset:0;background:#111;z-index:9999;display:flex;align-items:center;justify-content:center">
+      <div style="background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:32px;width:320px">
+        <h2 style="margin:0 0 16px;color:#fff;font-size:16px">NDR CMS — Sign in</h2>
+        <div id="login-error" style="display:none;color:#f44;font-size:12px;margin-bottom:8px"></div>
+        <input id="login-user" type="text" placeholder="Username" autocomplete="username" style="width:100%;padding:8px;margin-bottom:8px;background:#222;border:1px solid #444;color:#fff;border-radius:4px;font-size:13px" />
+        <input id="login-pass" type="password" placeholder="Password" autocomplete="current-password" style="width:100%;padding:8px;margin-bottom:12px;background:#222;border:1px solid #444;color:#fff;border-radius:4px;font-size:13px" />
+        <button id="login-submit" style="width:100%;padding:8px;background:#2563eb;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px">Sign in</button>
+        <p style="margin:12px 0 0;color:#666;font-size:11px">DEV credentials: admin/admin · editor/editor · viewer/viewer · publisher/publisher</p>
+      </div>
+    </div>
 
     <script>
       "use strict";
@@ -790,9 +794,11 @@
         draftStatus: null,
         files: {},
         dirty: false,
+        dataEdited: false,
         searchQuery: "",
         statusFilter: "all",
         sidebarQuery: "",
+        session: null,
       };
       const EDITOR_ORDER = [
         "corporate-settings",
@@ -833,14 +839,81 @@
       ];
       const STATUS_ORDER = ["draft", "pending", "published", "external", "archived"];
 
-      function ctx() {
-        return { user: $("inp-user").value.trim() || "local-admin", role: $("sel-role").value };
+      /* ═══════════════ Session (Phase 4.1) ═══════════════ */
+      async function checkSession() {
+        try {
+          const data = await api("/api/auth/session");
+          if (data.authenticated) {
+            state.session = { user: data.user, role: data.role };
+            return true;
+          }
+        } catch (_) { /* not authenticated */ }
+        state.session = null;
+        return false;
+      }
+
+      function showLogin() {
+        $("login-overlay").style.display = "flex";
+        $("session-info").style.display = "none";
+        $("btn-logout").style.display = "none";
+        $("btn-export").style.display = "none";
+        $("btn-audit").style.display = "none";
+        $("btn-refresh").style.display = "none";
+      }
+
+      function showApp() {
+        $("login-overlay").style.display = "none";
+        $("session-info").style.display = "";
+        $("btn-logout").style.display = "";
+        $("btn-export").style.display = "";
+        $("btn-audit").style.display = "";
+        $("btn-refresh").style.display = "";
+        $("session-user").textContent = state.session.user;
+        $("session-role").textContent = state.session.role;
+      }
+
+      async function doLogin() {
+        const user = $("login-user").value.trim();
+        const password = $("login-pass").value;
+        $("login-error").style.display = "none";
+        try {
+          await api("/api/auth/login", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ user, password }),
+          });
+          if (await checkSession()) {
+            showApp();
+            await bootApp();
+          }
+        } catch (error) {
+          $("login-error").textContent = error.message;
+          $("login-error").style.display = "block";
+        }
+      }
+
+      async function doLogout() {
+        try { await api("/api/auth/logout", { method: "POST" }); } catch (_) { /* ok */ }
+        state.session = null;
+        state.meta = null;
+        state.records = {};
+        $("content").innerHTML = "";
+        $("sidebar").innerHTML = "";
+        showLogin();
+        $("login-user").value = "";
+        $("login-pass").value = "";
+        $("login-user").focus();
       }
 
       /* ═══════════════ API ═══════════════ */
       async function api(path, options) {
         const res = await fetch(path, options);
         const body = await res.json().catch(() => ({ error: "invalid response" }));
+        if (res.status === 401 && path !== "/api/auth/login" && path !== "/api/auth/session") {
+          state.session = null;
+          showLogin();
+          throw Object.assign(new Error("Session expired."), { issues: [] });
+        }
         if (!res.ok)
           throw Object.assign(new Error(body.error || `HTTP ${res.status}`), {
             issues: body.issues || [],
@@ -871,6 +944,7 @@
         }
         cur[path[path.length - 1]] = value;
         state.dirty = true;
+        state.dataEdited = true;
       }
 
       /* ═══════════════ Unsaved changes guard ═══════════════ */
@@ -1255,7 +1329,7 @@
 
       function statusActions(schema, record) {
         const row = el("div", { style: "display:flex;gap:4px" });
-        const role = ctx().role;
+        const role = state.session?.role ?? "viewer";
         const add = (label, to) =>
           row.append(
             el(
@@ -1278,6 +1352,7 @@
         state.draftStatus = record?.status ?? null;
         state.files = {};
         state.dirty = false;
+        state.dataEdited = false;
         const form = el("div", null);
 
         /* toolbar */
@@ -1381,6 +1456,10 @@
       function saveDraft(schema, record) {
         const data = state.draft;
         const status = record === null ? "draft" : state.draftStatus || record.status;
+        const statusChanged = record !== null && status !== record.status;
+        if (statusChanged && !state.dataEdited) {
+          return transition(schema.key, record.id, status);
+        }
         return saveRecord(schema.key, record?.id ?? null, data, status);
       }
 
@@ -1420,7 +1499,7 @@
           await api(`/api/c/${encodeURIComponent(schema.key)}?action=delete`, {
             method: "POST",
             headers: { "content-type": "application/json" },
-            body: JSON.stringify({ id: record.id, ...ctx() }),
+            body: JSON.stringify({ id: record.id }),
           });
           state.records[schema.key] = await api(`/api/c/${encodeURIComponent(schema.key)}`);
           toast("Record deleted", "ok");
@@ -1432,7 +1511,7 @@
 
       /* ═══════════════ Save / transition ═══════════════ */
       async function saveRecord(key, id, data, status) {
-        const payload = { data, status, ...ctx() };
+        const payload = { data, status };
         if (id) payload.id = id;
         const filePaths = Object.keys(state.files);
         if (filePaths.length) payload.file = state.files[filePaths[0]];
@@ -1444,6 +1523,7 @@
           });
           state.records[key] = await api(`/api/c/${encodeURIComponent(key)}`);
           state.dirty = false;
+          state.dataEdited = false;
           toast(`Saved${result.issuedRef ? ` \u2014 ref ${result.issuedRef}` : ""}`, "ok");
           openEditor(key);
           return result;
@@ -1474,7 +1554,7 @@
           await api(`/api/c/${encodeURIComponent(key)}?action=transition`, {
             method: "POST",
             headers: { "content-type": "application/json" },
-            body: JSON.stringify({ id, status, ...ctx() }),
+            body: JSON.stringify({ id, status }),
           });
           state.records[key] = await api(`/api/c/${encodeURIComponent(key)}`);
           toast(`Status \u2192 ${status}`, "ok");
@@ -1737,6 +1817,7 @@
               };
               note.textContent = `Will upload: ${file.name} (${file.type || "unknown"})`;
               state.dirty = true;
+              state.dataEdited = true;
             };
             reader.readAsDataURL(file);
           },
@@ -2325,6 +2406,22 @@
 
       /* ═══════════════ Boot ═══════════════ */
       async function boot() {
+        $("btn-logout").addEventListener("click", doLogout);
+        $("login-submit").addEventListener("click", doLogin);
+        $("login-pass").addEventListener("keydown", (e) => { if (e.key === "Enter") doLogin(); });
+        $("login-user").addEventListener("keydown", (e) => { if (e.key === "Enter") $("login-pass").focus(); });
+
+        const authenticated = await checkSession();
+        if (!authenticated) {
+          showLogin();
+          $("login-user").focus();
+          return;
+        }
+        showApp();
+        await bootApp();
+      }
+
+      async function bootApp() {
         $("btn-audit").addEventListener("click", openAudit);
         $("btn-export").addEventListener("click", runExport);
         $("btn-refresh").addEventListener("click", () => openEditor(state.currentKey));
@@ -2341,6 +2438,11 @@
         try {
           state.meta = await api("/api/meta");
         } catch (error) {
+          if (error.message === "Authentication required." || error.message === "Forbidden") {
+            state.session = null;
+            showLogin();
+            return;
+          }
           document.body.replaceChildren(
             el("div", { class: "error-list", style: "padding:20px" }, error.message),
           );

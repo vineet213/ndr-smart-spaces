@@ -10,12 +10,19 @@ import {
   geoZones,
   plateAtLocation,
 } from "@/lib/data/portfolio";
-import type { GeoLocation, LocationTier } from "@/lib/data/portfolio";
+import type { GeoLocation, LocationTier, ZoneId } from "@/lib/data/portfolio";
 import { cx } from "../ui/cx";
 import styles from "./AtlasMap.module.css";
 
 export const ATLAS_VIEWBOX = "0 0 1020 1090";
 const OFFSET = 45;
+
+type AtlasMapProps = {
+  hoveredZoneId?: ZoneId | null;
+  selectedZoneId?: ZoneId | null;
+  onZoneHover?: (zoneId: ZoneId | null) => void;
+  onZoneClick?: (zoneId: ZoneId) => void;
+};
 
 function Graticule() {
   const lines: ReactNode[] = [];
@@ -84,11 +91,19 @@ function NodeMark({ x, y, tier }: { x: number; y: number; tier: LocationTier }) 
   return <circle cx={x} cy={y} r={3.5} className={styles.dotSat} />;
 }
 
-export function AtlasMap() {
+export function AtlasMap({
+  hoveredZoneId = null,
+  selectedZoneId = null,
+  onZoneHover,
+  onZoneClick,
+}: AtlasMapProps) {
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.15 });
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
+
+  const hasFocus = hoveredZoneId !== null || selectedZoneId !== null;
+  const activeZone = selectedZoneId ?? hoveredZoneId;
 
   const handleNodeEnter = useCallback((location: GeoLocation, e: React.MouseEvent) => {
     setHoveredId(location.id);
@@ -132,7 +147,7 @@ export function AtlasMap() {
         viewBox={ATLAS_VIEWBOX}
         className={styles.map}
         role="img"
-        aria-label="Interactive map of India showing NDR Smart Spaces locations across four zones — click a location to view details in the register below."
+        aria-label="Interactive map of India showing NDR Smart Spaces locations across four zones — hover a zone to explore, click to view details."
         focusable="false"
       >
         <EdgeTicks />
@@ -140,12 +155,66 @@ export function AtlasMap() {
           <Graticule />
           <Coordinates />
           <path className={styles.outline} d={INDIA_OUTLINE} />
+
+          {/* Zone frames — interactive */}
+          <g className={styles.frames}>
+            {geoZones.map((zone) => {
+              const isHovered = hoveredZoneId === zone.id;
+              const isSelected = selectedZoneId === zone.id;
+              const isActive = isHovered || isSelected;
+              const isDimmed = hasFocus && !isActive;
+              return (
+                <g
+                  key={zone.id}
+                  className={cx(
+                    styles.zoneGroup,
+                    isActive && styles.zoneActive,
+                    isDimmed && styles.zoneDimmed,
+                  )}
+                  onMouseEnter={() => onZoneHover?.(zone.id)}
+                  onMouseLeave={() => onZoneHover?.(null)}
+                  onClick={() => onZoneClick?.(zone.id)}
+                  style={{ cursor: "pointer" }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${zone.name} zone — ${zone.fact}`}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      onZoneClick?.(zone.id);
+                    }
+                  }}
+                >
+                  <rect
+                    x={zone.frame.x}
+                    y={zone.frame.y}
+                    width={zone.frame.width}
+                    height={zone.frame.height}
+                    className={styles.zoneFrame}
+                  />
+                  {isSelected && (
+                    <rect
+                      x={zone.frame.x}
+                      y={zone.frame.y}
+                      width={zone.frame.width}
+                      height={zone.frame.height}
+                      className={styles.zoneFrameActive}
+                      rx={2}
+                    />
+                  )}
+                </g>
+              );
+            })}
+          </g>
+
+          {/* Leader lines */}
           <g className={styles.leaders}>
             {geoLocations.map((location: GeoLocation) => {
               const target = location.leaderTo;
               if (!target) return null;
+              const locDimmed = hasFocus && activeZone !== location.zone;
               return (
-                <g key={location.id}>
+                <g key={location.id} className={cx(locDimmed && styles.dimmedElement)}>
                   <line
                     x1={location.x}
                     y1={location.y}
@@ -158,27 +227,22 @@ export function AtlasMap() {
               );
             })}
           </g>
-          <g className={styles.frames}>
-            {geoZones.map((zone) => (
-              <rect
-                key={zone.id}
-                x={zone.frame.x}
-                y={zone.frame.y}
-                width={zone.frame.width}
-                height={zone.frame.height}
-                className={styles.zoneFrame}
-              />
-            ))}
-          </g>
+
+          {/* Location nodes — interactive */}
           <g className={styles.nodes}>
             {geoLocations.map((location: GeoLocation, index: number) => {
               const plate = plateAtLocation(location.id);
               const isActive = hoveredId === location.id;
+              const locDimmed = hasFocus && activeZone !== location.zone;
               return (
                 <g
                   key={location.id}
                   style={{ "--i": index } as CSSProperties}
-                  className={cx(styles.nodeGroup, isActive && styles.nodeActive)}
+                  className={cx(
+                    styles.nodeGroup,
+                    isActive && styles.nodeActive,
+                    locDimmed && styles.nodeDimmed,
+                  )}
                   tabIndex={0}
                   role="button"
                   aria-label={`${location.name}, ${location.zone} zone${plate ? ` — plate ${plate}` : ""}`}
@@ -208,20 +272,33 @@ export function AtlasMap() {
               );
             })}
           </g>
+
+          {/* Zone tags */}
           <g className={styles.zoneTags}>
-            {geoZones.map((zone) => (
-              <g
-                key={zone.id}
-                transform={`translate(${zone.frame.x + zone.frame.width / 2} ${zone.frame.y})`}
-              >
-                <line x1={0} y1={0} x2={0} y2={-9} className={styles.zoneTagLine} />
-                <text x={0} y={-13} textAnchor="middle" className={styles.zoneTagText}>
-                  {zone.name.toUpperCase()}
-                </text>
-              </g>
-            ))}
+            {geoZones.map((zone) => {
+              const isActive = activeZone === zone.id;
+              const isDimmed = hasFocus && !isActive;
+              return (
+                <g
+                  key={zone.id}
+                  transform={`translate(${zone.frame.x + zone.frame.width / 2} ${zone.frame.y})`}
+                  className={cx(isDimmed && styles.dimmedElement)}
+                >
+                  <line x1={0} y1={0} x2={0} y2={-9} className={styles.zoneTagLine} />
+                  <text
+                    x={0}
+                    y={-13}
+                    textAnchor="middle"
+                    className={cx(styles.zoneTagText, isActive && styles.zoneTagActive)}
+                  >
+                    {zone.name.toUpperCase()}
+                  </text>
+                </g>
+              );
+            })}
           </g>
         </g>
+
         {hoveredId && tooltipPos && (
           <g className={styles.tooltip}>
             <rect

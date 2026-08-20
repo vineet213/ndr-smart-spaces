@@ -1,4 +1,4 @@
-import { contactMap, officeDirectory, inquiryRouting } from "./contact";
+import { contactMap, officeDirectory } from "./contact";
 
 /**
  * Contact data validation — pure rules over the contact datasets.
@@ -58,41 +58,11 @@ export function validateMapCoordinates(): string[] {
   return errors;
 }
 
-export function validateRoutingKeys(): string[] {
-  const errors: string[] = [];
-  const seen = new Set<string>();
-  for (const desk of inquiryRouting.desks) {
-    if (seen.has(desk.key)) {
-      errors.push(`Inquiry routing repeats desk key "${desk.key}".`);
-    }
-    seen.add(desk.key);
-  }
-  return errors;
-}
-
-export function validateRoutingContact(): string[] {
-  const errors: string[] = [];
-  for (const desk of inquiryRouting.desks) {
-    if (!desk.recipient.trim() || !desk.href.startsWith("mailto:")) {
-      errors.push(`Routing desk "${desk.key}" has an invalid recipient record.`);
-    }
-    if (!desk.phone.trim()) {
-      errors.push(`Routing desk "${desk.key}" is missing a phone number.`);
-    }
-    if (!desk.response.trim()) {
-      errors.push(`Routing desk "${desk.key}" is missing a response expectation.`);
-    }
-  }
-  return errors;
-}
-
 export function runContactValidation(): boolean {
   const rules: Array<[string, () => string[]]> = [
     ["office keys", validateOfficeKeys],
     ["office contact details", validateOfficeContactDetails],
     ["map coordinates", validateMapCoordinates],
-    ["routing keys", validateRoutingKeys],
-    ["routing contact", validateRoutingContact],
   ];
 
   let allPassed = true;

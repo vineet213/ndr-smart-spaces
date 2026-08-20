@@ -17,8 +17,6 @@ import {
   validateOfficeKeys,
   validateOfficeContactDetails,
   validateMapCoordinates as validateContactCoordinates,
-  validateRoutingKeys,
-  validateRoutingContact,
 } from "../data/contactValidation";
 import {
   validateComposition,
@@ -431,8 +429,6 @@ const EXISTING_RULES: { rule: string; collection: string; run: () => string[] }[
   { rule: "navigation", collection: "navigation", run: validateNavigation },
   { rule: "office-keys", collection: "contact-directory", run: validateOfficeKeys },
   { rule: "office-contact", collection: "contact-directory", run: validateOfficeContactDetails },
-  { rule: "routing-keys", collection: "contact-directory", run: validateRoutingKeys },
-  { rule: "routing-contact", collection: "contact-directory", run: validateRoutingContact },
   { rule: "press-contact", collection: "contact-directory", run: validatePressContactReferences },
   { rule: "contact-map", collection: "locations", run: validateContactCoordinates },
   { rule: "composition", collection: "metrics", run: validateComposition },

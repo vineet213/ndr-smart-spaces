@@ -4,7 +4,6 @@ import {
   ContactMasthead,
   Correspondence,
   Footer,
-  InquiryRouting,
   OfficeDirectory,
 } from "@/components/sections";
 import { runContactValidation } from "@/lib/data/contactValidation";
@@ -25,7 +24,6 @@ export default function ContactPage() {
       <ContactMasthead />
       <OfficeDirectory />
       <Correspondence />
-      <InquiryRouting />
       <ContactClosing />
       <Footer />
     </>

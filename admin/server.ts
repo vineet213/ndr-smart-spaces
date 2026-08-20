@@ -7,6 +7,10 @@
  * persistence, hash-chained audit — and the export endpoint regenerates the
  * managed modules then verifies byte-stability (§16.2).
  *
+ * Phase 4.1 — All mutations require an authenticated session. Identity is
+ * derived server-side from a signed session cookie; the client never supplies
+ * user/role for authorization.
+ *
  * DEV ONLY. Runs on localhost for content operations; not an authentication
  * boundary and never exposed publicly.
  *
@@ -29,7 +33,21 @@ import { verifyExportContract, DataModuleName } from "../src/lib/cms/export";
 import { AuditLog } from "../src/lib/cms/audit";
 import { JsonFileStore } from "../src/lib/cms/store";
 import { ReferenceRegistry } from "../src/lib/cms/registry";
-import { RegistryConfig } from "../src/lib/cms/types";
+import { RegistryConfig, PublicationStatus } from "../src/lib/cms/types";
+import {
+  authenticate,
+  extractSession,
+  signSessionCookie,
+  destroySession,
+  requirePermission,
+  AuthenticationError,
+  AuthorizationError,
+  COOKIE_NAME,
+  COOKIE_MAX_AGE,
+  CmsRole,
+  Session,
+  DEV_CREDENTIALS,
+} from "../src/lib/cms/auth";
 
 const PORT = Number(process.env.CMS_ADMIN_PORT ?? "4173");
 const ROOT = process.cwd();
@@ -52,9 +70,11 @@ const REGISTRY_DEFAULTS: RegistryConfig = {
 const store = new JsonFileStore(STORE_FILE);
 const files = new FileStore(FILES_DIR);
 const registry = new ReferenceRegistry(store, REGISTRY_DEFAULTS);
-const audit = new AuditLog(store);
-const editor = new CollectionEditor(store, files, registry, audit);
+const auditLog = new AuditLog(store);
+const editor = new CollectionEditor(store, files, registry, auditLog);
 const content = new ContentStore(store);
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function send(res: ServerResponse, status: number, body: unknown): void {
   const payload = typeof body === "string" ? body : JSON.stringify(body);
@@ -64,6 +84,20 @@ function send(res: ServerResponse, status: number, body: unknown): void {
     "cache-control": "no-store",
   });
   res.end(payload);
+}
+
+function sendSetCookie(res: ServerResponse, cookieValue: string): void {
+  res.setHeader(
+    "Set-Cookie",
+    `${COOKIE_NAME}=${cookieValue}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${COOKIE_MAX_AGE}`,
+  );
+}
+
+function sendClearCookie(res: ServerResponse): void {
+  res.setHeader(
+    "Set-Cookie",
+    `${COOKIE_NAME}=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0`,
+  );
 }
 
 function readJson(req: IncomingMessage): Promise<unknown> {
@@ -81,6 +115,14 @@ function readJson(req: IncomingMessage): Promise<unknown> {
   });
 }
 
+function requireSession(req: IncomingMessage): Session {
+  const session = extractSession(req);
+  if (!session) throw new AuthenticationError();
+  return session;
+}
+
+// ─── Export handler ───────────────────────────────────────────────────────────
+
 async function handleExport(): Promise<{
   ok: boolean;
   generated: unknown[];
@@ -92,7 +134,7 @@ async function handleExport(): Promise<{
   writeGenerated(GENERATED_DIR, filesToWrite);
   const generated = await verifyGeneratedExports(content, GENERATED_DIR);
   const contract = verifyExportContract(DATA_DIR);
-  const chain = await audit.verify();
+  const chain = await auditLog.verify();
   return {
     ok: generated.valid && contract.stable && chain.valid,
     generated: generated.statuses,
@@ -102,114 +144,173 @@ async function handleExport(): Promise<{
   };
 }
 
+// ─── Server ───────────────────────────────────────────────────────────────────
+
 const server = createServer(async (req: IncomingMessage, res: ServerResponse) => {
   const url = new URL(req.url ?? "/", `http://${req.headers.host ?? "localhost"}`);
   const path = url.pathname;
 
-  if (req.method === "GET" && path === "/") {
-    if (!existsSync(ADMIN_HTML))
-      return send(res, 404, "admin.html missing — run `npm run cms:admin` from the project root.");
-    res.writeHead(200, { "content-type": "text/html; charset=utf-8" });
-    return res.end(readFileSync(ADMIN_HTML, "utf8"));
-  }
+  try {
+    // ── Public: serve admin HTML ────────────────────────────────────────────
+    if (req.method === "GET" && path === "/") {
+      if (!existsSync(ADMIN_HTML))
+        return send(res, 404, "admin.html missing — run `npm run cms:admin` from the project root.");
+      res.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return res.end(readFileSync(ADMIN_HTML, "utf8"));
+    }
 
-  if (req.method === "GET" && path === "/api/meta") {
-    return send(res, 200, {
-      schemas: EDITOR_SCHEMAS.map(
-        ({ key, label, editor: kind, singleRecord, statusEnabled, refKind, description, fields }) => ({
-          key,
-          label,
-          editor: kind,
-          singleRecord,
-          statusEnabled,
-          refKind,
-          description,
-          fields,
-        }),
-      ),
-      publicationStatuses: ["draft", "pending", "published", "archived", "external"],
-    });
-  }
-
-  const collectionMatch = path.match(/^\/api\/c\/([^/]+)$/);
-  const collectionAuditMatch = path.match(/^\/api\/c\/([^/]+)\/audit$/);
-
-  if (collectionAuditMatch && req.method === "GET") {
-    const collectionKey = decodeURIComponent(collectionAuditMatch[1]);
-    return send(res, 200, await editor.auditFor(collectionKey));
-  }
-
-  if (collectionMatch && req.method === "GET") {
-    const collectionKey = decodeURIComponent(collectionMatch[1]);
-    const records = await editor.list(collectionKey);
-    return send(res, 200, { collectionKey, records, audit: await editor.auditFor(collectionKey) });
-  }
-
-  if (collectionMatch && req.method === "POST") {
-    const collectionKey = decodeURIComponent(collectionMatch[1]);
-    const action = url.searchParams.get("action") ?? "save";
-    try {
+    // ── Public: login ───────────────────────────────────────────────────────
+    if (req.method === "POST" && path === "/api/auth/login") {
       const body = (await readJson(req)) as Record<string, unknown>;
+      const user = String(body.user ?? "");
+      const password = String(body.password ?? "");
+      const session = authenticate(user, password);
+      if (!session) {
+        return send(res, 401, { error: "Invalid credentials." });
+      }
+      sendSetCookie(res, signSessionCookie(session.sessionId));
+      return send(res, 200, {
+        user: session.user,
+        role: session.role,
+        createdAt: session.createdAt,
+      });
+    }
+
+    // ── Authenticated: session info ─────────────────────────────────────────
+    if (req.method === "GET" && path === "/api/auth/session") {
+      const session = extractSession(req);
+      if (!session) {
+        return send(res, 401, { authenticated: false });
+      }
+      return send(res, 200, {
+        authenticated: true,
+        user: session.user,
+        role: session.role,
+        createdAt: session.createdAt,
+      });
+    }
+
+    // ── Authenticated: logout ───────────────────────────────────────────────
+    if (req.method === "POST" && path === "/api/auth/logout") {
+      const session = extractSession(req);
+      if (session) destroySession(session.sessionId);
+      sendClearCookie(res);
+      return send(res, 200, { ok: true });
+    }
+
+    // ── From here: all endpoints require authentication ─────────────────────
+    const session = requireSession(req);
+
+    // ── Authenticated: meta (schema list) ───────────────────────────────────
+    if (req.method === "GET" && path === "/api/meta") {
+      requirePermission(session, "settings:read");
+      return send(res, 200, {
+        schemas: EDITOR_SCHEMAS.map(
+          ({ key, label, editor: kind, singleRecord, statusEnabled, refKind, description, fields }) => ({
+            key,
+            label,
+            editor: kind,
+            singleRecord,
+            statusEnabled,
+            refKind,
+            description,
+            fields,
+          }),
+        ),
+        publicationStatuses: ["draft", "pending", "published", "archived", "external"],
+      });
+    }
+
+    // ── Collection routes ───────────────────────────────────────────────────
+    const collectionMatch = path.match(/^\/api\/c\/([^/]+)$/);
+    const collectionAuditMatch = path.match(/^\/api\/c\/([^/]+)\/audit$/);
+
+    // GET /api/c/:collection/audit
+    if (collectionAuditMatch && req.method === "GET") {
+      requirePermission(session, "audit:read");
+      const collectionKey = decodeURIComponent(collectionAuditMatch[1]);
+      return send(res, 200, await editor.auditFor(collectionKey));
+    }
+
+    // GET /api/c/:collection
+    if (collectionMatch && req.method === "GET") {
+      requirePermission(session, "collection:read");
+      const collectionKey = decodeURIComponent(collectionMatch[1]);
+      const records = await editor.list(collectionKey);
+      return send(res, 200, { collectionKey, records, audit: await editor.auditFor(collectionKey) });
+    }
+
+    // POST /api/c/:collection?action=...
+    if (collectionMatch && req.method === "POST") {
+      const collectionKey = decodeURIComponent(collectionMatch[1]);
+      const action = url.searchParams.get("action") ?? "save";
+      const body = (await readJson(req)) as Record<string, unknown>;
+
+      // Server derives identity from session — never from client body.
+      const ctx = { user: session.user, role: session.role };
+
       if (action === "save") {
+        requirePermission(session, "collection:create");
         const result = await editor.save({
           collectionKey,
           id: typeof body.id === "string" ? body.id : undefined,
           data: body.data as never,
           status: body.status as never,
           file: body.file as never,
-          user: String(body.user ?? "local-admin"),
-          role: String(body.role ?? "super-admin"),
+          ...ctx,
         });
         return send(res, 200, result);
       }
       if (action === "transition") {
+        requirePermission(session, "collection:transition");
         const result = await editor.transition(
           collectionKey,
           String(body.id),
           body.status as never,
-          {
-            user: String(body.user ?? "local-admin"),
-            role: String(body.role ?? "super-admin"),
-          },
+          ctx,
         );
         return send(res, 200, result);
       }
       if (action === "delete") {
-        const seq = await editor.remove(collectionKey, String(body.id), {
-          user: String(body.user ?? "local-admin"),
-          role: String(body.role ?? "super-admin"),
-        });
+        requirePermission(session, "collection:delete");
+        const seq = await editor.remove(collectionKey, String(body.id), ctx);
         return send(res, 200, { seq });
       }
       return send(res, 400, { error: `Unknown action "${action}".` });
-    } catch (error) {
-      if (error instanceof Error) {
-        const status =
-          error.name === "EditorValidationError" || error.name === "EditorPermissionError"
-            ? 422
-            : 400;
-        return send(res, status, {
-          error: error.message,
-          issues: (error as { issues?: unknown[] }).issues ?? [],
-        });
-      }
-      return send(res, 500, { error: "Unknown error." });
     }
-  }
 
-  if (req.method === "POST" && path === "/api/export") {
-    try {
+    // ── Export (privileged) ─────────────────────────────────────────────────
+    if (req.method === "POST" && path === "/api/export") {
+      requirePermission(session, "export:run");
       return send(res, 200, await handleExport());
-    } catch (error) {
-      return send(res, 500, { error: error instanceof Error ? error.message : "Export failed." });
     }
-  }
 
-  if (req.method === "GET" && path === "/api/audit") {
-    return send(res, 200, { entries: await audit.tail(200), chain: await audit.verify() });
-  }
+    // ── Audit log ───────────────────────────────────────────────────────────
+    if (req.method === "GET" && path === "/api/audit") {
+      requirePermission(session, "audit:read");
+      return send(res, 200, { entries: await auditLog.tail(200), chain: await auditLog.verify() });
+    }
 
-  return send(res, 404, "Not found.");
+    return send(res, 404, "Not found.");
+  } catch (error) {
+    if (error instanceof AuthenticationError) {
+      return send(res, 401, { error: error.message });
+    }
+    if (error instanceof AuthorizationError) {
+      return send(res, 403, { error: error.message });
+    }
+    if (error instanceof Error) {
+      const status =
+        error.name === "EditorValidationError" || error.name === "EditorPermissionError"
+          ? 422
+          : 400;
+      return send(res, status, {
+        error: error.message,
+        issues: (error as { issues?: unknown[] }).issues ?? [],
+      });
+    }
+    return send(res, 500, { error: "Unknown error." });
+  }
 });
 
 server.listen(PORT, () => {
@@ -227,9 +328,15 @@ server.listen(PORT, () => {
     "governanceRecords",
     "contactDirectory",
   ];
-  console.log("NDR CMS admin (Phase 1.2 — shared data collections)");
+  console.log("NDR CMS admin (Phase 4.1 — RBAC + authentication)");
   console.log(`  http://localhost:${PORT}`);
   console.log(`  editors: ${EDITOR_SCHEMAS.map((schema) => schema.key).join(", ")}`);
   console.log(`  generated modules: ${generatedModules.join(", ")}`);
-  console.log("  DEV ONLY — localhost content operations, not an auth boundary.");
+  console.log("");
+  console.log("  DEV credentials (replace with production identity provider):");
+  for (const cred of DEV_CREDENTIALS) {
+    console.log(`    ${cred.user} / ${cred.password} → ${cred.role}`);
+  }
+  console.log("");
+  console.log("  DEV ONLY — localhost content operations with dev auth.");
 });

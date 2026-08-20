@@ -13,3 +13,4 @@ export * from "./audit";
 export * from "./validation";
 export * from "./export";
 export * from "./editor";
+export * from "./auth";

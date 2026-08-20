@@ -42,7 +42,7 @@ export const routeAnchors: Readonly<Record<string, readonly string[]>> = {
   "/en/portfolio": ["register"],
   "/en/esg": ["framework", "environmental", "initiatives-on-site", "certifications"],
   "/en/media": ["press-archive"],
-  "/en/contact": ["directory", "business-enquiry", "routing"],
+  "/en/contact": ["directory", "business-enquiry"],
   "/en/investor-centre": [],
   "/en/about-us": ["story"],
 };
