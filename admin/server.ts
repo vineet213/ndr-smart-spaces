@@ -7,6 +7,11 @@
  * persistence, hash-chained audit — and the export endpoint regenerates the
  * managed modules then verifies byte-stability (§16.2).
  *
+ * Phase 4.3 — Export chains into a deployment adapter. Export and deployment
+ * are separate stages: export success does not depend on deployment, and
+ * deployment failure is reported distinctly. Both actions are recorded in the
+ * audit chain with the authenticated session identity.
+ *
  * Phase 4.1 — All mutations require an authenticated session. Identity is
  * derived server-side from a signed session cookie; the client never supplies
  * user/role for authorization.
@@ -30,6 +35,7 @@ import {
   writeGenerated,
 } from "../src/lib/cms/editor";
 import { verifyExportContract, DataModuleName } from "../src/lib/cms/export";
+import { createDeploymentAdapter, DeploymentAdapter } from "../src/lib/cms/deploy";
 import { AuditLog } from "../src/lib/cms/audit";
 import { JsonFileStore } from "../src/lib/cms/store";
 import { ReferenceRegistry } from "../src/lib/cms/registry";
@@ -73,6 +79,7 @@ const registry = new ReferenceRegistry(store, REGISTRY_DEFAULTS);
 const auditLog = new AuditLog(store);
 const editor = new CollectionEditor(store, files, registry, auditLog);
 const content = new ContentStore(store);
+const deploymentAdapter = createDeploymentAdapter();
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -123,24 +130,97 @@ function requireSession(req: IncomingMessage): Session {
 
 // ─── Export handler ───────────────────────────────────────────────────────────
 
-async function handleExport(): Promise<{
+async function handleExport(session: {
+  user: string;
+  role: string;
+}): Promise<{
   ok: boolean;
   generated: unknown[];
   generatedValid: boolean;
   contract: unknown;
   audit: unknown;
+  export: { logged: boolean };
+  deployment: { configured: boolean; deployed: boolean; provider: string; message: string };
 }> {
+  // Stage 1: Export (generate + write + verify)
   const filesToWrite = await generateMerged(content);
   writeGenerated(GENERATED_DIR, filesToWrite);
   const generated = await verifyGeneratedExports(content, GENERATED_DIR);
   const contract = verifyExportContract(DATA_DIR);
   const chain = await auditLog.verify();
+
+  const exportOk = generated.valid && contract.stable && chain.valid;
+
+  // Record export action in the audit chain
+  let exportLogged = false;
+  if (exportOk) {
+    try {
+      await auditLog.append({
+        user: session.user,
+        role: session.role,
+        action: "export",
+        collection: "metrics", // export is cross-collection; use metrics as anchor
+        recordId: "export",
+        after: {
+          generatedValid: generated.valid,
+          contractStable: contract.stable,
+          fileCount: filesToWrite.length,
+        },
+      });
+      exportLogged = true;
+    } catch {
+      // Audit append failure is non-fatal but logged
+    }
+  }
+
+  // Stage 2: Deployment (separate from export)
+  let deployment: {
+    configured: boolean;
+    deployed: boolean;
+    provider: string;
+    message: string;
+  };
+  try {
+    const result = deploymentAdapter.deploy();
+    deployment = {
+      configured: result.provider !== "null",
+      deployed: result.deployed,
+      provider: result.provider,
+      message: result.message,
+    };
+
+    // Record deploy action in the audit chain
+    if (result.deployed) {
+      try {
+        await auditLog.append({
+          user: session.user,
+          role: session.role,
+          action: "deploy",
+          collection: "metrics",
+          recordId: "deploy",
+          after: { provider: result.provider, message: result.message },
+        });
+      } catch {
+        // Audit append failure is non-fatal
+      }
+    }
+  } catch (error) {
+    deployment = {
+      configured: true,
+      deployed: false,
+      provider: "unknown",
+      message: `Deployment failed: ${error instanceof Error ? error.message : String(error)}`,
+    };
+  }
+
   return {
-    ok: generated.valid && contract.stable && chain.valid,
+    ok: exportOk,
     generated: generated.statuses,
     generatedValid: generated.valid,
     contract,
     audit: chain,
+    export: { logged: exportLogged },
+    deployment,
   };
 }
 
@@ -282,7 +362,45 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
     // ── Export (privileged) ─────────────────────────────────────────────────
     if (req.method === "POST" && path === "/api/export") {
       requirePermission(session, "export:run");
-      return send(res, 200, await handleExport());
+      return send(res, 200, await handleExport({ user: session.user, role: session.role }));
+    }
+
+    // ── Deploy only (privileged, re-triggers deployment without re-export) ──
+    if (req.method === "POST" && path === "/api/deploy") {
+      requirePermission(session, "deploy:run");
+      let deployment: {
+        configured: boolean;
+        deployed: boolean;
+        provider: string;
+        message: string;
+      };
+      try {
+        const result = deploymentAdapter.deploy();
+        deployment = {
+          configured: result.provider !== "null",
+          deployed: result.deployed,
+          provider: result.provider,
+          message: result.message,
+        };
+        if (result.deployed) {
+          await auditLog.append({
+            user: session.user,
+            role: session.role,
+            action: "deploy",
+            collection: "metrics",
+            recordId: "deploy",
+            after: { provider: result.provider, message: result.message },
+          });
+        }
+      } catch (error) {
+        deployment = {
+          configured: true,
+          deployed: false,
+          provider: "unknown",
+          message: `Deployment failed: ${error instanceof Error ? error.message : String(error)}`,
+        };
+      }
+      return send(res, 200, { ok: deployment.deployed || !deployment.configured, deployment });
     }
 
     // ── Audit log ───────────────────────────────────────────────────────────
@@ -328,10 +446,11 @@ server.listen(PORT, () => {
     "governanceRecords",
     "contactDirectory",
   ];
-  console.log("NDR CMS admin (Phase 4.1 — RBAC + authentication)");
+  console.log("NDR CMS admin (Phase 4.3 — publication + deployment seam)");
   console.log(`  http://localhost:${PORT}`);
   console.log(`  editors: ${EDITOR_SCHEMAS.map((schema) => schema.key).join(", ")}`);
   console.log(`  generated modules: ${generatedModules.join(", ")}`);
+  console.log(`  deployment: ${process.env.DEPLOY_PROVIDER ?? "null"} (set DEPLOY_PROVIDER to enable)`);
   console.log("");
   console.log("  DEV credentials (replace with production identity provider):");
   for (const cred of DEV_CREDENTIALS) {

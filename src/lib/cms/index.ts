@@ -14,3 +14,4 @@ export * from "./validation";
 export * from "./export";
 export * from "./editor";
 export * from "./auth";
+export * from "./deploy";

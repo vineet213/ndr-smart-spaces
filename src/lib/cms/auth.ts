@@ -50,6 +50,7 @@ export type Permission =
   | "collection:archive"
   | "collection:restore"
   | "export:run"
+  | "deploy:run"
   | "audit:read"
   | "settings:read";
 
@@ -68,6 +69,7 @@ const ROLE_PERMISSIONS: Record<CmsRole, readonly Permission[]> = {
     "collection:update",
     "collection:transition",
     "export:run",
+    "deploy:run",
     "audit:read",
     "settings:read",
   ],
@@ -80,6 +82,7 @@ const ROLE_PERMISSIONS: Record<CmsRole, readonly Permission[]> = {
     "collection:archive",
     "collection:restore",
     "export:run",
+    "deploy:run",
     "audit:read",
     "settings:read",
   ],

@@ -28,6 +28,8 @@ import {
   ReferenceRegistry,
   MemoryStore,
   RegistryConfig,
+  createDeploymentAdapter,
+  DeployResult,
 } from "../src/lib/cms";
 
 /* ─── Test harness ────────────────────────────────────────────────────────── */
@@ -99,6 +101,7 @@ assert(!hasPermission("viewer", "collection:update"), "viewer cannot update");
 assert(!hasPermission("viewer", "collection:delete"), "viewer cannot delete");
 assert(!hasPermission("viewer", "collection:transition"), "viewer cannot transition");
 assert(!hasPermission("viewer", "export:run"), "viewer cannot export");
+assert(!hasPermission("viewer", "deploy:run"), "viewer cannot deploy");
 
 assert(hasPermission("editor", "collection:read"), "editor can read");
 assert(hasPermission("editor", "collection:create"), "editor can create");
@@ -106,12 +109,14 @@ assert(hasPermission("editor", "collection:update"), "editor can update");
 assert(!hasPermission("editor", "collection:delete"), "editor cannot delete");
 assert(!hasPermission("editor", "collection:transition"), "editor cannot transition");
 assert(!hasPermission("editor", "export:run"), "editor cannot export");
+assert(!hasPermission("editor", "deploy:run"), "editor cannot deploy");
 
 assert(hasPermission("publisher", "collection:read"), "publisher can read");
 assert(hasPermission("publisher", "collection:create"), "publisher can create");
 assert(hasPermission("publisher", "collection:update"), "publisher can update");
 assert(hasPermission("publisher", "collection:transition"), "publisher can transition");
 assert(hasPermission("publisher", "export:run"), "publisher can export");
+assert(hasPermission("publisher", "deploy:run"), "publisher can deploy");
 assert(!hasPermission("publisher", "collection:delete"), "publisher cannot delete");
 
 assert(hasPermission("super-admin", "collection:read"), "super-admin can read");
@@ -121,6 +126,7 @@ assert(hasPermission("super-admin", "collection:delete"), "super-admin can delet
 assert(hasPermission("super-admin", "collection:transition"), "super-admin can transition");
 assert(hasPermission("super-admin", "collection:archive"), "super-admin can archive");
 assert(hasPermission("super-admin", "export:run"), "super-admin can export");
+assert(hasPermission("super-admin", "deploy:run"), "super-admin can deploy");
 
 section("Authentication — dev credentials");
 for (const cred of DEV_CREDENTIALS) {
@@ -164,6 +170,7 @@ requirePermission(editorSession, "collection:create");
 requirePermission(publisherSession, "collection:transition");
 requirePermission(adminSession, "collection:delete");
 requirePermission(adminSession, "export:run");
+requirePermission(adminSession, "deploy:run");
 assert(true, "requirePermission did not throw for allowed operations");
 
 section("requirePermission — denied");
@@ -180,8 +187,10 @@ expectDenied(() => requirePermission(viewerSession, "collection:create"), "viewe
 expectDenied(() => requirePermission(viewerSession, "collection:update"), "viewer → update");
 expectDenied(() => requirePermission(viewerSession, "collection:transition"), "viewer → transition");
 expectDenied(() => requirePermission(viewerSession, "export:run"), "viewer → export");
+expectDenied(() => requirePermission(viewerSession, "deploy:run"), "viewer → deploy");
 expectDenied(() => requirePermission(editorSession, "collection:transition"), "editor → transition");
 expectDenied(() => requirePermission(editorSession, "export:run"), "editor → export");
+expectDenied(() => requirePermission(editorSession, "deploy:run"), "editor → deploy");
 expectDenied(() => requirePermission(editorSession, "collection:delete"), "editor → delete");
 expectDenied(() => requirePermission(publisherSession, "collection:delete"), "publisher → delete");
 
@@ -309,6 +318,55 @@ const devRoles = DEV_CREDENTIALS.map((c) => c.role);
 assert(devRoles.includes("super-admin"), "dev credentials include super-admin");
 assert(devRoles.includes("editor"), "dev credentials include editor");
 assert(devRoles.includes("viewer"), "dev credentials include viewer");
+
+section("Deployment adapter — default (no provider configured)");
+{
+  const adapter = createDeploymentAdapter();
+  const result = adapter.deploy();
+  assert(result.provider === "null", "default adapter provider is null");
+  assert(result.deployed === false, "default adapter does not deploy");
+  assert(typeof result.message === "string", "default adapter returns message");
+}
+
+section("Deployment adapter — DeployResult shape");
+{
+  const adapter = createDeploymentAdapter();
+  const result: DeployResult = adapter.deploy();
+  assert("deployed" in result && typeof result.deployed === "boolean", "result has deployed boolean");
+  assert("provider" in result && typeof result.provider === "string", "result has provider string");
+  assert("message" in result && typeof result.message === "string", "result has message string");
+}
+
+section("Audit trail — export and deploy actions");
+{
+  const store = new MemoryStore();
+  const audit = new AuditLog(store);
+
+  const exportEntry = await audit.append({
+    user: "publisher",
+    role: "publisher",
+    action: "export",
+    collection: "metrics",
+    recordId: "export",
+    after: { generatedValid: true, contractStable: true },
+  });
+  assertEqual(exportEntry.action, "export", "export action recorded in audit");
+  assertEqual(exportEntry.user, "publisher", "export action records session user");
+
+  const deployEntry = await audit.append({
+    user: "publisher",
+    role: "publisher",
+    action: "deploy",
+    collection: "metrics",
+    recordId: "deploy",
+    after: { provider: "null", message: "No deployment configured" },
+  });
+  assertEqual(deployEntry.action, "deploy", "deploy action recorded in audit");
+  assertEqual(deployEntry.user, "publisher", "deploy action records session user");
+
+  const chain = await audit.verify();
+  assert(chain.valid, "audit chain valid after export + deploy actions");
+}
 
 } // end run()
 

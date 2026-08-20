@@ -24,6 +24,8 @@ export const AUDIT_ACTIONS = [
   "archive",
   "restore",
   "delete",
+  "export",
+  "deploy",
 ] as const;
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[number];
