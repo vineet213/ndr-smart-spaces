@@ -11,5 +11,5 @@
     "rootDir": "..",
     "types": ["node"]
   },
-  "include": ["cms-verify.ts", "cms-seed.ts", "cms-parity.ts", "cms-rbac.ts"]
+  "include": ["cms-verify.ts", "cms-export.ts", "cms-seed.ts", "cms-parity.ts", "cms-rbac.ts"]
 }

@@ -1,6 +1,6 @@
 export const publicationSettings = {
   "asOnDate": "As on 31 March 2026",
-  "copyrightLine": "\u00a9 2026 NDR Smart Spaces Pvt. Ltd.",
+  "copyrightLine": "\u00a9 2026 NDR Smart Spaces Pvt. Ltd. TEST",
   "documentPrefixes": {
     "CE-": "Certification reference",
     "DOC-": "Document reference",

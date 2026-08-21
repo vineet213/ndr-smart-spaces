@@ -111,4 +111,5 @@ export const footer = {
       "label": "Website Sitemap",
     },
   ],
+  "socialLinks": [],
 } as const;

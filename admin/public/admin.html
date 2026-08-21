@@ -713,13 +713,14 @@
             <span id="session-role" class="mono"></span>
           </span>
           <span class="spacer"></span>
-          <button id="btn-export" title="Regenerate managed modules and verify byte-stability">
-            Export
+          <button id="btn-export" class="act publish" title="Publish ALL saved CMS changes to the public site: export modules and rebuild">
+            Publish All
           </button>
           <button id="btn-audit">Audit</button>
           <button id="btn-refresh">Refresh</button>
           <button id="btn-logout" style="display:none" title="Sign out">Logout</button>
         </div>
+        <div id="publish-status" style="display:none;padding:8px 16px;background:#1d2a45;color:#cfe0ff;border-bottom:1px solid #335;font-size:12px"></div>
         <div class="content" id="content"></div>
       </div>
       <div class="modal-overlay" id="modal-overlay" style="display:none">
@@ -755,6 +756,7 @@
             if (k === "class") node.className = v;
             else if (k === "dataset")
               for (const [dk, dv] of Object.entries(v)) node.dataset[dk] = dv;
+            else if (k.startsWith("data-")) node.setAttribute(k, v);
             else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
             else node[k] = v;
           }
@@ -880,6 +882,8 @@
         state.session = null;
         state.meta = null;
         state.records = {};
+        state.currentKey = null; /* no stale editor state across login sessions */
+        history.replaceState(null, "", location.pathname);
         $("content").innerHTML = "";
         $("sidebar").innerHTML = "";
         showLogin();
@@ -919,15 +923,28 @@
         }
         return cur;
       }
-      function setPath(obj, path, value) {
+      function initPath(obj, path, value) {
         let cur = obj;
         for (let i = 0; i < path.length - 1; i++) {
           if (cur[path[i]] == null) cur[path[i]] = {};
           cur = cur[path[i]];
         }
         cur[path[path.length - 1]] = value;
-        state.dirty = true;
-        state.dataEdited = true;
+      }
+
+      function setPath(obj, path, value) {
+        let cur = obj;
+        for (let i = 0; i < path.length - 1; i++) {
+          if (cur[path[i]] == null) cur[path[i]] = {};
+          cur = cur[path[i]];
+        }
+        const key = path[path.length - 1];
+        const prev = cur[key];
+        cur[key] = value;
+        if (JSON.stringify(prev) !== JSON.stringify(value)) {
+          state.dirty = true;
+          state.dataEdited = true;
+        }
       }
 
       /* ═══════════════ Unsaved changes guard ═══════════════ */
@@ -1041,9 +1058,24 @@
       }
 
       /* ═══════════════ Editor routing ═══════════════ */
+      function validEditorKey(key) {
+        return (
+          typeof key === "string" &&
+          EDITOR_ORDER.includes(key) &&
+          !!state.meta?.schemas.some((s) => s.key === key)
+        );
+      }
+      function initialEditorKey() {
+        const requested = decodeURIComponent((location.hash || "").replace(/^#/, ""));
+        return validEditorKey(requested) ? requested : EDITOR_ORDER[0];
+      }
+      function syncHash(key) {
+        if (validEditorKey(key)) history.replaceState(null, "", `#${key}`);
+      }
       async function openEditor(key) {
         if (window.innerWidth <= 900) { $("sidebar").classList.remove("open"); $("sidebar-overlay").classList.remove("open"); }
         state.currentKey = key;
+        syncHash(key);
         state.draft = null;
         state.draftStatus = null;
         state.files = {};
@@ -1081,7 +1113,8 @@
       }
 
       function saveSettings(key) {
-        return saveRecord(key, state.draft.id ?? null, state.draft);
+        const record = state.records[key]?.records[0] || null;
+        return saveRecord(key, record?.id ?? null, state.draft);
       }
 
       /* ═══════════════ Record list ═══════════════ */
@@ -1507,7 +1540,10 @@
           state.records[key] = await api(`/api/c/${encodeURIComponent(key)}`);
           state.dirty = false;
           state.dataEdited = false;
-          toast(`Saved${result.issuedRef ? ` \u2014 ref ${result.issuedRef}` : ""}`, "ok");
+          toast(
+            `Saved \u2014 not yet published${result.issuedRef ? ` \u00b7 ref ${result.issuedRef}` : ""}. Use "Publish All" to make it live.`,
+            "ok",
+          );
           openEditor(key);
           return result;
         } catch (error) {
@@ -1712,14 +1748,13 @@
             ),
           );
           rows.append(row);
-          sync();
         };
         for (const [k, v] of entries) addRow(k, String(v));
         set.append(
           rows,
           el(
             "button",
-            { class: "mini", onclick: () => addRow("", "") },
+            { class: "mini", onclick: () => { addRow("", ""); sync(); } },
             `+ Add ${field.valueLabel || "pair"}`,
           ),
         );
@@ -1728,7 +1763,7 @@
 
       function listField(field, path, value, lookup) {
         if (!Array.isArray(value)) {
-          setPath(state.draft, path, []);
+          initPath(state.draft, path, []);
           value = [];
         }
         const set = el("fieldset", { class: "group" }, el("legend", null, field.label));
@@ -1900,7 +1935,7 @@
         };
         const current = getPath(state.draft, path);
         if (Array.isArray(current)) current.forEach((link) => addRow(link.label, link.href));
-        else { setPath(state.draft, path, []); }
+        else { initPath(state.draft, path, []); }
         return el(
           "fieldset",
           { class: "group" },
@@ -2563,37 +2598,81 @@
         $("drawer").classList.remove("open");
       }
 
-      /* ═══════════════ Export ═══════════════ */
-      async function runExport() {
-        toast("Regenerating managed modules\u2026");
-        try {
-          const result = await api("/api/export", { method: "POST" });
-          const lines = [
-            `Generated: ${result.generated.map((g) => `${g.fileName}${g.byteIdentical ? " \u2713" : " DRIFT"}`).join(", ") || "none"}`,
-            `Deterministic: ${result.generatedValid}`,
-            `Pass-through: ${result.contract.stable}`,
-            `Audit chain: ${result.audit.valid ? "verified" : "BROKEN"}`,
-          ];
-          toast(
-            `Export ${result.ok ? "clean" : "drift"} \u2014 ${lines[0]}`,
-            result.ok ? "ok" : "err",
+      /* ═══════════════ Publish (two-stage: Save ≠ Publish) ═══════════════ */
+      function setPublishing(on, message) {
+        $("btn-export").disabled = on;
+        const bar = $("publish-status");
+        bar.style.display = on ? "" : "none";
+        if (on && message) bar.textContent = message;
+      }
+      async function runPublish() {
+        if (state.dirty) {
+          const proceed = await showModal(
+            "Unsaved changes",
+            "You have unsaved edits in the current editor. Publishing sends only SAVED CMS content to the public site \u2014 unsaved edits are not included.",
+            [
+              { label: "Cancel", value: false },
+              { label: "Publish saved changes", value: true, primary: true },
+            ],
           );
-          if (result.ok) toast("Modules exported. Run 'npm run build' to update the public site.", "ok");
+          if (!proceed) return;
+        }
+        setPublishing(
+          true,
+          "Publishing\u2026 exporting CMS data and rebuilding the public site (this can take ~30s). Saved changes become live when it finishes.",
+        );
+        try {
+          const result = await api("/api/publish", { method: "POST" });
           const panel = $("drawer-panel");
           panel.innerHTML = "";
           panel.append(
             el(
               "div",
               { class: "toolbar" },
-              el("h3", { style: "margin:0" }, "Export report"),
+              el("h3", { style: "margin:0" }, result.ok ? "Published \u2014 site is up to date" : "Publish failed"),
               el("span", { class: "spacer" }),
               el("button", { class: "ghost", onclick: closeDrawer }, "Close"),
             ),
           );
-          for (const line of lines) panel.append(el("div", { class: "audit-item" }, line));
+          for (const line of [
+            `Generated: ${result.generated.map((g) => `${g.fileName}${g.byteIdentical ? " \u2713" : " DRIFT"}`).join(", ") || "none"}`,
+            `Deterministic: ${result.generatedValid}`,
+            `Pass-through contract: ${result.contract.stable}`,
+            `Audit chain: ${result.audit.valid ? "verified" : "BROKEN"}`,
+          ]) {
+            panel.append(el("div", { class: "audit-item" }, line));
+          }
+          if (result.build) {
+            panel.append(
+              el(
+                "div",
+                { class: "audit-item" },
+                result.build.ok
+                  ? `Site build succeeded in ${(result.build.durationMs / 1000).toFixed(1)}s`
+                  : `Site build FAILED after ${(result.build.durationMs / 1000).toFixed(1)}s \u2014 exported modules are NOT live`,
+              ),
+              el(
+                "pre",
+                { style: "white-space:pre-wrap;font-size:11px;color:#9aa4b8;margin:8px 0 0;max-height:240px;overflow:auto" },
+                result.build.tail || "(no build output)",
+              ),
+            );
+          }
+          if (result.ok) {
+            if (result.deployment?.deployed) {
+              panel.append(el("div", { class: "audit-item" }, `Deployment: ${result.deployment.message}`));
+            }
+            toast("Published \u2014 all saved CMS changes are now live on the public site.", "ok");
+          } else if (result.stage === "export") {
+            toast("Publish FAILED during export (see report). The public site was not updated.", "err");
+          } else {
+            toast("Publish FAILED during the site build (see report). The public site was not updated.", "err");
+          }
           $("drawer").classList.add("open");
         } catch (error) {
-          renderValidationError(error);
+          toast(`Publish failed \u2014 ${error.message}`, "err");
+        } finally {
+          setPublishing(false);
         }
       }
 
@@ -2615,23 +2694,31 @@
       }
 
       let bootAppDone = false;
+      function toggleSidebar() {
+        $("sidebar").classList.toggle("open");
+        $("sidebar-overlay").classList.toggle("open");
+      }
       async function bootApp() {
-        if (bootAppDone) { renderSidebar(); await openEditor(state.currentKey || EDITOR_ORDER[0]); return; }
-        bootAppDone = true;
-        $("btn-audit").addEventListener("click", openAudit);
-        $("btn-export").addEventListener("click", runExport);
-        $("btn-refresh").addEventListener("click", () => openEditor(state.currentKey));
-        $("drawer").addEventListener("click", (e) => {
-          if (e.target.id === "drawer") closeDrawer();
-        });
-        document.addEventListener("keydown", (e) => {
-          if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
-            e.preventDefault();
-            const btn = document.querySelector(".editor-head .primary");
-            if (btn) btn.click();
-          }
-        });
+        if (!bootAppDone) {
+          bootAppDone = true;
+          $("btn-audit").addEventListener("click", openAudit);
+          $("btn-export").addEventListener("click", runPublish);
+          $("btn-refresh").addEventListener("click", () => openEditor(state.currentKey));
+          $("drawer").addEventListener("click", (e) => {
+            if (e.target.id === "drawer") closeDrawer();
+          });
+          document.addEventListener("keydown", (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+              e.preventDefault();
+              const btn = document.querySelector(".editor-head .primary");
+              if (btn) btn.click();
+            }
+          });
+          $("btn-menu").addEventListener("click", toggleSidebar);
+          $("sidebar-overlay").addEventListener("click", toggleSidebar);
+        }
         try {
+          /* re-fetched on every login — logout clears session-scoped state */
           state.meta = await api("/api/meta");
         } catch (error) {
           if (error.message === "Authentication required." || error.message === "Forbidden") {
@@ -2649,14 +2736,7 @@
           try { state.records[key] = await api(`/api/c/${encodeURIComponent(key)}`); } catch(e) { /* skip */ }
         }));
         renderSidebar();
-        await openEditor(EDITOR_ORDER[0]);
-
-        function toggleSidebar() {
-          $("sidebar").classList.toggle("open");
-          $("sidebar-overlay").classList.toggle("open");
-        }
-        $("btn-menu").addEventListener("click", toggleSidebar);
-        $("sidebar-overlay").addEventListener("click", toggleSidebar);
+        await openEditor(initialEditorKey());
       }
       boot();
     </script>

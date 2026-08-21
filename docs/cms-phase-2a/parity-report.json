@@ -1,11 +1,11 @@
 {
   "phase": "2A/2B",
-  "generatedAt": "2026-08-20T19:42:12.440Z",
-  "verdict": "PASS",
+  "generatedAt": "2026-08-21T21:51:03.763Z",
+  "verdict": "FAIL",
   "counts": {
     "total": 397,
-    "passed": 397,
-    "failed": 0,
+    "passed": 392,
+    "failed": 5,
     "unintended": 0
   },
   "results": [
@@ -67,7 +67,8 @@
       "layer": "inventory/data",
       "description": "default payload matches the source mapping",
       "classification": "migration-related",
-      "passed": true
+      "passed": false,
+      "detail": "payload differs (mapping vs store)"
     },
     {
       "id": "brand-settings.count",
@@ -157,7 +158,8 @@
       "layer": "inventory/data",
       "description": "default payload matches the source mapping",
       "classification": "migration-related",
-      "passed": true
+      "passed": false,
+      "detail": "payload differs (mapping vs store)"
     },
     {
       "id": "metrics.count",
@@ -2703,7 +2705,7 @@
       "layer": "fidelity",
       "description": "footer record carries the frozen footer data (with correspondence heading)",
       "classification": "migration-related",
-      "passed": true
+      "passed": false
     },
     {
       "id": "fidelity.settings.corporate",
@@ -2717,7 +2719,7 @@
       "layer": "fidelity",
       "description": "publication settings carry the edition, prefix and numbering rules",
       "classification": "expected",
-      "passed": true
+      "passed": false
     },
     {
       "id": "fidelity.settings.brand",
@@ -2956,8 +2958,8 @@
       "layer": "relations",
       "description": "audit chain intact — 82 create entries (one per seeded record)",
       "classification": "expected",
-      "passed": true,
-      "detail": "valid=true, verified=82, expected=82"
+      "passed": false,
+      "detail": "valid=true, verified=110, expected=82"
     }
   ]
 }

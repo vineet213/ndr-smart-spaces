@@ -6,11 +6,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "start": "node scripts/serve-static.mjs",
+    "publish": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-export.js && next build",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "verify:cms": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-verify.js",
+    "cms:export": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-export.js",
     "verify:cms:baseline": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-verify.js --record-baseline",
     "seed:cms": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-seed.js",
     "verify:parity": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-parity.js",
@@ -32,6 +35,7 @@
     "husky": "9.1.7",
     "lint-staged": "17.3.0",
     "prettier": "3.9.6",
+    "puppeteer-core": "^25.8.0",
     "typescript": "5.9.3"
   },
   "lint-staged": {

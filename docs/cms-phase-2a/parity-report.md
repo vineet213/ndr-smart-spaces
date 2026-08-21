@@ -1,9 +1,9 @@
 # CMS Phase 2A/2B — Parity Report
 
-- Generated: 2026-08-20T19:42:12.444Z
+- Generated: 2026-08-21T21:51:03.765Z
 - Store: `.cms-store/content.json`
 - Generated modules: `src/lib/data/generated/`
-- Verdict: **PASS** — 397/397 checks passed, 0 failed, 0 unintended
+- Verdict: **FAIL** — 392/397 checks passed, 5 failed, 0 unintended
 
 ## inventory/data
 
@@ -16,7 +16,7 @@
 | publication-settings has exactly 1 records | PASS | migration-related |
 | default has status published <br><small>found published</small> | PASS | expected |
 | default has order 0000 <br><small>found 0000</small> | PASS | expected |
-| default payload matches the source mapping | PASS | migration-related |
+| default payload matches the source mapping <br><small>payload differs (mapping vs store)</small> | FAIL | migration-related |
 | brand-settings has exactly 1 records | PASS | migration-related |
 | default has status published <br><small>found published</small> | PASS | expected |
 | default has order 0000 <br><small>found 0000</small> | PASS | expected |
@@ -28,7 +28,7 @@
 | footer has exactly 1 records | PASS | migration-related |
 | default has status published <br><small>found published</small> | PASS | expected |
 | default has order 0000 <br><small>found 0000</small> | PASS | expected |
-| default payload matches the source mapping | PASS | migration-related |
+| default payload matches the source mapping <br><small>payload differs (mapping vs store)</small> | FAIL | migration-related |
 | metrics has exactly 22 records | PASS | expected |
 | m1 has status published <br><small>found published</small> | PASS | expected |
 | m1 has order 0000 <br><small>found 0000</small> | PASS | expected |
@@ -384,9 +384,9 @@
 | directory entry hr (Human Resources) preserved | PASS | expected |
 | directory entry grievance (Grievance Redressal) preserved | PASS | expected |
 | navigation record carries the frozen header/nav data byte-for-byte | PASS | expected |
-| footer record carries the frozen footer data (with correspondence heading) | PASS | migration-related |
+| footer record carries the frozen footer data (with correspondence heading) | FAIL | migration-related |
 | corporate settings carry the legal, contact and external-link record | PASS | migration-related |
-| publication settings carry the edition, prefix and numbering rules | PASS | expected |
+| publication settings carry the edition, prefix and numbering rules | FAIL | expected |
 | brand settings carry logos, favicon and SEO defaults (no OG image or social links) | PASS | migration-related |
 | corporate office address matches the frozen homepage contact record | PASS | expected |
 
@@ -430,11 +430,11 @@
 | metric keys unique (22 records) | PASS | expected |
 | document refs unique (5 records) | PASS | expected |
 | registry ledger records exactly 8 issues (the GV-REG refs) <br><small>found 8</small> | PASS | migration-related |
-| audit chain intact — 82 create entries (one per seeded record) <br><small>valid=true, verified=82, expected=82</small> | PASS | expected |
+| audit chain intact — 82 create entries (one per seeded record) <br><small>valid=true, verified=110, expected=82</small> | FAIL | expected |
 
 ## Summary
 
 - Total: 397
-- Passed: 397
-- Failed: 0
+- Passed: 392
+- Failed: 5
 - Unintended: 0

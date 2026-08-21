@@ -23,6 +23,7 @@
  */
 
 import { createServer, IncomingMessage, ServerResponse } from "node:http";
+import { spawn } from "node:child_process";
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import {
@@ -224,6 +225,67 @@ async function handleExport(session: {
   };
 }
 
+// ─── Publish handler (Save ≠ Publish) ─────────────────────────────────────────
+
+/**
+ * Publishes ALL saved CMS content: Stage 1 reuses handleExport unchanged
+ * (same engines, same verification, same audit semantics), then Stage 2 runs
+ * the project's own production build (`npm run build`) so exported modules
+ * become the live static site — mirroring `npm run publish`. Export failure
+ * skips the build; build failure is reported distinctly and never reported
+ * as success. The save flow itself is untouched.
+ */
+async function runSiteBuild(): Promise<{ ok: boolean; durationMs: number; tail: string }> {
+  const startedAt = Date.now();
+  return new Promise((resolve) => {
+    /* Run next's JS entry directly — spawning npm.cmd is blocked on recent
+       Node (EINVAL) and shell indirection adds fragility. */
+    const nextBin = join(ROOT, "node_modules", "next", "dist", "bin", "next");
+    const child = spawn(process.execPath, [nextBin, "build"], {
+      cwd: ROOT,
+      windowsHide: true,
+    });
+    let output = "";
+    const grab = (chunk: Buffer | string): void => {
+      output += chunk.toString();
+      if (output.length > 8000) output = output.slice(-8000);
+    };
+    child.stdout.on("data", grab);
+    child.stderr.on("data", grab);
+    child.on("error", (error) =>
+      resolve({ ok: false, durationMs: Date.now() - startedAt, tail: `spawn failed: ${error.message}` }),
+    );
+    child.on("close", (code) =>
+      resolve({
+        ok: code === 0,
+        durationMs: Date.now() - startedAt,
+        tail: output.trimEnd().split("\n").slice(-25).join("\n"),
+      }),
+    );
+  });
+}
+
+async function handlePublish(session: {
+  user: string;
+  role: string;
+}): Promise<
+  Awaited<ReturnType<typeof handleExport>> & {
+    ok: boolean;
+    stage: "export" | "build" | "done";
+    build?: { ok: boolean; durationMs: number; tail: string };
+  }
+> {
+  const exportResult = await handleExport(session);
+  if (!exportResult.ok) {
+    return { ...exportResult, ok: false, stage: "export" };
+  }
+  const build = await runSiteBuild();
+  if (!build.ok) {
+    return { ...exportResult, ok: false, stage: "build", build };
+  }
+  return { ...exportResult, ok: true, stage: "done", build };
+}
+
 // ─── Server ───────────────────────────────────────────────────────────────────
 
 const server = createServer(async (req: IncomingMessage, res: ServerResponse) => {
@@ -376,6 +438,12 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
     if (req.method === "POST" && path === "/api/export") {
       requirePermission(session, "export:run");
       return send(res, 200, await handleExport({ user: session.user, role: session.role }));
+    }
+
+    // ── Publish all saved changes (privileged): export → production build ──
+    if (req.method === "POST" && path === "/api/publish") {
+      requirePermission(session, "export:run");
+      return send(res, 200, await handlePublish({ user: session.user, role: session.role }));
     }
 
     // ── Deploy only (privileged, re-triggers deployment without re-export) ──

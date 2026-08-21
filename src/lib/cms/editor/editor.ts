@@ -113,7 +113,7 @@ export class CollectionEditor {
         ? await this.content.get(schema.key, input.id)
         : null;
     const isNew = existing === null;
-    const id = isNew ? input.id || (await this.resolveId(schema.key, input)) : (input.id as string);
+    const id = isNew ? input.id || (await this.resolveId(schema.key, input)) : (input.id || existing!.id);
 
     let data = sortKeys(input.data);
     const nextStatus: PublicationStatus =
