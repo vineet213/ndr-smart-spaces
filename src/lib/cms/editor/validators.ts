@@ -94,7 +94,7 @@ export function validateFields(schema: CollectionEditorSchema, data: JsonValue):
               message: `"${field.label}" is not a valid URL (expected https://, mailto:, or tel:).`,
             });
           }
-          if (field.kind === "select" && field.options && !field.options.includes(text)) {
+          if (field.kind === "select" && text && field.options && !field.options.includes(text)) {
             issues.push({
               rule: "required-completeness",
               collection: schema.key,
@@ -653,7 +653,33 @@ function validateCoordinates(
   collection: string,
   recordId: string,
   data: Record<string, JsonValue>,
+  optional = false,
 ): void {
+  const hasLat = data.lat !== undefined && data.lat !== null && String(data.lat).trim() !== "";
+  const hasLon = data.lon !== undefined && data.lon !== null && String(data.lon).trim() !== "";
+  if (!hasLat && !hasLon) {
+    if (optional) {
+      pushIssue(
+        issues,
+        collection,
+        "coordinates",
+        recordId,
+        "No coordinates set — this record will not render as a pin on the state map.",
+        "warning",
+      );
+    }
+    return;
+  }
+  if (hasLat !== hasLon) {
+    pushIssue(
+      issues,
+      collection,
+      "coordinates",
+      recordId,
+      "Latitude and longitude must be provided together.",
+    );
+    return;
+  }
   const lat = Number(data.lat);
   const lon = Number(data.lon);
   if (!Number.isFinite(lat) || lat < -90 || lat > 90) {
@@ -738,7 +764,7 @@ export function validateLocationsData(
   const issues: ValidationIssue[] = [];
   const data = (record.data ?? {}) as Record<string, JsonValue>;
   const recordId = record.id ?? "locations";
-  validateCoordinates(issues, "locations", recordId, data);
+  validateCoordinates(issues, "locations", recordId, data, true);
   if (record.status === "published") {
     const visible = data.visible as Record<string, JsonValue> | undefined;
     const anyVisible =
@@ -825,6 +851,16 @@ export function validatePortfolioAssetsData(
         "warning",
       );
     }
+  }
+  const landBankId = asOptionalText(data, "landBankId");
+  if (landBankId && !lookup.landBank.has(landBankId)) {
+    pushIssue(
+      issues,
+      "portfolio-assets",
+      "references",
+      recordId,
+      `Asset references land-bank parcel "${landBankId}" which is not a published parcel.`,
+    );
   }
   const route = data.route as { href?: string } | undefined;
   if (route?.href)
@@ -1005,6 +1041,27 @@ export function validateContactDirectoryData(
   return issues;
 }
 
+export function validateLandBankData(
+  record: RecordWithData,
+  lookup: ReferenceLookup,
+): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const data = (record.data ?? {}) as Record<string, JsonValue>;
+  const recordId = record.id ?? "land-bank";
+  validateCoordinates(issues, "land-bank", recordId, data, true);
+  const mediaId = asOptionalText(data, "mediaId");
+  if (mediaId && !lookup.media.has(mediaId)) {
+    pushIssue(
+      issues,
+      "land-bank",
+      "unpublished-linked-content",
+      recordId,
+      `Parcel image "${mediaId}" is not a published media asset.`,
+    );
+  }
+  return issues;
+}
+
 export function validateForEditor(
   schema: CollectionEditorSchema,
   record: RecordWithData,
@@ -1019,6 +1076,7 @@ export function validateForEditor(
   if (schema.key === "locations") issues.push(...validateLocationsData(record, lookup));
   if (schema.key === "portfolio-assets")
     issues.push(...validatePortfolioAssetsData(record, lookup));
+  if (schema.key === "land-bank") issues.push(...validateLandBankData(record, lookup));
   if (schema.key === "business-verticals")
     issues.push(...validateBusinessVerticalsData(record, lookup));
   if (schema.key === "esg-initiatives") issues.push(...validateEsgInitiativesData(record, lookup));

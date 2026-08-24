@@ -1,0 +1,471 @@
+.section {
+  background-color: var(--color-ivory);
+  padding-block: var(--space-7xl);
+}
+
+.headingBlock {
+  position: relative;
+}
+
+.goldRule {
+  display: block;
+  width: 4rem;
+  height: 2px;
+  margin-bottom: var(--space-lg);
+  background-color: var(--color-gold);
+}
+
+.chapter {
+  position: absolute;
+  top: -1.5rem;
+  right: 0;
+  font-family: var(--font-display, var(--font-body));
+  font-size: clamp(3rem, 6vw, 5rem);
+  line-height: 1;
+  color: rgba(240, 182, 90, 0.35);
+  pointer-events: none;
+}
+
+.framing {
+  max-width: 46rem;
+  margin-top: var(--space-md);
+}
+
+/* archival sheet ------------------------------------------------------------ */
+
+.sheet {
+  margin-top: var(--space-4xl);
+  padding: var(--space-3xl);
+  border: 2px solid rgba(28, 26, 25, 0.85);
+  box-shadow:
+    inset 0 0 0 1px rgba(240, 182, 90, 0.22),
+    0 0 0 1px rgba(240, 182, 90, 0.18);
+  background:
+    linear-gradient(135deg, rgba(28, 26, 25, 0.03) 0%, rgba(28, 26, 25, 0) 55%),
+    var(--color-stone-warm);
+}
+
+.provenance {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--color-hairline-stone);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+.provenanceSource {
+  flex: 1 1 100%;
+  order: 3;
+}
+
+.provenanceMeta {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-maroon);
+}
+
+.indexPanel.isInView,
+.mapPanel {
+  min-width: 0;
+}
+
+/* mode switch ---------------------------------------------------------------- */
+
+.modeSwitch {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  background-color: var(--color-ivory);
+  border: 1px solid rgba(28, 26, 25, 0.35);
+}
+
+.modeButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-small);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-stone);
+  transition:
+    background-color 250ms var(--ease-standard),
+    color 250ms var(--ease-standard);
+}
+
+.modeButton:hover,
+.modeButton:focus-visible {
+  color: var(--color-charcoal);
+  background-color: rgba(240, 182, 90, 0.14);
+}
+
+.modeActive {
+  color: var(--color-charcoal);
+  background-color: rgba(240, 182, 90, 0.28);
+  box-shadow: inset 0 -2px 0 var(--color-gold);
+}
+
+.modeCount {
+  padding: 1px 6px;
+  border: 1px solid currentcolor;
+  font-size: var(--font-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.panels {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: var(--space-4xl);
+  align-items: start;
+  margin-top: var(--space-3xl);
+}
+
+.indexPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  min-width: 0;
+  opacity: 0;
+  translate: 0 10px;
+  transition:
+    opacity 600ms var(--ease-standard),
+    translate 600ms var(--ease-standard);
+}
+
+.indexPanel.isInView {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.mapPanel {
+  padding: var(--space-xl);
+  background-color: var(--color-ivory);
+  border: 1px solid var(--color-hairline-stone);
+}
+
+.captionLabel {
+  display: block;
+  margin-top: var(--space-lg);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-maroon);
+}
+
+.captionLead {
+  margin: var(--space-sm) 0 0;
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
+}
+
+.mapSource {
+  margin-top: var(--space-md);
+}
+
+/* state index ---------------------------------------------------------------- */
+
+.stateIndex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.folio {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-ivory);
+  border: 1px solid rgba(28, 26, 25, 0.35);
+  cursor: pointer;
+  transition:
+    border-color 250ms var(--ease-standard),
+    background-color 250ms var(--ease-standard);
+}
+
+.folio:hover,
+.folio:focus-visible {
+  border-color: var(--color-gold);
+  background-color: rgba(240, 182, 90, 0.12);
+}
+
+.folioActive {
+  border-color: var(--color-gold);
+  background-color: rgba(240, 182, 90, 0.22);
+}
+
+.folioName {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-small);
+  letter-spacing: 0.04em;
+  color: var(--color-charcoal);
+}
+
+.folioRange {
+  font-family: var(--font-body);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+  font-variant-numeric: tabular-nums;
+}
+
+/* record survey panel -------------------------------------------------------- */
+
+.selectedState {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-sm);
+  margin: 0;
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--color-charcoal);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-small);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-charcoal);
+}
+
+.selectedMeta {
+  color: var(--color-maroon);
+  font-weight: var(--font-weight-body);
+  font-size: var(--font-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.recordScroll {
+  min-width: 0;
+}
+
+.recordConstrained {
+  max-height: 24rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: var(--space-sm);
+  box-shadow: inset 0 -18px 14px -16px rgba(28, 26, 25, 0.45);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(28, 26, 25, 0.35) transparent;
+}
+
+.recordConstrained::-webkit-scrollbar {
+  width: 6px;
+}
+
+.recordConstrained::-webkit-scrollbar-thumb {
+  background-color: rgba(28, 26, 25, 0.35);
+}
+
+.recordList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recordRow {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--color-hairline-light);
+}
+
+.recordIndex {
+  flex: 0 0 auto;
+  padding-top: 2px;
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  color: var(--color-gold-dark, #a97b28);
+  font-variant-numeric: tabular-nums;
+}
+
+.recordBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.recordName {
+  font-weight: var(--font-weight-body-medium);
+  color: var(--color-charcoal);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+}
+
+.recordSub {
+  color: var(--color-stone);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.recordNote {
+  margin-top: 2px;
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  color: rgba(28, 26, 25, 0.55);
+}
+
+.recordParcel {
+  margin-top: 2px;
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: 0.02em;
+  color: var(--color-maroon);
+}
+
+.recordMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex: 0 0 auto;
+  text-align: right;
+}
+
+.recordAcres {
+  font-size: var(--font-small);
+  color: var(--color-charcoal);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.recordTag {
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+  white-space: nowrap;
+}
+
+.viewAll {
+  align-self: flex-start;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid rgba(28, 26, 25, 0.35);
+  background-color: var(--color-ivory);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-charcoal);
+  font-variant-numeric: tabular-nums;
+  transition:
+    border-color 250ms var(--ease-standard),
+    background-color 250ms var(--ease-standard);
+}
+
+.viewAll:hover,
+.viewAll:focus-visible {
+  border-color: var(--color-gold);
+  background-color: rgba(240, 182, 90, 0.14);
+}
+
+.noSelection {
+  margin: 0;
+  padding: var(--space-lg);
+  border: 1px dashed rgba(28, 26, 25, 0.3);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
+}
+
+/* under construction mode ---------------------------------------------------- */
+
+.constructionEmpty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-lg);
+  border: 1px dashed rgba(28, 26, 25, 0.3);
+}
+
+.constructionEmptyTitle {
+  margin: 0;
+  font-size: var(--font-small);
+  color: var(--color-charcoal);
+}
+
+.constructionEmptyNote {
+  margin: 0;
+  font-size: var(--font-meta);
+  color: var(--color-stone);
+}
+
+/* reduced motion -------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .indexPanel {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+}
+
+/* responsive ------------------------------------------------------------------ */
+
+@media (max-width: 1023px) {
+  .panels {
+    grid-template-columns: 1fr;
+  }
+
+  .provenanceSource {
+    flex-basis: auto;
+    order: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .sheet {
+    padding: var(--space-xl);
+  }
+
+  .modeSwitch {
+    width: 100%;
+  }
+
+  .modeButton {
+    flex: 1 1 50%;
+    justify-content: center;
+  }
+
+  .recordRow {
+    flex-wrap: wrap;
+  }
+
+  .recordMeta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-sm);
+    width: 100%;
+    text-align: left;
+  }
+
+  .recordScroll.recordConstrained {
+    max-height: 20rem;
+  }
+}

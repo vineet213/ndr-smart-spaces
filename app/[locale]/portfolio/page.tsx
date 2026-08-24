@@ -1,36 +1,24 @@
 import type { Metadata } from "next";
 import {
-  AssetRegister,
-  AtlasField,
-  FilingBand,
+  Footer,
   PortfolioClosing,
   PortfolioMasthead,
+  PropertyRegister,
   WhyNdr,
-  ZoneSection,
-  Footer,
 } from "@/components/sections";
-import { assetsInZone, geoZones } from "@/lib/data/portfolio";
 
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "The institutional catalogue of NDR Smart Spaces — why NDR, assets developed and owned by the group, mapped by zone, recorded as numbered plates and cross-referenced in an analyst register.",
+    "The institutional catalogue of NDR Smart Spaces — one state survey of the group's properties: the developable land bank and the assets rising on it, recorded as filed.",
 };
 
 export default function PortfolioPage() {
-  const filedZones = geoZones.filter((zone) => assetsInZone(zone.id).length > 0);
-  const pendingZones = geoZones.filter((zone) => assetsInZone(zone.id).length === 0);
-
   return (
     <>
       <PortfolioMasthead />
       <WhyNdr />
-      <AtlasField />
-      {filedZones.map((zone) => (
-        <ZoneSection key={zone.id} zone={zone} />
-      ))}
-      {pendingZones.length > 0 ? <FilingBand /> : null}
-      <AssetRegister />
+      <PropertyRegister />
       <PortfolioClosing />
       <Footer />
     </>

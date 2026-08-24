@@ -31,6 +31,8 @@ export type ReferenceLookup = {
   initiativeCodes: Map<string, string>;
   /** Directory keys across all contact-directory records, mapped to id. */
   directoryKeys: Map<string, string>;
+  /** Published/external land-bank parcels by record id. */
+  landBank: Map<string, StoredRecord>;
 };
 
 function asText(data: JsonValue, key: string): string {
@@ -64,6 +66,7 @@ export async function buildReferenceLookup(content: ContentStore): Promise<Refer
     businessVerticals,
     esgInitiatives,
     contactDirectory,
+    landBank,
   ] = await Promise.all([
     content.list("locations"),
     content.list("media"),
@@ -73,6 +76,7 @@ export async function buildReferenceLookup(content: ContentStore): Promise<Refer
     content.list("business-verticals"),
     content.list("esg-initiatives"),
     content.list("contact-directory"),
+    content.list("land-bank"),
   ]);
 
   const locationsMap = new Map<string, StoredRecord>();
@@ -105,6 +109,9 @@ export async function buildReferenceLookup(content: ContentStore): Promise<Refer
   const directoryKeys = new Map<string, string>();
   indexValue(directoryKeys, contactDirectory, "key");
 
+  const landBankMap = new Map<string, StoredRecord>();
+  for (const record of landBank) if (isPublic(record)) landBankMap.set(record.id, record);
+
   return {
     locations: locationsMap,
     media: mediaMap,
@@ -115,5 +122,6 @@ export async function buildReferenceLookup(content: ContentStore): Promise<Refer
     verticalIndexes,
     initiativeCodes,
     directoryKeys,
+    landBank: landBankMap,
   };
 }

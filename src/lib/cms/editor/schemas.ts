@@ -8,6 +8,8 @@
  * (editor/validators.ts).
  */
 
+import { INDIAN_STATE_NAMES } from "../../data/india-states";
+
 export type FieldKind =
   | "text"
   | "textarea"
@@ -363,9 +365,26 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
         options: ["south", "west", "east", "north"],
       },
       { key: "region", label: "Region", kind: "text", placeholder: "Tamil Nadu" },
+      {
+        key: "state",
+        label: "State",
+        kind: "select",
+        options: INDIAN_STATE_NAMES,
+        helper: "Groups the location under a state on the portfolio atlas state view.",
+      },
       { key: "line", label: "Line", kind: "text", placeholder: "Chennai, Tamil Nadu" },
-      { key: "lat", label: "Latitude", kind: "number", required: true },
-      { key: "lon", label: "Longitude", kind: "number", required: true },
+      {
+        key: "lat",
+        label: "Latitude",
+        kind: "number",
+        helper: "Optional — pins the location on the portfolio state map.",
+      },
+      {
+        key: "lon",
+        label: "Longitude",
+        kind: "number",
+        helper: "Optional — required together with latitude for a map pin.",
+      },
       {
         key: "homepageOffset",
         label: "Homepage map offset",
@@ -471,6 +490,12 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
         helper: "Id of the published shared location.",
       },
       {
+        key: "landBankId",
+        label: "Land-bank parcel",
+        kind: "text",
+        helper: "Id of a published land-bank parcel this asset is being built on.",
+      },
+      {
         key: "class",
         label: "Class",
         kind: "select",
@@ -511,6 +536,66 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
         ],
       },
       { key: "source", label: "Source", kind: "text" },
+    ],
+  },
+  {
+    key: "land-bank",
+    label: "Land Bank",
+    editor: "records",
+    statusEnabled: true,
+    description:
+      "Developable land bank — parcels held for future development, mapped by state on the portfolio atlas.",
+    fields: [
+      { key: "name", label: "Name", kind: "text", required: true },
+      {
+        key: "state",
+        label: "State",
+        kind: "select",
+        required: true,
+        options: INDIAN_STATE_NAMES,
+      },
+      { key: "district", label: "District / city", kind: "text" },
+      {
+        key: "classification",
+        label: "Classification",
+        kind: "select",
+        options: ["industrial", "logistics", "warehousing", "mixed-use"],
+      },
+      {
+        key: "extentAcres",
+        label: "Extent (acres)",
+        kind: "number",
+        min: 0,
+        helper: "Developable extent in acres.",
+      },
+      {
+        key: "landStatus",
+        label: "Parcel status",
+        kind: "select",
+        options: ["available", "committed", "under-development"],
+        helper:
+          "Optional — leave blank when the deed does not state a status. Named landStatus so the workflow status stays unambiguous in generated output.",
+      },
+      { key: "summary", label: "Summary", kind: "textarea" },
+      {
+        key: "lat",
+        label: "Latitude",
+        kind: "number",
+        helper: "Optional — pins the parcel on the portfolio state map.",
+      },
+      {
+        key: "lon",
+        label: "Longitude",
+        kind: "number",
+        helper: "Optional — required together with latitude for a map pin.",
+      },
+      {
+        key: "mediaId",
+        label: "Image media id",
+        kind: "text",
+        helper: "Id of a published media asset.",
+      },
+      { key: "note", label: "Note", kind: "textarea" },
     ],
   },
   {

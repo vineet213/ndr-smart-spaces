@@ -1,0 +1,214 @@
+.wrapper {
+  width: 100%;
+}
+
+.mapFrame {
+  position: relative;
+}
+
+.map {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1020 / 1090;
+  background-color: var(--color-ivory-96);
+}
+
+.notToScale {
+  margin-top: var(--space-2, 8px);
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: rgba(28, 26, 25, 0.5);
+}
+
+.graticule line {
+  stroke: var(--color-charcoal);
+  stroke-width: 1;
+  opacity: 0.06;
+}
+
+.ticks line {
+  stroke: rgba(28, 26, 25, 0.6);
+  stroke-width: 1;
+}
+
+/* zoom layer — transform is set inline from INDIA_STATE_BOUNDS -------------- */
+
+.zoomLayer {
+  transition: transform 800ms var(--ease-standard);
+  transform-origin: 0px 0px;
+}
+
+/* states -------------------------------------------------------------------- */
+
+.states path {
+  fill: rgba(28, 26, 25, 0.045);
+  stroke: rgba(28, 26, 25, 0.35);
+  stroke-width: 0.75;
+  stroke-linejoin: round;
+  opacity: 1;
+  transition:
+    fill 300ms var(--ease-standard),
+    stroke 300ms var(--ease-standard),
+    opacity 300ms var(--ease-standard);
+}
+
+.states path.stateSelectable {
+  cursor: pointer;
+  fill: rgba(240, 182, 90, 0.14);
+  stroke: rgba(28, 26, 25, 0.5);
+  outline: none;
+}
+
+/* staggered reveal */
+.states path {
+  opacity: 0;
+}
+
+.isInView .states path {
+  opacity: 1;
+  transition-delay: calc(var(--i, 0) * 40ms), 0ms, 0ms, 0ms;
+}
+
+.states path.stateSelectable:hover,
+.states path.stateActive {
+  fill: rgba(240, 182, 90, 0.34);
+  stroke: var(--color-gold);
+  stroke-width: 1.5;
+}
+
+.states path.stateSelectable:focus-visible {
+  stroke: var(--color-gold);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 4px var(--color-gold-30));
+}
+
+.states path.stateDimmed {
+  fill: rgba(28, 26, 25, 0.02);
+  stroke: rgba(28, 26, 25, 0.18);
+}
+
+/* parcel pins --------------------------------------------------------------- */
+
+.pins {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms var(--ease-standard) 250ms;
+}
+
+.pinsShown {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.pinGroup {
+  cursor: pointer;
+  outline: none;
+  opacity: 0;
+  translate: 0 -6px;
+  transition:
+    opacity 500ms var(--ease-standard),
+    translate 500ms var(--ease-standard);
+  transition-delay: calc(var(--i, 0) * 70ms + 350ms);
+}
+
+.isInView .pinsShown .pinGroup,
+.pinsShown .pinGroup {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.pinHit {
+  fill: transparent;
+}
+
+.pinDot {
+  fill: var(--color-gold);
+  stroke: rgba(28, 26, 25, 0.65);
+  stroke-width: 1.4;
+}
+
+.pinCore {
+  fill: var(--color-ivory);
+}
+
+.pinActive .pinDot {
+  fill: var(--color-maroon);
+  r: 6;
+  filter: drop-shadow(0 0 3px var(--color-gold));
+}
+
+.pinGroup:focus-visible .pinDot {
+  filter: drop-shadow(0 0 4px var(--color-gold));
+}
+
+/* reset ---------------------------------------------------------------------- */
+
+.reset {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 6px 14px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: var(--font-weight-body-medium);
+  letter-spacing: 0.08em;
+  color: rgba(28, 26, 25, 0.85);
+  background-color: var(--color-ivory);
+  border: 1px solid rgba(28, 26, 25, 0.45);
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    border-color 250ms var(--ease-standard),
+    color 250ms var(--ease-standard),
+    background-color 250ms var(--ease-standard);
+}
+
+.reset:hover,
+.reset:focus-visible {
+  border-color: var(--color-gold);
+  color: var(--color-maroon);
+  background-color: rgba(240, 182, 90, 0.12);
+}
+
+/* tooltip -------------------------------------------------------------------- */
+
+.tooltip {
+  pointer-events: none;
+}
+
+.tooltip rect {
+  fill: var(--color-charcoal);
+  opacity: 0.92;
+}
+
+.tooltipText {
+  fill: var(--color-ivory);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: var(--font-weight-body-medium);
+  letter-spacing: 0.04em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zoomLayer,
+  .states path,
+  .pins,
+  .pinGroup,
+  .reset {
+    transition: none !important;
+  }
+
+  .pinGroup {
+    translate: 0 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .map {
+    width: min(100%, 32rem);
+    height: auto;
+    margin-inline: auto;
+  }
+}

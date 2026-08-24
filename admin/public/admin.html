@@ -473,6 +473,38 @@
       .filter-pill:hover:not(.active) {
         border-color: var(--accent-2);
       }
+      .filter-bar select {
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        border-radius: 5px;
+        padding: 5px 7px;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .filter-bar select:focus {
+        border-color: var(--border-focus);
+        outline: none;
+      }
+      .filter-count {
+        font-size: 11px;
+        color: var(--muted);
+        margin-left: auto;
+        white-space: nowrap;
+      }
+      .filter-clear {
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 10px;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+      }
+      .filter-clear:hover {
+        border-color: var(--accent);
+        color: var(--text);
+      }
 
       /* ── unsaved indicator ── */
       .unsaved-dot {
@@ -782,6 +814,7 @@
         dataEdited: false,
         searchQuery: "",
         statusFilter: "all",
+        stateFilter: "all",
         sidebarQuery: "",
         session: null,
       };
@@ -796,6 +829,7 @@
         "metrics",
         "locations",
         "portfolio-assets",
+        "land-bank",
         "business-verticals",
         "esg-initiatives",
         "governance-records",
@@ -815,6 +849,7 @@
             "metrics",
             "locations",
             "portfolio-assets",
+            "land-bank",
             "business-verticals",
             "esg-initiatives",
             "governance-records",
@@ -1074,20 +1109,38 @@
       }
       async function openEditor(key) {
         if (window.innerWidth <= 900) { $("sidebar").classList.remove("open"); $("sidebar-overlay").classList.remove("open"); }
+        /* Returning to the SAME collection (after save/publish/delete/edit or
+           a same-page hash sync) must keep the user's active list filters.
+           Only an actual collection switch starts from a clean slate. */
+        const sameCollection = state.currentKey === key;
         state.currentKey = key;
         syncHash(key);
         state.draft = null;
         state.draftStatus = null;
         state.files = {};
         state.dirty = false;
-        state.searchQuery = "";
-        state.statusFilter = "all";
+        if (!sameCollection) {
+          state.searchQuery = "";
+          state.statusFilter = "all";
+          state.stateFilter = "all";
+        }
         renderSidebar();
         try {
           if (!state.records[key])
             state.records[key] = await api(`/api/c/${encodeURIComponent(key)}`);
         } catch (error) {
           return renderError(error.message);
+        }
+        /* The Land Bank list shows per-parcel Under Construction linkage, so
+           make sure the portfolio-asset records are available in the cache. */
+        if (key === "land-bank" && !state.records["portfolio-assets"]) {
+          api(`/api/c/portfolio-assets`)
+            .then((assets) => {
+              state.records["portfolio-assets"] = assets;
+              if ($("record-list-inner"))
+                refreshRecordList(state.meta.schemas.find((s) => s.key === "land-bank"));
+            })
+            .catch(() => {});
         }
         const schema = state.meta.schemas.find((s) => s.key === key);
         if (schema.editor === "navigation") renderNav();
@@ -1137,13 +1190,20 @@
         });
 
         const filterBar = el("div", { class: "filter-bar" }, search);
-        const statuses = ["all", ...new Set(allRecords.map((r) => r.status))];
+        /* Status-enabled collections expose every canonical workflow status
+           (from server meta), so Draft/Published/Archived stay reachable even
+           when no record currently holds that status. */
+        const statuses =
+          schema.statusEnabled && Array.isArray(state.meta?.publicationStatuses)
+            ? ["all", ...state.meta.publicationStatuses]
+            : ["all", ...new Set(allRecords.map((r) => r.status))];
         for (const s of statuses) {
           filterBar.append(
             el(
               "button",
               {
                 class: "filter-pill" + (state.statusFilter === s ? " active" : ""),
+                dataset: { status: s },
                 onclick: () => {
                   state.statusFilter = s;
                   refreshRecordList(schema);
@@ -1155,6 +1215,57 @@
             ),
           );
         }
+
+        /* Optional geography facet — any collection whose schema declares a
+           select field named "state". Options come from the records themselves
+           (ordered by the schema's declared option list), never hardcoded. */
+        const stateFacet = collectionStateFacet(schema);
+        if (stateFacet) {
+          if (!stateFacet.values.includes(state.stateFilter)) state.stateFilter = "all";
+          filterBar.append(
+            el(
+              "select",
+              {
+                class: "filter-select",
+                "aria-label": `Filter by ${stateFacet.label.toLowerCase()}`,
+                onchange: (e) => {
+                  state.stateFilter = e.target.value;
+                  refreshRecordList(schema);
+                },
+              },
+              el("option", { value: "all" }, `All ${stateFacet.label.toLowerCase()}s`),
+              ...stateFacet.values.map((v) =>
+                el(
+                  "option",
+                  { value: v },
+                  `${v} (${allRecords.filter((r) => (r.data?.state ?? "") === v).length})`,
+                ),
+              ),
+            ),
+          );
+          const selectEl = filterBar.querySelector("select.filter-select");
+          if (selectEl) selectEl.value = state.stateFilter;
+        }
+
+        filterBar.append(
+          el("span", { class: "filter-count", id: "record-count" }),
+          el(
+            "button",
+            {
+              type: "button",
+              class: "filter-clear",
+              id: "clear-filters",
+              style: hasActiveRecordFilters() ? "" : "display:none",
+              onclick: () => {
+                state.searchQuery = "";
+                state.statusFilter = "all";
+                state.stateFilter = "all";
+                renderRecordList(schema);
+              },
+            },
+            "Clear filters",
+          ),
+        );
 
         const listInner = el("div", { id: "record-list-inner" });
         const list = el("div", { class: "card" }, filterBar, listInner);
@@ -1171,6 +1282,7 @@
           list,
           el("div", { class: "toolbar" }, el("span", { class: "spacer" }), newBtn),
         );
+        updateFilterStatus(schema);
       }
 
       function refreshRecordList(schema) {
@@ -1184,21 +1296,90 @@
         });
         parent.replaceChild(newInner, inner);
         buildRecordListInner(schema, newInner);
+        syncFilterControls();
+        updateFilterStatus(schema);
       }
 
-      function buildRecordListInner(schema, container) {
-        container.innerHTML = "";
+      /* Keep the filter controls' visible state (active pill, select value,
+         clear button) in step with the actual filter state after every
+         list refresh. */
+      function syncFilterControls() {
+        const bar = document.querySelector(".filter-bar");
+        if (!bar) return;
+        for (const pill of bar.querySelectorAll(".filter-pill"))
+          pill.classList.toggle("active", pill.dataset.status === state.statusFilter);
+        const sel = bar.querySelector("select.filter-select");
+        if (sel) sel.value = state.stateFilter;
+      }
+
+      function hasActiveRecordFilters() {
+        return (
+          state.searchQuery !== "" ||
+          state.statusFilter !== "all" ||
+          state.stateFilter !== "all"
+        );
+      }
+
+      /* Distinct record values for a schema-declared select field named
+         "state" — ordered by the declared options, unknown values appended. */
+      function collectionStateFacet(schema) {
+        const field = (schema.fields ?? []).find(
+          (f) => f.key === "state" && f.kind === "select",
+        );
+        if (!field) return null;
+        const records = state.records[schema.key]?.records ?? [];
+        const present = [
+          ...new Set(
+            records
+              .map((r) => r.data?.state)
+              .filter((v) => typeof v === "string" && v.trim() !== ""),
+          ),
+        ];
+        if (present.length === 0) return null;
+        const declared = Array.isArray(field.options) ? field.options : [];
+        present.sort((a, b) => {
+          const ia = declared.indexOf(a);
+          const ib = declared.indexOf(b);
+          return (
+            (ia === -1 ? Number.MAX_SAFE_INTEGER : ia) -
+              (ib === -1 ? Number.MAX_SAFE_INTEGER : ib) || a.localeCompare(b)
+          );
+        });
+        return { label: field.label ?? "State", values: present };
+      }
+
+      function applyRecordFilters(schema) {
         const allRecords = state.records[schema.key].records;
         let filtered = allRecords;
         if (state.statusFilter !== "all")
           filtered = filtered.filter((r) => r.status === state.statusFilter);
+        if (state.stateFilter !== "all")
+          filtered = filtered.filter(
+            (r) => (r.data?.state ?? "") === state.stateFilter,
+          );
         if (state.searchQuery) {
           const q = state.searchQuery.toLowerCase();
-          filtered = filtered.filter((r) => {
-            const text = recordSearchText(schema, r);
-            return text.toLowerCase().includes(q);
-          });
+          filtered = filtered.filter((r) =>
+            recordSearchText(schema, r).toLowerCase().includes(q),
+          );
         }
+        return { all: allRecords, filtered };
+      }
+
+      function updateFilterStatus(schema) {
+        const { all, filtered } = applyRecordFilters(schema);
+        const count = $("record-count");
+        if (count)
+          count.textContent = `${filtered.length} of ${all.length} record${
+            all.length === 1 ? "" : "s"
+          }`;
+        const clear = $("clear-filters");
+        if (clear) clear.style.display = hasActiveRecordFilters() ? "" : "none";
+      }
+
+      function buildRecordListInner(schema, container) {
+        container.innerHTML = "";
+        const { all: allRecords, filtered } = applyRecordFilters(schema);
         if (filtered.length === 0) {
           container.append(
             el(
@@ -1233,6 +1414,8 @@
           d.kind,
           d.city,
           d.region,
+          d.state,
+          d.landBankId,
           d.ref,
           d.email?.label,
           d.email?.href,
@@ -1260,8 +1443,70 @@
           ),
           el("span", { class: "pill " + record.status }, record.status),
           el("div", null, statusActions(schema, record)),
+          linkedAssetActions(schema, record),
           el("button", { class: "ghost", onclick: () => openRecordForm(schema, record) }, "Edit"),
         );
+      }
+
+      /* ═══════════════ Land Bank ⇄ Under Construction linkage ═══════════════
+         One underlying site can be held in the land bank AND be under
+         construction: a portfolio-asset references the parcel via landBankId.
+         The row action either creates that reference (without duplicating the
+         parcel) or reveals the existing one. */
+      function linkedAssetActions(schema, record) {
+        if (schema.key !== "land-bank") return null;
+        const links = (state.records["portfolio-assets"]?.records ?? []).filter(
+          (a) => a.data?.landBankId === record.id,
+        );
+        if (links.length > 0)
+          return el(
+            "button",
+            {
+              class: "ghost mini",
+              title: `${links.length} under-construction record${
+                links.length === 1 ? "" : "s"
+              } already reference${links.length === 1 ? "s" : ""} this parcel — view them`,
+              onclick: () => viewLinkedAssets(record.id),
+            },
+            `U/C \u00b7 ${links.length}`,
+          );
+        return el(
+          "button",
+          {
+            class: "ghost mini",
+            title:
+              "Create an under-construction record referencing this parcel. The parcel itself stays in the land bank.",
+            onclick: () => createLinkedAsset(record),
+          },
+          "+ U/C",
+        );
+      }
+
+      async function loadAssetsForLinkage() {
+        if (!state.records["portfolio-assets"]) {
+          try {
+            state.records["portfolio-assets"] = await api(`/api/c/portfolio-assets`);
+          } catch (error) {
+            renderError(error.message);
+            return null;
+          }
+        }
+        return state.meta.schemas.find((s) => s.key === "portfolio-assets");
+      }
+
+      async function createLinkedAsset(parcelRecord) {
+        const schema = await loadAssetsForLinkage();
+        if (!schema) return;
+        await openEditor("portfolio-assets");
+        openRecordForm(schema, null, { landBankId: parcelRecord.id });
+      }
+
+      async function viewLinkedAssets(parcelId) {
+        const schema = await loadAssetsForLinkage();
+        if (!schema) return;
+        await openEditor("portfolio-assets");
+        state.searchQuery = parcelId;
+        renderRecordList(schema);
       }
 
       function recordTitle(schema, record) {
@@ -1362,9 +1607,10 @@
       }
 
       /* ═══════════════ Record form ═══════════════ */
-      function openRecordForm(schema, record) {
+      function openRecordForm(schema, record, initialData) {
         const isNew = record === null;
         state.draft = JSON.parse(JSON.stringify(record?.data ?? {}));
+        if (isNew && initialData) Object.assign(state.draft, initialData);
         state.draftStatus = record?.status ?? null;
         state.files = {};
         state.dirty = false;
@@ -1505,7 +1751,13 @@
           name: r.data.name,
           status: r.status,
         }));
-        return { locations: locs, media: meds, documents: docs, metrics: metr };
+        const land = (state.records["land-bank"]?.records || []).map((r) => ({
+          id: r.id,
+          name: r.data.name,
+          state: r.data.state,
+          status: r.status,
+        }));
+        return { locations: locs, media: meds, documents: docs, metrics: metr, landBank: land };
       }
 
       /* ═══════════════ Delete record ═══════════════ */
@@ -1615,6 +1867,8 @@
           return relField(field, path, lookup.documents, "ref", "title", "ref", "Select document…");
         if (lookup && field.key === "metricKey" && field.kind === "text")
           return relField(field, path, lookup.metrics, "key", "name", "key", "Select metric…");
+        if (lookup && field.key === "landBankId" && field.kind === "text")
+          return relField(field, path, lookup.landBank, "id", "name", "state", "Select land parcel…");
 
         switch (field.kind) {
           case "text":
@@ -1655,7 +1909,12 @@
           value: value == null ? "" : String(value),
           placeholder: field.placeholder || "",
           oninput: (e) => {
-            const next = field.kind === "number" ? Number(e.target.value) : e.target.value;
+            const next =
+              field.kind === "number"
+                ? e.target.value.trim() === ""
+                  ? null
+                  : Number(e.target.value)
+                : e.target.value;
             setPath(state.draft, path, next);
           },
         });
@@ -1666,6 +1925,9 @@
             el(
               "select",
               { onchange: (e) => setPath(state.draft, path, e.target.value) },
+              ...(!field.required
+                ? [el("option", { value: "", selected: !value }, "—")]
+                : []),
               ...(field.options || []).map((opt) =>
                 el("option", { value: opt, selected: String(value) === opt }, opt),
               ),
