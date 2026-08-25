@@ -18,8 +18,10 @@ import {
   propertyRegister,
   underConstructionAssets,
   underConstructionSection,
+  constructionStates,
+  constructionByState,
 } from "@/lib/data/portfolio";
-import type { LandBankParcel, PortfolioAsset } from "@/lib/data/portfolio";
+import type { LandBankParcel, PortfolioAsset, AtlasPinData } from "@/lib/data/portfolio";
 import { indianStateById } from "@/lib/data/india-states";
 import { PortfolioAtlas } from "./PortfolioAtlas";
 import { Reveal } from "./Reveal";
@@ -28,27 +30,29 @@ import styles from "./PropertyRegister.module.css";
 
 type RegisterMode = "landbank" | "construction";
 
-/**
- * Number of parcel records above which the list is constrained to a scrolling
- * survey panel with an explicit "View all" expansion. Below this the full list
- * renders open, as before.
- */
 const RECORD_COLLAPSE_LIMIT = 5;
 
 export function PropertyRegister() {
   const [mode, setMode] = useState<RegisterMode>("landbank");
   const [selectedStateId, setSelectedStateId] = useState<string | null>(null);
+  const [selectedParcelId, setSelectedParcelId] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(false);
   const { ref: panelRef, inView: panelInView } = useInView<HTMLDivElement>();
 
   const handleStateSelect = useCallback((stateId: string | null) => {
     setSelectedStateId(stateId);
+    setSelectedParcelId(null);
     setExpanded(false);
+  }, []);
+
+  const handleParcelSelect = useCallback((parcelId: string | null) => {
+    setSelectedParcelId(parcelId);
   }, []);
 
   const handleModeChange = useCallback((next: RegisterMode) => {
     setMode(next);
     setSelectedStateId(null);
+    setSelectedParcelId(null);
     setExpanded(false);
   }, []);
 
@@ -67,13 +71,42 @@ export function PropertyRegister() {
 
   const constructionAssets = useMemo(() => underConstructionAssets(), []);
 
+  /* Pins for the current mode + selected state. */
+  const currentPins: readonly AtlasPinData[] = useMemo(() => {
+    if (!selectedStateId) return [];
+    if (mode === "landbank") {
+      return landBankByState(selectedStateId)
+        .filter((p) => p.pin !== undefined)
+        .map((p) => ({
+          id: p.id,
+          name: p.name,
+          pin: p.pin!,
+          extentAcres: p.extentAcres,
+          district: p.district,
+        }));
+    }
+    return constructionByState(selectedStateId);
+  }, [mode, selectedStateId]);
+
+  const currentStates = mode === "landbank" ? landBankStates : constructionStates;
+
+  /* Detail panel: when a parcel is selected, resolve the full record. */
+  const selectedParcel = useMemo(() => {
+    if (!selectedParcelId) return null;
+    if (mode === "landbank") {
+      return landParcelById(selectedParcelId) ?? null;
+    }
+    return constructionAssets.find((a) => a.id === selectedParcelId) ?? null;
+  }, [selectedParcelId, mode, constructionAssets]);
+
+  const selectedStateName = selectedStateId
+    ? (indianStateById(selectedStateId)?.name ?? null)
+    : null;
+
   const selectedParcels = useMemo(
     () => (selectedStateId ? landBankByState(selectedStateId) : []),
     [selectedStateId],
   );
-  const selectedStateName = selectedStateId
-    ? (indianStateById(selectedStateId)?.name ?? null)
-    : null;
   const selectedAcres = useMemo(
     () =>
       selectedParcels.some((parcel) => parcel.extentAcres !== undefined)
@@ -82,7 +115,7 @@ export function PropertyRegister() {
     [selectedParcels],
   );
   const constrainRecords =
-    mode === "landbank" && selectedParcels.length > RECORD_COLLAPSE_LIMIT;
+    mode === "landbank" && selectedParcels.length > RECORD_COLLAPSE_LIMIT && !selectedParcel;
 
   return (
     <section className={styles.section} id="register" aria-labelledby="register-title">
@@ -141,7 +174,7 @@ export function PropertyRegister() {
                 {mode === "landbank"
                   ? `${landBankStates.length} ${
                       landBankStates.length === 1 ? "state" : "states"
-                    } · ${totalParcels} ${totalParcels === 1 ? "parcel" : "parcels"}${
+                    } · ${totalParcels} ${totalParcels === 1 ? "site" : "sites"}${
                       totalAcres !== null ? ` · ${formatAcres(totalAcres)}` : ""
                     }`
                   : `${constructionAssets.length} ${
@@ -153,14 +186,23 @@ export function PropertyRegister() {
             <div className={styles.panels}>
               <div className={styles.mapPanel}>
                 <PortfolioAtlas
-                  selectedStateId={mode === "landbank" ? selectedStateId : null}
+                  selectedStateId={selectedStateId}
                   onStateSelect={handleStateSelect}
+                  pins={currentPins}
+                  states={currentStates}
+                  selectedParcelId={selectedParcelId}
+                  onParcelSelect={handleParcelSelect}
+                  ariaLabel={
+                    mode === "landbank"
+                      ? "Map of India — select a state to survey land-bank sites."
+                      : "Map of India — select a state to view ongoing projects."
+                  }
                 />
                 <p className={styles.captionLabel}>{propertyRegister.atlasCaptionLabel}</p>
                 <p className={styles.captionLead}>
                   {mode === "landbank"
                     ? landBankSection.mapCaptionLead
-                    : underConstructionSection.framing}
+                    : underConstructionSection.mapCaptionLead}
                 </p>
                 <SourceFootnote className={styles.mapSource}>
                   {mode === "landbank"
@@ -170,7 +212,13 @@ export function PropertyRegister() {
               </div>
 
               <div ref={panelRef} className={cx(styles.indexPanel, panelInView && styles.isInView)}>
-                {mode === "landbank" ? (
+                {selectedParcel ? (
+                  <DetailPanel
+                    mode={mode}
+                    parcel={selectedParcel}
+                    onBack={() => setSelectedParcelId(null)}
+                  />
+                ) : mode === "landbank" ? (
                   <LandBankPanel
                     selectedStateId={selectedStateId}
                     selectedStateName={selectedStateName}
@@ -181,9 +229,16 @@ export function PropertyRegister() {
                     onExpand={() => setExpanded(true)}
                     onCollapse={() => setExpanded(false)}
                     onSelect={handleStateSelect}
+                    onSelectParcel={handleParcelSelect}
                   />
                 ) : (
-                  <ConstructionPanel assets={constructionAssets} />
+                  <ConstructionPanel
+                    selectedStateId={selectedStateId}
+                    selectedStateName={selectedStateName}
+                    constructionAssets={constructionAssets}
+                    onSelect={handleStateSelect}
+                    onSelectParcel={handleParcelSelect}
+                  />
                 )}
               </div>
             </div>
@@ -194,7 +249,84 @@ export function PropertyRegister() {
   );
 }
 
-/* Land bank mode ------------------------------------------------------------ */
+/* Detail panel — shown when a pin is selected -------------------------------- */
+
+type DetailPanelProps = {
+  mode: RegisterMode;
+  parcel: LandBankParcel | PortfolioAsset;
+  onBack: () => void;
+};
+
+function DetailPanel({ mode, parcel, onBack }: DetailPanelProps) {
+  const isLandBank = mode === "landbank";
+  const landParcel = isLandBank ? (parcel as LandBankParcel) : null;
+  const asset = !isLandBank ? (parcel as PortfolioAsset) : null;
+  const linkedParcel = asset?.landBankId ? landParcelById(asset.landBankId) : null;
+
+  return (
+    <div className={styles.detailPanel}>
+      <button type="button" className={styles.backButton} onClick={onBack}>
+        ← Back to list
+      </button>
+      <div className={styles.detailHeader}>
+        <span className={styles.detailName}>{parcel.name}</span>
+        {isLandBank && landParcel?.district ? (
+          <span className={styles.detailLocation}>{landParcel.district}, {landParcel.stateName}</span>
+        ) : asset ? (
+          <span className={styles.detailLocation}>{asset.city}{asset.zone ? ` · ${asset.zone} zone` : ""}</span>
+        ) : null}
+      </div>
+
+      <dl className={styles.detailGrid}>
+        {isLandBank && landParcel ? (
+          <>
+            <DetailField label="Size" value={formatAcres(landParcel.extentAcres)} />
+            <DetailField
+              label="Category"
+              value={landParcel.classification ? LAND_CLASSIFICATION_LABELS[landParcel.classification] : null}
+            />
+            <DetailField
+              label="Status"
+              value={landParcel.status ? LAND_STATUS_LABELS[landParcel.status] : null}
+            />
+            {landParcel.note ? <DetailField label="Note" value={landParcel.note} /> : null}
+          </>
+        ) : asset ? (
+          <>
+            <DetailField label="Class" value={asset.class ? ASSET_CLASS_LABELS[asset.class] : null} />
+            <DetailField label="Status" value={asset.status === "ongoing" ? "Under construction" : asset.status === "completed" ? "Completed" : asset.status} />
+            <DetailField label="Zone" value={asset.zone ? `${asset.zone}` : null} />
+            <DetailField label="Plate" value={asset.plate ?? null} />
+            {asset.sizeSqFt !== undefined ? (
+              <DetailField label="Built-up area" value={formatSqFt(asset.sizeSqFt)} />
+            ) : null}
+            {linkedParcel ? (
+              <>
+                <DetailField label="Land site" value={linkedParcel.name} />
+                <DetailField label="Site size" value={formatAcres(linkedParcel.extentAcres)} />
+                {linkedParcel.district ? (
+                  <DetailField label="Site location" value={`${linkedParcel.district}, ${linkedParcel.stateName}`} />
+                ) : null}
+              </>
+            ) : null}
+          </>
+        ) : null}
+      </dl>
+    </div>
+  );
+}
+
+function DetailField({ label, value }: { label: string; value: string | null | undefined }) {
+  if (!value) return null;
+  return (
+    <div className={styles.detailField}>
+      <dt className={styles.detailLabel}>{label}</dt>
+      <dd className={styles.detailValue}>{value}</dd>
+    </div>
+  );
+}
+
+/* Land bank mode panel ------------------------------------------------------ */
 
 type LandBankPanelProps = {
   selectedStateId: string | null;
@@ -206,6 +338,7 @@ type LandBankPanelProps = {
   onExpand: () => void;
   onCollapse: () => void;
   onSelect: (stateId: string | null) => void;
+  onSelectParcel: (parcelId: string | null) => void;
 };
 
 function LandBankPanel({
@@ -218,6 +351,7 @@ function LandBankPanel({
   onExpand,
   onCollapse,
   onSelect,
+  onSelectParcel,
 }: LandBankPanelProps) {
   if (landBankStates.length === 0) {
     return (
@@ -253,9 +387,7 @@ function LandBankPanel({
               <span className={styles.folioName}>{state.stateName}</span>
               <span className={styles.folioRange}>
                 {state.parcelCount}{" "}
-                {state.parcelCount === 1
-                  ? landBankSection.parcelUnitLabel.replace(/s$/, "")
-                  : landBankSection.parcelUnitLabel}
+                {state.parcelCount === 1 ? "site" : "sites"}
                 {state.totalAcres !== null ? ` · ${formatAcres(state.totalAcres)}` : ""}
               </span>
             </button>
@@ -269,12 +401,11 @@ function LandBankPanel({
             {selectedStateName}
             <span className={styles.selectedMeta}>
               {selectedParcels.length}{" "}
-              {selectedParcels.length === 1
-                ? landBankSection.parcelUnitLabel.replace(/s$/, "")
-                : landBankSection.parcelUnitLabel}
+              {selectedParcels.length === 1 ? "site" : "sites"}
               {selectedAcres !== null ? ` · ${formatAcres(selectedAcres)}` : ""}
             </span>
           </p>
+          <p className={styles.hintText}>Select a pin on the map to view details.</p>
           <div
             className={cx(
               styles.recordScroll,
@@ -330,7 +461,7 @@ function LandBankPanel({
               {expanded
                 ? propertyRegister.collapseLabel
                 : `${propertyRegister.viewAllPrefix} ${selectedParcels.length} ${
-                    selectedParcels.length === 1 ? "parcel" : landBankSection.parcelUnitLabel
+                    selectedParcels.length === 1 ? "site" : "sites"
                   }`}
             </button>
           ) : null}
@@ -346,10 +477,24 @@ function LandBankPanel({
   );
 }
 
-/* Under construction mode --------------------------------------------------- */
+/* Under construction mode panel --------------------------------------------- */
 
-function ConstructionPanel({ assets }: { assets: readonly PortfolioAsset[] }) {
-  if (assets.length === 0) {
+type ConstructionPanelProps = {
+  selectedStateId: string | null;
+  selectedStateName: string | null;
+  constructionAssets: readonly PortfolioAsset[];
+  onSelect: (stateId: string | null) => void;
+  onSelectParcel: (parcelId: string | null) => void;
+};
+
+function ConstructionPanel({
+  selectedStateId,
+  selectedStateName,
+  constructionAssets,
+  onSelect,
+  onSelectParcel,
+}: ConstructionPanelProps) {
+  if (constructionStates.length === 0) {
     return (
       <div className={styles.constructionEmpty}>
         <p className={styles.constructionEmptyTitle}>{underConstructionSection.emptyTitle}</p>
@@ -357,12 +502,94 @@ function ConstructionPanel({ assets }: { assets: readonly PortfolioAsset[] }) {
       </div>
     );
   }
+
+  if (!selectedStateId) {
+    return (
+      <>
+        <div className={styles.stateIndex} role="group" aria-label="States with ongoing projects">
+          {constructionStates.map((state) => (
+            <button
+              key={state.stateId}
+              type="button"
+              className={styles.folio}
+              onClick={() => onSelect(state.stateId)}
+            >
+              <span className={styles.folioName}>{state.stateName}</span>
+              <span className={styles.folioRange}>
+                {state.parcelCount} {state.parcelCount === 1 ? "project" : "projects"}
+                {state.totalAcres !== null ? ` · ${formatAcres(state.totalAcres)}` : ""}
+              </span>
+            </button>
+          ))}
+        </div>
+        <p className={styles.noSelection}>
+          {underConstructionSection.mapCaptionLead}
+        </p>
+      </>
+    );
+  }
+
+  const stateAssets = constructionByState(selectedStateId);
+  if (stateAssets.length === 0) {
+    return (
+      <>
+        <div className={styles.stateIndex} role="group" aria-label="States with ongoing projects">
+          {constructionStates.map((state) => (
+            <button
+              key={state.stateId}
+              type="button"
+              className={cx(styles.folio, state.stateId === selectedStateId && styles.folioActive)}
+              aria-pressed={state.stateId === selectedStateId}
+              onClick={() => onSelect(state.stateId === selectedStateId ? null : state.stateId)}
+            >
+              <span className={styles.folioName}>{state.stateName}</span>
+              <span className={styles.folioRange}>
+                {state.parcelCount} {state.parcelCount === 1 ? "project" : "projects"}
+              </span>
+            </button>
+          ))}
+        </div>
+        <p className={styles.noSelection}>
+          {underConstructionSection.emptyTitle}
+        </p>
+      </>
+    );
+  }
+
   return (
-    <ol className={styles.recordList}>
-      {assets.map((asset, index) => {
-        const parcel = asset.landBankId ? landParcelById(asset.landBankId) : null;
-        return (
-          <li key={asset.id} className={styles.recordRow} style={{ "--i": index } as CSSProperties}>
+    <>
+      <div className={styles.stateIndex} role="group" aria-label="States with ongoing projects">
+        {constructionStates.map((state) => (
+          <button
+            key={state.stateId}
+            type="button"
+            className={cx(styles.folio, state.stateId === selectedStateId && styles.folioActive)}
+            aria-pressed={state.stateId === selectedStateId}
+            onClick={() => onSelect(state.stateId === selectedStateId ? null : state.stateId)}
+          >
+            <span className={styles.folioName}>{state.stateName}</span>
+            <span className={styles.folioRange}>
+              {state.parcelCount} {state.parcelCount === 1 ? "project" : "projects"}
+              {state.totalAcres !== null ? ` · ${formatAcres(state.totalAcres)}` : ""}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <p className={styles.selectedState}>
+        {selectedStateName}
+        <span className={styles.selectedMeta}>
+          {stateAssets.length} {stateAssets.length === 1 ? "project" : "projects"}
+        </span>
+      </p>
+      <p className={styles.hintText}>Select a pin on the map to view details.</p>
+      <ol className={styles.recordList}>
+        {stateAssets.map((asset, index) => (
+          <li
+            key={asset.id}
+            className={styles.recordRow}
+            style={{ "--i": index } as CSSProperties}
+          >
             <span className={styles.recordIndex} aria-hidden="true">
               {String(index + 1).padStart(2, "0")}
             </span>
@@ -372,23 +599,10 @@ function ConstructionPanel({ assets }: { assets: readonly PortfolioAsset[] }) {
                 {asset.city} · {ASSET_CLASS_LABELS[asset.class]} ·{" "}
                 {formatSqFt(asset.sizeSqFt)}
               </span>
-              {parcel ? (
-                <span className={styles.recordParcel}>
-                  {`${underConstructionSection.columns.parcel}: ${parcel.name}${
-                    parcel.district ? ` · ${parcel.district}` : ""
-                  }${parcel.stateName ? ` · ${parcel.stateName}` : ""}${
-                    parcel.extentAcres !== undefined ? ` · ${formatAcres(parcel.extentAcres)}` : ""
-                  }`}
-                </span>
-              ) : (
-                <span className={styles.recordParcel}>
-                  {underConstructionSection.parcelMissingLabel}
-                </span>
-              )}
             </div>
           </li>
-        );
-      })}
-    </ol>
+        ))}
+      </ol>
+    </>
   );
 }

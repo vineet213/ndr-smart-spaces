@@ -465,6 +465,60 @@ export function landParcelById(id: string): LandBankParcel | null {
   return cmsLandBankDerived.find((parcel) => parcel.id === id) ?? null;
 }
 
+/* Under construction — state summaries and map pins ----------------------- */
+
+/** Minimal pin shape the atlas renders. */
+export type AtlasPinData = {
+  id: string;
+  name: string;
+  pin: { x: number; y: number };
+  extentAcres?: number;
+  district?: string;
+};
+
+export const constructionStates: readonly StateLandSummary[] = INDIAN_STATES.flatMap((state) => {
+  const assets = underConstructionAssets().filter((asset) => {
+    if (!asset.landBankId) return false;
+    const parcel = landParcelById(asset.landBankId);
+    return parcel?.stateId === state.id;
+  });
+  if (assets.length === 0) return [];
+  const totalAcres = assets.reduce((sum, asset) => {
+    const parcel = asset.landBankId ? landParcelById(asset.landBankId) : null;
+    return sum + (parcel?.extentAcres ?? 0);
+  }, 0);
+  return [
+    {
+      stateId: state.id,
+      stateName: state.name,
+      parcelCount: assets.length,
+      totalAcres: totalAcres || null,
+    },
+  ];
+});
+
+export function constructionByState(stateId: string): readonly (AtlasPinData & { city: string; class: AssetClass; sizeSqFt?: number })[] {
+  return underConstructionAssets()
+    .filter((asset) => {
+      if (!asset.landBankId) return false;
+      const parcel = landParcelById(asset.landBankId);
+      return parcel?.stateId === stateId && parcel?.pin !== undefined;
+    })
+    .map((asset) => {
+      const parcel = landParcelById(asset.landBankId!)!;
+      return {
+        id: asset.id,
+        name: asset.name,
+        pin: parcel.pin!,
+        extentAcres: parcel.extentAcres,
+        district: parcel.district,
+        city: asset.city,
+        class: asset.class,
+        sizeSqFt: asset.sizeSqFt,
+      };
+    });
+}
+
 export function formatAcres(acres: number | undefined | null): string {
   if (acres == null) return "—";
   return `${acres.toLocaleString("en-IN")} acres`;
@@ -635,6 +689,8 @@ export const underConstructionSection = {
   heading: "Under construction.",
   framing:
     "Assets currently rising on the group's land — each cross-referenced to its source parcel in the land bank where one is recorded.",
+  mapCaptionLead:
+    "Select a state to view ongoing projects. Pins mark locations linked to land-bank sites; select a pin for project details.",
   columns: {
     asset: "Asset",
     city: "City",
@@ -645,6 +701,7 @@ export const underConstructionSection = {
   parcelMissingLabel: "—",
   emptyTitle: "Nothing under construction in this edition.",
   emptyNote: "Projects publish as records clear approval.",
+  stateSelectLabel: "State",
   source: "Source: NDR Corporate Presentation · approved website content",
 } as const;
 

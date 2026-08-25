@@ -129,16 +129,16 @@ function provenance(html) {
   const prov = provenance(html);
   record(
     "provenance bar counts exactly 1 state · 1 parcel",
-    /\b1 states?\b/.test(prov) && prov.includes("1 parcel") && !prov.includes("1 parcels"),
+    /\b1 states?\b/.test(prov) && prov.includes("1 site") && !prov.includes("1 sites"),
     prov,
   );
   record(
     "published state becomes selectable on the atlas",
-    html.includes(`${target.data.state} — survey land bank`),
+    html.includes(`${target.data.state} — select`),
   );
   record("empty-state copy gone once content is published", !html.includes("Land bank records are being filed."));
   const leakedStates = ["Maharashtra", "Karnataka", "Tamil Nadu", "West Bengal", "Uttar Pradesh", "Kerala", "Andhra Pradesh", "Puducherry"]
-    .filter((s) => s !== target.data.state && html.includes(`${s} — survey land bank`));
+    .filter((s) => s !== target.data.state && html.includes(`${s} — select`));
   record("no draft-only state became selectable", leakedStates.length === 0, leakedStates.join(", "));
 }
 

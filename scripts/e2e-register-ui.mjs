@@ -163,7 +163,7 @@ try {
   record("all 19 Tamil Nadu records render in the DOM", tn.rowCount === 19, `${tn.rowCount} rows`);
   record("survey panel is constrained and scrolls", tn.constrained && tn.overflows, `${tn.clientH}px visible`);
   record("page stays compact while collapsed", tn.sectionH < 2400, `${tn.sectionH}px section`);
-  record("'View all' offered with correct count", tn.viewAllText === "View all 19 parcels", tn.viewAllText ?? "missing");
+  record("'View all' offered with correct count", tn.viewAllText === "View all 19 sites", tn.viewAllText ?? "missing");
   record("panel is keyboard-scrollable (tabindex=0)", tn.regionTabIndex === "0");
   record("state pins render for selected state", tn.pins === 19, `${tn.pins} pins`);
 
@@ -209,7 +209,7 @@ try {
       const selected = !!document.querySelector('#register [class*="selectedState"]');
       return selected && t !== "none" && t !== "matrix(1, 0, 0, 1, 0, 0)";
     });
-  const tnPath = await page.$('#register svg path[aria-label="Tamil Nadu — survey land bank"]');
+  const tnPath = await page.$('#register svg path[aria-label="Tamil Nadu — select"]');
   await page.evaluate((el) => el.focus(), tnPath);
   await page.keyboard.press("Enter");
   let kbZoomed = false;
@@ -256,7 +256,6 @@ try {
       insideSheet: !!empty && !!sheet,
       height: rect ? Math.round(rect.height) : 0,
       meta,
-      mapStillThere: !!document.querySelector('#register svg path[role="button"]'),
     };
   });
   record(
@@ -265,7 +264,7 @@ try {
     `${uc.height}px`,
   );
   record("UC mode provenance counts projects", uc.meta === "0 projects", uc.meta);
-  record("map persists across modes (one atlas)", uc.mapStillThere);
+  record("map persists across modes (one atlas)", await page.evaluate(() => !!document.querySelector('#register svg path')));
   await page.screenshot({ path: join(process.env.TEMP ?? ".", "opencode", "register-uc-mode.png"), clip: { x: 0, y: 0, width: 1440, height: 1000 } });
 
   /* back to land bank mode */

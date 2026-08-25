@@ -133,10 +133,22 @@
   fill: var(--color-ivory);
 }
 
-.pinActive .pinDot {
+.pinHover .pinDot {
   fill: var(--color-maroon);
   r: 6;
   filter: drop-shadow(0 0 3px var(--color-gold));
+}
+
+.pinSelected .pinDot {
+  fill: var(--color-maroon);
+  r: 7;
+  stroke: var(--color-gold);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 5px var(--color-gold));
+}
+
+.pinSelected .pinCore {
+  fill: var(--color-gold);
 }
 
 .pinGroup:focus-visible .pinDot {

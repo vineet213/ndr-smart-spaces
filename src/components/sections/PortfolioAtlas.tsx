@@ -1,12 +1,12 @@
 "use client";
 
 import type { CSSProperties, ReactNode } from "react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useInView } from "@/hooks/useInView";
 import {
   formatAcres,
-  landBankStates,
-  landPinsByState,
+  type AtlasPinData,
+  type StateLandSummary,
 } from "@/lib/data/portfolio";
 import { INDIAN_STATES } from "@/lib/data/india-states";
 import { INDIA_STATE_BOUNDS, INDIA_STATE_PATHS } from "@/lib/data/india-state-paths";
@@ -19,10 +19,14 @@ const OFFSET = 45;
 type PortfolioAtlasProps = {
   selectedStateId: string | null;
   onStateSelect: (stateId: string | null) => void;
+  /** Override pins (for U/C mode). Falls back to landPinsByState when omitted. */
+  pins?: readonly AtlasPinData[];
+  /** State summaries for the selectable set (land bank or U/C). */
+  states?: readonly StateLandSummary[];
+  selectedParcelId?: string | null;
+  onParcelSelect?: (parcelId: string | null) => void;
+  ariaLabel?: string;
 };
-
-/** States that hold at least one published parcel — the selectable set. */
-const selectableStates = new Set(landBankStates.map((state) => state.stateId));
 
 function Graticule() {
   const lines: ReactNode[] = [];
@@ -48,10 +52,6 @@ function EdgeTicks() {
   return <g className={styles.ticks}>{ticks}</g>;
 }
 
-/**
- * Zoom transform (translate + uniform scale) centring a state's bounds in the
- * 930×1000 frame with breathing room; identity for the full-union view.
- */
 function zoomTransform(stateId: string | null): string {
   if (!stateId) return "translate(0px, 0px) scale(1)";
   const bounds = INDIA_STATE_BOUNDS[stateId];
@@ -64,7 +64,46 @@ function zoomTransform(stateId: string | null): string {
   return `translate(${(465 - scale * cx).toFixed(1)}px, ${(500 - scale * cy).toFixed(1)}px) scale(${scale.toFixed(3)})`;
 }
 
-export function PortfolioAtlas({ selectedStateId, onStateSelect }: PortfolioAtlasProps) {
+/**
+ * Detect pins sharing the same (x,y) and spread them in a small circle so
+ * they are individually clickable.  Returns a new array with rendered
+ * coordinates in `rx` / `ry`.
+ */
+function resolveOverlaps(
+  pins: readonly AtlasPinData[],
+): (AtlasPinData & { rx: number; ry: number })[] {
+  const groups = new Map<string, number[]>();
+  pins.forEach((p, i) => {
+    const key = `${p.pin.x},${p.pin.y}`;
+    const arr = groups.get(key);
+    if (arr) arr.push(i);
+    else groups.set(key, [i]);
+  });
+  const offsets = pins.map(() => ({ dx: 0, dy: 0 }));
+  for (const indices of groups.values()) {
+    if (indices.length <= 1) continue;
+    const r = 10;
+    indices.forEach((i, j) => {
+      const angle = (j / indices.length) * Math.PI * 2 - Math.PI / 2;
+      offsets[i] = { dx: Math.cos(angle) * r, dy: Math.sin(angle) * r };
+    });
+  }
+  return pins.map((p, i) => ({
+    ...p,
+    rx: p.pin.x + offsets[i].dx,
+    ry: p.pin.y + offsets[i].dy,
+  }));
+}
+
+export function PortfolioAtlas({
+  selectedStateId,
+  onStateSelect,
+  pins: customPins,
+  states: customStates,
+  selectedParcelId,
+  onParcelSelect,
+  ariaLabel,
+}: PortfolioAtlasProps) {
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.15 });
   const [hoveredStateId, setHoveredStateId] = useState<string | null>(null);
   const [hoveredParcelId, setHoveredParcelId] = useState<string | null>(null);
@@ -73,6 +112,13 @@ export function PortfolioAtlas({ selectedStateId, onStateSelect }: PortfolioAtla
 
   const hasFocus = selectedStateId !== null || hoveredStateId !== null;
   const activeState = selectedStateId ?? hoveredStateId;
+
+  /* Selectable states come from the provided `states` prop (or default to
+     land bank states when omitted). */
+  const selectableSet = useMemo(
+    () => new Set((customStates ?? []).map((s) => s.stateId)),
+    [customStates],
+  );
 
   const handleStateEnter = useCallback((stateId: string) => {
     setHoveredStateId(stateId);
@@ -105,11 +151,25 @@ export function PortfolioAtlas({ selectedStateId, onStateSelect }: PortfolioAtla
     setTooltipPos(null);
   }, []);
 
-  const pins = selectedStateId ? landPinsByState(selectedStateId) : [];
-  const hoveredPin = pins.find((parcel) => parcel.id === hoveredParcelId);
+  const handlePinClick = useCallback(
+    (parcelId: string) => {
+      if (!onParcelSelect) return;
+      onParcelSelect(selectedParcelId === parcelId ? null : parcelId);
+    },
+    [onParcelSelect, selectedParcelId],
+  );
+
+  /* Resolve pins: use customPins when provided, otherwise fall back to
+     the default landPinsByState import. */
+  const resolvedPins = useMemo(() => {
+    const raw = customPins ?? [];
+    return resolveOverlaps(raw);
+  }, [customPins]);
+
+  const hoveredPin = resolvedPins.find((p) => p.id === hoveredParcelId);
   const hoveredSelectable =
-    hoveredStateId !== null && selectableStates.has(hoveredStateId)
-      ? landBankStates.find((state) => state.stateId === hoveredStateId)
+    hoveredStateId !== null && selectableSet.has(hoveredStateId)
+      ? (customStates ?? []).find((s) => s.stateId === hoveredStateId)
       : undefined;
 
   let stateIndex = 0;
@@ -122,7 +182,7 @@ export function PortfolioAtlas({ selectedStateId, onStateSelect }: PortfolioAtla
           viewBox={ATLAS_VIEWBOX}
           className={styles.map}
           role="img"
-          aria-label="Map of India by state — select a state with land-bank parcels to survey it."
+          aria-label={ariaLabel ?? "Map of India by state — select a state to survey it."}
           focusable="false"
         >
           <EdgeTicks />
@@ -135,10 +195,10 @@ export function PortfolioAtlas({ selectedStateId, onStateSelect }: PortfolioAtla
               <g className={styles.states}>
                 {INDIAN_STATES.map((state) => {
                   if (!(state.id in INDIA_STATE_PATHS)) return null;
-                  const hasParcels = selectableStates.has(state.id);
+                  const isSelectable = selectableSet.has(state.id);
                   const isActive = activeState === state.id;
                   const isDimmed = hasFocus && !isActive;
-                  const index = hasParcels ? stateIndex++ : 0;
+                  const index = isSelectable ? stateIndex++ : 0;
                   return (
                     <path
                       key={state.id}
@@ -146,25 +206,25 @@ export function PortfolioAtlas({ selectedStateId, onStateSelect }: PortfolioAtla
                       style={{ "--i": index } as CSSProperties}
                       className={cx(
                         styles.state,
-                        hasParcels && styles.stateSelectable,
+                        isSelectable && styles.stateSelectable,
                         isActive && styles.stateActive,
                         isDimmed && styles.stateDimmed,
                       )}
-                      tabIndex={hasParcels ? 0 : undefined}
-                      role={hasParcels ? "button" : undefined}
+                      tabIndex={isSelectable ? 0 : undefined}
+                      role={isSelectable ? "button" : undefined}
                       aria-label={
-                        hasParcels
-                          ? `${state.name} — survey land bank`
+                        isSelectable
+                          ? `${state.name} — select`
                           : undefined
                       }
-                      aria-pressed={hasParcels ? selectedStateId === state.id : undefined}
+                      aria-pressed={isSelectable ? selectedStateId === state.id : undefined}
                       onMouseEnter={() => handleStateEnter(state.id)}
                       onMouseLeave={handleStateLeave}
                       onClick={() => {
-                        if (hasParcels) onStateSelect(selectedStateId === state.id ? null : state.id);
+                        if (isSelectable) onStateSelect(selectedStateId === state.id ? null : state.id);
                       }}
                       onKeyDown={(e) => {
-                        if (!hasParcels) return;
+                        if (!isSelectable) return;
                         if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
                           onStateSelect(selectedStateId === state.id ? null : state.id);
@@ -175,32 +235,36 @@ export function PortfolioAtlas({ selectedStateId, onStateSelect }: PortfolioAtla
                 })}
               </g>
 
-              {/* Parcel pins — only rendered while a state is selected */}
               <g className={cx(styles.pins, selectedStateId && styles.pinsShown)}>
-                {pins.map((parcel, index) => (
+                {resolvedPins.map((pin, index) => (
                   <g
-                    key={parcel.id}
+                    key={pin.id}
                     style={{ "--i": index } as CSSProperties}
-                    className={cx(styles.pinGroup, parcel.id === hoveredParcelId && styles.pinActive)}
+                    className={cx(
+                      styles.pinGroup,
+                      pin.id === hoveredParcelId && styles.pinHover,
+                      pin.id === selectedParcelId && styles.pinSelected,
+                    )}
                     tabIndex={0}
                     role="button"
-                    aria-label={`${parcel.name}${parcel.district ? `, ${parcel.district}` : ""} — ${formatAcres(parcel.extentAcres)}`}
-                    onMouseEnter={(e) => handlePinEnter(parcel.id, e)}
+                    aria-label={`${pin.name}${pin.district ? `, ${pin.district}` : ""} — ${formatAcres(pin.extentAcres)}`}
+                    onMouseEnter={(e) => handlePinEnter(pin.id, e)}
                     onMouseMove={(e) => updateTooltip(e)}
                     onMouseLeave={handlePinLeave}
-                    onFocus={() => setHoveredParcelId(parcel.id)}
+                    onClick={() => handlePinClick(pin.id)}
+                    onFocus={() => setHoveredParcelId(pin.id)}
                     onBlur={handlePinLeave}
                   >
-                    <circle cx={parcel.pin!.x} cy={parcel.pin!.y} r={8} className={styles.pinHit} />
+                    <circle cx={pin.rx} cy={pin.ry} r={8} className={styles.pinHit} />
                     <circle
-                      cx={parcel.pin!.x}
-                      cy={parcel.pin!.y}
+                      cx={pin.rx}
+                      cy={pin.ry}
                       r={4.5}
                       className={styles.pinDot}
                     />
                     <circle
-                      cx={parcel.pin!.x}
-                      cy={parcel.pin!.y}
+                      cx={pin.rx}
+                      cy={pin.ry}
                       r={1.6}
                       className={styles.pinCore}
                     />
@@ -215,7 +279,7 @@ export function PortfolioAtlas({ selectedStateId, onStateSelect }: PortfolioAtla
               {(() => {
                 const label = hoveredPin
                   ? `${hoveredPin.name} · ${formatAcres(hoveredPin.extentAcres)}`
-                  : `${hoveredSelectable?.stateName} · ${hoveredSelectable?.parcelCount} ${hoveredSelectable?.parcelCount === 1 ? "parcel" : "parcels"}`;
+                  : `${hoveredSelectable?.stateName} · ${hoveredSelectable?.parcelCount} ${hoveredSelectable?.parcelCount === 1 ? "location" : "locations"}`;
                 return (
                   <>
                     <rect
@@ -238,7 +302,10 @@ export function PortfolioAtlas({ selectedStateId, onStateSelect }: PortfolioAtla
           <button
             type="button"
             className={styles.reset}
-            onClick={() => onStateSelect(null)}
+            onClick={() => {
+              onStateSelect(null);
+              onParcelSelect?.(null);
+            }}
           >
             All India
           </button>

@@ -415,6 +415,100 @@
   color: var(--color-stone);
 }
 
+/* hint text ----------------------------------------------------------------- */
+
+.hintText {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+  font-style: italic;
+}
+
+/* detail panel -------------------------------------------------------------- */
+
+.detailPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.backButton {
+  align-self: flex-start;
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid rgba(28, 26, 25, 0.35);
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-charcoal);
+  transition:
+    border-color 250ms var(--ease-standard),
+    background-color 250ms var(--ease-standard);
+}
+
+.backButton:hover,
+.backButton:focus-visible {
+  border-color: var(--color-gold);
+  background-color: rgba(240, 182, 90, 0.12);
+}
+
+.detailHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-bottom: var(--space-md);
+  border-bottom: 2px solid var(--color-charcoal);
+}
+
+.detailName {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 0.88rem + 0.4vw, 1.2rem);
+  font-weight: var(--font-weight-display);
+  line-height: var(--leading-display);
+  letter-spacing: -0.01em;
+  color: var(--color-charcoal);
+}
+
+.detailLocation {
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+.detailGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md) var(--space-lg);
+  margin: 0;
+}
+
+.detailField {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detailLabel {
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+  margin: 0;
+}
+
+.detailValue {
+  font-size: var(--font-small);
+  font-weight: var(--font-weight-body-medium);
+  color: var(--color-charcoal);
+  margin: 0;
+}
+
 /* reduced motion -------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {

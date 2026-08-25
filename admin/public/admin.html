@@ -1107,11 +1107,14 @@
       function syncHash(key) {
         if (validEditorKey(key)) history.replaceState(null, "", `#${key}`);
       }
-      async function openEditor(key) {
+      async function openEditor(key, opts = {}) {
         if (window.innerWidth <= 900) { $("sidebar").classList.remove("open"); $("sidebar-overlay").classList.remove("open"); }
         /* Returning to the SAME collection (after save/publish/delete/edit or
            a same-page hash sync) must keep the user's active list filters.
-           Only an actual collection switch starts from a clean slate. */
+           Only an actual collection switch starts from a clean slate. The
+           initial view after a page load additionally restores filters that
+           were active before the reload, so a publish/reload never loses the
+           working context. */
         const sameCollection = state.currentKey === key;
         state.currentKey = key;
         syncHash(key);
@@ -1120,9 +1123,14 @@
         state.files = {};
         state.dirty = false;
         if (!sameCollection) {
-          state.searchQuery = "";
-          state.statusFilter = "all";
-          state.stateFilter = "all";
+          if (opts.restoreStored && restoreCollectionFilters(key)) {
+            persistCollectionFilters(key);
+          } else {
+            state.searchQuery = "";
+            state.statusFilter = "all";
+            state.stateFilter = "all";
+            clearStoredCollectionFilters(key);
+          }
         }
         renderSidebar();
         try {
@@ -1185,6 +1193,7 @@
           value: state.searchQuery,
           oninput: (e) => {
             state.searchQuery = e.target.value;
+            persistCollectionFilters(schema.key);
             refreshRecordList(schema);
           },
         });
@@ -1206,6 +1215,7 @@
                 dataset: { status: s },
                 onclick: () => {
                   state.statusFilter = s;
+                  persistCollectionFilters(schema.key);
                   refreshRecordList(schema);
                 },
               },
@@ -1230,6 +1240,7 @@
                 "aria-label": `Filter by ${stateFacet.label.toLowerCase()}`,
                 onchange: (e) => {
                   state.stateFilter = e.target.value;
+                  persistCollectionFilters(schema.key);
                   refreshRecordList(schema);
                 },
               },
@@ -1260,6 +1271,7 @@
                 state.searchQuery = "";
                 state.statusFilter = "all";
                 state.stateFilter = "all";
+                clearStoredCollectionFilters(schema.key);
                 renderRecordList(schema);
               },
             },
@@ -1283,6 +1295,48 @@
           el("div", { class: "toolbar" }, el("span", { class: "spacer" }), newBtn),
         );
         updateFilterStatus(schema);
+      }
+
+      /* Per-collection filter snapshots survive a full page reload (F5 after
+         a publish, browser crash recovery). sessionStorage is per-tab, so two
+         tabs never bleed into each other. */
+      function filterStorageKey(key) {
+        return `ndr-cms-filters:${key}`;
+      }
+      function persistCollectionFilters(key) {
+        try {
+          sessionStorage.setItem(
+            filterStorageKey(key),
+            JSON.stringify({
+              q: state.searchQuery ?? "",
+              status: state.statusFilter ?? "all",
+              state: state.stateFilter ?? "all",
+            }),
+          );
+        } catch {
+          /* storage unavailable — in-memory persistence still applies */
+        }
+      }
+      function restoreCollectionFilters(key) {
+        try {
+          const raw = sessionStorage.getItem(filterStorageKey(key));
+          if (!raw) return false;
+          const saved = JSON.parse(raw);
+          if (typeof saved !== "object" || saved === null) return false;
+          state.searchQuery = typeof saved.q === "string" ? saved.q : "";
+          state.statusFilter = typeof saved.status === "string" ? saved.status : "all";
+          state.stateFilter = typeof saved.state === "string" ? saved.state : "all";
+          return true;
+        } catch {
+          return false;
+        }
+      }
+      function clearStoredCollectionFilters(key) {
+        try {
+          sessionStorage.removeItem(filterStorageKey(key));
+        } catch {
+          /* ignore */
+        }
       }
 
       function refreshRecordList(schema) {
@@ -1444,7 +1498,15 @@
           el("span", { class: "pill " + record.status }, record.status),
           el("div", null, statusActions(schema, record)),
           linkedAssetActions(schema, record),
-          el("button", { class: "ghost", onclick: () => openRecordForm(schema, record) }, "Edit"),
+          el(
+            "button",
+            {
+              class: "primary mini",
+              title: "Open this record in the editor",
+              onclick: () => openRecordForm(schema, record),
+            },
+            "Edit",
+          ),
         );
       }
 
@@ -1476,7 +1538,7 @@
             class: "ghost mini",
             title:
               "Create an under-construction record referencing this parcel. The parcel itself stays in the land bank.",
-            onclick: () => createLinkedAsset(record),
+            onclick: () => openUnderConstructionFlow(record),
           },
           "+ U/C",
         );
@@ -1494,11 +1556,62 @@
         return state.meta.schemas.find((s) => s.key === "portfolio-assets");
       }
 
-      async function createLinkedAsset(parcelRecord) {
+      /* State → portfolio zone mapping (consistent with the public atlas zones). */
+      const STATE_TO_ZONE = {
+        "Tamil Nadu": "south", "Karnataka": "south", "Kerala": "south",
+        "Andhra Pradesh": "south", "Telangana": "south", "Puducherry": "south",
+        "Maharashtra": "west", "Goa": "west", "Gujarat": "west", "Rajasthan": "west",
+        "West Bengal": "east", "Odisha": "east", "Bihar": "east", "Jharkhand": "east",
+        "Assam": "east", "Chhattisgarh": "east",
+        "Uttar Pradesh": "east", "Madhya Pradesh": "east",
+        "Delhi": "north", "Haryana": "north", "Punjab": "north",
+        "Uttarakhand": "north", "Himachal Pradesh": "north",
+      };
+      /* Land-bank classification → portfolio asset class. */
+      const CLASSIFICATION_TO_CLASS = {
+        industrial: "industrial",
+        logistics: "warehousing",
+        warehousing: "warehousing",
+        "mixed-use": "commercial",
+      };
+      function nextPlateNumber() {
+        const used = new Set(
+          (state.records["portfolio-assets"]?.records ?? [])
+            .map((a) => a.data?.plate)
+            .filter(Boolean),
+        );
+        let n = 1;
+        while (used.has(String(n).padStart(2, "0"))) n += 1;
+        return String(n).padStart(2, "0");
+      }
+
+      /* Single contextual entry point for the Land Bank ⇄ Under Construction
+         creation flow — the ONLY path that creates/opens a portfolio-asset
+         from a parcel. Both surfaces route through it:
+           · row action "+ U/C"            → openUnderConstructionFlow(parcel)
+           · editor panel "+ Add to …"/"Open" → openUnderConstructionFlow(parcel, asset?)
+         It opens the asset form IN PLACE (no collection navigation, no filter
+         reset), pre-links landBankId, prefills ALL required fields from the
+         parcel data (zone, class, status, plate), and arms the return-context
+         so saving hands control back to the originating parcel editor with the
+         link visible. */
+      async function openUnderConstructionFlow(parcelRecord, asset = null) {
         const schema = await loadAssetsForLinkage();
-        if (!schema) return;
-        await openEditor("portfolio-assets");
-        openRecordForm(schema, null, { landBankId: parcelRecord.id });
+        if (!schema) return null;
+        constructionReturnContext = { parcelId: parcelRecord.id };
+        const initialData = asset
+          ? undefined
+          : {
+              landBankId: parcelRecord.id,
+              name: `${parcelRecord.data.name ?? "Untitled"} \u2014 under construction`,
+              city: parcelRecord.data.district ?? "",
+              plate: nextPlateNumber(),
+              zone: STATE_TO_ZONE[parcelRecord.data.state] || "south",
+              class: CLASSIFICATION_TO_CLASS[parcelRecord.data.classification] || "warehousing",
+              status: "ongoing",
+            };
+        openRecordForm(schema, asset, initialData);
+        return schema;
       }
 
       async function viewLinkedAssets(parcelId) {
@@ -1606,9 +1719,104 @@
         return row;
       }
 
+      /* ═══════════════ Land Bank ⇄ Under Construction (editor panel) ═══════════════
+         A property can be held in the land bank AND be under construction at
+         the same time: a portfolio-asset references the parcel via landBankId.
+         This panel surfaces that relationship inside the parcel editor itself —
+         linking never duplicates the parcel and never removes it from the
+         land bank. */
+      let constructionReturnContext = null;
+
+      function underConstructionPanel(parcelRecord) {
+        const assetsSchema = state.meta.schemas.find((s) => s.key === "portfolio-assets");
+        const card = el("div", { class: "card", id: "uc-panel" }, el("h3", null, "Under Construction"));
+        if (!assetsSchema) {
+          card.append(el("p", { style: "color:var(--muted)" }, "Portfolio Assets collection unavailable."));
+          return card;
+        }
+        const links = (state.records["portfolio-assets"]?.records ?? []).filter(
+          (a) => a.data?.landBankId === parcelRecord.id,
+        );
+        if (links.length === 0) {
+          card.append(
+            el("p", { class: "section-label", style: "margin:0 0 10px" }, "Not linked"),
+            el(
+              "button",
+              { class: "primary", onclick: () => openUnderConstructionFlow(parcelRecord) },
+              "+ Add to Under Construction",
+            ),
+          );
+          return card;
+        }
+        card.append(
+          el(
+            "p",
+            { style: "color:var(--muted);margin:0 0 4px" },
+            `${links.length} linked project${links.length === 1 ? "" : "s"} \u2014 the parcel stays in the Land Bank.`,
+          ),
+        );
+        for (const link of links) {
+          card.append(
+            el(
+              "div",
+              { class: "toolbar", style: "border-top:1px solid var(--border);padding-top:8px;margin-top:8px" },
+              el("span", null, recordTitle(assetsSchema, link)),
+              el("span", { class: `pill ${link.status}` }, link.status),
+              el("span", { class: "spacer" }),
+              el(
+                "button",
+                { class: "ghost mini", onclick: () => openUnderConstructionFlow(parcelRecord, link) },
+                "Open",
+              ),
+            ),
+          );
+        }
+        card.append(
+          el(
+            "button",
+            {
+              class: "ghost",
+              style: "margin-top:10px",
+              onclick: () => openUnderConstructionFlow(parcelRecord),
+            },
+            "+ Add to Under Construction",
+          ),
+        );
+        return card;
+      }
+
+      /* After writing a portfolio-asset that was opened FROM a parcel editor,
+         return to that parcel editor so the new/updated link is immediately
+         visible where the relationship was created. */
+      async function returnAfterAssetWrite(key) {
+        if (key !== "portfolio-assets" || !constructionReturnContext) return false;
+        /* the context only applies while the form being written still points
+           at the originating parcel (a stale context is discarded) */
+        if ((state.draft?.landBankId ?? null) !== constructionReturnContext.parcelId) {
+          constructionReturnContext = null;
+          return false;
+        }
+        const parcelId = constructionReturnContext.parcelId;
+        constructionReturnContext = null;
+        try {
+          state.records["land-bank"] = await api(`/api/c/${encodeURIComponent("land-bank")}`);
+        } catch {
+          return false;
+        }
+        const landSchema = state.meta.schemas.find((s) => s.key === "land-bank");
+        const parcel = (state.records["land-bank"]?.records ?? []).find((r) => r.id === parcelId);
+        if (!landSchema || !parcel) return false;
+        openRecordForm(landSchema, parcel);
+        document.getElementById("uc-panel")?.scrollIntoView({ behavior: "smooth", block: "center" });
+        return true;
+      }
+
       /* ═══════════════ Record form ═══════════════ */
       function openRecordForm(schema, record, initialData) {
         const isNew = record === null;
+        /* Opening a parcel editor directly always means fresh context — any
+           pending asset-return context was either just consumed or abandoned. */
+        if (schema.key === "land-bank") constructionReturnContext = null;
         state.draft = JSON.parse(JSON.stringify(record?.data ?? {}));
         if (isNew && initialData) Object.assign(state.draft, initialData);
         state.draftStatus = record?.status ?? null;
@@ -1626,7 +1834,21 @@
               "button",
               {
                 onclick: async () => {
-                  if (await checkDirty("Discard unsaved changes?")) openEditor(schema.key);
+                  if (!(await checkDirty("Discard unsaved changes?"))) return;
+                  if (schema.key === "portfolio-assets" && constructionReturnContext) {
+                    const parcelId = constructionReturnContext.parcelId;
+                    if ((state.draft?.landBankId ?? null) !== parcelId) {
+                      constructionReturnContext = null;
+                    } else {
+                      constructionReturnContext = null;
+                      const landSchema = state.meta.schemas.find((s) => s.key === "land-bank");
+                      const parcel = (state.records["land-bank"]?.records ?? []).find(
+                        (r) => r.id === parcelId,
+                      );
+                      if (landSchema && parcel) return openRecordForm(landSchema, parcel);
+                    }
+                  }
+                  openEditor(schema.key);
                 },
               },
               "\u2190 Back",
@@ -1645,7 +1867,7 @@
         /* main form card */
         const card = el(
           "div",
-          { class: "card" },
+          { class: "card", id: "record-form-card" },
           el(
             "h3",
             null,
@@ -1660,6 +1882,11 @@
 
         for (const field of schema.fields) {
           card.append(fieldWidget(field, [field.key], lookupData));
+        }
+
+        /* Land Bank ⇄ Under Construction relationship, visible in place */
+        if (schema.key === "land-bank" && !isNew) {
+          card.append(underConstructionPanel(record));
         }
 
         /* status selector */
@@ -1771,6 +1998,7 @@
           });
           state.records[schema.key] = await api(`/api/c/${encodeURIComponent(schema.key)}`);
           toast("Record deleted", "ok");
+          if (await returnAfterAssetWrite(schema.key)) return;
           openEditor(schema.key);
         } catch (error) {
           renderValidationError(error);
@@ -1796,16 +2024,41 @@
             `Saved \u2014 not yet published${result.issuedRef ? ` \u00b7 ref ${result.issuedRef}` : ""}. Use "Publish All" to make it live.`,
             "ok",
           );
+          if (await returnAfterAssetWrite(key)) return result;
           openEditor(key);
           return result;
         } catch (error) {
           renderValidationError(error);
-          throw error;
         }
       }
 
       function renderValidationError(error) {
         const issues = error.issues?.length ? error.issues.map((i) => i.message) : [error.message];
+        /* Inside a record form, validation must never wipe the user's input:
+           surface the issues in place and leave every entered value editable. */
+        const formCard = document.getElementById("record-form-card");
+        if (formCard) {
+          document.getElementById("form-errors")?.remove();
+          formCard.prepend(
+            el(
+              "div",
+              {
+                id: "form-errors",
+                style:
+                  "border:1px solid var(--bad);background:rgba(220,38,38,0.06);padding:10px 12px;margin-bottom:12px",
+              },
+              el("strong", { style: "color:var(--bad)" }, "Save failed \u2014 resolve the following:"),
+              el(
+                "ul",
+                { style: "margin:6px 0 0 18px;padding:0" },
+                ...issues.map((msg) => el("li", null, msg)),
+              ),
+            ),
+          );
+          toast("Validation failed", "err");
+          formCard.scrollIntoView({ behavior: "smooth", block: "start" });
+          return;
+        }
         const card = el("div", { class: "card" },
           el("h3", null, "Save failed"),
           el("p", { style: "color:var(--bad);margin:0 0 8px" }, "The following issues must be resolved before saving:"),
@@ -1837,6 +2090,7 @@
           });
           state.records[key] = await api(`/api/c/${encodeURIComponent(key)}`);
           toast(`Status \u2192 ${status}`, "ok");
+          if (await returnAfterAssetWrite(key)) return;
           openEditor(key);
         } catch (error) {
           renderValidationError(error);
@@ -2998,7 +3252,7 @@
           try { state.records[key] = await api(`/api/c/${encodeURIComponent(key)}`); } catch(e) { /* skip */ }
         }));
         renderSidebar();
-        await openEditor(initialEditorKey());
+        await openEditor(initialEditorKey(), { restoreStored: true });
       }
       boot();
     </script>
