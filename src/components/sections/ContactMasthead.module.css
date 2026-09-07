@@ -1,6 +1,7 @@
-.section {
+section.section {
   position: relative;
   overflow: hidden;
+  background-color: var(--color-charcoal-masthead);
 }
 
 .content {
@@ -61,24 +62,6 @@
   animation: title-rise 1000ms var(--ease-standard) 180ms both;
 }
 
-.titleAccent {
-  color: var(--color-gold);
-}
-
-.statement {
-  position: relative;
-  z-index: 1;
-  margin-top: var(--space-6xl);
-  max-width: 42ch;
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-light);
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-  color: var(--color-text-inverse-85);
-  animation: rise-fade var(--duration-long) var(--ease-standard) 320ms both;
-}
-
 /* thin gold seam -------------------------------------------------------- */
 
 .rule {
@@ -135,10 +118,6 @@
     font-size: clamp(2.75rem, 12vw, 4rem);
   }
 
-  .statement {
-    max-width: 100%;
-  }
-
   .rule {
     margin-top: var(--space-8xl);
   }
@@ -148,7 +127,6 @@
   .ruleTop,
   .eyebrow,
   .title,
-  .statement,
   .rule {
     animation: none;
   }

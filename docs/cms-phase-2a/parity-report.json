@@ -1,11 +1,11 @@
 {
   "phase": "2A/2B",
-  "generatedAt": "2026-08-21T21:51:03.763Z",
-  "verdict": "FAIL",
+  "generatedAt": "2026-09-07T21:57:35.082Z",
+  "verdict": "PASS",
   "counts": {
-    "total": 397,
-    "passed": 392,
-    "failed": 5,
+    "total": 398,
+    "passed": 398,
+    "failed": 0,
     "unintended": 0
   },
   "results": [
@@ -67,8 +67,7 @@
       "layer": "inventory/data",
       "description": "default payload matches the source mapping",
       "classification": "migration-related",
-      "passed": false,
-      "detail": "payload differs (mapping vs store)"
+      "passed": true
     },
     {
       "id": "brand-settings.count",
@@ -158,8 +157,7 @@
       "layer": "inventory/data",
       "description": "default payload matches the source mapping",
       "classification": "migration-related",
-      "passed": false,
-      "detail": "payload differs (mapping vs store)"
+      "passed": true
     },
     {
       "id": "metrics.count",
@@ -2016,7 +2014,7 @@
       "description": "every seeded collection emits a module (documents, media, governance-records included)",
       "classification": "expected",
       "passed": true,
-      "detail": "generated: brandSettings.ts, businessVerticals.ts, contactDirectory.ts, corporateSettings.ts, documents.ts, esgInitiatives.ts, footer.ts, governanceRecords.ts, locations.ts, media.ts, metrics.ts, navigation.ts, portfolioAssets.ts, publicationSettings.ts, slideshows.ts"
+      "detail": "generated: brandSettings.ts, businessVerticals.ts, contactDirectory.ts, corporateSettings.ts, documents.ts, esgInitiatives.ts, footer.ts, governanceRecords.ts, landBank.ts, locations.ts, media.ts, metrics.ts, navigation.ts, portfolioAssets.ts, publicationSettings.ts, slideshows.ts"
     },
     {
       "id": "generated.no-strays",
@@ -2078,6 +2076,13 @@
       "id": "generated.governanceRecords.ts",
       "layer": "generated",
       "description": "governanceRecords.ts is byte-identical on disk",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "generated.landBank.ts",
+      "layer": "generated",
+      "description": "landBank.ts is byte-identical on disk",
       "classification": "expected",
       "passed": true
     },
@@ -2705,7 +2710,7 @@
       "layer": "fidelity",
       "description": "footer record carries the frozen footer data (with correspondence heading)",
       "classification": "migration-related",
-      "passed": false
+      "passed": true
     },
     {
       "id": "fidelity.settings.corporate",
@@ -2719,7 +2724,7 @@
       "layer": "fidelity",
       "description": "publication settings carry the edition, prefix and numbering rules",
       "classification": "expected",
-      "passed": false
+      "passed": true
     },
     {
       "id": "fidelity.settings.brand",
@@ -2958,8 +2963,8 @@
       "layer": "relations",
       "description": "audit chain intact — 82 create entries (one per seeded record)",
       "classification": "expected",
-      "passed": false,
-      "detail": "valid=true, verified=110, expected=82"
+      "passed": true,
+      "detail": "valid=true, verified=82, expected=82"
     }
   ]
 }

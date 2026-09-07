@@ -26,6 +26,21 @@ export type Chapter = {
   code: string;
 };
 
+/**
+ * The four chapters of the shipped manual, numbered in rendered order.
+ *
+ * The Business page renders exactly four numbered chapters:
+ *
+ *   01 · Operating Verticals
+ *   02 · Execution
+ *   03 · Integrated Business Model
+ *   04 · Corporate Structure
+ *
+ * The unrendered Business V1 chapters (02 Capabilities & Services and
+ * 04 Capital Deployment) are intentionally absent from the chapter of
+ * record — they are not revived and carry no visible numbering.
+ */
+
 export const businessChapters = [
   {
     index: "01",
@@ -37,37 +52,34 @@ export const businessChapters = [
   },
   {
     index: "02",
-    label: "Capabilities & Services",
-    id: "capabilities",
-    title: "What NDR can deliver.",
+    label: "Execution",
+    id: "execution",
+    title: "How projects are delivered.",
     plate: "PL. 201",
     code: "OP.02",
   },
   {
     index: "03",
-    label: "Corporate Structure",
-    id: "structure",
-    title: "How the corporate body is assembled.",
+    label: "Integrated Business Model",
+    id: "business-model-title",
+    title: "How capital flows.",
     plate: "PL. 301",
     code: "OP.03",
   },
   {
     index: "04",
-    label: "Capital Deployment",
-    id: "capital",
-    title: "How capital flows.",
+    label: "Corporate Structure",
+    id: "structure",
+    title: "How the corporate body is assembled.",
     plate: "PL. 401",
     code: "OP.04",
   },
-  {
-    index: "05",
-    label: "Execution",
-    id: "execution",
-    title: "How projects are delivered.",
-    plate: "PL. 501",
-    code: "OP.05",
-  },
 ] as const satisfies readonly Chapter[];
+
+export const verticalsChapter = businessChapters[0];
+export const executionChapter = businessChapters[1];
+export const integratedBusinessModelChapter = businessChapters[2];
+export const corporateStructureChapter = businessChapters[3];
 
 export const businessMasthead = {
   folio: "OP. MANUAL · FY26",

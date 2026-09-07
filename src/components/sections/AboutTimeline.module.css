@@ -10,10 +10,6 @@
   background-color: var(--color-gold);
 }
 
-.lede {
-  max-width: 44rem;
-}
-
 .list {
   position: relative;
   list-style: none;

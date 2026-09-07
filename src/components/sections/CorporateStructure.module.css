@@ -7,13 +7,10 @@
   z-index: 1;
 }
 
-/* ─── Scroll wrapper ──────────────────────────────────────────────────── */
+/* ─── Figure block ────────────────────────────────────────────────────── */
 
-.scrollWrap {
-  overflow-x: auto;
-  overflow-y: visible;
-  -webkit-overflow-scrolling: touch;
-  margin-top: var(--space-8xl);
+.figure {
+  margin-top: var(--space-7xl);
 }
 
 /* ─── Diagram canvas ──────────────────────────────────────────────────── */
@@ -21,17 +18,8 @@
 .diagram {
   position: relative;
   width: 100%;
-  min-width: 1100px;
-  max-width: 1440px;
-  margin: 0 auto;
-  background:
-    linear-gradient(170deg, rgba(234,226,210,0.25) 0%, rgba(250,247,242,0) 55%),
-    var(--color-ivory);
+  background-color: var(--color-ivory);
   border: 1px solid var(--color-hairline-light);
-  border-radius: var(--radius-md);
-  box-shadow:
-    0 1px 0 rgba(250,247,242,0.8),
-    0 8px 32px rgba(28,26,25,0.06);
 }
 
 .svg {
@@ -40,123 +28,66 @@
   height: auto;
 }
 
-/* ─── Background ──────────────────────────────────────────────────────── */
+/* ─── Connectors ────────────────────────────────────────────────────────
+   Static path styles only — the diagram renders without animation. */
 
-.bg { pointer-events: none; }
-
-.bgGrid line {
-  stroke: var(--color-charcoal);
-  stroke-width: 0.35;
-  opacity: 0.022;
-}
-
-/* ─── Connectors ──────────────────────────────────────────────────────── */
-
-.connectors { pointer-events: none; }
-
-.connG {
-  opacity: 0;
-  transition: opacity 400ms var(--ease-standard);
-}
-
-.connD { opacity: 1; }
-
-.connD .connP {
-  animation: drawP 800ms var(--ease-standard) forwards;
-  animation-delay: var(--cd, 300ms);
-}
-
-@keyframes drawP {
-  to { stroke-dashoffset: 0; }
+.connectors {
+  pointer-events: none;
 }
 
 .connP {
-  stroke-width: 2.2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.pOwn { stroke: var(--color-maroon); opacity: 0.82; }
-.pSvc  { stroke: var(--color-stone); stroke-width: 1.8; stroke-dasharray: 9 5; opacity: 0.65; stroke-dashoffset: 0 !important; animation: none !important; }
-.pTxn  { stroke: var(--color-maroon-dark); opacity: 0.78; stroke-width: 2; }
+.pOwn {
+  stroke: var(--color-maroon);
+  opacity: 0.85;
+}
 
-/* connector highlight / dim */
+.pSvc {
+  stroke: var(--color-stone);
+  stroke-width: 1.7;
+  stroke-dasharray: 9 5;
+  opacity: 0.75;
+}
 
-.connHi .connP { opacity: 1; stroke-width: 3; }
-.connHi .pOwn  { stroke: var(--color-maroon-deep); }
-.connHi .pSvc  { stroke: var(--color-charcoal); opacity: 0.88; }
-.connHi .pTxn  { stroke: var(--color-maroon); opacity: 0.95; }
-.connHi .plate { fill: var(--color-ivory); opacity: 1; stroke: var(--color-gold-30); stroke-width: 1; }
-.connHi .connL { fill: var(--color-charcoal); opacity: 1; font-weight: var(--font-weight-body-semibold); }
-
-.connDim { opacity: 0.07 !important; }
-.connDim .connP { animation: none; stroke-dashoffset: 0; }
+.pTxn {
+  stroke: var(--color-maroon-dark);
+  stroke-width: 1.9;
+  opacity: 0.85;
+}
 
 /* connector labels */
 
 .plate {
   fill: var(--color-ivory);
-  opacity: 0.92;
   stroke: var(--color-hairline-light);
   stroke-width: 0.5;
-  transition: fill 300ms var(--ease-standard), opacity 300ms var(--ease-standard), stroke 300ms var(--ease-standard);
 }
 
 .connL {
   fill: var(--color-stone);
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: var(--font-weight-body-semibold);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  opacity: 0;
-  transition: opacity 500ms var(--ease-standard) 500ms, fill 300ms var(--ease-standard), font-weight 200ms;
   pointer-events: none;
 }
 
-.drawn .connL { opacity: 1; }
-
-/* ─── Node groups ─────────────────────────────────────────────────────── */
-
-.nodeG {
-  cursor: default;
-  outline: none;
-  opacity: 0;
-  transition: opacity 500ms var(--ease-standard), filter 300ms var(--ease-standard);
-}
-
-.nodeD {
-  opacity: 1;
-  transition-delay: var(--nd, 0ms);
-}
-
-.nodeDim {
-  opacity: 0.18 !important;
-  filter: saturate(0.3) brightness(1.08);
-}
-
-.nodeG:focus-visible rect:first-child {
-  stroke: var(--color-gold);
-  stroke-width: 3;
-  filter: drop-shadow(0 0 8px rgba(240,182,90,0.4));
-}
-
-/* ─── Center hub ──────────────────────────────────────────────────────── */
+/* ─── Tier 1 · anchor hub ─────────────────────────────────────────────── */
 
 .centerBg {
   fill: var(--color-maroon-deep);
   stroke: var(--color-maroon-dark);
   stroke-width: 1.5;
-  filter: drop-shadow(0 6px 28px rgba(90,30,34,0.3));
-  transition: filter 300ms var(--ease-standard);
+  filter: drop-shadow(0 6px 24px rgba(90, 30, 34, 0.26));
 }
 
-.nodeG:hover .centerBg,
-.nodeG:focus-visible .centerBg {
-  filter: drop-shadow(0 8px 36px rgba(90,30,34,0.42)) drop-shadow(0 0 0 1px rgba(240,182,90,0.3));
+.centerAcc {
+  fill: var(--color-gold);
 }
-
-.centerAcc { fill: var(--color-gold); }
 
 .cTitle {
   fill: var(--color-ivory);
@@ -176,30 +107,28 @@
 .cRole {
   fill: var(--color-text-inverse-60);
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: var(--font-weight-body-medium);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-/* ─── Entity cards ────────────────────────────────────────────────────── */
+/* ─── Tier 2 / 3 · entity cards ───────────────────────────────────────── */
 
 .nodeBg {
   fill: var(--color-ivory);
   stroke: var(--color-hairline-light);
   stroke-width: 1;
-  filter: drop-shadow(0 2px 8px rgba(28,26,25,0.06));
-  transition: filter 300ms var(--ease-standard), stroke 300ms var(--ease-standard);
+  filter: drop-shadow(0 2px 8px rgba(28, 26, 25, 0.05));
 }
 
-.nodeG:hover .nodeBg,
-.nodeG:focus-visible .nodeBg {
-  stroke: var(--color-gold);
-  filter: drop-shadow(0 4px 16px rgba(28,26,25,0.1)) drop-shadow(0 0 0 1px rgba(240,182,90,0.25));
+.accentM {
+  fill: var(--color-maroon);
 }
 
-.accentM { fill: var(--color-maroon); }
-.accentG { fill: var(--color-gold); }
+.accentG {
+  fill: var(--color-gold);
+}
 
 .nTitle {
   fill: var(--color-charcoal);
@@ -231,7 +160,7 @@
   fill: var(--color-maroon-deep);
   stroke: var(--color-ivory);
   stroke-width: 3;
-  filter: drop-shadow(0 2px 4px rgba(28,26,25,0.15));
+  filter: drop-shadow(0 2px 4px rgba(28, 26, 25, 0.15));
 }
 
 .badgeIcon {
@@ -240,7 +169,9 @@
 
 /* ─── Legend ───────────────────────────────────────────────────────────── */
 
-.legend { pointer-events: none; }
+.legend {
+  pointer-events: none;
+}
 
 .legendHeading {
   fill: var(--color-stone);
@@ -277,49 +208,86 @@
   font-weight: var(--font-weight-body-medium);
 }
 
-/* ─── Editorial ───────────────────────────────────────────────────────── */
+/* ─── Source footnote ──────────────────────────────────────────────────── */
 
-.editorial { pointer-events: none; }
-
-.edTitle {
-  fill: var(--color-charcoal);
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-medium);
-  font-size: 22px;
-  letter-spacing: 0.01em;
+.source {
+  margin-top: var(--space-4xl);
+  color: var(--color-stone);
 }
 
-.edSubtitle {
-  fill: var(--color-stone);
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-regular);
-  font-size: 16px;
+/* ─── Mobile / screen-reader relationship tree ────────────────────────────
+   The tree is the semantic representation: always read by assistive tech,
+   visually hidden on desktop and shown as a stacked diagram on mobile. */
+
+.tree {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
-/* ─── Reduced motion ──────────────────────────────────────────────────── */
+/* responsive ------------------------------------------------------------ */
 
-@media (prefers-reduced-motion: reduce) {
-  .nodeG {
-    opacity: 1;
-    transition: filter 0ms;
+@media (max-width: 767px) {
+  .figure {
+    margin-top: var(--space-5xl);
   }
 
-  .connG {
-    opacity: 1;
-    transition: none;
+  .diagram {
+    display: none;
   }
 
-  .connD .connP {
-    animation: none;
-    stroke-dashoffset: 0;
+  .tree {
+    position: static;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    clip-path: none;
+    white-space: normal;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    list-style: none;
   }
 
-  .connL {
-    opacity: 1;
-    transition: fill 0ms;
+  .treeItem {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-lg);
+    background-color: var(--color-ivory);
+    border: 1px solid var(--color-hairline-light);
   }
 
-  .plate {
-    transition: fill 0ms;
+  .treeRel {
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-body-medium);
+    font-size: var(--font-meta);
+    line-height: var(--leading-meta);
+    letter-spacing: var(--tracking-meta);
+    text-transform: uppercase;
+    color: var(--color-maroon);
+  }
+
+  .treeName {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-display-medium);
+    font-size: 1.125rem;
+    line-height: 1.2;
+    color: var(--color-charcoal);
+  }
+
+  .treeRole {
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-body-regular);
+    font-size: var(--font-small);
+    line-height: var(--leading-small);
+    color: var(--color-text-secondary);
   }
 }

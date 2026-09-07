@@ -12,10 +12,8 @@ export function ContactMasthead() {
           <p className={styles.eyebrow}>{contactMasthead.publication}</p>
 
           <h1 id="contact-masthead-title" className={styles.title}>
-            {contactMasthead.title.before}
-            <span className={styles.titleAccent}>{contactMasthead.title.accent}</span>
+            {contactMasthead.title}
           </h1>
-          <p className={styles.statement}>{contactMasthead.statement}</p>
         </div>
       </Container>
 

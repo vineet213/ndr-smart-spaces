@@ -1,11 +1,8 @@
-"use client";
-
-import { type CSSProperties, type ReactElement, useCallback, useMemo, useState } from "react";
+import type { ReactElement } from "react";
 import { Container, Section } from "@/components/layout";
-import { useInView } from "@/hooks/useInView";
-import { businessChapters, corporateStructure } from "@/lib/data/business";
+import { SourceFootnote } from "@/components/ui";
+import { corporateStructure, corporateStructureChapter } from "@/lib/data/business";
 import { ChapterOpener } from "./ChapterOpener";
-import { Reveal } from "./Reveal";
 import { cx } from "../ui/cx";
 import styles from "./CorporateStructure.module.css";
 
@@ -13,44 +10,47 @@ import styles from "./CorporateStructure.module.css";
    DATA REFERENCES
    ═══════════════════════════════════════════════════════════════════════════ */
 
-const b = corporateStructure.branches;
+const [spv, am, ave, invit, third] = corporateStructure.branches;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CANVAS — 1500 × 960
+   CANVAS — 1250 × 720, three structured tiers
+   ═══════════════════════════════════════════════════════════════════════════
+   Tier 1  NDR Smart Spaces Pvt. Ltd. (anchor)
+   Tier 2  Operating & ownership block: NDR Asset Management · Group SPVs ·
+           Warehouses · Ave Acres LLP
+   Tier 3  Capital & interaction block: NDR InvIT Trust · Third parties
    ═══════════════════════════════════════════════════════════════════════════ */
 
-const VB_W = 1500;
-const VB_H = 960;
+const VB_W = 1250;
+const VB_H = 720;
 
 type EntityId = "center" | "spv" | "am" | "ave" | "invit" | "warehouses" | "third";
 
 type N = { x: number; y: number; w: number; h: number };
 
 const NODES: Record<EntityId, N> = {
-  center:     { x: 555, y: 355, w: 390, h: 220 },
-  am:         { x: 65,  y: 55,  w: 310, h: 165 },
-  ave:        { x: 1075, y: 55,  w: 310, h: 165 },
-  spv:        { x: 30,  y: 350, w: 285, h: 165 },
-  third:      { x: 1165, y: 385, w: 255, h: 145 },
-  invit:      { x: 380, y: 695, w: 330, h: 150 },
-  warehouses: { x: 880, y: 710, w: 270, h: 130 },
+  center: { x: 465, y: 36, w: 320, h: 124 },
+  am: { x: 40, y: 270, w: 250, h: 190 },
+  spv: { x: 350, y: 270, w: 250, h: 190 },
+  warehouses: { x: 650, y: 270, w: 250, h: 190 },
+  ave: { x: 960, y: 270, w: 250, h: 190 },
+  invit: { x: 475, y: 540, w: 300, h: 136 },
+  third: { x: 960, y: 540, w: 250, h: 136 },
 };
 
-const rx  = (id: EntityId) => NODES[id].x + NODES[id].w;
-const by  = (id: EntityId) => NODES[id].y + NODES[id].h;
-const mcx = (id: EntityId) => NODES[id].x + NODES[id].w / 2;
-const mcy = (id: EntityId) => NODES[id].y + NODES[id].h / 2;
+/* Anchor card text is centred left of its corner badge so no glyph collides
+   with the badge disk. */
+const CCX = 575;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CONNECTORS — every d starts/ends at a card edge
+   CONNECTORS — orthogonal elbows, every edge end lands on a card edge.
+   All nine relationships are preserved from the previous diagram.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 type ConnType = "ownership" | "service" | "transaction";
 
 type Connector = {
   id: string;
-  from: EntityId;
-  to: EntityId;
   type: ConnType;
   d: string;
   lx: number;
@@ -60,83 +60,118 @@ type Connector = {
 
 const CONNECTORS: readonly Connector[] = [
   {
-    id: "c1",
-    from: "center", to: "am", type: "ownership",
-    d: `M${NODES.center.x},${NODES.center.y + 15} C${NODES.center.x - 80},${NODES.center.y - 40} ${rx("am") + 30},${by("am") + 40} ${rx("am") - 20},${by("am")}`,
-    lx: NODES.center.x - 110, ly: NODES.center.y - 15,
+    id: "own-am",
+    type: "ownership",
+    d: `M470 160 L470 200 L165 200 L165 264`,
+    lx: 183,
+    ly: 232,
     label: "Ownership",
   },
   {
-    id: "c2",
-    from: "center", to: "spv", type: "ownership",
-    d: `M${NODES.center.x},${mcy("center") + 15} L${rx("spv")},${mcy("spv") + 5}`,
-    lx: (NODES.center.x + rx("spv")) / 2 - 20, ly: mcy("center") - 10,
+    id: "own-spv",
+    type: "ownership",
+    d: `M475 160 L475 264`,
+    lx: 493,
+    ly: 228,
     label: "Ownership",
   },
   {
-    id: "c3",
-    from: "spv", to: "am", type: "service",
-    d: `M${NODES.spv.x + 80},${NODES.spv.y} L${NODES.am.x + 100},${by("am")}`,
-    lx: NODES.spv.x - 20, ly: (by("am") + NODES.spv.y) / 2 + 5,
+    id: "own-ave",
+    type: "ownership",
+    d: `M785 160 L785 200 L1085 200 L1085 264`,
+    lx: 1103,
+    ly: 232,
+    label: "Ownership",
+  },
+  {
+    id: "svc-rental",
+    type: "service",
+    d: `M700 160 L700 200 L775 200 L775 264`,
+    lx: 793,
+    ly: 232,
+    label: "Rental Income",
+  },
+  {
+    id: "svc-pmc",
+    type: "service",
+    d: `M400 460 L400 495 L165 495 L165 462`,
+    lx: 196,
+    ly: 506,
     label: "PMC Fee · Consultancy",
   },
   {
-    id: "c4",
-    from: "center", to: "ave", type: "ownership",
-    d: `M${rx("center")},${NODES.center.y + 15} C${rx("center") + 80},${NODES.center.y - 40} ${NODES.ave.x - 30},${by("ave") + 40} ${NODES.ave.x + 20},${by("ave")}`,
-    lx: rx("center") + 110, ly: NODES.center.y - 15,
-    label: "Ownership",
-  },
-  {
-    id: "c5",
-    from: "ave", to: "third", type: "transaction",
-    d: `M${NODES.ave.x + 80},${by("ave")} L${NODES.third.x + 70},${NODES.third.y}`,
-    lx: NODES.ave.x - 30, ly: (by("ave") + NODES.third.y) / 2,
-    label: "Sale of Developed Land",
-  },
-  {
-    id: "c6",
-    from: "third", to: "ave", type: "transaction",
-    d: `M${NODES.third.x + NODES.third.w - 80},${NODES.third.y} L${rx("ave") - 80},${by("ave")}`,
-    lx: rx("ave") + 10, ly: (by("ave") + NODES.third.y) / 2,
-    label: "Consideration Paid",
-  },
-  {
-    id: "c7",
-    from: "center", to: "invit", type: "transaction",
-    d: `M${NODES.center.x + 70},${by("center")} L${NODES.invit.x + 90},${NODES.invit.y}`,
-    lx: NODES.center.x - 60, ly: (by("center") + NODES.invit.y) / 2,
+    id: "txn-sale-invit",
+    type: "transaction",
+    d: `M618 168 L618 540`,
+    lx: 636,
+    ly: 488,
     label: "Sale of SPV Ownership",
   },
   {
-    id: "c8",
-    from: "invit", to: "center", type: "transaction",
-    d: `M${NODES.invit.x + NODES.invit.w - 90},${NODES.invit.y} L${rx("center") - 70},${by("center") + 14}`,
-    lx: rx("center") + 10, ly: (by("center") + NODES.invit.y) / 2,
+    id: "txn-pay-invit",
+    type: "transaction",
+    d: `M632 540 L632 168`,
+    lx: 650,
+    ly: 516,
     label: "Consideration Paid",
   },
   {
-    id: "c9",
-    from: "center", to: "warehouses", type: "service",
-    d: `M${rx("center") - 60},${by("center")} L${NODES.warehouses.x + 60},${NODES.warehouses.y}`,
-    lx: rx("center") + 10, ly: (by("center") + NODES.warehouses.y) / 2 + 10,
-    label: "Rental Income",
+    id: "txn-sale-ave",
+    type: "transaction",
+    d: `M1077 468 L1077 532`,
+    lx: 879,
+    ly: 476,
+    label: "Sale of Developed Land",
+  },
+  {
+    id: "txn-pay-ave",
+    type: "transaction",
+    d: `M1093 532 L1093 468`,
+    lx: 922,
+    ly: 504,
+    label: "Consideration Paid",
   },
 ];
 
+const markerId = (t: ConnType) =>
+  t === "ownership" ? "a-own" : t === "service" ? "a-svc" : "a-txn";
+
 /* ═══════════════════════════════════════════════════════════════════════════
-   HOVER GRAPH
+   TEXT HELPERS — deterministic word-wrap for titles and relationship lines
    ═══════════════════════════════════════════════════════════════════════════ */
 
-function related(id: EntityId): Set<EntityId> {
-  const s = new Set<EntityId>([id]);
-  for (const c of CONNECTORS) { if (c.from === id) s.add(c.to); if (c.to === id) s.add(c.from); }
-  return s;
+const TITLE_CHAR_W = 8.2;
+const REL_CHAR_W = 6.3;
+
+function wrapText(text: string, charW: number, width: number): string[] {
+  const max = Math.max(24, Math.floor(width / charW));
+  const words = text.split(" ");
+  const lines: string[] = [];
+  let current = "";
+  for (const word of words) {
+    const next = current ? `${current} ${word}` : word;
+    if (next.length <= max || current === "") current = next;
+    else {
+      lines.push(current);
+      current = word;
+    }
+  }
+  if (current) lines.push(current);
+  return tidyWrap(lines.slice(0, 2));
 }
-function connIds(id: EntityId): Set<string> {
-  const s = new Set<string>();
-  for (const c of CONNECTORS) { if (c.from === id || c.to === id) s.add(c.id); }
-  return s;
+
+/* Never leave a dangling separators ("·", "/") at the end of a wrapped line —
+   move it onto the next line so wraps read naturally. */
+function tidyWrap(lines: string[]): string[] {
+  if (lines.length < 2) return lines;
+  for (let i = 0; i < lines.length - 1; i++) {
+    const match = lines[i].match(/[\u00b7/]$/);
+    if (match) {
+      lines[i] = lines[i].slice(0, -1).trimEnd();
+      lines[i + 1] = `${match[0]} ${lines[i + 1]}`;
+    }
+  }
+  return lines;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -146,37 +181,61 @@ function connIds(id: EntityId): Set<string> {
 function ArrowDefs() {
   return (
     <defs>
-      <marker id="a-own" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto">
-        <path d="M1.5,1.5 L10.5,6 L1.5,10.5" fill="none" stroke="var(--color-maroon)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <marker
+        id="a-own"
+        viewBox="0 0 12 12"
+        refX="11"
+        refY="6"
+        markerWidth="10"
+        markerHeight="10"
+        orient="auto"
+      >
+        <path
+          d="M1.5,1.5 L10.5,6 L1.5,10.5"
+          fill="none"
+          stroke="var(--color-maroon)"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </marker>
-      <marker id="a-svc" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto">
-        <path d="M1.5,1.5 L10.5,6 L1.5,10.5" fill="none" stroke="var(--color-stone)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      <marker
+        id="a-svc"
+        viewBox="0 0 12 12"
+        refX="11"
+        refY="6"
+        markerWidth="9"
+        markerHeight="9"
+        orient="auto"
+      >
+        <path
+          d="M1.5,1.5 L10.5,6 L1.5,10.5"
+          fill="none"
+          stroke="var(--color-stone)"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </marker>
-      <marker id="a-txn" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto">
-        <path d="M1.5,1.5 L10.5,6 L1.5,10.5" fill="none" stroke="var(--color-maroon-dark)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <marker
+        id="a-txn"
+        viewBox="0 0 12 12"
+        refX="11"
+        refY="6"
+        markerWidth="10"
+        markerHeight="10"
+        orient="auto"
+      >
+        <path
+          d="M1.5,1.5 L10.5,6 L1.5,10.5"
+          fill="none"
+          stroke="var(--color-maroon-dark)"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </marker>
     </defs>
-  );
-}
-
-function Background() {
-  const grid: ReactElement[] = [];
-  for (let x = 60; x < VB_W; x += 60) grid.push(<line key={`gv${x}`} x1={x} y1={20} x2={x} y2={VB_H - 20} />);
-  for (let y = 60; y < VB_H; y += 60) grid.push(<line key={`gh${y}`} x1={20} y1={y} x2={VB_W - 20} y2={y} />);
-
-  const cx0 = mcx("center"), cy0 = mcy("center");
-  const rings = [220, 320, 430, 550].map((r, i) => (
-    <circle key={`ring${i}`} cx={cx0} cy={cy0} r={r} fill="none" stroke="var(--color-charcoal)" strokeWidth="0.5" opacity={0.04 - i * 0.007} />
-  ));
-
-  return (
-    <g className={styles.bg}>
-      <g className={styles.bgGrid}>{grid}</g>
-      {rings}
-      <rect x={22} y={22} width={VB_W - 44} height={VB_H - 44} rx={2} fill="none" stroke="var(--color-charcoal)" strokeWidth="0.6" opacity={0.06} />
-      <line x1={cx0 - 480} y1={cy0} x2={cx0 + 480} y2={cy0} stroke="var(--color-charcoal)" strokeWidth="0.3" opacity={0.03} strokeDasharray="4 8" />
-      <line x1={cx0} y1={40} x2={cx0} y2={VB_H - 40} stroke="var(--color-charcoal)" strokeWidth="0.3" opacity={0.03} strokeDasharray="4 8" />
-    </g>
   );
 }
 
@@ -228,88 +287,55 @@ const ICONS: Record<EntityId, ReactElement> = {
   ),
 };
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   PLATE WIDTH HELPER
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* ─── connector label plate sizing ───────────────────────────────────────── */
 
 const PLATE_H = 22;
-const PLATE_PAD = 12;
-const CHAR_W = 8;
-function pw(label: string) { return label.length * CHAR_W + PLATE_PAD * 2; }
+const PLATE_PAD = 14;
+const CHAR_W = 9;
+const pw = (label: string) => Math.ceil(label.length * CHAR_W) + PLATE_PAD * 2;
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   LEGEND
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* ─── legend ─────────────────────────────────────────────────────────────── */
 
 function Legend() {
   const items = [
-    { label: "Ownership", cls: styles.legendOwn },
-    { label: "Services / Fees", cls: styles.legendSvc },
-    { label: "Transactions", cls: styles.legendTxn },
+    { label: "Ownership", x: 150, cls: styles.legendOwn },
+    { label: "Services / Fees", x: 300, cls: styles.legendSvc },
+    { label: "Transactions", x: 480, cls: styles.legendTxn },
   ];
-  const lx = 1160, ly = 880;
   return (
     <g className={styles.legend}>
-      <text x={lx} y={ly} className={styles.legendHeading}>LEGEND</text>
-      {items.map((it, i) => {
-        const iy = ly + 22 + i * 24;
-        return (
-          <g key={it.label}>
-            <line x1={lx} y1={iy} x2={lx + 32} y2={iy} className={it.cls} />
-            <text x={lx + 40} y={iy + 4} className={styles.legendText}>{it.label}</text>
-          </g>
-        );
-      })}
+      <text x={40} y={706} className={styles.legendHeading}>
+        LEGEND
+      </text>
+      {items.map((item) => (
+        <g key={item.label}>
+          <line x1={item.x} y1={700} x2={item.x + 40} y2={700} className={item.cls} />
+          <text x={item.x + 50} y={706} className={styles.legendText}>
+            {item.label}
+          </text>
+        </g>
+      ))}
     </g>
   );
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   EDITORIAL BOTTOM-LEFT
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-function Editorial() {
-  const x = 50, y = 878;
-  return (
-    <g className={styles.editorial}>
-      <text x={x} y={y} className={styles.edTitle}>CORPORATE STRUCTURE</text>
-      <line x1={x} y1={y + 10} x2={x + 60} y2={y + 10} stroke="var(--color-gold)" strokeWidth="2" />
-      <text x={x} y={y + 34} className={styles.edSubtitle}>How We Create</text>
-      <text x={x} y={y + 52} className={styles.edSubtitle}>Enduring Value.</text>
-    </g>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   MAIN COMPONENT
+   MAIN COMPONENT — static, no animation, no hover interaction
    ═══════════════════════════════════════════════════════════════════════════ */
 
 export function CorporateStructure() {
-  const { ref, inView } = useInView<HTMLDivElement>();
-  const [hovered, setHovered] = useState<EntityId | null>(null);
-
-  const relSet = useMemo(() => hovered ? related(hovered) : null, [hovered]);
-  const connSet = useMemo(() => hovered ? connIds(hovered) : null, [hovered]);
-
-  const enter = useCallback((id: EntityId) => setHovered(id), []);
-  const leave = useCallback(() => setHovered(null), []);
-
-  const hasFocus = hovered !== null;
-  const drawn = inView;
-
   return (
     <Section tone="dim" id="structure" ariaLabelledby="structure-title" className={styles.section}>
       <Container className={styles.content}>
-        <Reveal>
-          <ChapterOpener chapter={businessChapters[2]} headingId="structure-title" />
-        </Reveal>
+        <ChapterOpener
+          chapter={corporateStructureChapter}
+          headingId="structure-title"
+          animate={false}
+        />
 
-        <div ref={ref} className={styles.scrollWrap}>
-          <div
-            className={cx(styles.diagram, drawn && styles.drawn)}
-            role="img"
-            aria-label="Corporate structure relationship diagram"
-          >
+        <figure className={styles.figure}>
+          {/* Desktop / tablet: the orthogonal entity map (decorative SVG). */}
+          <div className={styles.diagram}>
             <svg
               className={styles.svg}
               viewBox={`0 0 ${VB_W} ${VB_H}`}
@@ -317,123 +343,200 @@ export function CorporateStructure() {
               aria-hidden="true"
             >
               <ArrowDefs />
-              <Background />
 
-              {/* ── CONNECTORS ──────────────────────────────────── */}
+              {/* connectors */}
               <g className={styles.connectors}>
-                {CONNECTORS.map((c, i) => {
-                  const isConn = connSet?.has(c.id) ?? false;
-                  const dim = hasFocus && !isConn;
-                  const mid = markerId(c.type);
-                  const len = 3000;
-                  const w = pw(c.label);
+                {CONNECTORS.map((connector) => {
+                  const width = pw(connector.label);
                   return (
-                    <g
-                      key={c.id}
-                      className={cx(styles.connG, drawn && styles.connD, isConn && styles.connHi, dim && styles.connDim)}
-                      style={{ "--cd": `${300 + i * 100}ms` } as CSSProperties}
-                    >
+                    <g key={connector.id}>
                       <path
-                        d={c.d}
+                        d={connector.d}
                         fill="none"
-                        className={cx(styles.connP, c.type === "ownership" && styles.pOwn, c.type === "service" && styles.pSvc, c.type === "transaction" && styles.pTxn)}
-                        markerEnd={`url(#${mid})`}
-                        strokeDasharray={len}
-                        strokeDashoffset={len}
+                        strokeWidth={2}
+                        className={cx(
+                          styles.connP,
+                          connector.type === "ownership" && styles.pOwn,
+                          connector.type === "service" && styles.pSvc,
+                          connector.type === "transaction" && styles.pTxn,
+                        )}
+                        markerEnd={`url(#${markerId(connector.type)})`}
                       />
                       <rect
-                        x={c.lx - PLATE_PAD}
-                        y={c.ly - PLATE_H / 2}
-                        width={w}
+                        x={connector.lx - PLATE_PAD}
+                        y={connector.ly - PLATE_H / 2}
+                        width={width}
                         height={PLATE_H}
                         rx={3}
                         className={styles.plate}
                       />
                       <text
-                        x={c.lx + w / 2 - PLATE_PAD}
-                        y={c.ly + 5}
+                        x={connector.lx - PLATE_PAD + width / 2}
+                        y={connector.ly + 5}
                         textAnchor="middle"
                         className={styles.connL}
                       >
-                        {c.label}
+                        {connector.label}
                       </text>
                     </g>
                   );
                 })}
               </g>
 
-              {/* ── CENTER HUB ──────────────────────────────────── */}
-              <g
-                className={cx(styles.nodeG, drawn && styles.nodeD, hasFocus && !relSet?.has("center") && styles.nodeDim)}
-                style={{ "--nd": "0ms" } as CSSProperties}
-                onMouseEnter={() => enter("center")}
-                onMouseLeave={leave}
-                onFocus={() => enter("center")}
-                onBlur={leave}
-                tabIndex={0}
-                role="button"
-                aria-label={corporateStructure.header.name}
-              >
-                <rect x={NODES.center.x} y={NODES.center.y} width={NODES.center.w} height={NODES.center.h} rx={5} className={styles.centerBg} />
-                <rect x={NODES.center.x} y={NODES.center.y} width={NODES.center.w} height={5} rx={2.5} className={styles.centerAcc} />
-                <text x={mcx("center")} y={NODES.center.y + 65} textAnchor="middle" className={styles.cTitle}>NDR Smart Spaces</text>
-                <text x={mcx("center")} y={NODES.center.y + 95} textAnchor="middle" className={styles.cTitleSub}>Pvt. Ltd.</text>
-                <text x={mcx("center")} y={NODES.center.y + 138} textAnchor="middle" className={styles.cRole}>PARENT PLATFORM OF THE NDR GROUP</text>
-                <g transform={`translate(${NODES.center.x + NODES.center.w - 42}, ${NODES.center.y + NODES.center.h - 42})`}>
+              {/* tier 1 — anchor hub */}
+              <g>
+                <rect
+                  x={NODES.center.x}
+                  y={NODES.center.y}
+                  width={NODES.center.w}
+                  height={NODES.center.h}
+                  rx={5}
+                  className={styles.centerBg}
+                />
+                <rect
+                  x={NODES.center.x}
+                  y={NODES.center.y}
+                  width={NODES.center.w}
+                  height={5}
+                  rx={2.5}
+                  className={styles.centerAcc}
+                />
+                <text x={CCX} y={NODES.center.y + 62} textAnchor="middle" className={styles.cTitle}>
+                  NDR Smart Spaces
+                </text>
+                <text
+                  x={CCX}
+                  y={NODES.center.y + 88}
+                  textAnchor="middle"
+                  className={styles.cTitleSub}
+                >
+                  Pvt. Ltd.
+                </text>
+                <text x={CCX} y={NODES.center.y + 114} textAnchor="middle" className={styles.cRole}>
+                  PARENT PLATFORM OF THE NDR GROUP
+                </text>
+                <g
+                  transform={`translate(${NODES.center.x + NODES.center.w - 44}, ${NODES.center.y + 43})`}
+                >
                   <circle cx="17" cy="17" r="17" fill="white" opacity="0.07" />
-                  <g transform="translate(0,0)">{ICONS.center}</g>
+                  <g>{ICONS.center}</g>
                 </g>
               </g>
 
-              {/* ── AM ─────────────────────────────────────────── */}
-              <EntityNode id="am" drawn={drawn} hasFocus={hasFocus} relSet={relSet} enter={enter} leave={leave} delay={150}
-                title={b[1].name}
+              {/* tier 2 — operating & ownership block */}
+              <EntityNode
+                id="am"
+                title={am.name}
                 fn="PROJECT MANAGEMENT COMPANY"
                 rel="Ownership · Project Management"
               />
-
-              {/* ── AVE ACRES ──────────────────────────────────── */}
-              <EntityNode id="ave" drawn={drawn} hasFocus={hasFocus} relSet={relSet} enter={enter} leave={leave} delay={250}
-                title={b[2].name}
-                fn="DEVELOPMENT ENTITY · PLOTTING"
-                rel="Development fee · Sale of developed land"
-              />
-
-              {/* ── GROUP SPVs ─────────────────────────────────── */}
-              <EntityNode id="spv" drawn={drawn} hasFocus={hasFocus} relSet={relSet} enter={enter} leave={leave} delay={350}
-                title={b[0].name}
+              <EntityNode
+                id="spv"
+                title={spv.name}
                 fnLine1="OWNS / LEASES LAND"
                 fnLine2="· CONSTRUCTS WAREHOUSES"
                 rel="Rental income · Subsidiaries / JVs"
               />
-
-              {/* ── THIRD PARTIES ──────────────────────────────── */}
-              <EntityNode id="third" drawn={drawn} hasFocus={hasFocus} relSet={relSet} enter={enter} leave={leave} delay={450}
-                title="Third Parties"
-                fn="LAND PURCHASERS"
-                rel="Purchasers of developed land"
-              />
-
-              {/* ── INVIT ──────────────────────────────────────── */}
-              <EntityNode id="invit" drawn={drawn} hasFocus={hasFocus} relSet={relSet} enter={enter} leave={leave} delay={550}
-                title={b[3].name}
-                fnLine1="SEPARATE LISTED ENTITY"
-                fnLine2="UNDER THE NDR GROUP"
-                rel="Sale of SPV ownership · Consideration paid"
-              />
-
-              {/* ── WAREHOUSES ─────────────────────────────────── */}
-              <EntityNode id="warehouses" drawn={drawn} hasFocus={hasFocus} relSet={relSet} enter={enter} leave={leave} delay={650}
+              <EntityNode
+                id="warehouses"
                 title="Warehouses"
                 fn="RENTAL INCOME ASSETS"
                 rel="Income generating assets"
               />
+              <EntityNode
+                id="ave"
+                title={ave.name}
+                fn="DEVELOPMENT ENTITY · PLOTTING"
+                rel="Development fee · Sale of developed land"
+              />
+
+              {/* tier 3 — capital & interaction block */}
+              <EntityNode
+                id="invit"
+                title={invit.name}
+                fnLine1="SEPARATE LISTED ENTITY"
+                fnLine2="UNDER THE NDR GROUP"
+                rel="Sale of SPV ownership · Consideration paid"
+              />
+              <EntityNode
+                id="third"
+                title={third.name}
+                fn="LAND PURCHASERS"
+                rel="Purchasers of developed land"
+              />
 
               <Legend />
-              <Editorial />
             </svg>
           </div>
-        </div>
+
+          {/* Mobile: a stacked relationship tree built from the same data. */}
+          <ol className={styles.tree}>
+            <li className={styles.treeItem}>
+              <span className={styles.treeRole}>{corporateStructure.header.role}</span>
+              <span className={styles.treeName}>{corporateStructure.header.name}</span>
+            </li>
+            <li className={styles.treeItem}>
+              <span className={styles.treeRel}>Ownership</span>
+              <span className={styles.treeName}>{am.name}</span>
+              <span className={styles.treeRole}>
+                {am.function} · {am.relationship}
+              </span>
+            </li>
+            <li className={styles.treeItem}>
+              <span className={styles.treeRel}>Ownership</span>
+              <span className={styles.treeName}>{spv.name}</span>
+              <span className={styles.treeRole}>
+                {spv.function} · {spv.relationship}
+              </span>
+            </li>
+            <li className={styles.treeItem}>
+              <span className={styles.treeRel}>Services / Fees · PMC fee · Consultancy</span>
+              <span className={styles.treeName}>
+                {spv.name} → {am.name}
+              </span>
+            </li>
+            <li className={styles.treeItem}>
+              <span className={styles.treeRel}>Services / Fees · Rental income</span>
+              <span className={styles.treeName}>{corporateStructure.header.name} → Warehouses</span>
+              <span className={styles.treeRole}>
+                Rental income assets · Income generating assets
+              </span>
+            </li>
+            <li className={styles.treeItem}>
+              <span className={styles.treeRel}>Ownership</span>
+              <span className={styles.treeName}>{ave.name}</span>
+              <span className={styles.treeRole}>
+                {ave.function} · {ave.relationship}
+              </span>
+            </li>
+            <li className={styles.treeItem}>
+              <span className={styles.treeRel}>Transactions · Sale of developed land</span>
+              <span className={styles.treeName}>{ave.name} → Third parties</span>
+              <span className={styles.treeRole}>Land purchasers</span>
+            </li>
+            <li className={styles.treeItem}>
+              <span className={styles.treeRel}>Transactions · Consideration paid</span>
+              <span className={styles.treeName}>Third parties → {ave.name}</span>
+            </li>
+            <li className={styles.treeItem}>
+              <span className={styles.treeRel}>Transactions · Sale of SPV ownership</span>
+              <span className={styles.treeName}>
+                {corporateStructure.header.name} → {invit.name}
+              </span>
+              <span className={styles.treeRole}>
+                {invit.function} · {invit.relationship}
+              </span>
+            </li>
+            <li className={styles.treeItem}>
+              <span className={styles.treeRel}>Transactions · Consideration paid</span>
+              <span className={styles.treeName}>
+                {invit.name} → {corporateStructure.header.name}
+              </span>
+            </li>
+          </ol>
+
+          <SourceFootnote className={styles.source}>{corporateStructure.source}</SourceFootnote>
+        </figure>
       </Container>
     </Section>
   );
@@ -443,16 +546,8 @@ export function CorporateStructure() {
    ENTITY NODE SUB-COMPONENT
    ═══════════════════════════════════════════════════════════════════════════ */
 
-function markerId(t: ConnType) { return t === "ownership" ? "a-own" : t === "service" ? "a-svc" : "a-txn"; }
-
 type NodeProps = {
   id: EntityId;
-  drawn: boolean;
-  hasFocus: boolean;
-  relSet: Set<EntityId> | null;
-  enter: (id: EntityId) => void;
-  leave: () => void;
-  delay: number;
   title: string;
   fn?: string;
   fnLine1?: string;
@@ -460,34 +555,72 @@ type NodeProps = {
   rel: string;
 };
 
-function EntityNode({ id, drawn, hasFocus, relSet, enter, leave, delay, title, fn, fnLine1, fnLine2, rel }: NodeProps) {
+function EntityNode({ id, title, fn, fnLine1, fnLine2, rel }: NodeProps) {
   const n = NODES[id];
-  const pad = 24;
-  const titleY = n.y + 34;
-  const fnY = n.y + 58;
-  const relY = fnLine2 ? n.y + 96 : n.y + 78;
-  const isDim = hasFocus && !relSet?.has(id);
+  const pad = 34;
+  const inner = n.w - pad - 24;
+
+  const titleLines = wrapText(title, TITLE_CHAR_W, inner);
+  const relLines = wrapText(rel, REL_CHAR_W, inner);
+  const twoLineTitle = titleLines.length === 2;
+
+  const titleY1 = n.y + 30;
+  const titleY2 = titleY1 + 18;
+  const hairY = twoLineTitle ? n.y + 62 : n.y + 46;
+  const fnY1 = twoLineTitle ? n.y + 80 : n.y + 64;
+  const relY1 = n.y + n.h - (relLines.length === 2 ? 38 : 32);
+  const relY2 = relY1 + 16;
 
   return (
-    <g
-      className={cx(styles.nodeG, drawn && styles.nodeD, isDim && styles.nodeDim)}
-      style={{ "--nd": `${delay}ms` } as CSSProperties}
-      onMouseEnter={() => enter(id)}
-      onMouseLeave={leave}
-      onFocus={() => enter(id)}
-      onBlur={leave}
-      tabIndex={0}
-      role="button"
-      aria-label={title}
-    >
+    <g>
       <rect x={n.x} y={n.y} width={n.w} height={n.h} rx={4} className={styles.nodeBg} />
-      <rect x={n.x} y={n.y} width={4} height={n.h} rx={2} className={id === "am" || id === "invit" ? styles.accentG : styles.accentM} />
-      <text x={n.x + pad} y={titleY} className={styles.nTitle}>{title}</text>
-      <line x1={n.x + pad} y1={titleY + 8} x2={n.x + n.w - pad} y2={titleY + 8} stroke="var(--color-hairline-light)" strokeWidth="0.6" />
-      {fn && <text x={n.x + pad} y={fnY} className={styles.nFn}>{fn}</text>}
-      {fnLine1 && <text x={n.x + pad} y={fnY} className={styles.nFn}>{fnLine1}</text>}
-      {fnLine2 && <text x={n.x + pad} y={fnY + 16} className={styles.nFn}>{fnLine2}</text>}
-      <text x={n.x + pad} y={relY} className={styles.nRel}>{rel}</text>
+      <rect
+        x={n.x}
+        y={n.y}
+        width={4}
+        height={n.h}
+        rx={2}
+        className={id === "am" || id === "invit" ? styles.accentG : styles.accentM}
+      />
+      <text x={n.x + pad} y={titleY1} className={styles.nTitle}>
+        {titleLines[0]}
+      </text>
+      {twoLineTitle && (
+        <text x={n.x + pad} y={titleY2} className={styles.nTitle}>
+          {titleLines[1]}
+        </text>
+      )}
+      <line
+        x1={n.x + pad}
+        y1={hairY}
+        x2={n.x + n.w - pad}
+        y2={hairY}
+        stroke="var(--color-hairline-light)"
+        strokeWidth="0.6"
+      />
+      {fn && (
+        <text x={n.x + pad} y={fnY1} className={styles.nFn}>
+          {fn}
+        </text>
+      )}
+      {fnLine1 && (
+        <text x={n.x + pad} y={fnY1} className={styles.nFn}>
+          {fnLine1}
+        </text>
+      )}
+      {fnLine2 && (
+        <text x={n.x + pad} y={fnY1 + 16} className={styles.nFn}>
+          {fnLine2}
+        </text>
+      )}
+      <text x={n.x + pad} y={relY1} className={styles.nRel}>
+        {relLines[0]}
+      </text>
+      {relLines.length === 2 && (
+        <text x={n.x + pad} y={relY2} className={styles.nRel}>
+          {relLines[1]}
+        </text>
+      )}
       <g transform={`translate(${n.x - 6}, ${n.y - 6})`}>
         <circle cx="17" cy="17" r="17" className={styles.badgeBg} />
         <g className={styles.badgeIcon}>{ICONS[id]}</g>

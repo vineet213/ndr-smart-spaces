@@ -33,16 +33,15 @@ export const navigation = {
           "heading": "Business Verticals",
           "links": [
             {
-              "href": "/en/business#grade-a-warehousing",
+              "href": "/en/business/grade-a-warehousing",
               "label": "Grade A Warehousing",
             },
             {
-              "href": "/en/business#ndr-asset-management",
+              "href": "/en/business/ndr-asset-management",
               "label": "NDR Asset Management",
             },
             {
-              "external": true,
-              "href": "https://aveacres.com",
+              "href": "/en/business/ave-acres",
               "label": "Residential Plotting \u2014 Ave Acres",
             },
             {
@@ -148,16 +147,15 @@ export const navigation = {
           "heading": "Business Verticals",
           "links": [
             {
-              "href": "/en/business#grade-a-warehousing",
+              "href": "/en/business/grade-a-warehousing",
               "label": "Grade A Warehousing",
             },
             {
-              "href": "/en/business#ndr-asset-management",
+              "href": "/en/business/ndr-asset-management",
               "label": "NDR Asset Management",
             },
             {
-              "external": true,
-              "href": "https://aveacres.com",
+              "href": "/en/business/ave-acres",
               "label": "Residential Plotting \u2014 Ave Acres",
             },
             {

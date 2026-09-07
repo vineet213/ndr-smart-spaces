@@ -3,7 +3,7 @@
 import { Container, Section } from "@/components/layout";
 import { SourceFootnote } from "@/components/ui";
 import { useInView } from "@/hooks/useInView";
-import { businessChapters, execution } from "@/lib/data/business";
+import { execution, executionChapter } from "@/lib/data/business";
 import { ChapterOpener } from "./ChapterOpener";
 import { DrawnGrid } from "./DrawnGrid";
 import { LinearChain } from "./LinearChain";
@@ -19,7 +19,7 @@ export function ExecutionFramework() {
       <DrawnGrid />
       <Container className={styles.content}>
         <Reveal>
-          <ChapterOpener chapter={businessChapters[4]} headingId="execution-title" />
+          <ChapterOpener chapter={executionChapter} headingId="execution-title" />
 
           <LinearChain nodes={execution.chain} tone="light" className={styles.chain} />
 

@@ -12,7 +12,7 @@ export const businessVerticals = [
     "proof": "99% greenfield",
     "proofSource": "NDR Corporate Presentation",
     "route": {
-      "href": "/en/business#grade-a-warehousing",
+      "href": "/en/business/grade-a-warehousing",
       "label": "Grade A Warehousing",
     },
     "source": "Client IA response \u00b7 Post-Demerger business note \u00b7 NDR Corporate Presentation",
@@ -42,7 +42,7 @@ export const businessVerticals = [
     "proof": "100%-owned project management arm",
     "proofSource": "Approved homepage content",
     "route": {
-      "href": "/en/business#ndr-asset-management",
+      "href": "/en/business/ndr-asset-management",
       "label": "NDR Asset Management",
     },
     "source": "Client IA response \u00b7 Post-Demerger business note",
@@ -67,8 +67,7 @@ export const businessVerticals = [
     "proof": "External entity",
     "proofSource": "Post-Demerger business note",
     "route": {
-      "external": true,
-      "href": "https://aveacres.com",
+      "href": "/en/business/ave-acres",
       "label": "Ave Acres",
     },
     "source": "Client IA response \u00b7 Post-Demerger business note",

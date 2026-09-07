@@ -1,5 +1,6 @@
 .section {
-  padding-block: var(--section-padding-desktop);
+  padding-top: var(--section-padding-desktop);
+  padding-bottom: calc(var(--section-padding-desktop) / 2);
   background-color: var(--color-ivory);
 }
 
@@ -55,46 +56,42 @@
   color: var(--color-text-secondary);
 }
 
-.values {
-  list-style: none;
-  margin: var(--space-lg) 0 0;
-  padding: 0;
+.imageSlot {
+  position: relative;
+  margin: 0;
   width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background-color: var(--color-charcoal);
+  border: 1px solid var(--color-hairline-light);
+  border-radius: var(--radius-sm);
 }
 
-.valueRow {
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.imagePlaceholder {
+  position: absolute;
+  inset: 0;
   display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding-block: var(--space-lg);
-  border-top: 1px solid var(--color-hairline-light);
+  align-items: center;
+  justify-content: center;
 }
 
-.valueRow:last-child {
-  border-bottom: 1px solid var(--color-hairline-light);
-}
-
-.valueName {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-sm);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-body-size);
-  line-height: var(--leading-body);
-  color: var(--color-charcoal);
-}
-
-.valueName::before {
+.imagePlaceholder::after {
   content: "";
-  flex: 0 0 auto;
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
   background-color: var(--color-gold);
-  transform: translateY(-2px);
+  transform: rotate(45deg);
 }
 
-.valueLine {
+.imageCaption {
+  margin-top: var(--space-md);
   font-family: var(--font-body);
   font-size: var(--font-small);
   line-height: var(--leading-small);
@@ -103,12 +100,14 @@
 
 @media (max-width: 1439px) {
   .section {
-    padding-block: var(--section-padding-tablet);
+    padding-top: var(--section-padding-tablet);
+    padding-bottom: calc(var(--section-padding-tablet) / 2);
   }
 }
 
 @media (max-width: 767px) {
   .section {
-    padding-block: var(--section-padding-mobile);
+    padding-top: var(--section-padding-mobile);
+    padding-bottom: calc(var(--section-padding-mobile) / 2);
   }
 }

@@ -24,9 +24,7 @@ import { INDIA_OUTLINE, MAP_VIEWBOX } from "./portfolio";
 
 export const contactMasthead = {
   publication: "Contact",
-  title: { before: "Contact ", accent: "NDR Smart Spaces" },
-  statement:
-    "Smart Spaces, HR and Grievance — the desks that answer your enquiry.",
+  title: "Contact Us",
 } as const;
 
 /* office directory -------------------------------------------------------- */
@@ -58,7 +56,6 @@ const cmsOffices: readonly ContactOffice[] = cmsDirectory.map((entry) => ({
 export const officeDirectory = {
   eyebrow: "Office directory",
   heading: "Where to reach us.",
-  lede: "Three desks that receive correspondence — Smart Spaces, Human Resources, and Grievance Redressal.",
   note: "Phone numbers and office hours are draft particulars awaiting client confirmation before go-live. Hours are Indian Standard Time (IST).",
   offices: cmsOffices,
 } as const;

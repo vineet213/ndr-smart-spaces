@@ -9,6 +9,7 @@ type ChapterOpenerProps = {
   chapter: Chapter;
   headingId: string;
   tone?: "light" | "dark";
+  animate?: boolean;
   className?: string;
 };
 
@@ -18,6 +19,7 @@ export function ChapterOpener({
   chapter,
   headingId,
   tone = "light",
+  animate = true,
   className,
 }: ChapterOpenerProps) {
   const { ref, inView } = useInView<HTMLElement>();
@@ -28,7 +30,7 @@ export function ChapterOpener({
       className={cx(
         styles.opener,
         tone === "dark" && styles.onDark,
-        inView && styles.drawn,
+        (animate === false || inView) && styles.drawn,
         className,
       )}
     >

@@ -8,6 +8,9 @@ export const siteRoutes: readonly string[] = [
   "/en",
   "/en/about-us",
   "/en/business",
+  "/en/business/grade-a-warehousing",
+  "/en/business/ndr-asset-management",
+  "/en/business/ave-acres",
   "/en/portfolio",
   "/en/investor-centre",
   "/en/investor-centre/investment-highlights",
@@ -31,14 +34,7 @@ export const siteRoutes: readonly string[] = [
  * route. Only routes with linkable sections need an entry.
  */
 export const routeAnchors: Readonly<Record<string, readonly string[]>> = {
-  "/en/business": [
-    "verticals",
-    "grade-a-warehousing",
-    "ndr-asset-management",
-    "business-model-title",
-    "execution",
-    "structure",
-  ],
+  "/en/business": ["verticals", "business-model-title", "execution", "structure"],
   "/en/portfolio": ["register"],
   "/en/esg": ["framework", "environmental", "initiatives-on-site", "certifications"],
   "/en/media": ["press-archive"],

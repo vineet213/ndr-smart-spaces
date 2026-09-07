@@ -28,7 +28,7 @@ function FooterNavColumn({
   );
 }
 
-export function Footer() {
+export function Footer({ hideWorkWithUsCta = false }: { hideWorkWithUsCta?: boolean }) {
   return (
     <footer className={styles.footer}>
       <Container>
@@ -36,13 +36,15 @@ export function Footer() {
           <span className={styles.colophonMark}>NDR Smart Spaces</span>
           <span className={styles.colophonRef}>Published document · 2026 edition</span>
         </div>
-        <div className={styles.ctaRow}>
-          <p className={styles.ctaLabel}>Work with us</p>
-          <Link href="/en/contact" className={styles.ctaLink}>
-            Start a conversation
-            <Icon name="arrow-right" size="sm" />
-          </Link>
-        </div>
+        {!hideWorkWithUsCta ? (
+          <div className={styles.ctaRow}>
+            <p className={styles.ctaLabel}>Work with us</p>
+            <Link href="/en/contact" className={styles.ctaLink}>
+              Start a conversation
+              <Icon name="arrow-right" size="sm" />
+            </Link>
+          </div>
+        ) : null}
 
         <Grid className={styles.mainGrid}>
           <GridItem span={4} className={styles.brand}>

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { Container, Stack } from "@/components/layout";
-import { Eyebrow, Heading, Lede } from "@/components/ui";
+import { Eyebrow, Heading } from "@/components/ui";
 import { useInView } from "@/hooks/useInView";
 import { aboutTimeline } from "@/lib/data/about";
 import type { TimelineNode } from "@/lib/data/about";
@@ -34,8 +34,6 @@ function TimelineItem({ node, index, onActivate }: TimelineItemProps) {
       <span className={styles.node} aria-hidden="true" />
       <div className={styles.entry}>
         <h3 className={styles.title}>{node.title}</h3>
-        <p className={styles.caption}>{node.caption}</p>
-        <p className={styles.detail}>{node.detail}</p>
       </div>
     </li>
   );
@@ -62,7 +60,6 @@ export function AboutTimeline() {
               <Heading variant="section" id="timeline-title">
                 {aboutTimeline.heading}
               </Heading>
-              <Lede className={styles.lede}>{aboutTimeline.lede}</Lede>
             </Stack>
           </Reveal>
 

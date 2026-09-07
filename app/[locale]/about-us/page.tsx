@@ -5,7 +5,6 @@ import {
   AboutTimeline,
   VisionMissionValues,
   Leadership,
-  ClosingCta,
   Footer,
 } from "@/components/sections";
 
@@ -23,8 +22,7 @@ export default function AboutUsPage() {
       <AboutTimeline />
       <VisionMissionValues />
       <Leadership />
-      <ClosingCta />
-      <Footer />
+      <Footer hideWorkWithUsCta />
     </>
   );
 }

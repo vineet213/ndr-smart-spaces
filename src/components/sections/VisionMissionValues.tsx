@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Container, Grid, GridItem, Stack } from "@/components/layout";
 import { Eyebrow, Heading, Lede } from "@/components/ui";
 import { aboutPrinciples } from "@/lib/data/about";
@@ -30,22 +31,31 @@ export function VisionMissionValues() {
                       {column.index}
                     </span>
                     <h3 className={styles.title}>{column.title}</h3>
-                    {"values" in column ? (
-                      <ul className={styles.values}>
-                        {column.values.map((value) => (
-                          <li key={value.name} className={styles.valueRow}>
-                            <span className={styles.valueName}>{value.name}</span>
-                            <span className={styles.valueLine}>{value.line}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className={styles.body}>{column.body}</p>
-                    )}
+                    <p className={styles.body}>{column.body}</p>
                   </article>
                 </Reveal>
               </GridItem>
             ))}
+            <GridItem span={4}>
+              <Reveal delay={3 as RevealDelay}>
+                <figure className={styles.imageSlot}>
+                  {aboutPrinciples.image.src ? (
+                    <Image
+                      src={aboutPrinciples.image.src}
+                      alt={aboutPrinciples.image.alt}
+                      fill
+                      sizes="(max-width: 1023px) 100vw, 33vw"
+                      className={styles.image}
+                    />
+                  ) : (
+                    <div className={styles.imagePlaceholder} aria-hidden="true" />
+                  )}
+                  <figcaption className={styles.imageCaption}>
+                    {aboutPrinciples.image.caption}
+                  </figcaption>
+                </figure>
+              </Reveal>
+            </GridItem>
           </Grid>
         </Stack>
       </Container>

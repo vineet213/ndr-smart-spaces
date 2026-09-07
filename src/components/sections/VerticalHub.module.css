@@ -1,0 +1,110 @@
+.hub {
+  margin-top: var(--space-6xl);
+}
+
+.item {
+  border-block-start: 2px solid var(--color-charcoal);
+}
+
+/* top rule interruption ------------------------------------------------ */
+
+.rule {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 2px;
+  background-color: var(--color-charcoal);
+}
+
+.ruleCode {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  padding-inline: var(--space-md);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-maroon);
+  background-color: var(--color-ivory-dim);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.item:hover .ruleCode {
+  color: var(--color-maroon-deep);
+}
+
+/* body ------------------------------------------------------------------ */
+
+.body {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  gap: var(--space-6xl);
+  padding-block: var(--space-5xl);
+}
+
+.numeral {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  line-height: 0.9;
+  color: var(--color-gold);
+  font-variant-numeric: tabular-nums;
+  transition:
+    color var(--duration-standard) var(--ease-standard),
+    transform var(--duration-standard) var(--ease-standard);
+}
+
+.item:hover .numeral {
+  transform: translateY(-3px);
+}
+
+.identity {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4xl);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--color-charcoal);
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.item:hover .title {
+  color: var(--color-maroon-deep);
+}
+
+.link {
+  flex: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .hub {
+    margin-top: var(--space-4xl);
+  }
+
+  .body {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    padding-block: var(--space-4xl);
+  }
+
+  .identity {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+}

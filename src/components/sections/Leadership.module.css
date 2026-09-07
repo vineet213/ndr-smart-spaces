@@ -10,8 +10,13 @@
   background-color: var(--color-gold);
 }
 
-.lede {
-  max-width: 44rem;
+.groupTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-lede);
+  line-height: var(--leading-lede);
+  color: var(--color-maroon);
 }
 
 .grid {

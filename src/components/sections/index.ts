@@ -60,3 +60,5 @@ export { CorrespondenceForm } from "./CorrespondenceForm";
 export { ContactClosing } from "./ContactClosing";
 export { LegalDocument } from "./LegalDocument";
 export { LegalSitemap } from "./LegalSitemap";
+export { VerticalHub } from "./VerticalHub";
+export { VerticalPage } from "./VerticalPage";

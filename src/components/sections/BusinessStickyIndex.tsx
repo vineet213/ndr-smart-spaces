@@ -10,7 +10,7 @@ const HEADER_TALL = "4.5rem";
 const HEADER_COMPACT = "3.5rem";
 
 /** Chapters whose sections are currently rendered on the Business page. */
-const ACTIVE_CHAPTER_IDS = new Set(["verticals", "structure", "execution"]);
+const ACTIVE_CHAPTER_IDS = new Set(["verticals", "execution", "business-model-title", "structure"]);
 
 const isDarkLuminance = (bg: string): boolean => {
   const match = bg.match(/[\d.]+/g);

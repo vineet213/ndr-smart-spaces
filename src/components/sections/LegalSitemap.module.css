@@ -1,6 +1,7 @@
-.cover {
+section.cover {
   position: relative;
   border-bottom: 2px solid var(--color-gold);
+  background-color: var(--color-charcoal-masthead);
 }
 
 .coverInner {

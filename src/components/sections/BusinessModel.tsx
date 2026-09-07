@@ -1,5 +1,6 @@
 import { Container, Stack } from "@/components/layout";
 import { Eyebrow, Heading, Lede } from "@/components/ui";
+import { integratedBusinessModelChapter } from "@/lib/data/business";
 import { businessModel } from "@/lib/data/about";
 import { LifecycleDiagram } from "@/components/visualizations/LifecycleDiagram";
 import { Reveal } from "./Reveal";
@@ -11,16 +12,21 @@ export function BusinessModel() {
       <Container>
         <Stack gap="6xl">
           <Reveal>
-            <Stack gap="xl">
-              <span className={styles.goldRule} aria-hidden="true" />
-              <Eyebrow tone="dark">{businessModel.eyebrow}</Eyebrow>
-              <Heading variant="section" tone="dark" id="business-model-title">
-                {businessModel.heading}
-              </Heading>
-              <Lede tone="dark" className={styles.lede}>
-                {businessModel.lede}
-              </Lede>
-            </Stack>
+            <div className={styles.header}>
+              <span className={styles.numeral} aria-hidden="true">
+                {integratedBusinessModelChapter.index}
+              </span>
+              <Stack gap="xl">
+                <span className={styles.goldRule} aria-hidden="true" />
+                <Eyebrow tone="dark">{businessModel.eyebrow}</Eyebrow>
+                <Heading variant="section" tone="dark" id="business-model-title">
+                  {businessModel.heading}
+                </Heading>
+                <Lede tone="dark" className={styles.lede}>
+                  {businessModel.lede}
+                </Lede>
+              </Stack>
+            </div>
           </Reveal>
 
           <LifecycleDiagram

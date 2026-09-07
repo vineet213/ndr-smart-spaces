@@ -731,7 +731,7 @@ async function main(): Promise<void> {
       proof: "99% greenfield",
       proofSource: "NDR Corporate Presentation",
       metrics: [{ metricKey: "M17" }],
-      route: { label: "Grade A Warehousing", href: "/en/business#grade-a-warehousing" },
+      route: { label: "Grade A Warehousing", href: "/en/business/grade-a-warehousing" },
     },
     status: "draft",
     user: "business-editor@ndr.com",
@@ -1096,17 +1096,13 @@ async function main(): Promise<void> {
   const passA = await generateMerged(lifecycleContent);
   const passB = await generateMerged(lifecycleContent);
   assert(
-    passA.length === passB.length &&
-      passA.every((file, i) => file.source === passB[i].source),
+    passA.length === passB.length && passA.every((file, i) => file.source === passB[i].source),
     "generated output is deterministic across lifecycle state",
   );
 
   // 7h. Audit chain integrity through full lifecycle.
   const lifecycleChain = await lifecycleAudit.verify();
-  assert(
-    lifecycleChain.valid,
-    "audit chain stays valid through the full publication lifecycle",
-  );
+  assert(lifecycleChain.valid, "audit chain stays valid through the full publication lifecycle");
 
   console.log("\n[8] Deployment seam — export → deploy pipeline");
 

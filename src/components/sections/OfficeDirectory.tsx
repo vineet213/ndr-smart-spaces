@@ -1,5 +1,5 @@
 import { Container } from "@/components/layout";
-import { Eyebrow, Heading, Lede, SourceFootnote, TextLink } from "@/components/ui";
+import { Eyebrow, Heading, SourceFootnote, TextLink } from "@/components/ui";
 import { ExternalLink } from "@/components/ui";
 import { officeDirectory } from "@/lib/data/contact";
 import { Reveal, type RevealDelay } from "./Reveal";
@@ -18,7 +18,6 @@ export function OfficeDirectory() {
           <Heading variant="section" id="directory-title" className={styles.heading}>
             {officeDirectory.heading}
           </Heading>
-          <Lede className={styles.lede}>{officeDirectory.lede}</Lede>
         </Reveal>
 
         <div className={styles.directory}>

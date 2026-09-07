@@ -3,12 +3,27 @@
 import { Container, Section } from "@/components/layout";
 import { SourceFootnote } from "@/components/ui";
 import { useInView } from "@/hooks/useInView";
-import { businessChapters, capabilityMatrix } from "@/lib/data/business";
+import { capabilityMatrix, type Chapter } from "@/lib/data/business";
 import { ChapterOpener } from "./ChapterOpener";
 import { DrawnGrid } from "./DrawnGrid";
 import { Reveal } from "./Reveal";
 import { cx } from "../ui/cx";
 import styles from "./CapabilityMatrix.module.css";
+
+/**
+ * Unrendered Business V1 chapter. Not part of the shipped manual's chapter of
+ * record (see `businessChapters`) and must not be revived on the page. Retains
+ * its own frozen chapter marker so the frozen capability matrix stays coherent
+ * in isolation.
+ */
+const CAPABILITIES_CHAPTER = {
+  index: "02",
+  label: "Capabilities & Services",
+  id: "capabilities",
+  title: "What NDR can deliver.",
+  plate: "PL. 201",
+  code: "OP.02",
+} as const satisfies Chapter;
 
 export function CapabilityMatrix() {
   const { ref, inView } = useInView<HTMLDivElement>();
@@ -18,7 +33,7 @@ export function CapabilityMatrix() {
       <DrawnGrid />
       <Container className={styles.content}>
         <Reveal>
-          <ChapterOpener chapter={businessChapters[1]} headingId="capabilities-title" />
+          <ChapterOpener chapter={CAPABILITIES_CHAPTER} headingId="capabilities-title" />
 
           <div ref={ref} className={cx(styles.stage, inView && styles.drawn)}>
             <div className={styles.footprint}>
