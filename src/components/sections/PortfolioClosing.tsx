@@ -1,5 +1,5 @@
 import { Container } from "@/components/layout";
-import { Body, Button, Eyebrow, Heading, TextLink } from "@/components/ui";
+import { Body, Button, Eyebrow, Heading } from "@/components/ui";
 import {
   formatPlateRange,
   portfolioAssets,
@@ -65,13 +65,6 @@ export function PortfolioClosing() {
             >
               {portfolioClosing.secondaryCta.label}
             </Button>
-            <TextLink
-              tone="dark"
-              href={portfolioClosing.tertiaryLink.href}
-              className={styles.tertiary}
-            >
-              {portfolioClosing.tertiaryLink.label}
-            </TextLink>
           </div>
           <div className={styles.colophon} aria-hidden="true">
             <span className={styles.colophonCell}>

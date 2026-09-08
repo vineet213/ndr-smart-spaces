@@ -11,6 +11,10 @@
   column-gap: var(--space-7xl);
 }
 
+.gridFour {
+  grid-template-columns: repeat(4, 1fr);
+}
+
 .block {
   display: flex;
   flex-direction: column;

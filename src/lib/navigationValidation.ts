@@ -34,7 +34,12 @@ function isRoutableHref(href: string): boolean {
 
 function collectNavEntries(items: readonly NavItem[], surface: string, entries: NavEntry[]) {
   for (const item of items) {
-    entries.push({ label: item.label, href: item.href, surface });
+    // A menu without an overview row is a pure dropdown (Business): its trigger
+    // href is an inert anchor only kept for the route model — never a link the
+    // visitor sees — so it is not collected as an entry.
+    if (item.type !== "menu" || item.overview) {
+      entries.push({ label: item.label, href: item.href, surface });
+    }
     if (item.type === "menu") {
       for (const column of item.columns) {
         for (const link of column.links) {

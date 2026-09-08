@@ -1,6 +1,6 @@
 {
   "phase": "2A/2B",
-  "generatedAt": "2026-09-07T21:57:35.082Z",
+  "generatedAt": "2026-09-08T20:24:37.919Z",
   "verdict": "PASS",
   "counts": {
     "total": 398,
@@ -1131,71 +1131,71 @@
       "passed": true
     },
     {
-      "id": "business-verticals.grade-a-warehousing.status",
+      "id": "business-verticals.logistics-and-industrial-infrastructure.status",
       "layer": "inventory/data",
-      "description": "grade-a-warehousing has status published",
+      "description": "logistics-and-industrial-infrastructure has status published",
       "classification": "expected",
       "passed": true,
       "detail": "found published"
     },
     {
-      "id": "business-verticals.grade-a-warehousing.order",
+      "id": "business-verticals.logistics-and-industrial-infrastructure.order",
       "layer": "inventory/data",
-      "description": "grade-a-warehousing has order 0000",
+      "description": "logistics-and-industrial-infrastructure has order 0000",
       "classification": "expected",
       "passed": true,
       "detail": "found 0000"
     },
     {
-      "id": "business-verticals.grade-a-warehousing.data",
+      "id": "business-verticals.logistics-and-industrial-infrastructure.data",
       "layer": "inventory/data",
-      "description": "grade-a-warehousing payload matches the source mapping",
+      "description": "logistics-and-industrial-infrastructure payload matches the source mapping",
       "classification": "expected",
       "passed": true
     },
     {
-      "id": "business-verticals.ndr-asset-management.status",
+      "id": "business-verticals.project-management-consultancy.status",
       "layer": "inventory/data",
-      "description": "ndr-asset-management has status published",
+      "description": "project-management-consultancy has status published",
       "classification": "expected",
       "passed": true,
       "detail": "found published"
     },
     {
-      "id": "business-verticals.ndr-asset-management.order",
+      "id": "business-verticals.project-management-consultancy.order",
       "layer": "inventory/data",
-      "description": "ndr-asset-management has order 0001",
+      "description": "project-management-consultancy has order 0001",
       "classification": "expected",
       "passed": true,
       "detail": "found 0001"
     },
     {
-      "id": "business-verticals.ndr-asset-management.data",
+      "id": "business-verticals.project-management-consultancy.data",
       "layer": "inventory/data",
-      "description": "ndr-asset-management payload matches the source mapping",
+      "description": "project-management-consultancy payload matches the source mapping",
       "classification": "expected",
       "passed": true
     },
     {
-      "id": "business-verticals.residential-plotting-ave-acres.status",
+      "id": "business-verticals.residential-plotting.status",
       "layer": "inventory/data",
-      "description": "residential-plotting-ave-acres has status published",
+      "description": "residential-plotting has status published",
       "classification": "expected",
       "passed": true,
       "detail": "found published"
     },
     {
-      "id": "business-verticals.residential-plotting-ave-acres.order",
+      "id": "business-verticals.residential-plotting.order",
       "layer": "inventory/data",
-      "description": "residential-plotting-ave-acres has order 0002",
+      "description": "residential-plotting has order 0002",
       "classification": "expected",
       "passed": true,
       "detail": "found 0002"
     },
     {
-      "id": "business-verticals.residential-plotting-ave-acres.data",
+      "id": "business-verticals.residential-plotting.data",
       "layer": "inventory/data",
-      "description": "residential-plotting-ave-acres payload matches the source mapping",
+      "description": "residential-plotting payload matches the source mapping",
       "classification": "expected",
       "passed": true
     },
@@ -2448,21 +2448,21 @@
     {
       "id": "fidelity.verticals.01",
       "layer": "fidelity",
-      "description": "vertical 01 (Grade A Warehousing) preserves the division fields and proof-metric references",
+      "description": "vertical 01 (Logistics and Industrial Infrastructure) preserves the division fields and proof-metric references",
       "classification": "migration-related",
       "passed": true
     },
     {
       "id": "fidelity.verticals.02",
       "layer": "fidelity",
-      "description": "vertical 02 (NDR Asset Management) preserves the division fields and proof-metric references",
+      "description": "vertical 02 (Project Management Consultancy) preserves the division fields and proof-metric references",
       "classification": "migration-related",
       "passed": true
     },
     {
       "id": "fidelity.verticals.03",
       "layer": "fidelity",
-      "description": "vertical 03 (Residential Plotting — Ave Acres) preserves the division fields and proof-metric references",
+      "description": "vertical 03 (Residential Plotting) preserves the division fields and proof-metric references",
       "classification": "expected",
       "passed": true
     },

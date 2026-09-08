@@ -1,6 +1,7 @@
 import { businessVerticals as cmsVerticals } from "./generated/businessVerticals";
 import { metrics as cmsMetrics } from "./generated/metrics";
 import { publicationSettings as cmsPublication } from "./generated/publicationSettings";
+import type { CompanyMetric } from "./homepage";
 
 /**
  * Business — The Operating Manual.
@@ -310,4 +311,20 @@ export const businessClosing = {
     label: "View the asset portfolio",
     note: "Opens with the Portfolio page · Phase 2",
   },
+} as const;
+
+/**
+ * Vertical 02 — Project Management Consultancy. As with the homepage
+ * `companyMetrics`, the figures are left as placeholders pending client data.
+ */
+export const vertical02Metrics = [
+  { value: null, label: "DATA TO BE INSERTED", context: "DATA TO BE INSERTED" },
+  { value: null, label: "DATA TO BE INSERTED", context: "DATA TO BE INSERTED" },
+  { value: null, label: "DATA TO BE INSERTED", context: "DATA TO BE INSERTED" },
+  { value: null, label: "DATA TO BE INSERTED", context: "DATA TO BE INSERTED" },
+] as const satisfies ReadonlyArray<CompanyMetric>;
+
+export const verticalEmployeeSection = {
+  heading: "Employee",
+  body: "DATA TO BE INSERTED",
 } as const;

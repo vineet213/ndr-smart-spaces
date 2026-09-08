@@ -139,10 +139,12 @@ export const sitemapGroups: readonly SitemapGroup[] = [
     links: [
       { label: "Home", href: "/en" },
       { label: "About Us & Our People", href: "/en/about-us" },
-      { label: "Business", href: "/en/business" },
-      { label: "Grade A Warehousing", href: "/en/business/grade-a-warehousing" },
-      { label: "NDR Asset Management", href: "/en/business/ndr-asset-management" },
-      { label: "Residential Plotting — Ave Acres", href: "/en/business/ave-acres" },
+      {
+        label: "Logistics and Industrial Infrastructure",
+        href: "/en/business/grade-a-warehousing",
+      },
+      { label: "Project Management Consultancy", href: "/en/business/ndr-asset-management" },
+      { label: "Residential Plotting", href: "/en/business/ave-acres" },
       { label: "Portfolio", href: "/en/portfolio" },
       { label: "ESG & Sustainability", href: "/en/esg" },
     ],

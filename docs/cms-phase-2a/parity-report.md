@@ -1,6 +1,6 @@
 # CMS Phase 2A/2B — Parity Report
 
-- Generated: 2026-09-07T21:57:35.084Z
+- Generated: 2026-09-08T20:24:37.921Z
 - Store: `.cms-store/content.json`
 - Generated modules: `src/lib/data/generated/`
 - Verdict: **PASS** — 398/398 checks passed, 0 failed, 0 unintended
@@ -156,15 +156,15 @@
 | lenovo-puducherry has order 0001 <br><small>found 0001</small> | PASS | expected |
 | lenovo-puducherry payload matches the source mapping | PASS | expected |
 | business-verticals has exactly 3 records | PASS | expected |
-| grade-a-warehousing has status published <br><small>found published</small> | PASS | expected |
-| grade-a-warehousing has order 0000 <br><small>found 0000</small> | PASS | expected |
-| grade-a-warehousing payload matches the source mapping | PASS | expected |
-| ndr-asset-management has status published <br><small>found published</small> | PASS | expected |
-| ndr-asset-management has order 0001 <br><small>found 0001</small> | PASS | expected |
-| ndr-asset-management payload matches the source mapping | PASS | expected |
-| residential-plotting-ave-acres has status published <br><small>found published</small> | PASS | expected |
-| residential-plotting-ave-acres has order 0002 <br><small>found 0002</small> | PASS | expected |
-| residential-plotting-ave-acres payload matches the source mapping | PASS | expected |
+| logistics-and-industrial-infrastructure has status published <br><small>found published</small> | PASS | expected |
+| logistics-and-industrial-infrastructure has order 0000 <br><small>found 0000</small> | PASS | expected |
+| logistics-and-industrial-infrastructure payload matches the source mapping | PASS | expected |
+| project-management-consultancy has status published <br><small>found published</small> | PASS | expected |
+| project-management-consultancy has order 0001 <br><small>found 0001</small> | PASS | expected |
+| project-management-consultancy payload matches the source mapping | PASS | expected |
+| residential-plotting has status published <br><small>found published</small> | PASS | expected |
+| residential-plotting has order 0002 <br><small>found 0002</small> | PASS | expected |
+| residential-plotting payload matches the source mapping | PASS | expected |
 | esg-initiatives has exactly 8 records | PASS | expected |
 | chennai-solar has status published <br><small>found published</small> | PASS | expected |
 | chennai-solar has order 0000 <br><small>found 0000</small> | PASS | expected |
@@ -348,9 +348,9 @@
 | location puducherry (Puducherry) preserves coordinates, offsets and visibility | PASS | migration-related |
 | asset amazon-coimbatore preserves the catalogue fields | PASS | expected |
 | asset lenovo-puducherry preserves the catalogue fields | PASS | expected |
-| vertical 01 (Grade A Warehousing) preserves the division fields and proof-metric references | PASS | migration-related |
-| vertical 02 (NDR Asset Management) preserves the division fields and proof-metric references | PASS | migration-related |
-| vertical 03 (Residential Plotting — Ave Acres) preserves the division fields and proof-metric references | PASS | expected |
+| vertical 01 (Logistics and Industrial Infrastructure) preserves the division fields and proof-metric references | PASS | migration-related |
+| vertical 02 (Project Management Consultancy) preserves the division fields and proof-metric references | PASS | migration-related |
+| vertical 03 (Residential Plotting) preserves the division fields and proof-metric references | PASS | expected |
 | initiative IM-01 (Portfolio solar programme) preserves the impact fields | PASS | expected |
 | initiative IM-02 (Water stewardship) preserves the impact fields | PASS | expected |
 | initiative IM-03 (Green building certification) preserves the impact fields | PASS | expected |

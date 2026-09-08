@@ -293,20 +293,28 @@ export function validateNavigationData(data: JsonValue): ValidationIssue[] {
   const seen = new Set<string>();
   for (const item of navItems) {
     if (typeof item !== "object" || item === null) continue;
-    const entry = item as { label: string; href: string };
-    if (seen.has(entry.href)) {
-      issues.push({
-        rule: "duplicate-references",
-        collection: "navigation",
-        recordId: entry.href,
-        severity: "error",
-        message: `Nav links to "${entry.href}" more than once.`,
-      });
+    const entry = item as {
+      label: string;
+      href: string;
+      overview?: unknown;
+      columns?: { heading: string; links: LinkEntry[] }[];
+    };
+    const columns = entry.columns ?? [];
+    const buttonMenu = entry.overview === undefined && columns.length > 0;
+    if (!buttonMenu) {
+      if (seen.has(entry.href)) {
+        issues.push({
+          rule: "duplicate-references",
+          collection: "navigation",
+          recordId: entry.href,
+          severity: "error",
+          message: `Nav links to "${entry.href}" more than once.`,
+        });
+      }
+      seen.add(entry.href);
+      validateLinks([entry], "nav", issues);
     }
-    seen.add(entry.href);
-    validateLinks([entry], "nav", issues);
-    const columns = (item as { columns?: { heading: string; links: LinkEntry[] }[] }).columns;
-    if (columns) {
+    if (columns.length > 0) {
       for (const column of columns) {
         if (!column.heading.trim()) {
           issues.push({
@@ -318,6 +326,7 @@ export function validateNavigationData(data: JsonValue): ValidationIssue[] {
           });
         }
         validateLinks(column.links ?? [], `${entry.label} column`, issues);
+        if (buttonMenu) continue;
         for (const link of column.links ?? []) {
           if (link.href === entry.href) {
             issues.push({

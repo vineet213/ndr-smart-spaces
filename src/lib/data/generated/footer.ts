@@ -49,10 +49,6 @@ export const footer = {
       "heading": "Business",
       "links": [
         {
-          "href": "/en/business",
-          "label": "Business",
-        },
-        {
           "href": "/en/portfolio",
           "label": "Portfolio",
         },

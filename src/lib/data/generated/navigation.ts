@@ -34,31 +34,22 @@ export const navigation = {
           "links": [
             {
               "href": "/en/business/grade-a-warehousing",
-              "label": "Grade A Warehousing",
+              "label": "Logistics and Industrial Infrastructure",
             },
             {
               "href": "/en/business/ndr-asset-management",
-              "label": "NDR Asset Management",
+              "label": "Project Management Consultancy",
             },
             {
               "href": "/en/business/ave-acres",
-              "label": "Residential Plotting \u2014 Ave Acres",
-            },
-            {
-              "href": "/en/business#business-model-title",
-              "label": "The NDR InvIT relationship",
+              "label": "Residential Plotting",
             },
           ],
         },
       ],
-      "href": "/en/business",
+      "href": "/en/business/grade-a-warehousing",
       "id": "business",
       "label": "Business",
-      "overview": {
-        "href": "/en/business",
-        "label": "Business Overview",
-        "tagline": "The Operating Manual",
-      },
       "type": "menu",
     },
     {
@@ -148,31 +139,22 @@ export const navigation = {
           "links": [
             {
               "href": "/en/business/grade-a-warehousing",
-              "label": "Grade A Warehousing",
+              "label": "Logistics and Industrial Infrastructure",
             },
             {
               "href": "/en/business/ndr-asset-management",
-              "label": "NDR Asset Management",
+              "label": "Project Management Consultancy",
             },
             {
               "href": "/en/business/ave-acres",
-              "label": "Residential Plotting \u2014 Ave Acres",
-            },
-            {
-              "href": "/en/business#business-model-title",
-              "label": "The NDR InvIT relationship",
+              "label": "Residential Plotting",
             },
           ],
         },
       ],
-      "href": "/en/business",
+      "href": "/en/business/grade-a-warehousing",
       "id": "business",
       "label": "Business",
-      "overview": {
-        "href": "/en/business",
-        "label": "Business Overview",
-        "tagline": "The Operating Manual",
-      },
       "type": "menu",
     },
     {

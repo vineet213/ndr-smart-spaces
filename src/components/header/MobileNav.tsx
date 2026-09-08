@@ -60,10 +60,17 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                 </li>
               ) : (
                 <li key={item.id}>
-                  <a className={styles.link} href={item.href} onClick={onClose}>
-                    {item.label}
-                    <Icon name="chevron-down" className={styles.linkIcon} />
-                  </a>
+                  {item.overview ? (
+                    <a className={styles.link} href={item.href} onClick={onClose}>
+                      {item.label}
+                      <Icon name="chevron-down" className={styles.linkIcon} />
+                    </a>
+                  ) : (
+                    <button type="button" className={styles.link}>
+                      {item.label}
+                      <Icon name="chevron-down" className={styles.linkIcon} />
+                    </button>
+                  )}
                   <div className={styles.groups}>
                     {item.columns.map((column) => (
                       <div key={column.heading} className={styles.group}>

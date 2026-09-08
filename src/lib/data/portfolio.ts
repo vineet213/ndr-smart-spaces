@@ -311,11 +311,7 @@ export function plateAtLocation(locationId: string): string | null {
 
 /* Land bank — developable parcels (Annexure A) ----------------------------- */
 
-export type LandParcelClassification =
-  | "industrial"
-  | "logistics"
-  | "warehousing"
-  | "mixed-use";
+export type LandParcelClassification = "industrial" | "logistics" | "warehousing" | "mixed-use";
 
 export type LandParcelStatus = "available" | "committed" | "under-development";
 
@@ -412,14 +408,14 @@ const cmsLandBankDerived: readonly LandBankParcel[] = cmsLandBankPublished.map((
     name: parcel.name,
     stateId: state ? state.id : parcel.state,
     stateName: state ? state.name : parcel.state,
-    ...(parcel.district !== undefined && parcel.district !== "" ? { district: parcel.district } : {}),
+    ...(parcel.district !== undefined && parcel.district !== ""
+      ? { district: parcel.district }
+      : {}),
     ...(classification !== undefined ? { classification } : {}),
     ...(typeof parcel.extentAcres === "number" ? { extentAcres: parcel.extentAcres } : {}),
     ...(status !== undefined ? { status } : {}),
     ...(parcel.summary !== undefined && parcel.summary !== "" ? { summary: parcel.summary } : {}),
-    ...(lat !== undefined && lon !== undefined
-      ? { lat, lon, pin: projectPlace(lat, lon) }
-      : {}),
+    ...(lat !== undefined && lon !== undefined ? { lat, lon, pin: projectPlace(lat, lon) } : {}),
     ...(parcel.note !== undefined && parcel.note !== "" ? { note: parcel.note } : {}),
   };
 });
@@ -497,7 +493,9 @@ export const constructionStates: readonly StateLandSummary[] = INDIAN_STATES.fla
   ];
 });
 
-export function constructionByState(stateId: string): readonly (AtlasPinData & { city: string; class: AssetClass; sizeSqFt?: number })[] {
+export function constructionByState(
+  stateId: string,
+): readonly (AtlasPinData & { city: string; class: AssetClass; sizeSqFt?: number })[] {
   return underConstructionAssets()
     .filter((asset) => {
       if (!asset.landBankId) return false;
@@ -653,7 +651,6 @@ export const portfolioClosing = {
   body: "Completed assets are offered to NDR InvIT under a Right of First Offer; the listed portfolio is maintained separately by the trust.",
   primaryCta: { label: "Discuss an asset", href: "mailto:project@ndrsmart.com" },
   secondaryCta: { label: "NDR InvIT Trust", href: "https://ndrinvit.com" },
-  tertiaryLink: { label: "View the operating model", href: "/en/business#verticals" },
 } as const;
 
 /* Land bank section --------------------------------------------------------- */

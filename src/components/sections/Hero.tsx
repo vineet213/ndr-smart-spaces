@@ -61,9 +61,11 @@ export function Hero() {
             {hero.subhead}
           </Lede>
           <div className={styles.ctas}>
-            <Button tone="dark" href={hero.primaryCta.href}>
-              {hero.primaryCta.label}
-            </Button>
+            {hero.primaryCta ? (
+              <Button tone="dark" href={hero.primaryCta.href}>
+                {hero.primaryCta.label}
+              </Button>
+            ) : null}
             <Button variant="secondary" tone="dark" href={hero.secondaryCta.href}>
               {hero.secondaryCta.label}
             </Button>

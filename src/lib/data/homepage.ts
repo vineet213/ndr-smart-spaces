@@ -27,17 +27,27 @@ const heroStats: readonly { value: number; suffix: string; label: string }[] = H
   },
 );
 
-export const hero = {
+export type HeroCta = { label: string; href: string };
+
+export const hero: {
+  eyebrow: string;
+  headline: string;
+  subhead: string;
+  primaryCta?: HeroCta;
+  secondaryCta: HeroCta;
+  stats: typeof heroStats;
+  statsSource: string;
+  image: { src: string; alt: string } | null;
+} = {
   eyebrow: "NDR Smart Spaces · Est. 2025",
   headline: "From land to listed assets.",
   subhead:
     "A diversified infrastructure organization developing, owning and managing institutional-grade industrial, commercial and institutional assets across India — and the development platform behind NDR InvIT, India's first warehousing InvIT.",
-  primaryCta: { label: "Explore Our Business Verticals", href: "/en/business#verticals" },
   secondaryCta: { label: "Investor Centre", href: "/en/investor-centre" },
   stats: heroStats,
   statsSource: "Source: NDR Corporate Presentation, FY26",
-  image: null as { src: string; alt: string } | null,
-} as const;
+  image: null,
+};
 
 export const audienceRoutes = [
   {
@@ -53,7 +63,7 @@ export const audienceRoutes = [
   {
     label: "Business partners",
     descriptor: "Land, development, JVs",
-    href: "/en/business",
+    href: "/en/business/grade-a-warehousing",
   },
   {
     label: "Media",
@@ -266,7 +276,7 @@ export const businessHighlights = {
   partnership: {
     title: "The NDR InvIT relationship",
     line: "Completed assets are offered to NDR InvIT under a Right of First Offer, recycling capital into new development. A transparent, disciplined engine that keeps building.",
-    cta: { label: "The capital model", href: "/en/business#execution" },
+    cta: { label: "The capital model", href: "/en/business/grade-a-warehousing" },
   },
 };
 
@@ -384,9 +394,9 @@ export const contact = {
       },
     ] as const,
     enquiryTypes: [
-      "Grade A Warehousing",
-      "Asset Management",
-      "Land & Plotting",
+      "Logistics and Industrial Infrastructure",
+      "Project Management Consultancy",
+      "Residential Plotting",
       "Business Partnership",
       "Investor Relations",
     ] as const,

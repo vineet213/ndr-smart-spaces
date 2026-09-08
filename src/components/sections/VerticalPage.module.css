@@ -91,6 +91,11 @@ section.masthead {
   animation: title-rise 1000ms var(--ease-standard) 150ms both;
 }
 
+.titleLg {
+  font-size: clamp(3rem, 6.5vw, 5.5rem);
+  line-height: 0.95;
+}
+
 .meta {
   position: relative;
   z-index: 1;
@@ -131,27 +136,11 @@ section.masthead {
 }
 
 .sheetHeader {
-  display: grid;
-  grid-template-columns: 5rem 1fr;
-  gap: var(--space-6xl);
   padding-top: var(--space-7xl);
 }
 
-.numeral {
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-light);
-  font-size: clamp(4rem, 6vw, 6rem);
-  line-height: 0.9;
-  color: var(--color-gold);
-  font-variant-numeric: tabular-nums;
-}
-
-.sheetType {
-  min-width: 0;
-}
-
 .sheetTitle {
-  margin: var(--space-xl) 0 0;
+  margin: 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
   font-size: clamp(1.75rem, 3.5vw, 2.75rem);
@@ -286,6 +275,33 @@ section.masthead {
   margin-top: var(--space-4xl);
 }
 
+/* vertical 02 placeholders -------------------------------------------------- */
+
+.employee {
+  margin-top: var(--space-7xl);
+}
+
+.employeeHeading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--color-charcoal);
+}
+
+.employeeBody {
+  margin: var(--space-lg) 0 0;
+  max-width: var(--measure-body);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--color-text-secondary);
+}
+
 /* closing ----------------------------------------------------------------- */
 
 .closing {
@@ -301,11 +317,6 @@ section.masthead {
 
 .source {
   color: var(--color-stone);
-}
-
-.backLink {
-  flex: none;
-  white-space: nowrap;
 }
 
 /* load-in keyframes ----------------------------------------------------- */
@@ -354,15 +365,6 @@ section.masthead {
 
   .rule {
     margin-top: var(--space-9xl);
-  }
-
-  .sheetHeader {
-    grid-template-columns: 1fr;
-    gap: var(--space-3xl);
-  }
-
-  .numeral {
-    font-size: 3.25rem;
   }
 
   .specRow {

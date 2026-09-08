@@ -351,11 +351,13 @@ async function main(): Promise<void> {
       navItems: [
         {
           label: "Business",
-          href: "/en/business",
+          href: "/en/business/grade-a-warehousing",
           columns: [
             {
-              heading: "Overview",
-              links: [{ label: "Business Overview", href: "/en/business#verticals" }],
+              heading: "Business Verticals",
+              links: [
+                { label: "Logistics and Industrial Infrastructure", href: "/en/business/grade-a-warehousing" },
+              ],
             },
           ],
         },

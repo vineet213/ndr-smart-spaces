@@ -18,7 +18,7 @@ export const aboutHero = {
   headlineAccent: "institutional infrastructure.",
   lede: "NDR Smart Spaces Private Limited is an infra development and real estate platform of the NDR Group, incorporated in February 2025, focused on logistics and industrial infrastructure as well as residential and commercial plots.",
   cta: { label: "Our story", href: "#story" },
-  ctaSecondary: { label: "Explore the business", href: "#business-model-title" },
+  ctaSecondary: { label: "Explore the business", href: "/en/business/grade-a-warehousing/" },
   stats: [
     {
       label: "GROUP FOUNDED",

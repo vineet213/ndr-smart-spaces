@@ -39,7 +39,7 @@ export function MainNav() {
             <MegaMenuButton
               key={item.id}
               menu={item}
-              isActive={isActivePath(pathname, item.href)}
+              isActive={item.overview ? isActivePath(pathname, item.href) : false}
               pathname={pathname}
               open={openMenuId === item.id}
               onOpen={() => openMenu(item.id)}

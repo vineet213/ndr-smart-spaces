@@ -27,10 +27,11 @@ type MegaMenuButtonProps = {
  * panel is driven exclusively by the `open` class (never CSS `:hover`), so the
  * visible state always matches `aria-expanded`.
  *
- * The trigger is a real link to the publication root (e.g. `/en/business`), so
- * clicking navigates there. A featured overview row leads each panel, then a
- * divider, then the child-link columns. Keyboard users open the panel with
- * ArrowDown and navigate with Enter.
+ * Trigger with an overview: a real link to the publication root (e.g.
+ * `/en/investor-centre`), whose panel leads with a featured overview row, then
+ * a divider, then the child-link columns. Trigger without an overview (e.g.
+ * Business): a plain button that only opens the panel — it never navigates.
+ * Keyboard users open the panel with ArrowDown and navigate with Enter.
  */
 export function MegaMenuButton({
   menu,
@@ -41,7 +42,7 @@ export function MegaMenuButton({
   onClose,
 }: MegaMenuButtonProps) {
   const itemRef = useRef<HTMLLIElement>(null);
-  const triggerRef = useRef<HTMLAnchorElement>(null);
+  const triggerRef = useRef<HTMLAnchorElement & HTMLButtonElement>(null);
   const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const suppressRef = useRef(false);
@@ -95,7 +96,7 @@ export function MegaMenuButton({
   }, [onClose, cancelOpen, cancelClose]);
 
   const handleTriggerKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLAnchorElement>) => {
+    (event: React.KeyboardEvent<HTMLElement>) => {
       if (event.key === "Escape") {
         suppressRef.current = true;
         clearTimers();
@@ -155,18 +156,33 @@ export function MegaMenuButton({
       onFocusCapture={handleFocusCapture}
       onBlurCapture={handleBlur}
     >
-      <a
-        ref={triggerRef}
-        href={menu.href}
-        className={cx(styles.trigger, isActive && styles.triggerActive)}
-        aria-expanded={open}
-        aria-haspopup="true"
-        aria-controls={panelId}
-        onKeyDown={handleTriggerKeyDown}
-      >
-        {menu.label}
-        <Icon name="chevron-down" className={styles.chevron} />
-      </a>
+      {menu.overview ? (
+        <a
+          ref={triggerRef}
+          href={menu.href}
+          className={cx(styles.trigger, isActive && styles.triggerActive)}
+          aria-expanded={open}
+          aria-haspopup="true"
+          aria-controls={panelId}
+          onKeyDown={handleTriggerKeyDown}
+        >
+          {menu.label}
+          <Icon name="chevron-down" className={styles.chevron} />
+        </a>
+      ) : (
+        <button
+          ref={triggerRef}
+          type="button"
+          className={cx(styles.trigger, isActive && styles.triggerActive)}
+          aria-expanded={open}
+          aria-haspopup="menu"
+          aria-controls={panelId}
+          onKeyDown={handleTriggerKeyDown}
+        >
+          {menu.label}
+          <Icon name="chevron-down" className={styles.chevron} />
+        </button>
+      )}
 
       <div
         id={panelId}

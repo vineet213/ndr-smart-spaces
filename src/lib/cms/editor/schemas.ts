@@ -639,7 +639,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
             label: "Href",
             kind: "text",
             required: true,
-            placeholder: "/en/business#grade-a-warehousing",
+            placeholder: "/en/business/grade-a-warehousing",
           },
           { key: "external", label: "External", kind: "boolean" },
         ],

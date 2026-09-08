@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import {
   CapitalMarketTimeline,
+  CorporateStructure,
   Footer,
   GovernanceManual,
   InvestorClosing,
@@ -26,6 +27,7 @@ export default function CorporateGovernancePage() {
         id="corporate-governance-title"
       />
       <GovernanceManual />
+      <CorporateStructure />
       <CapitalMarketTimeline />
       <InvestorClosing />
       <Footer />

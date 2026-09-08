@@ -33,7 +33,7 @@ export type NavMenu = {
   label: string;
   href: string;
   align: "left" | "right";
-  overview: MenuOverview;
+  overview?: MenuOverview;
   columns: readonly MegaMenuColumn[];
 };
 
