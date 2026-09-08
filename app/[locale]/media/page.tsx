@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Footer, MediaMasthead, MediaSlideshow, PressArchive } from "@/components/sections";
+import { Footer, MediaMasthead, MediaSlideshow } from "@/components/sections";
 import { runMediaValidation } from "@/lib/data/mediaValidation";
 
 export const metadata: Metadata = {
@@ -17,7 +17,6 @@ export default function MediaPage() {
     <>
       <MediaMasthead />
       <MediaSlideshow />
-      <PressArchive />
       <Footer />
     </>
   );

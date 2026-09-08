@@ -106,6 +106,20 @@
   display: flex;
   gap: var(--space-4xl);
   height: 100%;
+  cursor: pointer;
+  transition:
+    background-color 230ms var(--ease-standard),
+    transform 230ms var(--ease-standard);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.cardActive {
+  background-color: var(--color-ivory-dim);
+  transform: translateY(-2px);
 }
 
 .portrait {
@@ -172,6 +186,16 @@
   font-size: var(--font-small);
   line-height: var(--leading-small);
   color: var(--color-stone);
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 230ms var(--ease-standard),
+    transform 230ms var(--ease-standard);
+}
+
+.cardActive .cardBio {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @media (max-width: 1439px) {
@@ -198,5 +222,17 @@
 
   .slot {
     padding: var(--space-4xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .cardBio {
+    transition: none;
+  }
+
+  .cardActive .cardBio {
+    opacity: 1;
+    transform: none;
   }
 }

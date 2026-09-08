@@ -25,7 +25,7 @@ export default function ContactPage() {
       <OfficeDirectory />
       <Correspondence />
       <ContactClosing />
-      <Footer />
+      <Footer hideWorkWithUsCta={false} />
     </>
   );
 }

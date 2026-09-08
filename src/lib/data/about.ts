@@ -21,20 +21,18 @@ export const aboutHero = {
   ctaSecondary: { label: "Explore the business", href: "#business-model-title" },
   stats: [
     {
-      label: "Founded",
+      label: "GROUP FOUNDED",
       metric: "1954",
       source: "NDR Corporate Presentation, FY26",
     },
     {
-      label: "Fortune Global 500 companies served",
-      metric: "",
-      count: { value: 100, suffix: "+" },
+      label: "NDRW ACTIVE OPERATIONS",
+      metric: "2001",
       source: "NDR Corporate Presentation, FY26",
     },
     {
-      label: "Portfolio occupancy",
-      metric: "",
-      count: { value: 98, suffix: "%" },
+      label: "NDR SMART SPACES INCORPORATED",
+      metric: "2025",
       source: "NDR Corporate Presentation, FY26",
     },
   ] as readonly AboutHeroStat[],
@@ -195,7 +193,7 @@ export const leadership = {
       placeholderStatus: "Official profile pending",
       placeholderNote: "Reserved for board confirmation",
       profiles: [] as readonly LeadershipProfile[],
-      placeholderSlots: 4,
+      placeholderSlots: 3,
     },
     {
       id: "management-team",

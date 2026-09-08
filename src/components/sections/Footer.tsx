@@ -28,7 +28,7 @@ function FooterNavColumn({
   );
 }
 
-export function Footer({ hideWorkWithUsCta = false }: { hideWorkWithUsCta?: boolean }) {
+export function Footer({ hideWorkWithUsCta = true }: { hideWorkWithUsCta?: boolean }) {
   return (
     <footer className={styles.footer}>
       <Container>

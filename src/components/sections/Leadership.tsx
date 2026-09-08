@@ -1,9 +1,13 @@
+"use client";
+
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { Container, Stack } from "@/components/layout";
 import { Eyebrow, Heading } from "@/components/ui";
 import { leadership, type LeadershipGroup } from "@/lib/data/about";
 import { Reveal, type RevealDelay } from "./Reveal";
 import styles from "./Leadership.module.css";
+import { cx } from "../ui/cx";
 
 function initialsOf(name: string) {
   return name
@@ -18,6 +22,13 @@ function initialsOf(name: string) {
 function LeadershipGroupSection({ group }: { group: LeadershipGroup }) {
   const profiles = group.profiles;
   const slots = Math.max(profiles.length, group.placeholderSlots);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const pointerTypeRef = useRef<string>("");
+
+  const activate = (index: number) => setActiveIndex(index);
+  const resetIfActive = (index: number) =>
+    setActiveIndex((current) => (current === index ? null : current));
+  const toggle = (index: number) => setActiveIndex((current) => (current === index ? null : index));
 
   return (
     <Stack gap="6xl">
@@ -29,11 +40,38 @@ function LeadershipGroupSection({ group }: { group: LeadershipGroup }) {
       <ol className={styles.grid} aria-labelledby={`${group.id}-title`}>
         {Array.from({ length: slots }, (_, index) => {
           const profile = profiles[index];
+          const isActive = activeIndex === index;
           return (
             <li key={profile?.name ?? index}>
               <Reveal delay={(index + 1) as RevealDelay}>
                 {profile ? (
-                  <article className={styles.card}>
+                  <article
+                    className={cx(styles.card, isActive && styles.cardActive)}
+                    tabIndex={0}
+                    role="button"
+                    aria-expanded={isActive}
+                    onMouseEnter={() => activate(index)}
+                    onMouseLeave={() => resetIfActive(index)}
+                    onFocus={() => {
+                      if (pointerTypeRef.current !== "touch") activate(index);
+                    }}
+                    onBlur={(event) => {
+                      const next = event.relatedTarget as Node | null;
+                      if (!event.currentTarget.contains(next)) resetIfActive(index);
+                    }}
+                    onPointerDown={(event) => {
+                      pointerTypeRef.current = event.pointerType;
+                    }}
+                    onClick={() => {
+                      if (pointerTypeRef.current === "touch") toggle(index);
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        toggle(index);
+                      }
+                    }}
+                  >
                     <figure className={styles.portrait}>
                       {profile.photo ? (
                         <Image
@@ -52,7 +90,7 @@ function LeadershipGroupSection({ group }: { group: LeadershipGroup }) {
                     <div className={styles.cardBody}>
                       <h4 className={styles.cardName}>{profile.name}</h4>
                       <p className={styles.cardRole}>{profile.role}</p>
-                      <p className={styles.cardBio}>{profile.bio}</p>
+                      {profile.bio ? <p className={styles.cardBio}>{profile.bio}</p> : null}
                     </div>
                   </article>
                 ) : (

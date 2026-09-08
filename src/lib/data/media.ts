@@ -127,7 +127,7 @@ export const mediaMasthead = {
   registry: cmsCorporate.registryLine,
   publication: "NDR Press Register",
   section: "Media & Newsroom",
-  title: { before: "The press ", accent: "register", after: "." },
+  title: { before: "The ", accent: "Media Highlights", after: "" },
   statement:
     "The company's newsroom archive — releases, coverage, interviews and updates, dated and referenced as a public record.",
   asOn: MEDIA_EDITION.asOn,

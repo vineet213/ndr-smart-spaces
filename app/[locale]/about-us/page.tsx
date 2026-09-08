@@ -22,7 +22,7 @@ export default function AboutUsPage() {
       <AboutTimeline />
       <VisionMissionValues />
       <Leadership />
-      <Footer hideWorkWithUsCta />
+      <Footer />
     </>
   );
 }
