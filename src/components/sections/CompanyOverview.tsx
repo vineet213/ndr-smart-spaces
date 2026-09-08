@@ -1,7 +1,6 @@
 import { Container, Grid, GridItem, Stack } from "@/components/layout";
 import { Heading, Eyebrow, Lede, Body, TextLink, Icon } from "@/components/ui";
 import { companyOverview } from "@/lib/data/homepage";
-import { JourneyTimeline } from "./JourneyTimeline";
 import styles from "./CompanyOverview.module.css";
 
 export function CompanyOverview() {
@@ -37,7 +36,6 @@ export function CompanyOverview() {
           </GridItem>
         </Grid>
       </Container>
-      <JourneyTimeline />
     </section>
   );
 }

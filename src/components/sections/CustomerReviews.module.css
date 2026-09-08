@@ -1,0 +1,115 @@
+.section {
+  padding-block: var(--section-padding-desktop);
+  background-color: var(--color-maroon-dark);
+  border-top: 1px solid var(--color-hairline-dark);
+}
+
+.goldRule {
+  display: block;
+  width: var(--space-6xl);
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  height: 100%;
+  padding: var(--space-4xl);
+  background-color: var(--color-maroon-deep);
+  border: 1px solid var(--color-hairline-dark);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--color-shadow-warm);
+  transition:
+    transform var(--duration-standard) var(--ease-standard),
+    border-color var(--duration-standard) var(--ease-standard);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-standard) var(--ease-standard);
+}
+
+.card:hover,
+.card:focus-within {
+  transform: translateY(-2px);
+  border-color: var(--color-gold-40);
+}
+
+.card:hover::before,
+.card:focus-within::before {
+  transform: scaleX(1);
+}
+
+.cardQuote {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-text-inverse-80);
+}
+
+.cardMeta {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.cardName {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-semibold);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-ivory);
+}
+
+.cardRole {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-gold);
+}
+
+.cardCompany {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-inverse-75);
+}
+
+.placeholder {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-text-inverse-75);
+}
+
+@media (max-width: 1439px) {
+  .section {
+    padding-block: var(--section-padding-tablet);
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--section-padding-mobile);
+  }
+
+  .card {
+    min-height: 24rem;
+  }
+}

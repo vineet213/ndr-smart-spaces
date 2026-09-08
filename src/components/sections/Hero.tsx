@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/layout";
-import { Heading, Eyebrow, Lede, Metric, SourceFootnote, Button } from "@/components/ui";
+import { Eyebrow, Lede, Metric, SourceFootnote, Button } from "@/components/ui";
 import { hero } from "@/lib/data/homepage";
 import { ArchitecturalField } from "./ArchitecturalField";
 import { Counter } from "./Counter";
@@ -44,9 +44,19 @@ export function Hero() {
           {hero.eyebrow}
         </Eyebrow>
         <div className={styles.typeBlock}>
-          <Heading variant="hero" tone="dark" id="hero-title" className={styles.headline}>
+          <h1 id="hero-title" className={styles.screenReaderTitle}>
             {hero.headline}
-          </Heading>
+          </h1>
+          <div className={styles.lockup}>
+            <Image
+              src="/logos/ndr-smart-spaces-lockup-light.svg"
+              alt="NDR Smart Spaces"
+              width={640}
+              height={147}
+              priority
+              className={styles.lockupImage}
+            />
+          </div>
           <Lede tone="dark" className={styles.subhead}>
             {hero.subhead}
           </Lede>

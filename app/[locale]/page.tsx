@@ -1,10 +1,9 @@
 import {
   Hero,
-  AudienceStrip,
-  PortfolioPresence,
   CompanyOverview,
-  BusinessHighlights,
-  FeaturedProjects,
+  PortfolioPresence,
+  CompanyMetrics,
+  CustomerReviews,
   MarqueeClients,
   Esg,
   LatestUpdates,
@@ -16,11 +15,10 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <AudienceStrip />
-      <PortfolioPresence />
       <CompanyOverview />
-      <BusinessHighlights />
-      <FeaturedProjects />
+      <PortfolioPresence />
+      <CompanyMetrics />
+      <CustomerReviews />
       <MarqueeClients />
       <Esg />
       <LatestUpdates />

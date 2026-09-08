@@ -129,7 +129,82 @@ export const companyOverview = {
   heading: "Developing, owning and managing.",
   lede: "NDR Smart Spaces is a diversified infrastructure organization focused on developing, owning, and managing high-quality industrial, commercial and institutional assets.",
   body: "The company combines expertise in real estate development and grade A warehousing for over 60 years. Its integrated approach spans the complete asset lifecycle — from conceptualization and development to operations, leasing, and investment management.",
-  link: { label: "Our journey", href: "#journey" },
+  link: { label: "Our journey", href: "#company-metrics" },
+} as const;
+
+export type CompanyMetric = {
+  value: number | null;
+  label: string;
+  context: string;
+  prefix?: string;
+  suffix?: string;
+  format?: boolean;
+  source?: string;
+};
+
+export const companyMetrics = [
+  {
+    value: null,
+    label: "DATA TO BE INSERTED",
+    context: "DATA TO BE INSERTED",
+  },
+  {
+    value: null,
+    label: "DATA TO BE INSERTED",
+    context: "DATA TO BE INSERTED",
+  },
+  {
+    value: null,
+    label: "DATA TO BE INSERTED",
+    context: "DATA TO BE INSERTED",
+  },
+  {
+    value: null,
+    label: "DATA TO BE INSERTED",
+    context: "DATA TO BE INSERTED",
+  },
+  {
+    value: null,
+    label: "DATA TO BE INSERTED",
+    context: "DATA TO BE INSERTED",
+  },
+  {
+    value: null,
+    label: "DATA TO BE INSERTED",
+    context: "DATA TO BE INSERTED",
+  },
+] as const satisfies ReadonlyArray<CompanyMetric>;
+
+export type CustomerReview = {
+  quote: string;
+  name: string;
+  role: string;
+  company: string;
+};
+
+export const customerReviews = {
+  eyebrow: "Customer reviews",
+  heading: "What our customers say.",
+  reviews: [
+    {
+      quote: "DATA TO BE INSERTED",
+      name: "DATA TO BE INSERTED",
+      role: "DATA TO BE INSERTED",
+      company: "DATA TO BE INSERTED",
+    },
+    {
+      quote: "DATA TO BE INSERTED",
+      name: "DATA TO BE INSERTED",
+      role: "DATA TO BE INSERTED",
+      company: "DATA TO BE INSERTED",
+    },
+    {
+      quote: "DATA TO BE INSERTED",
+      name: "DATA TO BE INSERTED",
+      role: "DATA TO BE INSERTED",
+      company: "DATA TO BE INSERTED",
+    },
+  ],
 } as const;
 
 export const journey = [
