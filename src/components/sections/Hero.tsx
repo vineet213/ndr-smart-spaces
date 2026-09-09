@@ -3,10 +3,9 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/layout";
-import { Eyebrow, Lede, Metric, SourceFootnote, Button } from "@/components/ui";
+import { Eyebrow, Lede, Button } from "@/components/ui";
 import { hero } from "@/lib/data/homepage";
 import { ArchitecturalField } from "./ArchitecturalField";
-import { Counter } from "./Counter";
 import styles from "./Hero.module.css";
 import { cx } from "../ui/cx";
 
@@ -36,7 +35,6 @@ export function Hero() {
         ) : (
           <ArchitecturalField className={styles.mediaField} />
         )}
-        <div className={styles.overlay} aria-hidden="true" />
       </div>
 
       <Container as="div" className={styles.typeContainer}>
@@ -49,10 +47,10 @@ export function Hero() {
           </h1>
           <div className={styles.lockup}>
             <Image
-              src="/logos/ndr-smart-spaces-lockup-light.svg"
+              src="/logos/ndr-smart-spaces-logo.svg"
               alt="NDR Smart Spaces"
-              width={640}
-              height={147}
+              width={314}
+              height={72}
               priority
               className={styles.lockupImage}
             />
@@ -70,20 +68,6 @@ export function Hero() {
               {hero.secondaryCta.label}
             </Button>
           </div>
-        </div>
-      </Container>
-
-      <Container as="div" className={styles.statContainer}>
-        <div className={styles.statBand} role="region" aria-label="Key figures" aria-live="polite">
-          {hero.stats.map((stat) => (
-            <div key={stat.label} className={styles.stat}>
-              <Metric variant="hero">
-                <Counter value={stat.value} suffix={stat.suffix} />
-              </Metric>
-              <p className={cx("text-label-meta", styles.statLabel)}>{stat.label}</p>
-            </div>
-          ))}
-          <p className={cx("text-small", styles.statSource)}>{hero.statsSource}</p>
         </div>
       </Container>
 

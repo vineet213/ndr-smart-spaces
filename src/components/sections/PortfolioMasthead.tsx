@@ -1,45 +1,23 @@
 import { Container, Section } from "@/components/layout";
-import { Eyebrow, Heading, Lede } from "@/components/ui";
-import { formatPlateRange, portfolioAssets, portfolioMasthead } from "@/lib/data/portfolio";
-import { Reveal } from "./Reveal";
+import { portfolioMasthead } from "@/lib/data/portfolio";
 import styles from "./PortfolioMasthead.module.css";
 
 export function PortfolioMasthead() {
-  const plateRange = formatPlateRange(portfolioAssets.map((asset) => asset.plate));
-  const edition = [plateRange, "Catalogue", portfolioMasthead.editionPeriod]
-    .filter(Boolean)
-    .join(" · ");
-
   return (
-    <Section tone="dark" className={styles.section} ariaLabelledby="portfolio-masthead-title">
-      <Container className={styles.container}>
-        <Reveal>
-          <div className={styles.cover}>
-            <div className={styles.folio} aria-hidden="true">
-              <span className={styles.folioCell}>
-                <span className={styles.folioRef}>PL.001</span>
-              </span>
-              <span className={styles.folioCell}>
-                <span className={styles.folioRun}>{plateRange}</span>
-              </span>
-              <span className={styles.folioCell}>
-                <span className={styles.folioEdition}>{portfolioMasthead.editionPeriod}</span>
-              </span>
-            </div>
-            <Eyebrow className={styles.eyebrow}>{portfolioMasthead.eyebrow}</Eyebrow>
-            <span className={styles.ruleTop} aria-hidden="true" />
-            <Heading variant="hero" id="portfolio-masthead-title" className={styles.title}>
-              {portfolioMasthead.title}
-            </Heading>
-            <span className={styles.ruleBottom} aria-hidden="true" />
-            <Lede className={styles.lede}>{portfolioMasthead.lede}</Lede>
-            <p className={styles.edition}>{edition}</p>
-            <span className={styles.watermark} aria-hidden="true">
-              PLATE
-            </span>
-          </div>
-        </Reveal>
+    <Section tone="charcoal" ariaLabelledby="portfolio-masthead-title" className={styles.section}>
+      <span className={styles.ruleTop} aria-hidden="true" />
+
+      <Container className={styles.content}>
+        <div className={styles.hero} id="portfolio-hero">
+          <p className={styles.eyebrow}>{portfolioMasthead.eyebrow}</p>
+
+          <h1 id="portfolio-masthead-title" className={styles.title}>
+            {portfolioMasthead.title}
+          </h1>
+        </div>
       </Container>
+
+      <span className={styles.rule} aria-hidden="true" />
     </Section>
   );
 }

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import {
-  EsgCertifications,
-  EsgClosing,
   EsgFramework,
   EsgImpactMap,
   EsgMasthead,
@@ -27,8 +25,6 @@ export default function EsgPage() {
       <EsgStatement />
       <EsgFramework />
       <EsgImpactMap />
-      <EsgCertifications />
-      <EsgClosing />
       <Footer />
     </>
   );

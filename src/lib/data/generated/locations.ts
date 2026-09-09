@@ -31,11 +31,11 @@ export const locations = [
     "status": "published",
     "homepageOffset": {
       "leaderTo": {
-        "x": 402,
-        "y": 848,
+        "x": 386,
+        "y": 829,
       },
-      "x": 412,
-      "y": 863,
+      "x": 377,
+      "y": 829,
     },
     "lat": 13.03,
     "line": "Chennai, Tamil Nadu",
@@ -101,7 +101,7 @@ export const locations = [
       "homepage": true,
       "portfolio": true,
     },
-    "zone": "west",
+    "zone": "south",
   },
   {
     "id": "pune",
@@ -347,7 +347,7 @@ export const locations = [
       "homepage": true,
       "portfolio": true,
     },
-    "zone": "east",
+    "zone": "north",
   },
   {
     "id": "kanpur",
@@ -370,7 +370,7 @@ export const locations = [
       "homepage": true,
       "portfolio": true,
     },
-    "zone": "east",
+    "zone": "north",
   },
   {
     "id": "coimbatore",

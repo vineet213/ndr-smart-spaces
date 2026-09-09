@@ -173,28 +173,28 @@ export const geoZones: readonly GeoZone[] = [
   {
     id: "south",
     name: "South",
-    fact: "Chennai, Bidadi, Hosur, Kochi — warehousing corridors of Tamil Nadu and Karnataka.",
+    fact: "Chennai, Hyderabad, Bidadi, Hosur, Kochi — warehousing corridors of Tamil Nadu, Karnataka and Telangana.",
     frame: { x: 225, y: 780, width: 250, height: 190 },
     centroid: { x: 340, y: 850 },
   },
   {
     id: "west",
     name: "West",
-    fact: "Hyderabad and Pune — major production and consumption centres.",
+    fact: "Pune — a major production and consumption centre.",
     frame: { x: 140, y: 600, width: 260, height: 150 },
     centroid: { x: 260, y: 665 },
   },
   {
     id: "east",
     name: "East",
-    fact: "Kolkata, Varanasi, Lucknow, Kanpur — a rising consumption belt.",
+    fact: "Kolkata, Varanasi — a rising consumption belt.",
     frame: { x: 345, y: 305, width: 345, height: 250 },
     centroid: { x: 505, y: 420 },
   },
   {
     id: "north",
     name: "North",
-    fact: "Ghaziabad — a gateway to the NCR market.",
+    fact: "Ghaziabad, Lucknow, Kanpur — a gateway to the NCR and the northern consumption belt.",
     frame: { x: 230, y: 235, width: 180, height: 120 },
     centroid: { x: 315, y: 292 },
   },
@@ -539,8 +539,8 @@ export function formatSqFt(sizeSqFt: number | undefined): string {
 }
 
 export const portfolioMasthead = {
-  eyebrow: "Portfolio · The Institutional Catalogue",
-  title: "The register of places.",
+  eyebrow: "Portfolio",
+  title: "The Portfolio",
   lede: "Assets developed and owned by the NDR Smart Spaces group — mapped by zone, recorded as numbered plates, and cross-referenced in an analyst register.",
   editionPeriod: `Edition ${cmsPublication.editionPeriod}`,
 } as const;

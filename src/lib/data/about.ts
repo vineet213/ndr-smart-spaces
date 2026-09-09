@@ -23,17 +23,17 @@ export const aboutHero = {
     {
       label: "GROUP FOUNDED",
       metric: "1954",
-      source: "NDR Corporate Presentation, FY26",
+      source: "",
     },
     {
       label: "NDRW ACTIVE OPERATIONS",
       metric: "2001",
-      source: "NDR Corporate Presentation, FY26",
+      source: "",
     },
     {
       label: "NDR SMART SPACES INCORPORATED",
       metric: "2025",
-      source: "NDR Corporate Presentation, FY26",
+      source: "",
     },
   ] as readonly AboutHeroStat[],
 } as const;

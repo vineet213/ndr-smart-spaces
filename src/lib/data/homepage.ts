@@ -88,22 +88,22 @@ export const zones = [
   {
     id: "south",
     name: "South",
-    fact: "Chennai, Bidadi, Hosur, Kochi — warehousing corridors of Tamil Nadu and Karnataka.",
+    fact: "Chennai, Hyderabad, Bidadi, Hosur, Kochi — warehousing corridors of Tamil Nadu, Karnataka and Telangana.",
   },
   {
     id: "west",
     name: "West",
-    fact: "Hyderabad and Pune — major production and consumption centres.",
+    fact: "Pune — a major production and consumption centre.",
   },
   {
     id: "east",
     name: "East",
-    fact: "Kolkata, Varanasi, Lucknow, Kanpur — a rising consumption belt.",
+    fact: "Kolkata, Varanasi — a rising consumption belt.",
   },
   {
     id: "north",
     name: "North",
-    fact: "Ghaziabad — a gateway to the NCR market.",
+    fact: "Ghaziabad, Lucknow, Kanpur — a gateway to the NCR and the northern consumption belt.",
   },
 ] as const satisfies ReadonlyArray<{ id: ZoneId; name: string; fact: string }>;
 

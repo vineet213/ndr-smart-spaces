@@ -48,7 +48,9 @@ export function AboutHero() {
                       )}
                     </Metric>
                   </dd>
-                  <SourceFootnote className={styles.ledgerSource}>{stat.source}</SourceFootnote>
+                  {stat.source ? (
+                    <SourceFootnote className={styles.ledgerSource}>{stat.source}</SourceFootnote>
+                  ) : null}
                 </div>
               ))}
             </dl>

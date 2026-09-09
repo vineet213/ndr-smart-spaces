@@ -4,7 +4,7 @@ import styles from "./EsgMasthead.module.css";
 
 export function EsgMasthead() {
   return (
-    <Section tone="charcoal" ariaLabelledby="esg-masthead-title" className={styles.section}>
+    <Section tone="light" ariaLabelledby="esg-masthead-title" className={styles.section}>
       <span className={styles.ruleTop} aria-hidden="true" />
 
       <Container className={styles.folio}>

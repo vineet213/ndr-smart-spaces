@@ -1,82 +1,19 @@
-.section {
-  padding-block: var(--space-9xl) var(--space-8xl);
-}
-
-.container {
-  max-width: 58rem;
-  margin-inline: auto;
-}
-
-.cover {
+section.section {
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: var(--space-4xl) var(--space-5xl) var(--space-5xl);
+  overflow: hidden;
+  background-color: var(--color-charcoal-masthead);
 }
 
-.cover::after {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  pointer-events: none;
+.content {
+  position: relative;
+  z-index: 1;
 }
 
-/* folio row ------------------------------------------------------------- */
-
-.folio {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  border-top: 2px solid var(--color-gold);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  padding-block: var(--space-sm);
-}
-
-.folioCell {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  padding-inline: var(--space-md);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-meta);
-  line-height: var(--leading-meta);
-  letter-spacing: var(--tracking-meta);
-  text-transform: uppercase;
-  font-variant-numeric: tabular-nums;
-}
-
-.folioCell + .folioCell {
-  border-left: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.folioCell:last-child {
-  justify-content: flex-end;
-}
-
-.folioRef {
-  color: var(--color-gold);
-}
-
-.folioRun {
-  color: var(--color-ivory);
-}
-
-.folioEdition {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-/* title block ------------------------------------------------------------ */
-
-.eyebrow {
-  margin-top: var(--space-3xl);
-  text-align: left;
-  color: var(--color-gold);
-}
+/* gold registration rule ------------------------------------------------ */
 
 .ruleTop {
   display: block;
   height: 2px;
-  margin-top: var(--space-2xl);
   background: linear-gradient(
     90deg,
     rgba(240, 182, 90, 0) 0%,
@@ -85,98 +22,112 @@
     var(--color-gold) 84%,
     rgba(240, 182, 90, 0) 100%
   );
+  transform-origin: left;
+  animation: draw-right 1200ms var(--ease-standard) 100ms both;
 }
 
-.title {
-  margin-top: var(--space-2xl);
-  text-align: left;
-  font-size: clamp(3.5rem, 6.5vw, 5.75rem);
-  letter-spacing: -0.025em;
-  color: var(--color-ivory);
+/* hero ------------------------------------------------------------------ */
+
+.hero {
+  position: relative;
+  padding-top: var(--space-10xl);
 }
 
-.ruleBottom {
-  display: block;
-  width: 100%;
-  height: 1px;
-  margin-top: var(--space-3xl);
-  background-color: rgba(255, 255, 255, 0.12);
-}
-
-.lede {
-  margin: var(--space-4xl) 0 0;
-  max-width: 44rem;
-  text-align: left;
-  color: rgba(255, 255, 255, 0.75);
-}
-
-.edition {
-  margin-top: var(--space-4xl);
-  text-align: left;
+.eyebrow {
+  position: relative;
+  z-index: 1;
+  margin: 0;
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
   line-height: var(--leading-meta);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--color-gold);
+  animation: rise-fade var(--duration-long) var(--ease-standard) 120ms both;
 }
 
-.edition::before {
-  content: "";
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  margin-right: var(--space-sm);
-  background-color: var(--color-gold);
-}
-
-/* watermark -------------------------------------------------------------- */
-
-.watermark {
-  position: absolute;
-  right: -0.15em;
-  bottom: -0.42em;
+.title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding-top: var(--space-4xl);
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);
-  font-size: clamp(7.5rem, 16vw, 13rem);
-  line-height: 1;
-  letter-spacing: 0.14em;
-  color: rgba(255, 255, 255, 0.03);
-  pointer-events: none;
-  user-select: none;
+  font-size: clamp(3.75rem, 10vw, 9rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--color-ivory);
+  text-wrap: balance;
+  animation: title-rise 1000ms var(--ease-standard) 180ms both;
 }
 
-/* responsive -------------------------------------------------------------- */
+/* thin gold seam -------------------------------------------------------- */
 
-@media (max-width: 1439px) {
-  .section {
-    padding-block: var(--space-7xl) var(--space-5xl);
+.rule {
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin-top: var(--space-11xl);
+  background-color: var(--color-gold);
+  transform-origin: left;
+  animation: draw-right 1200ms var(--ease-standard) 480ms both;
+}
+
+/* load-in keyframes ----------------------------------------------------- */
+
+@keyframes rise-fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
+
+@keyframes title-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes draw-right {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* responsive ------------------------------------------------------------ */
 
 @media (max-width: 767px) {
-  .section {
-    padding-block: var(--space-5xl) var(--space-4xl);
-  }
-
-  .cover {
-    padding: var(--space-3xl) var(--space-4xl) var(--space-4xl);
-  }
-
-  .folio {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .folioCell:last-child {
-    display: none;
-  }
-
-  .eyebrow {
-    margin-top: var(--space-2xl);
+  .hero {
+    padding-top: var(--space-8xl);
   }
 
   .title {
-    margin-top: var(--space-2xl);
+    font-size: clamp(2.75rem, 12vw, 4rem);
+  }
+
+  .rule {
+    margin-top: var(--space-8xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ruleTop,
+  .eyebrow,
+  .title,
+  .rule {
+    animation: none;
   }
 }
