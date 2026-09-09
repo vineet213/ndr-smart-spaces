@@ -1,6 +1,6 @@
 # CMS Phase 2A/2B — Parity Report
 
-- Generated: 2026-09-09T16:56:57.172Z
+- Generated: 2026-09-09T17:39:53.346Z
 - Store: `.cms-store/content.json`
 - Generated modules: `src/lib/data/generated/`
 - Verdict: **PASS** — 398/398 checks passed, 0 failed, 0 unintended

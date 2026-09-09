@@ -100,18 +100,21 @@ export const aboutPrinciples = {
       index: "01",
       title: "Vision",
       body: "To build India's institutional-grade infrastructure from land to listed assets — the development platform behind the institutions that power growth.",
+      image: {
+        src: "/images/vision-mission/vision.svg",
+        alt: "Editorial line illustration of a future-ready master plan — plotted land rising into an institutional skyline.",
+      },
     },
     {
       index: "02",
       title: "Mission",
       body: "Develop, own and manage high-quality industrial, commercial and institutional assets across the complete asset lifecycle — from conceptualization and development to operations, leasing and investment management.",
+      image: {
+        src: "/images/vision-mission/mission.svg",
+        alt: "Editorial line illustration of construction in progress — a tower crane, braced building frame and survey datum lines.",
+      },
     },
   ],
-  image: {
-    src: "",
-    alt: "Image pending",
-    caption: "Image to be supplied by the client.",
-  },
 } as const;
 
 export const businessModel = {
