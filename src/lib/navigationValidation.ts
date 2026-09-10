@@ -44,6 +44,9 @@ function collectNavEntries(items: readonly NavItem[], surface: string, entries: 
       for (const column of item.columns) {
         for (const link of column.links) {
           entries.push({ label: link.label, href: link.href, surface });
+          for (const child of link.children ?? []) {
+            entries.push({ label: child.label, href: child.href, surface });
+          }
         }
       }
     }

@@ -1,47 +1,65 @@
+import type { ReactNode } from "react";
 import { Container, Section } from "@/components/layout";
 import { Metric, SourceFootnote } from "@/components/ui";
-import {
-  businessMasthead,
-  vertical02Metrics,
-  verticalEmployeeSection,
-  type Division,
-} from "@/lib/data/business";
+import { verticalOverview, type Division } from "@/lib/data/business";
 import { cx } from "@/components/ui/cx";
-import { CompanyMetrics } from "./CompanyMetrics";
+import { AveAcresExplore } from "./AveAcresExplore";
+import { AveAcresProcess } from "./AveAcresProcess";
+import { AveAcresValues } from "./AveAcresValues";
 import { DrawnGrid } from "./DrawnGrid";
+import { PropertyRegister } from "./PropertyRegister";
 import { Reveal } from "./Reveal";
-import { WarehousePlate } from "./WarehousePlate";
+import { Vertical02Stats } from "./Vertical02Stats";
+import { VerticalManagement } from "./VerticalManagement";
 import styles from "./VerticalPage.module.css";
 
 type VerticalPageProps = {
   division: Division;
 };
 
+/** Split the overview copy on the configured emphasis phrases and set them off. */
+function renderEmphasized(text: string, phrases?: readonly string[]): ReactNode {
+  if (!phrases || phrases.length === 0) return text;
+  const nodes: ReactNode[] = [];
+  let remaining = text;
+  let key = 0;
+  for (const phrase of phrases) {
+    const index = remaining.indexOf(phrase);
+    if (index === -1) continue;
+    if (index > 0) nodes.push(remaining.slice(0, index));
+    nodes.push(<em key={key++}>{phrase}</em>);
+    remaining = remaining.slice(index + phrase.length);
+  }
+  if (remaining.length > 0) nodes.push(remaining);
+  return nodes;
+}
+
 export function VerticalPage({ division }: VerticalPageProps) {
+  const overview = verticalOverview[division.index];
+  const isV2 = division.index === "02";
+  const isV3 = division.index === "03";
+  const title = division.title;
+  const titleParts = title.split(" - ");
+
   return (
     <>
       <Section tone="charcoal" ariaLabelledby="vertical-masthead-title" className={styles.masthead}>
         <span className={styles.ruleTop} aria-hidden="true" />
 
-        <Container className={styles.folio}>
-          <span>NDR Smart Spaces · Business</span>
-          <span>{businessMasthead.folio}</span>
-          <span>{businessMasthead.controlCaption}</span>
-        </Container>
-
         <Container className={styles.hero}>
-          <p className={styles.eyebrow}>Operating Vertical · {division.index}</p>
           <h1
             id="vertical-masthead-title"
             className={cx(styles.title, division.index === "01" && styles.titleLg)}
           >
-            {division.title}
+            {isV2 && titleParts.length === 2 ? (
+              <>
+                <span className={styles.titleMain}>{titleParts[0]}-</span>
+                <span className={styles.titleSub}>{titleParts[1]}</span>
+              </>
+            ) : (
+              title
+            )}
           </h1>
-          <p className={styles.meta}>
-            <span>{businessMasthead.asOn}</span>
-            <span aria-hidden="true">·</span>
-            <span>{businessMasthead.edition}</span>
-          </p>
         </Container>
 
         <span className={styles.rule} aria-hidden="true" />
@@ -57,7 +75,12 @@ export function VerticalPage({ division }: VerticalPageProps) {
           </Reveal>
 
           <Reveal>
-            <p className={styles.writeup}>{division.writeup}</p>
+            <div className={styles.overview}>
+              {overview ? <h3 className={styles.overviewHeading}>{overview.heading}</h3> : null}
+              <p className={styles.writeup}>
+                {renderEmphasized(division.writeup, overview?.emphasis)}
+              </p>
+            </div>
           </Reveal>
 
           {division.spec.length > 0 ? (
@@ -73,13 +96,15 @@ export function VerticalPage({ division }: VerticalPageProps) {
             </Reveal>
           ) : null}
 
-          <Reveal>
-            <div className={styles.proof}>
-              <span className={styles.proofLabel}>Proof</span>
-              <span className={styles.proofText}> {division.proof}</span>
-              <span className={styles.proofSource}> — {division.proofSource}</span>
-            </div>
-          </Reveal>
+          {division.index === "01" && division.proof ? (
+            <Reveal>
+              <div className={styles.proof}>
+                <span className={styles.proofLabel}>Proof</span>
+                <span className={styles.proofText}> {division.proof}</span>
+                <span className={styles.proofSource}> — {division.proofSource}</span>
+              </div>
+            </Reveal>
+          ) : null}
 
           {division.metrics.length > 0 ? (
             <Reveal>
@@ -95,35 +120,40 @@ export function VerticalPage({ division }: VerticalPageProps) {
             </Reveal>
           ) : null}
 
-          {division.index === "01" ? (
-            <Reveal>
-              <div className={styles.figure}>
-                <WarehousePlate />
-              </div>
-            </Reveal>
-          ) : null}
-
-          {division.index === "02" ? (
+          {isV2 ? (
             <>
+              <Vertical02Stats />
               <Reveal>
-                <CompanyMetrics data={vertical02Metrics} id="vertical-metrics" bare />
-              </Reveal>
-              <Reveal>
-                <div className={styles.employee}>
-                  <h3 className={styles.employeeHeading}>{verticalEmployeeSection.heading}</h3>
-                  <p className={styles.employeeBody}>{verticalEmployeeSection.body}</p>
-                </div>
+                <VerticalManagement />
               </Reveal>
             </>
           ) : null}
 
-          <Reveal>
-            <div className={styles.closing}>
-              <SourceFootnote className={styles.source}>{division.source}</SourceFootnote>
-            </div>
-          </Reveal>
+          {division.source ? (
+            <Reveal>
+              <div className={styles.closing}>
+                <SourceFootnote className={styles.source}>{division.source}</SourceFootnote>
+              </div>
+            </Reveal>
+          ) : null}
         </Container>
       </Section>
+
+      {isV3 ? (
+        <>
+          <Section tone="light">
+            <AveAcresProcess />
+          </Section>
+          <Section tone="charcoal">
+            <AveAcresValues />
+          </Section>
+          <Section tone="dim">
+            <AveAcresExplore />
+          </Section>
+        </>
+      ) : null}
+
+      {division.index === "01" ? <PropertyRegister /> : null}
     </>
   );
 }

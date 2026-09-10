@@ -63,7 +63,7 @@ export const audienceRoutes = [
   {
     label: "Business partners",
     descriptor: "Land, development, JVs",
-    href: "/en/business/grade-a-warehousing",
+    href: "/en/business/logistics-and-industrial-infrastructure",
   },
   {
     label: "Media",
@@ -276,7 +276,10 @@ export const businessHighlights = {
   partnership: {
     title: "The NDR InvIT relationship",
     line: "Completed assets are offered to NDR InvIT under a Right of First Offer, recycling capital into new development. A transparent, disciplined engine that keeps building.",
-    cta: { label: "The capital model", href: "/en/business/grade-a-warehousing" },
+    cta: {
+      label: "The capital model",
+      href: "/en/business/logistics-and-industrial-infrastructure",
+    },
   },
 };
 
@@ -395,7 +398,7 @@ export const contact = {
     ] as const,
     enquiryTypes: [
       "Logistics and Industrial Infrastructure",
-      "Project Management Consultancy",
+      "Project and Operations Management Consultancy - NDR Asset Management",
       "Residential Plotting",
       "Business Partnership",
       "Investor Relations",

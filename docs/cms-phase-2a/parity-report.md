@@ -1,6 +1,6 @@
 # CMS Phase 2A/2B — Parity Report
 
-- Generated: 2026-09-09T17:39:53.346Z
+- Generated: 2026-09-10T22:11:04.808Z
 - Store: `.cms-store/content.json`
 - Generated modules: `src/lib/data/generated/`
 - Verdict: **PASS** — 398/398 checks passed, 0 failed, 0 unintended
@@ -159,9 +159,9 @@
 | logistics-and-industrial-infrastructure has status published <br><small>found published</small> | PASS | expected |
 | logistics-and-industrial-infrastructure has order 0000 <br><small>found 0000</small> | PASS | expected |
 | logistics-and-industrial-infrastructure payload matches the source mapping | PASS | expected |
-| project-management-consultancy has status published <br><small>found published</small> | PASS | expected |
-| project-management-consultancy has order 0001 <br><small>found 0001</small> | PASS | expected |
-| project-management-consultancy payload matches the source mapping | PASS | expected |
+| project-and-operations-management-consultancy-ndr-asset-management has status published <br><small>found published</small> | PASS | expected |
+| project-and-operations-management-consultancy-ndr-asset-management has order 0001 <br><small>found 0001</small> | PASS | expected |
+| project-and-operations-management-consultancy-ndr-asset-management payload matches the source mapping | PASS | expected |
 | residential-plotting has status published <br><small>found published</small> | PASS | expected |
 | residential-plotting has order 0002 <br><small>found 0002</small> | PASS | expected |
 | residential-plotting payload matches the source mapping | PASS | expected |
@@ -349,7 +349,7 @@
 | asset amazon-coimbatore preserves the catalogue fields | PASS | expected |
 | asset lenovo-puducherry preserves the catalogue fields | PASS | expected |
 | vertical 01 (Logistics and Industrial Infrastructure) preserves the division fields and proof-metric references | PASS | migration-related |
-| vertical 02 (Project Management Consultancy) preserves the division fields and proof-metric references | PASS | migration-related |
+| vertical 02 (Project and Operations Management Consultancy - NDR Asset Management) preserves the division fields and proof-metric references | PASS | migration-related |
 | vertical 03 (Residential Plotting) preserves the division fields and proof-metric references | PASS | expected |
 | initiative IM-01 (Portfolio solar programme) preserves the impact fields | PASS | expected |
 | initiative IM-02 (Water stewardship) preserves the impact fields | PASS | expected |

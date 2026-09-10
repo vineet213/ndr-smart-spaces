@@ -18,7 +18,7 @@ import { join } from "node:path";
 import puppeteer from "puppeteer-core";
 
 const ADMIN = "http://localhost:4173";
-const PUBLIC_PORTFOLIO = "http://localhost:3000/en/portfolio";
+const PUBLIC_REGISTER = "http://localhost:3000/en/business/logistics-and-industrial-infrastructure";
 const LANDBANK_MODULE = join(process.cwd(), "src", "lib", "data", "generated", "landBank.ts");
 const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
 
@@ -74,7 +74,7 @@ const browser = await puppeteer.launch({
 try {
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 1000 });
-  await page.goto(PUBLIC_PORTFOLIO, { waitUntil: "networkidle0", timeout: 60000 });
+  await page.goto(PUBLIC_REGISTER, { waitUntil: "networkidle0", timeout: 60000 });
   await page.evaluate(() => document.querySelector("#register").scrollIntoView());
   await new Promise((r) => setTimeout(r, 1800));
 
@@ -96,9 +96,15 @@ try {
       oldRegisterSection: !!document.querySelector("#register table"), // legacy asset table
     };
   });
-  record("old 'Plates in filing' band gone", !gone.filingBand && !gone.photoPending && !gone.recordPrep);
+  record(
+    "old 'Plates in filing' band gone",
+    !gone.filingBand && !gone.photoPending && !gone.recordPrep,
+  );
   record("old zone sections / profiles gone", !gone.zoneProfile);
-  record("old Register of Assets gone", !gone.registerOfAssets && !gone.locationsMapped && !gone.operatingZones);
+  record(
+    "old Register of Assets gone",
+    !gone.registerOfAssets && !gone.locationsMapped && !gone.operatingZones,
+  );
   record("old asset table gone", !gone.oldRegisterSection);
   record("standalone 'The land bank.' section gone", !gone.standaloneLBHeading);
   record("full-width Under Construction empty section gone", !gone.standaloneUC);
@@ -107,12 +113,22 @@ try {
   const maps = await page.evaluate(() => {
     const svgs = [...document.querySelectorAll("#register svg")];
     const geoMaps = svgs.filter((s) => s.querySelectorAll("path").length >= 30);
-    const pageSvgs = [...document.querySelectorAll("svg")].filter((s) => s.querySelectorAll("path").length >= 30);
+    const pageSvgs = [...document.querySelectorAll("svg")].filter(
+      (s) => s.querySelectorAll("path").length >= 30,
+    );
     const selectable = document.querySelectorAll('#register svg path[role="button"]').length;
     return { geoInRegister: geoMaps.length, geoOnPage: pageSvgs.length, selectable };
   });
-  record("exactly ONE geographic/property map on the page", maps.geoOnPage === 1 && maps.geoInRegister === 1, `${maps.geoOnPage} map(s)`);
-  record("atlas states selectable (36-path survey intact)", maps.selectable === 9, `${maps.selectable} selectable`);
+  record(
+    "exactly ONE geographic/property map on the page",
+    maps.geoOnPage === 1 && maps.geoInRegister === 1,
+    `${maps.geoOnPage} map(s)`,
+  );
+  record(
+    "atlas states selectable (36-path survey intact)",
+    maps.selectable === 9,
+    `${maps.selectable} selectable`,
+  );
 
   /* ── unified chrome ── */
   const chrome = await page.evaluate(() => {
@@ -123,12 +139,22 @@ try {
     return {
       heading: document.querySelector("#register-title")?.textContent ?? "",
       modeCount: modeButtons.length,
-      provenance: document.querySelector('[class*="provenanceMeta"]')?.textContent.replace(/\s+/g, " ").trim() ?? "",
+      provenance:
+        document
+          .querySelector('[class*="provenanceMeta"]')
+          ?.textContent.replace(/\s+/g, " ")
+          .trim() ?? "",
     };
   });
   record("unified atlas heading present", chrome.heading === "The property atlas.", chrome.heading);
   record("two mode controls inside one sheet", chrome.modeCount === 2);
-  record("provenance bar reconciles full ledger", chrome.provenance.includes("9 states") && chrome.provenance.includes("35") && chrome.provenance.includes("471.81"), chrome.provenance);
+  record(
+    "provenance bar reconciles full ledger",
+    chrome.provenance.includes("9 states") &&
+      chrome.provenance.includes("52") &&
+      chrome.provenance.includes("471.81"),
+    chrome.provenance,
+  );
 
   /* ── Tamil Nadu: constrained survey panel ── */
   await page.evaluate(() => {
@@ -139,15 +165,22 @@ try {
   for (let i = 0; i < 24 && !tnReady; i += 1) {
     await new Promise((r) => setTimeout(r, 250));
     tnReady = await page.evaluate(
-      () => document.querySelector('#register [class*="selectedState"]')?.textContent.includes("Tamil Nadu") ?? false,
+      () =>
+        document
+          .querySelector('#register [class*="selectedState"]')
+          ?.textContent.includes("Tamil Nadu") ?? false,
     );
   }
   record("Tamil Nadu selection opens survey panel", tnReady);
 
   const tn = await page.evaluate(() => {
-    const scroll = document.querySelector('[role="region"][aria-label*="parcel records" i], [role="region"][aria-label*="Parcel records"]');
+    const scroll = document.querySelector(
+      '[role="region"][aria-label*="parcel records" i], [role="region"][aria-label*="Parcel records"]',
+    );
     const rows = document.querySelectorAll('[class*="recordList"] > li');
-    const viewAll = [...document.querySelectorAll("#register button")].find((b) => b.textContent.startsWith("View all"));
+    const viewAll = [...document.querySelectorAll("#register button")].find((b) =>
+      b.textContent.startsWith("View all"),
+    );
     return {
       rowCount: rows.length,
       constrained: scroll ? scroll.className.includes("recordConstrained") : false,
@@ -160,22 +193,34 @@ try {
       sectionH: Math.round(document.querySelector("#register").getBoundingClientRect().height),
     };
   });
-  record("all 19 Tamil Nadu records render in the DOM", tn.rowCount === 19, `${tn.rowCount} rows`);
-  record("survey panel is constrained and scrolls", tn.constrained && tn.overflows, `${tn.clientH}px visible`);
+  record("all 26 Tamil Nadu records render in the DOM", tn.rowCount === 26, `${tn.rowCount} rows`);
+  record(
+    "survey panel is constrained and scrolls",
+    tn.constrained && tn.overflows,
+    `${tn.clientH}px visible`,
+  );
   record("page stays compact while collapsed", tn.sectionH < 2400, `${tn.sectionH}px section`);
-  record("'View all' offered with correct count", tn.viewAllText === "View all 19 sites", tn.viewAllText ?? "missing");
+  record(
+    "'View all' offered with correct count",
+    tn.viewAllText === "View all 26 sites",
+    tn.viewAllText ?? "missing",
+  );
   record("panel is keyboard-scrollable (tabindex=0)", tn.regionTabIndex === "0");
-  record("state pins render for selected state", tn.pins === 19, `${tn.pins} pins`);
+  record("state pins render for selected state", tn.pins === 26, `${tn.pins} pins`);
 
   /* expand */
   await page.evaluate(() => {
-    const viewAll = [...document.querySelectorAll("#register button")].find((b) => b.textContent.startsWith("View all"));
+    const viewAll = [...document.querySelectorAll("#register button")].find((b) =>
+      b.textContent.startsWith("View all"),
+    );
     viewAll?.click();
   });
   await new Promise((r) => setTimeout(r, 400));
   const expanded = await page.evaluate(() => {
     const scroll = document.querySelector('#register [role="region"]');
-    const viewAll = [...document.querySelectorAll("#register button")].find((b) => b.getAttribute("aria-expanded") !== null);
+    const viewAll = [...document.querySelectorAll("#register button")].find(
+      (b) => b.getAttribute("aria-expanded") !== null,
+    );
     const firstRow = document.querySelector('[class*="recordList"] > li');
     const lastRow = [...document.querySelectorAll('[class*="recordList"] > li')].pop();
     return {
@@ -186,19 +231,33 @@ try {
       firstName: firstRow?.textContent.slice(0, 40) ?? "",
     };
   });
-  record("expansion removes the height clamp", expanded.unconstrained && expanded.ariaExpanded === "true");
-  record("records not truncated by expansion", expanded.stillRows === 19 && expanded.lastVisible, `${expanded.stillRows} rows`);
-  await page.screenshot({ path: join(process.env.TEMP ?? ".", "opencode", "register-tn-expanded.png"), clip: { x: 0, y: 0, width: 1440, height: 1000 } });
+  record(
+    "expansion removes the height clamp",
+    expanded.unconstrained && expanded.ariaExpanded === "true",
+  );
+  record(
+    "records not truncated by expansion",
+    expanded.stillRows === 26 && expanded.lastVisible,
+    `${expanded.stillRows} rows`,
+  );
+  await page.screenshot({
+    path: join(process.env.TEMP ?? ".", "opencode", "register-tn-expanded.png"),
+    clip: { x: 0, y: 0, width: 1440, height: 1000 },
+  });
 
   /* collapse again, then exercise the map itself: reset, keyboard-activate the
      TN path (role=button + Enter), then a plain mouse click on its geometry */
   await page.evaluate(() => {
-    const collapse = [...document.querySelectorAll("#register button")].find((b) => b.textContent.trim() === "Collapse");
+    const collapse = [...document.querySelectorAll("#register button")].find(
+      (b) => b.textContent.trim() === "Collapse",
+    );
     collapse?.click();
   });
   await new Promise((r) => setTimeout(r, 300));
   await page.evaluate(() => {
-    const btn = [...document.querySelectorAll("#register button")].find((b) => b.textContent.trim() === "All India" && b.className.includes("reset"));
+    const btn = [...document.querySelectorAll("#register button")].find(
+      (b) => b.textContent.trim() === "All India" && b.className.includes("reset"),
+    );
     btn?.click();
   });
   await new Promise((r) => setTimeout(r, 600));
@@ -219,13 +278,22 @@ try {
   }
   record("keyboard Enter on state path selects and animates zoom", kbZoomed);
   await page.evaluate(() => {
-    const btn = [...document.querySelectorAll("#register button")].find((b) => b.textContent.trim() === "All India" && b.className.includes("reset"));
+    const btn = [...document.querySelectorAll("#register button")].find(
+      (b) => b.textContent.trim() === "All India" && b.className.includes("reset"),
+    );
     btn?.click();
   });
   await new Promise((r) => setTimeout(r, 800));
   const box = await tnPath.boundingBox();
   let clickZoomed = false;
-  for (const [fx, fy] of [[0.5, 0.5], [0.45, 0.55], [0.55, 0.45], [0.4, 0.5], [0.5, 0.42], [0.6, 0.55]]) {
+  for (const [fx, fy] of [
+    [0.5, 0.5],
+    [0.45, 0.55],
+    [0.55, 0.45],
+    [0.4, 0.5],
+    [0.5, 0.42],
+    [0.6, 0.55],
+  ]) {
     if (clickZoomed) break;
     await page.mouse.click(box.x + box.width * fx, box.y + box.height * fy);
     for (let i = 0; i < 8 && !clickZoomed; i += 1) {
@@ -235,7 +303,9 @@ try {
   }
   record("mouse click on state geometry selects (tooltip no longer intercepts)", clickZoomed);
   const resetBtn = await page.evaluate(() => {
-    const btn = [...document.querySelectorAll("#register button")].find((b) => b.textContent.trim() === "All India" && b.className.includes("reset"));
+    const btn = [...document.querySelectorAll("#register button")].find(
+      (b) => b.textContent.trim() === "All India" && b.className.includes("reset"),
+    );
     btn?.click();
     return !!btn;
   });
@@ -243,7 +313,9 @@ try {
 
   /* ── Under Construction mode ── */
   await page.evaluate(() => {
-    const btn = [...document.querySelectorAll("#register button")].find((b) => b.textContent.trim().startsWith("Under construction"));
+    const btn = [...document.querySelectorAll("#register button")].find((b) =>
+      b.textContent.trim().startsWith("Under construction"),
+    );
     btn?.click();
   });
   await new Promise((r) => setTimeout(r, 500));
@@ -251,7 +323,10 @@ try {
     const empty = document.querySelector('[class*="constructionEmpty"]');
     const sheet = empty?.closest('[class*="sheet"]');
     const rect = empty ? empty.getBoundingClientRect() : null;
-    const meta = document.querySelector('[class*="provenanceMeta"]')?.textContent.replace(/\s+/g, " ").trim();
+    const meta = document
+      .querySelector('[class*="provenanceMeta"]')
+      ?.textContent.replace(/\s+/g, " ")
+      .trim();
     return {
       insideSheet: !!empty && !!sheet,
       height: rect ? Math.round(rect.height) : 0,
@@ -264,12 +339,20 @@ try {
     `${uc.height}px`,
   );
   record("UC mode provenance counts projects", uc.meta === "0 projects", uc.meta);
-  record("map persists across modes (one atlas)", await page.evaluate(() => !!document.querySelector('#register svg path')));
-  await page.screenshot({ path: join(process.env.TEMP ?? ".", "opencode", "register-uc-mode.png"), clip: { x: 0, y: 0, width: 1440, height: 1000 } });
+  record(
+    "map persists across modes (one atlas)",
+    await page.evaluate(() => !!document.querySelector("#register svg path")),
+  );
+  await page.screenshot({
+    path: join(process.env.TEMP ?? ".", "opencode", "register-uc-mode.png"),
+    clip: { x: 0, y: 0, width: 1440, height: 1000 },
+  });
 
   /* back to land bank mode */
   await page.evaluate(() => {
-    const btn = [...document.querySelectorAll("#register button")].find((b) => b.textContent.trim() === "Land bank");
+    const btn = [...document.querySelectorAll("#register button")].find(
+      (b) => b.textContent.trim() === "Land bank",
+    );
     btn?.click();
   });
   await new Promise((r) => setTimeout(r, 400));
@@ -282,7 +365,7 @@ try {
   /* ── mobile overflow ── */
   const mobile = await browser.newPage();
   await mobile.setViewport({ width: 390, height: 844 });
-  await mobile.goto(PUBLIC_PORTFOLIO, { waitUntil: "networkidle0", timeout: 60000 });
+  await mobile.goto(PUBLIC_REGISTER, { waitUntil: "networkidle0", timeout: 60000 });
   await new Promise((r) => setTimeout(r, 1500));
   const mob = await mobile.evaluate(() => ({
     overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
@@ -290,7 +373,10 @@ try {
   record("no horizontal overflow at 390px", mob.overflow <= 1, `${mob.overflow}px`);
   await mobile.evaluate(() => document.querySelector("#register").scrollIntoView());
   await new Promise((r) => setTimeout(r, 800));
-  await mobile.screenshot({ path: join(process.env.TEMP ?? ".", "opencode", "register-mobile.png"), clip: { x: 0, y: 0, width: 390, height: 844 } });
+  await mobile.screenshot({
+    path: join(process.env.TEMP ?? ".", "opencode", "register-mobile.png"),
+    clip: { x: 0, y: 0, width: 390, height: 844 },
+  });
   await mobile.close();
 } finally {
   await browser.close();
@@ -315,5 +401,7 @@ record(
   readFileSync(LANDBANK_MODULE, "utf8") === moduleBefore,
 );
 
-console.log(`\n${failures === 0 ? "ALL REGISTER UI CHECKS PASSED" : `${failures} CHECK(S) FAILED`}`);
+console.log(
+  `\n${failures === 0 ? "ALL REGISTER UI CHECKS PASSED" : `${failures} CHECK(S) FAILED`}`,
+);
 process.exit(failures === 0 ? 0 : 1);

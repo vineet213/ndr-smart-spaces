@@ -1,6 +1,6 @@
 {
   "phase": "2A/2B",
-  "generatedAt": "2026-09-09T17:39:53.344Z",
+  "generatedAt": "2026-09-10T22:11:04.807Z",
   "verdict": "PASS",
   "counts": {
     "total": 398,
@@ -1154,25 +1154,25 @@
       "passed": true
     },
     {
-      "id": "business-verticals.project-management-consultancy.status",
+      "id": "business-verticals.project-and-operations-management-consultancy-ndr-asset-management.status",
       "layer": "inventory/data",
-      "description": "project-management-consultancy has status published",
+      "description": "project-and-operations-management-consultancy-ndr-asset-management has status published",
       "classification": "expected",
       "passed": true,
       "detail": "found published"
     },
     {
-      "id": "business-verticals.project-management-consultancy.order",
+      "id": "business-verticals.project-and-operations-management-consultancy-ndr-asset-management.order",
       "layer": "inventory/data",
-      "description": "project-management-consultancy has order 0001",
+      "description": "project-and-operations-management-consultancy-ndr-asset-management has order 0001",
       "classification": "expected",
       "passed": true,
       "detail": "found 0001"
     },
     {
-      "id": "business-verticals.project-management-consultancy.data",
+      "id": "business-verticals.project-and-operations-management-consultancy-ndr-asset-management.data",
       "layer": "inventory/data",
-      "description": "project-management-consultancy payload matches the source mapping",
+      "description": "project-and-operations-management-consultancy-ndr-asset-management payload matches the source mapping",
       "classification": "expected",
       "passed": true
     },
@@ -2455,7 +2455,7 @@
     {
       "id": "fidelity.verticals.02",
       "layer": "fidelity",
-      "description": "vertical 02 (Project Management Consultancy) preserves the division fields and proof-metric references",
+      "description": "vertical 02 (Project and Operations Management Consultancy - NDR Asset Management) preserves the division fields and proof-metric references",
       "classification": "migration-related",
       "passed": true
     },

@@ -24,7 +24,7 @@ import { join } from "node:path";
 import puppeteer from "puppeteer-core";
 
 const ADMIN = "http://localhost:4173";
-const PUBLIC_PORTFOLIO = "http://localhost:3000/en/portfolio";
+const PUBLIC_REGISTER = "http://localhost:3000/en/business/logistics-and-industrial-infrastructure";
 const LANDBANK_MODULE = join(process.cwd(), "src", "lib", "data", "generated", "landBank.ts");
 const ASSETS_MODULE = join(process.cwd(), "src", "lib", "data", "generated", "portfolioAssets.ts");
 const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
@@ -70,7 +70,11 @@ const assetRecords = assets.body.records ?? [];
 record("store intact", parcels.length === 35 && parcels.every((r) => r.status === "draft"));
 
 const linkedIds = new Set(assetRecords.map((a) => a.data?.landBankId).filter(Boolean));
-record("no pre-existing links to our target pool", linkedIds.size >= 0, `${linkedIds.size} linked ids`);
+record(
+  "no pre-existing links to our target pool",
+  linkedIds.size >= 0,
+  `${linkedIds.size} linked ids`,
+);
 const tnDrafts = parcels.filter((r) => r.data?.state === "Tamil Nadu" && r.status === "draft");
 const nameCounts = new Map();
 for (const r of parcels) nameCounts.set(r.data.name, (nameCounts.get(r.data.name) ?? 0) + 1);
@@ -84,13 +88,38 @@ while (usedPlates.has(String(plateNum).padStart(2, "0"))) plateNum += 1;
 const NEW_PLATE = String(plateNum).padStart(2, "0");
 const NEW_NAME = `${target.data.name} — under construction`;
 
+/* The land-bank survey is the merged footprint: published parcels PLUS the
+   group's operating locations (the 17 CMS locations are never draft-gated;
+   Tamil Nadu holds 7 of them and the fixture target is always a TN parcel). */
+const LOCATION_STATE_NAMES = [
+  "Tamil Nadu",
+  "Karnataka",
+  "Kerala",
+  "Maharashtra",
+  "Puducherry",
+  "Telangana",
+  "Uttar Pradesh",
+  "West Bengal",
+];
+const OPERATING_LOCATIONS = 17;
+const OPERATING_LOCATIONS_IN_TN = 7;
+
 /* Save → Publish: the parcel must be published before it can be referenced */
 record(
   "transition draft → published",
-  (await apiPost(cookie, "/api/c/land-bank?action=transition", { id: target.id, status: "published" })).status === 200,
+  (
+    await apiPost(cookie, "/api/c/land-bank?action=transition", {
+      id: target.id,
+      status: "published",
+    })
+  ).status === 200,
 );
 const pub1 = await apiPost(cookie, "/api/publish");
-record("Publish All #1 completes", pub1.body.ok === true && pub1.body.stage === "done", `build ${((pub1.body.build?.durationMs ?? 0) / 1000).toFixed(1)}s`);
+record(
+  "Publish All #1 completes",
+  pub1.body.ok === true && pub1.body.stage === "done",
+  `build ${((pub1.body.build?.durationMs ?? 0) / 1000).toFixed(1)}s`,
+);
 
 const browser = await puppeteer.launch({
   executablePath: EDGE,
@@ -104,14 +133,23 @@ try {
   await page.setViewport({ width: 1440, height: 1000 });
   page.on("pageerror", (e) => console.log("PAGEERROR:", e.message));
   await page.goto(ADMIN, { waitUntil: "domcontentloaded" });
-  await page.waitForFunction(() => document.getElementById("login-overlay").style.display !== "none", { timeout: 20000 });
+  await page.waitForFunction(
+    () => document.getElementById("login-overlay").style.display !== "none",
+    { timeout: 20000 },
+  );
   await page.type("#login-user", "admin");
   await page.type("#login-pass", "admin");
   await page.click("#login-submit");
-  await page.waitForFunction(() => document.getElementById("login-overlay").style.display === "none", { timeout: 15000 });
+  await page.waitForFunction(
+    () => document.getElementById("login-overlay").style.display === "none",
+    { timeout: 15000 },
+  );
   await page.waitForSelector('.nav-item[data-key="land-bank"]', { visible: true, timeout: 20000 });
   await page.click('.nav-item[data-key="land-bank"]');
-  await page.waitForFunction(() => document.querySelectorAll("#record-list-inner .record-row").length > 0, { timeout: 15000 });
+  await page.waitForFunction(
+    () => document.querySelectorAll("#record-list-inner .record-row").length > 0,
+    { timeout: 15000 },
+  );
   await new Promise((r) => setTimeout(r, 800)); // allow prefetch of assets cache
 
   const editHandle = await page.evaluateHandle((name) => {
@@ -168,7 +206,9 @@ try {
       const row = rows.find((r) => r.querySelector("label")?.textContent === label);
       if (!row) return null;
       const sel = row.querySelector("select");
-      return sel ? { kind: "select", value: sel.value } : { kind: "input", value: row.querySelector("input")?.value ?? "" };
+      return sel
+        ? { kind: "select", value: sel.value }
+        : { kind: "input", value: row.querySelector("input")?.value ?? "" };
     };
     return {
       heading: document.querySelector("#content h3")?.textContent,
@@ -178,9 +218,21 @@ try {
       expectedName: `${parcelName} \u2014 under construction`,
     };
   }, target.data.name);
-  record("association opens a NEW Portfolio Asset editor", form.heading === "New Portfolio Assets", form.heading);
-  record("landBankId pre-filled with THIS parcel (no retyping, no duplicate)", form.parcel?.value === target.id, form.parcel?.value ?? "");
-  record("Name prefilled from the parcel (shared creation flow)", form.name?.value === form.expectedName, form.name?.value ?? "");
+  record(
+    "association opens a NEW Portfolio Asset editor",
+    form.heading === "New Portfolio Assets",
+    form.heading,
+  );
+  record(
+    "landBankId pre-filled with THIS parcel (no retyping, no duplicate)",
+    form.parcel?.value === target.id,
+    form.parcel?.value ?? "",
+  );
+  record(
+    "Name prefilled from the parcel (shared creation flow)",
+    form.name?.value === form.expectedName,
+    form.name?.value ?? "",
+  );
   record("City prefilled from the parcel district", !!form.city?.value, form.city?.value ?? "");
 
   /* fill required fields */
@@ -223,7 +275,9 @@ try {
   record("fill Size", await fillText("Size (sq ft)", "120000"));
 
   await page.evaluate(() => {
-    const btn = [...document.querySelectorAll("#content button")].find((b) => b.textContent.trim() === "Create record");
+    const btn = [...document.querySelectorAll("#content button")].find(
+      (b) => b.textContent.trim() === "Create record",
+    );
     btn?.click();
   });
   /* Save must hand control back to the PARCEL editor, link visible in place */
@@ -287,15 +341,24 @@ try {
     );
     btn?.click();
   });
-  await page.waitForFunction(() => !!document.getElementById("record-list-inner"), { timeout: 20000 });
+  await page.waitForFunction(() => !!document.getElementById("record-list-inner"), {
+    timeout: 20000,
+  });
   await new Promise((r) => setTimeout(r, 600));
 
   const savedAsset = (await apiGet(cookie, "/api/c/portfolio-assets")).body.records.find(
     (a) => a.data?.landBankId === target.id,
   );
   createdId = savedAsset?.id ?? null;
-  record("asset created referencing the parcel (relationship is explicit)", !!savedAsset, savedAsset?.id ?? "");
-  record("no duplicate land-bank record was created", (await apiGet(cookie, "/api/c/land-bank")).body.records.length === 35);
+  record(
+    "asset created referencing the parcel (relationship is explicit)",
+    !!savedAsset,
+    savedAsset?.id ?? "",
+  );
+  record(
+    "no duplicate land-bank record was created",
+    (await apiGet(cookie, "/api/c/land-bank")).body.records.length === 35,
+  );
 
   /* the new asset starts as a draft — Save ≠ Publish: push it through the
      same workflow before checking the public register */
@@ -309,29 +372,40 @@ try {
     ).status === 200,
   );
   const pub2 = await apiPost(cookie, "/api/publish");
-  record("Publish All #2 (asset live) completes", pub2.body.ok === true && pub2.body.stage === "done", `build ${((pub2.body.build?.durationMs ?? 0) / 1000).toFixed(1)}s`);
-  const pubHtmlNow = await (await fetch(PUBLIC_PORTFOLIO)).text();
+  record(
+    "Publish All #2 (asset live) completes",
+    pub2.body.ok === true && pub2.body.stage === "done",
+    `build ${((pub2.body.build?.durationMs ?? 0) / 1000).toFixed(1)}s`,
+  );
+  const pubHtmlNow = await (await fetch(PUBLIC_REGISTER)).text();
   const publishedParcels = (await apiGet(cookie, "/api/c/land-bank")).body.records.filter(
     (r) => r.status === "published",
   );
   const pubStates = [...new Set(publishedParcels.map((r) => r.data.state))];
   const pubAcres = publishedParcels.reduce((s, r) => s + (r.data.extentAcres ?? 0), 0);
-  const EXPECTED_PROV = `${pubStates.length} ${
-    pubStates.length === 1 ? "state" : "states"
-  } · ${publishedParcels.length} ${
-    publishedParcels.length === 1 ? "site" : "sites"
-  } · ${pubAcres.toFixed(2)} acres`;
+  const mergedStateNames = new Set([...pubStates, ...LOCATION_STATE_NAMES]);
+  const mergedSites = publishedParcels.length + OPERATING_LOCATIONS;
+  const EXPECTED_PROV = `${mergedStateNames.size} ${
+    mergedStateNames.size === 1 ? "state" : "states"
+  } · ${mergedSites} ${mergedSites === 1 ? "site" : "sites"} · ${pubAcres.toFixed(2)} acres`;
 
   /* back to Land Bank: indicator replaces the offer */
   await page.click('.nav-item[data-key="land-bank"]');
-  await page.waitForFunction(() => document.querySelectorAll("#record-list-inner .record-row").length > 0, { timeout: 15000 });
+  await page.waitForFunction(
+    () => document.querySelectorAll("#record-list-inner .record-row").length > 0,
+    { timeout: 15000 },
+  );
   await new Promise((r) => setTimeout(r, 800));
   const indicator = await page.evaluate((name) => {
     const rows = [...document.querySelectorAll("#record-list-inner .record-row")];
     const row = rows.find((r) => r.querySelector(".title")?.textContent === name);
     return [...(row?.querySelectorAll("button") ?? [])].map((b) => b.textContent.trim());
   }, target.data.name);
-  record("row now indicates existing U/C link instead of offering another", indicator.some((t) => t === "U/C · 1"), indicator.join(", "));
+  record(
+    "row now indicates existing U/C link instead of offering another",
+    indicator.some((t) => t === "U/C · 1"),
+    indicator.join(", "),
+  );
 
   /* clicking it reveals the linked asset, filtered by the parcel id */
   await page.evaluate((name) => {
@@ -340,18 +414,24 @@ try {
     const btn = [...row.querySelectorAll("button")].find((b) => b.textContent.trim() === "U/C · 1");
     btn?.click();
   }, target.data.name);
-  await page.waitForFunction(() => !!document.getElementById("record-list-inner"), { timeout: 15000 });
+  await page.waitForFunction(() => !!document.getElementById("record-list-inner"), {
+    timeout: 15000,
+  });
   await new Promise((r) => setTimeout(r, 600));
   const reveal = await page.evaluate(() => ({
     search: document.querySelector(".filter-bar input")?.value ?? "",
     rows: document.querySelectorAll("#record-list-inner .record-row").length,
   }));
-  record("indicator click reveals linked asset (search = parcel id)", reveal.search === target.id && reveal.rows === 1, `${reveal.rows} row(s)`);
+  record(
+    "indicator click reveals linked asset (search = parcel id)",
+    reveal.search === target.id && reveal.rows === 1,
+    `${reveal.rows} row(s)`,
+  );
 
   /* ════ public phase: both modes resolve correctly ════ */
   const pub = await browser.newPage();
   await pub.setViewport({ width: 1440, height: 1000 });
-  await pub.goto(PUBLIC_PORTFOLIO, { waitUntil: "networkidle0", timeout: 60000 });
+  await pub.goto(PUBLIC_REGISTER, { waitUntil: "networkidle0", timeout: 60000 });
   await pub.evaluate(() => document.querySelector("#register").scrollIntoView());
   await new Promise((r) => setTimeout(r, 1800));
 
@@ -363,28 +443,41 @@ try {
   let tnSelected = false;
   for (let i = 0; i < 20 && !tnSelected; i += 1) {
     await new Promise((r) => setTimeout(r, 250));
-    tnSelected = await pub.evaluate(() => !!document.querySelector('#register [class*="selectedState"]'));
+    tnSelected = await pub.evaluate(
+      () => !!document.querySelector('#register [class*="selectedState"]'),
+    );
   }
-  const lbPins = await pub.evaluate((needle) => ({
-    pins: document.querySelectorAll('#register [class*="pinGroup"]').length,
-    rows: document.querySelectorAll('[class*="recordList"] > li').length,
-    targetRow: [...document.querySelectorAll('[class*="recordName"]')].some((n) => n.textContent === needle),
-  }), target.data.name);
+  const lbPins = await pub.evaluate(
+    (needle) => ({
+      pins: document.querySelectorAll('#register [class*="pinGroup"]').length,
+      rows: document.querySelectorAll('[class*="recordList"] > li').length,
+      targetRow: [...document.querySelectorAll('[class*="recordName"]')].some(
+        (n) => n.textContent === needle,
+      ),
+    }),
+    target.data.name,
+  );
+  const mergedTnSites = publishedParcels.length + OPERATING_LOCATIONS_IN_TN;
   record(
-    "Land Bank mode shows the published parcel (single pin, single record)",
-    lbPins.pins === publishedParcels.length && lbPins.rows === publishedParcels.length && lbPins.targetRow,
+    "Land Bank mode shows the published parcel with the operating locations",
+    lbPins.pins === mergedTnSites && lbPins.rows === mergedTnSites && lbPins.targetRow,
     `${lbPins.pins} pin(s), ${lbPins.rows} row(s)`,
   );
 
   /* switch to Under Construction */
   await pub.evaluate(() => {
-    const btn = [...document.querySelectorAll("#register button")].find((b) => b.textContent.trim().startsWith("Under construction"));
+    const btn = [...document.querySelectorAll("#register button")].find((b) =>
+      b.textContent.trim().startsWith("Under construction"),
+    );
     btn?.click();
   });
   let ucReady = false;
   for (let i = 0; i < 20 && !ucReady; i += 1) {
     await new Promise((r) => setTimeout(r, 250));
-    ucReady = await pub.evaluate((needle) => document.querySelector("#register").textContent.includes(needle), NEW_NAME);
+    ucReady = await pub.evaluate(
+      (needle) => document.querySelector("#register").textContent.includes(needle),
+      NEW_NAME,
+    );
   }
   const ucView = await pub.evaluate((name) => {
     const reg = document.querySelector("#register").textContent.replace(/\s+/g, " ");
@@ -398,18 +491,40 @@ try {
   record("UC state index shows the project state", ucView.stateIndexShown);
   record("UC empty state replaced by map architecture", ucView.emptyGone);
   record("UC hint guides the user", ucView.hintShown);
-  record("no pins rendered until state selected", ucView.pinsVisible === 0, `${ucView.pinsVisible} pin(s)`);
-  await pub.screenshot({ path: join(process.env.TEMP ?? ".", "opencode", "linkage-uc-mode.png"), clip: { x: 0, y: 0, width: 1440, height: 1000 } });
+  record(
+    "no pins rendered until state selected",
+    ucView.pinsVisible === 0,
+    `${ucView.pinsVisible} pin(s)`,
+  );
+  await pub.screenshot({
+    path: join(process.env.TEMP ?? ".", "opencode", "linkage-uc-mode.png"),
+    clip: { x: 0, y: 0, width: 1440, height: 1000 },
+  });
 
   /* meta counts: LB provenance still 9 states · 35 sites · 471.81 acres */
   const prov = await pub.evaluate(() => {
-    const btn = [...document.querySelectorAll("#register button")].find((b) => b.textContent.trim() === "Land bank");
+    const btn = [...document.querySelectorAll("#register button")].find(
+      (b) => b.textContent.trim() === "Land bank",
+    );
     btn?.click();
     return new Promise((resolve) =>
-      setTimeout(() => resolve(document.querySelector('[class*="provenanceMeta"]')?.textContent.replace(/\s+/g, " ").trim()), 400),
+      setTimeout(
+        () =>
+          resolve(
+            document
+              .querySelector('[class*="provenanceMeta"]')
+              ?.textContent.replace(/\s+/g, " ")
+              .trim(),
+          ),
+        400,
+      ),
     );
   });
-  record("provenance ledger matches the published set exactly", prov === EXPECTED_PROV, `${prov} (expected ${EXPECTED_PROV})`);
+  record(
+    "provenance ledger matches the published set and locations exactly",
+    prov === EXPECTED_PROV,
+    `${prov} (expected ${EXPECTED_PROV})`,
+  );
 } finally {
   await browser.close();
 }
@@ -418,22 +533,31 @@ try {
 if (!createdId) throw new Error("created asset id missing before cleanup");
 record(
   "cleanup: delete linked asset",
-  (
-    await apiPost(cookie, `/api/c/portfolio-assets?action=delete`, { id: createdId })
-  ).status === 200,
+  (await apiPost(cookie, `/api/c/portfolio-assets?action=delete`, { id: createdId })).status ===
+    200,
 );
 record(
   "cleanup: un-publish parcel",
-  (await apiPost(cookie, "/api/c/land-bank?action=transition", { id: target.id, status: "draft" })).status === 200,
+  (await apiPost(cookie, "/api/c/land-bank?action=transition", { id: target.id, status: "draft" }))
+    .status === 200,
 );
 const pubRestore = await apiPost(cookie, "/api/publish");
-record("Publish All #3 (restore) completes", pubRestore.body.ok === true && pubRestore.body.stage === "done");
+record(
+  "Publish All #3 (restore) completes",
+  pubRestore.body.ok === true && pubRestore.body.stage === "done",
+);
 
 /* Re-publish the target parcel so the row "+ U/C" flow can reference it */
-const rePub = await apiPost(cookie, "/api/c/land-bank?action=transition", { id: target.id, status: "published" });
+const rePub = await apiPost(cookie, "/api/c/land-bank?action=transition", {
+  id: target.id,
+  status: "published",
+});
 record("re-transition parcel for row flow", rePub.status === 200);
 const rePubAll = await apiPost(cookie, "/api/publish");
-record("Publish All #4 (re-publish for row flow) completes", rePubAll.body.ok === true && rePubAll.body.stage === "done");
+record(
+  "Publish All #4 (re-publish for row flow) completes",
+  rePubAll.body.ok === true && rePubAll.body.stage === "done",
+);
 
 /* ════ row "+ U/C" pass — same shared flow, opened IN PLACE ════
    After cleanup the parcel is unlinked again; clicking the row action must
@@ -449,26 +573,37 @@ record("Publish All #4 (re-publish for row flow) completes", rePubAll.body.ok ==
     const p2 = await browser2.newPage();
     await p2.setViewport({ width: 1440, height: 1000 });
     await p2.goto(ADMIN, { waitUntil: "domcontentloaded" });
-    await p2.waitForFunction(() => document.getElementById("login-overlay").style.display !== "none", {
-      timeout: 20000,
-    });
+    await p2.waitForFunction(
+      () => document.getElementById("login-overlay").style.display !== "none",
+      {
+        timeout: 20000,
+      },
+    );
     await p2.type("#login-user", "admin");
     await p2.type("#login-pass", "admin");
     await p2.click("#login-submit");
-    await p2.waitForFunction(() => document.getElementById("login-overlay").style.display === "none", {
-      timeout: 15000,
-    });
+    await p2.waitForFunction(
+      () => document.getElementById("login-overlay").style.display === "none",
+      {
+        timeout: 15000,
+      },
+    );
     await p2.waitForSelector('.nav-item[data-key="land-bank"]', { visible: true, timeout: 20000 });
     await p2.click('.nav-item[data-key="land-bank"]');
-    await p2.waitForFunction(() => document.querySelectorAll("#record-list-inner .record-row").length > 0, {
-      timeout: 15000,
-    });
+    await p2.waitForFunction(
+      () => document.querySelectorAll("#record-list-inner .record-row").length > 0,
+      {
+        timeout: 15000,
+      },
+    );
 
     const rowUcHandle = await p2.evaluateHandle((name) => {
       const rows = [...document.querySelectorAll("#record-list-inner .record-row")];
       const row = rows.find((r) => r.querySelector(".title")?.textContent === name);
       if (!row) return null;
-      return [...row.querySelectorAll("button")].find((b) => b.textContent.trim() === "+ U/C") ?? null;
+      return (
+        [...row.querySelectorAll("button")].find((b) => b.textContent.trim() === "+ U/C") ?? null
+      );
     }, target.data.name);
     const rowUcBtn = rowUcHandle.asElement();
     record("row offers '+ U/C' after unlinking (shared flow entry)", !!rowUcBtn);
@@ -486,7 +621,8 @@ record("Publish All #4 (re-publish for row flow) completes", rePubAll.body.ok ==
     if (!rowUcBtn) throw new Error("+ U/C row button missing");
     await rowUcBtn.click();
     await p2.waitForFunction(
-      () => [...document.querySelectorAll("#content h3")].some((h) => h.textContent.startsWith("New")),
+      () =>
+        [...document.querySelectorAll("#content h3")].some((h) => h.textContent.startsWith("New")),
       { timeout: 15000 },
     );
     const rowForm = await p2.evaluate((parcelName) => {
@@ -495,7 +631,7 @@ record("Publish All #4 (re-publish for row flow) completes", rePubAll.body.ok ==
         const row = rows.find((r) => r.querySelector("label")?.textContent === label);
         if (!row) return null;
         const sel = row.querySelector("select");
-        return sel ? sel.value : row.querySelector("input")?.value ?? "";
+        return sel ? sel.value : (row.querySelector("input")?.value ?? "");
       };
       return {
         hash: location.hash,
@@ -505,10 +641,22 @@ record("Publish All #4 (re-publish for row flow) completes", rePubAll.body.ok ==
         expectedName: `${parcelName} \u2014 under construction`,
       };
     }, target.data.name);
-    record("row flow opens IN PLACE — no navigation to the assets collection", rowForm.hash === "#land-bank", rowForm.hash);
-    record("row flow opens the same NEW Portfolio Asset editor", rowForm.heading === "New Portfolio Assets", rowForm.heading);
+    record(
+      "row flow opens IN PLACE — no navigation to the assets collection",
+      rowForm.hash === "#land-bank",
+      rowForm.hash,
+    );
+    record(
+      "row flow opens the same NEW Portfolio Asset editor",
+      rowForm.heading === "New Portfolio Assets",
+      rowForm.heading,
+    );
     record("row flow pre-links landBankId", rowForm.parcel === target.id, rowForm.parcel ?? "");
-    record("row flow prefills Name from the parcel", rowForm.name === rowForm.expectedName, rowForm.name ?? "");
+    record(
+      "row flow prefills Name from the parcel",
+      rowForm.name === rowForm.expectedName,
+      rowForm.name ?? "",
+    );
 
     const fillText2 = (label, value) =>
       p2.evaluate(
@@ -572,16 +720,21 @@ const rowAssetId = (await apiGet(cookie, "/api/c/portfolio-assets")).body.record
 record("row-flow asset exists and is draft-only", !!rowAssetId);
 record(
   "cleanup: delete row-flow asset",
-  (await apiPost(cookie, "/api/c/portfolio-assets?action=delete", { id: rowAssetId })).status === 200,
+  (await apiPost(cookie, "/api/c/portfolio-assets?action=delete", { id: rowAssetId })).status ===
+    200,
 );
 
 /* un-publish the parcel re-published for row flow and restore generated modules */
 record(
   "cleanup: un-publish parcel (final)",
-  (await apiPost(cookie, "/api/c/land-bank?action=transition", { id: target.id, status: "draft" })).status === 200,
+  (await apiPost(cookie, "/api/c/land-bank?action=transition", { id: target.id, status: "draft" }))
+    .status === 200,
 );
 const pubFinal = await apiPost(cookie, "/api/publish");
-record("Publish All #5 (final restore) completes", pubFinal.body.ok === true && pubFinal.body.stage === "done");
+record(
+  "Publish All #5 (final restore) completes",
+  pubFinal.body.ok === true && pubFinal.body.stage === "done",
+);
 
 const lbAfter = await apiGet(cookie, "/api/c/land-bank");
 const asAfter = await apiGet(cookie, "/api/c/portfolio-assets");

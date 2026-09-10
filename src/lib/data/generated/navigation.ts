@@ -33,12 +33,22 @@ export const navigation = {
           "heading": "Business Verticals",
           "links": [
             {
-              "href": "/en/business/grade-a-warehousing",
+              "href": "/en/business/logistics-and-industrial-infrastructure",
               "label": "Logistics and Industrial Infrastructure",
             },
             {
+              "children": [
+                {
+                  "href": "/en/business/ndr-asset-management/development-lifecycle",
+                  "label": "Development Lifecycle",
+                },
+                {
+                  "href": "/en/business/ndr-asset-management/asset-performance-management",
+                  "label": "Asset Performance Management",
+                },
+              ],
               "href": "/en/business/ndr-asset-management",
-              "label": "Project Management Consultancy",
+              "label": "Project and Operations Management Consultancy - NDR Asset Management",
             },
             {
               "href": "/en/business/ave-acres",
@@ -47,7 +57,7 @@ export const navigation = {
           ],
         },
       ],
-      "href": "/en/business/grade-a-warehousing",
+      "href": "/en/business/logistics-and-industrial-infrastructure",
       "id": "business",
       "label": "Business",
       "type": "menu",
@@ -138,12 +148,22 @@ export const navigation = {
           "heading": "Business Verticals",
           "links": [
             {
-              "href": "/en/business/grade-a-warehousing",
+              "href": "/en/business/logistics-and-industrial-infrastructure",
               "label": "Logistics and Industrial Infrastructure",
             },
             {
+              "children": [
+                {
+                  "href": "/en/business/ndr-asset-management/development-lifecycle",
+                  "label": "Development Lifecycle",
+                },
+                {
+                  "href": "/en/business/ndr-asset-management/asset-performance-management",
+                  "label": "Asset Performance Management",
+                },
+              ],
               "href": "/en/business/ndr-asset-management",
-              "label": "Project Management Consultancy",
+              "label": "Project and Operations Management Consultancy - NDR Asset Management",
             },
             {
               "href": "/en/business/ave-acres",
@@ -152,7 +172,7 @@ export const navigation = {
           ],
         },
       ],
-      "href": "/en/business/grade-a-warehousing",
+      "href": "/en/business/logistics-and-industrial-infrastructure",
       "id": "business",
       "label": "Business",
       "type": "menu",

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Footer, PortfolioMasthead, PropertyRegister, WhyNdr } from "@/components/sections";
+import { Footer, PortfolioMasthead, WhyNdr } from "@/components/sections";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -12,7 +12,6 @@ export default function PortfolioPage() {
     <>
       <PortfolioMasthead />
       <WhyNdr />
-      <PropertyRegister />
       <Footer />
     </>
   );

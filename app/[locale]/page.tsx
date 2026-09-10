@@ -4,7 +4,6 @@ import {
   PortfolioPresence,
   CompanyMetrics,
   CustomerReviews,
-  MarqueeClients,
   Esg,
   LatestUpdates,
   ContactCta,
@@ -19,7 +18,6 @@ export default function HomePage() {
       <PortfolioPresence />
       <CompanyMetrics />
       <CustomerReviews />
-      <MarqueeClients />
       <Esg />
       <LatestUpdates />
       <ContactCta />

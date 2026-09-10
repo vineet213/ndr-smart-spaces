@@ -1,14 +1,16 @@
 /**
  * E2E — land-bank Save vs Publish on the public portfolio.
  *
- * Proves the public visibility rule end-to-end against the real servers:
- *   1. every imported parcel starts as a draft → the public /en/portfolio page
- *      renders NO parcels (empty state), while the admin API still lists them;
+ * Proves the public visibility rule end-to-end against the real servers under
+ * the unified Land Bank survey (published parcels + operating locations):
+ *   1. every imported parcel starts as a draft → no parcel appears publicly,
+ *      but the 17 operating locations still render (8 states, 17 sites);
  *   2. publishing one parcel still changes nothing until "Publish All" runs
  *      (Save ≠ Publish);
  *   3. after Publish All the parcel appears in the map provenance bar and is
  *      resolvable, with every other parcel still absent;
- *   4. transitioning back to draft + Publish All restores the empty state;
+ *   4. transitioning back to draft + Publish All restores the locations-only
+ *      view;
  *   5. the CMS store and generated module are byte-restored afterwards.
  *
  * Usage:  node scripts/e2e-landbank-public.mjs
@@ -20,9 +22,24 @@ import { join } from "node:path";
 import puppeteer from "puppeteer-core";
 
 const ADMIN = "http://localhost:4173";
-const PUBLIC_PORTFOLIO = "http://localhost:3000/en/portfolio";
+const PUBLIC_REGISTER = "http://localhost:3000/en/business/logistics-and-industrial-infrastructure";
 const LANDBANK_MODULE = join(process.cwd(), "src", "lib", "data", "generated", "landBank.ts");
 const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
+
+/* The unified survey folds in the group's 17 operating locations (8 states),
+   which are never draft-gated — only the parcel side of the survey hides
+   unpublished records. */
+const LOCATION_STATE_NAMES = [
+  "Tamil Nadu",
+  "Karnataka",
+  "Kerala",
+  "Maharashtra",
+  "Puducherry",
+  "Telangana",
+  "Uttar Pradesh",
+  "West Bengal",
+];
+const OPERATING_LOCATIONS = 17;
 
 let failures = 0;
 function record(name, ok, detail = "") {
@@ -51,7 +68,7 @@ async function apiPost(cookie, path, payload) {
   return { status: res.status, body: await res.json() };
 }
 async function fetchPublic() {
-  const res = await fetch(`${PUBLIC_PORTFOLIO}?t=${Date.now()}`);
+  const res = await fetch(`${PUBLIC_REGISTER}?t=${Date.now()}`);
   return res.text();
 }
 
@@ -80,19 +97,19 @@ console.log(`      round-trip parcel: "${targetName}" (${target.id})`);
 
 function provenance(html) {
   const raw = html.match(/provenanceMeta[^>]*>([\s\S]*?)<\/span>/)?.[1] ?? "";
-  return raw.replace(/<!-- -->/g, "").replace(/\s+/g, " ").trim();
+  return raw
+    .replace(/<!-- -->/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
-/* Phase 1 — drafts are invisible publicly */
+/* Phase 1 — drafts are invisible publicly (locations remain) */
 {
   const html = await fetchPublic();
+  record("draft parcel absent from public portfolio", !html.includes(targetName));
   record(
-    "draft parcel absent from public portfolio",
-    !html.includes(targetName),
-  );
-  record(
-    "public section renders its empty state while nothing is published",
-    html.includes("Land bank records are being filed."),
+    "locations-only survey renders while nothing is published",
+    html.includes("8 states") && html.includes("17 sites") && html.includes(" — select"),
   );
 }
 
@@ -125,21 +142,35 @@ function provenance(html) {
     `build ${((pub.body.build?.durationMs ?? 0) / 1000).toFixed(1)}s`,
   );
   const html = await fetchPublic();
-  record("published parcel appears on public portfolio", html.includes(targetName) || html.includes(target.data.state));
-  const prov = provenance(html);
   record(
-    "provenance bar counts exactly 1 state · 1 parcel",
-    /\b1 states?\b/.test(prov) && prov.includes("1 site") && !prov.includes("1 sites"),
-    prov,
+    "published parcel appears on public portfolio",
+    html.includes(targetName) || html.includes(target.data.state),
   );
+  const prov = provenance(html);
+  const mergedStateCount = new Set([...LOCATION_STATE_NAMES, target.data.state]).size;
+  const mergedSites = OPERATING_LOCATIONS + 1;
+  const expectedProv = `${mergedStateCount} ${
+    mergedStateCount === 1 ? "state" : "states"
+  } · ${mergedSites} ${mergedSites === 1 ? "site" : "sites"} · ${Number(
+    target.data.extentAcres ?? 0,
+  ).toFixed(2)} acres`;
+  record("provenance bar counts the merged survey exactly", prov === expectedProv, prov);
   record(
     "published state becomes selectable on the atlas",
     html.includes(`${target.data.state} — select`),
   );
-  record("empty-state copy gone once content is published", !html.includes("Land bank records are being filed."));
-  const leakedStates = ["Maharashtra", "Karnataka", "Tamil Nadu", "West Bengal", "Uttar Pradesh", "Kerala", "Andhra Pradesh", "Puducherry"]
-    .filter((s) => s !== target.data.state && html.includes(`${s} — select`));
-  record("no draft-only state became selectable", leakedStates.length === 0, leakedStates.join(", "));
+  record(
+    "empty-state copy gone once content is published",
+    !html.includes("Land bank records are being filed."),
+  );
+  const leakedStates = ["Andhra Pradesh"].filter(
+    (s) => s !== target.data.state && html.includes(`${s} — select`),
+  );
+  record(
+    "no draft-only parcel state became selectable",
+    leakedStates.length === 0,
+    leakedStates.join(", "),
+  );
 }
 
 /* Phase 3b — the published parcel renders in the browser when its state is selected */
@@ -152,7 +183,7 @@ function provenance(html) {
   try {
     const page = await browser.newPage();
     await page.setViewport({ width: 1440, height: 1000 });
-    await page.goto(PUBLIC_PORTFOLIO, { waitUntil: "networkidle0", timeout: 60000 });
+    await page.goto(PUBLIC_REGISTER, { waitUntil: "networkidle0", timeout: 60000 });
     await page.evaluate(() => document.querySelector("#register").scrollIntoView());
     await new Promise((r) => setTimeout(r, 1800));
     const stateBtn = await page.evaluateHandle((stateName) => {
@@ -170,11 +201,17 @@ function provenance(html) {
     }
     record("selecting the published state opens its survey records", selected);
     const rendered = await page.evaluate((name) => {
-      const pins = [...document.querySelectorAll('#register [class*="pinGroup"]')]
-        .map((g) => g.getAttribute("aria-label") ?? "");
-      const cells = [...document.querySelectorAll('#register [class*="recordName"]')]
-        .map((el) => el.textContent ?? "");
-      return { pinHit: pins.some((l) => l.includes(name)), cellHit: cells.some((c) => c.includes(name)), pinCount: pins.length };
+      const pins = [...document.querySelectorAll('#register [class*="pinGroup"]')].map(
+        (g) => g.getAttribute("aria-label") ?? "",
+      );
+      const cells = [...document.querySelectorAll('#register [class*="recordName"]')].map(
+        (el) => el.textContent ?? "",
+      );
+      return {
+        pinHit: pins.some((l) => l.includes(name)),
+        cellHit: cells.some((c) => c.includes(name)),
+        pinCount: pins.length,
+      };
     }, targetName);
     record(
       "published parcel renders as a map pin and a record row",
@@ -201,7 +238,10 @@ function provenance(html) {
   );
   const html = await fetchPublic();
   record("un-published parcel disappears from public portfolio", !html.includes(targetName));
-  record("public empty state restored", html.includes("Land bank records are being filed."));
+  record(
+    "locations-only survey restored after un-publishing",
+    html.includes("8 states") && html.includes("17 sites"),
+  );
 }
 
 /* Phase 5 — full restoration */
@@ -209,14 +249,10 @@ function provenance(html) {
   const after = await apiGet(cookie, "/api/c/land-bank");
   record(
     "store fully restored (all 35 drafts)",
-    after.body.records.length === 35 &&
-      after.body.records.every((r) => r.status === "draft"),
+    after.body.records.length === 35 && after.body.records.every((r) => r.status === "draft"),
   );
   const moduleAfter = readFileSync(LANDBANK_MODULE, "utf8");
-  record(
-    "generated landBank.ts byte-identical to pre-run state",
-    moduleAfter === moduleBefore,
-  );
+  record("generated landBank.ts byte-identical to pre-run state", moduleAfter === moduleBefore);
 }
 
 console.log(

@@ -1,0 +1,234 @@
+/* What Defines Our Developments — vertical 03 values ------------------- */
+
+.section {
+  background-color: var(--color-charcoal);
+  color: var(--color-ivory);
+}
+
+.header {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-xl);
+}
+
+.header h2 {
+  margin: 0;
+}
+
+.goldRule {
+  display: block;
+  width: var(--space-6xl);
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+/* one development system ------------------------------------------------ */
+
+.field {
+  --station-y: calc(14px + var(--space-md) + 48px + 5px);
+  position: relative;
+  margin-top: var(--space-6xl);
+}
+
+.trajectory {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.trajectoryPath,
+.trajectoryTip {
+  fill: none;
+  stroke: rgba(240, 182, 90, 0.45);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1600ms var(--ease-standard);
+}
+
+.trajectoryPath {
+  transition-delay: 240ms;
+}
+
+.trajectoryTip {
+  transition-delay: 1400ms;
+}
+
+.drawn .trajectoryPath,
+.drawn .trajectoryTip {
+  stroke-dashoffset: 0;
+}
+
+.baseline {
+  position: absolute;
+  top: calc(var(--station-y) - 0.5px);
+  left: 6%;
+  right: 6%;
+  height: 1px;
+  background-color: rgba(240, 182, 90, 0.32);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1100ms var(--ease-standard);
+}
+
+.drawn .baseline {
+  transform: scaleX(1);
+}
+
+.system {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.value {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  opacity: 0;
+}
+
+.value:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 6px;
+  border-radius: 2px;
+}
+
+.drawn .value {
+  animation: value-rise 760ms var(--ease-standard) both;
+  animation-delay: calc(var(--n, 0) * 130ms + 160ms);
+}
+
+.number {
+  display: block;
+  height: 14px;
+  line-height: 14px;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  color: var(--color-gold);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.mark {
+  display: flex;
+  justify-content: center;
+  height: 48px;
+  margin-top: var(--space-md);
+  color: rgba(240, 182, 90, 0.45);
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.mark svg {
+  width: 48px;
+  height: 48px;
+}
+
+.diamond {
+  position: absolute;
+  top: calc(var(--station-y) - 5px);
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--color-gold);
+  transform: translateX(-50%) rotate(45deg);
+  transition:
+    border-color var(--duration-standard) var(--ease-standard),
+    background-color var(--duration-standard) var(--ease-standard);
+}
+
+.title {
+  margin: calc(var(--station-y) + 12px) 0 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  line-height: 1.2;
+  color: var(--color-ivory);
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.valueActive .title {
+  color: var(--color-gold-light);
+}
+
+.valueActive .mark {
+  color: var(--color-gold);
+}
+
+.valueActive .diamond {
+  border-color: var(--color-gold);
+  background-color: var(--color-gold);
+}
+
+.valueActive .number {
+  color: var(--color-gold-light);
+}
+
+/* keyframes ------------------------------------------------------------- */
+
+@keyframes value-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* responsive ------------------------------------------------------------ */
+
+@media (max-width: 767px) {
+  .trajectory,
+  .baseline {
+    display: none;
+  }
+
+  .system {
+    flex-direction: column;
+    gap: var(--space-7xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trajectoryPath,
+  .trajectoryTip,
+  .baseline {
+    transition: none;
+  }
+
+  .trajectoryPath,
+  .trajectoryTip {
+    stroke-dashoffset: 0;
+  }
+
+  .baseline {
+    transform: scaleX(1);
+  }
+
+  .value {
+    opacity: 1;
+    animation: none;
+  }
+
+  .number,
+  .mark,
+  .diamond,
+  .title {
+    transition: none;
+  }
+}

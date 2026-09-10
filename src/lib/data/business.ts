@@ -92,6 +92,35 @@ export const businessMasthead = {
   headline: { before: "The ", accent: "operating", after: " manual." },
 } as const;
 
+/**
+ * Vertical 02 renders a heading-only masthead: the eyebrow and the as-on/
+ * edition meta line are removed (the `VerticalPage` `isV2` branch) and the h1
+ * falls back to the division's full title.
+ */
+
+/**
+ * Per-vertical overview heading rendered above the overview description.
+ * `emphasis` lists phrases within the description that are set off in the
+ * rendered copy.
+ */
+export const verticalOverview: Readonly<
+  Record<string, { heading: string; emphasis?: readonly string[] }>
+> = {
+  "01": {
+    heading: "Building infrastructure that moves businesses forward",
+  },
+  "02": {
+    heading: "Building assets. Managing execution. Delivering performance.",
+    emphasis: [
+      "construction and development of industrial and logistics assets",
+      "delivered on time, within budget, to the required quality, and ready for operations",
+    ],
+  },
+  "03": {
+    heading: "Creating well-planned communities for better living.",
+  },
+};
+
 export type DivisionSpecRow = { label: string; value: string };
 
 export type DivisionRoute = { label: string; href: string; external?: boolean };
@@ -314,17 +343,244 @@ export const businessClosing = {
 } as const;
 
 /**
- * Vertical 02 — Project Management Consultancy. As with the homepage
- * `companyMetrics`, the figures are left as placeholders pending client data.
+ * Vertical 02 — Project and Operations Management Consultancy - NDR Asset Management. As with the homepage
+ * `companyMetrics`, figures are configurable; the 999 values are a temporary
+ * scaffold pending client data and flow through the standard metric / count-up
+ * treatment (`CompanyMetrics`).
  */
 export const vertical02Metrics = [
-  { value: null, label: "DATA TO BE INSERTED", context: "DATA TO BE INSERTED" },
-  { value: null, label: "DATA TO BE INSERTED", context: "DATA TO BE INSERTED" },
-  { value: null, label: "DATA TO BE INSERTED", context: "DATA TO BE INSERTED" },
-  { value: null, label: "DATA TO BE INSERTED", context: "DATA TO BE INSERTED" },
+  { value: 999, label: "Asset under construction", context: "Asset under construction" },
+  { value: 999, label: "Strength of the team", context: "Strength of the team" },
+  { value: 999, label: "Projects in Pipeline", context: "Projects in Pipeline" },
 ] as const satisfies ReadonlyArray<CompanyMetric>;
 
-export const verticalEmployeeSection = {
-  heading: "Employee",
-  body: "DATA TO BE INSERTED",
+export type AssetPerformanceFunction = { index: string; title: string };
+
+/**
+ * Vertical 02 subpage — Asset Performance Management. Editorial copy is
+ * frozen; the four function slots ship titled "Function 1"–"Function 4"
+ * pending the client's service documentation, and the three stats are
+ * configurable counters (999 scaffold) flowing through `CompanyMetrics`.
+ */
+export const vertical02AssetManagement = {
+  intro: {
+    heading: "Keeping assets productive. Keeping businesses moving.",
+    description:
+      "We manage the leasing and ongoing maintenance of industrial and logistics assets, ensuring facilities deliver consistent performance throughout their operational lifecycle. Our approach combines tenant management, facility upkeep, preventive maintenance, repairs, and operational support to maintain asset quality, tenant satisfaction, safety, and long-term value.",
+  },
+  functions: [
+    { index: "01", title: "Function 1" },
+    { index: "02", title: "Function 2" },
+    { index: "03", title: "Function 3" },
+    { index: "04", title: "Function 4" },
+  ] as const satisfies ReadonlyArray<AssetPerformanceFunction>,
+  placeholderNote: "Function scope pending documentation.",
+  metrics: [
+    { value: 999, label: "Occupancy Status", context: "Occupancy Status" },
+    { value: 999, label: "Asset Under Management", context: "Asset Under Management" },
+    { value: 999, label: "Locations", context: "Locations" },
+  ] as const satisfies ReadonlyArray<CompanyMetric>,
+  cta: {
+    eyebrow: "Business Enquiry",
+    heading: "Looking for the Right Space for Your Business?",
+    body: "Explore our available industrial and logistics facilities or speak to our team about your requirements.",
+    note: "We typically respond within 2 business days. For investor-specific queries, write to compliance@ndrsmart.com.",
+  } as const,
+} as const;
+
+export type ManagementProfile = {
+  name: string;
+  role?: string;
+  photo?: string;
+  bio?: string;
+};
+
+/**
+ * Vertical 02 — management. Follows the About Us leadership interaction
+ * (subtle hover/focus highlight + small description reveal). Five profile
+ * slots ship as placeholders until the client supplies the records.
+ */
+export const verticalManagement = {
+  heading: "Meet the Management",
+  placeholderTitle: "Management profile",
+  placeholderStatus: "Official profile pending",
+  placeholderNote: "Name, designation and biography to be confirmed.",
+  profiles: [] as readonly ManagementProfile[],
+  placeholderSlots: 5,
+} as const;
+
+export type LifecycleStageImage = {
+  src: string;
+  alt: string;
+  credit: string;
+  width: number;
+  height: number;
+};
+
+export type LifecycleStage = {
+  index: string;
+  title: string;
+  body: string;
+  image: LifecycleStageImage;
+};
+
+/**
+ * Vertical 02 subpage — Development Lifecycle. The eight stage copies are
+ * frozen editorial text (client-confirmed). Images are illustrative,
+ * licensed photographs from Wikimedia Commons, clearly credited and not
+ * depicting NDR sites; each is verified to resolve at build time.
+ */
+export const vertical02DevelopmentLifecycle = {
+  intro: {
+    heading: "From site to asset. Documented stage by stage.",
+    description:
+      "How a piece of land becomes an operating asset — from land identification through due diligence, acquisition, approvals, design, construction and handover. Each stage below records the standard the manual holds every project to.",
+  },
+  stages: [
+    {
+      index: "01",
+      title: "Land Identification",
+      body: "Identifying strategic locations aligned with tenant requirements, market demand, and growth opportunities.",
+      image: {
+        src: "https://upload.wikimedia.org/wikipedia/commons/b/b0/Green_Paddy_Field_in_Andhra_Pradesh.jpg",
+        alt: "Green paddy fields in Andhra Pradesh, India",
+        credit: "Image: Saishna96 / Wikimedia Commons, CC BY-SA 4.0",
+        width: 6000,
+        height: 4000,
+      },
+    },
+    {
+      index: "02",
+      title: "Comprehensive Due Diligence",
+      body: "Evaluating financial, local, legal, and environmental aspects to ensure land suitability and development viability.",
+      image: {
+        src: "https://upload.wikimedia.org/wikipedia/commons/a/a7/Legal_Contract_%26_Signature_-_Warm_Tones.jpg",
+        alt: "Signed contract documents and a pen",
+        credit: "Image: Blogtrepreneur / Wikimedia Commons, CC BY 2.0",
+        width: 6000,
+        height: 4500,
+      },
+    },
+    {
+      index: "03",
+      title: "Land Acquisition & SPV Structuring",
+      body: "Securing suitable land through strategic lease or purchase arrangements and structuring the development through a dedicated Special Purpose Vehicle (SPV).",
+      image: {
+        src: "https://upload.wikimedia.org/wikipedia/commons/5/58/Levin_Zhu%2C_CEO%2C_CICC%2C_at_a_boardroom_dialogue_session%2C_at_the_Horasis_Global_China_Business_Meeting_2009_-_Flickr_-_Horasis.jpg",
+        alt: "Business people at a boardroom dialogue session",
+        credit: "Image: Richter Frank-Jurgen / Wikimedia Commons, CC BY 2.0",
+        width: 4256,
+        height: 2832,
+      },
+    },
+    {
+      index: "04",
+      title: "Regulatory & Compliance Management",
+      body: "Managing statutory approvals, regulatory requirements, and coordination with relevant authorities for seamless project progression.",
+      image: {
+        src: "https://upload.wikimedia.org/wikipedia/commons/5/54/Czech_office_time_stamp_with_inkpillow.jpg",
+        alt: "Office time stamp and ink pad on a desk",
+        credit: "Image: Jiří Sedláček (Frettie) / Wikimedia Commons, CC BY 3.0",
+        width: 3888,
+        height: 2592,
+      },
+    },
+    {
+      index: "05",
+      title: "Project Planning & Design",
+      body: "Transforming identified land into development-ready warehouse designs through technical studies, planning, approvals, and integrated engineering.",
+      image: {
+        src: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Blueprint_of_east_elevation_of_the_Harvard_Semitic_Museum%2C_reproduction%2C_A._W._Longfellow%2C_Jr.%2C_architect%2C_c._1902_-_Harvard_Semitic_Museum_-_Cambridge%2C_MA_-_DSC06066.jpg",
+        alt: "Architectural blueprint drawing of a building elevation",
+        credit: "Image: Daderot / Wikimedia Commons, public domain",
+        width: 5472,
+        height: 3648,
+      },
+    },
+    {
+      index: "06",
+      title: "Integrated Engineering Services",
+      body: "Executing warehouse construction with strong oversight of quality, cost, timelines, and technical standards.",
+      image: {
+        src: "https://upload.wikimedia.org/wikipedia/commons/f/f3/Tower_crane_at_a_building_construction_site_in_Taichung_2023-05-13_01.jpg",
+        alt: "Tower crane at a building construction site",
+        credit: "Image: Taichung City Government / Wikimedia Commons, attribution",
+        width: 6720,
+        height: 4480,
+      },
+    },
+    {
+      index: "07",
+      title: "Safety, Security & Risk Management",
+      body: "Implementing robust security, safety, and compliance measures to protect people, assets, and operations.",
+      image: {
+        src: "https://upload.wikimedia.org/wikipedia/commons/a/af/Danger_Construction_Area_and_Hard_Hat_Area_signs.jpg",
+        alt: "Orange construction area and hard hat safety signs",
+        credit: "Image: The Navigators / Wikimedia Commons, CC0",
+        width: 5472,
+        height: 3648,
+      },
+    },
+    {
+      index: "08",
+      title: "Asset Handover & Operations",
+      body: "Preparing the completed warehouse for seamless handover and efficient day-to-day operations.",
+      image: {
+        src: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Modern_warehouse_with_pallet_rack_storage_system.jpg",
+        alt: "Interior of a warehouse with pallet racking",
+        credit: "Image: Axisadman / Wikimedia Commons, CC BY-SA 3.0",
+        width: 2400,
+        height: 1870,
+      },
+    },
+  ] as const satisfies readonly LifecycleStage[],
+  source: "Source: Client IA response · Post-Demerger business note",
+} as const;
+
+export type DevelopmentProcessStage = { index: string; title: string };
+
+/**
+ * Vertical 03 — From Land to Community. The four-stage residential
+ * development process. Stage titles are approved content; no descriptive
+ * copy is authored alongside them.
+ */
+export const vertical03DevelopmentProcess = {
+  eyebrow: "Residential Development",
+  heading: "From Land to Community",
+  stages: [
+    { index: "01", title: "Identify Land" },
+    { index: "02", title: "Plan the Project" },
+    { index: "03", title: "Develop and Deliver" },
+    { index: "04", title: "Create a Community" },
+  ] as const satisfies ReadonlyArray<DevelopmentProcessStage>,
+} as const;
+
+export type ResidentialValue = { index: string; title: string };
+
+/**
+ * Vertical 03 — What Defines Our Developments. The five approved values.
+ * Each value is rendered as part of a single development system; no
+ * descriptive copy is authored beyond the approved value titles.
+ */
+export const vertical03Values = {
+  eyebrow: "Ave Acres Residential",
+  heading: "What Defines Our Developments",
+  values: [
+    { index: "01", title: "Strategic Locations" },
+    { index: "02", title: "Thoughtful Planning" },
+    { index: "03", title: "Quality Infrastructure" },
+    { index: "04", title: "Growth Potential" },
+    { index: "05", title: "Responsible Development" },
+  ] as const satisfies ReadonlyArray<ResidentialValue>,
+} as const;
+
+/**
+ * Vertical 03 — closing panel linking to the Ave Acres residential platform.
+ */
+export const aveAcresClosing = {
+  eyebrow: "Ave Acres Platform",
+  heading: "Explore Our Residential Projects",
+  description:
+    "Discover our portfolio of residential plotted developments, locations, available plots, amenities, and project details on our dedicated residential platform.",
+  cta: { label: "Explore Ave Acres", href: "https://aveacres.com/" },
 } as const;

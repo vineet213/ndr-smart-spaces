@@ -151,6 +151,30 @@
   color: var(--color-gold);
 }
 
+.childList {
+  display: flex;
+  flex-direction: column;
+  margin-inline-start: var(--space-2xl);
+  border-left: 1px solid var(--color-hairline-dark);
+}
+
+.childLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: var(--space-5xl);
+  padding-inline-start: var(--space-lg);
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-inverse-70);
+  text-decoration: none;
+}
+
+.childLink:hover {
+  color: var(--color-gold);
+}
+
 .externalIcon {
   width: 0.875rem;
   height: 0.875rem;

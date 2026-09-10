@@ -63,4 +63,7 @@ export { ContactClosing } from "./ContactClosing";
 export { LegalDocument } from "./LegalDocument";
 export { LegalSitemap } from "./LegalSitemap";
 export { VerticalHub } from "./VerticalHub";
+export { Vertical02Stats } from "./Vertical02Stats";
 export { VerticalPage } from "./VerticalPage";
+export { VerticalManagement } from "./VerticalManagement";
+export { DevelopmentLifecycle } from "./DevelopmentLifecycle";

@@ -3,11 +3,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useInView } from "@/hooks/useInView";
-import {
-  formatAcres,
-  type AtlasPinData,
-  type StateLandSummary,
-} from "@/lib/data/portfolio";
+import { formatAcres, type AtlasPinData, type StateLandSummary } from "@/lib/data/portfolio";
 import { INDIAN_STATES } from "@/lib/data/india-states";
 import { INDIA_STATE_BOUNDS, INDIA_STATE_PATHS } from "@/lib/data/india-state-paths";
 import { cx } from "../ui/cx";
@@ -187,10 +183,7 @@ export function PortfolioAtlas({
         >
           <EdgeTicks />
           <g transform={`translate(${OFFSET} ${OFFSET})`}>
-            <g
-              className={styles.zoomLayer}
-              style={{ transform: zoomTransform(selectedStateId) }}
-            >
+            <g className={styles.zoomLayer} style={{ transform: zoomTransform(selectedStateId) }}>
               <Graticule />
               <g className={styles.states}>
                 {INDIAN_STATES.map((state) => {
@@ -212,16 +205,13 @@ export function PortfolioAtlas({
                       )}
                       tabIndex={isSelectable ? 0 : undefined}
                       role={isSelectable ? "button" : undefined}
-                      aria-label={
-                        isSelectable
-                          ? `${state.name} — select`
-                          : undefined
-                      }
+                      aria-label={isSelectable ? `${state.name} — select` : undefined}
                       aria-pressed={isSelectable ? selectedStateId === state.id : undefined}
                       onMouseEnter={() => handleStateEnter(state.id)}
                       onMouseLeave={handleStateLeave}
                       onClick={() => {
-                        if (isSelectable) onStateSelect(selectedStateId === state.id ? null : state.id);
+                        if (isSelectable)
+                          onStateSelect(selectedStateId === state.id ? null : state.id);
                       }}
                       onKeyDown={(e) => {
                         if (!isSelectable) return;
@@ -235,7 +225,7 @@ export function PortfolioAtlas({
                 })}
               </g>
 
-              <g className={cx(styles.pins, selectedStateId && styles.pinsShown)}>
+              <g className={cx(styles.pins, resolvedPins.length > 0 && styles.pinsShown)}>
                 {resolvedPins.map((pin, index) => (
                   <g
                     key={pin.id}
@@ -247,7 +237,11 @@ export function PortfolioAtlas({
                     )}
                     tabIndex={0}
                     role="button"
-                    aria-label={`${pin.name}${pin.district ? `, ${pin.district}` : ""} — ${formatAcres(pin.extentAcres)}`}
+                    aria-label={
+                      pin.extentAcres !== undefined
+                        ? `${pin.name}${pin.district ? `, ${pin.district}` : ""} — ${formatAcres(pin.extentAcres)}`
+                        : `${pin.name}${pin.district ? `, ${pin.district}` : ""}`
+                    }
                     onMouseEnter={(e) => handlePinEnter(pin.id, e)}
                     onMouseMove={(e) => updateTooltip(e)}
                     onMouseLeave={handlePinLeave}
@@ -256,18 +250,8 @@ export function PortfolioAtlas({
                     onBlur={handlePinLeave}
                   >
                     <circle cx={pin.rx} cy={pin.ry} r={8} className={styles.pinHit} />
-                    <circle
-                      cx={pin.rx}
-                      cy={pin.ry}
-                      r={4.5}
-                      className={styles.pinDot}
-                    />
-                    <circle
-                      cx={pin.rx}
-                      cy={pin.ry}
-                      r={1.6}
-                      className={styles.pinCore}
-                    />
+                    <circle cx={pin.rx} cy={pin.ry} r={4.5} className={styles.pinDot} />
+                    <circle cx={pin.rx} cy={pin.ry} r={1.6} className={styles.pinCore} />
                   </g>
                 ))}
               </g>
@@ -278,8 +262,12 @@ export function PortfolioAtlas({
             <g className={styles.tooltip}>
               {(() => {
                 const label = hoveredPin
-                  ? `${hoveredPin.name} · ${formatAcres(hoveredPin.extentAcres)}`
-                  : `${hoveredSelectable?.stateName} · ${hoveredSelectable?.parcelCount} ${hoveredSelectable?.parcelCount === 1 ? "location" : "locations"}`;
+                  ? hoveredPin.extentAcres !== undefined
+                    ? `${hoveredPin.name} · ${formatAcres(hoveredPin.extentAcres)}`
+                    : hoveredPin.district
+                      ? `${hoveredPin.name}, ${hoveredPin.district}`
+                      : hoveredPin.name
+                  : `${hoveredSelectable?.stateName} · ${hoveredSelectable?.parcelCount} ${hoveredSelectable?.parcelCount === 1 ? "site" : "sites"}`;
                 return (
                   <>
                     <rect

@@ -351,12 +351,12 @@ async function main(): Promise<void> {
       navItems: [
         {
           label: "Business",
-          href: "/en/business/grade-a-warehousing",
+          href: "/en/business/logistics-and-industrial-infrastructure",
           columns: [
             {
               heading: "Business Verticals",
               links: [
-                { label: "Logistics and Industrial Infrastructure", href: "/en/business/grade-a-warehousing" },
+                { label: "Logistics and Industrial Infrastructure", href: "/en/business/logistics-and-industrial-infrastructure" },
               ],
             },
           ],
@@ -733,7 +733,7 @@ async function main(): Promise<void> {
       proof: "99% greenfield",
       proofSource: "NDR Corporate Presentation",
       metrics: [{ metricKey: "M17" }],
-      route: { label: "Grade A Warehousing", href: "/en/business/grade-a-warehousing" },
+      route: { label: "Grade A Warehousing", href: "/en/business/logistics-and-industrial-infrastructure" },
     },
     status: "draft",
     user: "business-editor@ndr.com",

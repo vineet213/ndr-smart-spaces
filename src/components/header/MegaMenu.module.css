@@ -217,3 +217,79 @@
   width: 1rem;
   height: 1rem;
 }
+
+/* side popup submenu (link with children) -------------------------------- */
+
+.linkWithMenu {
+  position: relative;
+}
+
+.linkCaret {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-gold);
+  transition: transform var(--duration-standard) var(--ease-standard);
+}
+
+.linkWithMenuOpen .linkCaret {
+  transform: rotate(90deg);
+}
+
+.submenu {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  min-width: 15rem;
+  padding: var(--space-lg) var(--space-xl);
+  background-color: var(--color-ivory);
+  border: 1px solid var(--color-hairline-light);
+  box-shadow: var(--color-shadow-warm);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-0.5rem);
+  transition:
+    opacity var(--duration-micro) var(--ease-standard),
+    transform var(--duration-micro) var(--ease-standard),
+    visibility var(--duration-micro) linear;
+}
+
+.linkWithMenuOpen .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.submenuLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding-block: var(--space-sm);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-nav);
+  line-height: var(--leading-nav);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.submenuLink::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 2px;
+  background-color: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-standard) var(--ease-standard);
+}
+
+.submenuLink:focus-visible::after {
+  transform: scaleX(1);
+}

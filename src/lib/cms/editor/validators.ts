@@ -210,7 +210,12 @@ function isExternalHref(href: string): boolean {
   return /^(https?:\/\/|mailto:|tel:)/.test(href);
 }
 
-export type LinkEntry = { label: string; href: string; external?: boolean };
+export type LinkEntry = {
+  label: string;
+  href: string;
+  external?: boolean;
+  children?: LinkEntry[];
+};
 
 export function validateLinks(
   entries: readonly LinkEntry[],
@@ -218,7 +223,7 @@ export function validateLinks(
   issues: ValidationIssue[],
 ): void {
   const seen = new Set<string>();
-  for (const entry of entries) {
+  const visit = (entry: LinkEntry): void => {
     if (!entry.label.trim() || !entry.href.trim()) {
       issues.push({
         rule: "required-completeness",
@@ -227,7 +232,7 @@ export function validateLinks(
         severity: "error",
         message: `"${surface}" contains a link with an empty label or destination.`,
       });
-      continue;
+      return;
     }
     if (seen.has(entry.href)) {
       issues.push({
@@ -239,7 +244,7 @@ export function validateLinks(
       });
     }
     seen.add(entry.href);
-    if (isExternalHref(entry.href)) continue;
+    if (isExternalHref(entry.href)) return;
     if (entry.href.startsWith("#")) {
       issues.push({
         rule: "broken-routes",
@@ -248,7 +253,7 @@ export function validateLinks(
         severity: "error",
         message: `"${surface}" uses a bare anchor "${entry.href}" — anchors must ride on a route.`,
       });
-      continue;
+      return;
     }
     const [path] = entry.href.split("#");
     if (!siteRoutes.includes(path)) {
@@ -273,7 +278,9 @@ export function validateLinks(
         });
       }
     }
-  }
+    for (const child of entry.children ?? []) visit(child);
+  };
+  for (const entry of entries) visit(entry);
 }
 
 export function validateNavigationData(data: JsonValue): ValidationIssue[] {

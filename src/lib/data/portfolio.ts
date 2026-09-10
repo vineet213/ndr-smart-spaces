@@ -659,12 +659,12 @@ export const landBankSection = {
   eyebrow: "The land bank · Developable extents",
   heading: "The land bank.",
   framing:
-    "Deed-recorded parcels held across the group's SPVs for future development — surveyed by state, with extents as recorded in the annexure to the accounts.",
+    "Deed-recorded parcels held across the group's SPVs for future development — surveyed by state, with extents as recorded in the annexure to the accounts, alongside the group's operating locations.",
   mapCaptionLabel: "Fig. 02 · Atlas · Land bank survey",
   mapCaptionLead:
-    "Select a state to survey its parcels. Pins mark deed-recorded locations; parcels without surveyed coordinates are listed without a pin.",
+    "Select a state to survey its sites — land-bank parcels with their recorded extents, and operating locations across the group's geography. Pins mark surveyed locations; parcels without coordinates are listed without a pin.",
   mapSource:
-    "Source: Annexure A · SPV-wise land area statement; state boundaries dissolved from public district data (not to scale)",
+    "Source: Annexure A · SPV-wise land area statement; locations diagram; state boundaries dissolved from public district data (not to scale)",
   stateSelectLabel: "State",
   parcelUnitLabel: "parcels",
   acresLabel: "Extent",
@@ -672,10 +672,10 @@ export const landBankSection = {
   statusLabel: "Status",
   locationLabel: "Location",
   noteLabel: "Note",
-  noPinsLabel: "No surveyed coordinates for this state's parcels.",
+  noPinsLabel: "No surveyed coordinates for this state's sites.",
   emptyTitle: "Land bank records are being filed.",
   emptyNote: "Parcels publish upon archival approval.",
-  source: "Source: Annexure A · SPV-wise land area statement",
+  source: "Source: Annexure A · SPV-wise land area statement; locations diagram",
   notToScale: "Schematic outline · not to scale",
 } as const;
 
@@ -702,24 +702,185 @@ export const underConstructionSection = {
   source: "Source: NDR Corporate Presentation · approved website content",
 } as const;
 
+/* Locations mapped mode ------------------------------------------------------
+ *
+ * The operating footprint — every CMS location resolves to a state from the
+ * `line` address (the trailing token is always the state name) so the register
+ * can offer the same state survey for geography that it does for parcels and
+ * projects.
+ */
+
+export type LocationZoneLabel = Record<ZoneId, string>;
+
+export const ZONE_LABELS: LocationZoneLabel = {
+  south: "South",
+  west: "West",
+  east: "East",
+  north: "North",
+};
+
+export const LOCATION_TIER_LABELS: Record<LocationTier, string> = {
+  hq: "Headquarters",
+  hub: "Primary logistics hub",
+  satellite: "Secondary location",
+};
+
+export type MappedLocation = AtlasPinData & {
+  zone: ZoneId;
+  tier: LocationTier;
+  line: string;
+};
+
+function locationStateId(location: GeoLocation): string | null {
+  const candidate = location.line.split(",").pop()?.trim() ?? "";
+  return indianStateByName(candidate)?.id ?? null;
+}
+
+function asMappedLocation(location: GeoLocation, stateName: string): MappedLocation {
+  return {
+    id: location.id,
+    name: location.name,
+    pin: { x: location.x, y: location.y },
+    district: stateName,
+    zone: location.zone,
+    tier: location.tier,
+    line: location.line,
+  };
+}
+
+/** States that hold at least one operating location, in canonical order. */
+export const locationStates: readonly StateLandSummary[] = INDIAN_STATES.flatMap((state) => {
+  const locations = geoLocations.filter((location) => locationStateId(location) === state.id);
+  if (locations.length === 0) return [];
+  return [
+    {
+      stateId: state.id,
+      stateName: state.name,
+      parcelCount: locations.length,
+      totalAcres: null,
+    },
+  ];
+});
+
+/** Every operating location as a map pin — the country default view. */
+export const allLocationPins: readonly MappedLocation[] = geoLocations.map((location) =>
+  asMappedLocation(
+    location,
+    indianStateByName(location.line.split(",").pop()?.trim() ?? "")?.name ?? "",
+  ),
+);
+
+/** Locations in a state, shaped as map pins. Empty when the state has none. */
+export function locationsByState(stateId: string): readonly MappedLocation[] {
+  return geoLocations
+    .filter((location) => locationStateId(location) === stateId)
+    .map((location) =>
+      asMappedLocation(
+        location,
+        indianStateByName(location.line.split(",").pop()?.trim() ?? "")?.name ?? "",
+      ),
+    );
+}
+
+export function locationById(id: string): MappedLocation | null {
+  return allLocationPins.find((location) => location.id === id) ?? null;
+}
+
+/**
+ * Unified land-bank survey — developable parcels AND the operating footprint.
+ *
+ * The atlas exposes two modes (Land bank / Under construction). Land Bank is
+ * the combined state survey: every published land-bank parcel followed by the
+ * group's operating locations (the 17 CMS `locations` records). Locations are
+ * never draft-gated — they stay visible in the survey regardless of parcel
+ * workflow, so the 17 V1 locations remain available under Land Bank without a
+ * separate "locations mapped" mode.
+ */
+
+export type LandSurveyRecord = LandBankParcel | MappedLocation;
+
+/** States holding at least one published parcel or operating location. */
+export const landSurveyStates: readonly StateLandSummary[] = INDIAN_STATES.flatMap((state) => {
+  const parcels = cmsLandBankDerived.filter((parcel) => parcel.stateId === state.id);
+  const locations = geoLocations.filter((location) => locationStateId(location) === state.id);
+  if (parcels.length === 0 && locations.length === 0) return [];
+  const withExtent = parcels.some((parcel) => parcel.extentAcres !== undefined);
+  return [
+    {
+      stateId: state.id,
+      stateName: state.name,
+      parcelCount: parcels.length + locations.length,
+      totalAcres: withExtent
+        ? parcels.reduce((sum, parcel) => sum + (parcel.extentAcres ?? 0), 0)
+        : null,
+    },
+  ];
+});
+
+/** Every survey record in a state — parcels first, then operating locations. */
+export function landSurveyByState(stateId: string): readonly LandSurveyRecord[] {
+  return [...landBankByState(stateId), ...locationsByState(stateId)];
+}
+
+/** Map pins for a state — pinned parcels, then operating locations. */
+export function landSurveyPinsByState(stateId: string): readonly AtlasPinData[] {
+  return [
+    ...landBankByState(stateId)
+      .filter((parcel) => parcel.pin !== undefined)
+      .map((parcel) => ({
+        id: parcel.id,
+        name: parcel.name,
+        pin: parcel.pin!,
+        ...(parcel.extentAcres !== undefined ? { extentAcres: parcel.extentAcres } : {}),
+        ...(parcel.district !== undefined ? { district: parcel.district } : {}),
+      })),
+    ...locationsByState(stateId).map((location) => ({
+      id: location.id,
+      name: location.name,
+      pin: location.pin,
+      district: location.district,
+    })),
+  ];
+}
+
+export function landSurveyRecordById(id: string): LandSurveyRecord | null {
+  return landParcelById(id) ?? locationById(id);
+}
+
 /* Unified property register ---------------------------------------------------
  *
- * One Atlas feature with two modes (Land bank / Under construction). The
- * per-mode strings reuse `landBankSection.*` and `underConstructionSection.*`;
- * this object carries only the shared chrome of the unified section.
+ * One Atlas feature with two modes (Land bank / Under construction). Land Bank
+ * is the merged survey above — parcels and operating locations; the per-mode
+ * copy reuses `landBankSection.*` and `underConstructionSection.*`; this object
+ * carries only the shared chrome of the unified section.
  */
+
+export const locationsSection = {
+  eyebrow: "Atlas · Operating footprint",
+  heading: "Locations mapped.",
+  framing:
+    "Every operating location across the four zones — surveyed by state, so one map reads the whole footprint at a glance.",
+  mapCaptionLabel: "Fig. 00 · Atlas · Operating locations",
+  mapCaptionLead:
+    "All operating locations across the four zones. Select a state to focus it, or a pin for details.",
+  mapSource: "Source: NDR Smart Presentation · locations diagram",
+  stateSelectLabel: "State",
+  locationUnitLabel: "locations",
+  emptyTitle: "No locations recorded for this state.",
+  source: "Source: NDR Smart Presentation · locations diagram",
+} as const;
 
 export const propertyRegister = {
   eyebrow: "Atlas · Property register",
   heading: "The property atlas.",
   chapter: "V",
   framing:
-    "One state survey for the group's properties — developable extents from the land bank alongside the projects rising on them, each recorded as filed in this edition.",
+    "One state survey for the group's properties — operating locations, developable extents from the land bank and the projects rising on them, each recorded as filed in this edition.",
   modesLabel: "Register modes",
   landBankModeLabel: "Land bank",
   underConstructionModeLabel: "Under construction",
   atlasCaptionLabel: "Fig. 01 · Atlas · State survey",
-  recordListLabel: "Parcel records",
+  recordListLabel: "Site records",
   viewAllPrefix: "View all",
   collapseLabel: "Collapse",
 } as const;

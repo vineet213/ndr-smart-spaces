@@ -1,0 +1,257 @@
+/* From Land to Community — vertical 03 process ------------------------ */
+
+.section {
+  background-color: var(--color-ivory);
+}
+
+.header {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-xl);
+}
+
+.header h2 {
+  margin: 0;
+}
+
+.goldRule {
+  display: block;
+  width: var(--space-6xl);
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+/* timeline ------------------------------------------------------------- */
+
+.track {
+  position: relative;
+  margin-top: var(--space-6xl);
+}
+
+.spine {
+  position: absolute;
+  top: 11px;
+  left: 12.5%;
+  right: 12.5%;
+  height: 2px;
+  background-color: var(--color-maroon);
+  transform: scaleX(var(--pj, 0));
+  transform-origin: left;
+}
+
+.list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.node {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+}
+
+.node:focus-visible {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: 6px;
+  border-radius: 2px;
+}
+
+.mark {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--color-gold);
+  background-color: transparent;
+  transform: translateX(-50%) rotate(45deg);
+  transition:
+    border-color var(--duration-standard) var(--ease-standard),
+    background-color var(--duration-standard) var(--ease-standard);
+}
+
+.nodeInner {
+  padding-top: 44px;
+}
+
+.glyphWrap {
+  display: flex;
+  justify-content: center;
+  color: var(--color-charcoal);
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.glyphWrap svg {
+  width: 52px;
+  height: 52px;
+}
+
+.index {
+  display: block;
+  margin-top: var(--space-md);
+  text-align: center;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-maroon);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.title {
+  margin: var(--space-sm) 0 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  line-height: 1.2;
+  color: var(--color-charcoal);
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+/* sequential entry ------------------------------------------------------ */
+
+.nodeInner {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.drawn .nodeInner {
+  animation: stage-rise 700ms var(--ease-standard) both;
+  animation-delay: calc(var(--n, 0) * 150ms);
+}
+
+/* scroll-tint states ---------------------------------------------------- */
+
+.nodeFuture .glyphWrap {
+  color: var(--color-stone);
+  opacity: 0.5;
+}
+
+.nodeFuture .mark {
+  border-color: var(--color-hairline-light);
+}
+
+.nodeFuture .index {
+  color: var(--color-stone);
+}
+
+.nodeCurrent .glyphWrap {
+  color: var(--color-maroon);
+}
+
+.nodeCurrent .index {
+  color: var(--color-maroon);
+}
+
+.nodeCurrent .mark {
+  border-color: var(--color-maroon);
+  background-color: var(--color-gold);
+}
+
+.nodeDone .glyphWrap {
+  color: var(--color-charcoal);
+}
+
+.nodeDone .index {
+  color: var(--color-maroon);
+}
+
+.nodeDone .mark {
+  border-color: var(--color-maroon);
+  background-color: var(--color-maroon);
+}
+
+.nodeActive .title {
+  color: var(--color-maroon);
+}
+
+/* keyframes ------------------------------------------------------------- */
+
+@keyframes stage-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* responsive ------------------------------------------------------------ */
+
+@media (max-width: 767px) {
+  .track {
+    padding-left: 30px;
+  }
+
+  .spine {
+    top: 0;
+    bottom: 0;
+    left: 8px;
+    right: auto;
+    width: 2px;
+    height: auto;
+    transform: scaleY(var(--pj, 0));
+    transform-origin: top;
+  }
+
+  .list {
+    flex-direction: column;
+    gap: var(--space-6xl);
+  }
+
+  .mark {
+    top: 6px;
+    left: 3px;
+    transform: rotate(45deg);
+  }
+
+  .nodeInner {
+    padding-top: 0;
+  }
+
+  .glyphWrap {
+    justify-content: flex-start;
+  }
+
+  .index {
+    text-align: left;
+  }
+
+  .title {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spine {
+    transform: scaleX(1);
+  }
+
+  .nodeInner {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .mark,
+  .glyphWrap,
+  .index,
+  .title {
+    transition: none;
+  }
+
+  @media (max-width: 767px) {
+    .spine {
+      transform: scaleY(1);
+    }
+  }
+}

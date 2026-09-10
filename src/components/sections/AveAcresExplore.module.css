@@ -1,0 +1,63 @@
+/* Explore Our Residential Projects — vertical 03 closing panel ----------- */
+
+.section {
+  background-color: var(--color-ivory-dim);
+}
+
+.panel {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-6xl);
+  padding-top: var(--space-5xl);
+  border-block-start: 2px solid var(--color-charcoal);
+}
+
+.copy {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-lg);
+  max-width: var(--measure-body);
+}
+
+.copy h3 {
+  margin: 0;
+}
+
+.goldRule {
+  display: block;
+  width: var(--space-6xl);
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+.body {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+  flex-shrink: 0;
+}
+
+.domain {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+@media (max-width: 767px) {
+  .panel {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5xl);
+  }
+}

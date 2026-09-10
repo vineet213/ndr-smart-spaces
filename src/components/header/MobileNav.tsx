@@ -93,6 +93,30 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                                   <Icon name="arrow-up-right" className={styles.externalIcon} />
                                 )}
                               </a>
+                              {Boolean(link.children && link.children.length > 0) && (
+                                <ul className={styles.childList}>
+                                  {link.children!.map((child) => (
+                                    <li key={child.href}>
+                                      <a
+                                        className={styles.childLink}
+                                        href={child.href}
+                                        onClick={onClose}
+                                        {...(child.external
+                                          ? { target: "_blank", rel: "noopener noreferrer" }
+                                          : {})}
+                                      >
+                                        {child.label}
+                                        {child.external && (
+                                          <Icon
+                                            name="arrow-up-right"
+                                            className={styles.externalIcon}
+                                          />
+                                        )}
+                                      </a>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
                             </li>
                           ))}
                         </ul>

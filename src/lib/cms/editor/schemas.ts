@@ -627,7 +627,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
       },
       { key: "proof", label: "Proof", kind: "text", required: true },
       { key: "proofSource", label: "Proof source", kind: "text", required: true },
-      { key: "anchor", label: "Section anchor", kind: "text", placeholder: "grade-a-warehousing" },
+      { key: "anchor", label: "Section anchor", kind: "text", placeholder: "logistics-and-industrial-infrastructure" },
       {
         key: "route",
         label: "Route",
@@ -639,7 +639,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
             label: "Href",
             kind: "text",
             required: true,
-            placeholder: "/en/business/grade-a-warehousing",
+            placeholder: "/en/business/logistics-and-industrial-infrastructure",
           },
           { key: "external", label: "External", kind: "boolean" },
         ],

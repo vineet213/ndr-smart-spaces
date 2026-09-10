@@ -12,6 +12,7 @@ export type MenuLink = {
   label: string;
   href: string;
   external?: boolean;
+  children?: readonly MenuLink[];
 };
 
 export type MegaMenuColumn = {
