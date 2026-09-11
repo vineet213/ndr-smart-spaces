@@ -10,9 +10,6 @@ export function InvestorClosing() {
       <Container>
         <Reveal>
           <div className={styles.docHeader}>
-            <span className={styles.numeral} aria-hidden="true">
-              07
-            </span>
             <span className={styles.ref}>REF 07 · CLOSING</span>
           </div>
           <span className={styles.goldRule} aria-hidden="true" />
@@ -33,9 +30,6 @@ export function InvestorClosing() {
           <div className={styles.ctas}>
             <Button href={investorClosing.primaryCta.href} tone="dark">
               {investorClosing.primaryCta.label}
-            </Button>
-            <Button variant="secondary" tone="dark" href={investorClosing.secondaryCta.href}>
-              {investorClosing.secondaryCta.label}
             </Button>
             <TextLink
               tone="dark"

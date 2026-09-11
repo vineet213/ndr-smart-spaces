@@ -3,7 +3,7 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import { Container } from "@/components/layout";
-import { SourceFootnote } from "@/components/ui";
+import { Eyebrow, SourceFootnote } from "@/components/ui";
 import type { LifecycleStage } from "@/lib/data/business";
 import { useInView } from "@/hooks/useInView";
 import { cx } from "../ui/cx";
@@ -103,6 +103,18 @@ export function DevelopmentLifecycle({ intro, stages, source }: DevelopmentLifec
       </div>
 
       <Container>
+        <Reveal>
+          <header className={styles.mapHeading}>
+            <span className={styles.goldRule} aria-hidden="true" />
+            <Eyebrow className={styles.mapEyebrow}>Logistics and Industrial Infrastructure</Eyebrow>
+            <h2 className={styles.mapTitle}>Products of the Process</h2>
+            <p className={styles.mapBody}>
+              Strategically located, spec-forward facilities near highways, ports, railways and
+              airports — serving retail, e-commerce, 3PL and manufacturing.
+            </p>
+          </header>
+        </Reveal>
+
         <Reveal>
           <div className={styles.plate}>
             <WarehousePlate />

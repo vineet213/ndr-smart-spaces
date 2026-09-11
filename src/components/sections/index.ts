@@ -67,3 +67,4 @@ export { Vertical02Stats } from "./Vertical02Stats";
 export { VerticalPage } from "./VerticalPage";
 export { VerticalManagement } from "./VerticalManagement";
 export { DevelopmentLifecycle } from "./DevelopmentLifecycle";
+export { SummaryOfBusiness } from "./SummaryOfBusiness";

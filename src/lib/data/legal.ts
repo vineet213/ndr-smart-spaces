@@ -148,7 +148,6 @@ export const sitemapGroups: readonly SitemapGroup[] = [
         href: "/en/business/ndr-asset-management",
       },
       { label: "Residential Plotting", href: "/en/business/ave-acres" },
-      { label: "Portfolio", href: "/en/portfolio" },
       { label: "ESG & Sustainability", href: "/en/esg" },
     ],
   },
@@ -156,13 +155,9 @@ export const sitemapGroups: readonly SitemapGroup[] = [
     heading: "Investor Centre",
     links: [
       { label: "Investor Centre", href: "/en/investor-centre" },
-      { label: "Investment Highlights", href: "/en/investor-centre/investment-highlights" },
-      { label: "Reports & Disclosures", href: "/en/investor-centre/reports-disclosures" },
-      { label: "Financial Results", href: "/en/investor-centre/financial-results" },
-      { label: "Annual Reports", href: "/en/investor-centre/annual-reports" },
-      { label: "Corporate Governance", href: "/en/investor-centre/corporate-governance" },
       { label: "Announcements", href: "/en/investor-centre/announcements" },
-      { label: "Downloads", href: "/en/investor-centre/downloads" },
+      { label: "Corporate Governance", href: "/en/investor-centre/corporate-governance" },
+      { label: "Summary of Business", href: "/en/investor-centre/summary-of-business" },
     ],
   },
   {

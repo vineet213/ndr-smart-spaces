@@ -63,48 +63,22 @@ export const navigation = {
       "type": "menu",
     },
     {
-      "href": "/en/portfolio",
-      "label": "Portfolio",
-      "type": "link",
-    },
-    {
       "align": "right",
       "columns": [
         {
           "heading": "Investor Centre",
           "links": [
             {
-              "href": "/en/investor-centre/investment-highlights",
-              "label": "Investment Highlights",
-            },
-            {
-              "href": "/en/investor-centre/reports-disclosures",
-              "label": "Reports & Disclosures",
-            },
-            {
-              "href": "/en/investor-centre/financial-results",
-              "label": "Financial Results",
-            },
-          ],
-        },
-        {
-          "heading": "Governance",
-          "links": [
-            {
-              "href": "/en/investor-centre/annual-reports",
-              "label": "Annual Reports",
+              "href": "/en/investor-centre/announcements",
+              "label": "Announcements",
             },
             {
               "href": "/en/investor-centre/corporate-governance",
               "label": "Corporate Governance",
             },
             {
-              "href": "/en/investor-centre/announcements",
-              "label": "Announcements",
-            },
-            {
-              "href": "/en/investor-centre/downloads",
-              "label": "Downloads",
+              "href": "/en/investor-centre/summary-of-business",
+              "label": "Summary of Business",
             },
           ],
         },
@@ -178,48 +152,22 @@ export const navigation = {
       "type": "menu",
     },
     {
-      "href": "/en/portfolio",
-      "label": "Portfolio",
-      "type": "link",
-    },
-    {
       "align": "right",
       "columns": [
         {
           "heading": "Investor Centre",
           "links": [
             {
-              "href": "/en/investor-centre/investment-highlights",
-              "label": "Investment Highlights",
-            },
-            {
-              "href": "/en/investor-centre/reports-disclosures",
-              "label": "Reports & Disclosures",
-            },
-            {
-              "href": "/en/investor-centre/financial-results",
-              "label": "Financial Results",
-            },
-          ],
-        },
-        {
-          "heading": "Governance",
-          "links": [
-            {
-              "href": "/en/investor-centre/annual-reports",
-              "label": "Annual Reports",
+              "href": "/en/investor-centre/announcements",
+              "label": "Announcements",
             },
             {
               "href": "/en/investor-centre/corporate-governance",
               "label": "Corporate Governance",
             },
             {
-              "href": "/en/investor-centre/announcements",
-              "label": "Announcements",
-            },
-            {
-              "href": "/en/investor-centre/downloads",
-              "label": "Downloads",
+              "href": "/en/investor-centre/summary-of-business",
+              "label": "Summary of Business",
             },
           ],
         },

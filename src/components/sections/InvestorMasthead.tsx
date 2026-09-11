@@ -5,8 +5,8 @@ import { cx } from "../ui/cx";
 
 type InvestorMastheadProps = {
   title: { before: string; accent?: string; after?: string };
-  asOn: string;
-  edition: string;
+  asOn?: string;
+  edition?: string;
   eyebrow?: string;
   variant?: "cover" | "slim";
   id?: string;
@@ -21,6 +21,15 @@ export function InvestorMasthead({
   id,
 }: InvestorMastheadProps) {
   const isCover = variant === "cover";
+  const showMeta = Boolean(asOn || edition);
+
+  const meta = showMeta ? (
+    <p className={styles.meta}>
+      {asOn ? <span>{asOn}</span> : null}
+      {asOn && edition ? <span aria-hidden="true">·</span> : null}
+      {edition ? <span>{edition}</span> : null}
+    </p>
+  ) : null;
 
   return (
     <Section tone="charcoal" ariaLabelledby={id} className={styles.section}>
@@ -42,11 +51,7 @@ export function InvestorMasthead({
                 {title.accent ? <span className={styles.accent}>{title.accent}</span> : null}
                 {title.after}
               </h1>
-              <p className={styles.meta}>
-                <span>{asOn}</span>
-                <span aria-hidden="true">·</span>
-                <span>{edition}</span>
-              </p>
+              {meta}
             </div>
             <span className={styles.rule} aria-hidden="true" />
           </>
@@ -62,11 +67,7 @@ export function InvestorMasthead({
                 {title.accent ? <span className={styles.accent}>{title.accent}</span> : null}
                 {title.after}
               </h1>
-              <p className={styles.meta}>
-                <span>{asOn}</span>
-                <span aria-hidden="true">·</span>
-                <span>{edition}</span>
-              </p>
+              {meta}
             </div>
             <span className={styles.rule} aria-hidden="true" />
           </>

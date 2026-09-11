@@ -17,15 +17,10 @@ export const siteRoutes: readonly string[] = [
   "/en/business/ndr-asset-management/development-lifecycle",
   "/en/business/ndr-asset-management/asset-performance-management",
   "/en/business/ave-acres",
-  "/en/portfolio",
   "/en/investor-centre",
-  "/en/investor-centre/investment-highlights",
-  "/en/investor-centre/annual-reports",
-  "/en/investor-centre/corporate-governance",
   "/en/investor-centre/announcements",
-  "/en/investor-centre/downloads",
-  "/en/investor-centre/financial-results",
-  "/en/investor-centre/reports-disclosures",
+  "/en/investor-centre/corporate-governance",
+  "/en/investor-centre/summary-of-business",
   "/en/esg",
   "/en/media",
   "/en/contact",
@@ -40,9 +35,8 @@ export const siteRoutes: readonly string[] = [
  * route. Only routes with linkable sections need an entry.
  */
 export const routeAnchors: Readonly<Record<string, readonly string[]>> = {
-  "/en/portfolio": [],
   "/en/business/logistics-and-industrial-infrastructure": ["register"],
-  "/en/esg": ["framework", "environmental", "initiatives-on-site", "certifications"],
+  "/en/esg": ["framework", "environmental", "certifications"],
   "/en/media": ["press-archive"],
   "/en/contact": ["directory", "business-enquiry"],
   "/en/investor-centre": [],

@@ -36,7 +36,47 @@
 }
 
 .plate {
-  margin-top: var(--space-8xl);
+  max-width: 62.5rem;
+  margin-inline: auto;
+}
+
+.mapHeading {
+  margin-bottom: var(--space-8xl);
+}
+
+.mapEyebrow {
+  margin: 0 0 var(--space-xl);
+  display: inline-block;
+}
+
+.goldRule {
+  display: inline-block;
+  width: 3.5rem;
+  height: 2px;
+  margin-right: var(--space-md);
+  background-color: var(--color-gold);
+}
+
+.mapTitle {
+  margin: 0;
+  max-width: var(--measure-body);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(1.875rem, 3.4vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--color-charcoal);
+  text-wrap: balance;
+}
+
+.mapBody {
+  margin: var(--space-lg) 0 0;
+  max-width: var(--measure-body);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
 }
 
 /* full-bleed stage panel -------------------------------------------------- */
@@ -206,7 +246,8 @@
     height: clamp(26rem, 66vh, 40rem);
   }
 
-  .intro {
+  .intro,
+  .mapHeading {
     margin-bottom: var(--space-5xl);
   }
 

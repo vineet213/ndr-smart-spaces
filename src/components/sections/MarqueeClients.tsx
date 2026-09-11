@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Container, Grid, GridItem, Stack } from "@/components/layout";
 import { Eyebrow } from "@/components/ui";
 import { marqueeClients } from "@/lib/data/homepage";
@@ -27,18 +26,14 @@ export function MarqueeClients() {
                 <ul className={styles.list}>
                   {clients.map((name) => (
                     <li key={name}>
-                      <Link className={styles.item} href="/en/portfolio">
-                        {name}
-                      </Link>
+                      <span className={styles.item}>{name}</span>
                     </li>
                   ))}
                 </ul>
                 <ul className={styles.list} aria-hidden="true">
                   {clients.map((name) => (
                     <li key={`${name}-copy`}>
-                      <Link className={styles.item} href="/en/portfolio" tabIndex={-1}>
-                        {name}
-                      </Link>
+                      <span className={styles.item}>{name}</span>
                     </li>
                   ))}
                 </ul>

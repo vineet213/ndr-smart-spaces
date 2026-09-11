@@ -1,5 +1,5 @@
 import { Container, Stack } from "@/components/layout";
-import { Eyebrow, Heading, Lede, Button, Metric, SourceFootnote } from "@/components/ui";
+import { Eyebrow, Heading, Lede, Metric, SourceFootnote } from "@/components/ui";
 import { aboutHero } from "@/lib/data/about";
 import { Counter } from "./Counter";
 import { Reveal } from "./Reveal";
@@ -21,12 +21,6 @@ export function AboutHero() {
               </Heading>
             </div>
             <Lede className={styles.lede}>{aboutHero.lede}</Lede>
-            <div className={styles.ctas}>
-              <Button href={aboutHero.cta.href}>{aboutHero.cta.label}</Button>
-              <Button variant="secondary" href={aboutHero.ctaSecondary.href}>
-                {aboutHero.ctaSecondary.label}
-              </Button>
-            </div>
           </Stack>
 
           <Reveal delay={1}>

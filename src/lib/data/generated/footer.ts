@@ -46,32 +46,19 @@ export const footer = {
       ],
     },
     {
-      "heading": "Business",
-      "links": [
-        {
-          "href": "/en/portfolio",
-          "label": "Portfolio",
-        },
-      ],
-    },
-    {
       "heading": "Investor",
       "links": [
         {
-          "href": "/en/investor-centre/investment-highlights",
-          "label": "Investment Highlights",
-        },
-        {
-          "href": "/en/investor-centre/reports-disclosures",
-          "label": "Reports & Disclosures",
-        },
-        {
-          "href": "/en/investor-centre/financial-results",
-          "label": "Financial Results",
-        },
-        {
           "href": "/en/investor-centre/announcements",
           "label": "Announcements",
+        },
+        {
+          "href": "/en/investor-centre/corporate-governance",
+          "label": "Corporate Governance",
+        },
+        {
+          "href": "/en/investor-centre/summary-of-business",
+          "label": "Summary of Business",
         },
       ],
     },

@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { Container, Grid, GridItem } from "@/components/layout";
-import { Heading, Eyebrow, Lede, TextLink, Icon, VisuallyHidden } from "@/components/ui";
+import { Heading, Eyebrow, Lede, VisuallyHidden } from "@/components/ui";
 import type { MapLocation, ZoneId } from "@/lib/data/homepage";
 import { zones, mapLocations, portfolioPresence } from "@/lib/data/homepage";
 import { IndiaMap } from "./IndiaMap";
@@ -29,27 +28,20 @@ export function PortfolioPresence() {
                 const active = activeZone === zone.id;
                 return (
                   <li key={zone.id}>
-                    <Link
-                      href="/en/portfolio"
+                    <div
                       className={cx(styles.zoneRow, active && styles.zoneRowActive)}
                       onMouseEnter={() => setActiveZone(zone.id)}
                       onMouseLeave={() => setActiveZone(null)}
-                      onFocus={() => setActiveZone(zone.id)}
-                      onBlur={() => setActiveZone(null)}
                     >
                       <span className={cx("text-label-meta", styles.zoneLabel)}>
                         {zone.name} zone
                       </span>
                       <span className={styles.zoneFact}>{zone.fact}</span>
-                    </Link>
+                    </div>
                   </li>
                 );
               })}
             </ol>
-            <TextLink href="/en/portfolio">
-              {portfolioPresence.viewPortfolio}
-              <Icon name="arrow-right" size="sm" />
-            </TextLink>
           </GridItem>
           <GridItem span={7} className={styles.mapColumn}>
             <IndiaMap

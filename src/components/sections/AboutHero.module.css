@@ -47,12 +47,6 @@
   max-width: 42rem;
 }
 
-.ctas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-lg);
-}
-
 .ledger {
   margin: 0;
   width: 100%;
@@ -98,15 +92,6 @@
 
   .headline {
     max-width: 100%;
-  }
-
-  .ctas {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .ctas > * {
-    width: 100%;
   }
 
   .ledger {

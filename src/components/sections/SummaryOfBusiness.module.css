@@ -1,0 +1,35 @@
+.overview {
+  max-width: var(--container-max);
+  margin-inline: auto;
+}
+
+.goldRule {
+  display: inline-block;
+  width: var(--space-6xl);
+  height: 2px;
+  margin: 0 0 var(--space-xl);
+  background-color: var(--color-gold);
+}
+
+.lede {
+  max-width: var(--measure-body);
+  margin-top: var(--space-lg);
+}
+
+.pending {
+  display: flex;
+  align-items: center;
+  min-height: clamp(18rem, 45vh, 26rem);
+}
+
+.pendingLabel {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(250, 247, 242, 0.72);
+}

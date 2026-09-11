@@ -10,7 +10,7 @@ export function EsgStatement() {
     <section className={styles.section} id="statement" aria-labelledby="esg-statement-title">
       <Container>
         <Reveal>
-          <EsgDocHeader numeral="01" code="REF 01 · STATEMENT" />
+          <EsgDocHeader code="REF 01 · STATEMENT" />
           <div className={styles.body}>
             <Eyebrow className={styles.eyebrow}>{esgStatement.eyebrow}</Eyebrow>
             <h2 id="esg-statement-title" className={styles.heading}>
