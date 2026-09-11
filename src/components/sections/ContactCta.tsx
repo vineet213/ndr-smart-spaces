@@ -1,5 +1,6 @@
 import { Container, Grid, GridItem, Stack } from "@/components/layout";
 import { Eyebrow, Heading } from "@/components/ui";
+import { canonicalHref } from "@/lib/routes";
 import { contact } from "@/lib/data/homepage";
 import { EnquiryForm } from "./EnquiryForm";
 import { Reveal } from "./Reveal";
@@ -27,7 +28,7 @@ export function ContactCta() {
                     <span className={styles.infoLabel}>{item.label}</span>
                     {item.href ? (
                       <a
-                        href={item.href}
+                        href={canonicalHref(item.href)}
                         className={styles.infoValue}
                         {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       >

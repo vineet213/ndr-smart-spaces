@@ -38,7 +38,7 @@ type StageRowProps = {
 };
 
 function StageRow({ stage, fromLeft, priority }: StageRowProps) {
-  const { ref, inView } = useInView<HTMLElement>();
+  const { ref, inView } = useInView<HTMLElement>({ rootMargin: "0px 0px -18% 0px" });
 
   const position = STAGE_POSITIONS[stage.index] ?? "center";
 

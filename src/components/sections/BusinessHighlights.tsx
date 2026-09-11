@@ -1,5 +1,6 @@
 import { Container, Grid, GridItem, Stack } from "@/components/layout";
 import { Heading, Eyebrow, Lede, Button, Icon } from "@/components/ui";
+import { canonicalHref } from "@/lib/routes";
 import { businessHighlights } from "@/lib/data/homepage";
 import { Reveal, type RevealDelay } from "./Reveal";
 import styles from "./BusinessHighlights.module.css";
@@ -29,7 +30,7 @@ export function BusinessHighlights() {
                 <GridItem key={vertical.title} span={4}>
                   <Reveal delay={(index + 1) as RevealDelay}>
                     <a
-                      href={vertical.href}
+                      href={canonicalHref(vertical.href)}
                       className={styles.card}
                       aria-label={`${vertical.title}${external ? ", opens in a new tab" : ""}`}
                       {...linkProps}

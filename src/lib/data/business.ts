@@ -428,7 +428,8 @@ export type LifecycleStage = {
  * Vertical 02 subpage — Development Lifecycle. The eight stage copies are
  * frozen editorial text (client-confirmed). Images are illustrative,
  * licensed photographs from Wikimedia Commons, clearly credited and not
- * depicting NDR sites; each is verified to resolve at build time.
+ * depicting NDR sites. They are bundled locally under /images/lifecycle so
+ * the static export never depends on a third-party DNS/network at runtime.
  */
 export const vertical02DevelopmentLifecycle = {
   intro: {
@@ -442,11 +443,11 @@ export const vertical02DevelopmentLifecycle = {
       title: "Land Identification",
       body: "Identifying strategic locations aligned with tenant requirements, market demand, and growth opportunities.",
       image: {
-        src: "https://upload.wikimedia.org/wikipedia/commons/b/b0/Green_Paddy_Field_in_Andhra_Pradesh.jpg",
+        src: "/images/lifecycle/01-land-identification.jpg",
         alt: "Green paddy fields in Andhra Pradesh, India",
         credit: "Image: Saishna96 / Wikimedia Commons, CC BY-SA 4.0",
-        width: 6000,
-        height: 4000,
+        width: 1920,
+        height: 1280,
       },
     },
     {
@@ -454,11 +455,11 @@ export const vertical02DevelopmentLifecycle = {
       title: "Comprehensive Due Diligence",
       body: "Evaluating financial, local, legal, and environmental aspects to ensure land suitability and development viability.",
       image: {
-        src: "https://upload.wikimedia.org/wikipedia/commons/a/a7/Legal_Contract_%26_Signature_-_Warm_Tones.jpg",
+        src: "/images/lifecycle/02-due-diligence.jpg",
         alt: "Signed contract documents and a pen",
         credit: "Image: Blogtrepreneur / Wikimedia Commons, CC BY 2.0",
-        width: 6000,
-        height: 4500,
+        width: 1920,
+        height: 1440,
       },
     },
     {
@@ -466,11 +467,11 @@ export const vertical02DevelopmentLifecycle = {
       title: "Land Acquisition & SPV Structuring",
       body: "Securing suitable land through strategic lease or purchase arrangements and structuring the development through a dedicated Special Purpose Vehicle (SPV).",
       image: {
-        src: "https://upload.wikimedia.org/wikipedia/commons/5/58/Levin_Zhu%2C_CEO%2C_CICC%2C_at_a_boardroom_dialogue_session%2C_at_the_Horasis_Global_China_Business_Meeting_2009_-_Flickr_-_Horasis.jpg",
+        src: "/images/lifecycle/03-land-acquisition.jpg",
         alt: "Business people at a boardroom dialogue session",
         credit: "Image: Richter Frank-Jurgen / Wikimedia Commons, CC BY 2.0",
-        width: 4256,
-        height: 2832,
+        width: 1920,
+        height: 1278,
       },
     },
     {
@@ -478,11 +479,11 @@ export const vertical02DevelopmentLifecycle = {
       title: "Regulatory & Compliance Management",
       body: "Managing statutory approvals, regulatory requirements, and coordination with relevant authorities for seamless project progression.",
       image: {
-        src: "https://upload.wikimedia.org/wikipedia/commons/5/54/Czech_office_time_stamp_with_inkpillow.jpg",
+        src: "/images/lifecycle/04-regulatory-compliance.jpg",
         alt: "Office time stamp and ink pad on a desk",
         credit: "Image: Jiří Sedláček (Frettie) / Wikimedia Commons, CC BY 3.0",
-        width: 3888,
-        height: 2592,
+        width: 1920,
+        height: 1280,
       },
     },
     {
@@ -490,11 +491,11 @@ export const vertical02DevelopmentLifecycle = {
       title: "Project Planning & Design",
       body: "Transforming identified land into development-ready warehouse designs through technical studies, planning, approvals, and integrated engineering.",
       image: {
-        src: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Blueprint_of_east_elevation_of_the_Harvard_Semitic_Museum%2C_reproduction%2C_A._W._Longfellow%2C_Jr.%2C_architect%2C_c._1902_-_Harvard_Semitic_Museum_-_Cambridge%2C_MA_-_DSC06066.jpg",
+        src: "/images/lifecycle/05-project-planning.jpg",
         alt: "Architectural blueprint drawing of a building elevation",
         credit: "Image: Daderot / Wikimedia Commons, public domain",
-        width: 5472,
-        height: 3648,
+        width: 1920,
+        height: 1280,
       },
     },
     {
@@ -502,11 +503,11 @@ export const vertical02DevelopmentLifecycle = {
       title: "Integrated Engineering Services",
       body: "Executing warehouse construction with strong oversight of quality, cost, timelines, and technical standards.",
       image: {
-        src: "https://upload.wikimedia.org/wikipedia/commons/f/f3/Tower_crane_at_a_building_construction_site_in_Taichung_2023-05-13_01.jpg",
+        src: "/images/lifecycle/06-engineering.jpg",
         alt: "Tower crane at a building construction site",
         credit: "Image: Taichung City Government / Wikimedia Commons, attribution",
-        width: 6720,
-        height: 4480,
+        width: 1920,
+        height: 1280,
       },
     },
     {
@@ -514,11 +515,11 @@ export const vertical02DevelopmentLifecycle = {
       title: "Safety, Security & Risk Management",
       body: "Implementing robust security, safety, and compliance measures to protect people, assets, and operations.",
       image: {
-        src: "https://upload.wikimedia.org/wikipedia/commons/a/af/Danger_Construction_Area_and_Hard_Hat_Area_signs.jpg",
+        src: "/images/lifecycle/07-safety-risk.jpg",
         alt: "Orange construction area and hard hat safety signs",
         credit: "Image: The Navigators / Wikimedia Commons, CC0",
-        width: 5472,
-        height: 3648,
+        width: 1920,
+        height: 1280,
       },
     },
     {
@@ -526,11 +527,11 @@ export const vertical02DevelopmentLifecycle = {
       title: "Asset Handover & Operations",
       body: "Preparing the completed warehouse for seamless handover and efficient day-to-day operations.",
       image: {
-        src: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Modern_warehouse_with_pallet_rack_storage_system.jpg",
+        src: "/images/lifecycle/08-asset-handover.jpg",
         alt: "Interior of a warehouse with pallet racking",
         credit: "Image: Axisadman / Wikimedia Commons, CC BY-SA 3.0",
-        width: 2400,
-        height: 1870,
+        width: 1920,
+        height: 1496,
       },
     },
   ] as const satisfies readonly LifecycleStage[],

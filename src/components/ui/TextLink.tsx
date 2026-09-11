@@ -1,4 +1,5 @@
 import type { AnchorHTMLAttributes, ReactNode } from "react";
+import { canonicalHref } from "@/lib/routes";
 import styles from "./TextLink.module.css";
 import { cx } from "./cx";
 import type { Tone } from "./types";
@@ -9,9 +10,10 @@ type TextLinkProps = {
   children: ReactNode;
 } & AnchorHTMLAttributes<HTMLAnchorElement>;
 
-export function TextLink({ tone = "light", className, children, ...rest }: TextLinkProps) {
+export function TextLink({ tone = "light", className, children, href, ...rest }: TextLinkProps) {
   return (
     <a
+      href={href !== undefined ? canonicalHref(href) : href}
       className={cx(
         "text-label-button",
         styles.base,

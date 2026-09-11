@@ -4,6 +4,7 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Icon } from "../ui/Icon";
 import { VisuallyHidden } from "../ui/VisuallyHidden";
 import { cx } from "../ui/cx";
+import { canonicalHref } from "@/lib/routes";
 import { isActivePath, type MenuLink, type NavMenu } from "@/lib/data/navigation";
 import styles from "./MegaMenu.module.css";
 
@@ -90,7 +91,7 @@ function SubmenuLink({ link, pathname }: SubmenuLinkProps) {
     >
       <a
         ref={linkRef}
-        href={link.href}
+        href={canonicalHref(link.href)}
         className={cx(styles.link, linkActive && styles.linkActive)}
         aria-haspopup="true"
         aria-expanded={open}
@@ -108,7 +109,7 @@ function SubmenuLink({ link, pathname }: SubmenuLinkProps) {
               {child.external ? (
                 <a
                   className={cx(styles.submenuLink, childActive && styles.linkActive)}
-                  href={child.href}
+                  href={canonicalHref(child.href)}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -119,7 +120,7 @@ function SubmenuLink({ link, pathname }: SubmenuLinkProps) {
               ) : (
                 <a
                   className={cx(styles.submenuLink, childActive && styles.linkActive)}
-                  href={child.href}
+                  href={canonicalHref(child.href)}
                   aria-current={childActive ? "page" : undefined}
                 >
                   {child.label}
@@ -272,7 +273,7 @@ export function MegaMenuButton({
       {menu.overview ? (
         <a
           ref={triggerRef}
-          href={menu.href}
+          href={canonicalHref(menu.href)}
           className={cx(styles.trigger, isActive && styles.triggerActive)}
           aria-expanded={open}
           aria-haspopup="true"
@@ -306,7 +307,7 @@ export function MegaMenuButton({
         {menu.overview ? (
           <div className={styles.overview}>
             <a
-              href={menu.overview.href}
+              href={canonicalHref(menu.overview.href)}
               className={cx(
                 styles.overviewLink,
                 isActivePath(pathname, menu.overview.href) && styles.overviewLinkActive,
@@ -333,7 +334,7 @@ export function MegaMenuButton({
                             styles.link,
                             isActivePath(pathname, child.href) && styles.linkActive,
                           )}
-                          href={child.href}
+                          href={canonicalHref(child.href)}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -347,7 +348,7 @@ export function MegaMenuButton({
                             styles.link,
                             isActivePath(pathname, child.href) && styles.linkActive,
                           )}
-                          href={child.href}
+                          href={canonicalHref(child.href)}
                           aria-current={isActivePath(pathname, child.href) ? "page" : undefined}
                         >
                           {child.label}

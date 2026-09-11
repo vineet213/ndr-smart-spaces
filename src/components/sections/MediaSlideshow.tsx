@@ -3,20 +3,27 @@
 import { useCallback, useRef, useState } from "react";
 import { Container } from "@/components/layout";
 import { Eyebrow, Heading, SourceFootnote } from "@/components/ui";
-import { slideshows } from "@/lib/data/slideshow";
 import { Reveal } from "./Reveal";
 import styles from "./MediaSlideshow.module.css";
 
-const SLIDESHOW_ID = "media-coverage";
+type MediaSlide = {
+  image: string;
+  alt: string;
+  caption?: string;
+};
 
-export function MediaSlideshow() {
-  const slideshow = slideshows.find((s) => s.id === SLIDESHOW_ID);
+type MediaSlideshowData = {
+  title: string;
+  caption?: string;
+  slides: readonly MediaSlide[];
+};
+
+export function MediaSlideshow({ slideshow }: { slideshow: MediaSlideshowData }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const scrollTo = useCallback(
     (index: number) => {
-      if (!slideshow) return;
       const clamped = Math.max(0, Math.min(index, slideshow.slides.length - 1));
       setActiveIndex(clamped);
       const container = scrollRef.current;
@@ -31,14 +38,14 @@ export function MediaSlideshow() {
 
   const handleScroll = useCallback(() => {
     const container = scrollRef.current;
-    if (!container || !slideshow) return;
+    if (!container) return;
     const scrollLeft = container.scrollLeft;
     const slideWidth = container.clientWidth * 0.8;
     const index = Math.round(scrollLeft / slideWidth);
     setActiveIndex(Math.max(0, Math.min(index, slideshow.slides.length - 1)));
   }, [slideshow]);
 
-  if (!slideshow) return null;
+  if (slideshow.slides.length === 0) return null;
 
   return (
     <section className={styles.section} aria-labelledby="media-slideshow-title">

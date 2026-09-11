@@ -1,4 +1,5 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
+import { canonicalHref } from "@/lib/routes";
 import styles from "./Button.module.css";
 import { cx } from "./cx";
 import type { Tone } from "./types";
@@ -30,13 +31,17 @@ function variantClass(variant: ButtonVariant, tone: Tone): string {
 }
 
 export function Button(props: ButtonProps) {
-  const { variant = "primary", tone = "light", className, children, ...rest } = props;
+  const { variant = "primary", tone = "light", className, children, href, ...rest } = props;
 
   const classes = cx("text-label-button", styles.base, variantClass(variant, tone), className);
 
-  if ("href" in props && props.href !== undefined) {
+  if (href !== undefined) {
     return (
-      <a className={classes} {...(rest as AnchorHTMLAttributes<HTMLAnchorElement>)}>
+      <a
+        href={canonicalHref(href)}
+        className={classes}
+        {...(rest as AnchorHTMLAttributes<HTMLAnchorElement>)}
+      >
         {children}
       </a>
     );

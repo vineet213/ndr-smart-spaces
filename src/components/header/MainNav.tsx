@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { usePathname } from "next/navigation";
+import { canonicalHref } from "@/lib/routes";
 import { isActivePath, navItems } from "@/lib/data/navigation";
 import type { MenuId } from "@/lib/data/navigation";
 import { cx } from "../ui/cx";
@@ -24,7 +25,7 @@ export function MainNav() {
             return (
               <li key={item.href} className={styles.item}>
                 <a
-                  href={item.href}
+                  href={canonicalHref(item.href)}
                   className={cx(styles.link, active && styles.linkActive)}
                   aria-current={active ? "page" : undefined}
                   onMouseEnter={closeMenu}

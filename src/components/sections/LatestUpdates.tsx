@@ -1,5 +1,6 @@
 import { Container, Stack } from "@/components/layout";
 import { Eyebrow, Heading, Icon } from "@/components/ui";
+import { canonicalHref } from "@/lib/routes";
 import { latestUpdates } from "@/lib/data/homepage";
 import { Reveal, type RevealDelay } from "./Reveal";
 import styles from "./LatestUpdates.module.css";
@@ -24,7 +25,7 @@ export function LatestUpdates() {
             {latestUpdates.map((update, index) => (
               <li key={`${update.date}-${update.title}`}>
                 <Reveal delay={(index + 1) as RevealDelay}>
-                  <a href={update.href} className={styles.row}>
+                  <a href={canonicalHref(update.href)} className={styles.row}>
                     <span className={styles.meta}>
                       <time dateTime={update.date}>{update.date}</time>
                       <span className={styles.category}>{update.category}</span>

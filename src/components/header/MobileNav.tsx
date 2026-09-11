@@ -4,6 +4,7 @@ import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { Icon } from "../ui/Icon";
 import { Button } from "../ui/Button";
 import { cx } from "../ui/cx";
+import { canonicalHref } from "@/lib/routes";
 import { headerCta, mobileMenuFooter, mobileNavItems, utilityStrip } from "@/lib/data/navigation";
 import styles from "./MobileNav.module.css";
 
@@ -53,7 +54,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
             {mobileNavItems.map((item) =>
               item.type === "link" ? (
                 <li key={item.href}>
-                  <a className={styles.link} href={item.href} onClick={onClose}>
+                  <a className={styles.link} href={canonicalHref(item.href)} onClick={onClose}>
                     {item.label}
                     <Icon name="arrow-right" className={styles.linkIcon} />
                   </a>
@@ -61,7 +62,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
               ) : (
                 <li key={item.id}>
                   {item.overview ? (
-                    <a className={styles.link} href={item.href} onClick={onClose}>
+                    <a className={styles.link} href={canonicalHref(item.href)} onClick={onClose}>
                       {item.label}
                       <Icon name="chevron-down" className={styles.linkIcon} />
                     </a>
@@ -82,7 +83,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                             <li key={link.href}>
                               <a
                                 className={styles.subLink}
-                                href={link.href}
+                                href={canonicalHref(link.href)}
                                 onClick={onClose}
                                 {...(link.external
                                   ? { target: "_blank", rel: "noopener noreferrer" }
@@ -99,7 +100,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                                     <li key={child.href}>
                                       <a
                                         className={styles.childLink}
-                                        href={child.href}
+                                        href={canonicalHref(child.href)}
                                         onClick={onClose}
                                         {...(child.external
                                           ? { target: "_blank", rel: "noopener noreferrer" }

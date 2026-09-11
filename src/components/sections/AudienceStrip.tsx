@@ -1,5 +1,6 @@
 import { Container } from "@/components/layout";
 import { Icon } from "@/components/ui";
+import { canonicalHref } from "@/lib/routes";
 import { audienceRoutes } from "@/lib/data/homepage";
 import styles from "./AudienceStrip.module.css";
 
@@ -9,7 +10,7 @@ export function AudienceStrip() {
       <Container>
         <nav className={styles.grid} aria-label="Choose your audience">
           {audienceRoutes.map((route) => (
-            <a key={route.label} href={route.href} className={styles.link}>
+            <a key={route.label} href={canonicalHref(route.href)} className={styles.link}>
               <span className={styles.row}>
                 <span className={styles.label}>{route.label}</span>
                 <Icon name="arrow-right" size="sm" className={styles.arrow} />
