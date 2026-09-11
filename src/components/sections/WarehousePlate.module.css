@@ -115,6 +115,12 @@
   stroke-width: 1;
 }
 
+.parapetGold {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-width: 1.6;
+}
+
 .skylight {
   fill: #d3dce8;
   stroke: rgba(28, 26, 25, 0.3);
@@ -207,6 +213,33 @@
 }
 
 /* landscape --------------------------------------------------------------- */
+
+.pond {
+  fill: #c3d0da;
+  stroke: rgba(28, 26, 25, 0.25);
+  stroke-width: 1;
+}
+
+.marsh {
+  fill: #b1bb9e;
+  stroke: rgba(28, 26, 25, 0.2);
+  stroke-width: 0.75;
+}
+
+.apron {
+  fill: #e3dac3;
+  stroke: none;
+}
+
+.apronEdge {
+  stroke: var(--color-maroon);
+  stroke-width: 1.75;
+}
+
+.dirt {
+  fill: #d6c9a8;
+  stroke: none;
+}
 
 .treeTrunk {
   stroke: var(--color-charcoal);

@@ -8,7 +8,7 @@ import type { LifecycleStage } from "@/lib/data/business";
 import { useInView } from "@/hooks/useInView";
 import { cx } from "../ui/cx";
 import { Reveal } from "./Reveal";
-import { WarehousePlate } from "./WarehousePlate";
+import { ProductsSitePlate } from "./ProductsSitePlate";
 import styles from "./DevelopmentLifecycle.module.css";
 
 type DevelopmentLifecycleProps = {
@@ -117,7 +117,7 @@ export function DevelopmentLifecycle({ intro, stages, source }: DevelopmentLifec
 
         <Reveal>
           <div className={styles.plate}>
-            <WarehousePlate />
+            <ProductsSitePlate />
           </div>
         </Reveal>
 
