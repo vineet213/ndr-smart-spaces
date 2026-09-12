@@ -103,9 +103,22 @@ const RIGHT_PIVOT: [number, number] = [222, 80];
 const LEFT_DEG = -3;
 const RIGHT_DEG = 5;
 
+/* Each mass is trimmed slightly off its shared edge (rather than shifting   */
+/* its counterpart) so every gap reads as a deliberate, modest service gap   */
+/* without moving any footprint's relationship to the roads/yards it fronts.*/
+
 const LEFT_MASSES: MassCfg[] = [
-  { x0: 14, y0: 14, x1: 112, y1: 58, h: 18, pivot: LEFT_PIVOT, deg: LEFT_DEG, seams: [0.33, 0.66] },
-  { x0: 66, y0: 58, x1: 132, y1: 98, h: 16.5, pivot: LEFT_PIVOT, deg: LEFT_DEG, seams: [0.4, 0.75] },
+  { x0: 14, y0: 14, x1: 112, y1: 55, h: 18, pivot: LEFT_PIVOT, deg: LEFT_DEG, seams: [0.33, 0.66] },
+  {
+    x0: 66,
+    y0: 58,
+    x1: 132,
+    y1: 95,
+    h: 16.5,
+    pivot: LEFT_PIVOT,
+    deg: LEFT_DEG,
+    seams: [0.4, 0.75],
+  },
   {
     x0: 20,
     y0: 98,
@@ -120,7 +133,16 @@ const LEFT_MASSES: MassCfg[] = [
 ];
 
 const RIGHT_MASSES: MassCfg[] = [
-  { x0: 186, y0: 6, x1: 282, y1: 64, h: 17, pivot: RIGHT_PIVOT, deg: RIGHT_DEG, seams: [0.35, 0.7] },
+  {
+    x0: 186,
+    y0: 6,
+    x1: 282,
+    y1: 61,
+    h: 17,
+    pivot: RIGHT_PIVOT,
+    deg: RIGHT_DEG,
+    seams: [0.35, 0.7],
+  },
   { x0: 176, y0: 64, x1: 268, y1: 146, h: 20, pivot: RIGHT_PIVOT, deg: RIGHT_DEG, hero: true },
 ];
 
@@ -175,6 +197,82 @@ const PLATFORM: Array<[number, number]> = [
   [288, -16],
   [288, 238],
   [-16, 238],
+];
+
+/* Perimeter compound wall — traced just outside the roads/yards, enclosing  */
+/* the developed core (not the scrub/wetland halo beyond it). Each run is a  */
+/* single low vertical panel between two ground points (not a box extrusion —*/
+/* a box's flat top face reads as a wide bright ribbon at this wall's very   */
+/* elongated, low proportions). A gap on the south run seats the main gate,  */
+/* where the central road meets the front boundary.                         */
+
+const WALL_H = 2.4;
+const GATE_GAP: [number, number] = [136, 168];
+
+const WALL_LINES: Array<[[number, number], [number, number]]> = [
+  [
+    [-6, -16],
+    [284, -16],
+  ], // north run
+  [
+    [-6, 190],
+    [GATE_GAP[0], 190],
+  ], // south run, west of gate
+  [
+    [GATE_GAP[1], 190],
+    [284, 190],
+  ], // south run, east of gate
+  [
+    [-6, -16],
+    [-6, 190],
+  ], // west run
+  [
+    [284, -16],
+    [284, 190],
+  ], // east run
+];
+
+/* Main gate: two posts flanking the gap, a lintel bar tying them together,  */
+/* and a small guard booth just inside — reads clearly as the access point.  */
+
+const GATE_POSTS: Array<[number, number]> = [
+  [GATE_GAP[0] - 2, 188],
+  [GATE_GAP[1], 188],
+];
+const GATE_POST_H = 4.6;
+const GATE_BOOTH = { x0: GATE_GAP[1] + 6, y0: 176, x1: GATE_GAP[1] + 15, y1: 184, h: 2.6 };
+
+/* A small staff/visitor car park, adjacent to the loading yard's existing   */
+/* continuous red edge line but set back from both the paved road and the   */
+/* truck loading positions.                                                 */
+
+const CARS = [
+  { x0: 112, y0: 165, x1: 119, y1: 170 },
+  { x0: 122, y0: 165, x1: 129, y1: 170 },
+  { x0: 132, y0: 165, x1: 139, y1: 170 },
+  { x0: 14, y0: 165, x1: 21, y1: 170 },
+] as const;
+
+/* Dock levelers: low raised platforms at the loading-dock face of each      */
+/* warehouse that actually fronts a yard — matching the existing door        */
+/* positions on the left cluster's dock hall, plus the two service yards.   */
+
+const DOCK_LEVELERS = [
+  { x0: 47, y0: 145, x1: 53, y1: 149 },
+  { x0: 73, y0: 145, x1: 79, y1: 149 },
+  { x0: 195, y0: 149, x1: 202, y1: 153 },
+  { x0: 227, y0: 149, x1: 234, y1: 153 },
+] as const;
+
+/* Sprinkler risers: one small fire-safety marker near a yard-facing corner  */
+/* of each of the five building masses — subtle, not a repeated pattern.    */
+
+const SPRINKLERS = [
+  { x: 9, y: 20 }, // west of the rear-most left hall, clear of its footprint
+  { x: 137, y: 70 }, // east of the middle left hall
+  { x: 24, y: 146 }, // south of the front-left hall, in its own yard
+  { x: 181, y: 20 }, // west of the right cluster's rear block
+  { x: 272, y: 150 }, // south-east of the dominant hero hall, in its yard
 ];
 
 const TRUCKS = [
@@ -250,8 +348,8 @@ const SCRUB_PATCHES = [
 
 /* Wet ground: an irregular, hand-wobbled outline reads as real water rather  */
 /* than a geometric ellipse. Two foreground bodies (pond, marsh) plus two     */
-/* wide, low-lying patches backing the rear boundary, crossed by a           */
-/* transmission line, well clear of the halls so it reads as distant ground. */
+/* wide, low-lying patches backing the rear boundary, well clear of the      */
+/* halls so they read as distant ground.                                    */
 
 function organicBlob(
   ox: number,
@@ -280,9 +378,6 @@ const REAR_WETLAND_R = organicBlob(226, -26, 58, 18, 6.3);
 
 const POND2 = organicBlob(70, 212, 9, 4.6, 8.2);
 const POND3 = organicBlob(150, 228, 7.5, 4, 10.5);
-
-const TOWERS = [-10, 45, 100, 155, 210, 265].map((x) => ({ x, y: -15 }));
-const TOWER_H = 16;
 
 /* A box extruded from z0 up to z0 + h, drawn as the three visible faces      */
 
@@ -480,22 +575,106 @@ function Truck({
   );
 }
 
-function Tower({ x, y, style }: { x: number; y: number; style?: CSSProperties }) {
-  const h = TOWER_H;
-  const [apexX, apexY] = pt(x, y, h);
-  const [legAX, legAY] = pt(x - 1.6, y - 1.6, 0);
-  const [legBX, legBY] = pt(x + 1.6, y - 1.6, 0);
-  const [legCX, legCY] = pt(x + 1.6, y + 1.6, 0);
-  const [legDX, legDY] = pt(x - 1.6, y + 1.6, 0);
-  const [armLX, armLY] = pt(x - 3, y, h * 0.8);
-  const [armRX, armRY] = pt(x + 3, y, h * 0.8);
+/* A small parked car — a low body plus an inset cabin box, scaled well      */
+/* under the trucks so the size difference alone reads as "car, not truck". */
+
+function Car({
+  x0,
+  y0,
+  x1,
+  y1,
+  style,
+}: {
+  x0: number;
+  y0: number;
+  x1: number;
+  y1: number;
+  style?: CSSProperties;
+}) {
+  const cabinInset = (x1 - x0) * 0.22;
+  const shadow = [
+    [x0, y1],
+    [x1, y1],
+    [x1, y0],
+    [x0, y0],
+  ].map(([x, y]) => pt(x, y, 0));
   return (
     <g className={styles.rise} style={style}>
-      <line className={styles.poleShaft} x1={legAX} y1={legAY} x2={apexX} y2={apexY} />
-      <line className={styles.poleShaft} x1={legBX} y1={legBY} x2={apexX} y2={apexY} />
-      <line className={styles.poleShaft} x1={legCX} y1={legCY} x2={apexX} y2={apexY} />
-      <line className={styles.poleShaft} x1={legDX} y1={legDY} x2={apexX} y2={apexY} />
-      <line className={styles.poleArm} x1={armLX} y1={armLY} x2={armRX} y2={armRY} />
+      <polygon className={styles.shadowBlobSoft} points={shadowPoints(shadow)} />
+      <Box x0={x0} y0={y0} x1={x1} y1={y1} h={0.9} />
+      <Box x0={x0 + cabinInset} y0={y0} x1={x1 - cabinInset} y1={y1} h={0.55} z0={0.9} />
+    </g>
+  );
+}
+
+/* A dock leveler: a low raised platform at a warehouse's loading face.      */
+
+function DockLeveler({
+  x0,
+  y0,
+  x1,
+  y1,
+  style,
+}: {
+  x0: number;
+  y0: number;
+  x1: number;
+  y1: number;
+  style?: CSSProperties;
+}) {
+  return (
+    <g className={styles.rise} style={style}>
+      <Box x0={x0} y0={y0} x1={x1} y1={y1} h={0.4} />
+    </g>
+  );
+}
+
+/* A restrained fire-safety riser (sprinkler/hydrant stand) — a thin post    */
+/* with a small head and two short outlet arms, reusing the same fine-line   */
+/* treatment the site's other utility fittings use, kept intentionally tiny  */
+/* so it reads as ground equipment rather than a structure.                 */
+
+function Sprinkler({ x, y, style }: { x: number; y: number; style?: CSSProperties }) {
+  const [bx, by] = pt(x, y, 0);
+  const [tx, ty] = pt(x, y, 1.4);
+  const [ax, ay] = pt(x - 0.9, y, 1.1);
+  const [cx2, cy2] = pt(x + 0.9, y, 1.1);
+  return (
+    <g className={styles.rise} style={style}>
+      <line className={styles.poleShaft} x1={bx} y1={by} x2={tx} y2={ty} />
+      <line className={styles.poleArm} x1={ax} y1={ay} x2={cx2} y2={cy2} />
+      <circle className={styles.sprinklerHead} cx={tx} cy={ty} r={1.6} />
+    </g>
+  );
+}
+
+/* One run of the perimeter wall: a single low vertical panel between two    */
+/* ground points, with a thin cap line along its top edge. Working directly  */
+/* from two points (rather than an x0/y0/x1/y1 box) means every run — north/ */
+/* south (long in x) and east/west (long in y) alike — renders as the same   */
+/* kind of thin strip, with no flat top face to read as a wide bright band.  */
+
+function WallPanel({
+  a,
+  b,
+  style,
+}: {
+  a: [number, number];
+  b: [number, number];
+  style?: CSSProperties;
+}) {
+  const panel = face([
+    [a[0], a[1], 0],
+    [b[0], b[1], 0],
+    [b[0], b[1], WALL_H],
+    [a[0], a[1], WALL_H],
+  ]);
+  const [capAx, capAy] = pt(a[0], a[1], WALL_H);
+  const [capBx, capBy] = pt(b[0], b[1], WALL_H);
+  return (
+    <g className={styles.rise} style={style}>
+      <polygon className={styles.wallPanel} points={panel} />
+      <line className={styles.wallCap} x1={capAx} y1={capAy} x2={capBx} y2={capBy} />
     </g>
   );
 }
@@ -505,13 +684,7 @@ function Tree({ x, y, style }: { x: number; y: number; style?: CSSProperties }) 
   const [tx, ty] = pt(x, y, 2);
   return (
     <g className={styles.rise} style={style}>
-      <ellipse
-        className={styles.shadowBlobSoft}
-        cx={gx + 4}
-        cy={gy + 2}
-        rx={4.5}
-        ry={2.2}
-      />
+      <ellipse className={styles.shadowBlobSoft} cx={gx + 4} cy={gy + 2} rx={4.5} ry={2.2} />
       <line className={styles.treeTrunk} x1={gx} y1={gy} x2={tx} y2={ty} />
       <ellipse className={styles.treeCanopy} cx={tx} cy={ty} rx={5} ry={3.8} />
       <ellipse className={styles.treeCanopyInner} cx={tx + 1.3} cy={ty - 1.5} rx={2.8} ry={2.2} />
@@ -521,7 +694,16 @@ function Tree({ x, y, style }: { x: number; y: number; style?: CSSProperties }) 
 
 function Shrub({ x, y, r, style }: { x: number; y: number; r: number; style?: CSSProperties }) {
   const [gx, gy] = pt(x, y, 0);
-  return <ellipse className={cx(styles.shrub, styles.fade)} style={style} cx={gx} cy={gy} rx={r} ry={r * 0.62} />;
+  return (
+    <ellipse
+      className={cx(styles.shrub, styles.fade)}
+      style={style}
+      cx={gx}
+      cy={gy}
+      rx={r}
+      ry={r * 0.62}
+    />
+  );
 }
 
 /* A soft, irregular ground-cover patch — same construction as the water      */
@@ -606,7 +788,7 @@ export function ProductsSitePlate() {
         viewBox="20 610 1500 930"
         focusable="false"
         role="img"
-        aria-label="Isometric site plan of an NDR logistics campus: a stepped cluster of three warehouse halls on the left and a dominant broad-roofed warehouse with a smaller rear hall on the right, divided by a central access road, with paved loading and service yards, an unpaved service track, and surrounding scrub, pond and marshland, backed by a transmission line crossing flooded fields."
+        aria-label="Isometric site plan of an NDR logistics campus, enclosed by a perimeter compound wall with a main entrance gate: a stepped cluster of three warehouse halls on the left and a dominant broad-roofed warehouse with a smaller rear hall on the right, divided by a central access road, with paved loading and service yards, staff parking, an unpaved service track, and surrounding scrub, pond and marshland."
       >
         <defs>
           <pattern
@@ -697,40 +879,28 @@ export function ProductsSitePlate() {
           />
         ))}
 
-        {/* rear wetland — flooded paddy backing the site, crossed by a transmission line */}
-        <polygon
-          className={styles.marshHalo}
-          points={face(REAR_WETLAND_L.map(([x, y]) => [x, y, 0]))}
-        />
-        <polygon
-          className={styles.marsh}
-          points={face(REAR_WETLAND_L.map(([x, y]) => [x, y, 0]))}
-        />
-        <polygon
-          className={styles.marshHalo}
-          points={face(REAR_WETLAND_R.map(([x, y]) => [x, y, 0]))}
-        />
-        <polygon
-          className={styles.marsh}
-          points={face(REAR_WETLAND_R.map(([x, y]) => [x, y, 0]))}
-        />
-        {TOWERS.map((t, index) => (
-          <Tower key={index} x={t.x} y={t.y} style={stagger(4 + index)} />
+        {/* perimeter compound wall, enclosing the developed core */}
+        {WALL_LINES.map(([a, b], index) => (
+          <WallPanel key={index} a={a} b={b} style={stagger(4 + index)} />
         ))}
-        {TOWERS.slice(0, -1).map((t, index) => {
-          const next = TOWERS[index + 1];
-          return (
-            <line
-              key={`wire-${index}`}
-              className={cx(styles.wire, styles.fade)}
-              style={stagger(4)}
-              x1={pt(t.x, t.y, TOWER_H * 0.8)[0]}
-              y1={pt(t.x, t.y, TOWER_H * 0.8)[1]}
-              x2={pt(next.x, next.y, TOWER_H * 0.8)[0]}
-              y2={pt(next.x, next.y, TOWER_H * 0.8)[1]}
-            />
-          );
-        })}
+
+        {/* rear wetland — flooded paddy backing the site */}
+        <polygon
+          className={styles.marshHalo}
+          points={face(REAR_WETLAND_L.map(([x, y]) => [x, y, 0]))}
+        />
+        <polygon
+          className={styles.marsh}
+          points={face(REAR_WETLAND_L.map(([x, y]) => [x, y, 0]))}
+        />
+        <polygon
+          className={styles.marshHalo}
+          points={face(REAR_WETLAND_R.map(([x, y]) => [x, y, 0]))}
+        />
+        <polygon
+          className={styles.marsh}
+          points={face(REAR_WETLAND_R.map(([x, y]) => [x, y, 0]))}
+        />
 
         {/* pond + marsh */}
         <polygon className={styles.waterHalo} points={face(POND.map(([x, y]) => [x, y, 0]))} />
@@ -839,10 +1009,54 @@ export function ProductsSitePlate() {
           <Mass key={index} {...m} style={stagger(17 + index)} />
         ))}
 
+        {/* dock levelers at the loading-dock faces */}
+        {DOCK_LEVELERS.map((d, index) => (
+          <DockLeveler key={index} {...d} style={stagger(19 + index)} />
+        ))}
+
+        {/* sprinkler risers — one near a yard-facing corner of each mass */}
+        {SPRINKLERS.map((s, index) => (
+          <Sprinkler key={index} x={s.x} y={s.y} style={stagger(20 + index)} />
+        ))}
+
         {/* trucks — staged at the front-left loading apron and right yard */}
         {TRUCKS.map((t, index) => (
           <Truck key={index} {...t} style={stagger(19 + index)} />
         ))}
+
+        {/* staff cars, parked adjacent to the loading yard's red edge line */}
+        {CARS.map((c, index) => (
+          <Car key={index} {...c} style={stagger(21 + index)} />
+        ))}
+
+        {/* main gate — two posts under a lintel bar, a gold cap marking it as */}
+        {/* the deliberate entrance, plus a guard booth set back inside it     */}
+        <g className={styles.rise} style={stagger(23)}>
+          {GATE_POSTS.map(([gx, gy], index) => (
+            <g key={index}>
+              <Box x0={gx} y0={gy} x1={gx + 2.2} y1={gy + 2.2} h={GATE_POST_H} />
+              <polygon
+                className={styles.gateCap}
+                points={face([
+                  [gx - 0.3, gy - 0.3, GATE_POST_H],
+                  [gx + 2.5, gy - 0.3, GATE_POST_H],
+                  [gx + 2.5, gy + 2.5, GATE_POST_H],
+                  [gx - 0.3, gy + 2.5, GATE_POST_H],
+                ])}
+              />
+            </g>
+          ))}
+          <polygon
+            className={styles.gateLintel}
+            points={face([
+              [GATE_POSTS[0][0] + 1.1, GATE_POSTS[0][1] + 1.1, GATE_POST_H],
+              [GATE_POSTS[1][0] + 1.1, GATE_POSTS[1][1] + 1.1, GATE_POST_H],
+              [GATE_POSTS[1][0] + 1.1, GATE_POSTS[1][1] + 1.1, GATE_POST_H + 0.9],
+              [GATE_POSTS[0][0] + 1.1, GATE_POSTS[0][1] + 1.1, GATE_POST_H + 0.9],
+            ])}
+          />
+          <Box {...GATE_BOOTH} />
+        </g>
 
         {/* remaining trees scattered in the scrub */}
         {TREES.slice(4).map((t, index) => (

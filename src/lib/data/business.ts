@@ -343,16 +343,21 @@ export const businessClosing = {
 } as const;
 
 /**
- * Vertical 02 — Project and Operations Management Consultancy - NDR Asset Management. As with the homepage
- * `companyMetrics`, figures are configurable; the 999 values are a temporary
- * scaffold pending client data and flow through the standard metric / count-up
- * treatment (`CompanyMetrics`).
+ * Vertical 02 — Project and Operations Management Consultancy - NDR Asset
+ * Management. Figures are configurable and flow through the count-up
+ * treatment (`Vertical02Stats`). "Projects in Pipeline" remains a 999
+ * scaffold — no client figure has been supplied for it yet.
  */
-export const vertical02Metrics = [
-  { value: 999, label: "Asset under construction", context: "Asset under construction" },
-  { value: 999, label: "Strength of the team", context: "Strength of the team" },
+export const vertical02Metrics: readonly (Omit<CompanyMetric, "value"> & { value: number })[] = [
+  {
+    value: 10,
+    suffix: " Mn Sq. Ft.",
+    label: "Asset under construction",
+    context: "Asset under construction",
+  },
+  { value: 230, label: "Strength of the team", context: "Strength of the team" },
   { value: 999, label: "Projects in Pipeline", context: "Projects in Pipeline" },
-] as const satisfies ReadonlyArray<CompanyMetric>;
+];
 
 export type AssetPerformanceFunction = { index: string; title: string };
 
@@ -376,9 +381,15 @@ export const vertical02AssetManagement = {
   ] as const satisfies ReadonlyArray<AssetPerformanceFunction>,
   placeholderNote: "Function scope pending documentation.",
   metrics: [
-    { value: 999, label: "Occupancy Status", context: "Occupancy Status" },
-    { value: 999, label: "Asset Under Management", context: "Asset Under Management" },
-    { value: 999, label: "Locations", context: "Locations" },
+    { value: 98, suffix: "%", label: "Occupancy Status", context: "Occupancy Status" },
+    {
+      value: 33,
+      suffix: " Mn Sq. Ft.",
+      label: "Asset Under Management",
+      context: "Asset Under Management",
+    },
+    // No locations figure has been supplied yet — shown as text, not a count-up.
+    { value: null, label: "Pending", context: "Locations" },
   ] as const satisfies ReadonlyArray<CompanyMetric>,
   cta: {
     eyebrow: "Business Enquiry",

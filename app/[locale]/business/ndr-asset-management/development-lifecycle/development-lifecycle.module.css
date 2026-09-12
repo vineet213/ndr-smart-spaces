@@ -26,7 +26,12 @@ section.masthead {
 .hero {
   position: relative;
   z-index: 1;
-  padding-top: var(--space-11xl);
+  padding-top: var(--space-12xl);
+  padding-bottom: var(--space-6xl);
+  min-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .title {
@@ -35,19 +40,47 @@ section.masthead {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);
-  font-size: clamp(2.5rem, 4.5vw, 4rem);
-  line-height: 0.98;
+  font-size: clamp(3.25rem, 7vw, 7rem);
+  line-height: 0.95;
   letter-spacing: -0.02em;
   color: var(--color-ivory);
   text-wrap: balance;
   animation: title-rise 1000ms var(--ease-standard) 150ms both;
 }
 
+.overviewHeading {
+  position: relative;
+  z-index: 1;
+  margin: var(--space-6xl) 0 0;
+  max-width: 26ch;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--color-text-inverse-85);
+  text-wrap: balance;
+  animation: rise-fade var(--duration-long) var(--ease-standard) 320ms both;
+}
+
+.overviewBody {
+  position: relative;
+  z-index: 1;
+  margin: var(--space-xl) 0 0;
+  max-width: var(--measure-body);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-text-inverse-70);
+  animation: rise-fade var(--duration-long) var(--ease-standard) 420ms both;
+}
+
 .rule {
   display: block;
   width: 100%;
   height: 2px;
-  margin-top: var(--space-11xl);
+  margin-top: var(--space-9xl);
   background-color: var(--color-gold);
   transform-origin: left;
   animation: draw-right 1200ms var(--ease-standard) 450ms both;
@@ -96,21 +129,29 @@ section.masthead {
 
 @media (max-width: 767px) {
   .hero {
-    padding-top: var(--space-9xl);
+    padding-top: var(--space-10xl);
+    min-height: auto;
   }
 
   .title {
-    font-size: clamp(2.25rem, 9vw, 3rem);
+    font-size: clamp(2.5rem, 11vw, 4rem);
+  }
+
+  .overviewHeading {
+    margin-top: var(--space-4xl);
+    max-width: 100%;
   }
 
   .rule {
-    margin-top: var(--space-9xl);
+    margin-top: var(--space-8xl);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ruleTop,
   .title,
+  .overviewHeading,
+  .overviewBody,
   .rule {
     animation: none;
   }

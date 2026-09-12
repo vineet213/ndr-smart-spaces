@@ -13,6 +13,29 @@
   height: auto;
 }
 
+.wallPanel {
+  fill: #cfc6b0;
+  stroke: rgba(28, 26, 25, 0.2);
+  stroke-width: 0.5;
+}
+
+.wallCap {
+  stroke: rgba(28, 26, 25, 0.35);
+  stroke-width: 1;
+}
+
+.gateCap {
+  fill: var(--color-gold);
+  stroke: rgba(28, 26, 25, 0.3);
+  stroke-width: 0.4;
+}
+
+.gateLintel {
+  fill: #d9a545;
+  stroke: rgba(28, 26, 25, 0.3);
+  stroke-width: 0.4;
+}
+
 /* atmosphere + ground ----------------------------------------------------- */
 
 .atmosphere {
@@ -246,9 +269,10 @@
   stroke-linecap: round;
 }
 
-.wire {
+.sprinklerHead {
+  fill: var(--color-maroon);
   stroke: rgba(28, 26, 25, 0.3);
-  stroke-width: 1;
+  stroke-width: 0.4;
 }
 
 /* crop marks ------------------------------------------------------------------ */

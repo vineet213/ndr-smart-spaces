@@ -1,14 +1,16 @@
 .band {
-  background-color: var(--color-ivory);
-  border-top: 1px solid var(--color-hairline-light);
-  border-bottom: 1px solid var(--color-hairline-light);
+  background-color: var(--color-charcoal);
+  border-top: 1px solid var(--color-hairline-dark);
+  border-bottom: 1px solid var(--color-hairline-dark);
   padding-block: var(--space-9xl);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  column-gap: var(--space-7xl);
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .gridFour {
@@ -18,15 +20,24 @@
 .block {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  align-items: center;
+  gap: var(--space-md);
+  text-align: center;
+  padding-inline: var(--space-4xl);
+}
+
+.block + .block {
+  border-inline-start: 1px solid var(--color-hairline-dark);
 }
 
 .value {
   font-family: var(--font-display);
-  font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-journey-year);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(2.75rem, 4.5vw, 4.25rem);
   line-height: 1;
-  color: var(--color-maroon);
+  letter-spacing: -0.02em;
+  color: var(--color-gold);
+  font-variant-numeric: tabular-nums;
 }
 
 .label {
@@ -34,28 +45,28 @@
   font-weight: var(--font-weight-body-semibold);
   font-size: var(--font-body-size);
   line-height: var(--leading-body);
-  color: var(--color-text-primary);
+  color: var(--color-text-inverse-90);
 }
 
 .context {
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-regular);
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  color: var(--color-ink-muted);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  letter-spacing: 0.02em;
+  color: var(--color-text-inverse-70);
 }
 
 .placeholder {
   font-family: var(--font-display);
-  font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-journey-year);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(2.75rem, 4.5vw, 4.25rem);
   line-height: 1;
-  color: var(--color-ink-muted);
+  color: var(--color-text-inverse-70);
 }
 
 @media (max-width: 1023px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr);
     row-gap: var(--space-8xl);
   }
 }
@@ -68,5 +79,15 @@
   .grid {
     grid-template-columns: 1fr;
     row-gap: var(--space-7xl);
+  }
+
+  .block {
+    padding-inline: 0;
+  }
+
+  .block + .block {
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--color-hairline-dark);
+    padding-block-start: var(--space-7xl);
   }
 }

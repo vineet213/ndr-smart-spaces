@@ -1,5 +1,5 @@
 import { Container, Stack } from "@/components/layout";
-import { Eyebrow, Heading, Lede, Metric, SourceFootnote } from "@/components/ui";
+import { Heading, Lede, Metric, SourceFootnote } from "@/components/ui";
 import { aboutHero } from "@/lib/data/about";
 import { Counter } from "./Counter";
 import { Reveal } from "./Reveal";
@@ -12,14 +12,10 @@ export function AboutHero() {
       <Container className={styles.content}>
         <Stack gap="6xl">
           <Stack gap="4xl">
-            <Eyebrow>{aboutHero.eyebrow}</Eyebrow>
-            <div className={styles.headlineBlock}>
-              <span className={styles.goldRule} aria-hidden="true" />
-              <Heading variant="hero" id="about-hero-title" className={styles.headline}>
-                {aboutHero.headline}
-                <span className={styles.accent}>{aboutHero.headlineAccent}</span>
-              </Heading>
-            </div>
+            <Heading variant="hero" id="about-hero-title" className={styles.headline}>
+              {aboutHero.headline}
+              <span className={styles.accent}>{aboutHero.headlineAccent}</span>
+            </Heading>
             <Lede className={styles.lede}>{aboutHero.lede}</Lede>
           </Stack>
 

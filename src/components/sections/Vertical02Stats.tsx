@@ -15,8 +15,14 @@ export function Vertical02Stats() {
         {vertical02Metrics.map((metric, index) => (
           <li key={metric.label} className={styles.block}>
             <Reveal delay={(index + 1) as RevealDelay} className={styles.cell}>
-              <Counter className={styles.value} value={metric.value} />
-              <span className={styles.label}>{metric.label}</span>
+              <Counter
+                className={styles.value}
+                value={metric.value}
+                prefix={metric.prefix}
+                suffix={metric.suffix}
+                format={metric.format}
+              />
+              <span className={styles.label}>{metric.context}</span>
             </Reveal>
           </li>
         ))}

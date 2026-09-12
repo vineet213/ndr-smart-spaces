@@ -23,6 +23,7 @@ export default function AssetPerformanceManagementPage() {
           <h1 id="subpage-title" className={styles.title}>
             Asset Performance Management
           </h1>
+          <p className={styles.overviewNote}>{intro.description}</p>
         </Container>
 
         <span className={styles.rule} aria-hidden="true" />
@@ -33,17 +34,19 @@ export default function AssetPerformanceManagementPage() {
           <Reveal>
             <header className={styles.intro}>
               <h2 className={styles.introHeading}>{intro.heading}</h2>
-              <p className={styles.introBody}>{intro.description}</p>
             </header>
           </Reveal>
 
           <Reveal>
             <ul className={styles.functionGrid} aria-label="Asset performance functions">
               {functions.map((fn) => (
-                <li key={fn.index} className={styles.functionCell}>
-                  <span className={styles.functionIndex}>{fn.index}</span>
-                  <h3 className={styles.functionTitle}>{fn.title}</h3>
-                  <p className={styles.functionNote}>{placeholderNote}</p>
+                <li key={fn.index} className={styles.functionCell} tabIndex={0}>
+                  <span className={styles.functionCurtain} aria-hidden="true" />
+                  <div className={styles.functionContent}>
+                    <span className={styles.functionIndex}>{fn.index}</span>
+                    <h3 className={styles.functionTitle}>{fn.title}</h3>
+                    <p className={styles.functionNote}>{placeholderNote}</p>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -74,7 +77,6 @@ export default function AssetPerformanceManagementPage() {
               <Stack gap="5xl">
                 <Reveal>
                   <Stack gap="xl">
-                    <span className={styles.goldRule} aria-hidden="true" />
                     <Eyebrow>{cta.eyebrow}</Eyebrow>
                     <Heading variant="section" id="apm-cta-title">
                       {cta.heading}

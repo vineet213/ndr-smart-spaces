@@ -1,0 +1,76 @@
+.art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Base texture (grid, skylines, floor lines, ticks) fades in as one group —   */
+/* cheap, single opacity transition rather than animating dozens of strokes.  */
+
+.fadeBase {
+  opacity: 0;
+  transition: opacity 900ms var(--ease-standard);
+}
+
+.active .fadeBase {
+  opacity: 1;
+}
+
+/* The corner brackets, baseline rule and (mission only) the structure       */
+/* outline draw themselves in, like a technical drawing being plotted.       */
+
+.drawPath {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 650ms var(--ease-standard);
+}
+
+.active .drawPath {
+  stroke-dashoffset: 0;
+}
+
+.draw0 {
+  transition-delay: 80ms;
+}
+
+.draw1 {
+  transition-delay: 200ms;
+}
+
+.draw2 {
+  transition-delay: 340ms;
+}
+
+.draw3 {
+  transition-delay: 460ms;
+}
+
+/* The gold accent — the ascending trend line / crane hook — completes the   */
+/* drawing last. */
+
+.fadeHero {
+  opacity: 0;
+  transition: opacity 700ms var(--ease-standard);
+  transition-delay: 620ms;
+}
+
+.active .fadeHero {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fadeBase,
+  .drawPath,
+  .fadeHero {
+    transition: none;
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}

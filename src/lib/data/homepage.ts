@@ -30,20 +30,16 @@ const heroStats: readonly { value: number; suffix: string; label: string }[] = H
 export type HeroCta = { label: string; href: string };
 
 export const hero: {
-  eyebrow: string;
   headline: string;
   subhead: string;
   primaryCta?: HeroCta;
-  secondaryCta: HeroCta;
   stats: typeof heroStats;
   statsSource: string;
   image: { src: string; alt: string } | null;
 } = {
-  eyebrow: "NDR Smart Spaces · Est. 2025",
   headline: "From land to listed assets.",
   subhead:
     "A diversified infrastructure organization developing, owning and managing institutional-grade industrial, commercial and institutional assets across India — and the development platform behind NDR InvIT, India's first warehousing InvIT.",
-  secondaryCta: { label: "Investor Centre", href: "/en/investor-centre" },
   stats: heroStats,
   statsSource: "Source: NDR Corporate Presentation, FY26",
   image: null,
@@ -134,13 +130,57 @@ for (const location of cmsLocations) {
 
 export const mapLocations: MapLocation[] = homepageMapLocations;
 
+export type CompanyOverviewSegment = { text: string; bold?: boolean };
+
 export const companyOverview = {
   eyebrow: "Company overview",
   heading: "Developing, owning and managing.",
   lede: "NDR Smart Spaces is a diversified infrastructure organization focused on developing, owning, and managing high-quality industrial, commercial and institutional assets.",
-  body: "The company combines expertise in real estate development and grade A warehousing for over 60 years. Its integrated approach spans the complete asset lifecycle — from conceptualization and development to operations, leasing, and investment management.",
-  link: { label: "Our journey", href: "#company-metrics" },
-} as const;
+  // Client-provided copy, reproduced verbatim (including the deliberately
+  // unfinished final sentence) — do not rewrite, shorten or complete it.
+  paragraphs: [
+    [
+      { text: "NDR Smart Spaces Private Limited", bold: true },
+      { text: " is the infrastructure development and real estate platform of the " },
+      { text: "NDR Group", bold: true },
+      {
+        text:
+          ", established to spearhead the Group’s development initiatives across logistics, industrial, residential and commercial segments. The company was formed pursuant to the demerger of the infrastructure development business of ",
+      },
+      { text: "NDR Warehousing Private Limited", bold: true },
+      {
+        text:
+          ", in accordance with the order of the National Company Law Tribunal (NCLT). The demerger created a dedicated platform with a clear focus on infrastructure and real estate development, enabling greater operational focus, agility and scalability.",
+      },
+    ],
+    [
+      { text: "NDR Smart Spaces is focused on the " },
+      {
+        text: "development of logistics and industrial infrastructure, as well as residential and commercial plotted developments",
+        bold: true,
+      },
+      {
+        text: ", supporting the evolving requirements of businesses, investors and communities across India.",
+      },
+    ],
+    [
+      { text: "In addition to development activities, the Company provides " },
+      { text: "project management consultancy services", bold: true },
+      {
+        text: ", supporting the planning, execution and coordination of infrastructure and real estate projects.",
+      },
+    ],
+    [
+      { text: "Backed by the experience and capabilities of the " },
+      { text: "NDR Group", bold: true },
+      {
+        text:
+          ", NDR Smart Spaces aims to build high-quality, scalable and strategically located assets that contribute to India’s growing ",
+      },
+      { text: "logistics, industrial and real estate", bold: true },
+    ],
+  ] as CompanyOverviewSegment[][],
+};
 
 export type CompanyMetric = {
   value: number | null;
@@ -154,68 +194,24 @@ export type CompanyMetric = {
 
 export const companyMetrics = [
   {
-    value: null,
-    label: "DATA TO BE INSERTED",
-    context: "DATA TO BE INSERTED",
+    value: 500,
+    suffix: "+",
+    label: "ACRES APPROX. LAND BANK",
+    context: "ACRES APPROX. LAND BANK",
   },
   {
-    value: null,
-    label: "DATA TO BE INSERTED",
-    context: "DATA TO BE INSERTED",
+    value: 20,
+    suffix: "+",
+    label: "MARKETS · PRESENCE",
+    context: "MARKETS · PRESENCE",
   },
   {
-    value: null,
-    label: "DATA TO BE INSERTED",
-    context: "DATA TO BE INSERTED",
-  },
-  {
-    value: null,
-    label: "DATA TO BE INSERTED",
-    context: "DATA TO BE INSERTED",
-  },
-  {
-    value: null,
-    label: "DATA TO BE INSERTED",
-    context: "DATA TO BE INSERTED",
-  },
-  {
-    value: null,
-    label: "DATA TO BE INSERTED",
-    context: "DATA TO BE INSERTED",
+    value: 10,
+    suffix: " Mn",
+    label: "SQ FT IN PIPELINE",
+    context: "SQ FT IN PIPELINE",
   },
 ] as const satisfies ReadonlyArray<CompanyMetric>;
-
-export type CustomerReview = {
-  quote: string;
-  name: string;
-  role: string;
-  company: string;
-};
-
-export const customerReviews = {
-  eyebrow: "Customer reviews",
-  heading: "What our customers say.",
-  reviews: [
-    {
-      quote: "DATA TO BE INSERTED",
-      name: "DATA TO BE INSERTED",
-      role: "DATA TO BE INSERTED",
-      company: "DATA TO BE INSERTED",
-    },
-    {
-      quote: "DATA TO BE INSERTED",
-      name: "DATA TO BE INSERTED",
-      role: "DATA TO BE INSERTED",
-      company: "DATA TO BE INSERTED",
-    },
-    {
-      quote: "DATA TO BE INSERTED",
-      name: "DATA TO BE INSERTED",
-      role: "DATA TO BE INSERTED",
-      company: "DATA TO BE INSERTED",
-    },
-  ],
-} as const;
 
 export const journey = [
   {

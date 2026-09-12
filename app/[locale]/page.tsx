@@ -3,7 +3,6 @@ import {
   CompanyOverview,
   PortfolioPresence,
   CompanyMetrics,
-  CustomerReviews,
   Esg,
   LatestUpdates,
   ContactCta,
@@ -17,7 +16,6 @@ export default function HomePage() {
       <CompanyOverview />
       <PortfolioPresence />
       <CompanyMetrics />
-      <CustomerReviews />
       <Esg />
       <LatestUpdates />
       <ContactCta />

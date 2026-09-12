@@ -147,7 +147,7 @@ export const sitemapGroups: readonly SitemapGroup[] = [
         label: "Project and Operations Management Consultancy - NDR Asset Management",
         href: "/en/business/ndr-asset-management",
       },
-      { label: "Residential Plotting", href: "/en/business/ave-acres" },
+      { label: "Residential Plotting", href: "/en/business/residential-plotting" },
       { label: "ESG & Sustainability", href: "/en/esg" },
     ],
   },

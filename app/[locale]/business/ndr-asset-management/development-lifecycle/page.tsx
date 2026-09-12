@@ -21,13 +21,15 @@ export default function DevelopmentLifecyclePage() {
           <h1 id="subpage-title" className={styles.title}>
             Development Lifecycle
           </h1>
+          <h2 className={styles.overviewHeading}>{intro.heading}</h2>
+          <p className={styles.overviewBody}>{intro.description}</p>
         </Container>
 
         <span className={styles.rule} aria-hidden="true" />
       </Section>
 
       <Section tone="dim" className={styles.bodySection}>
-        <DevelopmentLifecycle intro={intro} stages={stages} source={source} />
+        <DevelopmentLifecycle stages={stages} source={source} />
       </Section>
 
       <Footer />

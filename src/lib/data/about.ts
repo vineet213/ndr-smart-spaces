@@ -13,12 +13,14 @@ export type AboutHeroStat = {
 };
 
 export const aboutHero = {
-  eyebrow: "About NDR Smart Spaces · Est. 2025",
   headline: "From a rice mill to ",
   headlineAccent: "institutional infrastructure.",
-  lede: "NDR Smart Spaces Private Limited is an infra development and real estate platform of the NDR Group, incorporated in February 2025, focused on logistics and industrial infrastructure as well as residential and commercial plots.",
+  lede: "NDR Smart Spaces Private Limited is an infra development and real estate platform of the NDR Group, incorporated in 1954. India's third largest logistics and industrial infrastructure as well as residential and commercial plots.",
   cta: { label: "Our story", href: "#story" },
-  ctaSecondary: { label: "Explore the business", href: "/en/business/logistics-and-industrial-infrastructure/" },
+  ctaSecondary: {
+    label: "Explore the business",
+    href: "/en/business/logistics-and-industrial-infrastructure/",
+  },
   stats: [
     {
       label: "GROUP FOUNDED",
@@ -39,8 +41,8 @@ export const aboutHero = {
 } as const;
 
 export const aboutStory = {
-  eyebrow: "Our story",
-  heading: "Three generations of building.",
+  eyebrow: "Origin of the group",
+  heading: "Six decades of building",
   paragraphs: [
     "The NDR Group was founded in 1954 by the late Mr. Naidu Dasaratha Rami Reddy. It began with a modest land parcel and a vision to establish a rice mill, marking the start of entrepreneurship in a family rooted in agriculture. His pioneering spirit laid the foundation for a multi-generational legacy of growth and innovation.",
     "Since 2002, under the leadership of Mr. N. Amrutesh Reddy, the company has achieved significant scale, attracted marquee investors and executed strategic acquisitions to strengthen its market position. Today, Mr. N. Amrutesh Reddy is steering the organization into a new phase of growth and modernization, focused on redefining India's warehousing, industrial parks and logistics landscape through institutional-grade A infrastructure, sustainability, and technology integration.",
@@ -62,31 +64,42 @@ export const aboutTimeline = {
   nodes: [
     {
       year: "1954",
-      title: "NDR Group began",
+      title: "Beginning of NDR Group",
     },
     {
       year: "1979",
-      title: "First private bonded warehouse",
+      title: "India's first private bonded warehouse",
     },
     {
       year: "2002",
-      title: "India's first IBM (now Lenovo) facility",
+      title: "Establishment of India's first IBM facility",
+    },
+    {
+      year: "2005",
+      title:
+        "NDR Warehousing invests in CWCNSL (Continental Warehousing Corporation (Nhava Sheva) Limited) along with IC&FS Investment Managers",
+    },
+    {
+      year: "2018",
+      title: "NDR Warehousing exits CWCNSL",
     },
     {
       year: "2023",
-      title: "NDR Group incorporated NDR InvIT Trust",
+      title: "Incorporation of NDR InvIT Trust, India's first perpetual warehousing",
     },
     {
+      // 2024 milestone intentionally unchanged — client has flagged this
+      // wording for revision but has not supplied replacement copy yet.
       year: "2024",
       title: "NDR InvIT Trust listed on NSE, offer size INR 8.8 bn",
     },
     {
       year: "2025",
-      title: "NDR Smart Spaces incorporated and applied for demerger from NDR Warehousing",
+      title: "NDR Smart Spaces incorporated",
     },
     {
       year: "2027",
-      title: "Planned IPO",
+      title: "Planned IPO of India's first largest DEFCO company",
     },
   ] as readonly TimelineNode[],
 } as const;

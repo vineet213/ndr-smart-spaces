@@ -12,7 +12,6 @@ import { ProductsSitePlate } from "./ProductsSitePlate";
 import styles from "./DevelopmentLifecycle.module.css";
 
 type DevelopmentLifecycleProps = {
-  intro: { heading: string; description: string };
   stages: readonly LifecycleStage[];
   source: string;
 };
@@ -79,18 +78,9 @@ function StageRow({ stage, fromLeft, priority }: StageRowProps) {
   );
 }
 
-export function DevelopmentLifecycle({ intro, stages, source }: DevelopmentLifecycleProps) {
+export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecycleProps) {
   return (
     <section className={styles.section}>
-      <Container>
-        <Reveal>
-          <header className={styles.intro}>
-            <h2 className={styles.introHeading}>{intro.heading}</h2>
-            <p className={styles.introBody}>{intro.description}</p>
-          </header>
-        </Reveal>
-      </Container>
-
       <div className={styles.list}>
         {stages.map((stage, index) => (
           <StageRow

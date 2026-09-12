@@ -45,13 +45,14 @@
 .item {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 48px 1fr;
-  column-gap: var(--space-4xl);
+  grid-template-columns: 1fr 24px 1fr;
+  column-gap: var(--space-lg);
   align-items: start;
   padding-block: var(--space-5xl);
 }
 
 .year {
+  grid-row: 1;
   grid-column: 1;
   justify-self: end;
   padding-top: var(--space-2xs);
@@ -68,6 +69,7 @@
 }
 
 .node {
+  grid-row: 1;
   grid-column: 2;
   justify-self: center;
   margin-top: calc(var(--font-journey-year) * 0.54);
@@ -104,11 +106,12 @@
 }
 
 .entry {
+  grid-row: 1;
   grid-column: 3;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  max-width: 30rem;
+  max-width: 32rem;
 }
 
 .item:nth-child(even) .year {
@@ -119,14 +122,18 @@
 .item:nth-child(even) .entry {
   grid-column: 1;
   justify-self: end;
+  /* Left-side entries wrap left-aligned by default, which leaves a ragged
+     edge facing the spine — right-align so multi-line descriptions (2005,
+     2023) stay flush against the node instead of drifting away from it. */
+  text-align: right;
 }
 
 .title {
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-h3);
-  line-height: var(--leading-h3);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-semibold);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
   color: var(--color-charcoal);
   opacity: 0.45;
   transition: opacity 300ms var(--ease-standard);
@@ -193,8 +200,13 @@
     margin-top: 0;
   }
 
-  .year {
+  .year,
+  .entry,
+  .item:nth-child(even) .year,
+  .item:nth-child(even) .entry {
     justify-self: start;
+    max-width: none;
+    text-align: left;
   }
 }
 

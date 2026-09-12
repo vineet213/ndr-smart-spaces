@@ -15,21 +15,18 @@
   max-width: 44rem;
 }
 
+/* Full-bleed panel row: rendered outside Container, so this grid carries no  */
+/* max-width or side padding of its own — it spans the viewport edge to edge. */
+.panels {
+  margin-top: var(--space-7xl);
+}
+
 .panel {
   position: relative;
   margin: 0;
-  aspect-ratio: 4 / 5;
+  height: clamp(26rem, 58vh, 38rem);
   overflow: hidden;
   background-color: var(--color-charcoal);
-}
-
-.image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
 }
 
 .scrim {

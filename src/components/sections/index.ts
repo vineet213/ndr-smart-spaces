@@ -5,7 +5,6 @@ export { IndiaMap } from "./IndiaMap";
 export { CompanyOverview } from "./CompanyOverview";
 export { CompanyMetrics } from "./CompanyMetrics";
 export { BusinessHighlights } from "./BusinessHighlights";
-export { CustomerReviews } from "./CustomerReviews";
 export { CapitalCycle } from "./CapitalCycle";
 export { FeaturedProjects } from "./FeaturedProjects";
 export { MarqueeClients } from "./MarqueeClients";

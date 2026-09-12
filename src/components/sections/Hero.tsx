@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/layout";
-import { Eyebrow, Lede, Button } from "@/components/ui";
+import { Lede, Button } from "@/components/ui";
 import { hero } from "@/lib/data/homepage";
 import { ArchitecturalField } from "./ArchitecturalField";
 import styles from "./Hero.module.css";
@@ -38,9 +38,6 @@ export function Hero() {
       </div>
 
       <Container as="div" className={styles.typeContainer}>
-        <Eyebrow tone="dark" as="p" className={styles.masthead}>
-          {hero.eyebrow}
-        </Eyebrow>
         <div className={styles.typeBlock}>
           <h1 id="hero-title" className={styles.screenReaderTitle}>
             {hero.headline}
@@ -58,16 +55,13 @@ export function Hero() {
           <Lede tone="dark" className={styles.subhead}>
             {hero.subhead}
           </Lede>
-          <div className={styles.ctas}>
-            {hero.primaryCta ? (
+          {hero.primaryCta ? (
+            <div className={styles.ctas}>
               <Button tone="dark" href={hero.primaryCta.href}>
                 {hero.primaryCta.label}
               </Button>
-            ) : null}
-            <Button variant="secondary" tone="dark" href={hero.secondaryCta.href}>
-              {hero.secondaryCta.label}
-            </Button>
-          </div>
+            </div>
+          ) : null}
         </div>
       </Container>
 

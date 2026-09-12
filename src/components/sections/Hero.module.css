@@ -33,10 +33,6 @@
   padding-top: var(--space-12xl);
 }
 
-.masthead {
-  animation: riseIn var(--duration-reveal) var(--ease-standard) 0ms both;
-}
-
 .typeBlock {
   margin-top: auto;
   padding-bottom: var(--space-10xl);

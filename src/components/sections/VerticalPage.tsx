@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Container, Section } from "@/components/layout";
-import { Metric, SourceFootnote } from "@/components/ui";
+import { SourceFootnote } from "@/components/ui";
 import { verticalOverview, type Division } from "@/lib/data/business";
 import { cx } from "@/components/ui/cx";
 import { AveAcresExplore } from "./AveAcresExplore";
@@ -93,30 +93,6 @@ export function VerticalPage({ division }: VerticalPageProps) {
                   </div>
                 ))}
               </dl>
-            </Reveal>
-          ) : null}
-
-          {division.index === "01" && division.proof ? (
-            <Reveal>
-              <div className={styles.proof}>
-                <span className={styles.proofLabel}>Proof</span>
-                <span className={styles.proofText}> {division.proof}</span>
-                <span className={styles.proofSource}> — {division.proofSource}</span>
-              </div>
-            </Reveal>
-          ) : null}
-
-          {division.metrics.length > 0 ? (
-            <Reveal>
-              <div className={styles.metrics}>
-                {division.metrics.map((metric) => (
-                  <div key={metric.key} className={styles.metricRow}>
-                    <Metric className={styles.metricValue}>{metric.value}</Metric>
-                    <span className={styles.metricName}>{metric.name}</span>
-                    <span className={styles.metricKey}>{metric.key}</span>
-                  </div>
-                ))}
-              </div>
             </Reveal>
           ) : null}
 

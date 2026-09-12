@@ -12,53 +12,62 @@ import styles from "./AveAcresProcess.module.css";
 const PROGRESS_START = 0.9;
 const PROGRESS_END = 0.3;
 
-const trackStyle = {
+const glyphStyle = {
   viewBox: "0 0 56 56",
-  fill: "none",
-  stroke: "currentColor",
-  strokeWidth: 1.5,
-  strokeLinecap: "round",
-  strokeLinejoin: "round",
+  fill: "currentColor",
+  stroke: "none",
 } as const;
 
+/**
+ * Simple, solid pictograms — one instantly-readable symbol per stage rather
+ * than abstract line art. Each drops into the same fill="currentColor"
+ * treatment the surrounding .glyphWrap scroll-tint states already recolor,
+ * so no other styling changes are needed.
+ */
 function StageMark({ index }: { index: string }) {
   switch (index) {
+    // 01 — Identify Land: a location pin marking a plot.
     case "01":
       return (
-        <svg {...trackStyle} aria-hidden="true" focusable="false">
-          <path d="M12 36 L10 25 L18 14 L32 10 L44 16 L48 30 L42 42 L26 45 Z" />
-          <path d="M17 40 C 24 34, 33 42, 40 37" />
-          <path d="M28 21 V33 M21 27 H35" />
-          <path d="M47 8 V16 M43 12 H51" />
+        <svg {...glyphStyle} aria-hidden="true" focusable="false">
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M28 50C28 50 14 33.8 14 22C14 13.163 20.163 7 28 7C35.837 7 42 13.163 42 22C42 33.8 28 50 28 50ZM28 29C31.866 29 35 25.866 35 22C35 18.134 31.866 15 28 15C24.134 15 21 18.134 21 22C21 25.866 24.134 29 28 29Z"
+          />
         </svg>
       );
+    // 02 — Plan the Project: a T-square, the architect's planning tool.
     case "02":
       return (
-        <svg {...trackStyle} aria-hidden="true" focusable="false">
-          <path d="M11 18 H45 V50 H11 Z" />
-          <path d="M24 18 V50 M37 18 V50" />
-          <path d="M11 35 H45" />
-          <path d="M11 50 L45 27" />
+        <svg {...glyphStyle} aria-hidden="true" focusable="false">
+          <rect x="9" y="10" width="38" height="7" rx="1" />
+          <rect x="24" y="17" width="8" height="33" rx="1" />
+          <rect x="20" y="24" width="16" height="3" />
+          <rect x="20" y="33" width="16" height="3" />
+          <rect x="20" y="42" width="16" height="3" />
         </svg>
       );
+    // 03 — Develop and Deliver: a building rising under a tower crane.
     case "03":
       return (
-        <svg {...trackStyle} aria-hidden="true" focusable="false">
-          <path d="M26 9 V50" />
-          <path d="M26 14 H45 M26 22 H48" />
-          <path d="M30 14 L39 22" />
-          <path d="M13 14 H26 M15 22 H26" />
-          <path d="M31 50 H44 M31 50 L38 35 M44 50 L38 35" />
+        <svg {...glyphStyle} aria-hidden="true" focusable="false">
+          <path d="M9 49V30H33V49H9Z" />
+          <path d="M9 30L21 19L33 30H9Z" />
+          <rect x="43" y="8" width="4" height="41" />
+          <rect x="21" y="9" width="26" height="4" />
+          <rect x="45" y="4" width="8" height="6" />
+          <rect x="26" y="13" width="3" height="11" />
+          <rect x="23" y="23" width="9" height="3" />
         </svg>
       );
+    // 04 — Create a Community: a row of houses, a neighbourhood.
     case "04":
       return (
-        <svg {...trackStyle} aria-hidden="true" focusable="false">
-          <path d="M11 46 V36 L17 30 L23 36 V46 Z" />
-          <path d="M27 46 V39 L33 34 L39 39 V46 Z" />
-          <path d="M18 50 C 25 44, 31 47, 37 41" />
-          <path d="M46 40 V47 M43 41 L46 38 L49 41" />
-          <path d="M46 40 C 41 34.5, 42.5 29.5, 46 27 C 49.5 29.5, 51 34.5, 46 40 Z" />
+        <svg {...glyphStyle} aria-hidden="true" focusable="false">
+          <path d="M8 48V34L16 26L24 34V48H8Z" opacity="0.55" />
+          <path d="M32 48V36L40 28L48 36V48H32Z" opacity="0.55" />
+          <path d="M19 50V33L29 23L39 33V50H19Z" />
         </svg>
       );
     default:

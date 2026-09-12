@@ -5,32 +5,6 @@
   overflow-x: clip;
 }
 
-.intro {
-  margin-bottom: var(--space-8xl);
-}
-
-.introHeading {
-  margin: 0;
-  max-width: calc(var(--measure-body) * 1.1);
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-light);
-  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  color: var(--color-charcoal);
-  text-wrap: balance;
-}
-
-.introBody {
-  margin: var(--space-lg) 0 0;
-  max-width: var(--measure-body);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-regular);
-  font-size: 1.0625rem;
-  line-height: 1.7;
-  color: var(--color-text-secondary);
-}
-
 .list {
   display: grid;
 }
@@ -246,7 +220,6 @@
     height: clamp(26rem, 66vh, 40rem);
   }
 
-  .intro,
   .mapHeading {
     margin-bottom: var(--space-5xl);
   }

@@ -26,7 +26,12 @@ section.masthead {
 .hero {
   position: relative;
   z-index: 1;
-  padding-top: var(--space-11xl);
+  padding-top: var(--space-12xl);
+  padding-bottom: var(--space-6xl);
+  min-height: 78vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .title {
@@ -35,19 +40,34 @@ section.masthead {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);
-  font-size: clamp(2.5rem, 4.5vw, 4rem);
-  line-height: 0.98;
+  font-size: clamp(3.25rem, 7vw, 7rem);
+  line-height: 0.95;
   letter-spacing: -0.02em;
   color: var(--color-ivory);
   text-wrap: balance;
   animation: title-rise 1000ms var(--ease-standard) 150ms both;
 }
 
+/* Small, restrained overview note — gives the masthead content weight      */
+/* without duplicating a full editorial statement treatment.                */
+.overviewNote {
+  position: relative;
+  z-index: 1;
+  margin: var(--space-5xl) 0 0;
+  max-width: 46ch;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-text-inverse-70);
+  animation: rise-fade var(--duration-long) var(--ease-standard) 320ms both;
+}
+
 .rule {
   display: block;
   width: 100%;
   height: 2px;
-  margin-top: var(--space-11xl);
+  margin-top: var(--space-9xl);
   background-color: var(--color-gold);
   transform-origin: left;
   animation: draw-right 1200ms var(--ease-standard) 450ms both;
@@ -79,23 +99,13 @@ section.masthead {
   text-wrap: balance;
 }
 
-.introBody {
-  margin: var(--space-lg) 0 0;
-  max-width: var(--measure-body);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-regular);
-  font-size: 1.0625rem;
-  line-height: 1.7;
-  color: var(--color-text-secondary);
-}
-
-/* function grid --------------------------------------------------------- */
+/* function grid — 2 columns × 2 rows, substantial editorial panels ------- */
 
 .functionGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  column-gap: var(--space-4xl);
-  row-gap: var(--space-4xl);
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: var(--space-5xl);
+  row-gap: var(--space-5xl);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -103,10 +113,10 @@ section.masthead {
 
 .functionCell {
   position: relative;
+  overflow: hidden;
+  isolation: isolate;
   display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-5xl) var(--space-4xl) var(--space-6xl);
+  min-height: clamp(18rem, 26vw, 24rem);
   background-color: var(--color-ivory);
   border: 1px solid var(--color-hairline-light);
 }
@@ -119,6 +129,40 @@ section.masthead {
   right: -1px;
   height: 2px;
   background-color: var(--color-gold);
+  z-index: 2;
+}
+
+.functionCell:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: -2px;
+}
+
+/* the curtain: a solid tonal panel that rises to cover the cell on         */
+/* hover/focus, an architectural "reveal" rather than a fade or a bounce.   */
+.functionCurtain {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--color-charcoal);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 420ms var(--ease-standard);
+}
+
+.functionCell:hover .functionCurtain,
+.functionCell:focus-visible .functionCurtain,
+.functionCell:focus-within .functionCurtain {
+  transform: scaleY(1);
+}
+
+.functionContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  padding: var(--space-6xl) var(--space-5xl) var(--space-7xl);
 }
 
 .functionIndex {
@@ -129,25 +173,41 @@ section.masthead {
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
   color: var(--color-gold);
+  transition: color 300ms var(--ease-standard);
 }
 
 .functionTitle {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: 1.25rem;
-  line-height: 1.25;
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  line-height: 1.2;
   letter-spacing: -0.005em;
   color: var(--color-charcoal);
+  transition: color 300ms var(--ease-standard);
 }
 
 .functionNote {
   margin: var(--space-sm) 0 0;
+  max-width: 34ch;
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-regular);
   font-size: 0.9375rem;
   line-height: 1.6;
   color: var(--color-ink-muted);
+  transition: color 300ms var(--ease-standard);
+}
+
+.functionCell:hover .functionTitle,
+.functionCell:focus-visible .functionTitle,
+.functionCell:focus-within .functionTitle {
+  color: var(--color-ivory);
+}
+
+.functionCell:hover .functionNote,
+.functionCell:focus-visible .functionNote,
+.functionCell:focus-within .functionNote {
+  color: var(--color-text-inverse-70);
 }
 
 /* stats ----------------------------------------------------------------- */
@@ -191,17 +251,14 @@ section.masthead {
   align-self: start;
 }
 
+/* The form (EnquiryForm) is styled for a dark host — ivory text, gold      */
+/* labels, hairline-dark borders — so the card must give it a dark ground,  */
+/* matching the same treatment already used on the Contact page. On the     */
+/* previous light card this text rendered nearly invisible.                */
 .ctaCard {
-  padding: var(--space-5xl);
-  background-color: var(--color-ivory);
-  border: 1px solid var(--color-hairline-light);
-}
-
-.goldRule {
-  display: block;
-  width: var(--space-9xl);
-  height: 2px;
-  background-color: var(--color-gold);
+  padding: var(--space-6xl);
+  background-color: var(--color-maroon-dark);
+  border-radius: var(--radius-md);
 }
 
 /* keyframes -------------------------------------------------------------- */
@@ -240,10 +297,6 @@ section.masthead {
 /* responsive ------------------------------------------------------------ */
 
 @media (max-width: 1023px) {
-  .functionGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .ctaInfo {
     padding-right: 0;
     margin-bottom: var(--space-6xl);
@@ -252,15 +305,21 @@ section.masthead {
 
 @media (max-width: 767px) {
   .hero {
-    padding-top: var(--space-9xl);
+    padding-top: var(--space-10xl);
+    min-height: auto;
   }
 
   .title {
-    font-size: clamp(2.25rem, 9vw, 3rem);
+    font-size: clamp(2.5rem, 11vw, 4rem);
+  }
+
+  .overviewNote {
+    margin-top: var(--space-4xl);
+    max-width: 100%;
   }
 
   .rule {
-    margin-top: var(--space-9xl);
+    margin-top: var(--space-8xl);
   }
 
   .content {
@@ -273,7 +332,11 @@ section.masthead {
   }
 
   .functionCell {
-    padding: var(--space-4xl) var(--space-3xl) var(--space-5xl);
+    min-height: 16rem;
+  }
+
+  .functionContent {
+    padding: var(--space-5xl) var(--space-4xl) var(--space-6xl);
   }
 
   .statsSection {
@@ -285,14 +348,22 @@ section.masthead {
   }
 
   .ctaCard {
-    padding: var(--space-4xl) var(--space-3xl);
+    padding: var(--space-5xl) var(--space-4xl);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ruleTop,
   .title,
+  .overviewNote,
   .rule {
     animation: none;
+  }
+
+  .functionCurtain,
+  .functionIndex,
+  .functionTitle,
+  .functionNote {
+    transition: none;
   }
 }

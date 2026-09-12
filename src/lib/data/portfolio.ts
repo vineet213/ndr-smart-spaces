@@ -872,7 +872,7 @@ export const locationsSection = {
 
 export const propertyRegister = {
   eyebrow: "Atlas · Property register",
-  heading: "The property atlas.",
+  heading: "The Portfolio",
   chapter: "V",
   framing:
     "One state survey for the group's properties — operating locations, developable extents from the land bank and the projects rising on them, each recorded as filed in this edition.",

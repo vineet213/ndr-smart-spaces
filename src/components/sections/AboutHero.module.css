@@ -9,19 +9,6 @@
   position: relative;
 }
 
-.headlineBlock {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xl);
-}
-
-.goldRule {
-  display: block;
-  width: var(--space-6xl);
-  height: 2px;
-  background-color: var(--color-gold);
-}
-
 .headline {
   max-width: 12ch;
 }
