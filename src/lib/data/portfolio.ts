@@ -117,6 +117,10 @@ export type GeoLocation = {
   line: string;
   labelSide?: "left" | "right";
   leaderTo?: { x: number; y: number };
+  /** Client-supplied portfolio facts — optional; absent when not yet supplied. */
+  extentAcres?: number;
+  gradeAInfrastructure?: string;
+  residential?: string;
 };
 
 export type ZoneFrame = { x: number; y: number; width: number; height: number };
@@ -144,6 +148,9 @@ type CmsLocationRecord = {
     labelSide?: "left" | "right";
     leaderTo?: { x: number; y: number };
   };
+  extentAcres?: number;
+  gradeAInfrastructure?: string;
+  residential?: string;
 };
 
 const cmsLocationData = cmsLocations as unknown as readonly CmsLocationRecord[];
@@ -164,6 +171,11 @@ const cmsGeoLocations: readonly GeoLocation[] = cmsLocationData
       line: location.line,
       ...("labelSide" in offset ? { labelSide: offset.labelSide } : {}),
       ...("leaderTo" in offset ? { leaderTo: offset.leaderTo } : {}),
+      ...(location.extentAcres !== undefined ? { extentAcres: location.extentAcres } : {}),
+      ...(location.gradeAInfrastructure !== undefined
+        ? { gradeAInfrastructure: location.gradeAInfrastructure }
+        : {}),
+      ...(location.residential !== undefined ? { residential: location.residential } : {}),
     };
   });
 
@@ -729,6 +741,9 @@ export type MappedLocation = AtlasPinData & {
   zone: ZoneId;
   tier: LocationTier;
   line: string;
+  extentAcres?: number;
+  gradeAInfrastructure?: string;
+  residential?: string;
 };
 
 function locationStateId(location: GeoLocation): string | null {
@@ -745,6 +760,11 @@ function asMappedLocation(location: GeoLocation, stateName: string): MappedLocat
     zone: location.zone,
     tier: location.tier,
     line: location.line,
+    ...(location.extentAcres !== undefined ? { extentAcres: location.extentAcres } : {}),
+    ...(location.gradeAInfrastructure !== undefined
+      ? { gradeAInfrastructure: location.gradeAInfrastructure }
+      : {}),
+    ...(location.residential !== undefined ? { residential: location.residential } : {}),
   };
 }
 
@@ -804,14 +824,17 @@ export const landSurveyStates: readonly StateLandSummary[] = INDIAN_STATES.flatM
   const parcels = cmsLandBankDerived.filter((parcel) => parcel.stateId === state.id);
   const locations = geoLocations.filter((location) => locationStateId(location) === state.id);
   if (parcels.length === 0 && locations.length === 0) return [];
-  const withExtent = parcels.some((parcel) => parcel.extentAcres !== undefined);
+  const withExtent =
+    parcels.some((parcel) => parcel.extentAcres !== undefined) ||
+    locations.some((location) => location.extentAcres !== undefined);
   return [
     {
       stateId: state.id,
       stateName: state.name,
       parcelCount: parcels.length + locations.length,
       totalAcres: withExtent
-        ? parcels.reduce((sum, parcel) => sum + (parcel.extentAcres ?? 0), 0)
+        ? parcels.reduce((sum, parcel) => sum + (parcel.extentAcres ?? 0), 0) +
+          locations.reduce((sum, location) => sum + (location.extentAcres ?? 0), 0)
         : null,
     },
   ];

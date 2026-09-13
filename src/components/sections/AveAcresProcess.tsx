@@ -14,60 +14,65 @@ const PROGRESS_END = 0.3;
 
 const glyphStyle = {
   viewBox: "0 0 56 56",
-  fill: "currentColor",
-  stroke: "none",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.5,
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
 } as const;
 
 /**
- * Simple, solid pictograms — one instantly-readable symbol per stage rather
- * than abstract line art. Each drops into the same fill="currentColor"
- * treatment the surrounding .glyphWrap scroll-tint states already recolor,
- * so no other styling changes are needed.
+ * Hand-drawn, technical line-art pictograms — one per stage, in the same
+ * restrained stroke treatment as the "What Defines Our Developments" marks
+ * (AveAcresValues) so the two icon systems read as one language. Each drops
+ * into the same stroke="currentColor" treatment the surrounding .glyphWrap
+ * scroll-tint states already recolor, so no other styling changes are needed.
  */
 function StageMark({ index }: { index: string }) {
   switch (index) {
-    // 01 — Identify Land: a location pin marking a plot.
+    // 01 — Identify Land: a site marker over a surveyed plot.
     case "01":
       return (
         <svg {...glyphStyle} aria-hidden="true" focusable="false">
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M28 50C28 50 14 33.8 14 22C14 13.163 20.163 7 28 7C35.837 7 42 13.163 42 22C42 33.8 28 50 28 50ZM28 29C31.866 29 35 25.866 35 22C35 18.134 31.866 15 28 15C24.134 15 21 18.134 21 22C21 25.866 24.134 29 28 29Z"
-          />
+          <path d="M28 8C21.1 8 16 13.5 16 20c0 8.5 12 23 12 23s12-14.5 12-23c0-6.5-5.1-12-12-12Z" />
+          <circle cx="28" cy="20" r="4.5" />
+          <path d="M9 50h38" />
+          <path d="M14 50v-5M42 50v-5" />
         </svg>
       );
-    // 02 — Plan the Project: a T-square, the architect's planning tool.
+    // 02 — Plan the Project: a hard hat over rolled architectural plans.
     case "02":
       return (
         <svg {...glyphStyle} aria-hidden="true" focusable="false">
-          <rect x="9" y="10" width="38" height="7" rx="1" />
-          <rect x="24" y="17" width="8" height="33" rx="1" />
-          <rect x="20" y="24" width="16" height="3" />
-          <rect x="20" y="33" width="16" height="3" />
-          <rect x="20" y="42" width="16" height="3" />
+          <path d="M12 33C12 21 19 12 28 12c9 0 16 9 16 21" />
+          <path d="M8 35c0-2.2 1.8-4 4-4h32c2.2 0 4 1.8 4 4" />
+          <path d="M8 35h40" />
+          <path d="M28 12V8" />
+          <rect x="6" y="39" width="15" height="4" rx="1" />
+          <path d="M6 43h15" />
+          <path d="M33 41 47 31M33 47 47 37" />
         </svg>
       );
     // 03 — Develop and Deliver: a building rising under a tower crane.
     case "03":
       return (
         <svg {...glyphStyle} aria-hidden="true" focusable="false">
-          <path d="M9 49V30H33V49H9Z" />
-          <path d="M9 30L21 19L33 30H9Z" />
-          <rect x="43" y="8" width="4" height="41" />
-          <rect x="21" y="9" width="26" height="4" />
-          <rect x="45" y="4" width="8" height="6" />
-          <rect x="26" y="13" width="3" height="11" />
-          <rect x="23" y="23" width="9" height="3" />
+          <path d="M10 49V29h22v20" />
+          <path d="M10 29 21 19l11 10" />
+          <path d="M44 6v43" />
+          <path d="M20 8h28" />
+          <path d="M44 8v-4M40 4h8" />
+          <path d="M27 13v10" />
         </svg>
       );
-    // 04 — Create a Community: a row of houses, a neighbourhood.
+    // 04 — Create a Community: a row of homes, a neighbourhood.
     case "04":
       return (
         <svg {...glyphStyle} aria-hidden="true" focusable="false">
-          <path d="M8 48V34L16 26L24 34V48H8Z" opacity="0.55" />
-          <path d="M32 48V36L40 28L48 36V48H32Z" opacity="0.55" />
-          <path d="M19 50V33L29 23L39 33V50H19Z" />
+          <path d="M8 48V34l8-8 8 8v14H8Z" opacity="0.55" />
+          <path d="M32 48V36l8-8 8 8v12H32Z" opacity="0.55" />
+          <path d="M19 48V32l10-10 10 10v16H19Z" />
+          <path d="M25 48v-9h6v9" />
         </svg>
       );
     default:

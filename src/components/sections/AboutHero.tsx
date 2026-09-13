@@ -12,11 +12,18 @@ export function AboutHero() {
       <Container className={styles.content}>
         <Stack gap="6xl">
           <Stack gap="4xl">
-            <Heading variant="hero" id="about-hero-title" className={styles.headline}>
+            <Heading
+              variant="hero"
+              tone="dark"
+              id="about-hero-title"
+              className={styles.headline}
+            >
               {aboutHero.headline}
               <span className={styles.accent}>{aboutHero.headlineAccent}</span>
             </Heading>
-            <Lede className={styles.lede}>{aboutHero.lede}</Lede>
+            <Lede tone="dark" className={styles.lede}>
+              {aboutHero.lede}
+            </Lede>
           </Stack>
 
           <Reveal delay={1}>
@@ -25,7 +32,7 @@ export function AboutHero() {
                 <div key={stat.label} className={styles.ledgerRow}>
                   <dt className={cx("text-label-meta", styles.ledgerLabel)}>{stat.label}</dt>
                   <dd className={styles.ledgerValue}>
-                    <Metric variant="hero">
+                    <Metric variant="hero" tone="dark">
                       {stat.count ? (
                         <Counter
                           value={stat.count.value}

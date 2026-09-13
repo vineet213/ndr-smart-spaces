@@ -1,7 +1,8 @@
 .hero {
   padding-block: var(--space-12xl);
-  background-color: var(--color-ivory);
-  border-bottom: 1px solid var(--color-hairline-light);
+  background-color: var(--color-maroon-dark);
+  color: var(--color-ivory);
+  border-bottom: 1px solid var(--color-hairline-dark);
   overflow: hidden;
 }
 
@@ -27,7 +28,7 @@
 }
 
 .accent {
-  color: var(--color-maroon);
+  color: var(--color-gold);
 }
 
 .lede {
@@ -39,7 +40,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border: 1px solid var(--color-hairline-light);
+  border: 1px solid var(--color-hairline-dark);
   border-top: 2px solid var(--color-gold);
 }
 
@@ -51,15 +52,16 @@
 }
 
 .ledgerRow + .ledgerRow {
-  border-left: 1px solid var(--color-hairline-light);
+  border-left: 1px solid var(--color-hairline-dark);
 }
 
 .ledgerLabel {
-  color: var(--color-maroon);
+  color: var(--color-gold);
 }
 
 .ledgerValue {
   margin: 0;
+  color: var(--color-ivory);
 }
 
 .ledgerSource {
@@ -91,6 +93,6 @@
 
   .ledgerRow + .ledgerRow {
     border-left: 0;
-    border-top: 1px solid var(--color-hairline-light);
+    border-top: 1px solid var(--color-hairline-dark);
   }
 }

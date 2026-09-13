@@ -15,7 +15,7 @@ export const footer = {
   },
   copyright: "\u00a9 2026 NDR Smart Spaces Pvt. Ltd.",
   descriptor:
-    "A diversified infrastructure organization developing, owning and managing institutional-grade industrial, commercial and institutional assets since 1954.",
+    "A diversified infrastructure organization developing, owning and managing institutional-grade industrial and institutional assets since 1954.",
   ecosystem: [
     {
       external: true,

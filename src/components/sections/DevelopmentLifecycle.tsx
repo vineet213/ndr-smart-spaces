@@ -111,9 +111,11 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
           </div>
         </Reveal>
 
-        <Reveal>
-          <SourceFootnote>{source}</SourceFootnote>
-        </Reveal>
+        {source ? (
+          <Reveal>
+            <SourceFootnote>{source}</SourceFootnote>
+          </Reveal>
+        ) : null}
       </Container>
     </section>
   );

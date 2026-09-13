@@ -1,5 +1,5 @@
-import { Container, Grid, GridItem, Stack } from "@/components/layout";
-import { Eyebrow, Heading, Lede } from "@/components/ui";
+import { Grid, GridItem } from "@/components/layout";
+import { Eyebrow } from "@/components/ui";
 import { aboutPrinciples } from "@/lib/data/about";
 import { Reveal, type RevealDelay } from "./Reveal";
 import { VisionDiagram, MissionDiagram } from "./VisionMissionArt";
@@ -7,20 +7,7 @@ import styles from "./VisionMissionValues.module.css";
 
 export function VisionMissionValues() {
   return (
-    <section className={styles.section} aria-labelledby="principles-title">
-      <Container>
-        <Reveal>
-          <Stack gap="xl">
-            <span className={styles.goldRule} aria-hidden="true" />
-            <Eyebrow>{aboutPrinciples.eyebrow}</Eyebrow>
-            <Heading variant="section" id="principles-title">
-              {aboutPrinciples.heading}
-            </Heading>
-            <Lede className={styles.lede}>{aboutPrinciples.lede}</Lede>
-          </Stack>
-        </Reveal>
-      </Container>
-
+    <section className={styles.section} aria-label="Vision and mission">
       {/* Full-bleed panel row — deliberately outside Container so it spans   */}
       {/* the viewport edge to edge, per the client's full-bleed request.    */}
       <Grid className={styles.panels}>

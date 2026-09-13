@@ -15,7 +15,7 @@ export type AboutHeroStat = {
 export const aboutHero = {
   headline: "From a rice mill to ",
   headlineAccent: "institutional infrastructure.",
-  lede: "NDR Smart Spaces Private Limited is an infra development and real estate platform of the NDR Group, incorporated in 1954. India's third largest logistics and industrial infrastructure as well as residential and commercial plots.",
+  lede: "NDR Smart Spaces Private Limited is an infra development and real estate platform of the NDR Group, incorporated in 1954, india's third largest logistic and industrial infrastructure developer",
   cta: { label: "Our story", href: "#story" },
   ctaSecondary: {
     label: "Explore the business",
@@ -77,7 +77,7 @@ export const aboutTimeline = {
     {
       year: "2005",
       title:
-        "NDR Warehousing invests in CWCNSL (Continental Warehousing Corporation (Nhava Sheva) Limited) along with IC&FS Investment Managers",
+        "NDR Warehousing invests in CWCNSL (Continental Warehousing Corporation (Nhava Sheva) Limited) along with IL&FS Investment Managers",
     },
     {
       year: "2018",
@@ -85,13 +85,11 @@ export const aboutTimeline = {
     },
     {
       year: "2023",
-      title: "Incorporation of NDR InvIT Trust, India's first perpetual warehousing",
+      title: "Incorporation of NDR InvIT Trust, India's first perpetual warehousing InvIT",
     },
     {
-      // 2024 milestone intentionally unchanged — client has flagged this
-      // wording for revision but has not supplied replacement copy yet.
       year: "2024",
-      title: "NDR InvIT Trust listed on NSE, offer size INR 8.8 bn",
+      title: "NDR InvIT Trust lists on the NSE, with an offer size of INR 8.8 bn",
     },
     {
       year: "2025",
@@ -99,7 +97,7 @@ export const aboutTimeline = {
     },
     {
       year: "2027",
-      title: "Planned IPO of India's first largest DEFCO company",
+      title: "Planned IPO of India's first listed DEFCO company",
     },
   ] as readonly TimelineNode[],
 } as const;
@@ -204,14 +202,14 @@ export const leadership = {
   groups: [
     {
       id: "board-directors",
-      title: "Board directors",
+      title: "The Board",
       placeholderTitle: "Director seat",
       placeholderStatus: "Official profile pending",
       placeholderNote: "Reserved for board confirmation",
       profiles: [
         {
           name: "P. Chandrashekar",
-          role: "Director",
+          role: "Independent Director",
           bio: "P. Chandrashekar is a senior business leader with over 43 years of experience across finance, strategy, corporate governance, M&A, business transformation and scale-up leadership. He holds a Master of Management Studies (MMS) from Narsee Monjee Institute of Management Studies (NMIMS), Mumbai, and a Bachelor of Commerce from R. A. Podar College of Commerce and Economics, Mumbai. He has held senior leadership positions, including Executive Director & CEO of Runwal Group and Chief Financial Officer of DHL India and Coca-Cola India. He currently serves on the boards of several companies and is the Founder & Principal Consultant of Crescentia Strategists LLP.",
           photo: "/images/leadership/board-directors/p-chandrashekar.jpg",
         },
@@ -226,7 +224,7 @@ export const leadership = {
     },
     {
       id: "management-team",
-      title: "The Management team",
+      title: "Meet the team",
       placeholderTitle: "Executive seat",
       placeholderStatus: "Official profile pending",
       placeholderNote: "Reserved for management confirmation",

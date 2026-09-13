@@ -15,8 +15,8 @@ const OFFSET = 45;
 /* Tooltip box sizing/positioning — kept in viewBox units (see ATLAS_VIEWBOX). */
 const [VB_X, VB_Y, VB_W, VB_H] = ATLAS_VIEWBOX.split(" ").map(Number);
 const TOOLTIP_PAD_X = 8;
-const TOOLTIP_HEIGHT = 20;
-const TOOLTIP_TEXT_OFFSET_Y = 14;
+const TOOLTIP_HEIGHT = 31;
+const TOOLTIP_TEXT_OFFSET_Y = 22;
 const TOOLTIP_EDGE_MARGIN = 4;
 
 type PortfolioAtlasProps = {

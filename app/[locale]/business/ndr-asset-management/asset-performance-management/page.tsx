@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Container, Grid, GridItem, Section, Stack } from "@/components/layout";
 import { CompanyMetrics, EnquiryForm, Footer, MarqueeClients } from "@/components/sections";
-import { Eyebrow, Heading, SourceFootnote } from "@/components/ui";
+import { Eyebrow, Heading } from "@/components/ui";
 import { vertical02AssetManagement } from "@/lib/data/business";
 import { Reveal } from "@/components/sections/Reveal";
 import styles from "./asset-performance-management.module.css";
@@ -50,12 +50,6 @@ export default function AssetPerformanceManagementPage() {
                 </li>
               ))}
             </ul>
-          </Reveal>
-
-          <Reveal>
-            <SourceFootnote>
-              Source: Client IA response · Post-Demerger business note
-            </SourceFootnote>
           </Reveal>
         </Container>
       </Section>

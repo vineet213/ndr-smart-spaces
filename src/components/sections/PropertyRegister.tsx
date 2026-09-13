@@ -3,7 +3,7 @@
 import { useCallback, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import { Container } from "@/components/layout";
-import { Eyebrow, Heading, Lede, SourceFootnote } from "@/components/ui";
+import { Heading, Lede, SourceFootnote } from "@/components/ui";
 import { useInView } from "@/hooks/useInView";
 import {
   ASSET_CLASS_LABELS,
@@ -111,16 +111,12 @@ export function PropertyRegister() {
     () => (mode === "landbank" && selectedStateId ? landSurveyByState(selectedStateId) : []),
     [mode, selectedStateId],
   );
-  const selectedParcels = useMemo(
-    () => selectedRecords.filter((record) => !isLocationRecord(record)),
-    [selectedRecords],
-  );
   const selectedAcres = useMemo(
     () =>
-      selectedParcels.some((parcel) => parcel.extentAcres !== undefined)
-        ? selectedParcels.reduce((sum, parcel) => sum + (parcel.extentAcres ?? 0), 0)
+      selectedRecords.some((record) => record.extentAcres !== undefined)
+        ? selectedRecords.reduce((sum, record) => sum + (record.extentAcres ?? 0), 0)
         : null,
-    [selectedParcels],
+    [selectedRecords],
   );
   const constrainRecords = selectedRecords.length > RECORD_COLLAPSE_LIMIT && !selectedRecord;
 
@@ -129,11 +125,9 @@ export function PropertyRegister() {
       <Container>
         <Reveal>
           <div className={styles.headingBlock}>
-            <span className={styles.goldRule} aria-hidden="true" />
             <span className={styles.chapter} aria-hidden="true">
               {propertyRegister.chapter}
             </span>
-            <Eyebrow>{propertyRegister.eyebrow}</Eyebrow>
             <Heading variant="section" id="register-title">
               {propertyRegister.heading}
             </Heading>
@@ -285,6 +279,15 @@ function DetailPanel({ record, onBack }: DetailPanelProps) {
         {location ? (
           <>
             <DetailField label="Zone" value={ZONE_LABELS[location.zone]} />
+            <DetailField
+              label="Area"
+              value={location.extentAcres !== undefined ? formatAcres(location.extentAcres) : null}
+            />
+            <DetailField
+              label="Grade A Infrastructure"
+              value={formatSuppliedFigure(location.gradeAInfrastructure)}
+            />
+            <DetailField label="Residential" value={location.residential ?? null} />
             <DetailField label="Tier" value={LOCATION_TIER_LABELS[location.tier]} />
             <DetailField label="State" value={location.district ?? null} />
             <DetailField label="Address" value={location.line} />
@@ -354,6 +357,16 @@ function DetailField({ label, value }: { label: string; value: string | null | u
       <dd className={styles.detailValue}>{value}</dd>
     </div>
   );
+}
+
+/**
+ * Client-supplied figures that read "-" mean no value was supplied — that's
+ * a reason to omit the field, not to display a dash or a fabricated number.
+ * "TBA" and an actual supplied figure are shown exactly as recorded.
+ */
+function formatSuppliedFigure(value: string | undefined | null): string | null {
+  if (!value || value === "-") return null;
+  return value;
 }
 
 /* Land bank mode panel — parcels and operating locations ---------------------- */

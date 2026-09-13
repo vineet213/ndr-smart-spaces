@@ -40,7 +40,6 @@ export function VerticalPage({ division }: VerticalPageProps) {
   const isV2 = division.index === "02";
   const isV3 = division.index === "03";
   const title = division.title;
-  const titleParts = title.split(" - ");
   const mastheadSubtext = verticalMastheadSubtext[division.index];
 
   return (
@@ -51,26 +50,23 @@ export function VerticalPage({ division }: VerticalPageProps) {
         className={cx(styles.masthead, mastheadSubtext && styles.mastheadCompact)}
       >
         {isV3 ? <ResidentialPlottingMastheadVideo /> : null}
-        <span className={styles.ruleTop} aria-hidden="true" />
+        {isV3 ? null : <span className={styles.ruleTop} aria-hidden="true" />}
 
         <Container className={styles.hero}>
           <h1
             id="vertical-masthead-title"
-            className={cx(styles.title, division.index === "01" && styles.titleLg)}
-          >
-            {isV2 && titleParts.length === 2 ? (
-              <>
-                <span className={styles.titleMain}>{titleParts[0]}-</span>
-                <span className={styles.titleSub}>{titleParts[1]}</span>
-              </>
-            ) : (
-              title
+            className={cx(
+              styles.title,
+              division.index === "01" && styles.titleLg,
+              isV2 && styles.titleCompact,
             )}
+          >
+            {title}
           </h1>
           {mastheadSubtext ? <p className={styles.subtext}>{mastheadSubtext}</p> : null}
         </Container>
 
-        <span className={styles.rule} aria-hidden="true" />
+        {isV3 ? null : <span className={styles.rule} aria-hidden="true" />}
       </Section>
 
       <Section tone="dim" className={styles.bodySection}>

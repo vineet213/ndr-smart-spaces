@@ -39,8 +39,10 @@ function ValueMark({ index }: { index: string }) {
     case "03":
       return (
         <svg {...markProps} aria-hidden="true" focusable="false">
-          <path d="M14 14 H42 V42 H14 Z" />
-          <path d="M14 28 H42 M28 14 V42" />
+          <path d="M9 39 H47" />
+          <path d="M15 39 V45 M41 39 V45" />
+          <path d="M9 45 H21 M35 45 H47" />
+          <path d="M17 39 V27 L28 19 L39 27 V39" />
         </svg>
       );
     case "04":
@@ -54,9 +56,9 @@ function ValueMark({ index }: { index: string }) {
     case "05":
       return (
         <svg {...markProps} aria-hidden="true" focusable="false">
-          <path d="M28 12 V46" />
-          <path d="M28 22 C 18 19, 14 28, 28 29 Z" />
-          <path d="M28 22 C 38 19, 42 28, 28 29 Z" />
+          <path d="M39 15 A14 14 0 1 1 15.8 22.5" />
+          <path d="M15.8 22.5 L11 19 M15.8 22.5 L19.5 17.8" />
+          <path d="M28 22c-4.5-2-8 2-1 8 7-6 3.5-10-1-8Z" />
         </svg>
       );
     default:

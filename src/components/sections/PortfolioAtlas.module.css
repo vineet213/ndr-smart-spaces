@@ -195,10 +195,15 @@
   opacity: 0.96;
 }
 
+/* This text lives inside the 1020x1090 viewBox, not the page's own pixel     */
+/* grid — the SVG is scaled down to fit its container, so a "13px" value in   */
+/* viewBox units was rendering far smaller on screen than a real 13px. Sized  */
+/* up here so the on-screen result reads at a normal caption size instead of  */
+/* stacking a second override on top of an already-scaled value.             */
 .tooltipText {
   fill: var(--color-ivory);
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 20px;
   font-weight: var(--font-weight-body-medium);
   letter-spacing: 0.04em;
 }

@@ -15,13 +15,13 @@
 
 .wallPanel {
   fill: #cfc6b0;
-  stroke: rgba(28, 26, 25, 0.2);
-  stroke-width: 0.5;
+  stroke: rgba(28, 26, 25, 0.25);
+  stroke-width: 0.7;
 }
 
 .wallCap {
-  stroke: rgba(28, 26, 25, 0.35);
-  stroke-width: 1;
+  stroke: rgba(28, 26, 25, 0.4);
+  stroke-width: 1.4;
 }
 
 .gateCap {
@@ -34,6 +34,17 @@
   fill: #d9a545;
   stroke: rgba(28, 26, 25, 0.3);
   stroke-width: 0.4;
+}
+
+.gateBoomArm {
+  stroke: var(--color-maroon);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+.gateBoomPivot {
+  fill: var(--color-charcoal);
+  stroke: none;
 }
 
 /* atmosphere + ground ----------------------------------------------------- */
@@ -63,31 +74,57 @@
 /* shadows ------------------------------------------------------------------ */
 
 .shadowBlob {
-  fill: rgba(20, 16, 14, 0.24);
+  fill: rgba(20, 16, 14, 0.5);
   filter: url(#ndr-soft-shadow);
 }
 
 .shadowBlobSoft {
-  fill: rgba(20, 16, 14, 0.14);
+  fill: rgba(20, 16, 14, 0.26);
   filter: url(#ndr-soft-shadow);
+}
+
+/* Ground-contact ambient occlusion — a thin darkening strip where each wall  */
+/* meets the pavement, the detail that reads as "sitting on the ground"      */
+/* rather than "floating above a flat shadow blob."                          */
+.wallGroundAO {
+  fill: rgba(20, 16, 14, 0.22);
+  stroke: none;
 }
 
 /* roads --------------------------------------------------------------------- */
 
+/* Dark asphalt, not pale tan — the previous fill barely read as a different  */
+/* material from the yards/pavement beside it. Kept in the same warm-neutral  */
+/* family as the rest of the palette (no foreign blue-gray).                  */
 .road {
-  fill: #e6ddc9;
+  fill: #5f5a52;
   stroke: none;
 }
 
 .roadEdge {
-  stroke: var(--color-stone);
-  stroke-width: 1.25;
+  stroke: #d8cfba;
+  stroke-width: 1;
+  opacity: 0.55;
 }
 
 .centerline {
   stroke: var(--color-gold);
   stroke-width: 2;
   stroke-dasharray: 14 12;
+}
+
+/* Planted median splitting the foreground carriageway — reuses the same     */
+/* scrub gradient as the site's other greenery rather than a flat new color. */
+.median {
+  fill: url(#ndr-scrub);
+  stroke: rgba(28, 26, 25, 0.15);
+  stroke-width: 0.4;
+}
+
+.crosswalkStripe {
+  stroke: #ece5d4;
+  stroke-width: 1.6;
+  stroke-linecap: round;
 }
 
 .apron {
@@ -155,6 +192,22 @@
   stroke-width: 1;
 }
 
+/* Fine corrugated-panel ribbing — much lighter than the structural seams     */
+/* above so it reads as roof-sheet texture rather than competing with them.   */
+.roofRib {
+  stroke: rgba(28, 26, 25, 0.14);
+  stroke-width: 0.5;
+}
+
+/* Bolder, wide-spaced accent bands — real graphic weight from above, the way */
+/* the reference's skylight rows read from a distance, in NDR's own gold/    */
+/* ivory tone rather than the reference's blue.                              */
+.roofBand {
+  fill: var(--color-gold);
+  opacity: 0.5;
+  stroke: none;
+}
+
 .dockDoor {
   fill: rgba(28, 26, 25, 0.8);
   stroke: none;
@@ -190,6 +243,32 @@
 
 .truckMaroon .boxTop {
   fill: #b34348;
+}
+
+/* dock levelers ------------------------------------------------------------- */
+/* A cool steel tone sets these apart from the warm pavement/building palette  */
+/* so they read as loading equipment rather than a stray tinted platform.      */
+
+.dockLeveler .boxFront {
+  fill: #86837e;
+}
+
+.dockLeveler .boxRight {
+  fill: #706d69;
+}
+
+.dockLeveler .boxTop {
+  fill: #a3a099;
+}
+
+.dockLevelerHinge {
+  stroke: rgba(28, 26, 25, 0.55);
+  stroke-width: 1;
+}
+
+.dockLevelerTread {
+  stroke: rgba(28, 26, 25, 0.3);
+  stroke-width: 0.6;
 }
 
 /* landscape --------------------------------------------------------------------- */

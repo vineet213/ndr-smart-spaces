@@ -21,7 +21,6 @@ export default function DevelopmentLifecyclePage() {
           <h1 id="subpage-title" className={styles.title}>
             Development Lifecycle
           </h1>
-          <h2 className={styles.overviewHeading}>{intro.heading}</h2>
           <p className={styles.overviewBody}>{intro.description}</p>
         </Container>
 

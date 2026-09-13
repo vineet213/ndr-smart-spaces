@@ -361,8 +361,8 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
         key: "zone",
         label: "Zone",
         kind: "select",
-        required: true,
         options: ["south", "west", "east", "north"],
+        helper: "Optional — leave blank when no authoritative zone has been supplied yet.",
       },
       { key: "region", label: "Region", kind: "text", placeholder: "Tamil Nadu" },
       {
@@ -373,6 +373,26 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
         helper: "Groups the location under a state on the portfolio atlas state view.",
       },
       { key: "line", label: "Line", kind: "text", placeholder: "Chennai, Tamil Nadu" },
+      {
+        key: "extentAcres",
+        label: "Land bank (acres)",
+        kind: "number",
+        min: 0,
+        helper: "Client-supplied developable extent in acres, shown on the portfolio detail panel.",
+      },
+      {
+        key: "gradeAInfrastructure",
+        label: "Grade A infrastructure",
+        kind: "text",
+        helper:
+          "Client-supplied figure, kept as text so 'TBA' and exact supplied digits are preserved verbatim. Leave blank to hide the field.",
+      },
+      {
+        key: "residential",
+        label: "Residential",
+        kind: "text",
+        helper: "Client-supplied status, e.g. 'will be updated'. Leave blank to hide the field.",
+      },
       {
         key: "lat",
         label: "Latitude",

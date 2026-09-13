@@ -1,30 +1,21 @@
 .section {
-  padding-top: var(--section-padding-desktop);
+  padding-top: calc(var(--section-padding-desktop) / 2);
   padding-bottom: calc(var(--section-padding-desktop) / 2);
   background-color: var(--color-ivory);
 }
 
-.goldRule {
-  display: block;
-  width: var(--space-6xl);
-  height: 2px;
-  background-color: var(--color-gold);
-}
-
-.lede {
-  max-width: 44rem;
-}
-
 /* Full-bleed panel row: rendered outside Container, so this grid carries no  */
 /* max-width or side padding of its own — it spans the viewport edge to edge. */
+/* A hairline seam (rather than the standard gutter) joins Vision and         */
+/* Mission into one cohesive plate instead of two separated cards.           */
 .panels {
-  margin-top: var(--space-7xl);
+  column-gap: var(--space-2xs);
 }
 
 .panel {
   position: relative;
   margin: 0;
-  height: clamp(26rem, 58vh, 38rem);
+  height: clamp(28rem, 62vh, 42rem);
   overflow: hidden;
   background-color: var(--color-charcoal);
 }
@@ -115,7 +106,7 @@
 
 @media (max-width: 1439px) {
   .section {
-    padding-top: var(--section-padding-tablet);
+    padding-top: calc(var(--section-padding-tablet) / 2);
     padding-bottom: calc(var(--section-padding-tablet) / 2);
   }
 
@@ -126,7 +117,7 @@
 
 @media (max-width: 767px) {
   .section {
-    padding-top: var(--section-padding-mobile);
+    padding-top: calc(var(--section-padding-mobile) / 2);
     padding-bottom: calc(var(--section-padding-mobile) / 2);
   }
 

@@ -15,8 +15,7 @@ export const businessVerticals = [
       href: "/en/business/logistics-and-industrial-infrastructure",
       label: "Logistics and Industrial Infrastructure",
     },
-    source:
-      "Client IA response \u00b7 Post-Demerger business note \u00b7 NDR Corporate Presentation",
+    source: "",
     spec: [],
     title: "Logistics and Industrial Infrastructure",
     writeup:
@@ -36,7 +35,7 @@ export const businessVerticals = [
     },
     source: "Client IA response \u00b7 Post-Demerger business note",
     spec: [],
-    title: "Project and Operations Management Consultancy - NDR Asset Management",
+    title: "Project and Operations Management Consultancy \u2014 NDR Asset Management",
     writeup:
       "We provide comprehensive project and operations management consultancy for the construction and development of industrial and logistics assets. Our services span the complete project lifecycle from planning, design coordination and procurement to construction management, quality assurance, cost and schedule control, statutory compliance, commissioning, and handover. By providing strong on-ground oversight and integrated project management, we help ensure that every asset is delivered on time, within budget, to the required quality, and ready for operations.",
   },

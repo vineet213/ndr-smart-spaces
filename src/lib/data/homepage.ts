@@ -324,6 +324,10 @@ export const marqueeClients = {
     "Pepsi",
     "Mahindra Logistics",
     "Kuehne+Nagel",
+    "Zomato",
+    "Swiggy",
+    "Snitch",
+    "Reliance",
   ] as const,
 } as const;
 

@@ -3,6 +3,10 @@
 section.masthead {
   position: relative;
   overflow: hidden;
+  /* The shared Section component's own ambient padding-block is meant for   */
+  /* regular flowing content, not this viewport-anchored hero — .hero below  */
+  /* already owns its full vertical rhythm via min-height + its own padding. */
+  padding-block: 0;
   background-color: var(--color-charcoal-masthead);
 }
 
@@ -54,7 +58,7 @@ section.masthead {
   position: relative;
   z-index: 1;
   margin: var(--space-5xl) 0 0;
-  max-width: 46ch;
+  max-width: 42rem;
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-regular);
   font-size: var(--font-body-size);
@@ -143,7 +147,7 @@ section.masthead {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-color: var(--color-charcoal);
+  background-color: var(--color-maroon-dark);
   transform: scaleY(0);
   transform-origin: bottom;
   transition: transform 420ms var(--ease-standard);

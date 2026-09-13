@@ -359,9 +359,9 @@ export const businessClosing = {
 export const vertical02Metrics: readonly (Omit<CompanyMetric, "value"> & { value: number })[] = [
   {
     value: 10,
-    suffix: " Mn Sq. Ft.",
-    label: "Asset under construction",
-    context: "Asset under construction",
+    suffix: " Mn",
+    label: "Asset under construction (Sq. Ft.)",
+    context: "Asset under construction (Sq. Ft.)",
   },
   { value: 230, label: "Strength of the team", context: "Strength of the team" },
   { value: 6, label: "Projects in Pipeline", context: "Projects in Pipeline" },
@@ -392,9 +392,9 @@ export const vertical02AssetManagement = {
     { value: 98, suffix: "%", label: "Occupancy Status", context: "Occupancy Status" },
     {
       value: 33,
-      suffix: " Mn Sq. Ft.",
-      label: "Asset Under Management",
-      context: "Asset Under Management",
+      suffix: " Mn",
+      label: "Asset Under Management (Sq. Ft.)",
+      context: "Asset Under Management (Sq. Ft.)",
     },
     { value: 14, label: "Locations", context: "Locations" },
   ] as const satisfies ReadonlyArray<CompanyMetric>,
@@ -553,7 +553,7 @@ export const vertical02DevelopmentLifecycle = {
       },
     },
   ] as const satisfies readonly LifecycleStage[],
-  source: "Source: Client IA response · Post-Demerger business note",
+  source: "",
 } as const;
 
 export type DevelopmentProcessStage = { index: string; title: string };

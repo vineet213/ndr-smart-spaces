@@ -1,5 +1,8 @@
 .section {
-  padding-block: var(--space-5xl) var(--space-7xl);
+  /* The wrapping <Section tone="dim"> (development-lifecycle/page.tsx)       */
+  /* already supplies top padding-block; adding our own on top of it doubled */
+  /* the gap between the masthead and the first stage row.                   */
+  padding-block: 0 var(--space-7xl);
   /* full-bleed panels may translate horizontally during entrance */
   overflow-x: hidden;
   overflow-x: clip;

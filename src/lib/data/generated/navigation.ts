@@ -106,6 +106,11 @@ export const navigation = {
   ],
   navItems: [
     {
+      href: "/en",
+      label: "Home",
+      type: "link",
+    },
+    {
       href: "/en/about-us",
       label: "About Us",
       type: "link",

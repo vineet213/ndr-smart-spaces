@@ -1,5 +1,4 @@
 import { Container, Grid, GridItem, Stack } from "@/components/layout";
-import { Eyebrow } from "@/components/ui";
 import { marqueeClients } from "@/lib/data/homepage";
 import styles from "./MarqueeClients.module.css";
 
@@ -12,7 +11,6 @@ export function MarqueeClients() {
         <Grid>
           <GridItem span={4}>
             <Stack gap="sm" className={styles.claim}>
-              <Eyebrow>Clients</Eyebrow>
               <p className={styles.claimLine}>
                 Serving <span className={styles.claimStrong}>100+ Fortune Global 500</span>{" "}
                 companies

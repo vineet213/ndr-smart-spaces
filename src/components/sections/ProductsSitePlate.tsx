@@ -206,7 +206,7 @@ const PLATFORM: Array<[number, number]> = [
 /* elongated, low proportions). A gap on the south run seats the main gate,  */
 /* where the central road meets the front boundary.                         */
 
-const WALL_H = 2.4;
+const WALL_H = 3.4;
 const GATE_GAP: [number, number] = [136, 168];
 
 const WALL_LINES: Array<[[number, number], [number, number]]> = [
@@ -235,12 +235,14 @@ const WALL_LINES: Array<[[number, number], [number, number]]> = [
 /* Main gate: two posts flanking the gap, a lintel bar tying them together,  */
 /* and a small guard booth just inside — reads clearly as the access point.  */
 
+const GATE_POST_W = 3.2;
+const GATE_POST_H = 6.8;
+const GATE_LINTEL_H = 1.6;
 const GATE_POSTS: Array<[number, number]> = [
-  [GATE_GAP[0] - 2, 188],
-  [GATE_GAP[1], 188],
+  [GATE_GAP[0] - 3, 187],
+  [GATE_GAP[1], 187],
 ];
-const GATE_POST_H = 4.6;
-const GATE_BOOTH = { x0: GATE_GAP[1] + 6, y0: 176, x1: GATE_GAP[1] + 15, y1: 184, h: 2.6 };
+const GATE_BOOTH = { x0: GATE_GAP[1] + 6, y0: 174, x1: GATE_GAP[1] + 17, y1: 184, h: 3.6 };
 
 /* A small staff/visitor car park, adjacent to the loading yard's existing   */
 /* continuous red edge line but set back from both the paved road and the   */
@@ -284,17 +286,73 @@ const TRUCKS = [
   { x0: 226, y0: 166, x1: 242, y1: 170, cab: "west", maroon: false },
 ] as const;
 
+/* Scale varies per tree — a mix of mature and younger crowns, the way a real */
+/* planted tree line never reads as identical repeated stamps.               */
 const TREES = [
-  { x: 10, y: 60 },
-  { x: 6, y: 120 },
-  { x: 118, y: 12 },
-  { x: 160, y: 14 },
-  { x: 274, y: 90 },
-  { x: 272, y: 150 },
-  { x: 24, y: 198 },
-  { x: 96, y: 198 },
-  { x: 224, y: 208 },
-  { x: 246, y: 234 },
+  { x: 10, y: 60, scale: 1.15 },
+  { x: 6, y: 120, scale: 0.9 },
+  { x: 118, y: 12, scale: 1 },
+  { x: 160, y: 14, scale: 1.2 },
+  { x: 274, y: 90, scale: 0.85 },
+  { x: 272, y: 150, scale: 1.05 },
+  { x: 24, y: 198, scale: 0.95 },
+  { x: 96, y: 198, scale: 1.1 },
+  { x: 224, y: 208, scale: 0.9 },
+  { x: 246, y: 234, scale: 1.15 },
+];
+
+/* A continuous perimeter tree belt tracing the compound wall — deterministic */
+/* (no Math.random, so static export output stays reproducible), spaced      */
+/* along each of the four wall runs just outside the boundary, with a small  */
+/* perpendicular jitter and alternating scale so it reads as a planted tree  */
+/* line rather than scattered individual specimens.                         */
+function jitter(index: number, amount: number): number {
+  return (((index * 37) % 11) / 10 - 0.5) * 2 * amount;
+}
+
+function ringSpan(
+  from: number,
+  to: number,
+  spacing: number,
+  build: (t: number, index: number) => { x: number; y: number; scale: number },
+): Array<{ x: number; y: number; scale: number }> {
+  const span = to - from;
+  const count = Math.max(1, Math.round(Math.abs(span) / spacing));
+  return Array.from({ length: count + 1 }, (_, index) => build(from + (span * index) / count, index));
+}
+
+const PERIMETER_TREES = [
+  // north run, just beyond the wall — outer + inner row for hedge thickness
+  ...ringSpan(-4, 282, 8, (x, i) => ({ x, y: -24 + jitter(i, 3), scale: 0.9 + jitter(i, 0.22) })),
+  ...ringSpan(-2, 280, 8.5, (x, i) => ({ x, y: -18 + jitter(i, 2), scale: 0.75 + jitter(i, 0.15) })),
+  // west run — outer + inner row (this run read visibly gappier than the rest)
+  ...ringSpan(-14, 188, 8, (y, i) => ({ x: -16 + jitter(i, 3), y, scale: 0.85 + jitter(i, 0.2) })),
+  ...ringSpan(-12, 186, 8.5, (y, i) => ({ x: -10 + jitter(i, 2), y, scale: 0.72 + jitter(i, 0.15) })),
+  // east run — outer + inner row
+  ...ringSpan(-14, 188, 8, (y, i) => ({ x: 296 + jitter(i, 3), y, scale: 0.9 + jitter(i, 0.22) })),
+  ...ringSpan(-12, 186, 8.5, (y, i) => ({ x: 290 + jitter(i, 2), y, scale: 0.75 + jitter(i, 0.15) })),
+  // south run, west of the gate
+  ...ringSpan(-4, GATE_GAP[0] - 6, 8, (x, i) => ({
+    x,
+    y: 200 + jitter(i, 3),
+    scale: 0.9 + jitter(i, 0.2),
+  })),
+  ...ringSpan(-2, GATE_GAP[0] - 8, 8.5, (x, i) => ({
+    x,
+    y: 206 + jitter(i, 2),
+    scale: 0.75 + jitter(i, 0.15),
+  })),
+  // south run, east of the gate
+  ...ringSpan(GATE_GAP[1] + 6, 282, 8, (x, i) => ({
+    x,
+    y: 200 + jitter(i, 3),
+    scale: 0.9 + jitter(i, 0.2),
+  })),
+  ...ringSpan(GATE_GAP[1] + 8, 280, 8.5, (x, i) => ({
+    x,
+    y: 206 + jitter(i, 2),
+    scale: 0.75 + jitter(i, 0.15),
+  })),
 ];
 
 /* Low scrub scattered through the otherwise-bare ground either side of the   */
@@ -473,6 +531,42 @@ function Mass({
     return { ax, ay, bx, by };
   });
 
+  /* Fine ribbing across the whole roof — the corrugated-panel texture a real  */
+  /* metal roof reads at this scale, on top of (and independent from) the few */
+  /* bolder structural seams above.                                           */
+  const ribSpacing = 3.4;
+  const ribCount = Math.max(0, Math.round(d / ribSpacing) - 1);
+  const ribPoints = Array.from({ length: ribCount }, (_, index) => {
+    const t = (index + 1) / (ribCount + 1);
+    const [ax, ay] = R(x0, y0 + t * d, pivot[0], pivot[1], deg);
+    const [bx, by] = R(x1, y0 + t * d, pivot[0], pivot[1], deg);
+    return { ax, ay, bx, by };
+  });
+
+  /* Bolder accent bands — filled strips (not just stroked lines), wide-spaced,*/
+  /* so the roof carries real graphic weight from above like the reference's  */
+  /* skylight rows, without borrowing its blue and without adding any new     */
+  /* structure below the roof plane.                                         */
+  const bandWidth = 1.1;
+  const bandSpacing = 11;
+  const bandCount = Math.max(0, Math.floor((d - bandWidth) / bandSpacing));
+  const bandInset = (d - (bandCount - 1) * bandSpacing) / 2;
+  const bandPolys = Array.from({ length: bandCount }, (_, index) => {
+    const t0 = (bandInset + index * bandSpacing) / d;
+    const t1 = t0 + bandWidth / d;
+    return face(
+      [
+        [x0, y0 + t0 * d, h],
+        [x1, y0 + t0 * d, h],
+        [x1, y0 + t1 * d, h],
+        [x0, y0 + t1 * d, h],
+      ].map(([px, py, pz]) => {
+        const [rx, ry] = R(px, py, pivot[0], pivot[1], deg);
+        return [rx, ry, pz];
+      }),
+    );
+  });
+
   const frontWall = walls.find((w2) => w2.isFront);
   const doorPoints = !frontWall
     ? []
@@ -500,6 +594,18 @@ function Mass({
           ])}
         />
       ))}
+      {walls.map((wall, index) => (
+        <polygon
+          key={`ao-${index}`}
+          className={styles.wallGroundAO}
+          points={face([
+            [wall.pts[0][0], wall.pts[0][1], 0],
+            [wall.pts[1][0], wall.pts[1][1], 0],
+            [wall.pts[1][0], wall.pts[1][1], 0.7],
+            [wall.pts[0][0], wall.pts[0][1], 0.7],
+          ])}
+        />
+      ))}
       <polygon
         className={roofClass}
         points={face([
@@ -509,6 +615,9 @@ function Mass({
           [corners[3][0], corners[3][1], h],
         ])}
       />
+      {bandPolys.map((points, index) => (
+        <polygon key={index} className={styles.roofBand} points={points} />
+      ))}
       <polygon
         className={parapetClass}
         points={face(
@@ -530,6 +639,9 @@ function Mass({
           y2={pt(frontWall.pts[1][0], frontWall.pts[1][1], h)[1]}
         />
       )}
+      {ribPoints.map((s, index) => (
+        <line key={index} className={styles.roofRib} x1={s.ax} y1={s.ay} x2={s.bx} y2={s.by} />
+      ))}
       {seamPoints.map((s, index) => (
         <line key={index} className={styles.roofSeam} x1={s.ax} y1={s.ay} x2={s.bx} y2={s.by} />
       ))}
@@ -609,6 +721,11 @@ function Car({
 
 /* A dock leveler: a low raised platform at a warehouse's loading face.      */
 
+/* Dock leveler: a raised steel plate at the loading-dock face — distinguished */
+/* from the surrounding pavement by a cool steel tone, a bold hinge bar along  */
+/* the building-side edge, and a few ridge lines standing in for the plate's   */
+/* tread pattern, so it reads as loading equipment rather than a bare tinted   */
+/* platform.                                                                   */
 function DockLeveler({
   x0,
   y0,
@@ -622,9 +739,38 @@ function DockLeveler({
   y1: number;
   style?: CSSProperties;
 }) {
+  const h = 0.4;
+  const treadCount = 3;
+  const treads = Array.from({ length: treadCount }, (_, index) => {
+    const t = (index + 1) / (treadCount + 1);
+    const x = x0 + (x1 - x0) * t;
+    const [ax, ay] = pt(x, y0 + 0.3, h);
+    const [bx, by] = pt(x, y1 - 0.3, h);
+    return { ax, ay, bx, by };
+  });
+  const [hingeAx, hingeAy] = pt(x0, y0, h);
+  const [hingeBx, hingeBy] = pt(x1, y0, h);
+
   return (
     <g className={styles.rise} style={style}>
-      <Box x0={x0} y0={y0} x1={x1} y1={y1} h={0.4} />
+      <Box x0={x0} y0={y0} x1={x1} y1={y1} h={h} className={styles.dockLeveler} />
+      <line
+        className={styles.dockLevelerHinge}
+        x1={hingeAx}
+        y1={hingeAy}
+        x2={hingeBx}
+        y2={hingeBy}
+      />
+      {treads.map((tr, index) => (
+        <line
+          key={index}
+          className={styles.dockLevelerTread}
+          x1={tr.ax}
+          y1={tr.ay}
+          x2={tr.bx}
+          y2={tr.by}
+        />
+      ))}
     </g>
   );
 }
@@ -679,15 +825,47 @@ function WallPanel({
   );
 }
 
-function Tree({ x, y, style }: { x: number; y: number; style?: CSSProperties }) {
+/* An irregular, hand-drawn-feeling canopy (an organicBlob traced directly in */
+/* screen space around the trunk tip) rather than a pair of plain ellipses —  */
+/* paired with a per-tree scale/seed so a cluster of trees reads as distinct  */
+/* individuals instead of repeated identical circles.                        */
+function Tree({
+  x,
+  y,
+  scale = 1,
+  seed = 0,
+  style,
+}: {
+  x: number;
+  y: number;
+  scale?: number;
+  seed?: number;
+  style?: CSSProperties;
+}) {
   const [gx, gy] = pt(x, y, 0);
-  const [tx, ty] = pt(x, y, 2);
+  const [tx, ty] = pt(x, y, 2 * scale);
+  const canopy = organicBlob(tx, ty - 0.6 * scale, 5 * scale, 3.6 * scale, seed).map((point) =>
+    point.join(","),
+  );
+  const canopyInner = organicBlob(
+    tx + 1.2 * scale,
+    ty - 1.6 * scale,
+    2.6 * scale,
+    2 * scale,
+    seed + 3.1,
+  ).map((point) => point.join(","));
   return (
     <g className={styles.rise} style={style}>
-      <ellipse className={styles.shadowBlobSoft} cx={gx + 4} cy={gy + 2} rx={4.5} ry={2.2} />
+      <ellipse
+        className={styles.shadowBlobSoft}
+        cx={gx + 4 * scale}
+        cy={gy + 2 * scale}
+        rx={4.5 * scale}
+        ry={2.2 * scale}
+      />
       <line className={styles.treeTrunk} x1={gx} y1={gy} x2={tx} y2={ty} />
-      <ellipse className={styles.treeCanopy} cx={tx} cy={ty} rx={5} ry={3.8} />
-      <ellipse className={styles.treeCanopyInner} cx={tx + 1.3} cy={ty - 1.5} rx={2.8} ry={2.2} />
+      <polygon className={styles.treeCanopy} points={canopy.join(" ")} />
+      <polygon className={styles.treeCanopyInner} points={canopyInner.join(" ")} />
     </g>
   );
 }
@@ -813,8 +991,8 @@ export function ProductsSitePlate() {
           </linearGradient>
 
           <linearGradient id="ndr-wall-right" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#ddd0b4" />
-            <stop offset="100%" stopColor="#c0b18e" />
+            <stop offset="0%" stopColor="#b6a37c" />
+            <stop offset="100%" stopColor="#8c7a58" />
           </linearGradient>
 
           <linearGradient id="ndr-roof" x1="0" y1="0" x2="1" y2="1">
@@ -852,7 +1030,7 @@ export function ProductsSitePlate() {
           </radialGradient>
 
           <filter id="ndr-soft-shadow" x="-60%" y="-60%" width="220%" height="220%">
-            <feGaussianBlur stdDeviation="7" />
+            <feGaussianBlur stdDeviation="4.5" />
           </filter>
 
           <filter id="ndr-soft-blur" x="-60%" y="-60%" width="220%" height="220%">
@@ -960,6 +1138,48 @@ export function ProductsSitePlate() {
           x2={pt(270, 190)[0]}
           y2={pt(270, 190)[1]}
         />
+        {/* planted median strip splitting the foreground road into two        */}
+        {/* carriageways, broken where the central road crosses it            */}
+        <polygon
+          className={styles.median}
+          points={face(
+            [
+              [-6, 182],
+              [138, 182],
+              [138, 184.5],
+              [-6, 184.5],
+            ].map(([x, y]) => [x, y, 0]),
+          )}
+        />
+        <polygon
+          className={styles.median}
+          points={face(
+            [
+              [166, 182],
+              [270, 182],
+              [270, 184.5],
+              [166, 184.5],
+            ].map(([x, y]) => [x, y, 0]),
+          )}
+        />
+
+        {/* crosswalk striping where the central road meets the foreground     */}
+        {/* road, next to the gate                                            */}
+        {Array.from({ length: 6 }, (_, index) => {
+          const x = 141 + index * 3.4;
+          const [ax, ay] = pt(x, 177, 0);
+          const [bx, by] = pt(x, 189, 0);
+          return (
+            <line
+              key={index}
+              className={styles.crosswalkStripe}
+              x1={ax}
+              y1={ay}
+              x2={bx}
+              y2={by}
+            />
+          );
+        })}
 
         {/* paved yards: left loading apron + right service yard */}
         <polygon className={styles.apron} points={face(LEFT_YARD.map(([x, y]) => [x, y, 0]))} />
@@ -996,7 +1216,14 @@ export function ProductsSitePlate() {
 
         {/* rear scrub */}
         {TREES.slice(0, 4).map((t, index) => (
-          <Tree key={index} x={t.x} y={t.y} style={stagger(8 + index)} />
+          <Tree
+            key={index}
+            x={t.x}
+            y={t.y}
+            scale={t.scale}
+            seed={index}
+            style={stagger(8 + index)}
+          />
         ))}
 
         {/* left cluster — stepped trio, rotated in plan */}
@@ -1029,19 +1256,21 @@ export function ProductsSitePlate() {
           <Car key={index} {...c} style={stagger(21 + index)} />
         ))}
 
-        {/* main gate — two posts under a lintel bar, a gold cap marking it as */}
-        {/* the deliberate entrance, plus a guard booth set back inside it     */}
+        {/* main gate — two substantial posts under a deep lintel bar, a gold  */}
+        {/* cap marking it as the deliberate entrance, plus a guard booth set  */}
+        {/* back inside it: scaled up to read as a real property entrance     */}
+        {/* rather than a decorative marker.                                  */}
         <g className={styles.rise} style={stagger(23)}>
           {GATE_POSTS.map(([gx, gy], index) => (
             <g key={index}>
-              <Box x0={gx} y0={gy} x1={gx + 2.2} y1={gy + 2.2} h={GATE_POST_H} />
+              <Box x0={gx} y0={gy} x1={gx + GATE_POST_W} y1={gy + GATE_POST_W} h={GATE_POST_H} />
               <polygon
                 className={styles.gateCap}
                 points={face([
-                  [gx - 0.3, gy - 0.3, GATE_POST_H],
-                  [gx + 2.5, gy - 0.3, GATE_POST_H],
-                  [gx + 2.5, gy + 2.5, GATE_POST_H],
-                  [gx - 0.3, gy + 2.5, GATE_POST_H],
+                  [gx - 0.4, gy - 0.4, GATE_POST_H],
+                  [gx + GATE_POST_W + 0.4, gy - 0.4, GATE_POST_H],
+                  [gx + GATE_POST_W + 0.4, gy + GATE_POST_W + 0.4, GATE_POST_H],
+                  [gx - 0.4, gy + GATE_POST_W + 0.4, GATE_POST_H],
                 ])}
               />
             </g>
@@ -1049,18 +1278,60 @@ export function ProductsSitePlate() {
           <polygon
             className={styles.gateLintel}
             points={face([
-              [GATE_POSTS[0][0] + 1.1, GATE_POSTS[0][1] + 1.1, GATE_POST_H],
-              [GATE_POSTS[1][0] + 1.1, GATE_POSTS[1][1] + 1.1, GATE_POST_H],
-              [GATE_POSTS[1][0] + 1.1, GATE_POSTS[1][1] + 1.1, GATE_POST_H + 0.9],
-              [GATE_POSTS[0][0] + 1.1, GATE_POSTS[0][1] + 1.1, GATE_POST_H + 0.9],
+              [GATE_POSTS[0][0] + GATE_POST_W / 2, GATE_POSTS[0][1] + GATE_POST_W / 2, GATE_POST_H],
+              [GATE_POSTS[1][0] + GATE_POST_W / 2, GATE_POSTS[1][1] + GATE_POST_W / 2, GATE_POST_H],
+              [
+                GATE_POSTS[1][0] + GATE_POST_W / 2,
+                GATE_POSTS[1][1] + GATE_POST_W / 2,
+                GATE_POST_H + GATE_LINTEL_H,
+              ],
+              [
+                GATE_POSTS[0][0] + GATE_POST_W / 2,
+                GATE_POSTS[0][1] + GATE_POST_W / 2,
+                GATE_POST_H + GATE_LINTEL_H,
+              ],
             ])}
           />
           <Box {...GATE_BOOTH} />
+          {/* boom arm, raised to the open position — reads as a controlled,   */}
+          {/* operating entrance rather than a purely decorative gate.        */}
+          {(() => {
+            const pivotX = GATE_GAP[0] - 3 + GATE_POST_W;
+            const armY = 187 + GATE_POST_W / 2;
+            const armH = GATE_POST_H * 0.55;
+            const [px, py] = pt(pivotX, armY, armH);
+            const [tx, ty] = pt(pivotX + (GATE_GAP[1] - GATE_GAP[0]) * 0.6, armY, armH + 8);
+            return (
+              <>
+                <circle className={styles.gateBoomPivot} cx={px} cy={py} r={1.3} />
+                <line className={styles.gateBoomArm} x1={px} y1={py} x2={tx} y2={ty} />
+              </>
+            );
+          })()}
         </g>
 
         {/* remaining trees scattered in the scrub */}
         {TREES.slice(4).map((t, index) => (
-          <Tree key={index + 4} x={t.x} y={t.y} style={stagger(25 + index)} />
+          <Tree
+            key={index + 4}
+            x={t.x}
+            y={t.y}
+            scale={t.scale}
+            seed={index + 4}
+            style={stagger(25 + index)}
+          />
+        ))}
+
+        {/* continuous perimeter tree belt tracing the compound wall */}
+        {PERIMETER_TREES.map((t, index) => (
+          <Tree
+            key={`ring-${index}`}
+            x={t.x}
+            y={t.y}
+            scale={t.scale}
+            seed={index + 100}
+            style={stagger((index % 6) + 4)}
+          />
         ))}
       </svg>
     </div>
