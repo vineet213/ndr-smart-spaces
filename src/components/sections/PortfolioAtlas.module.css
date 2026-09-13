@@ -192,13 +192,13 @@
 
 .tooltip rect {
   fill: var(--color-charcoal);
-  opacity: 0.92;
+  opacity: 0.96;
 }
 
 .tooltipText {
   fill: var(--color-ivory);
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: var(--font-weight-body-medium);
   letter-spacing: 0.04em;
 }

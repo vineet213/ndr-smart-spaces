@@ -4,9 +4,9 @@ import { Reveal, type RevealDelay } from "./Reveal";
 import styles from "./Vertical02Stats.module.css";
 
 /**
- * Vertical 02 — key figures. The three scaffold counters (999 pending client
- * data) rendered as a premium institutional band: three equal blocks with the
- * figure dominant and centred, the label beneath, count-up preserved.
+ * Vertical 02 — key figures, rendered as a premium institutional band: three
+ * equal blocks with the figure dominant and centred, the label beneath, and
+ * a count-up reveal.
  */
 export function Vertical02Stats() {
   return (

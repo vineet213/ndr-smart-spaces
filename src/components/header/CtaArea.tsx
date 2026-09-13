@@ -5,9 +5,9 @@ import styles from "./CtaArea.module.css";
 export function CtaArea() {
   return (
     <div className={styles.area}>
-      <Button href={headerCta.enquiry.href} className={styles.enquiry}>
-        {headerCta.enquiry.label}
-      </Button>
+      <span className={styles.enquiryWrap}>
+        <Button href={headerCta.enquiry.href}>{headerCta.enquiry.label}</Button>
+      </span>
     </div>
   );
 }

@@ -59,3 +59,17 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
+# Client/source videos - keep local, never commit
+Project resources/Homepage Banner/*.mp4
+Project resources/Residential plotting banner video/*.MP4
+Project resources/Residential plotting banner video/*.mp4
+
+# Client/source videos - keep local, never commit
+Project resources/Homepage Banner/*.mp4
+Project resources/Residential plotting banner video/*.MP4
+Project resources/Residential plotting banner video/*.mp4
+
+# Client/source videos - keep local, never commit
+Project resources/Homepage Banner/*.mp4
+Project resources/Residential plotting banner video/*.MP4
+Project resources/Residential plotting banner video/*.mp4

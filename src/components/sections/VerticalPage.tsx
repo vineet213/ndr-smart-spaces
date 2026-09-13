@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Container, Section } from "@/components/layout";
 import { SourceFootnote } from "@/components/ui";
-import { verticalOverview, type Division } from "@/lib/data/business";
+import { verticalOverview, verticalMastheadSubtext, type Division } from "@/lib/data/business";
 import { cx } from "@/components/ui/cx";
 import { AveAcresExplore } from "./AveAcresExplore";
 import { AveAcresProcess } from "./AveAcresProcess";
@@ -9,6 +9,7 @@ import { AveAcresValues } from "./AveAcresValues";
 import { DrawnGrid } from "./DrawnGrid";
 import { PropertyRegister } from "./PropertyRegister";
 import { Reveal } from "./Reveal";
+import { ResidentialPlottingMastheadVideo } from "./ResidentialPlottingMastheadVideo";
 import { Vertical02Stats } from "./Vertical02Stats";
 import { VerticalManagement } from "./VerticalManagement";
 import styles from "./VerticalPage.module.css";
@@ -40,10 +41,16 @@ export function VerticalPage({ division }: VerticalPageProps) {
   const isV3 = division.index === "03";
   const title = division.title;
   const titleParts = title.split(" - ");
+  const mastheadSubtext = verticalMastheadSubtext[division.index];
 
   return (
     <>
-      <Section tone="charcoal" ariaLabelledby="vertical-masthead-title" className={styles.masthead}>
+      <Section
+        tone="charcoal"
+        ariaLabelledby="vertical-masthead-title"
+        className={cx(styles.masthead, mastheadSubtext && styles.mastheadCompact)}
+      >
+        {isV3 ? <ResidentialPlottingMastheadVideo /> : null}
         <span className={styles.ruleTop} aria-hidden="true" />
 
         <Container className={styles.hero}>
@@ -60,6 +67,7 @@ export function VerticalPage({ division }: VerticalPageProps) {
               title
             )}
           </h1>
+          {mastheadSubtext ? <p className={styles.subtext}>{mastheadSubtext}</p> : null}
         </Container>
 
         <span className={styles.rule} aria-hidden="true" />

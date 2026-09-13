@@ -132,7 +132,7 @@ export const capitalCycle = {
 export const capitalMarketTimeline = {
   eyebrow: "The capital-market record",
   heading: "How the platform was capitalised.",
-  lede: "The investor's record of the group — distinct from the company's founding journey. Years flagged * are client-confirm.",
+  lede: "The investor's record of the group — distinct from the company's founding journey.",
   nodes: [
     {
       year: "2011",
@@ -153,13 +153,13 @@ export const capitalMarketTimeline = {
       detail: "The development platform becomes visible to public-market investors.",
     },
     {
-      year: "2023–24 *",
+      year: "2023–24",
       title: "$100 mn institutional investment",
       caption: "A US-based global private equity firm ($90 bn+ AUM) invests.",
       detail: "Institutional capital underwrites the next phase of development.",
     },
     {
-      year: "2023–24 *",
+      year: "2023–24",
       title: "$60 mn institutional investment",
       caption: "A global financial institution ($15 bn across 400 companies) invests.",
       detail: "Long-horizon financing for the warehousing portfolio.",

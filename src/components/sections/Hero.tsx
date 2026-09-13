@@ -5,12 +5,15 @@ import Image from "next/image";
 import { Container } from "@/components/layout";
 import { Lede, Button } from "@/components/ui";
 import { hero } from "@/lib/data/homepage";
-import { ArchitecturalField } from "./ArchitecturalField";
+import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
 import styles from "./Hero.module.css";
 import { cx } from "../ui/cx";
 
+const HERO_VIDEO_SRC = "/videos/homepage/masthead.mp4";
+
 export function Hero() {
   const [scrolled, setScrolled] = useState(false);
+  const { videoRef, motionAllowed } = useAutoplayVideo();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.08);
@@ -22,19 +25,17 @@ export function Hero() {
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
       <div className={styles.media}>
-        {hero.image ? (
-          <Image
-            src={hero.image.src}
-            alt={hero.image.alt}
-            className={styles.mediaImage}
-            width={1600}
-            height={900}
-            priority
-            sizes="100vw"
-          />
-        ) : (
-          <ArchitecturalField className={styles.mediaField} />
-        )}
+        <video
+          ref={videoRef}
+          className={styles.mediaVideo}
+          src={HERO_VIDEO_SRC}
+          muted
+          loop={motionAllowed}
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+        />
+        <div className={styles.mediaScrim} aria-hidden="true" />
       </div>
 
       <Container as="div" className={styles.typeContainer}>

@@ -1,7 +1,7 @@
 "use client";
 
 import type { CSSProperties, ReactNode } from "react";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "@/hooks/useInView";
 import { formatAcres, type AtlasPinData, type StateLandSummary } from "@/lib/data/portfolio";
 import { INDIAN_STATES } from "@/lib/data/india-states";
@@ -11,6 +11,13 @@ import styles from "./PortfolioAtlas.module.css";
 
 export const ATLAS_VIEWBOX = "0 0 1020 1090";
 const OFFSET = 45;
+
+/* Tooltip box sizing/positioning — kept in viewBox units (see ATLAS_VIEWBOX). */
+const [VB_X, VB_Y, VB_W, VB_H] = ATLAS_VIEWBOX.split(" ").map(Number);
+const TOOLTIP_PAD_X = 8;
+const TOOLTIP_HEIGHT = 20;
+const TOOLTIP_TEXT_OFFSET_Y = 14;
+const TOOLTIP_EDGE_MARGIN = 4;
 
 type PortfolioAtlasProps = {
   selectedStateId: string | null;
@@ -129,8 +136,8 @@ export function PortfolioAtlas({
     if (!svg) return;
     const rect = svg.getBoundingClientRect();
     setTooltipPos({
-      x: ((e.clientX - rect.left) * 1020) / rect.width,
-      y: ((e.clientY - rect.top) * 1090) / rect.height - 18,
+      x: ((e.clientX - rect.left) * VB_W) / rect.width,
+      y: ((e.clientY - rect.top) * VB_H) / rect.height - 18,
     });
   }, []);
 
@@ -167,6 +174,43 @@ export function PortfolioAtlas({
     hoveredStateId !== null && selectableSet.has(hoveredStateId)
       ? (customStates ?? []).find((s) => s.stateId === hoveredStateId)
       : undefined;
+
+  const tooltipLabel = hoveredPin
+    ? hoveredPin.extentAcres !== undefined
+      ? `${hoveredPin.name} · ${formatAcres(hoveredPin.extentAcres)}`
+      : hoveredPin.district
+        ? `${hoveredPin.name}, ${hoveredPin.district}`
+        : hoveredPin.name
+    : hoveredSelectable
+      ? `${hoveredSelectable.stateName} · ${hoveredSelectable.parcelCount} ${hoveredSelectable.parcelCount === 1 ? "site" : "sites"}`
+      : null;
+
+  /* The tooltip box is sized from the text's *actual* rendered width rather   */
+  /* than a character-count estimate — an estimate can undershoot depending   */
+  /* on font metrics, letting the text spill outside the dark rect and land   */
+  /* invisibly on the light map beneath it. Falls back to a generous estimate */
+  /* for the first paint of a new label, before the measurement effect runs.  */
+  const tooltipTextRef = useRef<SVGTextElement>(null);
+  const [measuredWidth, setMeasuredWidth] = useState(0);
+
+  useEffect(() => {
+    setMeasuredWidth(tooltipTextRef.current?.getComputedTextLength() ?? 0);
+  }, [tooltipLabel]);
+
+  const tooltipRect = (() => {
+    if (!tooltipLabel || !tooltipPos) return null;
+    const textWidth = measuredWidth > 0 ? measuredWidth : tooltipLabel.length * 8;
+    const width = textWidth + TOOLTIP_PAD_X * 2;
+    const x = Math.min(
+      Math.max(tooltipPos.x - 4, VB_X + TOOLTIP_EDGE_MARGIN),
+      VB_X + VB_W - width - TOOLTIP_EDGE_MARGIN,
+    );
+    const y = Math.min(
+      Math.max(tooltipPos.y - 14, VB_Y + TOOLTIP_EDGE_MARGIN),
+      VB_Y + VB_H - TOOLTIP_HEIGHT - TOOLTIP_EDGE_MARGIN,
+    );
+    return { x, y, width };
+  })();
 
   let stateIndex = 0;
 
@@ -258,31 +302,23 @@ export function PortfolioAtlas({
             </g>
           </g>
 
-          {(hoveredPin || hoveredSelectable) && tooltipPos && (
+          {tooltipLabel && tooltipRect && (
             <g className={styles.tooltip}>
-              {(() => {
-                const label = hoveredPin
-                  ? hoveredPin.extentAcres !== undefined
-                    ? `${hoveredPin.name} · ${formatAcres(hoveredPin.extentAcres)}`
-                    : hoveredPin.district
-                      ? `${hoveredPin.name}, ${hoveredPin.district}`
-                      : hoveredPin.name
-                  : `${hoveredSelectable?.stateName} · ${hoveredSelectable?.parcelCount} ${hoveredSelectable?.parcelCount === 1 ? "site" : "sites"}`;
-                return (
-                  <>
-                    <rect
-                      x={tooltipPos.x - 4}
-                      y={tooltipPos.y - 13}
-                      width={label.length * 7.5 + 16}
-                      height={18}
-                      rx={3}
-                    />
-                    <text x={tooltipPos.x + 4} y={tooltipPos.y} className={styles.tooltipText}>
-                      {label}
-                    </text>
-                  </>
-                );
-              })()}
+              <rect
+                x={tooltipRect.x}
+                y={tooltipRect.y}
+                width={tooltipRect.width}
+                height={TOOLTIP_HEIGHT}
+                rx={3}
+              />
+              <text
+                ref={tooltipTextRef}
+                x={tooltipRect.x + TOOLTIP_PAD_X}
+                y={tooltipRect.y + TOOLTIP_TEXT_OFFSET_Y}
+                className={styles.tooltipText}
+              >
+                {tooltipLabel}
+              </text>
             </g>
           )}
         </svg>

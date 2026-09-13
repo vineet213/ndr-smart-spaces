@@ -225,7 +225,7 @@
   font-size: var(--font-meta);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
-  color: var(--color-stone);
+  color: var(--color-ink-muted);
   font-variant-numeric: tabular-nums;
 }
 
@@ -314,8 +314,8 @@
 }
 
 .recordSub {
-  color: var(--color-stone);
-  font-size: var(--font-meta);
+  color: var(--color-ink-muted);
+  font-size: var(--font-small);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
   font-variant-numeric: tabular-nums;
@@ -353,10 +353,11 @@
 }
 
 .recordTag {
-  font-size: var(--font-meta);
+  font-size: var(--font-small);
+  font-weight: var(--font-weight-body-medium);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
-  color: var(--color-stone);
+  color: var(--color-ink-muted);
   white-space: nowrap;
 }
 
@@ -475,10 +476,10 @@
 }
 
 .detailLocation {
-  font-size: var(--font-meta);
+  font-size: var(--font-small);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
-  color: var(--color-stone);
+  color: var(--color-ink-muted);
 }
 
 .detailGrid {
@@ -498,7 +499,7 @@
   font-size: var(--font-meta);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
-  color: var(--color-stone);
+  color: var(--color-ink-muted);
   margin: 0;
 }
 

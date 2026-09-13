@@ -64,6 +64,7 @@ export { LegalSitemap } from "./LegalSitemap";
 export { VerticalHub } from "./VerticalHub";
 export { Vertical02Stats } from "./Vertical02Stats";
 export { VerticalPage } from "./VerticalPage";
+export { ResidentialPlottingMastheadVideo } from "./ResidentialPlottingMastheadVideo";
 export { VerticalManagement } from "./VerticalManagement";
 export { DevelopmentLifecycle } from "./DevelopmentLifecycle";
 export { SummaryOfBusiness } from "./SummaryOfBusiness";

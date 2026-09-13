@@ -99,6 +99,15 @@ export const businessMasthead = {
  */
 
 /**
+ * Masthead subtext, keyed by division index. Optional — only Vertical 01
+ * (Logistics and Industrial Infrastructure) has copy supplied; other
+ * verticals render the heading-only masthead unchanged.
+ */
+export const verticalMastheadSubtext: Readonly<Record<string, string>> = {
+  "01": "From roads to warehouses, we build the infrastructure that keeps the businesses moving. Smart logistics, solid foundations, sustainable growth.",
+};
+
+/**
  * Per-vertical overview heading rendered above the overview description.
  * `emphasis` lists phrases within the description that are set off in the
  * rendered copy.
@@ -345,8 +354,7 @@ export const businessClosing = {
 /**
  * Vertical 02 — Project and Operations Management Consultancy - NDR Asset
  * Management. Figures are configurable and flow through the count-up
- * treatment (`Vertical02Stats`). "Projects in Pipeline" remains a 999
- * scaffold — no client figure has been supplied for it yet.
+ * treatment (`Vertical02Stats`).
  */
 export const vertical02Metrics: readonly (Omit<CompanyMetric, "value"> & { value: number })[] = [
   {
@@ -356,7 +364,7 @@ export const vertical02Metrics: readonly (Omit<CompanyMetric, "value"> & { value
     context: "Asset under construction",
   },
   { value: 230, label: "Strength of the team", context: "Strength of the team" },
-  { value: 999, label: "Projects in Pipeline", context: "Projects in Pipeline" },
+  { value: 6, label: "Projects in Pipeline", context: "Projects in Pipeline" },
 ];
 
 export type AssetPerformanceFunction = { index: string; title: string };
@@ -364,8 +372,8 @@ export type AssetPerformanceFunction = { index: string; title: string };
 /**
  * Vertical 02 subpage — Asset Performance Management. Editorial copy is
  * frozen; the four function slots ship titled "Function 1"–"Function 4"
- * pending the client's service documentation, and the three stats are
- * configurable counters (999 scaffold) flowing through `CompanyMetrics`.
+ * pending the client's service documentation. The three stats flow through
+ * `CompanyMetrics`.
  */
 export const vertical02AssetManagement = {
   intro: {
@@ -388,8 +396,7 @@ export const vertical02AssetManagement = {
       label: "Asset Under Management",
       context: "Asset Under Management",
     },
-    // No locations figure has been supplied yet — shown as text, not a count-up.
-    { value: null, label: "Pending", context: "Locations" },
+    { value: 14, label: "Locations", context: "Locations" },
   ] as const satisfies ReadonlyArray<CompanyMetric>,
   cta: {
     eyebrow: "Business Enquiry",

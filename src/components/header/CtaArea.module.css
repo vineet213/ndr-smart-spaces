@@ -4,13 +4,18 @@
   gap: var(--space-lg);
 }
 
-.enquiry {
+/* Wraps the Button rather than classing it directly: Button's own `.base`  */
+/* sets `display: inline-flex` unconditionally, and CSS Modules give no      */
+/* guarantee that this rule's `display: none` wins the cascade over that    */
+/* one (both are single-class selectors — whichever chunk loads last wins). */
+/* A dedicated wrapper element sidesteps the collision entirely.            */
+.enquiryWrap {
   display: none;
   flex-shrink: 0;
 }
 
 @media (min-width: 768px) {
-  .enquiry {
+  .enquiryWrap {
     display: inline-flex;
   }
 }

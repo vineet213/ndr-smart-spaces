@@ -7,6 +7,8 @@ section.masthead {
 }
 
 .ruleTop {
+  position: relative;
+  z-index: 1;
   display: block;
   height: 2px;
   background: linear-gradient(
@@ -21,6 +23,36 @@ section.masthead {
   animation: draw-right 1200ms var(--ease-standard) 100ms both;
 }
 
+/* Residential Plotting masthead video — sits behind the rules/hero content   */
+/* (all given z-index: 1) and above the Section's own charcoal-maroon        */
+/* background, which remains the fallback if the video can't play/load.      */
+.mastheadVideo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.mastheadVideoEl {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Bottom-weighted wash only — keeps the footage visible while guaranteeing  */
+/* the bottom-anchored heading stays readable against it.                    */
+.mastheadVideoScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(28, 12, 15, 0.65) 0%,
+    rgba(28, 12, 15, 0.32) 32%,
+    rgba(28, 12, 15, 0.05) 60%,
+    rgba(28, 12, 15, 0) 100%
+  );
+}
+
 /* hero ------------------------------------------------------------------ */
 
 .hero {
@@ -30,7 +62,22 @@ section.masthead {
   padding-bottom: var(--space-6xl);
   min-height: 78vh;
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Compact variant: used only when the masthead carries a subtext line       */
+/* (currently Vertical 01), so the heading + subtext comfortably fit one     */
+/* viewport without shrinking the heading itself — trims the surrounding    */
+/* chrome (hero min-height/padding, the rule's top margin) instead.          */
+.mastheadCompact .hero {
+  min-height: 66vh;
+  padding-top: var(--space-10xl);
+  padding-bottom: var(--space-5xl);
+}
+
+.mastheadCompact .rule {
+  margin-top: var(--space-7xl);
 }
 
 .title {
@@ -67,7 +114,22 @@ section.masthead {
   color: var(--color-gold);
 }
 
+.subtext {
+  position: relative;
+  z-index: 1;
+  margin: var(--space-4xl) 0 0;
+  max-width: 52ch;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-text-inverse-70);
+  animation: rise-fade var(--duration-long) var(--ease-standard) 320ms both;
+}
+
 .rule {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: 2px;
@@ -239,12 +301,27 @@ section.masthead {
     padding-top: var(--space-9xl);
   }
 
+  .mastheadCompact .hero {
+    min-height: auto;
+    padding-top: var(--space-9xl);
+    padding-bottom: var(--space-4xl);
+  }
+
   .title {
     font-size: clamp(2.25rem, 9vw, 3rem);
   }
 
+  .subtext {
+    margin-top: var(--space-3xl);
+    max-width: 100%;
+  }
+
   .rule {
     margin-top: var(--space-9xl);
+  }
+
+  .mastheadCompact .rule {
+    margin-top: var(--space-6xl);
   }
 
   .specRow {
@@ -262,6 +339,7 @@ section.masthead {
 @media (prefers-reduced-motion: reduce) {
   .ruleTop,
   .title,
+  .subtext,
   .rule {
     animation: none;
   }

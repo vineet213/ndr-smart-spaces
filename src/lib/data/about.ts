@@ -208,7 +208,20 @@ export const leadership = {
       placeholderTitle: "Director seat",
       placeholderStatus: "Official profile pending",
       placeholderNote: "Reserved for board confirmation",
-      profiles: [] as readonly LeadershipProfile[],
+      profiles: [
+        {
+          name: "P. Chandrashekar",
+          role: "Director",
+          bio: "P. Chandrashekar is a senior business leader with over 43 years of experience across finance, strategy, corporate governance, M&A, business transformation and scale-up leadership. He holds a Master of Management Studies (MMS) from Narsee Monjee Institute of Management Studies (NMIMS), Mumbai, and a Bachelor of Commerce from R. A. Podar College of Commerce and Economics, Mumbai. He has held senior leadership positions, including Executive Director & CEO of Runwal Group and Chief Financial Officer of DHL India and Coca-Cola India. He currently serves on the boards of several companies and is the Founder & Principal Consultant of Crescentia Strategists LLP.",
+          photo: "/images/leadership/board-directors/p-chandrashekar.jpg",
+        },
+        {
+          name: "N. Amrutesh Reddy",
+          role: "Director",
+          bio: "N. Amrutesh Reddy is a third-generation entrepreneur and a prominent leader in India's infrastructure and logistics sector. He holds a Bachelors in Commerce degree from Madras University, Chennai. He is the Managing Director of NDR Warehousing Private Limited and Sponsor & Board Member of NDR InvIT. With over two decades of leadership experience, he has overseen marquee investments and led several industry-defining initiatives in warehousing and logistics. He was honored with the Entrepreneur of the Year Award in 2025.",
+          photo: "/images/leadership/board-directors/n-amrutesh-reddy.jpg",
+        },
+      ] as readonly LeadershipProfile[],
       placeholderSlots: 3,
     },
     {
@@ -217,7 +230,32 @@ export const leadership = {
       placeholderTitle: "Executive seat",
       placeholderStatus: "Official profile pending",
       placeholderNote: "Reserved for management confirmation",
-      profiles: [] as readonly LeadershipProfile[],
+      profiles: [
+        {
+          name: "Raj Srinivasan",
+          role: "Chief Executive Officer",
+          bio: "Raj Srinivasan is the Chief Executive Officer of NDR Smart Spaces, with nearly two decades of experience within the NDR Group. He is a management graduate from Sikkim University and previously served as CEO of NDR Warehousing for five years. He brings deep expertise in logistics, industrial real estate operations and business strategy. Known for his strong client relationships and operational discipline, he has played a key role in driving strategic growth and delivering complex construction projects.",
+          photo: "/images/leadership/management-team/raj-srinivasan.jpg",
+        },
+        {
+          name: "S. Shreyance Chhajer",
+          role: "Chief Financial Officer",
+          bio: "S. Shreyance Chhajer is the Chief Financial Officer of NDR Smart Spaces Private Limited and a Chartered Accountant with over a decade of experience across statutory audit, professional practice and corporate finance. He holds a Bachelors in Commerce degree from Madras University, Chennai. He began his career with Deloitte Haskins and Sells LLP and subsequently served as a Partner at Joseph and Rajaram, Chartered Accountants. At NDR Group, he has held senior finance roles and now leads the finance function across the group's infrastructure business.",
+          photo: "/images/leadership/management-team/s-shreyance-chhajer.jpg",
+        },
+        {
+          name: "Swati Agarwal",
+          role: "Company Secretary",
+          bio: "Ms. Swati Agarwal is a qualified Company Secretary and an Associate Member of the Institute of Company Secretaries of India (ICSI), with a Bachelor of Commerce (B.Com.) degree from Calcutta University. She has around 7 years of experience across secretarial, legal and compliance functions, having worked with listed and unlisted entities across diverse sectors. She has previously worked with Tamil Nadu Advance Manufacturing Centre of Excellence Private Limited (TAMCOE), a wholly-owned subsidiary of TIDCO, and Refex Renewables & Infrastructure Limited (RRIL), the renewable arm of the Refex Group and a BSE-listed company.",
+          photo: "/images/leadership/management-team/swati-agarwal.jpg",
+        },
+        {
+          name: "K. Jeevan Kumar",
+          role: "Legal Head",
+          bio: "Mr. K. Jeevan Kumar holds a Bachelor of Commerce (B.Com.) degree from Noble College and an LL.B. degree from Hindu College of Law, Machilipatnam, Andhra Pradesh. He was enrolled with the Bar Council of Andhra Pradesh in 1998 and has 10 years of litigation experience, including appearances before the High Courts and the Supreme Court of India. He also brings 17 years of corporate legal experience, having served as Legal Head at leading real estate companies such as Narne Estates, at Hyderabad; DLF, Radiance Realty, and House of Hiranandani, at Chennai. His expertise spans legal advisory, corporate legal functions, compliance, land acquisition and real estate-related legal matters.",
+          photo: "/images/leadership/management-team/k-jeevan-kumar.jpg",
+        },
+      ] as readonly LeadershipProfile[],
       placeholderSlots: 4,
     },
   ],

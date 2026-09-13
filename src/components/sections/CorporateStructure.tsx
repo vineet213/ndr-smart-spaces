@@ -29,7 +29,7 @@ type EntityId = "center" | "spv" | "am" | "ave" | "invit" | "warehouses" | "thir
 type N = { x: number; y: number; w: number; h: number };
 
 const NODES: Record<EntityId, N> = {
-  center: { x: 465, y: 36, w: 320, h: 124 },
+  center: { x: 400, y: 36, w: 450, h: 124 },
   am: { x: 40, y: 270, w: 250, h: 190 },
   spv: { x: 350, y: 270, w: 250, h: 190 },
   warehouses: { x: 650, y: 270, w: 250, h: 190 },
@@ -38,9 +38,10 @@ const NODES: Record<EntityId, N> = {
   third: { x: 960, y: 540, w: 250, h: 136 },
 };
 
-/* Anchor card text is centred left of its corner badge so no glyph collides
-   with the badge disk. */
-const CCX = 575;
+/* Anchor card title, centred on the (now generously widened) box itself —
+   wide enough that "NDR Smart Spaces" clears both the box's own edges and
+   the corner badge without needing an off-centre fudge. */
+const CCX = NODES.center.x + NODES.center.w / 2;
 
 /* ═══════════════════════════════════════════════════════════════════════════
    CONNECTORS — orthogonal elbows, every edge end lands on a card edge.
@@ -78,7 +79,7 @@ const CONNECTORS: readonly Connector[] = [
   {
     id: "own-ave",
     type: "ownership",
-    d: `M785 160 L785 200 L1085 200 L1085 264`,
+    d: `M850 160 L850 200 L1085 200 L1085 264`,
     lx: 1103,
     ly: 232,
     label: "Ownership",
