@@ -57,6 +57,17 @@
   color: var(--color-text-inverse-70);
 }
 
+/* `bare` renders the grid directly on a light host section (e.g. the APM    */
+/* stats block) instead of the dark `.band` — the inverse-tinted label and   */
+/* placeholder colors above are illegible there, so swap in ink tones.       */
+.bare .context {
+  color: var(--color-ink-muted);
+}
+
+.bare .placeholder {
+  color: var(--color-ink-muted);
+}
+
 .placeholder {
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);

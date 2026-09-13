@@ -29,10 +29,38 @@
   background-color: var(--color-charcoal);
 }
 
+.panel:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: -2px;
+}
+
 .scrim {
   position: absolute;
   inset: 0;
   background-color: rgba(28, 26, 25, 0.55);
+}
+
+/* Curtain reveal: a tonal maroon panel that rises from the base on hover/   */
+/* focus, same treatment as the APM function cards' curtain. It sits above   */
+/* the artwork + scrim but below `.content`, so the title/body stay legible  */
+/* and the drawing itself is never touched or resized.                       */
+.curtain {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-maroon-dark);
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition:
+    transform 420ms var(--ease-standard),
+    opacity 420ms var(--ease-standard);
+}
+
+.panel:hover .curtain,
+.panel:focus-visible .curtain,
+.panel:focus-within .curtain {
+  opacity: 0.8;
+  transform: scaleY(1);
 }
 
 .content {
@@ -109,5 +137,11 @@
 
   .title {
     font-size: clamp(2.25rem, 9vw, 3rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curtain {
+    transition: none;
   }
 }

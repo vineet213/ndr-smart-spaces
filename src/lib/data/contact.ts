@@ -157,5 +157,5 @@ export const contactClosing = {
   eyebrow: "Contact",
   line: "Contact NDR Smart Spaces.",
   body: "Smart Spaces, HR and Grievance enquiries.",
-  primaryCta: { label: "Send an enquiry", href: "/en/contact#business-enquiry" },
+  primaryCta: { label: "Write us", href: "/en/contact#business-enquiry" },
 } as const;

@@ -57,7 +57,6 @@ export function Footer({ hideWorkWithUsCta = true }: { hideWorkWithUsCta?: boole
                 className={styles.logo}
               />
             </Link>
-            <p className={styles.descriptor}>{footer.descriptor}</p>
             <ul className={styles.ecosystem}>
               {footer.ecosystem.map((link) => (
                 <li key={link.href}>

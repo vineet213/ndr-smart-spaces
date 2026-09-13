@@ -27,9 +27,10 @@ export function VisionMissionValues() {
         {aboutPrinciples.columns.map((column, index) => (
           <GridItem key={column.title} span={6}>
             <Reveal delay={(index + 1) as RevealDelay}>
-              <article className={styles.panel} aria-label={column.title}>
+              <article className={styles.panel} aria-label={column.title} tabIndex={0}>
                 {column.title === "Vision" ? <VisionDiagram /> : <MissionDiagram />}
                 <div className={styles.scrim} aria-hidden="true" />
+                <span className={styles.curtain} aria-hidden="true" />
                 <div className={styles.content}>
                   <Eyebrow tone="dark" as="span" className={styles.index}>
                     {column.index}

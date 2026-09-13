@@ -33,7 +33,10 @@ export function CompanyMetrics({
   bare = false,
 }: CompanyMetricsProps) {
   const grid = (
-    <ol id={id} className={cx(styles.grid, data.length === 4 && styles.gridFour)}>
+    <ol
+      id={id}
+      className={cx(styles.grid, data.length === 4 && styles.gridFour, bare && styles.bare)}
+    >
       {data.map((metric, index) => (
         <li key={index} className={styles.block}>
           <MetricValue metric={metric} />

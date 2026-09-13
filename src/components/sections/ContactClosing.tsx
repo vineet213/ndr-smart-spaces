@@ -1,5 +1,5 @@
 import { Container } from "@/components/layout";
-import { Body, Button, Eyebrow, Heading, TextLink } from "@/components/ui";
+import { Body, Button, Heading, TextLink } from "@/components/ui";
 import { contactClosing } from "@/lib/data/contact";
 import { Reveal } from "./Reveal";
 import styles from "./ContactClosing.module.css";
@@ -9,9 +9,6 @@ export function ContactClosing() {
     <section className={styles.section} aria-labelledby="contact-closing-title">
       <Container>
         <Reveal>
-          <Eyebrow tone="dark" className={styles.eyebrow}>
-            {contactClosing.eyebrow}
-          </Eyebrow>
           <Heading
             variant="section"
             tone="dark"
