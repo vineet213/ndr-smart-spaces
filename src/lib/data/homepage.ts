@@ -39,7 +39,7 @@ export const hero: {
 } = {
   headline: "From land to listed assets.",
   subhead:
-    "A diversified infrastructure organization developing, owning and managing institutional-grade industrial, commercial and institutional assets across India — and the development platform behind NDR InvIT, India's first warehousing InvIT.",
+    "A diversified infrastructure organization developing, owning and managing institutional-grade industrial and institutional assets across India — and the development platform behind NDR InvIT, India's first warehousing InvIT.",
   stats: heroStats,
   statsSource: "Source: NDR Corporate Presentation, FY26",
   image: null,

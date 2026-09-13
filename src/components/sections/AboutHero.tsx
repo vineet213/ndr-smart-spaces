@@ -10,8 +10,8 @@ export function AboutHero() {
   return (
     <section className={styles.hero} aria-labelledby="about-hero-title">
       <Container className={styles.content}>
-        <Stack gap="6xl">
-          <Stack gap="4xl">
+        <Stack gap="4xl">
+          <Stack gap="3xl">
             <Heading
               variant="hero"
               tone="dark"
