@@ -23,15 +23,6 @@
   color: var(--color-gold);
 }
 
-.colophonRef {
-  font-family: var(--font-body);
-  font-size: var(--font-small);
-  line-height: var(--leading-small);
-  letter-spacing: var(--tracking-meta);
-  text-transform: uppercase;
-  color: var(--color-text-inverse-70);
-}
-
 .ctaRow {
   display: flex;
   align-items: baseline;

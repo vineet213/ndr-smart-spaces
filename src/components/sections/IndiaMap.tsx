@@ -171,7 +171,11 @@ export function IndiaMap({
           >
             <span className={styles.tooltipName}>{tooltip.name}</span>
             <span className={cx("text-label-meta", styles.tooltipZone)}>{tooltip.zone} zone</span>
-            <span className={styles.tooltipLine}>{tooltip.line}</span>
+            {tooltip.extentAcres !== undefined ? (
+              <span className={styles.tooltipLine}>
+                {tooltip.extentAcres.toLocaleString("en-IN")} acres
+              </span>
+            ) : null}
           </div>
         ) : null}
       </div>

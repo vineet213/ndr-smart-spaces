@@ -11,7 +11,7 @@
 }
 
 .headline {
-  max-width: 12ch;
+  max-width: 16ch;
 }
 
 @media (min-width: 1440px) {
@@ -22,7 +22,7 @@
 
 @media (min-width: 1024px) and (max-width: 1439px) {
   .headline {
-    max-width: 13ch;
+    max-width: 17ch;
     text-wrap-style: auto;
   }
 }

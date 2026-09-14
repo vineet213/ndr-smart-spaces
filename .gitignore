@@ -42,6 +42,12 @@ next-env.d.ts
 .vscode/
 .idea/
 
+# AI coding agent instructions/config — local dev aid only, never published.
+# AGENTS.md is regenerated automatically by `next dev` whenever missing.
+AGENTS.md
+CLAUDE.md
+.claude/
+
 # OS
 .DS_Store
 Thumbs.db

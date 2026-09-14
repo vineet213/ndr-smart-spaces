@@ -86,13 +86,13 @@ export default function DemoPage() {
             <ShowcaseHeading
               eyebrow="01 · Typography"
               title="The frozen scale"
-              description="Fraunces for display, Inter for body. Sizes follow the visual specification's desktop, tablet and mobile steps."
+              description="Work Sans for display and body. Sizes follow the visual specification's desktop, tablet and mobile steps."
             />
             <Grid>
               <GridItem span={6}>
                 <Stack gap="3xl">
                   <Stack gap="sm">
-                    <Eyebrow>Hero display · 88/64/40 · Fraunces 500</Eyebrow>
+                    <Eyebrow>Hero display · 88/64/40 · Work Sans 500</Eyebrow>
                     <Heading variant="hero">From land to listed assets.</Heading>
                   </Stack>
                   <Stack gap="sm">
@@ -184,7 +184,7 @@ export default function DemoPage() {
             <ShowcaseHeading
               eyebrow="02 · Metrics"
               title="One figure, one source."
-              description="Fraunces numerals carry the proof — maroon on ivory, gold on maroon."
+              description="Work Sans numerals carry the proof — maroon on ivory, gold on maroon."
             />
             <Grid>
               <GridItem span={4}>
@@ -219,7 +219,7 @@ export default function DemoPage() {
             <ShowcaseHeading
               eyebrow="03 · Buttons"
               title="One primary CTA per viewport."
-              description="Rectilinear, 48 px, uppercase Inter 500. Gold is reserved for the signal."
+              description="Rectilinear, 48 px, uppercase Work Sans 500. Gold is reserved for the signal."
             />
             <Stack gap="4xl">
               <Stack gap="md">

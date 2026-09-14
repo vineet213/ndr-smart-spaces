@@ -78,6 +78,7 @@ export type MapLocation = {
   y: number;
   line: string;
   leaderTo?: { x: number; y: number };
+  extentAcres?: number;
 };
 
 export const zones = [
@@ -110,21 +111,20 @@ export const portfolioPresence = {
   viewPortfolio: "View Portfolio",
 } as const;
 
-const HOMEPAGE_MAP_NAMES: Record<string, string> = { Chennai: "Headquarters" };
-
 const homepageMapLocations: MapLocation[] = [];
 
 for (const location of cmsLocations) {
   if (!("homepageOffset" in location) || !location.visible.homepage) continue;
   const offset = location.homepageOffset;
   homepageMapLocations.push({
-    name: HOMEPAGE_MAP_NAMES[location.name] ?? location.name,
+    name: location.name,
     zone: location.zone,
     tier: location.tier,
     x: offset.x,
     y: offset.y,
     line: location.line,
     ...("leaderTo" in offset ? { leaderTo: offset.leaderTo } : {}),
+    ...("extentAcres" in location ? { extentAcres: location.extentAcres } : {}),
   });
 }
 

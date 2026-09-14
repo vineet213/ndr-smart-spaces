@@ -34,7 +34,6 @@ export function Footer({ hideWorkWithUsCta = true }: { hideWorkWithUsCta?: boole
       <Container>
         <div className={styles.colophon}>
           <span className={styles.colophonMark}>NDR Smart Spaces</span>
-          <span className={styles.colophonRef}>Published document · 2026 edition</span>
         </div>
         {!hideWorkWithUsCta ? (
           <div className={styles.ctaRow}>
