@@ -32,17 +32,17 @@ export function InvestorMasthead({
   ) : null;
 
   return (
-    <Section tone="charcoal" ariaLabelledby={id} className={styles.section}>
+    <Section
+      tone="charcoal"
+      ariaLabelledby={id}
+      className={cx(styles.section, isCover && styles.coverSection)}
+    >
       <span className={styles.ruleTop} aria-hidden="true" />
 
       <Container className={styles.inner}>
         {isCover ? (
           <>
-            <p className={styles.folio}>
-              <span>{investorMasthead.registry}</span>
-              <span>{investorMasthead.section}</span>
-            </p>
-            <div className={styles.hero}>
+            <div className={cx(styles.hero, styles.coverHero)}>
               <span className={styles.watermark} aria-hidden="true">
                 {investorMasthead.watermark}
               </span>
@@ -53,7 +53,7 @@ export function InvestorMasthead({
               </h1>
               {meta}
             </div>
-            <span className={styles.rule} aria-hidden="true" />
+            <span className={cx(styles.rule, styles.coverRule)} aria-hidden="true" />
           </>
         ) : (
           <>

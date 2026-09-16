@@ -106,9 +106,9 @@ const environmentMetricRecords: SeedRecordSpec[] = esgEnvironment.metrics.map((m
 
 const geoByName = new Map(geoLocations.map((location) => [location.name, location]));
 
-const HOMEPAGE_MAP_NAMES: Record<string, string> = { Chennai: "Headquarters" };
+const HOMEPAGE_MAP_NAMES: Record<string, string> = {};
 
-/** Homepage map location for a geo location, matched by name (Chennai → Headquarters). */
+/** Homepage map location for a geo location, matched by name. */
 function homepageLocationFor(
   geo: (typeof geoLocations)[number],
 ): (typeof mapLocations)[number] | undefined {

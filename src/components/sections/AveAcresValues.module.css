@@ -194,13 +194,21 @@
 
 @media (max-width: 767px) {
   .trajectory,
-  .baseline {
+  .baseline,
+  .diamond {
     display: none;
   }
 
   .system {
     flex-direction: column;
     gap: var(--space-7xl);
+  }
+
+  /* The desktop title sits below a shared baseline dot (`--station-y`) that  */
+  /* is hidden on mobile — without this override the title inherits that     */
+  /* offset as dead vertical space above it. */
+  .title {
+    margin-top: var(--space-md);
   }
 }
 

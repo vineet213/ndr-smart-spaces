@@ -4,6 +4,15 @@ section.section {
   background-color: var(--color-charcoal-masthead);
 }
 
+/* Cover variant only (the single main Investor Centre masthead): the        */
+/* ambient Section padding-block stacks with the hero's own rhythm and       */
+/* leaves the panel short of a full viewport on some screens while           */
+/* overflowing on others — trade it for a viewport-relative hero height      */
+/* instead (same fix already used for the vertical-page mastheads).          */
+.coverSection {
+  padding-block: 0;
+}
+
 .inner {
   position: relative;
   z-index: 1;
@@ -61,6 +70,15 @@ section.section {
 .hero {
   position: relative;
   padding-top: var(--space-11xl);
+}
+
+.coverHero {
+  min-height: 87vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: var(--space-11xl);
+  padding-bottom: var(--space-6xl);
 }
 
 .watermark {
@@ -143,6 +161,10 @@ section.section {
   background-color: var(--color-gold);
   transform-origin: left;
   animation: draw-right 1200ms var(--ease-standard) 450ms both;
+}
+
+.coverRule {
+  margin-top: var(--space-6xl);
 }
 
 /* load-in keyframes ----------------------------------------------------- */

@@ -4,6 +4,7 @@ import {
   OurStory,
   AboutTimeline,
   VisionMissionValues,
+  OurCode,
   Leadership,
   Footer,
 } from "@/components/sections";
@@ -21,6 +22,7 @@ export default function AboutUsPage() {
       <OurStory />
       <AboutTimeline />
       <VisionMissionValues />
+      <OurCode />
       <Leadership />
       <Footer />
     </>

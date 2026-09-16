@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/layout";
-import { Lede, Button } from "@/components/ui";
+import { Button } from "@/components/ui";
 import { hero } from "@/lib/data/homepage";
 import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
 import styles from "./Hero.module.css";
@@ -53,9 +53,6 @@ export function Hero() {
               className={styles.lockupImage}
             />
           </div>
-          <Lede tone="dark" className={styles.subhead}>
-            {hero.subhead}
-          </Lede>
           {hero.primaryCta ? (
             <div className={styles.ctas}>
               <Button tone="dark" href={hero.primaryCta.href}>

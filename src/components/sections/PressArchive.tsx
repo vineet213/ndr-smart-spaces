@@ -1,29 +1,58 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Container } from "@/components/layout";
-import { Eyebrow, Heading, Lede, SourceFootnote, TextLink } from "@/components/ui";
+import { Heading, TextLink } from "@/components/ui";
 import { ExternalLink } from "@/components/ui";
-import { pressArchive, MEDIA_STATUS_LABELS, MEDIA_STATUS_TONES } from "@/lib/data/media";
-import type { MediaRecordStatus, PressCategory } from "@/lib/data/media";
-import { MediaDocHeader } from "./MediaDocHeader";
-import { Reveal } from "./Reveal";
+import { pressArchive } from "@/lib/data/media";
+import type { PressArchiveEntry, PressCategory } from "@/lib/data/media";
+import { Reveal, type RevealDelay } from "./Reveal";
 import { cx } from "../ui/cx";
 import styles from "./PressArchive.module.css";
 
 type FilterId = "all" | PressCategory;
 
-function StatusMark({ status }: { status: MediaRecordStatus }) {
-  const tone = MEDIA_STATUS_TONES[status];
+function PressCard({ entry, categoryLabel }: { entry: PressArchiveEntry; categoryLabel: string }) {
+  const badge = entry.publication ?? categoryLabel;
+
   return (
-    <span
-      className={cx(styles.status, tone === "active" ? styles.statusActive : styles.statusPending)}
-    >
-      <span className={styles.statusGlyph} aria-hidden="true">
-        {tone === "active" ? "●" : "—"}
-      </span>
-      {MEDIA_STATUS_LABELS[status]}
-    </span>
+    <article className={styles.card}>
+      <span className={styles.badge}>{badge}</span>
+      <div className={styles.media}>
+        {entry.image ? (
+          <Image
+            src={entry.image}
+            alt={`${badge} — ${entry.title}`}
+            fill
+            sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
+            className={styles.mediaImage}
+          />
+        ) : (
+          <div className={styles.mediaPlaceholder} aria-hidden="true">
+            <span className={styles.placeholderRef}>{entry.ref}</span>
+          </div>
+        )}
+      </div>
+      <div className={styles.cardBody}>
+        <time className={styles.date} dateTime={entry.date}>
+          {entry.date}
+        </time>
+        <h3 className={styles.cardTitle}>{entry.title}</h3>
+        {entry.note ? <p className={styles.cardNote}>{entry.note}</p> : null}
+        {entry.href ? (
+          entry.external ? (
+            <ExternalLink tone="dark" href={entry.href} className={styles.readMore}>
+              Read more
+            </ExternalLink>
+          ) : (
+            <TextLink tone="dark" href={entry.href} className={styles.readMore}>
+              Read more
+            </TextLink>
+          )
+        ) : null}
+      </div>
+    </article>
   );
 }
 
@@ -39,10 +68,6 @@ export function PressArchive() {
     <section className={styles.section} id="press-archive" aria-labelledby="press-archive-title">
       <Container>
         <Reveal>
-          <MediaDocHeader numeral="03" code="REF 03 · PRESS ARCHIVE" tone="dark" />
-          <Eyebrow tone="dark" className={styles.eyebrow}>
-            {pressArchive.eyebrow}
-          </Eyebrow>
           <Heading
             variant="section"
             tone="dark"
@@ -51,9 +76,6 @@ export function PressArchive() {
           >
             {pressArchive.heading}
           </Heading>
-          <Lede tone="dark" className={styles.lede}>
-            {pressArchive.lede}
-          </Lede>
         </Reveal>
 
         <div className={styles.tabs} role="group" aria-label="Filter the archive">
@@ -78,59 +100,21 @@ export function PressArchive() {
           ))}
         </div>
 
-        <div className={styles.registerIndex}>
-          <span className={styles.registerCode}>{pressArchive.registerCode}</span>
-          <span className={styles.registerMeta}>
-            Entries · {pressArchive.entries.length}
-            <span aria-hidden="true">·</span>
-            {pressArchive.folio}
-          </span>
-        </div>
-
-        <div className={styles.register}>
-          <div className={styles.head} aria-hidden="true">
-            <span className={styles.headCell}>Ref</span>
-            <span className={styles.headCell}>Date</span>
-            <span className={styles.headCell}>Entry</span>
-            <span className={styles.headCell}>Category</span>
-            <span className={styles.headCell}>Status</span>
-            <span className={styles.headCell}>Source</span>
-          </div>
-          <ol className={styles.list}>
-            {visible.map((entry) => (
-              <li key={entry.id} className={styles.row}>
-                <span className={styles.ref}>{entry.ref}</span>
-                <span className={styles.date}>{entry.date}</span>
-                <span className={styles.entry}>
-                  <span className={styles.entryTitle}>{entry.title}</span>
-                  {entry.note ? <span className={styles.entryNote}>{entry.note}</span> : null}
-                </span>
-                <span className={styles.category}>
-                  {pressArchive.categories.find((item) => item.key === entry.category)?.label ??
-                    entry.category}
-                </span>
-                <span className={styles.statusCell}>
-                  <StatusMark status={entry.status} />
-                </span>
-                <span className={styles.action}>
-                  {entry.href ? (
-                    entry.external ? (
-                      <ExternalLink href={entry.href}>External</ExternalLink>
-                    ) : (
-                      <TextLink href={entry.href}>Open</TextLink>
-                    )
-                  ) : (
-                    <span className={styles.actionNone}>—</span>
-                  )}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </div>
-
-        <SourceFootnote tone="dark" className={styles.note}>
-          {pressArchive.note}
-        </SourceFootnote>
+        <ol className={styles.grid}>
+          {visible.map((entry, index) => (
+            <li key={entry.id}>
+              <Reveal delay={(index % 6) as RevealDelay}>
+                <PressCard
+                  entry={entry}
+                  categoryLabel={
+                    pressArchive.categories.find((item) => item.key === entry.category)?.label ??
+                    entry.category
+                  }
+                />
+              </Reveal>
+            </li>
+          ))}
+        </ol>
       </Container>
     </section>
   );

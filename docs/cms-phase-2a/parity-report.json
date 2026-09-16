@@ -1,11 +1,11 @@
 {
   "phase": "2A/2B",
-  "generatedAt": "2026-09-11T18:23:28.642Z",
-  "verdict": "PASS",
+  "generatedAt": "2026-09-16T20:41:19.368Z",
+  "verdict": "FAIL",
   "counts": {
-    "total": 398,
-    "passed": 398,
-    "failed": 0,
+    "total": 469,
+    "passed": 468,
+    "failed": 1,
     "unintended": 0
   },
   "results": [
@@ -675,7 +675,7 @@
     {
       "id": "locations.count",
       "layer": "inventory/data",
-      "description": "locations has exactly 17 records",
+      "description": "locations has exactly 25 records",
       "classification": "expected",
       "passed": true
     },
@@ -1067,6 +1067,190 @@
       "id": "locations.puducherry.data",
       "layer": "inventory/data",
       "description": "puducherry payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.delhi.status",
+      "layer": "inventory/data",
+      "description": "delhi has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.delhi.order",
+      "layer": "inventory/data",
+      "description": "delhi has order 0017",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0017"
+    },
+    {
+      "id": "locations.delhi.data",
+      "layer": "inventory/data",
+      "description": "delhi payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.bilaspur.status",
+      "layer": "inventory/data",
+      "description": "bilaspur has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.bilaspur.order",
+      "layer": "inventory/data",
+      "description": "bilaspur has order 0018",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0018"
+    },
+    {
+      "id": "locations.bilaspur.data",
+      "layer": "inventory/data",
+      "description": "bilaspur payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.sarita-vihar.status",
+      "layer": "inventory/data",
+      "description": "sarita-vihar has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.sarita-vihar.order",
+      "layer": "inventory/data",
+      "description": "sarita-vihar has order 0019",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0019"
+    },
+    {
+      "id": "locations.sarita-vihar.data",
+      "layer": "inventory/data",
+      "description": "sarita-vihar payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.mumbai.status",
+      "layer": "inventory/data",
+      "description": "mumbai has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.mumbai.order",
+      "layer": "inventory/data",
+      "description": "mumbai has order 0020",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0020"
+    },
+    {
+      "id": "locations.mumbai.data",
+      "layer": "inventory/data",
+      "description": "mumbai payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.surat.status",
+      "layer": "inventory/data",
+      "description": "surat has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.surat.order",
+      "layer": "inventory/data",
+      "description": "surat has order 0021",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0021"
+    },
+    {
+      "id": "locations.surat.data",
+      "layer": "inventory/data",
+      "description": "surat payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.chhatrapati-sambhaji-nagar.status",
+      "layer": "inventory/data",
+      "description": "chhatrapati-sambhaji-nagar has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.chhatrapati-sambhaji-nagar.order",
+      "layer": "inventory/data",
+      "description": "chhatrapati-sambhaji-nagar has order 0022",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0022"
+    },
+    {
+      "id": "locations.chhatrapati-sambhaji-nagar.data",
+      "layer": "inventory/data",
+      "description": "chhatrapati-sambhaji-nagar payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.goa.status",
+      "layer": "inventory/data",
+      "description": "goa has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.goa.order",
+      "layer": "inventory/data",
+      "description": "goa has order 0023",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0023"
+    },
+    {
+      "id": "locations.goa.data",
+      "layer": "inventory/data",
+      "description": "goa payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "locations.sricity.status",
+      "layer": "inventory/data",
+      "description": "sricity has status published",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found published"
+    },
+    {
+      "id": "locations.sricity.order",
+      "layer": "inventory/data",
+      "description": "sricity has order 0024",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0024"
+    },
+    {
+      "id": "locations.sricity.data",
+      "layer": "inventory/data",
+      "description": "sricity payload matches the source mapping",
       "classification": "expected",
       "passed": true
     },
@@ -1706,7 +1890,7 @@
     {
       "id": "media.count",
       "layer": "inventory/data",
-      "description": "media has exactly 8 records",
+      "description": "media has exactly 18 records",
       "classification": "expected",
       "passed": true
     },
@@ -1803,94 +1987,324 @@
       "passed": true
     },
     {
-      "id": "media.pr-001.status",
+      "id": "media.cv-001.status",
       "layer": "inventory/data",
-      "description": "pr-001 has status pending",
+      "description": "cv-001 has status pending",
       "classification": "expected",
       "passed": true,
       "detail": "found pending"
     },
     {
-      "id": "media.pr-001.order",
+      "id": "media.cv-001.order",
       "layer": "inventory/data",
-      "description": "pr-001 has order 0004",
+      "description": "cv-001 has order 0004",
       "classification": "expected",
       "passed": true,
       "detail": "found 0004"
     },
     {
-      "id": "media.pr-001.data",
+      "id": "media.cv-001.data",
       "layer": "inventory/data",
-      "description": "pr-001 payload matches the source mapping",
+      "description": "cv-001 payload matches the source mapping",
       "classification": "expected",
       "passed": true
     },
     {
-      "id": "media.pr-002.status",
+      "id": "media.cv-002.status",
       "layer": "inventory/data",
-      "description": "pr-002 has status pending",
+      "description": "cv-002 has status pending",
       "classification": "expected",
       "passed": true,
       "detail": "found pending"
     },
     {
-      "id": "media.pr-002.order",
+      "id": "media.cv-002.order",
       "layer": "inventory/data",
-      "description": "pr-002 has order 0005",
+      "description": "cv-002 has order 0005",
       "classification": "expected",
       "passed": true,
       "detail": "found 0005"
     },
     {
-      "id": "media.pr-002.data",
+      "id": "media.cv-002.data",
       "layer": "inventory/data",
-      "description": "pr-002 payload matches the source mapping",
+      "description": "cv-002 payload matches the source mapping",
       "classification": "expected",
       "passed": true
     },
     {
-      "id": "media.pr-003.status",
+      "id": "media.cv-003.status",
       "layer": "inventory/data",
-      "description": "pr-003 has status pending",
+      "description": "cv-003 has status pending",
       "classification": "expected",
       "passed": true,
       "detail": "found pending"
     },
     {
-      "id": "media.pr-003.order",
+      "id": "media.cv-003.order",
       "layer": "inventory/data",
-      "description": "pr-003 has order 0006",
+      "description": "cv-003 has order 0006",
       "classification": "expected",
       "passed": true,
       "detail": "found 0006"
     },
     {
-      "id": "media.pr-003.data",
+      "id": "media.cv-003.data",
       "layer": "inventory/data",
-      "description": "pr-003 payload matches the source mapping",
+      "description": "cv-003 payload matches the source mapping",
       "classification": "expected",
       "passed": true
     },
     {
-      "id": "media.up-001.status",
+      "id": "media.cv-004.status",
       "layer": "inventory/data",
-      "description": "up-001 has status pending",
+      "description": "cv-004 has status pending",
       "classification": "expected",
       "passed": true,
       "detail": "found pending"
     },
     {
-      "id": "media.up-001.order",
+      "id": "media.cv-004.order",
       "layer": "inventory/data",
-      "description": "up-001 has order 0007",
+      "description": "cv-004 has order 0007",
       "classification": "expected",
       "passed": true,
       "detail": "found 0007"
     },
     {
-      "id": "media.up-001.data",
+      "id": "media.cv-004.data",
       "layer": "inventory/data",
-      "description": "up-001 payload matches the source mapping",
+      "description": "cv-004 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.cv-005.status",
+      "layer": "inventory/data",
+      "description": "cv-005 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.cv-005.order",
+      "layer": "inventory/data",
+      "description": "cv-005 has order 0008",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0008"
+    },
+    {
+      "id": "media.cv-005.data",
+      "layer": "inventory/data",
+      "description": "cv-005 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.cv-006.status",
+      "layer": "inventory/data",
+      "description": "cv-006 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.cv-006.order",
+      "layer": "inventory/data",
+      "description": "cv-006 has order 0009",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0009"
+    },
+    {
+      "id": "media.cv-006.data",
+      "layer": "inventory/data",
+      "description": "cv-006 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.cv-007.status",
+      "layer": "inventory/data",
+      "description": "cv-007 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.cv-007.order",
+      "layer": "inventory/data",
+      "description": "cv-007 has order 0010",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0010"
+    },
+    {
+      "id": "media.cv-007.data",
+      "layer": "inventory/data",
+      "description": "cv-007 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.cv-008.status",
+      "layer": "inventory/data",
+      "description": "cv-008 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.cv-008.order",
+      "layer": "inventory/data",
+      "description": "cv-008 has order 0011",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0011"
+    },
+    {
+      "id": "media.cv-008.data",
+      "layer": "inventory/data",
+      "description": "cv-008 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.cv-009.status",
+      "layer": "inventory/data",
+      "description": "cv-009 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.cv-009.order",
+      "layer": "inventory/data",
+      "description": "cv-009 has order 0012",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0012"
+    },
+    {
+      "id": "media.cv-009.data",
+      "layer": "inventory/data",
+      "description": "cv-009 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.cv-010.status",
+      "layer": "inventory/data",
+      "description": "cv-010 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.cv-010.order",
+      "layer": "inventory/data",
+      "description": "cv-010 has order 0013",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0013"
+    },
+    {
+      "id": "media.cv-010.data",
+      "layer": "inventory/data",
+      "description": "cv-010 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.cv-011.status",
+      "layer": "inventory/data",
+      "description": "cv-011 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.cv-011.order",
+      "layer": "inventory/data",
+      "description": "cv-011 has order 0014",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0014"
+    },
+    {
+      "id": "media.cv-011.data",
+      "layer": "inventory/data",
+      "description": "cv-011 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.cv-012.status",
+      "layer": "inventory/data",
+      "description": "cv-012 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.cv-012.order",
+      "layer": "inventory/data",
+      "description": "cv-012 has order 0015",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0015"
+    },
+    {
+      "id": "media.cv-012.data",
+      "layer": "inventory/data",
+      "description": "cv-012 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.cv-013.status",
+      "layer": "inventory/data",
+      "description": "cv-013 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.cv-013.order",
+      "layer": "inventory/data",
+      "description": "cv-013 has order 0016",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0016"
+    },
+    {
+      "id": "media.cv-013.data",
+      "layer": "inventory/data",
+      "description": "cv-013 payload matches the source mapping",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "media.cv-014.status",
+      "layer": "inventory/data",
+      "description": "cv-014 has status pending",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found pending"
+    },
+    {
+      "id": "media.cv-014.order",
+      "layer": "inventory/data",
+      "description": "cv-014 has order 0017",
+      "classification": "expected",
+      "passed": true,
+      "detail": "found 0017"
+    },
+    {
+      "id": "media.cv-014.data",
+      "layer": "inventory/data",
+      "description": "cv-014 payload matches the source mapping",
       "classification": "expected",
       "passed": true
     },
@@ -2329,7 +2743,7 @@
     {
       "id": "fidelity.locations.bidadi",
       "layer": "fidelity",
-      "description": "location bidadi (Bidadi) preserves coordinates, offsets and visibility",
+      "description": "location bidadi (Bangalore) preserves coordinates, offsets and visibility",
       "classification": "expected",
       "passed": true
     },
@@ -2432,6 +2846,62 @@
       "passed": true
     },
     {
+      "id": "fidelity.locations.delhi",
+      "layer": "fidelity",
+      "description": "location delhi (Delhi) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.bilaspur",
+      "layer": "fidelity",
+      "description": "location bilaspur (Bilaspur) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.sarita-vihar",
+      "layer": "fidelity",
+      "description": "location sarita-vihar (Sarita Vihar) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.mumbai",
+      "layer": "fidelity",
+      "description": "location mumbai (Mumbai) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.surat",
+      "layer": "fidelity",
+      "description": "location surat (Surat) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.chhatrapati-sambhaji-nagar",
+      "layer": "fidelity",
+      "description": "location chhatrapati-sambhaji-nagar (Chhatrapati Sambhaji Nagar) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.goa",
+      "layer": "fidelity",
+      "description": "location goa (Goa) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.locations.sricity",
+      "layer": "fidelity",
+      "description": "location sricity (Sricity) preserves coordinates, offsets and visibility",
+      "classification": "expected",
+      "passed": true
+    },
+    {
       "id": "fidelity.assets.amazon-coimbatore",
       "layer": "fidelity",
       "description": "asset amazon-coimbatore preserves the catalogue fields",
@@ -2455,7 +2925,7 @@
     {
       "id": "fidelity.verticals.02",
       "layer": "fidelity",
-      "description": "vertical 02 (Project and Operations Management Consultancy - NDR Asset Management) preserves the division fields and proof-metric references",
+      "description": "vertical 02 (Project and Operations Management Consultancy — NDR Asset Management) preserves the division fields and proof-metric references",
       "classification": "migration-related",
       "passed": true
     },
@@ -2642,40 +3112,110 @@
       "passed": true
     },
     {
-      "id": "fidelity.media.PR-001",
+      "id": "fidelity.media.CV-001",
       "layer": "fidelity",
-      "description": "press record PR-001 (NDR InvIT Trust incorporated) preserved as a pending archive entry",
+      "description": "press record CV-001 (NDR opens warehouse) preserved as a pending archive entry",
       "classification": "expected",
       "passed": true
     },
     {
-      "id": "fidelity.media.PR-002",
+      "id": "fidelity.media.CV-002",
       "layer": "fidelity",
-      "description": "press record PR-002 (NDR InvIT lists on the NSE through an INR 8.8 bn IPO) preserved as a pending archive entry",
+      "description": "press record CV-002 (NDR Smart Spaces inaugurates facility at Kongara Kalan) preserved as a pending archive entry",
       "classification": "expected",
       "passed": true
     },
     {
-      "id": "fidelity.media.PR-003",
+      "id": "fidelity.media.CV-003",
       "layer": "fidelity",
-      "description": "press record PR-003 (NDR Smart Spaces completes the MLG transfer to NDR InvIT) preserved as a pending archive entry",
+      "description": "press record CV-003 (NDR Smart Spaces inaugurates facility at Kongara Kalan) preserved as a pending archive entry",
       "classification": "expected",
       "passed": true
     },
     {
-      "id": "fidelity.media.UP-001",
+      "id": "fidelity.media.CV-004",
       "layer": "fidelity",
-      "description": "press record UP-001 (ESG — The Sustainability Ledger, Edition FY26) preserved as a pending archive entry",
+      "description": "press record CV-004 (Warehousing Facility) preserved as a pending archive entry",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.CV-005",
+      "layer": "fidelity",
+      "description": "press record CV-005 (NDR Smart Spaces inaugurates 0.6 million sq feet facility at Kongara Kalan, Hyderabad) preserved as a pending archive entry",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.CV-006",
+      "layer": "fidelity",
+      "description": "press record CV-006 (NDR Smart Spaces inaugurates ~0.6 million sq ft facility at Kongara Kalan, Hyderabad) preserved as a pending archive entry",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.CV-007",
+      "layer": "fidelity",
+      "description": "press record CV-007 (NDR Smart Spaces launches new warehousing facility) preserved as a pending archive entry",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.CV-008",
+      "layer": "fidelity",
+      "description": "press record CV-008 (NDR Smart Spaces inaugurates ~0.6 million sq ft facility at Kongara Kalan, Hyderabad) preserved as a pending archive entry",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.CV-009",
+      "layer": "fidelity",
+      "description": "press record CV-009 (NDR Smart Spaces opens new warehouse) preserved as a pending archive entry",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.CV-010",
+      "layer": "fidelity",
+      "description": "press record CV-010 (NDR launches large warehouse at Kongara Kalan) preserved as a pending archive entry",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.CV-011",
+      "layer": "fidelity",
+      "description": "press record CV-011 (NDR Smart Spaces opens 0.6 Mn Sq Ft hub in Hyderabad) preserved as a pending archive entry",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.CV-012",
+      "layer": "fidelity",
+      "description": "press record CV-012 (NDR Smart Spaces Inaugurates ~0.6 Million Sq Ft Grade A Warehousing Facility at Kongara Kalan, Hyderabad) preserved as a pending archive entry",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.CV-013",
+      "layer": "fidelity",
+      "description": "press record CV-013 (NDR Smart Spaces opens 0.6 million sq ft facility) preserved as a pending archive entry",
+      "classification": "expected",
+      "passed": true
+    },
+    {
+      "id": "fidelity.media.CV-014",
+      "layer": "fidelity",
+      "description": "press record CV-014 (NDR Smart Spaces launches approximately 0.6 million sq ft facility at Kongara Kalan, Hyderabad) preserved as a pending archive entry",
       "classification": "expected",
       "passed": true
     },
     {
       "id": "fidelity.media.press-count",
       "layer": "fidelity",
-      "description": "press archive == 4 records (PR-001…UP-001)",
+      "description": "press archive == 14 records (CV-001…CV-014)",
       "classification": "expected",
       "passed": true,
-      "detail": "found 4"
+      "detail": "found 14"
     },
     {
       "id": "fidelity.directory.smart-spaces",
@@ -2738,7 +3278,7 @@
       "layer": "fidelity",
       "description": "corporate office address matches the frozen homepage contact record",
       "classification": "expected",
-      "passed": true
+      "passed": false
     },
     {
       "id": "integration.navigation",
@@ -2764,7 +3304,7 @@
     {
       "id": "integration.homepage.map",
       "layer": "integration",
-      "description": "map markers derive from the generated locations (homepage-visible, Chennai aliased to Headquarters)",
+      "description": "map markers derive from the generated locations (homepage-visible)",
       "classification": "expected",
       "passed": true
     },
@@ -2807,13 +3347,6 @@
       "id": "integration.media.press-contact",
       "layer": "integration",
       "description": "press contact derives from the corporate settings email register",
-      "classification": "expected",
-      "passed": true
-    },
-    {
-      "id": "integration.media.featured",
-      "layer": "integration",
-      "description": "featured publication references the PR-002 press record from the archive",
       "classification": "expected",
       "passed": true
     },
@@ -2961,10 +3494,10 @@
     {
       "id": "relations.audit-chain",
       "layer": "relations",
-      "description": "audit chain intact — 82 create entries (one per seeded record)",
+      "description": "audit chain intact — 100 create entries (one per seeded record)",
       "classification": "expected",
       "passed": true,
-      "detail": "valid=true, verified=82, expected=82"
+      "detail": "valid=true, verified=100, expected=100"
     }
   ]
 }

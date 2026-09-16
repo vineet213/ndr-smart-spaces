@@ -47,7 +47,7 @@ export function VerticalPage({ division }: VerticalPageProps) {
       <Section
         tone="charcoal"
         ariaLabelledby="vertical-masthead-title"
-        className={cx(styles.masthead, mastheadSubtext && styles.mastheadCompact)}
+        className={cx(styles.masthead, (mastheadSubtext || isV2) && styles.mastheadCompact)}
       >
         {isV3 ? <ResidentialPlottingMastheadVideo /> : null}
         {isV3 ? null : <span className={styles.ruleTop} aria-hidden="true" />}

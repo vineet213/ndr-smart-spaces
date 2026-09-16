@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default function AssetPerformanceManagementPage() {
-  const { intro, functions, placeholderNote, metrics, cta } = vertical02AssetManagement;
+  const { intro, functions, metrics, cta } = vertical02AssetManagement;
 
   return (
     <>
@@ -45,7 +45,7 @@ export default function AssetPerformanceManagementPage() {
                   <div className={styles.functionContent}>
                     <span className={styles.functionIndex}>{fn.index}</span>
                     <h3 className={styles.functionTitle}>{fn.title}</h3>
-                    <p className={styles.functionNote}>{placeholderNote}</p>
+                    <p className={styles.functionNote}>{fn.description}</p>
                   </div>
                 </li>
               ))}

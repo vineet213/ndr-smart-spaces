@@ -1,11 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef } from "react";
 import { Icon } from "../ui/Icon";
 import { VisuallyHidden } from "../ui/VisuallyHidden";
 import { cx } from "../ui/cx";
 import { canonicalHref } from "@/lib/routes";
-import { isActivePath, type MenuLink, type NavMenu } from "@/lib/data/navigation";
+import { isActivePath, type NavMenu } from "@/lib/data/navigation";
 import styles from "./MegaMenu.module.css";
 
 const OPEN_INTENT_MS = 150;
@@ -19,120 +19,6 @@ type MegaMenuButtonProps = {
   onOpen: () => void;
   onClose: () => void;
 };
-
-type SubmenuLinkProps = {
-  link: MenuLink;
-  pathname: string;
-};
-
-/**
- * A column link that fans out its `children` into a side popup. The parent
- * stays a real link; the popup opens on hover/focus and follows the same
- * open/close contract as the menu itself (visibility is never CSS-only).
- */
-function SubmenuLink({ link, pathname }: SubmenuLinkProps) {
-  const rowRef = useRef<HTMLLIElement>(null);
-  const linkRef = useRef<HTMLAnchorElement>(null);
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const submenuId = useId();
-  const [open, setOpen] = useState(false);
-
-  const linkActive = isActivePath(pathname, link.href);
-
-  const cancelClose = useCallback(() => {
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
-  }, []);
-
-  const openSubmenu = useCallback(() => {
-    cancelClose();
-    setOpen(true);
-  }, [cancelClose]);
-
-  const closeSubmenu = useCallback(() => {
-    cancelClose();
-    closeTimer.current = setTimeout(() => {
-      closeTimer.current = null;
-      setOpen(false);
-    }, CLOSE_GRACE_MS);
-  }, [cancelClose]);
-
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLAnchorElement>) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        closeSubmenu();
-        setOpen(false);
-        linkRef.current?.focus();
-      }
-    },
-    [closeSubmenu],
-  );
-
-  const handleBlur = useCallback(
-    (event: React.FocusEvent<HTMLLIElement>) => {
-      const next = event.relatedTarget as Node | null;
-      if (rowRef.current && next && rowRef.current.contains(next)) return;
-      cancelClose();
-      setOpen(false);
-    },
-    [cancelClose],
-  );
-
-  return (
-    <li
-      ref={rowRef}
-      className={cx(styles.linkWithMenu, open && styles.linkWithMenuOpen)}
-      onMouseEnter={openSubmenu}
-      onMouseLeave={closeSubmenu}
-      onBlurCapture={handleBlur}
-    >
-      <a
-        ref={linkRef}
-        href={canonicalHref(link.href)}
-        className={cx(styles.link, linkActive && styles.linkActive)}
-        aria-haspopup="true"
-        aria-expanded={open}
-        aria-controls={submenuId}
-        onKeyDown={handleKeyDown}
-      >
-        {link.label}
-        <Icon name="chevron-right" className={styles.linkCaret} />
-      </a>
-      <ul id={submenuId} className={styles.submenu} aria-label={`${link.label} submenu`}>
-        {link.children?.map((child) => {
-          const childActive = isActivePath(pathname, child.href);
-          return (
-            <li key={child.href}>
-              {child.external ? (
-                <a
-                  className={cx(styles.submenuLink, childActive && styles.linkActive)}
-                  href={canonicalHref(child.href)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {child.label}
-                  <Icon name="arrow-up-right" className={styles.externalIcon} />
-                  <VisuallyHidden>Opens in a new tab</VisuallyHidden>
-                </a>
-              ) : (
-                <a
-                  className={cx(styles.submenuLink, childActive && styles.linkActive)}
-                  href={canonicalHref(child.href)}
-                  aria-current={childActive ? "page" : undefined}
-                >
-                  {child.label}
-                </a>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    </li>
-  );
-}
 
 /**
  * The megamenu trigger. One dropdown may be open at a time — the active id is
@@ -323,40 +209,67 @@ export function MegaMenuButton({
             <div key={column.heading} className={styles.column}>
               <p className={cx("text-label-meta", styles.heading)}>{column.heading}</p>
               <ul className={styles.links}>
-                {column.links.map((child) =>
-                  child.children && child.children.length > 0 ? (
-                    <SubmenuLink key={child.href} link={child} pathname={pathname} />
-                  ) : (
-                    <li key={child.href}>
-                      {child.external ? (
-                        <a
-                          className={cx(
-                            styles.link,
-                            isActivePath(pathname, child.href) && styles.linkActive,
-                          )}
-                          href={canonicalHref(child.href)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {child.label}
-                          <Icon name="arrow-up-right" className={styles.externalIcon} />
-                          <VisuallyHidden>Opens in a new tab</VisuallyHidden>
-                        </a>
-                      ) : (
-                        <a
-                          className={cx(
-                            styles.link,
-                            isActivePath(pathname, child.href) && styles.linkActive,
-                          )}
-                          href={canonicalHref(child.href)}
-                          aria-current={isActivePath(pathname, child.href) ? "page" : undefined}
-                        >
-                          {child.label}
-                        </a>
-                      )}
-                    </li>
-                  ),
-                )}
+                {column.links.map((child) => (
+                  <li key={child.href}>
+                    {child.external ? (
+                      <a
+                        className={cx(
+                          styles.link,
+                          isActivePath(pathname, child.href) && styles.linkActive,
+                        )}
+                        href={canonicalHref(child.href)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {child.label}
+                        <Icon name="arrow-up-right" className={styles.externalIcon} />
+                        <VisuallyHidden>Opens in a new tab</VisuallyHidden>
+                      </a>
+                    ) : (
+                      <a
+                        className={cx(
+                          styles.link,
+                          isActivePath(pathname, child.href) && styles.linkActive,
+                        )}
+                        href={canonicalHref(child.href)}
+                        aria-current={isActivePath(pathname, child.href) ? "page" : undefined}
+                      >
+                        {child.label}
+                      </a>
+                    )}
+                    {child.children && child.children.length > 0 ? (
+                      <ul className={styles.nestedLinks} aria-label={`${child.label} submenu`}>
+                        {child.children.map((nested) => {
+                          const nestedActive = isActivePath(pathname, nested.href);
+                          return (
+                            <li key={nested.href}>
+                              {nested.external ? (
+                                <a
+                                  className={cx(styles.nestedLink, nestedActive && styles.linkActive)}
+                                  href={canonicalHref(nested.href)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {nested.label}
+                                  <Icon name="arrow-up-right" className={styles.externalIcon} />
+                                  <VisuallyHidden>Opens in a new tab</VisuallyHidden>
+                                </a>
+                              ) : (
+                                <a
+                                  className={cx(styles.nestedLink, nestedActive && styles.linkActive)}
+                                  href={canonicalHref(nested.href)}
+                                  aria-current={nestedActive ? "page" : undefined}
+                                >
+                                  {nested.label}
+                                </a>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : null}
+                  </li>
+                ))}
               </ul>
             </div>
           ))}

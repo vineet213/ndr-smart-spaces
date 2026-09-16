@@ -15,7 +15,7 @@ export type AboutHeroStat = {
 export const aboutHero = {
   headline: "From a rice mill to ",
   headlineAccent: "institutional infrastructure.",
-  lede: "NDR Smart Spaces Private Limited is an infra development and real estate platform of the NDR Group, incorporated in 1954, india's third largest logistic and industrial infrastructure developer",
+  lede: "NDR Smart Spaces Private Limited is an infra development platform of the NDR Group, incorporated in 1954, india's third largest logistic and industrial infrastructure developer",
   cta: { label: "Our story", href: "#story" },
   ctaSecondary: {
     label: "Explore the business",
@@ -28,7 +28,7 @@ export const aboutHero = {
       source: "",
     },
     {
-      label: "NDRW ACTIVE OPERATIONS",
+      label: "NDR WAREHOUSING ACTIVE OPERATIONS",
       metric: "2001",
       source: "",
     },
@@ -45,10 +45,14 @@ export const aboutStory = {
   heading: "Six decades of building",
   paragraphs: [
     "The NDR Group was founded in 1954 by the late Mr. Naidu Dasaratha Rami Reddy. It began with a modest land parcel and a vision to establish a rice mill, marking the start of entrepreneurship in a family rooted in agriculture. His pioneering spirit laid the foundation for a multi-generational legacy of growth and innovation.",
-    "Since 2002, under the leadership of Mr. N. Amrutesh Reddy, the company has achieved significant scale, attracted marquee investors and executed strategic acquisitions to strengthen its market position. Today, Mr. N. Amrutesh Reddy is steering the organization into a new phase of growth and modernization, focused on redefining India's warehousing, industrial parks and logistics landscape through institutional-grade A infrastructure, sustainability, and technology integration.",
+    "Since 2002, under the leadership of Mr. N. Amrutesh Reddy, the company has achieved significant scale, attracted marquee investors and executed strategic acquisitions to strengthen its market position. Today, Mr. N. Amrutesh Reddy is steering the organization into a new phase of growth and modernization, with a vision to strengthen India's socio economic infrastructure landscape, anchored primarily in logistics and industrial infrastructure.",
   ],
   quote: "A modest land parcel, a rice mill, and a multi-generational legacy.",
   quoteAttribution: "Mr. Naidu Dasaratha Rami Reddy · Founder, 1954",
+  image: {
+    src: "/images/about/origin.jpg",
+    alt: "An archival photograph of an early NDR Group warehouse with trucks loading outside",
+  },
 } as const;
 
 export type TimelineNode = {
@@ -64,40 +68,56 @@ export const aboutTimeline = {
   nodes: [
     {
       year: "1954",
-      title: "Beginning of NDR Group",
+      title: "Birth of NDR Group",
     },
     {
       year: "1979",
-      title: "India's first private bonded warehouse",
+      title: "NDR’s First Warehouse",
+    },
+    {
+      year: "1991",
+      title: "India’s First Private Bonded Warehouse Established by CWCNSL, an NDR Group Company",
     },
     {
       year: "2002",
-      title: "Establishment of India's first IBM facility",
+      title: "IBM Manufacturing Facility; NDR’s First Modern Built-to-Suit Facility",
     },
     {
-      year: "2005",
-      title:
-        "NDR Warehousing invests in CWCNSL (Continental Warehousing Corporation (Nhava Sheva) Limited) along with IL&FS Investment Managers",
+      year: "2008",
+      title: "1 Million Sq. Ft. of Construction Completed",
     },
     {
-      year: "2018",
-      title: "NDR Warehousing exits CWCNSL",
+      year: "2010",
+      title: "Investment secured from Warburg Pincus, IFC & First Association with Kotak",
+    },
+    {
+      year: "2014",
+      title: "2 Million Sq. Ft. of Construction Completed",
+    },
+    {
+      year: "2016",
+      title: "Post-GST Era: Consolidation of Logistics Infrastructure Accelerates NDR’s Growth",
+    },
+    {
+      year: "2020",
+      title: "4 Million Sq. Ft. of Construction Completed",
+    },
+    {
+      year: "2022",
+      title: "NDR Warehousing’s First 1 Million Sq. Ft. Park Established at Ayilacherry, Chennai",
     },
     {
       year: "2023",
-      title: "Incorporation of NDR InvIT Trust, India's first perpetual warehousing InvIT",
+      title: "Investcorp Invested in NDR InvIT, India’s First Perpetual Warehousing InvIT",
     },
     {
-      year: "2024",
-      title: "NDR InvIT Trust lists on the NSE, with an offer size of INR 8.8 bn",
+      year: "2023",
+      title: "NDR InvIT Listed on NSE with ₹8.8 Billion Offer Size and 19 Million Sq. Ft. Asset Portfolio",
     },
     {
-      year: "2025",
-      title: "NDR Smart Spaces incorporated",
-    },
-    {
-      year: "2027",
-      title: "Planned IPO of India's first listed DEFCO company",
+      year: "2026",
+      title:
+        "IFC brings a 225 crore equity investment into NDR Smart Spaces, with 23 Million Sq. Ft. Under Management and 10 Million Sq. Ft. Under Construction",
     },
   ] as readonly TimelineNode[],
 } as const;
@@ -110,7 +130,7 @@ export const aboutPrinciples = {
     {
       index: "01",
       title: "Vision",
-      body: "To build India's institutional-grade infrastructure from land to listed assets — the development platform behind the institutions that power growth.",
+      body: "We aspire to be a leading force in the Logistics, industrial and socio-economic Infrastructure Sector, actively contributing to India's dynamic growth story. We aim to positively impact social development and elevate infrastructure standards, positioning ourselves as a key player committed to excellence and progress.",
       image: {
         src: "/images/vision-mission/vision.svg",
         alt: "Editorial line illustration of a future-ready master plan — plotted land rising into an institutional skyline.",
@@ -119,13 +139,69 @@ export const aboutPrinciples = {
     {
       index: "02",
       title: "Mission",
-      body: "Develop, own and manage high-quality industrial, commercial and institutional assets across the complete asset lifecycle — from conceptualization and development to operations, leasing and investment management.",
+      body: "Our mission is to deliver infrastructure solutions that create lasting impact for communities, build enduring partnerships with our clients, and create sustainable long-term value for our investors, while upholding uncompromising standards of safety and environmental responsibility.",
       image: {
         src: "/images/vision-mission/mission.svg",
         alt: "Editorial line illustration of construction in progress — a tower crane, braced building frame and survey datum lines.",
       },
     },
   ],
+} as const;
+
+export type OurCodeValue = {
+  index: string;
+  title: string;
+  tagline: string;
+  body: string;
+};
+
+export const ourCode = {
+  heading: "Our Code",
+  lede: "We believe infrastructure is more than what gets built. It is what gets enabled.",
+  values: [
+    {
+      index: "01",
+      title: "Infrastructure That Enables",
+      tagline: "More than steel and concrete.",
+      body: "Logistics and industrial infrastructure are the foundations of trade, employment and regional growth. We build assets that enable businesses to move faster, operate better and create lasting economic value.",
+    },
+    {
+      index: "02",
+      title: "Enabling the Last Mile",
+      tagline: "Closer to where business happens.",
+      body: "The last mile is where infrastructure meets everyday commerce. We focus on strategically located facilities that connect businesses to markets, people and supply chains—efficiently and reliably.",
+    },
+    {
+      index: "03",
+      title: "Efficiency at Scale",
+      tagline: "Built with Intelligence. Faster execution. Better outcomes.",
+      body: "We combine operational discipline, intelligent engineering and streamlined construction to deliver quality infrastructure at speed. Every decision is designed to improve efficiency, from the first drawing to the final handover.",
+    },
+    {
+      index: "04",
+      title: "Design that delivers",
+      tagline: "Built for today. Ready for tomorrow.",
+      body: "We design for the realities businesses face—not just the requirements of today. From robust structures to thoughtful layouts and infrastructure, resilience is engineered into every asset we create.",
+    },
+    {
+      index: "05",
+      title: "Agility with Accountability",
+      tagline: "Move fast. Build right.",
+      body: "Speed matters, but so does discipline. We bring urgency to execution without compromising on compliance, transparency, safety or quality. Clear processes and accountable decision-making keep every project moving forward.",
+    },
+    {
+      index: "06",
+      title: "Customer-Led Approach",
+      tagline: "Because the right space makes business work better.",
+      body: "We stay close to our customers and understand how they operate. Our approach is hands-on, practical and responsive—creating facilities that are right-fitted to the way businesses actually work, rather than forcing businesses to fit a template.",
+    },
+    {
+      index: "07",
+      title: "People Build the Organization",
+      tagline: "Infrastructure is built by people who care about getting it right.",
+      body: "Our strength lies in the people behind every project. We value ownership, collaboration, integrity and a bias for action. When good people work with a shared purpose, better infrastructure follows.",
+    },
+  ] as readonly OurCodeValue[],
 } as const;
 
 export const businessModel = {

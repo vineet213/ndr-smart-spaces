@@ -1,9 +1,9 @@
 # CMS Phase 2A/2B — Parity Report
 
-- Generated: 2026-09-11T18:23:28.644Z
+- Generated: 2026-09-16T20:41:19.370Z
 - Store: `.cms-store/content.json`
 - Generated modules: `src/lib/data/generated/`
-- Verdict: **PASS** — 398/398 checks passed, 0 failed, 0 unintended
+- Verdict: **FAIL** — 468/469 checks passed, 1 failed, 0 unintended
 
 ## inventory/data
 
@@ -96,7 +96,7 @@
 | en-nzp has status draft <br><small>found draft</small> | PASS | expected |
 | en-nzp has order 0021 <br><small>found 0021</small> | PASS | expected |
 | en-nzp payload matches the source mapping | PASS | expected |
-| locations has exactly 17 records | PASS | expected |
+| locations has exactly 25 records | PASS | expected |
 | chennai-hq has status published <br><small>found published</small> | PASS | expected |
 | chennai-hq has order 0000 <br><small>found 0000</small> | PASS | expected |
 | chennai-hq payload matches the source mapping | PASS | expected |
@@ -148,6 +148,30 @@
 | puducherry has status published <br><small>found published</small> | PASS | expected |
 | puducherry has order 0016 <br><small>found 0016</small> | PASS | expected |
 | puducherry payload matches the source mapping | PASS | expected |
+| delhi has status published <br><small>found published</small> | PASS | expected |
+| delhi has order 0017 <br><small>found 0017</small> | PASS | expected |
+| delhi payload matches the source mapping | PASS | expected |
+| bilaspur has status published <br><small>found published</small> | PASS | expected |
+| bilaspur has order 0018 <br><small>found 0018</small> | PASS | expected |
+| bilaspur payload matches the source mapping | PASS | expected |
+| sarita-vihar has status published <br><small>found published</small> | PASS | expected |
+| sarita-vihar has order 0019 <br><small>found 0019</small> | PASS | expected |
+| sarita-vihar payload matches the source mapping | PASS | expected |
+| mumbai has status published <br><small>found published</small> | PASS | expected |
+| mumbai has order 0020 <br><small>found 0020</small> | PASS | expected |
+| mumbai payload matches the source mapping | PASS | expected |
+| surat has status published <br><small>found published</small> | PASS | expected |
+| surat has order 0021 <br><small>found 0021</small> | PASS | expected |
+| surat payload matches the source mapping | PASS | expected |
+| chhatrapati-sambhaji-nagar has status published <br><small>found published</small> | PASS | expected |
+| chhatrapati-sambhaji-nagar has order 0022 <br><small>found 0022</small> | PASS | expected |
+| chhatrapati-sambhaji-nagar payload matches the source mapping | PASS | expected |
+| goa has status published <br><small>found published</small> | PASS | expected |
+| goa has order 0023 <br><small>found 0023</small> | PASS | expected |
+| goa payload matches the source mapping | PASS | expected |
+| sricity has status published <br><small>found published</small> | PASS | expected |
+| sricity has order 0024 <br><small>found 0024</small> | PASS | expected |
+| sricity payload matches the source mapping | PASS | expected |
 | portfolio-assets has exactly 2 records | PASS | expected |
 | amazon-coimbatore has status published <br><small>found published</small> | PASS | expected |
 | amazon-coimbatore has order 0000 <br><small>found 0000</small> | PASS | expected |
@@ -231,7 +255,7 @@
 | ds-05 has status pending <br><small>found pending</small> | PASS | expected |
 | ds-05 has order 0004 <br><small>found 0004</small> | PASS | expected |
 | ds-05 payload matches the source mapping | PASS | expected |
-| media has exactly 8 records | PASS | expected |
+| media has exactly 18 records | PASS | expected |
 | mk-01 has status pending <br><small>found pending</small> | PASS | expected |
 | mk-01 has order 0000 <br><small>found 0000</small> | PASS | expected |
 | mk-01 payload matches the source mapping | PASS | expected |
@@ -244,18 +268,48 @@
 | mk-04 has status pending <br><small>found pending</small> | PASS | expected |
 | mk-04 has order 0003 <br><small>found 0003</small> | PASS | expected |
 | mk-04 payload matches the source mapping | PASS | expected |
-| pr-001 has status pending <br><small>found pending</small> | PASS | expected |
-| pr-001 has order 0004 <br><small>found 0004</small> | PASS | expected |
-| pr-001 payload matches the source mapping | PASS | expected |
-| pr-002 has status pending <br><small>found pending</small> | PASS | expected |
-| pr-002 has order 0005 <br><small>found 0005</small> | PASS | expected |
-| pr-002 payload matches the source mapping | PASS | expected |
-| pr-003 has status pending <br><small>found pending</small> | PASS | expected |
-| pr-003 has order 0006 <br><small>found 0006</small> | PASS | expected |
-| pr-003 payload matches the source mapping | PASS | expected |
-| up-001 has status pending <br><small>found pending</small> | PASS | expected |
-| up-001 has order 0007 <br><small>found 0007</small> | PASS | expected |
-| up-001 payload matches the source mapping | PASS | expected |
+| cv-001 has status pending <br><small>found pending</small> | PASS | expected |
+| cv-001 has order 0004 <br><small>found 0004</small> | PASS | expected |
+| cv-001 payload matches the source mapping | PASS | expected |
+| cv-002 has status pending <br><small>found pending</small> | PASS | expected |
+| cv-002 has order 0005 <br><small>found 0005</small> | PASS | expected |
+| cv-002 payload matches the source mapping | PASS | expected |
+| cv-003 has status pending <br><small>found pending</small> | PASS | expected |
+| cv-003 has order 0006 <br><small>found 0006</small> | PASS | expected |
+| cv-003 payload matches the source mapping | PASS | expected |
+| cv-004 has status pending <br><small>found pending</small> | PASS | expected |
+| cv-004 has order 0007 <br><small>found 0007</small> | PASS | expected |
+| cv-004 payload matches the source mapping | PASS | expected |
+| cv-005 has status pending <br><small>found pending</small> | PASS | expected |
+| cv-005 has order 0008 <br><small>found 0008</small> | PASS | expected |
+| cv-005 payload matches the source mapping | PASS | expected |
+| cv-006 has status pending <br><small>found pending</small> | PASS | expected |
+| cv-006 has order 0009 <br><small>found 0009</small> | PASS | expected |
+| cv-006 payload matches the source mapping | PASS | expected |
+| cv-007 has status pending <br><small>found pending</small> | PASS | expected |
+| cv-007 has order 0010 <br><small>found 0010</small> | PASS | expected |
+| cv-007 payload matches the source mapping | PASS | expected |
+| cv-008 has status pending <br><small>found pending</small> | PASS | expected |
+| cv-008 has order 0011 <br><small>found 0011</small> | PASS | expected |
+| cv-008 payload matches the source mapping | PASS | expected |
+| cv-009 has status pending <br><small>found pending</small> | PASS | expected |
+| cv-009 has order 0012 <br><small>found 0012</small> | PASS | expected |
+| cv-009 payload matches the source mapping | PASS | expected |
+| cv-010 has status pending <br><small>found pending</small> | PASS | expected |
+| cv-010 has order 0013 <br><small>found 0013</small> | PASS | expected |
+| cv-010 payload matches the source mapping | PASS | expected |
+| cv-011 has status pending <br><small>found pending</small> | PASS | expected |
+| cv-011 has order 0014 <br><small>found 0014</small> | PASS | expected |
+| cv-011 payload matches the source mapping | PASS | expected |
+| cv-012 has status pending <br><small>found pending</small> | PASS | expected |
+| cv-012 has order 0015 <br><small>found 0015</small> | PASS | expected |
+| cv-012 payload matches the source mapping | PASS | expected |
+| cv-013 has status pending <br><small>found pending</small> | PASS | expected |
+| cv-013 has order 0016 <br><small>found 0016</small> | PASS | expected |
+| cv-013 payload matches the source mapping | PASS | expected |
+| cv-014 has status pending <br><small>found pending</small> | PASS | expected |
+| cv-014 has order 0017 <br><small>found 0017</small> | PASS | expected |
+| cv-014 payload matches the source mapping | PASS | expected |
 | contact-directory has exactly 3 records | PASS | expected |
 | smart-spaces has status published <br><small>found published</small> | PASS | expected |
 | smart-spaces has order 0000 <br><small>found 0000</small> | PASS | expected |
@@ -331,7 +385,7 @@
 | environment metric EN-06 (Net-zero pathway) carries the source fields verbatim | PASS | migration-related |
 | location chennai-hq (Chennai) preserves coordinates, offsets and visibility | PASS | migration-related |
 | location nallur (Nallur) preserves coordinates, offsets and visibility | PASS | expected |
-| location bidadi (Bidadi) preserves coordinates, offsets and visibility | PASS | expected |
+| location bidadi (Bangalore) preserves coordinates, offsets and visibility | PASS | expected |
 | location hyderabad (Hyderabad) preserves coordinates, offsets and visibility | PASS | expected |
 | location pune (Pune) preserves coordinates, offsets and visibility | PASS | expected |
 | location kolkata (Kolkata) preserves coordinates, offsets and visibility | PASS | expected |
@@ -346,10 +400,18 @@
 | location kanpur (Kanpur) preserves coordinates, offsets and visibility | PASS | expected |
 | location coimbatore (Coimbatore) preserves coordinates, offsets and visibility | PASS | migration-related |
 | location puducherry (Puducherry) preserves coordinates, offsets and visibility | PASS | migration-related |
+| location delhi (Delhi) preserves coordinates, offsets and visibility | PASS | expected |
+| location bilaspur (Bilaspur) preserves coordinates, offsets and visibility | PASS | expected |
+| location sarita-vihar (Sarita Vihar) preserves coordinates, offsets and visibility | PASS | expected |
+| location mumbai (Mumbai) preserves coordinates, offsets and visibility | PASS | expected |
+| location surat (Surat) preserves coordinates, offsets and visibility | PASS | expected |
+| location chhatrapati-sambhaji-nagar (Chhatrapati Sambhaji Nagar) preserves coordinates, offsets and visibility | PASS | expected |
+| location goa (Goa) preserves coordinates, offsets and visibility | PASS | expected |
+| location sricity (Sricity) preserves coordinates, offsets and visibility | PASS | expected |
 | asset amazon-coimbatore preserves the catalogue fields | PASS | expected |
 | asset lenovo-puducherry preserves the catalogue fields | PASS | expected |
 | vertical 01 (Logistics and Industrial Infrastructure) preserves the division fields and proof-metric references | PASS | migration-related |
-| vertical 02 (Project and Operations Management Consultancy - NDR Asset Management) preserves the division fields and proof-metric references | PASS | migration-related |
+| vertical 02 (Project and Operations Management Consultancy — NDR Asset Management) preserves the division fields and proof-metric references | PASS | migration-related |
 | vertical 03 (Residential Plotting) preserves the division fields and proof-metric references | PASS | expected |
 | initiative IM-01 (Portfolio solar programme) preserves the impact fields | PASS | expected |
 | initiative IM-02 (Water stewardship) preserves the impact fields | PASS | expected |
@@ -376,11 +438,21 @@
 | media kit item MK-02 (Logo suite) preserved as a pending asset | PASS | migration-related |
 | media kit item MK-03 (Brand guidance) preserved as a pending asset | PASS | migration-related |
 | media kit item MK-04 (Key statistics) preserved as a pending asset | PASS | migration-related |
-| press record PR-001 (NDR InvIT Trust incorporated) preserved as a pending archive entry | PASS | expected |
-| press record PR-002 (NDR InvIT lists on the NSE through an INR 8.8 bn IPO) preserved as a pending archive entry | PASS | expected |
-| press record PR-003 (NDR Smart Spaces completes the MLG transfer to NDR InvIT) preserved as a pending archive entry | PASS | expected |
-| press record UP-001 (ESG — The Sustainability Ledger, Edition FY26) preserved as a pending archive entry | PASS | expected |
-| press archive == 4 records (PR-001…UP-001) <br><small>found 4</small> | PASS | expected |
+| press record CV-001 (NDR opens warehouse) preserved as a pending archive entry | PASS | expected |
+| press record CV-002 (NDR Smart Spaces inaugurates facility at Kongara Kalan) preserved as a pending archive entry | PASS | expected |
+| press record CV-003 (NDR Smart Spaces inaugurates facility at Kongara Kalan) preserved as a pending archive entry | PASS | expected |
+| press record CV-004 (Warehousing Facility) preserved as a pending archive entry | PASS | expected |
+| press record CV-005 (NDR Smart Spaces inaugurates 0.6 million sq feet facility at Kongara Kalan, Hyderabad) preserved as a pending archive entry | PASS | expected |
+| press record CV-006 (NDR Smart Spaces inaugurates ~0.6 million sq ft facility at Kongara Kalan, Hyderabad) preserved as a pending archive entry | PASS | expected |
+| press record CV-007 (NDR Smart Spaces launches new warehousing facility) preserved as a pending archive entry | PASS | expected |
+| press record CV-008 (NDR Smart Spaces inaugurates ~0.6 million sq ft facility at Kongara Kalan, Hyderabad) preserved as a pending archive entry | PASS | expected |
+| press record CV-009 (NDR Smart Spaces opens new warehouse) preserved as a pending archive entry | PASS | expected |
+| press record CV-010 (NDR launches large warehouse at Kongara Kalan) preserved as a pending archive entry | PASS | expected |
+| press record CV-011 (NDR Smart Spaces opens 0.6 Mn Sq Ft hub in Hyderabad) preserved as a pending archive entry | PASS | expected |
+| press record CV-012 (NDR Smart Spaces Inaugurates ~0.6 Million Sq Ft Grade A Warehousing Facility at Kongara Kalan, Hyderabad) preserved as a pending archive entry | PASS | expected |
+| press record CV-013 (NDR Smart Spaces opens 0.6 million sq ft facility) preserved as a pending archive entry | PASS | expected |
+| press record CV-014 (NDR Smart Spaces launches approximately 0.6 million sq ft facility at Kongara Kalan, Hyderabad) preserved as a pending archive entry | PASS | expected |
+| press archive == 14 records (CV-001…CV-014) <br><small>found 14</small> | PASS | expected |
 | directory entry smart-spaces (Smart Spaces Desk) preserved | PASS | expected |
 | directory entry hr (Human Resources) preserved | PASS | expected |
 | directory entry grievance (Grievance Redressal) preserved | PASS | expected |
@@ -389,7 +461,7 @@
 | corporate settings carry the legal, contact and external-link record | PASS | migration-related |
 | publication settings carry the edition, prefix and numbering rules | PASS | expected |
 | brand settings carry logos, favicon and SEO defaults (no OG image or social links) | PASS | migration-related |
-| corporate office address matches the frozen homepage contact record | PASS | expected |
+| corporate office address matches the frozen homepage contact record | FAIL | expected |
 
 ## integration
 
@@ -398,14 +470,13 @@
 | navigation module re-exports the generated CMS navigation byte-for-byte | PASS | expected |
 | hero stats derive from the published metrics (M1 60+ · M5 100+ · M3 98%) | PASS | expected |
 | business highlight verticals derive from the generated business verticals (Ave Acres external) | PASS | expected |
-| map markers derive from the generated locations (homepage-visible, Chennai aliased to Headquarters) | PASS | expected |
+| map markers derive from the generated locations (homepage-visible) | PASS | expected |
 | footer re-exports the generated footer byte-for-byte | PASS | expected |
 | homepage keeps esg null and latestUpdates empty — no new sections introduced | PASS | expected |
 | media kit items derive from the generated media collection (media-kit folder) | PASS | expected |
 | press archive entries derive from the media collection and stay byte-equal to the frozen source | PASS | expected |
 | edition and publication reference derive from the publication settings (FY26) | PASS | expected |
 | press contact derives from the corporate settings email register | PASS | expected |
-| featured publication references the PR-002 press record from the archive | PASS | expected |
 | geoLocations derive from the generated locations collection (portfolio offsets, byte-equal) | PASS | expected |
 | portfolio map offsets stay consistent with the frozen projection (projectPlace) | PASS | expected |
 | portfolioAssets derive from the generated portfolio-assets collection (byte-equal) | PASS | expected |
@@ -431,11 +502,11 @@
 | metric keys unique (22 records) | PASS | expected |
 | document refs unique (5 records) | PASS | expected |
 | registry ledger records exactly 8 issues (the GV-REG refs) <br><small>found 8</small> | PASS | migration-related |
-| audit chain intact — 82 create entries (one per seeded record) <br><small>valid=true, verified=82, expected=82</small> | PASS | expected |
+| audit chain intact — 100 create entries (one per seeded record) <br><small>valid=true, verified=100, expected=100</small> | PASS | expected |
 
 ## Summary
 
-- Total: 398
-- Passed: 398
-- Failed: 0
+- Total: 469
+- Passed: 468
+- Failed: 1
 - Unintended: 0

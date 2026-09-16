@@ -67,6 +67,8 @@ export type PressArchiveEntry = {
   category: PressCategory;
   title: string;
   note?: string;
+  publication?: string;
+  image?: string;
   status: MediaRecordStatus;
   href?: string;
   external?: boolean;
@@ -80,44 +82,162 @@ export type PressArchiveEntry = {
  */
 export const PRESS_ARCHIVE_ENTRIES: readonly PressArchiveEntry[] = [
   {
-    id: "pr-001",
-    ref: "PR-001",
-    date: "2015",
-    category: "press-release",
-    title: "NDR InvIT Trust incorporated",
-    note: "The trust is incorporated to own and manage income-generating infrastructure assets.",
+    id: "cv-001",
+    ref: "CV-001",
+    date: "9 June 2026",
+    category: "coverage",
+    title: "NDR opens warehouse",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration.",
+    publication: "The Hans India",
+    image: "/images/media/coverage-04.jpg",
     status: "published",
-    href: "https://ndrinvit.com",
-    external: true,
   },
   {
-    id: "pr-002",
-    ref: "PR-002",
-    date: "2018",
-    category: "press-release",
-    title: "NDR InvIT lists on the NSE through an INR 8.8 bn IPO",
-    note: "India's first warehousing InvIT opens to public-market investors.",
+    id: "cv-002",
+    ref: "CV-002",
+    date: "9 June 2026",
+    category: "coverage",
+    title: "NDR Smart Spaces inaugurates facility at Kongara Kalan",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration.",
+    publication: "New Indian Express",
     status: "published",
-    href: "https://ndrinvit.com",
-    external: true,
   },
   {
-    id: "pr-003",
-    ref: "PR-003",
-    date: "FY26*",
-    category: "press-release",
-    title: "NDR Smart Spaces completes the MLG transfer to NDR InvIT",
-    note: "MLG (INR 143.9 cr) and SPV transfers complete the capital cycle.",
+    id: "cv-003",
+    ref: "CV-003",
+    date: "10 June 2026",
+    category: "coverage",
+    title: "NDR Smart Spaces inaugurates facility at Kongara Kalan",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration.",
+    publication: "Telangana Today",
+    image: "/images/media/coverage-05.jpg",
+    status: "published",
+  },
+  {
+    id: "cv-004",
+    ref: "CV-004",
+    date: "10 June 2026",
+    category: "coverage",
+    title: "Warehousing Facility",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration.",
+    publication: "The Pioneer",
+    image: "/images/media/coverage-06.jpg",
+    status: "published",
+  },
+  {
+    id: "cv-005",
+    ref: "CV-005",
+    date: "10 June 2026",
+    category: "coverage",
+    title: "NDR Smart Spaces inaugurates 0.6 million sq feet facility at Kongara Kalan, Hyderabad",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration.",
+    publication: "The Pioneer",
+    status: "published",
+  },
+  {
+    id: "cv-006",
+    ref: "CV-006",
+    date: "10 June 2026",
+    category: "coverage",
+    title: "NDR Smart Spaces inaugurates ~0.6 million sq ft facility at Kongara Kalan, Hyderabad",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration.",
+    publication: "Andhra Prabha",
+    image: "/images/media/coverage-01.jpg",
+    status: "published",
+  },
+  {
+    id: "cv-007",
+    ref: "CV-007",
+    date: "10 June 2026*",
+    category: "coverage",
+    title: "NDR Smart Spaces launches new warehousing facility",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu — pending client confirmation.",
+    publication: "South India Times",
+    image: "/images/media/coverage-07.jpg",
     status: "draft",
   },
   {
-    id: "up-001",
-    ref: "UP-001",
-    date: "FY26*",
-    category: "update",
-    title: "ESG — The Sustainability Ledger, Edition FY26",
-    note: "This edition of the company's sustainability record.",
+    id: "cv-008",
+    ref: "CV-008",
+    date: "10 June 2026",
+    category: "coverage",
+    title: "NDR Smart Spaces inaugurates ~0.6 million sq ft facility at Kongara Kalan, Hyderabad",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration.",
+    publication: "Surya",
+    image: "/images/media/coverage-08.jpg",
+    status: "published",
+  },
+  {
+    id: "cv-009",
+    ref: "CV-009",
+    date: "10 June 2026*",
+    category: "coverage",
+    title: "NDR Smart Spaces opens new warehouse",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu — pending client confirmation.",
+    publication: "Nava Telangana (print)",
+    image: "/images/media/coverage-02.jpg",
     status: "draft",
+  },
+  {
+    id: "cv-010",
+    ref: "CV-010",
+    date: "10 June 2026*",
+    category: "coverage",
+    title: "NDR launches large warehouse at Kongara Kalan",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu — pending client confirmation.",
+    publication: "Praja Sakti",
+    image: "/images/media/coverage-03.jpg",
+    status: "draft",
+  },
+  {
+    id: "cv-011",
+    ref: "CV-011",
+    date: "8 June 2026",
+    category: "coverage",
+    title: "NDR Smart Spaces opens 0.6 Mn Sq Ft hub in Hyderabad",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration.",
+    publication: "Manufacturing Today India",
+    status: "published",
+    href: "https://www.manufacturingtodayindia.com/ndr-smart-spaces-opens-in-hyderabad",
+    external: true,
+  },
+  {
+    id: "cv-012",
+    ref: "CV-012",
+    date: "8 June 2026",
+    category: "coverage",
+    title:
+      "NDR Smart Spaces Inaugurates ~0.6 Million Sq Ft Grade A Warehousing Facility at Kongara Kalan, Hyderabad",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration.",
+    publication: "Telugu Times",
+    status: "published",
+    href: "https://www.telugutimes.net/en/politics/navyandhra/ndr-smart-spaces-inaugurates-0-6-million-sq-ft-grade-a-warehousing-facility-at-kongara-kalan-hyderabad-348198.html",
+    external: true,
+  },
+  {
+    id: "cv-013",
+    ref: "CV-013",
+    date: "9 June 2026*",
+    category: "coverage",
+    title: "NDR Smart Spaces opens 0.6 million sq ft facility",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu — pending client confirmation.",
+    publication: "Nava Telangana (online)",
+    status: "draft",
+    href: "https://navatelangana.com/ndr-smart-spaces-opens-0-6-million-sq-ft-facility/",
+    external: true,
+  },
+  {
+    id: "cv-014",
+    ref: "CV-014",
+    date: "9 June 2026*",
+    category: "coverage",
+    title:
+      "NDR Smart Spaces launches approximately 0.6 million sq ft facility at Kongara Kalan, Hyderabad",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu — pending client confirmation.",
+    publication: "Daily Hunt",
+    status: "draft",
+    href: "https://m.dailyhunt.in/news/india/telugu/pvrnews-epaper-dh4fcab02e50334d6f8a069dbf5eaa5131/haidaraabaadloni+kongara+kalaanlo+sumaaru+06+miliyan+chadarapu+adugula+sadupaayaanni+praarambhinchina+endiaar+smaart+speses-newsid-dh4fcab02e50334d6f8a069dbf5eaa5131_d51cedd0642011f1b6b72f9b905a4ba2?sm=Y",
+    external: true,
   },
 ];
 
@@ -133,7 +253,7 @@ export const mediaMasthead = {
   asOn: MEDIA_EDITION.asOn,
   edition: MEDIA_EDITION.edition,
   folio: `Register ${cmsPublication.editionPeriod}`,
-  controlCaption: "REF PR-001 · COVER",
+  controlCaption: "REF CV-001 · COVER",
   watermark: "PR",
 } as const;
 
@@ -151,7 +271,7 @@ export const mediaStatement = {
   recorded: `Recorded · ${cmsPublication.editionPeriod}`,
 } as const;
 
-/* featured publication ---------------------------------------------------- */
+/* generated media read model --------------------------------------------- */
 
 /**
  * Widened view over the generated media module. The generated union covers the
@@ -172,43 +292,13 @@ type CmsMediaRecord = {
   date?: string;
   category?: string;
   recordStatus?: string;
+  publication?: string;
+  image?: string;
   href?: string;
   external?: boolean;
 };
 
 const cmsMediaRecords = cmsMedia as unknown as readonly CmsMediaRecord[];
-
-const featuredPressRecord = (() => {
-  for (const record of cmsMediaRecords) {
-    if (record.folder === "press-archive" && record.ref === "PR-002") return record;
-  }
-  return undefined;
-})();
-
-export const mediaFeatured = {
-  ref: "PR-002",
-  publication: "The Press Register",
-  issue: "Issue No. 02",
-  archiveCode: "AR-PR-002",
-  category: "Press Release",
-  date: featuredPressRecord?.date ?? "2018",
-  status: (featuredPressRecord?.recordStatus as MediaRecordStatus) ?? "published",
-  genre: "Primary disclosure",
-  title: "NDR InvIT lists on the NSE through an INR 8.8 bn IPO — India's first warehousing InvIT",
-  statement:
-    "The listing opened India's first warehousing InvIT to public-market investors, giving the group's development platform a transparent, regulated capital partner.",
-  excerpt: "India's first warehousing InvIT opens to public-market investors.",
-  source: "Source: NDR InvIT disclosures · reproduced in the group archive",
-  href: featuredPressRecord?.href ?? "https://ndrinvit.com",
-  external: featuredPressRecord?.external === true,
-  record: [
-    { label: "Reference", value: "PR-002" },
-    { label: "Issue", value: "No. 02" },
-    { label: "Archive code", value: "AR-PR-002" },
-    { label: "Classification", value: "Press release · Primary disclosure" },
-    { label: "Recorded", value: "2018" },
-  ] as readonly { label: string; value: string }[],
-} as const;
 
 /* press archive ----------------------------------------------------------- */
 
@@ -250,6 +340,8 @@ const cmsPressEntries: readonly PressArchiveEntry[] = (() => {
       category: (record.category ?? "update") as PressCategory,
       title: record.label ?? "",
       ...(typeof record.caption === "string" ? { note: record.caption } : {}),
+      ...(typeof record.publication === "string" ? { publication: record.publication } : {}),
+      ...(typeof record.image === "string" ? { image: record.image } : {}),
       status: (record.recordStatus as MediaRecordStatus) ?? "draft",
       ...(typeof record.href === "string" ? { href: record.href } : {}),
       ...(record.external === true ? { external: true } : {}),
@@ -311,8 +403,10 @@ export const mediaKit = {
 
 /* press contact ----------------------------------------------------------- */
 
-const pressEmail = cmsCorporate.emails.find((e) => e.value === "compliance@ndrsmart.com") ?? cmsCorporate.emails[0];
-const businessEmail = cmsCorporate.emails.find((e) => e.value === "project@ndrsmart.com") ?? cmsCorporate.emails[1];
+const pressEmail =
+  cmsCorporate.emails.find((e) => e.value === "compliance@ndrsmart.com") ?? cmsCorporate.emails[0];
+const businessEmail =
+  cmsCorporate.emails.find((e) => e.value === "project@ndrsmart.com") ?? cmsCorporate.emails[1];
 
 export const pressContact = {
   eyebrow: "Press contact",

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { verticalManagement } from "@/lib/data/business";
 import { Reveal, type RevealDelay } from "./Reveal";
 import { cx } from "../ui/cx";
@@ -34,6 +35,7 @@ export function VerticalManagement() {
       <ol className={styles.grid} aria-labelledby="vertical-management-title">
         {Array.from({ length: slots }, (_, index) => {
           const isActive = activeIndex === index;
+          const profile = verticalManagement.profiles[index];
           return (
             <li key={index}>
               <Reveal delay={((index % 4) + 1) as RevealDelay}>
@@ -53,15 +55,30 @@ export function VerticalManagement() {
                     pointerTypeRef.current = event.pointerType;
                   }}
                 >
-                  <div className={styles.slotHeader}>
-                    <span className={styles.slotIndex}>
-                      Record {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span className={styles.slotMark} aria-hidden="true" />
-                  </div>
-                  <p className={styles.slotTitle}>{verticalManagement.placeholderTitle}</p>
-                  <p className={styles.slotStatus}>{verticalManagement.placeholderStatus}</p>
-                  <p className={styles.slotNote}>{verticalManagement.placeholderNote}</p>
+                  {profile ? (
+                    <>
+                      {profile.photo ? (
+                        <div className={styles.photoFrame}>
+                          <Image
+                            src={profile.photo}
+                            alt={profile.name}
+                            fill
+                            sizes="(max-width: 767px) 90vw, (max-width: 1023px) 45vw, (max-width: 1279px) 30vw, 18vw"
+                            className={styles.photo}
+                          />
+                        </div>
+                      ) : null}
+                      <p className={styles.slotTitle}>{profile.name}</p>
+                      <span className={styles.profileRule} aria-hidden="true" />
+                      <p className={styles.profileRole}>{profile.role}</p>
+                    </>
+                  ) : (
+                    <>
+                      <p className={styles.slotTitle}>{verticalManagement.placeholderTitle}</p>
+                      <p className={styles.slotStatus}>{verticalManagement.placeholderStatus}</p>
+                      <p className={styles.slotNote}>{verticalManagement.placeholderNote}</p>
+                    </>
+                  )}
                 </div>
               </Reveal>
             </li>

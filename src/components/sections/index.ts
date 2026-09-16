@@ -17,6 +17,7 @@ export { AboutHero } from "./AboutHero";
 export { OurStory } from "./OurStory";
 export { AboutTimeline } from "./AboutTimeline";
 export { VisionMissionValues } from "./VisionMissionValues";
+export { OurCode } from "./OurCode";
 export { BusinessModel } from "./BusinessModel";
 export { Leadership } from "./Leadership";
 export { WhyNdr } from "./WhyNdr";
@@ -68,3 +69,4 @@ export { ResidentialPlottingMastheadVideo } from "./ResidentialPlottingMastheadV
 export { VerticalManagement } from "./VerticalManagement";
 export { DevelopmentLifecycle } from "./DevelopmentLifecycle";
 export { SummaryOfBusiness } from "./SummaryOfBusiness";
+export { AssetFlip } from "./AssetFlip";

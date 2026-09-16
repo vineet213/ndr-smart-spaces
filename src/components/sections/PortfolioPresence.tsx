@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Container, Grid, GridItem } from "@/components/layout";
-import { Heading, Eyebrow, Lede, VisuallyHidden } from "@/components/ui";
+import { Heading, Eyebrow, VisuallyHidden } from "@/components/ui";
 import type { MapLocation, ZoneId } from "@/lib/data/homepage";
 import { zones, mapLocations, portfolioPresence } from "@/lib/data/homepage";
 import { IndiaMap } from "./IndiaMap";
@@ -22,7 +22,6 @@ export function PortfolioPresence() {
             <Heading variant="section" id="portfolio-presence-title">
               {portfolioPresence.heading}
             </Heading>
-            <Lede>{portfolioPresence.lede}</Lede>
             <ol className={styles.zoneList}>
               {zones.map((zone) => {
                 const active = activeZone === zone.id;
@@ -36,7 +35,7 @@ export function PortfolioPresence() {
                       <span className={cx("text-label-meta", styles.zoneLabel)}>
                         {zone.name} zone
                       </span>
-                      <span className={styles.zoneFact}>{zone.fact}</span>
+                      <span className={styles.zoneFact}>{zone.cities.join(", ")}</span>
                     </div>
                   </li>
                 );

@@ -181,6 +181,29 @@ const cmsGeoLocations: readonly GeoLocation[] = cmsLocationData
 
 export const geoLocations: readonly GeoLocation[] = cmsGeoLocations;
 
+/**
+ * Homepage-presence-only cities — added to the homepage "Portfolio presence"
+ * map for the client, but NOT part of the operating-location survey rendered
+ * on the Logistics & industrial infrastructure page (the "Land Bank" atlas).
+ * These ids stay `visible.portfolio` in the CMS collection so the destructive
+ * reseed keeps them (the seed rebuilds `locations` from `geoLocations`), while
+ * the survey helpers below exclude them to restore the 17-location footprint.
+ */
+const SURVEY_EXCLUDED_LOCATION_IDS: ReadonlySet<string> = new Set([
+  "delhi",
+  "bilaspur",
+  "sarita-vihar",
+  "mumbai",
+  "surat",
+  "chhatrapati-sambhaji-nagar",
+  "goa",
+  "sricity",
+]);
+
+function isSurveyLocation(location: GeoLocation): boolean {
+  return !SURVEY_EXCLUDED_LOCATION_IDS.has(location.id);
+}
+
 export const geoZones: readonly GeoZone[] = [
   {
     id: "south",
@@ -770,7 +793,9 @@ function asMappedLocation(location: GeoLocation, stateName: string): MappedLocat
 
 /** States that hold at least one operating location, in canonical order. */
 export const locationStates: readonly StateLandSummary[] = INDIAN_STATES.flatMap((state) => {
-  const locations = geoLocations.filter((location) => locationStateId(location) === state.id);
+  const locations = geoLocations.filter(
+    (location) => locationStateId(location) === state.id && isSurveyLocation(location),
+  );
   if (locations.length === 0) return [];
   return [
     {
@@ -783,17 +808,21 @@ export const locationStates: readonly StateLandSummary[] = INDIAN_STATES.flatMap
 });
 
 /** Every operating location as a map pin — the country default view. */
-export const allLocationPins: readonly MappedLocation[] = geoLocations.map((location) =>
-  asMappedLocation(
-    location,
-    indianStateByName(location.line.split(",").pop()?.trim() ?? "")?.name ?? "",
-  ),
-);
+export const allLocationPins: readonly MappedLocation[] = geoLocations
+  .filter(isSurveyLocation)
+  .map((location) =>
+    asMappedLocation(
+      location,
+      indianStateByName(location.line.split(",").pop()?.trim() ?? "")?.name ?? "",
+    ),
+  );
 
 /** Locations in a state, shaped as map pins. Empty when the state has none. */
 export function locationsByState(stateId: string): readonly MappedLocation[] {
   return geoLocations
-    .filter((location) => locationStateId(location) === stateId)
+    .filter(
+      (location) => locationStateId(location) === stateId && isSurveyLocation(location),
+    )
     .map((location) =>
       asMappedLocation(
         location,
@@ -811,10 +840,11 @@ export function locationById(id: string): MappedLocation | null {
  *
  * The atlas exposes two modes (Land bank / Under construction). Land Bank is
  * the combined state survey: every published land-bank parcel followed by the
- * group's operating locations (the 17 CMS `locations` records). Locations are
- * never draft-gated — they stay visible in the survey regardless of parcel
- * workflow, so the 17 V1 locations remain available under Land Bank without a
- * separate "locations mapped" mode.
+ * group's operating locations (the 17 V1 CMS `locations` records — the
+ * homepage-presence-only cities in `SURVEY_EXCLUDED_LOCATION_IDS` are kept
+ * out of the survey). Locations are never draft-gated — they stay visible in
+ * the survey regardless of parcel workflow, so the 17 V1 locations remain
+ * available under Land Bank without a separate "locations mapped" mode.
  */
 
 export type LandSurveyRecord = LandBankParcel | MappedLocation;
@@ -822,7 +852,9 @@ export type LandSurveyRecord = LandBankParcel | MappedLocation;
 /** States holding at least one published parcel or operating location. */
 export const landSurveyStates: readonly StateLandSummary[] = INDIAN_STATES.flatMap((state) => {
   const parcels = cmsLandBankDerived.filter((parcel) => parcel.stateId === state.id);
-  const locations = geoLocations.filter((location) => locationStateId(location) === state.id);
+  const locations = geoLocations.filter(
+    (location) => locationStateId(location) === state.id && isSurveyLocation(location),
+  );
   if (parcels.length === 0 && locations.length === 0) return [];
   const withExtent =
     parcels.some((parcel) => parcel.extentAcres !== undefined) ||

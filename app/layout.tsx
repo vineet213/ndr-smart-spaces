@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: "%s · NDR Smart Spaces",
   },
   description:
-    "NDR Smart Spaces is a diversified infrastructure organization focused on developing, owning, and managing high-quality industrial, commercial and institutional assets.",
+    "NDR Smart Spaces is a diversified infrastructure organization focused on developing, owning, and managing high-quality industrial and institutional assets.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

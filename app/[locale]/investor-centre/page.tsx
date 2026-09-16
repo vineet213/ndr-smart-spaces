@@ -11,12 +11,7 @@ export const metadata: Metadata = {
 export default function InvestorCentrePage() {
   return (
     <>
-      <InvestorMasthead
-        title={investorMasthead.title}
-        asOn={investorMasthead.asOn}
-        edition={investorMasthead.edition}
-        id="investor-centre-title"
-      />
+      <InvestorMasthead title={investorMasthead.title} id="investor-centre-title" />
       <InvestorClosing />
       <Footer />
     </>

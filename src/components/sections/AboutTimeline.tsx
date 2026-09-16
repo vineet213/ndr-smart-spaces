@@ -68,7 +68,7 @@ export function AboutTimeline() {
             style={{ "--timeline-progress": activeCount / TOTAL } as CSSProperties}
           >
             {aboutTimeline.nodes.map((node, index) => (
-              <TimelineItem key={node.year} node={node} index={index} onActivate={handleActivate} />
+              <TimelineItem key={index} node={node} index={index} onActivate={handleActivate} />
             ))}
           </ol>
         </Stack>

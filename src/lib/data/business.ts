@@ -104,7 +104,7 @@ export const businessMasthead = {
  * verticals render the heading-only masthead unchanged.
  */
 export const verticalMastheadSubtext: Readonly<Record<string, string>> = {
-  "01": "From roads to warehouses, we build the infrastructure that keeps the businesses moving. Smart logistics, solid foundations, sustainable growth.",
+  "01": "From lands to warehouse, we build the infrastructure that keeps the businesses moving. Smart logistics, solid foundations, sustainable growth.",
 };
 
 /**
@@ -126,7 +126,7 @@ export const verticalOverview: Readonly<
     ],
   },
   "03": {
-    heading: "Creating well-planned communities for better living.",
+    heading: "Building communities where industry grows.",
   },
 };
 
@@ -364,16 +364,14 @@ export const vertical02Metrics: readonly (Omit<CompanyMetric, "value"> & { value
     context: "Asset under construction (Sq. Ft.)",
   },
   { value: 230, label: "Strength of the team", context: "Strength of the team" },
-  { value: 6, label: "Projects in Pipeline", context: "Projects in Pipeline" },
+  { value: 11, label: "Projects in Pipeline", context: "Projects in Pipeline" },
 ];
 
-export type AssetPerformanceFunction = { index: string; title: string };
+export type AssetPerformanceFunction = { index: string; title: string; description: string };
 
 /**
- * Vertical 02 subpage — Asset Performance Management. Editorial copy is
- * frozen; the four function slots ship titled "Function 1"–"Function 4"
- * pending the client's service documentation. The three stats flow through
- * `CompanyMetrics`.
+ * Vertical 02 subpage — Asset Performance Management. The three stats flow
+ * through `CompanyMetrics`.
  */
 export const vertical02AssetManagement = {
   intro: {
@@ -382,12 +380,31 @@ export const vertical02AssetManagement = {
       "We manage the leasing and ongoing maintenance of industrial and logistics assets, ensuring facilities deliver consistent performance throughout their operational lifecycle. Our approach combines tenant management, facility upkeep, preventive maintenance, repairs, and operational support to maintain asset quality, tenant satisfaction, safety, and long-term value.",
   },
   functions: [
-    { index: "01", title: "Function 1" },
-    { index: "02", title: "Function 2" },
-    { index: "03", title: "Function 3" },
-    { index: "04", title: "Function 4" },
+    {
+      index: "01",
+      title: "Facility & Technical Management",
+      description:
+        "Upkeep of buildings, MEP systems, fire safety, roads, and utilities to keep the park physically operational.",
+    },
+    {
+      index: "02",
+      title: "Security & Safety",
+      description:
+        "Access control, surveillance, and safety protocols to protect people, assets, and goods within the park.",
+    },
+    {
+      index: "03",
+      title: "Soft Services",
+      description:
+        "Day-to-day upkeep like housekeeping, landscaping, and pest control that maintains the park's cleanliness and environment.",
+    },
+    {
+      index: "04",
+      title: "Commercial & Compliance",
+      description:
+        "Leasing, tenant relations, vendor contracts, and statutory/legal compliance that keep the business side running smoothly.",
+    },
   ] as const satisfies ReadonlyArray<AssetPerformanceFunction>,
-  placeholderNote: "Function scope pending documentation.",
   metrics: [
     { value: 98, suffix: "%", label: "Occupancy Status", context: "Occupancy Status" },
     {
@@ -414,16 +431,42 @@ export type ManagementProfile = {
 };
 
 /**
- * Vertical 02 — management. Follows the About Us leadership interaction
- * (subtle hover/focus highlight + small description reveal). Five profile
- * slots ship as placeholders until the client supplies the records.
+ * Vertical 02 — management. Three client-supplied records (name, designation,
+ * photo only — no bio) followed by two placeholder slots pending the
+ * remaining profiles.
  */
 export const verticalManagement = {
   heading: "Meet the Management",
   placeholderTitle: "Management profile",
   placeholderStatus: "Official profile pending",
   placeholderNote: "Name, designation and biography to be confirmed.",
-  profiles: [] as readonly ManagementProfile[],
+  profiles: [
+    {
+      name: "Kannan S",
+      role: "Head- project management and engineering",
+      photo: "/images/asset-management/Kannan S.jpeg",
+    },
+    {
+      name: "Hiten Manharlal Shah",
+      role: "Zonal Head ( East)",
+      photo: "/images/asset-management/Hiten Manharlal Shah.jpeg",
+    },
+    {
+      name: "Ramachandran Rajaram",
+      role: "Zonal Head( West)",
+      photo: "/images/asset-management/Ramachandran Rajaram.jpeg",
+    },
+    {
+      name: "Sundar Rajan Jagannathan",
+      role: "Zonal Head( South)",
+      photo: "/images/asset-management/Sundar Rajan Jagannathan.jpeg",
+    },
+    {
+      name: "Manvendra Singh Chauhan",
+      role: "Zonal Head ( North)",
+      photo: "/images/asset-management/Manvendra Singh Chauhan.jpeg",
+    },
+  ] as readonly ManagementProfile[],
   placeholderSlots: 5,
 } as const;
 
@@ -444,10 +487,11 @@ export type LifecycleStage = {
 
 /**
  * Vertical 02 subpage — Development Lifecycle. The eight stage copies are
- * frozen editorial text (client-confirmed). Images are illustrative,
- * licensed photographs from Wikimedia Commons, clearly credited and not
- * depicting NDR sites. They are bundled locally under /images/lifecycle so
- * the static export never depends on a third-party DNS/network at runtime.
+ * frozen editorial text (client-confirmed). Stages 02, 05, 06 and 08 use
+ * client-supplied illustrative imagery; the rest remain licensed Wikimedia
+ * Commons photographs (credited via `image.credit`), none depicting NDR
+ * sites. All images are bundled locally under /images/lifecycle so the
+ * static export never depends on a third-party DNS/network at runtime.
  */
 export const vertical02DevelopmentLifecycle = {
   intro: {
@@ -474,10 +518,10 @@ export const vertical02DevelopmentLifecycle = {
       body: "Evaluating financial, local, legal, and environmental aspects to ensure land suitability and development viability.",
       image: {
         src: "/images/lifecycle/02-due-diligence.jpg",
-        alt: "Signed contract documents and a pen",
-        credit: "Image: Blogtrepreneur / Wikimedia Commons, CC BY 2.0",
-        width: 1920,
-        height: 1440,
+        alt: "Due diligence documents, surveys and title records laid out on a desk",
+        credit: "",
+        width: 1408,
+        height: 768,
       },
     },
     {
@@ -486,10 +530,10 @@ export const vertical02DevelopmentLifecycle = {
       body: "Securing suitable land through strategic lease or purchase arrangements and structuring the development through a dedicated Special Purpose Vehicle (SPV).",
       image: {
         src: "/images/lifecycle/03-land-acquisition.jpg",
-        alt: "Business people at a boardroom dialogue session",
-        credit: "Image: Richter Frank-Jurgen / Wikimedia Commons, CC BY 2.0",
+        alt: "A legal contract document with a fountain pen, ready for signature",
+        credit: "Image: Blogtrepreneur / Wikimedia Commons, CC BY 2.0",
         width: 1920,
-        height: 1278,
+        height: 1440,
       },
     },
     {
@@ -510,10 +554,10 @@ export const vertical02DevelopmentLifecycle = {
       body: "Transforming identified land into development-ready warehouse designs through technical studies, planning, approvals, and integrated engineering.",
       image: {
         src: "/images/lifecycle/05-project-planning.jpg",
-        alt: "Architectural blueprint drawing of a building elevation",
-        credit: "Image: Daderot / Wikimedia Commons, public domain",
-        width: 1920,
-        height: 1280,
+        alt: "Architectural blueprint illustration of a warehouse and loading dock design",
+        credit: "",
+        width: 1408,
+        height: 768,
       },
     },
     {
@@ -522,10 +566,10 @@ export const vertical02DevelopmentLifecycle = {
       body: "Executing warehouse construction with strong oversight of quality, cost, timelines, and technical standards.",
       image: {
         src: "/images/lifecycle/06-engineering.jpg",
-        alt: "Tower crane at a building construction site",
-        credit: "Image: Taichung City Government / Wikimedia Commons, attribution",
-        width: 1920,
-        height: 1280,
+        alt: "Steel structural framework of a warehouse under construction with a crane",
+        credit: "",
+        width: 629,
+        height: 354,
       },
     },
     {
@@ -546,10 +590,10 @@ export const vertical02DevelopmentLifecycle = {
       body: "Preparing the completed warehouse for seamless handover and efficient day-to-day operations.",
       image: {
         src: "/images/lifecycle/08-asset-handover.jpg",
-        alt: "Interior of a warehouse with pallet racking",
-        credit: "Image: Axisadman / Wikimedia Commons, CC BY-SA 3.0",
-        width: 1920,
-        height: 1496,
+        alt: "A handshake marking the handover of a completed asset",
+        credit: "",
+        width: 998,
+        height: 402,
       },
     },
   ] as const satisfies readonly LifecycleStage[],

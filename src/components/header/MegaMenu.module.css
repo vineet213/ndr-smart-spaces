@@ -218,67 +218,32 @@
   height: 1rem;
 }
 
-/* side popup submenu (link with children) -------------------------------- */
+/* nested links — sub-items rendered inline below their parent link ------- */
 
-.linkWithMenu {
-  position: relative;
-}
-
-.linkCaret {
-  flex-shrink: 0;
-  width: 1rem;
-  height: 1rem;
-  color: var(--color-gold);
-  transition: transform var(--duration-standard) var(--ease-standard);
-}
-
-.linkWithMenuOpen .linkCaret {
-  transform: rotate(90deg);
-}
-
-.submenu {
-  position: absolute;
-  left: 100%;
-  top: 0;
-  z-index: 60;
+.nestedLinks {
   display: flex;
   flex-direction: column;
-  min-width: 15rem;
-  padding: var(--space-lg) var(--space-xl);
-  background-color: var(--color-ivory);
-  border: 1px solid var(--color-hairline-light);
-  box-shadow: var(--color-shadow-warm);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(-0.5rem);
-  transition:
-    opacity var(--duration-micro) var(--ease-standard),
-    transform var(--duration-micro) var(--ease-standard),
-    visibility var(--duration-micro) linear;
+  margin: var(--space-xs) 0 var(--space-sm) var(--space-lg);
+  padding-left: var(--space-lg);
+  border-left: 1px solid var(--color-hairline-light);
 }
 
-.linkWithMenuOpen .submenu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(0);
-}
-
-.submenuLink {
+.nestedLink {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
-  padding-block: var(--space-sm);
+  padding-block: var(--space-xs);
   font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-nav);
-  line-height: var(--leading-nav);
-  color: var(--color-text-primary);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
   white-space: nowrap;
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.submenuLink::after {
+.nestedLink::after {
   content: "";
   position: absolute;
   inset-inline: 0;
@@ -290,6 +255,12 @@
   transition: transform var(--duration-standard) var(--ease-standard);
 }
 
-.submenuLink:focus-visible::after {
+.nestedLink:hover,
+.nestedLink.linkActive {
+  color: var(--color-maroon-deep);
+}
+
+.nestedLink:hover::after,
+.nestedLink:focus-visible::after {
   transform: scaleX(1);
 }

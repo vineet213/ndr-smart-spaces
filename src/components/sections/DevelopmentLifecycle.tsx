@@ -97,7 +97,7 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
           <header className={styles.mapHeading}>
             <span className={styles.goldRule} aria-hidden="true" />
             <Eyebrow className={styles.mapEyebrow}>Logistics and Industrial Infrastructure</Eyebrow>
-            <h2 className={styles.mapTitle}>Products of the Process</h2>
+            <h2 className={styles.mapTitle}>A peak into the final product</h2>
             <p className={styles.mapBody}>
               Strategically located, spec-forward facilities near highways, ports, railways and
               airports — serving retail, e-commerce, 3PL and manufacturing.

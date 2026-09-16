@@ -19,7 +19,7 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   column-gap: var(--space-lg);
-  row-gap: var(--space-lg);
+  row-gap: var(--space-xl);
 }
 
 .grid > li {
@@ -31,7 +31,7 @@
   flex-direction: column;
   gap: var(--space-sm);
   height: 100%;
-  padding: var(--space-4xl);
+  padding: var(--space-lg);
   border: 1px solid var(--color-hairline-light);
   border-radius: var(--radius-sm);
   transition: border-color var(--duration-standard) var(--ease-standard);
@@ -46,32 +46,6 @@
   border-color: var(--color-gold-40);
 }
 
-.slotHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-md);
-  margin-bottom: var(--space-md);
-  padding-bottom: var(--space-md);
-  border-bottom: 1px solid var(--color-hairline-light);
-}
-
-.slotIndex {
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-journey-year);
-  line-height: 1;
-  color: var(--color-maroon);
-}
-
-.slotMark {
-  flex: 0 0 auto;
-  width: 10px;
-  height: 10px;
-  background-color: var(--color-gold);
-  transform: rotate(45deg);
-}
-
 .slotTitle {
   margin: 0;
   font-family: var(--font-display);
@@ -79,6 +53,39 @@
   font-size: var(--font-lede);
   line-height: var(--leading-lede);
   color: var(--color-charcoal);
+}
+
+/* Client-supplied member photo — a taller editorial portrait (rather than a  */
+/* cramped square) consistent with the card's document-plate character.      */
+.photoFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background-color: var(--color-ivory-dim);
+  margin-bottom: var(--space-xs);
+}
+
+.photo {
+  object-fit: cover;
+  object-position: top center;
+}
+
+.profileRule {
+  display: block;
+  width: var(--space-4xl);
+  height: 2px;
+  margin: var(--space-xs) 0 0;
+  background-color: var(--color-gold);
+}
+
+.profileRole {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-maroon);
 }
 
 .slotStatus {
@@ -110,9 +117,15 @@
   transform: translateY(0);
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1279px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -122,7 +135,7 @@
   }
 
   .slot {
-    padding: var(--space-4xl);
+    padding: var(--space-xl);
   }
 }
 

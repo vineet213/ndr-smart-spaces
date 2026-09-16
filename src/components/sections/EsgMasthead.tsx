@@ -7,12 +7,6 @@ export function EsgMasthead() {
     <Section tone="light" ariaLabelledby="esg-masthead-title" className={styles.section}>
       <span className={styles.ruleTop} aria-hidden="true" />
 
-      <Container className={styles.folio}>
-        <span>{esgMasthead.registry}</span>
-        <span>{esgMasthead.section}</span>
-        <span>{esgMasthead.controlCaption}</span>
-      </Container>
-
       <Container className={styles.content}>
         <div className={styles.hero} id="esg-hero">
           <span className={styles.watermark} aria-hidden="true">
@@ -25,11 +19,6 @@ export function EsgMasthead() {
             {esgMasthead.title.after}
           </h1>
           <p className={styles.statement}>{esgMasthead.statement}</p>
-          <p className={styles.meta}>
-            <span>{esgMasthead.asOn}</span>
-            <span aria-hidden="true">·</span>
-            <span>{esgMasthead.edition}</span>
-          </p>
         </div>
       </Container>
 

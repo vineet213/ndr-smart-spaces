@@ -1,4 +1,4 @@
-import { mediaFeatured, mediaKit, pressArchive, pressContact, PRESS_CATEGORIES } from "./media";
+import { mediaKit, pressArchive, pressContact, PRESS_CATEGORIES } from "./media";
 
 /**
  * Media data validation — pure rules over the press register datasets.
@@ -42,17 +42,6 @@ export function validateArchiveDraftMarkers(): string[] {
   return errors;
 }
 
-export function validateFeaturedReference(): string[] {
-  const errors: string[] = [];
-  const archiveRefs = new Set(pressArchive.entries.map((entry) => entry.ref));
-  if (!archiveRefs.has(mediaFeatured.ref)) {
-    errors.push(
-      `Featured publication references "${mediaFeatured.ref}" which is absent from the press archive.`,
-    );
-  }
-  return errors;
-}
-
 export function validateKitReferences(): string[] {
   const errors: string[] = [];
   const seen = new Set<string>();
@@ -82,7 +71,6 @@ export function runMediaValidation(): boolean {
     ["archive references", validateArchiveReferences],
     ["archive categories", validateArchiveCategories],
     ["archive draft markers", validateArchiveDraftMarkers],
-    ["featured reference", validateFeaturedReference],
     ["kit references", validateKitReferences],
     ["contact references", validateContactReferences],
   ];

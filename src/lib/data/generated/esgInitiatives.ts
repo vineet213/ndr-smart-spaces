@@ -22,7 +22,7 @@ export const esgInitiatives = [
     "lon": 77.4861,
     "name": "Water stewardship",
     "note": "Rainwater management and recycling at the Bidadi campus.",
-    "place": "Bidadi",
+    "place": "Bangalore",
     "region": "Karnataka",
   },
   {

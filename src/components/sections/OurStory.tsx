@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Container, Grid, GridItem, Stack } from "@/components/layout";
 import { Eyebrow, Heading, Body } from "@/components/ui";
 import { aboutStory } from "@/lib/data/about";
@@ -30,12 +31,15 @@ export function OurStory() {
             </Stack>
           </GridItem>
           <GridItem span={5} className={styles.plateColumn}>
-            <Reveal delay={2}>
+            <Reveal delay={2} className={styles.plateReveal}>
               <figure className={styles.plate}>
-                <blockquote className={styles.quote}>“{aboutStory.quote}”</blockquote>
-                <figcaption className={styles.plateCaption}>
-                  {aboutStory.quoteAttribution}
-                </figcaption>
+                <Image
+                  src={aboutStory.image.src}
+                  alt={aboutStory.image.alt}
+                  fill
+                  sizes="(max-width: 767px) 100vw, 40vw"
+                  className={styles.plateImage}
+                />
               </figure>
             </Reveal>
           </GridItem>

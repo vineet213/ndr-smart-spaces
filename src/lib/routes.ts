@@ -21,6 +21,7 @@ export const siteRoutes: readonly string[] = [
   "/en/investor-centre/announcements",
   "/en/investor-centre/corporate-governance",
   "/en/investor-centre/summary-of-business",
+  "/en/investor-centre/asset-flip",
   "/en/esg",
   "/en/media",
   "/en/contact",

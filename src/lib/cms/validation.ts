@@ -30,7 +30,6 @@ import {
   validateArchiveReferences,
   validateArchiveCategories,
   validateArchiveDraftMarkers,
-  validateFeaturedReference,
   validateKitReferences,
   validateContactReferences as validatePressContactReferences,
 } from "../data/mediaValidation";
@@ -44,7 +43,7 @@ import {
 } from "../data/investor";
 import { geoLocations, portfolioAssets, MAP_VIEWBOX } from "../data/portfolio";
 import { esgDashboard, esgEnvironment } from "../data/esg";
-import { mediaFeatured, pressArchive } from "../data/media";
+import { pressArchive } from "../data/media";
 import { footer, mapLocations } from "../data/homepage";
 import { navItems, headerCta } from "../data/navigation";
 
@@ -357,21 +356,6 @@ function validateUnitConsistency(): ValidationIssue[] {
   return issues;
 }
 
-function validateUnpublishedLinkedContent(): ValidationIssue[] {
-  const issues: ValidationIssue[] = [];
-  const entry = pressArchive.entries.find((candidate) => candidate.ref === mediaFeatured.ref);
-  if (entry && entry.status === "draft") {
-    issues.push({
-      rule: "unpublished-linked-content",
-      collection: "media",
-      recordId: mediaFeatured.ref,
-      severity: "warning",
-      message: `Featured publication "${mediaFeatured.ref}" is still draft — it will not render publicly.`,
-    });
-  }
-  return issues;
-}
-
 function validateNavigationCompleteness(): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
   for (const item of navItems) {
@@ -440,7 +424,6 @@ const EXISTING_RULES: { rule: string; collection: string; run: () => string[] }[
   { rule: "archive-references", collection: "media", run: validateArchiveReferences },
   { rule: "archive-categories", collection: "media", run: validateArchiveCategories },
   { rule: "archive-draft-markers", collection: "media", run: validateArchiveDraftMarkers },
-  { rule: "featured-reference", collection: "media", run: validateFeaturedReference },
   { rule: "kit-references", collection: "media", run: validateKitReferences },
 ];
 
@@ -458,7 +441,6 @@ export function validateAll(): ValidationReport {
   issues.push(...validateFilings());
   issues.push(...validatePressEntries());
   issues.push(...validateUnitConsistency());
-  issues.push(...validateUnpublishedLinkedContent());
   issues.push(...validateNavigationCompleteness());
   issues.push(...validateHomepageLocationDuplication());
 

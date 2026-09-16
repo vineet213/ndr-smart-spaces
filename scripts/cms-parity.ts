@@ -64,7 +64,6 @@ import {
   MEDIA_EDITION,
   MEDIA_PUBLICATION,
   PRESS_ARCHIVE_ENTRIES,
-  mediaFeatured,
   mediaKit,
   pressArchive,
   pressContact,
@@ -508,7 +507,7 @@ async function verifyMetrics(content: ContentStore): Promise<void> {
 
 async function verifyLocations(content: ContentStore): Promise<void> {
   const records = await content.list("locations");
-  const homeMapNames: Record<string, string> = { Chennai: "Headquarters" };
+  const homeMapNames: Record<string, string> = {};
   records.forEach((record) => {
     const geo = geoLocations.find((location) => location.id === record.id);
     if (!geo) return;
@@ -820,7 +819,7 @@ async function verifyMedia(content: ContentStore): Promise<void> {
   check(
     "fidelity.media.press-count",
     "fidelity",
-    `press archive == ${PRESS_ARCHIVE_ENTRIES.length} records (PR-001…UP-001)`,
+    `press archive == ${PRESS_ARCHIVE_ENTRIES.length} records (CV-001…CV-014)`,
     "expected",
     pressRecords.length === PRESS_ARCHIVE_ENTRIES.length,
     `found ${pressRecords.length}`,
@@ -1115,7 +1114,7 @@ async function verifyHomepageIntegration(): Promise<void> {
     if (!("homepageOffset" in location) || !location.visible.homepage) continue;
     const offset = location.homepageOffset;
     expectedMap.push({
-      name: location.name === "Chennai" ? "Headquarters" : location.name,
+      name: location.name,
       zone: location.zone,
       tier: location.tier,
       x: offset.x,
@@ -1131,7 +1130,7 @@ async function verifyHomepageIntegration(): Promise<void> {
   check(
     "integration.homepage.map",
     "integration",
-    "map markers derive from the generated locations (homepage-visible, Chennai aliased to Headquarters)",
+    "map markers derive from the generated locations (homepage-visible)",
     "expected",
     mapOk,
     undefined,
@@ -1256,8 +1255,12 @@ async function verifyMediaIntegration(): Promise<void> {
     undefined,
   );
 
-  const pressEmailEntry = corporateSettings.emails.find((e: { value: string }) => e.value === "compliance@ndrsmart.com");
-  const businessEmailEntry = corporateSettings.emails.find((e: { value: string }) => e.value === "project@ndrsmart.com");
+  const pressEmailEntry = corporateSettings.emails.find(
+    (e: { value: string }) => e.value === "compliance@ndrsmart.com",
+  );
+  const businessEmailEntry = corporateSettings.emails.find(
+    (e: { value: string }) => e.value === "project@ndrsmart.com",
+  );
   const contactOk =
     pressContact.response.value === corporateSettings.pressResponseExpectation &&
     pressContact.departments[0].value === pressEmailEntry?.value &&
@@ -1272,18 +1275,6 @@ async function verifyMediaIntegration(): Promise<void> {
     "press contact derives from the corporate settings email register",
     "expected",
     Boolean(contactOk),
-    undefined,
-  );
-
-  const featuredOk = pressArchive.entries.some(
-    (entry) => entry.ref === mediaFeatured.ref && entry.status === mediaFeatured.status,
-  );
-  check(
-    "integration.media.featured",
-    "integration",
-    "featured publication references the PR-002 press record from the archive",
-    "expected",
-    featuredOk,
     undefined,
   );
 }

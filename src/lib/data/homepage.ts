@@ -39,7 +39,7 @@ export const hero: {
 } = {
   headline: "From land to listed assets.",
   subhead:
-    "A diversified infrastructure organization developing, owning and managing institutional-grade industrial and institutional assets across India — and the development platform behind NDR InvIT, India's first warehousing InvIT.",
+    "NDR Smart Spaces is a diversified infrastructure organization focused on developing, owning, and managing high-quality industrial and institutional assets.",
   stats: heroStats,
   statsSource: "Source: NDR Corporate Presentation, FY26",
   image: null,
@@ -83,31 +83,39 @@ export type MapLocation = {
 
 export const zones = [
   {
-    id: "south",
-    name: "South",
-    fact: "Chennai, Hyderabad, Bidadi, Hosur, Kochi — warehousing corridors of Tamil Nadu, Karnataka and Telangana.",
-  },
-  {
-    id: "west",
-    name: "West",
-    fact: "Pune — a major production and consumption centre.",
+    id: "north",
+    name: "North",
+    cities: ["Delhi", "Bilaspur", "Ghaziabad", "Sarita Vihar", "Lucknow", "Kanpur"],
   },
   {
     id: "east",
     name: "East",
-    fact: "Kolkata, Varanasi — a rising consumption belt.",
+    cities: ["Kolkata"],
   },
   {
-    id: "north",
-    name: "North",
-    fact: "Ghaziabad, Lucknow, Kanpur — a gateway to the NCR and the northern consumption belt.",
+    id: "west",
+    name: "West",
+    cities: ["Mumbai", "Pune", "Surat", "Chhatrapati Sambhaji Nagar", "Goa"],
   },
-] as const satisfies ReadonlyArray<{ id: ZoneId; name: string; fact: string }>;
+  {
+    id: "south",
+    name: "South",
+    cities: [
+      "Hyderabad",
+      "Chennai",
+      "Bengaluru",
+      "Sricity",
+      "Cochin",
+      "Coimbatore",
+      "Hosur",
+      "Puducherry",
+    ],
+  },
+] as const satisfies ReadonlyArray<{ id: ZoneId; name: string; cities: readonly string[] }>;
 
 export const portfolioPresence = {
   eyebrow: "Portfolio presence",
   heading: "A pan-India footprint.",
-  lede: "Strategically located at ports, national highways, railways and airports — giving access to ~80% of India's consumption markets.",
   viewPortfolio: "View Portfolio",
 } as const;
 
@@ -123,8 +131,10 @@ for (const location of cmsLocations) {
     x: offset.x,
     y: offset.y,
     line: location.line,
-    ...("leaderTo" in offset ? { leaderTo: offset.leaderTo } : {}),
-    ...("extentAcres" in location ? { extentAcres: location.extentAcres } : {}),
+    ...("leaderTo" in offset ? { leaderTo: offset.leaderTo as MapLocation["leaderTo"] } : {}),
+    ...("extentAcres" in location
+      ? { extentAcres: location.extentAcres as number | undefined }
+      : {}),
   });
 }
 
@@ -135,39 +145,21 @@ export type CompanyOverviewSegment = { text: string; bold?: boolean };
 export const companyOverview = {
   eyebrow: "Company overview",
   heading: "Developing, owning and managing.",
-  lede: "NDR Smart Spaces is a diversified infrastructure organization focused on developing, owning, and managing high-quality industrial, commercial and institutional assets.",
-  // Client-provided copy, reproduced verbatim (including the deliberately
-  // unfinished final sentence) — do not rewrite, shorten or complete it.
   paragraphs: [
     [
-      { text: "NDR Smart Spaces Private Limited", bold: true },
-      { text: " is the infrastructure development and real estate platform of the " },
+      { text: "NDR Smart Spaces", bold: true },
+      { text: " is a logistics and industrial infrastructure development platform of the " },
       { text: "NDR Group", bold: true },
       {
         text:
-          ", established to spearhead the Group’s development initiatives across logistics, industrial, residential and commercial segments. The company was formed pursuant to the demerger of the infrastructure development business of ",
-      },
-      { text: "NDR Warehousing Private Limited", bold: true },
-      {
-        text:
-          ", in accordance with the order of the National Company Law Tribunal (NCLT). The demerger created a dedicated platform with a clear focus on infrastructure and real estate development, enabling greater operational focus, agility and scalability.",
-      },
-    ],
-    [
-      { text: "NDR Smart Spaces is focused on the " },
-      {
-        text: "development of logistics and industrial infrastructure, as well as residential and commercial plotted developments",
-        bold: true,
-      },
-      {
-        text: ", supporting the evolving requirements of businesses, investors and communities across India.",
+          ", established to spearhead the Group’s development initiatives across logistics, industrial and residential segments, with a clear focus on socio economic infrastructure development that enables greater operational focus, agility and scalability.",
       },
     ],
     [
       { text: "In addition to development activities, the Company provides " },
       { text: "project management consultancy services", bold: true },
       {
-        text: ", supporting the planning, execution and coordination of infrastructure and real estate projects.",
+        text: ", supporting the planning, execution and coordination of socio economic infrastructure projects.",
       },
     ],
     [
@@ -175,11 +167,15 @@ export const companyOverview = {
       { text: "NDR Group", bold: true },
       {
         text:
-          ", NDR Smart Spaces aims to build high-quality, scalable and strategically located assets that contribute to India’s growing ",
+          ", NDR Smart Spaces aims to build high-quality, scalable and strategically located assets that contribute to India’s growing logistics, industrial and socio economic infrastructure landscape.",
       },
-      { text: "logistics, industrial and real estate", bold: true },
     ],
   ] as CompanyOverviewSegment[][],
+  aboutLink: { label: "More about NDR Smart Spaces", href: "/en/about-us" },
+  image: {
+    src: "/images/homepage/company-overview.jpg",
+    alt: "Aerial view of an NDR Smart Spaces industrial warehousing development",
+  },
 };
 
 export type CompanyMetric = {
@@ -196,8 +192,8 @@ export const companyMetrics = [
   {
     value: 500,
     suffix: "+",
-    label: "ACRES APPROX. LAND BANK",
-    context: "ACRES APPROX. LAND BANK",
+    label: "DEVELOPABLE LAND BANK",
+    context: "DEVELOPABLE LAND BANK",
   },
   {
     value: 20,
@@ -369,7 +365,7 @@ export const contact = {
   info: [
     {
       label: "Corporate office",
-      value: "No. 56/1, next to GT Reddy Cars, Bazulla Road, T. Nagar, Chennai, Tamil Nadu 600017",
+      value: "Bazulla Road, T. Nagar, Chennai, Tamil Nadu 600017",
     },
     {
       label: "Business enquiry",
