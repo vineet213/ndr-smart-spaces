@@ -1,7 +1,6 @@
 import { Container, Grid, GridItem } from "@/components/layout";
-import { Eyebrow, Heading, Lede } from "@/components/ui";
+import { Heading, Lede } from "@/components/ui";
 import { esgFramework } from "@/lib/data/esg";
-import { EsgDocHeader } from "./EsgDocHeader";
 import { Reveal, type RevealDelay } from "./Reveal";
 import styles from "./EsgFramework.module.css";
 
@@ -10,8 +9,6 @@ export function EsgFramework() {
     <section className={styles.section} id="framework" aria-labelledby="esg-framework-title">
       <Container>
         <Reveal>
-          <EsgDocHeader numeral="02" code="REF 02 · FRAMEWORK" />
-          <Eyebrow className={styles.eyebrow}>{esgFramework.eyebrow}</Eyebrow>
           <Heading variant="section" id="esg-framework-title" className={styles.heading}>
             {esgFramework.heading}
           </Heading>

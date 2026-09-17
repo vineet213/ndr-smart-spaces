@@ -7,54 +7,51 @@ import { Heading, Lede, SourceFootnote } from "@/components/ui";
 import { useInView } from "@/hooks/useInView";
 import {
   ASSET_CLASS_LABELS,
-  LAND_CLASSIFICATION_LABELS,
-  LAND_STATUS_LABELS,
-  LOCATION_TIER_LABELS,
-  ZONE_LABELS,
-  formatAcres,
+  AUM_CLASSIFICATION_LABELS,
+  AUM_STATUS_LABELS,
+  formatMsf,
   formatSqFt,
   constructionByState,
   constructionStates,
-  landBankSection,
-  landParcelById,
-  landSurveyByState,
-  landSurveyPinsByState,
-  landSurveyRecordById,
-  landSurveyStates,
+  assetsUnderManagementSection,
+  aumAssetById,
+  aumByCity,
+  aumByState,
+  aumCityGroups,
+  aumPinsByState,
+  aumStates,
   propertyRegister,
   underConstructionAssets,
   underConstructionSection,
 } from "@/lib/data/portfolio";
-import type {
-  LandBankParcel,
-  LandSurveyRecord,
-  PortfolioAsset,
-  AtlasPinData,
-  MappedLocation,
-} from "@/lib/data/portfolio";
+import type { AumAsset, PortfolioAsset, AtlasPinData } from "@/lib/data/portfolio";
 import { indianStateById } from "@/lib/data/india-states";
 import { PortfolioAtlas } from "./PortfolioAtlas";
 import { Reveal } from "./Reveal";
 import { cx } from "../ui/cx";
 import styles from "./PropertyRegister.module.css";
 
-type RegisterMode = "landbank" | "construction";
+type RegisterMode = "aum" | "construction";
 
 const RECORD_COLLAPSE_LIMIT = 5;
 
-function isLocationRecord(record: LandSurveyRecord | PortfolioAsset): record is MappedLocation {
-  return "line" in record;
-}
-
 export function PropertyRegister() {
-  const [mode, setMode] = useState<RegisterMode>("landbank");
+  const [mode, setMode] = useState<RegisterMode>("aum");
   const [selectedStateId, setSelectedStateId] = useState<string | null>(null);
+  const [selectedCityId, setSelectedCityId] = useState<string | null>(null);
   const [selectedParcelId, setSelectedParcelId] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(false);
   const { ref: panelRef, inView: panelInView } = useInView<HTMLDivElement>();
 
   const handleStateSelect = useCallback((stateId: string | null) => {
     setSelectedStateId(stateId);
+    setSelectedCityId(null);
+    setSelectedParcelId(null);
+    setExpanded(false);
+  }, []);
+
+  const handleCitySelect = useCallback((city: string | null) => {
+    setSelectedCityId(city);
     setSelectedParcelId(null);
     setExpanded(false);
   }, []);
@@ -66,33 +63,35 @@ export function PropertyRegister() {
   const handleModeChange = useCallback((next: RegisterMode) => {
     setMode(next);
     setSelectedStateId(null);
+    setSelectedCityId(null);
     setSelectedParcelId(null);
     setExpanded(false);
   }, []);
 
   const totalSites = useMemo(
-    () => landSurveyStates.reduce((sum, state) => sum + state.parcelCount, 0),
+    () => aumStates.reduce((sum, state) => sum + state.parcelCount, 0),
     [],
   );
 
-  const totalAcres = useMemo(
+  const totalLeasableArea = useMemo(
     () =>
-      landSurveyStates.some((state) => state.totalAcres !== null)
-        ? landSurveyStates.reduce((sum, state) => sum + (state.totalAcres ?? 0), 0)
+      aumStates.some((state) => state.totalLeasableAreaMsf !== null)
+        ? aumStates.reduce((sum, state) => sum + (state.totalLeasableAreaMsf ?? 0), 0)
         : null,
     [],
   );
 
   const constructionAssets = useMemo(() => underConstructionAssets(), []);
 
-  /* Pins for the current mode + selected state. */
+  /* Pins for the current mode + selected state (unfiltered by city — the
+     map itself derives city clusters and zoom from this same set). */
   const currentPins: readonly AtlasPinData[] = useMemo(() => {
     if (!selectedStateId) return [];
-    if (mode === "landbank") return landSurveyPinsByState(selectedStateId);
+    if (mode === "aum") return aumPinsByState(selectedStateId);
     return constructionByState(selectedStateId);
   }, [mode, selectedStateId]);
 
-  const currentStates = mode === "landbank" ? landSurveyStates : constructionStates;
+  const currentStates = mode === "aum" ? aumStates : constructionStates;
 
   /* Detail panel: when a record is selected, resolve the full record. */
   const selectedRecord = useMemo(() => {
@@ -100,21 +99,32 @@ export function PropertyRegister() {
     if (mode === "construction") {
       return constructionAssets.find((a) => a.id === selectedParcelId) ?? null;
     }
-    return landSurveyRecordById(selectedParcelId);
+    return aumAssetById(selectedParcelId);
   }, [selectedParcelId, mode, constructionAssets]);
 
   const selectedStateName = selectedStateId
     ? (indianStateById(selectedStateId)?.name ?? null)
     : null;
 
-  const selectedRecords = useMemo(
-    () => (mode === "landbank" && selectedStateId ? landSurveyByState(selectedStateId) : []),
+  /* City groups within the selected state — the register panel's own
+     drill-down affordance, mirroring the map's clickable city clusters. */
+  const stateCityGroups = useMemo(
+    () =>
+      mode === "aum" && selectedStateId
+        ? aumCityGroups.filter((group) => group.stateId === selectedStateId)
+        : [],
     [mode, selectedStateId],
   );
-  const selectedAcres = useMemo(
+
+  const selectedRecords = useMemo(() => {
+    if (mode !== "aum" || !selectedStateId) return [];
+    return selectedCityId ? aumByCity(selectedStateId, selectedCityId) : aumByState(selectedStateId);
+  }, [mode, selectedStateId, selectedCityId]);
+
+  const selectedLeasableArea = useMemo(
     () =>
-      selectedRecords.some((record) => record.extentAcres !== undefined)
-        ? selectedRecords.reduce((sum, record) => sum + (record.extentAcres ?? 0), 0)
+      selectedRecords.some((record) => record.leasableAreaMsf !== undefined)
+        ? selectedRecords.reduce((sum, record) => sum + (record.leasableAreaMsf ?? 0), 0)
         : null,
     [selectedRecords],
   );
@@ -145,11 +155,12 @@ export function PropertyRegister() {
               >
                 <button
                   type="button"
-                  className={cx(styles.modeButton, mode === "landbank" && styles.modeActive)}
-                  aria-pressed={mode === "landbank"}
-                  onClick={() => handleModeChange("landbank")}
+                  className={cx(styles.modeButton, mode === "aum" && styles.modeActive)}
+                  aria-pressed={mode === "aum"}
+                  onClick={() => handleModeChange("aum")}
                 >
-                  {propertyRegister.landBankModeLabel}
+                  {propertyRegister.assetsUnderManagementModeLabel}
+                  {totalSites > 0 ? <span className={styles.modeCount}>{totalSites}</span> : null}
                 </button>
                 <button
                   type="button"
@@ -164,14 +175,14 @@ export function PropertyRegister() {
                 </button>
               </div>
               <span className={styles.provenanceSource}>
-                {mode === "landbank" ? landBankSection.source : underConstructionSection.source}
+                {mode === "aum" ? assetsUnderManagementSection.source : underConstructionSection.source}
               </span>
               <span className={styles.provenanceMeta}>
-                {mode === "landbank"
-                  ? `${landSurveyStates.length} ${
-                      landSurveyStates.length === 1 ? "state" : "states"
+                {mode === "aum"
+                  ? `${aumStates.length} ${
+                      aumStates.length === 1 ? "state" : "states"
                     } · ${totalSites} ${totalSites === 1 ? "site" : "sites"}${
-                      totalAcres !== null ? ` · ${formatAcres(totalAcres)}` : ""
+                      totalLeasableArea !== null ? ` · ${formatMsf(totalLeasableArea)}` : ""
                     }`
                   : `${constructionAssets.length} ${
                       constructionAssets.length === 1 ? "project" : "projects"
@@ -188,39 +199,44 @@ export function PropertyRegister() {
                   states={currentStates}
                   selectedParcelId={selectedParcelId}
                   onParcelSelect={handleParcelSelect}
+                  selectedCityId={selectedCityId}
+                  onCitySelect={handleCitySelect}
                   ariaLabel={
-                    mode === "landbank"
-                      ? "Map of India — select a state to survey the group's sites."
+                    mode === "aum"
+                      ? "Map of India — select a state to survey the group's assets."
                       : "Map of India — select a state to view ongoing projects."
                   }
                 />
                 <p className={styles.captionLabel}>{propertyRegister.atlasCaptionLabel}</p>
                 <p className={styles.captionLead}>
-                  {mode === "landbank"
-                    ? landBankSection.mapCaptionLead
+                  {mode === "aum"
+                    ? assetsUnderManagementSection.mapCaptionLead
                     : underConstructionSection.mapCaptionLead}
                 </p>
-                <SourceFootnote className={styles.mapSource}>
-                  {mode === "landbank"
-                    ? landBankSection.mapSource
-                    : underConstructionSection.source}
-                </SourceFootnote>
+                {mode === "aum" ? null : (
+                  <SourceFootnote className={styles.mapSource}>
+                    {underConstructionSection.source}
+                  </SourceFootnote>
+                )}
               </div>
 
               <div ref={panelRef} className={cx(styles.indexPanel, panelInView && styles.isInView)}>
                 {selectedRecord ? (
                   <DetailPanel record={selectedRecord} onBack={() => setSelectedParcelId(null)} />
-                ) : mode === "landbank" ? (
-                  <LandBankPanel
+                ) : mode === "aum" ? (
+                  <AumPanel
                     selectedStateId={selectedStateId}
                     selectedStateName={selectedStateName}
+                    selectedCityId={selectedCityId}
+                    cityGroups={stateCityGroups}
                     selectedRecords={selectedRecords}
-                    selectedAcres={selectedAcres}
+                    selectedLeasableArea={selectedLeasableArea}
                     constrain={constrainRecords}
                     expanded={expanded}
                     onExpand={() => setExpanded(true)}
                     onCollapse={() => setExpanded(false)}
                     onSelect={handleStateSelect}
+                    onSelectCity={handleCitySelect}
                     onSelectParcel={handleParcelSelect}
                   />
                 ) : (
@@ -244,15 +260,16 @@ export function PropertyRegister() {
 /* Detail panel — shown when a pin is selected -------------------------------- */
 
 type DetailPanelProps = {
-  record: LandSurveyRecord | PortfolioAsset;
+  record: AumAsset | PortfolioAsset;
   onBack: () => void;
 };
 
 function DetailPanel({ record, onBack }: DetailPanelProps) {
-  const location = isLocationRecord(record) ? (record as MappedLocation) : null;
   const asset = "plate" in record ? (record as PortfolioAsset) : null;
-  const landParcel = !location && !asset ? (record as LandBankParcel) : null;
-  const linkedParcel = asset?.landBankId ? landParcelById(asset.landBankId) : null;
+  const aumAsset = !asset ? (record as AumAsset) : null;
+  const linkedAsset = asset?.assetsUnderManagementId
+    ? aumAssetById(asset.assetsUnderManagementId)
+    : null;
 
   return (
     <div className={styles.detailPanel}>
@@ -261,11 +278,10 @@ function DetailPanel({ record, onBack }: DetailPanelProps) {
       </button>
       <div className={styles.detailHeader}>
         <span className={styles.detailName}>{record.name}</span>
-        {location ? (
-          <span className={styles.detailLocation}>{location.line}</span>
-        ) : landParcel?.district ? (
+        {aumAsset ? (
           <span className={styles.detailLocation}>
-            {landParcel.district}, {landParcel.stateName}
+            {aumAsset.district ? `${aumAsset.district}, ` : ""}
+            {aumAsset.city}, {aumAsset.stateName}
           </span>
         ) : asset ? (
           <span className={styles.detailLocation}>
@@ -276,38 +292,20 @@ function DetailPanel({ record, onBack }: DetailPanelProps) {
       </div>
 
       <dl className={styles.detailGrid}>
-        {location ? (
+        {aumAsset ? (
           <>
-            <DetailField label="Zone" value={ZONE_LABELS[location.zone]} />
-            <DetailField
-              label="Area"
-              value={location.extentAcres !== undefined ? formatAcres(location.extentAcres) : null}
-            />
-            <DetailField
-              label="Grade A Infrastructure"
-              value={formatSuppliedFigure(location.gradeAInfrastructure)}
-            />
-            <DetailField label="Residential" value={location.residential ?? null} />
-            <DetailField label="Tier" value={LOCATION_TIER_LABELS[location.tier]} />
-            <DetailField label="State" value={location.district ?? null} />
-            <DetailField label="Address" value={location.line} />
-          </>
-        ) : landParcel ? (
-          <>
-            <DetailField label="Size" value={formatAcres(landParcel.extentAcres)} />
+            <DetailField label="Leasable area" value={formatMsf(aumAsset.leasableAreaMsf)} />
             <DetailField
               label="Category"
               value={
-                landParcel.classification
-                  ? LAND_CLASSIFICATION_LABELS[landParcel.classification]
-                  : null
+                aumAsset.classification ? AUM_CLASSIFICATION_LABELS[aumAsset.classification] : null
               }
             />
             <DetailField
               label="Status"
-              value={landParcel.status ? LAND_STATUS_LABELS[landParcel.status] : null}
+              value={aumAsset.status ? AUM_STATUS_LABELS[aumAsset.status] : null}
             />
-            {landParcel.note ? <DetailField label="Note" value={landParcel.note} /> : null}
+            {aumAsset.note ? <DetailField label="Note" value={aumAsset.note} /> : null}
           </>
         ) : asset ? (
           <>
@@ -330,16 +328,14 @@ function DetailPanel({ record, onBack }: DetailPanelProps) {
             {asset.sizeSqFt !== undefined ? (
               <DetailField label="Built-up area" value={formatSqFt(asset.sizeSqFt)} />
             ) : null}
-            {linkedParcel ? (
+            {linkedAsset ? (
               <>
-                <DetailField label="Land site" value={linkedParcel.name} />
-                <DetailField label="Site size" value={formatAcres(linkedParcel.extentAcres)} />
-                {linkedParcel.district ? (
-                  <DetailField
-                    label="Site location"
-                    value={`${linkedParcel.district}, ${linkedParcel.stateName}`}
-                  />
-                ) : null}
+                <DetailField label="Linked asset" value={linkedAsset.name} />
+                <DetailField label="Leasable area" value={formatMsf(linkedAsset.leasableAreaMsf)} />
+                <DetailField
+                  label="Location"
+                  value={`${linkedAsset.city}, ${linkedAsset.stateName}`}
+                />
               </>
             ) : null}
           </>
@@ -359,53 +355,53 @@ function DetailField({ label, value }: { label: string; value: string | null | u
   );
 }
 
-/**
- * Client-supplied figures that read "-" mean no value was supplied — that's
- * a reason to omit the field, not to display a dash or a fabricated number.
- * "TBA" and an actual supplied figure are shown exactly as recorded.
- */
-function formatSuppliedFigure(value: string | undefined | null): string | null {
-  if (!value || value === "-") return null;
-  return value;
-}
+/* Assets under management panel ----------------------------------------------- */
 
-/* Land bank mode panel — parcels and operating locations ---------------------- */
-
-type LandBankPanelProps = {
+type AumPanelProps = {
   selectedStateId: string | null;
   selectedStateName: string | null;
-  selectedRecords: readonly LandSurveyRecord[];
-  selectedAcres: number | null;
+  selectedCityId: string | null;
+  cityGroups: readonly { city: string; stateId: string; assetCount: number }[];
+  selectedRecords: readonly AumAsset[];
+  selectedLeasableArea: number | null;
   constrain: boolean;
   expanded: boolean;
   onExpand: () => void;
   onCollapse: () => void;
   onSelect: (stateId: string | null) => void;
+  onSelectCity: (city: string | null) => void;
   onSelectParcel: (recordId: string | null) => void;
 };
 
-function LandBankPanel({
+function AumPanel({
   selectedStateId,
   selectedStateName,
+  selectedCityId,
+  cityGroups,
   selectedRecords,
-  selectedAcres,
+  selectedLeasableArea,
   constrain,
   expanded,
   onExpand,
   onCollapse,
   onSelect,
+  onSelectCity,
   onSelectParcel,
-}: LandBankPanelProps) {
-  if (landSurveyStates.length === 0) {
+}: AumPanelProps) {
+  if (aumStates.length === 0) {
     return (
       <p className={cx(styles.noSelection, styles.isInView)}>
-        {landBankSection.emptyTitle} {landBankSection.emptyNote}
+        {assetsUnderManagementSection.emptyTitle} {assetsUnderManagementSection.emptyNote}
       </p>
     );
   }
   return (
     <>
-      <div className={styles.stateIndex} role="group" aria-label={landBankSection.stateSelectLabel}>
+      <div
+        className={styles.stateIndex}
+        role="group"
+        aria-label={assetsUnderManagementSection.stateSelectLabel}
+      >
         <button
           type="button"
           className={cx(styles.folio, selectedStateId === null && styles.folioActive)}
@@ -414,10 +410,10 @@ function LandBankPanel({
         >
           <span className={styles.folioName}>All India</span>
           <span className={styles.folioRange}>
-            {landSurveyStates.length} {landSurveyStates.length === 1 ? "state" : "states"}
+            {aumStates.length} {aumStates.length === 1 ? "state" : "states"}
           </span>
         </button>
-        {landSurveyStates.map((state) => {
+        {aumStates.map((state) => {
           const active = selectedStateId === state.stateId;
           return (
             <button
@@ -430,20 +426,55 @@ function LandBankPanel({
               <span className={styles.folioName}>{state.stateName}</span>
               <span className={styles.folioRange}>
                 {state.parcelCount} {state.parcelCount === 1 ? "site" : "sites"}
-                {state.totalAcres !== null ? ` · ${formatAcres(state.totalAcres)}` : ""}
+                {state.totalLeasableAreaMsf !== null ? ` · ${formatMsf(state.totalLeasableAreaMsf)}` : ""}
               </span>
             </button>
           );
         })}
       </div>
 
+      {selectedStateId !== null && cityGroups.length > 0 ? (
+        <div
+          className={styles.stateIndex}
+          role="group"
+          aria-label={assetsUnderManagementSection.cityStepLabel}
+        >
+          <button
+            type="button"
+            className={cx(styles.folio, selectedCityId === null && styles.folioActive)}
+            aria-pressed={selectedCityId === null}
+            onClick={() => onSelectCity(null)}
+          >
+            <span className={styles.folioName}>{selectedStateName}</span>
+            <span className={styles.folioRange}>whole state</span>
+          </button>
+          {cityGroups.map((group) => {
+            const active = selectedCityId === group.city;
+            return (
+              <button
+                key={group.city}
+                type="button"
+                className={cx(styles.folio, active && styles.folioActive)}
+                aria-pressed={active}
+                onClick={() => onSelectCity(active ? null : group.city)}
+              >
+                <span className={styles.folioName}>{group.city}</span>
+                <span className={styles.folioRange}>
+                  {group.assetCount} {group.assetCount === 1 ? "asset" : "assets"}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      ) : null}
+
       {selectedStateId !== null && selectedRecords.length > 0 ? (
         <>
           <p className={styles.selectedState}>
-            {selectedStateName}
+            {selectedCityId ?? selectedStateName}
             <span className={styles.selectedMeta}>
               {selectedRecords.length} {selectedRecords.length === 1 ? "site" : "sites"}
-              {selectedAcres !== null ? ` · ${formatAcres(selectedAcres)}` : ""}
+              {selectedLeasableArea !== null ? ` · ${formatMsf(selectedLeasableArea)}` : ""}
             </span>
           </p>
           <p className={styles.hintText}>Select a pin on the map to view details.</p>
@@ -454,57 +485,38 @@ function LandBankPanel({
             tabIndex={0}
           >
             <ol className={styles.recordList}>
-              {selectedRecords.map((record, index) => {
-                const isLoc = isLocationRecord(record);
-                const location = isLoc ? (record as MappedLocation) : null;
-                const parcel = isLoc ? null : (record as LandBankParcel);
-                return (
-                  <li
-                    key={record.id}
-                    className={styles.recordRow}
-                    style={{ "--i": index } as CSSProperties}
-                  >
-                    <span className={styles.recordIndex} aria-hidden="true">
-                      {String(index + 1).padStart(2, "0")}
+              {selectedRecords.map((record, index) => (
+                <li
+                  key={record.id}
+                  className={styles.recordRow}
+                  style={{ "--i": index } as CSSProperties}
+                >
+                  <span className={styles.recordIndex} aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className={styles.recordBody}>
+                    <span className={styles.recordName}>{record.name}</span>
+                    {record.district ? (
+                      <span className={styles.recordSub}>
+                        {record.district}
+                        {record.city && record.city !== record.district ? ` · ${record.city}` : ""}
+                      </span>
+                    ) : record.city ? (
+                      <span className={styles.recordSub}>{record.city}</span>
+                    ) : null}
+                    {record.note ? <span className={styles.recordNote}>{record.note}</span> : null}
+                  </div>
+                  <div className={styles.recordMeta}>
+                    <span className={styles.recordAcres}>{formatMsf(record.leasableAreaMsf)}</span>
+                    <span className={styles.recordTag}>
+                      {record.classification ? AUM_CLASSIFICATION_LABELS[record.classification] : "—"}
                     </span>
-                    <div className={styles.recordBody}>
-                      <span className={styles.recordName}>{record.name}</span>
-                      {location ? (
-                        <span className={styles.recordSub}>{location.line}</span>
-                      ) : parcel?.district ? (
-                        <span className={styles.recordSub}>{parcel.district}</span>
-                      ) : null}
-                      {parcel?.note ? (
-                        <span className={styles.recordNote}>{parcel.note}</span>
-                      ) : null}
-                    </div>
-                    <div className={styles.recordMeta}>
-                      {location ? (
-                        <>
-                          <span className={styles.recordTag}>{ZONE_LABELS[location.zone]}</span>
-                          <span className={styles.recordTag}>
-                            {LOCATION_TIER_LABELS[location.tier]}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <span className={styles.recordAcres}>
-                            {formatAcres(parcel?.extentAcres)}
-                          </span>
-                          <span className={styles.recordTag}>
-                            {parcel?.classification
-                              ? LAND_CLASSIFICATION_LABELS[parcel.classification]
-                              : "—"}
-                          </span>
-                          <span className={styles.recordTag}>
-                            {parcel?.status ? LAND_STATUS_LABELS[parcel.status] : "—"}
-                          </span>
-                        </>
-                      )}
-                    </div>
-                  </li>
-                );
-              })}
+                    <span className={styles.recordTag}>
+                      {record.status ? AUM_STATUS_LABELS[record.status] : "—"}
+                    </span>
+                  </div>
+                </li>
+              ))}
             </ol>
           </div>
           {constrain ? (
@@ -524,7 +536,9 @@ function LandBankPanel({
         </>
       ) : (
         <p className={styles.noSelection}>
-          {selectedStateId === null ? landBankSection.mapCaptionLead : landBankSection.emptyTitle}
+          {selectedStateId === null
+            ? assetsUnderManagementSection.mapCaptionLead
+            : assetsUnderManagementSection.emptyTitle}
         </p>
       )}
     </>
@@ -571,7 +585,9 @@ function ConstructionPanel({
               <span className={styles.folioName}>{state.stateName}</span>
               <span className={styles.folioRange}>
                 {state.parcelCount} {state.parcelCount === 1 ? "project" : "projects"}
-                {state.totalAcres !== null ? ` · ${formatAcres(state.totalAcres)}` : ""}
+                {state.totalLeasableAreaMsf !== null
+                  ? ` · ${formatMsf(state.totalLeasableAreaMsf)}`
+                  : ""}
               </span>
             </button>
           ))}
@@ -620,7 +636,7 @@ function ConstructionPanel({
             <span className={styles.folioName}>{state.stateName}</span>
             <span className={styles.folioRange}>
               {state.parcelCount} {state.parcelCount === 1 ? "project" : "projects"}
-              {state.totalAcres !== null ? ` · ${formatAcres(state.totalAcres)}` : ""}
+              {state.totalLeasableAreaMsf !== null ? ` · ${formatMsf(state.totalLeasableAreaMsf)}` : ""}
             </span>
           </button>
         ))}

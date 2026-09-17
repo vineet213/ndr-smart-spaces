@@ -69,8 +69,8 @@
 }
 
 .nodeSat {
-  fill: transparent;
-  stroke: rgba(28, 26, 25, 0.6);
+  fill: var(--color-gold);
+  stroke: var(--color-ivory);
   stroke-width: 1.5;
   transform-origin: center;
   transform-box: fill-box;
@@ -87,7 +87,7 @@
 }
 
 .nodeHq {
-  fill: var(--color-maroon);
+  fill: var(--color-gold);
   stroke: var(--color-ivory);
   stroke-width: 1.5;
 }
@@ -135,8 +135,14 @@
   transform: scale(1.6);
 }
 
+.dotHovered .node,
+.dotHovered .nodeSat,
+.dotHovered .nodeHq {
+  fill: var(--color-maroon);
+}
+
 .dotHovered .halo {
-  fill: rgba(240, 182, 90, 0.22);
+  fill: rgba(160, 53, 58, 0.22);
 }
 
 .dotDim .node,
@@ -157,6 +163,15 @@
 .dot:focus-visible .nodeSat,
 .dot:focus-visible .hqGroup {
   transform: scale(1.6);
+}
+
+.dot:hover .node,
+.dot:hover .nodeSat,
+.dot:hover .nodeHq,
+.dot:focus-visible .node,
+.dot:focus-visible .nodeSat,
+.dot:focus-visible .nodeHq {
+  fill: var(--color-maroon);
 }
 
 .dot:focus-visible {
@@ -234,7 +249,7 @@
   flex: 0 0 auto;
   width: 0.625rem;
   height: 0.625rem;
-  background-color: var(--color-maroon);
+  background-color: var(--color-gold);
   border: 1px solid var(--color-hairline-dark);
   transform: rotate(45deg);
 }
@@ -253,7 +268,8 @@
   width: 0.7rem;
   height: 0.7rem;
   border-radius: 50%;
-  border: 1.5px solid var(--color-charcoal);
+  background-color: var(--color-gold);
+  border: 1.5px solid var(--color-hairline-dark);
 }
 
 @media (prefers-reduced-motion: no-preference) {

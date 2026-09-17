@@ -61,60 +61,46 @@ section.masthead {
 
 /* hero ------------------------------------------------------------------ */
 
+/* Same panel height/rhythm as the Development Lifecycle and Asset          */
+/* Performance Management sub-page mastheads (the established standard) —   */
+/* Logistics, NDR Asset Management and Residential Plotting all match it     */
+/* now instead of each picking their own height.                            */
 .hero {
   position: relative;
   z-index: 1;
+  min-height: var(--masthead-height);
   padding-top: var(--space-12xl);
   padding-bottom: var(--space-6xl);
-  min-height: 78vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
 }
 
-/* Compact variant: used when the masthead carries a subtext line (so the    */
-/* heading + subtext comfortably fit one viewport without shrinking the      */
-/* heading itself) or when the heading alone is long enough that the full    */
-/* hero height would leave a disproportionate empty gap above it (Vertical   */
-/* 02) — either way it trims the surrounding chrome (hero min-height/        */
-/* padding, the rule's top margin) instead of the heading.                   */
-.mastheadCompact .hero {
-  min-height: 66vh;
-  padding-top: var(--space-10xl);
-  padding-bottom: var(--space-5xl);
+/* Residential Plotting's video masthead reads cramped at the shared height —
+   a modest bump gives the footage room to breathe without standing out as a
+   different-sized panel from the rest of the business verticals. */
+.heroTall {
+  min-height: calc(var(--masthead-height) + 6vh);
 }
 
-.mastheadCompact .rule {
-  margin-top: var(--space-7xl);
-}
-
+/* One title size for all three verticals — sized to fit NDR Asset          */
+/* Management's long combined heading ("Project and Operations Management   */
+/* Consultancy - NDR Asset Management") without wrapping onto too many       */
+/* lines; the shorter titles simply render at the same size instead of       */
+/* each vertical picking its own scale.                                      */
 .title {
   position: relative;
   z-index: 1;
   margin: 0;
+  max-width: 34ch;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);
-  font-size: clamp(3.25rem, 7vw, 7rem);
-  line-height: 0.95;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.08;
   letter-spacing: -0.02em;
   color: var(--color-ivory);
   text-wrap: balance;
   animation: title-rise 1000ms var(--ease-standard) 150ms both;
-}
-
-/* NDR Asset Management's combined masthead heading ("Project and Operations */
-/* Management Consultancy - NDR Asset Management") is far longer than the    */
-/* other verticals' titles — scale it down so the single heading still fits  */
-/* the masthead panel without wrapping onto too many lines.                  */
-.titleCompact {
-  max-width: 34ch;
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  line-height: 1.08;
-}
-
-.titleLg {
-  font-size: clamp(3.75rem, 8.5vw, 8.5rem);
-  line-height: 0.92;
 }
 
 .subtext {
@@ -301,13 +287,8 @@ section.masthead {
 
 @media (max-width: 767px) {
   .hero {
-    padding-top: var(--space-9xl);
-  }
-
-  .mastheadCompact .hero {
+    padding-top: var(--space-10xl);
     min-height: auto;
-    padding-top: var(--space-9xl);
-    padding-bottom: var(--space-4xl);
   }
 
   .title {
@@ -320,11 +301,7 @@ section.masthead {
   }
 
   .rule {
-    margin-top: var(--space-9xl);
-  }
-
-  .mastheadCompact .rule {
-    margin-top: var(--space-6xl);
+    margin-top: var(--space-8xl);
   }
 
   .specRow {

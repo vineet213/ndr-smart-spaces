@@ -522,6 +522,7 @@ server.listen(PORT, () => {
     "metrics",
     "locations",
     "portfolioAssets",
+    "assetsUnderManagement",
     "businessVerticals",
     "esgInitiatives",
     "governanceRecords",

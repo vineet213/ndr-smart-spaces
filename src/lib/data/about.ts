@@ -14,8 +14,8 @@ export type AboutHeroStat = {
 
 export const aboutHero = {
   headline: "From a rice mill to ",
-  headlineAccent: "institutional infrastructure.",
-  lede: "NDR Smart Spaces Private Limited is an infra development platform of the NDR Group, incorporated in 1954, india's third largest logistic and industrial infrastructure developer",
+  headlineAccent: "built-to-suit infrastructure.",
+  lede: "NDR Smart Spaces Private Limited is an infra development platform of the NDR Group, incorporated in 1954, one of India's largest logistic and industrial infrastructure developers",
   cta: { label: "Our story", href: "#story" },
   ctaSecondary: {
     label: "Explore the business",
@@ -45,13 +45,14 @@ export const aboutStory = {
   heading: "Six decades of building",
   paragraphs: [
     "The NDR Group was founded in 1954 by the late Mr. Naidu Dasaratha Rami Reddy. It began with a modest land parcel and a vision to establish a rice mill, marking the start of entrepreneurship in a family rooted in agriculture. His pioneering spirit laid the foundation for a multi-generational legacy of growth and innovation.",
-    "Since 2002, under the leadership of Mr. N. Amrutesh Reddy, the company has achieved significant scale, attracted marquee investors and executed strategic acquisitions to strengthen its market position. Today, Mr. N. Amrutesh Reddy is steering the organization into a new phase of growth and modernization, with a vision to strengthen India's socio economic infrastructure landscape, anchored primarily in logistics and industrial infrastructure.",
+    "Since 2002, the company has achieved significant scale, attracted marquee investors and executed strategic acquisitions to strengthen its market position. Today, Mr. N. Amrutesh Reddy is steering the organization into a new phase of growth and modernization, with a vision to strengthen India's socio-economic infrastructure landscape, anchored primarily in logistics and industrial infrastructure.",
   ],
   quote: "A modest land parcel, a rice mill, and a multi-generational legacy.",
   quoteAttribution: "Mr. Naidu Dasaratha Rami Reddy · Founder, 1954",
   image: {
     src: "/images/about/origin.jpg",
     alt: "An archival photograph of an early NDR Group warehouse with trucks loading outside",
+    caption: "Warehouse in Hyderabad, 1984",
   },
 } as const;
 
@@ -68,7 +69,7 @@ export const aboutTimeline = {
   nodes: [
     {
       year: "1954",
-      title: "Birth of NDR Group",
+      title: "Beginning of NDR Group operations",
     },
     {
       year: "1979",
@@ -76,11 +77,18 @@ export const aboutTimeline = {
     },
     {
       year: "1991",
-      title: "India’s First Private Bonded Warehouse Established by CWCNSL, an NDR Group Company",
+      title:
+        "India’s First Private Bonded Warehouse Established by CWCNSL (Continental Warehousing Corporation (Nhava Seva) Limited), an NDR Group Company",
     },
     {
       year: "2002",
-      title: "IBM Manufacturing Facility; NDR’s First Modern Built-to-Suit Facility",
+      title:
+        "Established India's first IBM Manufacturing Facility; NDR Warehousing's First Modern Built-to-Suit structure",
+    },
+    {
+      year: "2005",
+      title:
+        "NDR Warehousing invested in CWCNSL, Along With IL&FS Investment Managers — The Group's First Foray With Private Equity",
     },
     {
       year: "2008",
@@ -92,11 +100,15 @@ export const aboutTimeline = {
     },
     {
       year: "2014",
-      title: "2 Million Sq. Ft. of Construction Completed",
+      title: "3 Million Sq. Ft. of Construction Completed",
     },
     {
       year: "2016",
       title: "Post-GST Era: Consolidation of Logistics Infrastructure Accelerates NDR’s Growth",
+    },
+    {
+      year: "2018",
+      title: "NDR Warehousing Exits CWCNSL",
     },
     {
       year: "2020",
@@ -111,8 +123,16 @@ export const aboutTimeline = {
       title: "Investcorp Invested in NDR InvIT, India’s First Perpetual Warehousing InvIT",
     },
     {
-      year: "2023",
+      year: "2024",
       title: "NDR InvIT Listed on NSE with ₹8.8 Billion Offer Size and 19 Million Sq. Ft. Asset Portfolio",
+    },
+    {
+      year: "2024",
+      title: "8 Million Sq. Ft. of Construction Completed",
+    },
+    {
+      year: "2025",
+      title: "Incorporation Of NDR Smart Spaces",
     },
     {
       year: "2026",
@@ -139,7 +159,7 @@ export const aboutPrinciples = {
     {
       index: "02",
       title: "Mission",
-      body: "Our mission is to deliver infrastructure solutions that create lasting impact for communities, build enduring partnerships with our clients, and create sustainable long-term value for our investors, while upholding uncompromising standards of safety and environmental responsibility.",
+      body: "Our mission is to deliver infrastructure solutions that create lasting impact for communities, build enduring partnerships with our clients, and create sustainable long-term value for our investors, while upholding uncompromising standards of safety, ethics and environmental responsibility.",
       image: {
         src: "/images/vision-mission/mission.svg",
         alt: "Editorial line illustration of construction in progress — a tower crane, braced building frame and survey datum lines.",

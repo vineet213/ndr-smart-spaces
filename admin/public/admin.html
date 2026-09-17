@@ -829,7 +829,7 @@
         "metrics",
         "locations",
         "portfolio-assets",
-        "land-bank",
+        "assets-under-management",
         "business-verticals",
         "esg-initiatives",
         "governance-records",
@@ -849,7 +849,7 @@
             "metrics",
             "locations",
             "portfolio-assets",
-            "land-bank",
+            "assets-under-management",
             "business-verticals",
             "esg-initiatives",
             "governance-records",
@@ -1139,14 +1139,15 @@
         } catch (error) {
           return renderError(error.message);
         }
-        /* The Land Bank list shows per-parcel Under Construction linkage, so
-           make sure the portfolio-asset records are available in the cache. */
-        if (key === "land-bank" && !state.records["portfolio-assets"]) {
+        /* The Assets Under Management list shows per-record Under Construction
+           linkage, so make sure the portfolio-asset records are available in
+           the cache. */
+        if (key === "assets-under-management" && !state.records["portfolio-assets"]) {
           api(`/api/c/portfolio-assets`)
             .then((assets) => {
               state.records["portfolio-assets"] = assets;
               if ($("record-list-inner"))
-                refreshRecordList(state.meta.schemas.find((s) => s.key === "land-bank"));
+                refreshRecordList(state.meta.schemas.find((s) => s.key === "assets-under-management"));
             })
             .catch(() => {});
         }
@@ -1469,7 +1470,7 @@
           d.city,
           d.region,
           d.state,
-          d.landBankId,
+          d.assetsUnderManagementId,
           d.ref,
           d.email?.label,
           d.email?.href,
@@ -1510,15 +1511,15 @@
         );
       }
 
-      /* ═══════════════ Land Bank ⇄ Under Construction linkage ═══════════════
-         One underlying site can be held in the land bank AND be under
-         construction: a portfolio-asset references the parcel via landBankId.
-         The row action either creates that reference (without duplicating the
-         parcel) or reveals the existing one. */
+      /* ═══════════════ Assets Under Management ⇄ Under Construction linkage ═══
+         One underlying asset can be held in Assets Under Management AND be
+         under construction: a portfolio-asset references it via
+         assetsUnderManagementId. The row action either creates that reference
+         (without duplicating the record) or reveals the existing one. */
       function linkedAssetActions(schema, record) {
-        if (schema.key !== "land-bank") return null;
+        if (schema.key !== "assets-under-management") return null;
         const links = (state.records["portfolio-assets"]?.records ?? []).filter(
-          (a) => a.data?.landBankId === record.id,
+          (a) => a.data?.assetsUnderManagementId === record.id,
         );
         if (links.length > 0)
           return el(
@@ -1585,16 +1586,16 @@
         return String(n).padStart(2, "0");
       }
 
-      /* Single contextual entry point for the Land Bank ⇄ Under Construction
+      /* Single contextual entry point for the Assets Under Management ⇄ Under Construction
          creation flow — the ONLY path that creates/opens a portfolio-asset
          from a parcel. Both surfaces route through it:
            · row action "+ U/C"            → openUnderConstructionFlow(parcel)
            · editor panel "+ Add to …"/"Open" → openUnderConstructionFlow(parcel, asset?)
          It opens the asset form IN PLACE (no collection navigation, no filter
-         reset), pre-links landBankId, prefills ALL required fields from the
-         parcel data (zone, class, status, plate), and arms the return-context
-         so saving hands control back to the originating parcel editor with the
-         link visible. */
+         reset), pre-links assetsUnderManagementId, prefills ALL required
+         fields from the record data (zone, class, status, plate), and arms
+         the return-context so saving hands control back to the originating
+         editor with the link visible. */
       async function openUnderConstructionFlow(parcelRecord, asset = null) {
         const schema = await loadAssetsForLinkage();
         if (!schema) return null;
@@ -1602,9 +1603,9 @@
         const initialData = asset
           ? undefined
           : {
-              landBankId: parcelRecord.id,
+              assetsUnderManagementId: parcelRecord.id,
               name: `${parcelRecord.data.name ?? "Untitled"} \u2014 under construction`,
-              city: parcelRecord.data.district ?? "",
+              city: parcelRecord.data.city ?? parcelRecord.data.district ?? "",
               plate: nextPlateNumber(),
               zone: STATE_TO_ZONE[parcelRecord.data.state] || "south",
               class: CLASSIFICATION_TO_CLASS[parcelRecord.data.classification] || "warehousing",
@@ -1631,6 +1632,8 @@
             return `${d.name || "Untitled"} — ${d.region || d.zone || ""}`;
           case "portfolio-assets":
             return `${d.plate || "—"} — ${d.name || "Untitled"}`;
+          case "assets-under-management":
+            return `${d.name || "Untitled"} — ${d.city || d.state || ""}`;
           case "business-verticals":
             return `${d.index || "—"} — ${d.title || "Untitled"}`;
           case "esg-initiatives":
@@ -1669,6 +1672,12 @@
             if (d.zone) parts.push(d.zone);
             if (d.class) parts.push(d.class);
             if (d.occupier) parts.push(d.occupier);
+            break;
+          case "assets-under-management":
+            if (d.state) parts.push(d.state);
+            if (d.district) parts.push(d.district);
+            if (d.leasableAreaMsf != null) parts.push(`${d.leasableAreaMsf} msf`);
+            if (d.classification) parts.push(d.classification);
             break;
           case "business-verticals":
             if (d.anchor) parts.push(`#${d.anchor}`);
@@ -1719,12 +1728,13 @@
         return row;
       }
 
-      /* ═══════════════ Land Bank ⇄ Under Construction (editor panel) ═══════════════
-         A property can be held in the land bank AND be under construction at
-         the same time: a portfolio-asset references the parcel via landBankId.
-         This panel surfaces that relationship inside the parcel editor itself —
-         linking never duplicates the parcel and never removes it from the
-         land bank. */
+      /* ═══════════════ Assets Under Management ⇄ Under Construction (editor panel) ═══
+         A property can be held in Assets Under Management AND be under
+         construction at the same time: a portfolio-asset references the
+         record via assetsUnderManagementId. This panel surfaces that
+         relationship inside the record editor itself — linking never
+         duplicates the record and never removes it from Assets Under
+         Management. */
       let constructionReturnContext = null;
 
       function underConstructionPanel(parcelRecord) {
@@ -1735,7 +1745,7 @@
           return card;
         }
         const links = (state.records["portfolio-assets"]?.records ?? []).filter(
-          (a) => a.data?.landBankId === parcelRecord.id,
+          (a) => a.data?.assetsUnderManagementId === parcelRecord.id,
         );
         if (links.length === 0) {
           card.append(
@@ -1752,7 +1762,7 @@
           el(
             "p",
             { style: "color:var(--muted);margin:0 0 4px" },
-            `${links.length} linked project${links.length === 1 ? "" : "s"} \u2014 the parcel stays in the Land Bank.`,
+            `${links.length} linked project${links.length === 1 ? "" : "s"} \u2014 the record stays in Assets Under Management.`,
           ),
         );
         for (const link of links) {
@@ -1792,19 +1802,23 @@
         if (key !== "portfolio-assets" || !constructionReturnContext) return false;
         /* the context only applies while the form being written still points
            at the originating parcel (a stale context is discarded) */
-        if ((state.draft?.landBankId ?? null) !== constructionReturnContext.parcelId) {
+        if ((state.draft?.assetsUnderManagementId ?? null) !== constructionReturnContext.parcelId) {
           constructionReturnContext = null;
           return false;
         }
         const parcelId = constructionReturnContext.parcelId;
         constructionReturnContext = null;
         try {
-          state.records["land-bank"] = await api(`/api/c/${encodeURIComponent("land-bank")}`);
+          state.records["assets-under-management"] = await api(
+            `/api/c/${encodeURIComponent("assets-under-management")}`,
+          );
         } catch {
           return false;
         }
-        const landSchema = state.meta.schemas.find((s) => s.key === "land-bank");
-        const parcel = (state.records["land-bank"]?.records ?? []).find((r) => r.id === parcelId);
+        const landSchema = state.meta.schemas.find((s) => s.key === "assets-under-management");
+        const parcel = (state.records["assets-under-management"]?.records ?? []).find(
+          (r) => r.id === parcelId,
+        );
         if (!landSchema || !parcel) return false;
         openRecordForm(landSchema, parcel);
         document.getElementById("uc-panel")?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -1814,9 +1828,9 @@
       /* ═══════════════ Record form ═══════════════ */
       function openRecordForm(schema, record, initialData) {
         const isNew = record === null;
-        /* Opening a parcel editor directly always means fresh context — any
+        /* Opening a record editor directly always means fresh context — any
            pending asset-return context was either just consumed or abandoned. */
-        if (schema.key === "land-bank") constructionReturnContext = null;
+        if (schema.key === "assets-under-management") constructionReturnContext = null;
         state.draft = JSON.parse(JSON.stringify(record?.data ?? {}));
         if (isNew && initialData) Object.assign(state.draft, initialData);
         state.draftStatus = record?.status ?? null;
@@ -1837,12 +1851,14 @@
                   if (!(await checkDirty("Discard unsaved changes?"))) return;
                   if (schema.key === "portfolio-assets" && constructionReturnContext) {
                     const parcelId = constructionReturnContext.parcelId;
-                    if ((state.draft?.landBankId ?? null) !== parcelId) {
+                    if ((state.draft?.assetsUnderManagementId ?? null) !== parcelId) {
                       constructionReturnContext = null;
                     } else {
                       constructionReturnContext = null;
-                      const landSchema = state.meta.schemas.find((s) => s.key === "land-bank");
-                      const parcel = (state.records["land-bank"]?.records ?? []).find(
+                      const landSchema = state.meta.schemas.find(
+                        (s) => s.key === "assets-under-management",
+                      );
+                      const parcel = (state.records["assets-under-management"]?.records ?? []).find(
                         (r) => r.id === parcelId,
                       );
                       if (landSchema && parcel) return openRecordForm(landSchema, parcel);
@@ -1884,8 +1900,8 @@
           card.append(fieldWidget(field, [field.key], lookupData));
         }
 
-        /* Land Bank ⇄ Under Construction relationship, visible in place */
-        if (schema.key === "land-bank" && !isNew) {
+        /* Assets Under Management ⇄ Under Construction relationship, visible in place */
+        if (schema.key === "assets-under-management" && !isNew) {
           card.append(underConstructionPanel(record));
         }
 
@@ -1978,13 +1994,19 @@
           name: r.data.name,
           status: r.status,
         }));
-        const land = (state.records["land-bank"]?.records || []).map((r) => ({
+        const land = (state.records["assets-under-management"]?.records || []).map((r) => ({
           id: r.id,
           name: r.data.name,
           state: r.data.state,
           status: r.status,
         }));
-        return { locations: locs, media: meds, documents: docs, metrics: metr, landBank: land };
+        return {
+          locations: locs,
+          media: meds,
+          documents: docs,
+          metrics: metr,
+          assetsUnderManagement: land,
+        };
       }
 
       /* ═══════════════ Delete record ═══════════════ */
@@ -2121,8 +2143,16 @@
           return relField(field, path, lookup.documents, "ref", "title", "ref", "Select document…");
         if (lookup && field.key === "metricKey" && field.kind === "text")
           return relField(field, path, lookup.metrics, "key", "name", "key", "Select metric…");
-        if (lookup && field.key === "landBankId" && field.kind === "text")
-          return relField(field, path, lookup.landBank, "id", "name", "state", "Select land parcel…");
+        if (lookup && field.key === "assetsUnderManagementId" && field.kind === "text")
+          return relField(
+            field,
+            path,
+            lookup.assetsUnderManagement,
+            "id",
+            "name",
+            "state",
+            "Select asset…",
+          );
 
         switch (field.kind) {
           case "text":

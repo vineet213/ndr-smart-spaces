@@ -179,20 +179,6 @@ export function IndiaMap({
           </div>
         ) : null}
       </div>
-      <ul className={styles.legend}>
-        <li>
-          <span className={styles.legendHq} aria-hidden="true" />
-          Headquarters
-        </li>
-        <li>
-          <span className={styles.legendHub} aria-hidden="true" />
-          Primary logistics hub
-        </li>
-        <li>
-          <span className={styles.legendSat} aria-hidden="true" />
-          Secondary location
-        </li>
-      </ul>
     </div>
   );
 }

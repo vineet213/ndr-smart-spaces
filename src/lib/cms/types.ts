@@ -32,8 +32,8 @@ export type AuditAction = (typeof AUDIT_ACTIONS)[number];
 
 /**
  * The editable collections (blueprint §11, §15.1, extended with the portfolio
- * land-bank register). Settings are single-record collections; the rest are
- * record collections.
+ * assets-under-management register). Settings are single-record collections;
+ * the rest are record collections.
  */
 export const COLLECTIONS = [
   "metrics",
@@ -42,7 +42,7 @@ export const COLLECTIONS = [
   "media",
   "business-verticals",
   "portfolio-assets",
-  "land-bank",
+  "assets-under-management",
   "esg-initiatives",
   "governance-records",
   "contact-directory",

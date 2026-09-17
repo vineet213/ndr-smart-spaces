@@ -144,7 +144,7 @@ export const sitemapGroups: readonly SitemapGroup[] = [
         href: "/en/business/logistics-and-industrial-infrastructure",
       },
       {
-        label: "Project and Operations Management Consultancy - NDR Asset Management",
+        label: "Project Management and Maintenance - NDR Asset Management",
         href: "/en/business/ndr-asset-management",
       },
       {
@@ -162,7 +162,6 @@ export const sitemapGroups: readonly SitemapGroup[] = [
   {
     heading: "Investor Centre",
     links: [
-      { label: "Investor Centre", href: "/en/investor-centre" },
       { label: "Announcements", href: "/en/investor-centre/announcements" },
       { label: "Corporate Governance", href: "/en/investor-centre/corporate-governance" },
       { label: "Summary of Business", href: "/en/investor-centre/summary-of-business" },

@@ -93,7 +93,7 @@ export const locations = [
       "homepage": true,
       "portfolio": true,
     },
-    "zone": "south",
+    "zone": "west",
   },
   {
     "id": "pune",
@@ -293,7 +293,7 @@ export const locations = [
     "tier": "satellite",
     "visible": {
       "contact": false,
-      "homepage": true,
+      "homepage": false,
       "portfolio": true,
     },
     "zone": "east",
@@ -319,7 +319,7 @@ export const locations = [
       "homepage": true,
       "portfolio": true,
     },
-    "zone": "north",
+    "zone": "east",
   },
   {
     "id": "kanpur",
@@ -342,7 +342,7 @@ export const locations = [
       "homepage": true,
       "portfolio": true,
     },
-    "zone": "north",
+    "zone": "east",
   },
   {
     "id": "coimbatore",
@@ -559,7 +559,7 @@ export const locations = [
       "homepage": true,
       "portfolio": true,
     },
-    "zone": "west",
+    "zone": "south",
   },
   {
     "id": "sricity",

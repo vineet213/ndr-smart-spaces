@@ -1,5 +1,5 @@
 /**
- * E2E — land-bank Save vs Publish on the public portfolio.
+ * E2E — assets-under-management Save vs Publish on the public portfolio.
  *
  * Proves the public visibility rule end-to-end against the real servers under
  * the unified Land Bank survey (published parcels + operating locations):
@@ -23,7 +23,14 @@ import puppeteer from "puppeteer-core";
 
 const ADMIN = "http://localhost:4173";
 const PUBLIC_REGISTER = "http://localhost:3000/en/business/logistics-and-industrial-infrastructure";
-const LANDBANK_MODULE = join(process.cwd(), "src", "lib", "data", "generated", "landBank.ts");
+const ASSETS_UNDER_MANAGEMENT_MODULE = join(
+  process.cwd(),
+  "src",
+  "lib",
+  "data",
+  "generated",
+  "assetsUnderManagement.ts",
+);
 const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
 
 /* The unified survey folds in the group's 17 operating locations (8 states),
@@ -74,13 +81,13 @@ async function fetchPublic() {
 
 console.log("\n── Land-bank Save vs Publish ──");
 
-const moduleBefore = readFileSync(LANDBANK_MODULE, "utf8");
+const moduleBefore = readFileSync(ASSETS_UNDER_MANAGEMENT_MODULE, "utf8");
 const cookie = await apiLogin("admin", "admin");
 
-const list = await apiGet(cookie, "/api/c/land-bank");
+const list = await apiGet(cookie, "/api/c/assets-under-management");
 const records = list.body.records ?? [];
 record(
-  "admin lists all land-bank parcels regardless of status",
+  "admin lists all assets-under-management parcels regardless of status",
   list.status === 200 && records.length === 35,
   `${records.length} records`,
 );
@@ -116,12 +123,12 @@ function provenance(html) {
 /* Phase 2 — publish transition alone must not change the public site */
 {
   const before = await fetchPublic();
-  const tr = await apiPost(cookie, "/api/c/land-bank?action=transition", {
+  const tr = await apiPost(cookie, "/api/c/assets-under-management?action=transition", {
     id: target.id,
     status: "published",
   });
   record("transition draft → published via CMS API", tr.status === 200);
-  const afterSave = await apiGet(cookie, "/api/c/land-bank");
+  const afterSave = await apiGet(cookie, "/api/c/assets-under-management");
   record(
     "store holds published status",
     afterSave.body.records.find((r) => r.id === target.id)?.status === "published",
@@ -225,7 +232,7 @@ function provenance(html) {
 
 /* Phase 4 — back to draft restores the empty public state */
 {
-  const tr = await apiPost(cookie, "/api/c/land-bank?action=transition", {
+  const tr = await apiPost(cookie, "/api/c/assets-under-management?action=transition", {
     id: target.id,
     status: "draft",
   });
@@ -246,13 +253,13 @@ function provenance(html) {
 
 /* Phase 5 — full restoration */
 {
-  const after = await apiGet(cookie, "/api/c/land-bank");
+  const after = await apiGet(cookie, "/api/c/assets-under-management");
   record(
     "store fully restored (all 35 drafts)",
     after.body.records.length === 35 && after.body.records.every((r) => r.status === "draft"),
   );
-  const moduleAfter = readFileSync(LANDBANK_MODULE, "utf8");
-  record("generated landBank.ts byte-identical to pre-run state", moduleAfter === moduleBefore);
+  const moduleAfter = readFileSync(ASSETS_UNDER_MANAGEMENT_MODULE, "utf8");
+  record("generated assetsUnderManagement.ts byte-identical to pre-run state", moduleAfter === moduleBefore);
 }
 
 console.log(

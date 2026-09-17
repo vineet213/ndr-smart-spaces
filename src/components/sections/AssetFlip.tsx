@@ -1,5 +1,5 @@
 import { Container, Section, Stack } from "@/components/layout";
-import { Eyebrow, Heading, Body } from "@/components/ui";
+import { Body, Button, Eyebrow, Heading } from "@/components/ui";
 import { assetFlip } from "@/lib/data/investor";
 import { Reveal } from "./Reveal";
 import styles from "./AssetFlip.module.css";
@@ -33,6 +33,23 @@ export function AssetFlip() {
 
             <div className={styles.node} aria-hidden="true">
               <span className={styles.nodeLabel}>{assetFlip.diagram.to}</span>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={2}>
+          <div className={styles.moreInfo}>
+            <div className={styles.moreInfoCopy}>
+              <span className={styles.goldRule} aria-hidden="true" />
+              <Eyebrow>{assetFlip.moreInfo.eyebrow}</Eyebrow>
+              <Heading variant="sub">{assetFlip.moreInfo.heading}</Heading>
+              <Body className={styles.moreInfoBody}>{assetFlip.moreInfo.body}</Body>
+            </div>
+
+            <div className={styles.moreInfoCta}>
+              <Button href={assetFlip.moreInfo.cta.href} target="_blank" rel="noreferrer">
+                {assetFlip.moreInfo.cta.label}
+              </Button>
             </div>
           </div>
         </Reveal>

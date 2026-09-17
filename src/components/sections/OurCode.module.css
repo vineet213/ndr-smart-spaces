@@ -5,6 +5,26 @@
   overflow-x: clip;
 }
 
+/* Full-bleed: spans edge-to-edge of the viewport instead of the site's
+   80rem container — the client asked for this section specifically to
+   stretch the full window width, unlike the rest of the page. */
+.bleed {
+  width: 100%;
+  padding-inline: var(--margin-mobile);
+}
+
+@media (min-width: 768px) {
+  .bleed {
+    padding-inline: var(--margin-tablet);
+  }
+}
+
+@media (min-width: 1440px) {
+  .bleed {
+    padding-inline: var(--margin-desktop);
+  }
+}
+
 .header {
   max-width: var(--measure-body);
   margin-bottom: var(--space-9xl);

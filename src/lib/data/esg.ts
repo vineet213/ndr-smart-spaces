@@ -72,6 +72,64 @@ export const esgStatement = {
     "Figures in this edition marked * are placeholders pending confirmation against the approved ESG data source.",
 } as const;
 
+/* green features — in practice --------------------------------------------- */
+
+export type EsgGreenFeature = {
+  index: string;
+  title: string;
+  body: string;
+  image: { src: string; alt: string };
+};
+
+/**
+ * Site photographs of the group's own green-building features, backing the
+ * Environmental pillar's commitments (`esgFramework.pillars[0]`) with real
+ * evidence rather than restating them in text alone.
+ */
+export const esgGreenFeatures = {
+  eyebrow: "In practice",
+  heading: "Sustainability, built in.",
+  lede: "The Environmental pillar isn't only a policy — it's specified into every warehouse the group develops.",
+  features: [
+    {
+      index: "01",
+      title: "Insulation",
+      body: "Thermal insulation that cuts cooling load and keeps energy use down.",
+      image: { src: "/images/esg/insulation.jpg", alt: "Thermal insulation installed in an NDR warehouse roof" },
+    },
+    {
+      index: "02",
+      title: "Louvers",
+      body: "Louvred façades that bring in daylight and airflow without direct heat gain.",
+      image: { src: "/images/esg/louvers.jpg", alt: "Louvred façade panels on an NDR warehouse" },
+    },
+    {
+      index: "03",
+      title: "Plantation Drive",
+      body: "Plantation drives that green every site beyond its built footprint.",
+      image: { src: "/images/esg/plantation-drive.jpg", alt: "Tree plantation drive at an NDR site" },
+    },
+    {
+      index: "04",
+      title: "Polycarbonate Sheets",
+      body: "Polycarbonate roof sheeting that lights the floor naturally, cutting daytime lighting load.",
+      image: { src: "/images/esg/polycarbonate-sheets.jpg", alt: "Polycarbonate roof sheeting admitting natural light" },
+    },
+    {
+      index: "05",
+      title: "Precast Wall",
+      body: "Precast wall systems that cut construction waste and speed up delivery.",
+      image: { src: "/images/esg/precast-wall.jpg", alt: "Precast concrete wall panels on an NDR warehouse" },
+    },
+    {
+      index: "06",
+      title: "Roof Monitor",
+      body: "Roof monitors that vent hot air naturally, reducing reliance on mechanical cooling.",
+      image: { src: "/images/esg/roof-monitor.jpg", alt: "Roof monitor ventilation on an NDR warehouse" },
+    },
+  ] as const satisfies readonly EsgGreenFeature[],
+} as const;
+
 /* framework --------------------------------------------------------------- */
 
 export type EsgPillarItem = {
@@ -97,32 +155,32 @@ export const esgFramework = {
       key: "E",
       name: "Environmental",
       chapter: "I",
-      focus: "Energy, water, waste, emissions and the built asset.",
+      focus: "Statutory compliance, resource conservation, and energy-efficient design.",
       items: [
         {
           ref: "EN-01",
-          label: "Energy",
-          note: "Renewable generation and energy intensity across the portfolio.",
+          label: "Adherence to statutory regulations",
+          note: "Compliance with applicable environmental laws and regulations across all operations.",
         },
         {
           ref: "EN-02",
-          label: "Water",
-          note: "Water intensity, recycling and rainwater management.",
+          label: "Preserving ground water through internal mechanisms",
+          note: "Rainwater harvesting and in-situ recharge mechanisms that sustain the groundwater table.",
         },
         {
           ref: "EN-03",
-          label: "Waste",
-          note: "Diversion away from landfill across construction and operations.",
+          label: "Environmentally safe construction materials",
+          note: "Sourcing and specification of materials selected to environmental safety standards.",
         },
         {
           ref: "EN-04",
-          label: "Emissions",
-          note: "Greenhouse-gas mapping and a science-aligned net-zero pathway.",
+          label: "Natural-light roofing & lighting systems",
+          note: "Daylight-integrated roofing and lighting designed to reduce energy dependence.",
         },
         {
           ref: "EN-05",
-          label: "Green building",
-          note: "Certification and design standards for the built asset.",
+          label: "Solar panels installation for warehouses",
+          note: "On-site solar generation deployed across warehousing assets.",
         },
       ],
     },
@@ -130,47 +188,61 @@ export const esgFramework = {
       key: "S",
       name: "Social",
       chapter: "II",
-      focus: "Workforce, safety, community and local engagement.",
+      focus: "Fair work, community protection, and stakeholder safeguards.",
       items: [
         {
           ref: "SO-01",
-          label: "Workforce",
-          note: "Permanent and contracted employment at each asset.",
+          label: "Minimum wage adherence; strict no child labour policy",
+          note: "Wage floors and an absolute prohibition on child labour across operations and supply chains.",
         },
         {
           ref: "SO-02",
-          label: "Health & safety",
-          note: "Occupational-health practices across sites.",
+          label: "Diversity, equity & inclusion in hiring",
+          note: "Inclusive recruitment practices that reflect equitable opportunity.",
         },
-        { ref: "SO-03", label: "Training", note: "Skilling and upskilling hours." },
-        { ref: "SO-04", label: "Community", note: "Local initiatives at operating locations." },
+        {
+          ref: "SO-03",
+          label: "No displacement of indigenous communities",
+          note: "Land development that respects and protects indigenous communities.",
+        },
+        {
+          ref: "SO-04",
+          label: "POSH and employee-safeguard policies",
+          note: "Prevention of sexual harassment and safeguarding policies for all employees.",
+        },
         {
           ref: "SO-05",
-          label: "Inclusion",
-          note: "Equal-opportunity commitments in hiring and work.",
+          label: "Grievance mechanism for all stakeholders",
+          note: "Accessible channels for raising and resolving concerns.",
         },
-        { ref: "SO-06", label: "Local engagement", note: "Stakeholder engagement at asset level." },
       ],
     },
     {
       key: "G",
       name: "Governance",
       chapter: "III",
-      focus: "Oversight, risk, policy and disclosure.",
+      focus: "Board oversight, ethics, integrity, and accountability.",
       items: [
-        { ref: "GV-01", label: "Oversight", note: "ESG governed at committee level." },
+        {
+          ref: "GV-01",
+          label: "Competent board & periodic KMP reviews",
+          note: "Board composition and periodic reviews of key managerial personnel.",
+        },
         {
           ref: "GV-02",
-          label: "Risk",
-          note: "Sustainability risk held on the group risk register.",
+          label: "Transparent, non-aggressive accounting",
+          note: "Prudent financial reporting with conservative recognition practices.",
         },
         {
           ref: "GV-03",
-          label: "Disclosure",
-          note: "BRSR-aligned reporting and disclosure discipline.",
+          label: "Whistle-blower & redressal policies",
+          note: "Channels to report concerns without fear of retaliation.",
         },
-        { ref: "GV-04", label: "Policy", note: "A published policy register." },
-        { ref: "GV-05", label: "Ethics", note: "Whistle-blower and anti-corruption channels." },
+        {
+          ref: "GV-04",
+          label: "Zero tolerance on corruption",
+          note: "A strict anti-corruption stance applied at every level.",
+        },
       ],
     },
   ] as const,
@@ -853,7 +925,7 @@ export const esgClosing = {
   line: "The ledger remains open.",
   body: "Sustainability at NDR Smart Spaces is governed and reported as an operating discipline. Records file as they are confirmed and approved; until then every figure carries its source and status.",
   primaryCta: { label: "Write to the ESG desk", href: "mailto:compliance@ndrsmart.com" },
-  secondaryCta: { label: "Open the Investor Centre", href: "/en/investor-centre" },
+  secondaryCta: { label: "Open the Investor Centre", href: "/en/investor-centre/announcements" },
   tertiaryLink: { label: "NDR InvIT Trust", href: "https://ndrinvit.com" },
   enquiry: { label: "Business Enquiry", href: "/en/contact#business-enquiry" },
   provenanceNote:

@@ -2,13 +2,13 @@
  * E2E — Land Bank ⇄ Under Construction relationship.
  *
  * One underlying site may exist in BOTH collections: a portfolio-asset
- * references its land-bank parcel via landBankId. This test drives the real
+ * references its assets-under-management parcel via assetsUnderManagementId. This test drives the real
  * CMS UI and real public site:
  *
  *   snapshot → publish one parcel (Save→Publish) →
  *   Land Bank record EDITOR → "Under Construction" panel →
  *   [+ Add to Under Construction] → shared prefilled Portfolio Assets form
- *   (landBankId + name + city) → create → control returns to the PARCEL
+ *   (assetsUnderManagementId + name + city) → create → control returns to the PARCEL
  *   editor showing the linked project (Open ⇄ Back round-trip works) →
  *   row indicator "U/C · 1" → public register: asset in Under Construction
  *   WITH its parcel line, Land Bank map shows exactly 1 TN pin (no dupes) →
@@ -25,7 +25,14 @@ import puppeteer from "puppeteer-core";
 
 const ADMIN = "http://localhost:4173";
 const PUBLIC_REGISTER = "http://localhost:3000/en/business/logistics-and-industrial-infrastructure";
-const LANDBANK_MODULE = join(process.cwd(), "src", "lib", "data", "generated", "landBank.ts");
+const ASSETS_UNDER_MANAGEMENT_MODULE = join(
+  process.cwd(),
+  "src",
+  "lib",
+  "data",
+  "generated",
+  "assetsUnderManagement.ts",
+);
 const ASSETS_MODULE = join(process.cwd(), "src", "lib", "data", "generated", "portfolioAssets.ts");
 const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
 
@@ -57,19 +64,19 @@ async function apiPost(cookie, path, payload) {
 
 console.log("\n── Land Bank ⇄ Under Construction linkage ──");
 const moduleBefore = {
-  landBank: readFileSync(LANDBANK_MODULE, "utf8"),
+  assetsUnderManagement: readFileSync(ASSETS_UNDER_MANAGEMENT_MODULE, "utf8"),
   assets: readFileSync(ASSETS_MODULE, "utf8"),
 };
 const cookie = await apiLogin();
 
 /* fixtures from the real store */
-const lb = await apiGet(cookie, "/api/c/land-bank");
+const lb = await apiGet(cookie, "/api/c/assets-under-management");
 const assets = await apiGet(cookie, "/api/c/portfolio-assets");
 const parcels = lb.body.records ?? [];
 const assetRecords = assets.body.records ?? [];
 record("store intact", parcels.length === 35 && parcels.every((r) => r.status === "draft"));
 
-const linkedIds = new Set(assetRecords.map((a) => a.data?.landBankId).filter(Boolean));
+const linkedIds = new Set(assetRecords.map((a) => a.data?.assetsUnderManagementId).filter(Boolean));
 record(
   "no pre-existing links to our target pool",
   linkedIds.size >= 0,
@@ -88,7 +95,7 @@ while (usedPlates.has(String(plateNum).padStart(2, "0"))) plateNum += 1;
 const NEW_PLATE = String(plateNum).padStart(2, "0");
 const NEW_NAME = `${target.data.name} — under construction`;
 
-/* The land-bank survey is the merged footprint: published parcels PLUS the
+/* The assets-under-management survey is the merged footprint: published parcels PLUS the
    group's operating locations (the 17 CMS locations are never draft-gated;
    Tamil Nadu holds 7 of them and the fixture target is always a TN parcel). */
 const LOCATION_STATE_NAMES = [
@@ -108,7 +115,7 @@ const OPERATING_LOCATIONS_IN_TN = 7;
 record(
   "transition draft → published",
   (
-    await apiPost(cookie, "/api/c/land-bank?action=transition", {
+    await apiPost(cookie, "/api/c/assets-under-management?action=transition", {
       id: target.id,
       status: "published",
     })
@@ -144,8 +151,8 @@ try {
     () => document.getElementById("login-overlay").style.display === "none",
     { timeout: 15000 },
   );
-  await page.waitForSelector('.nav-item[data-key="land-bank"]', { visible: true, timeout: 20000 });
-  await page.click('.nav-item[data-key="land-bank"]');
+  await page.waitForSelector('.nav-item[data-key="assets-under-management"]', { visible: true, timeout: 20000 });
+  await page.click('.nav-item[data-key="assets-under-management"]');
   await page.waitForFunction(
     () => document.querySelectorAll("#record-list-inner .record-row").length > 0,
     { timeout: 15000 },
@@ -224,7 +231,7 @@ try {
     form.heading,
   );
   record(
-    "landBankId pre-filled with THIS parcel (no retyping, no duplicate)",
+    "assetsUnderManagementId pre-filled with THIS parcel (no retyping, no duplicate)",
     form.parcel?.value === target.id,
     form.parcel?.value ?? "",
   );
@@ -347,7 +354,7 @@ try {
   await new Promise((r) => setTimeout(r, 600));
 
   const savedAsset = (await apiGet(cookie, "/api/c/portfolio-assets")).body.records.find(
-    (a) => a.data?.landBankId === target.id,
+    (a) => a.data?.assetsUnderManagementId === target.id,
   );
   createdId = savedAsset?.id ?? null;
   record(
@@ -356,8 +363,8 @@ try {
     savedAsset?.id ?? "",
   );
   record(
-    "no duplicate land-bank record was created",
-    (await apiGet(cookie, "/api/c/land-bank")).body.records.length === 35,
+    "no duplicate assets-under-management record was created",
+    (await apiGet(cookie, "/api/c/assets-under-management")).body.records.length === 35,
   );
 
   /* the new asset starts as a draft — Save ≠ Publish: push it through the
@@ -378,7 +385,7 @@ try {
     `build ${((pub2.body.build?.durationMs ?? 0) / 1000).toFixed(1)}s`,
   );
   const pubHtmlNow = await (await fetch(PUBLIC_REGISTER)).text();
-  const publishedParcels = (await apiGet(cookie, "/api/c/land-bank")).body.records.filter(
+  const publishedParcels = (await apiGet(cookie, "/api/c/assets-under-management")).body.records.filter(
     (r) => r.status === "published",
   );
   const pubStates = [...new Set(publishedParcels.map((r) => r.data.state))];
@@ -390,7 +397,7 @@ try {
   } · ${mergedSites} ${mergedSites === 1 ? "site" : "sites"} · ${pubAcres.toFixed(2)} acres`;
 
   /* back to Land Bank: indicator replaces the offer */
-  await page.click('.nav-item[data-key="land-bank"]');
+  await page.click('.nav-item[data-key="assets-under-management"]');
   await page.waitForFunction(
     () => document.querySelectorAll("#record-list-inner .record-row").length > 0,
     { timeout: 15000 },
@@ -538,7 +545,7 @@ record(
 );
 record(
   "cleanup: un-publish parcel",
-  (await apiPost(cookie, "/api/c/land-bank?action=transition", { id: target.id, status: "draft" }))
+  (await apiPost(cookie, "/api/c/assets-under-management?action=transition", { id: target.id, status: "draft" }))
     .status === 200,
 );
 const pubRestore = await apiPost(cookie, "/api/publish");
@@ -548,7 +555,7 @@ record(
 );
 
 /* Re-publish the target parcel so the row "+ U/C" flow can reference it */
-const rePub = await apiPost(cookie, "/api/c/land-bank?action=transition", {
+const rePub = await apiPost(cookie, "/api/c/assets-under-management?action=transition", {
   id: target.id,
   status: "published",
 });
@@ -562,7 +569,7 @@ record(
 /* ════ row "+ U/C" pass — same shared flow, opened IN PLACE ════
    After cleanup the parcel is unlinked again; clicking the row action must
    open the SAME prefilled creation form without navigating away from the
-   land-bank collection (no hash change, no filter reset). */
+   assets-under-management collection (no hash change, no filter reset). */
 {
   const browser2 = await puppeteer.launch({
     executablePath: EDGE,
@@ -588,8 +595,8 @@ record(
         timeout: 15000,
       },
     );
-    await p2.waitForSelector('.nav-item[data-key="land-bank"]', { visible: true, timeout: 20000 });
-    await p2.click('.nav-item[data-key="land-bank"]');
+    await p2.waitForSelector('.nav-item[data-key="assets-under-management"]', { visible: true, timeout: 20000 });
+    await p2.click('.nav-item[data-key="assets-under-management"]');
     await p2.waitForFunction(
       () => document.querySelectorAll("#record-list-inner .record-row").length > 0,
       {
@@ -643,7 +650,7 @@ record(
     }, target.data.name);
     record(
       "row flow opens IN PLACE — no navigation to the assets collection",
-      rowForm.hash === "#land-bank",
+      rowForm.hash === "#assets-under-management",
       rowForm.hash,
     );
     record(
@@ -651,7 +658,7 @@ record(
       rowForm.heading === "New Portfolio Assets",
       rowForm.heading,
     );
-    record("row flow pre-links landBankId", rowForm.parcel === target.id, rowForm.parcel ?? "");
+    record("row flow pre-links assetsUnderManagementId", rowForm.parcel === target.id, rowForm.parcel ?? "");
     record(
       "row flow prefills Name from the parcel",
       rowForm.name === rowForm.expectedName,
@@ -715,7 +722,7 @@ record(
 
 /* remove the draft asset created by the row-flow pass */
 const rowAssetId = (await apiGet(cookie, "/api/c/portfolio-assets")).body.records.find(
-  (a) => a.data?.landBankId === target.id,
+  (a) => a.data?.assetsUnderManagementId === target.id,
 )?.id;
 record("row-flow asset exists and is draft-only", !!rowAssetId);
 record(
@@ -727,7 +734,7 @@ record(
 /* un-publish the parcel re-published for row flow and restore generated modules */
 record(
   "cleanup: un-publish parcel (final)",
-  (await apiPost(cookie, "/api/c/land-bank?action=transition", { id: target.id, status: "draft" }))
+  (await apiPost(cookie, "/api/c/assets-under-management?action=transition", { id: target.id, status: "draft" }))
     .status === 200,
 );
 const pubFinal = await apiPost(cookie, "/api/publish");
@@ -736,16 +743,16 @@ record(
   pubFinal.body.ok === true && pubFinal.body.stage === "done",
 );
 
-const lbAfter = await apiGet(cookie, "/api/c/land-bank");
+const lbAfter = await apiGet(cookie, "/api/c/assets-under-management");
 const asAfter = await apiGet(cookie, "/api/c/portfolio-assets");
 record(
   "stores restored: 35 drafts, no dangling links",
   lbAfter.body.records.every((r) => r.status === "draft") &&
-    asAfter.body.records.every((a) => a.data?.landBankId !== target.id),
+    asAfter.body.records.every((a) => a.data?.assetsUnderManagementId !== target.id),
 );
 record(
-  "generated landBank.ts byte-identical",
-  readFileSync(LANDBANK_MODULE, "utf8") === moduleBefore.landBank,
+  "generated assetsUnderManagement.ts byte-identical",
+  readFileSync(ASSETS_UNDER_MANAGEMENT_MODULE, "utf8") === moduleBefore.assetsUnderManagement,
 );
 record(
   "generated portfolioAssets.ts byte-identical",

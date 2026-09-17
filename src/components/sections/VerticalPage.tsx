@@ -47,20 +47,13 @@ export function VerticalPage({ division }: VerticalPageProps) {
       <Section
         tone="charcoal"
         ariaLabelledby="vertical-masthead-title"
-        className={cx(styles.masthead, (mastheadSubtext || isV2) && styles.mastheadCompact)}
+        className={styles.masthead}
       >
         {isV3 ? <ResidentialPlottingMastheadVideo /> : null}
         {isV3 ? null : <span className={styles.ruleTop} aria-hidden="true" />}
 
-        <Container className={styles.hero}>
-          <h1
-            id="vertical-masthead-title"
-            className={cx(
-              styles.title,
-              division.index === "01" && styles.titleLg,
-              isV2 && styles.titleCompact,
-            )}
-          >
+        <Container className={cx(styles.hero, isV3 && styles.heroTall)}>
+          <h1 id="vertical-masthead-title" className={styles.title}>
             {title}
           </h1>
           {mastheadSubtext ? <p className={styles.subtext}>{mastheadSubtext}</p> : null}

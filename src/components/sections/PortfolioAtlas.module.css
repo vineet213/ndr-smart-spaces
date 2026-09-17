@@ -89,6 +89,65 @@
   stroke: rgba(28, 26, 25, 0.18);
 }
 
+/* district backdrop (city zoom) ---------------------------------------------- */
+
+.districtBackdrop {
+  fill: rgba(240, 182, 90, 0.1);
+  stroke: rgba(28, 26, 25, 0.4);
+  stroke-width: 0.6;
+  stroke-dasharray: 3 2;
+  pointer-events: none;
+}
+
+/* city cluster markers -------------------------------------------------------- */
+
+.clusterGroup {
+  cursor: pointer;
+  outline: none;
+  opacity: 0;
+  translate: 0 -6px;
+  transition:
+    opacity 500ms var(--ease-standard),
+    translate 500ms var(--ease-standard);
+  transition-delay: calc(var(--i, 0) * 70ms + 350ms);
+}
+
+.isInView .pinsShown .clusterGroup,
+.pinsShown .clusterGroup {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.clusterHit {
+  fill: transparent;
+}
+
+.clusterDot {
+  fill: var(--color-maroon);
+  stroke: var(--color-ivory);
+  stroke-width: 1.6;
+}
+
+.clusterCount {
+  fill: var(--color-ivory);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: var(--font-weight-body-medium);
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.clusterHover .clusterDot {
+  fill: var(--color-gold);
+  r: 10;
+  filter: drop-shadow(0 0 4px var(--color-gold));
+}
+
+.clusterGroup:focus-visible .clusterDot {
+  filter: drop-shadow(0 0 4px var(--color-gold));
+}
+
 /* parcel pins --------------------------------------------------------------- */
 
 .pins {
@@ -109,8 +168,9 @@
   translate: 0 -6px;
   transition:
     opacity 500ms var(--ease-standard),
-    translate 500ms var(--ease-standard);
-  transition-delay: calc(var(--i, 0) * 70ms + 350ms);
+    translate 500ms var(--ease-standard),
+    transform 800ms var(--ease-standard);
+  transition-delay: calc(var(--i, 0) * 70ms + 350ms), calc(var(--i, 0) * 70ms + 350ms), 0ms;
 }
 
 .isInView .pinsShown .pinGroup,
@@ -213,11 +273,13 @@
   .states path,
   .pins,
   .pinGroup,
+  .clusterGroup,
   .reset {
     transition: none !important;
   }
 
-  .pinGroup {
+  .pinGroup,
+  .clusterGroup {
     translate: 0 0;
   }
 }

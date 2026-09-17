@@ -49,11 +49,11 @@ async function apiTransition(cookie, collection, id, status) {
 
 console.log("\n── Editor-internal save/publish paths ──");
 const cookie = await apiLogin();
-const store = await apiGet(cookie, "/api/c/land-bank");
+const store = await apiGet(cookie, "/api/c/assets-under-management");
 const records = store.body.records ?? [];
 /* normalize: earlier sessions may have left records published */
 const nonDraft = records.filter((r) => r.status !== "draft");
-for (const r of nonDraft) await apiTransition(cookie, "land-bank", r.id, "draft");
+for (const r of nonDraft) await apiTransition(cookie, "assets-under-management", r.id, "draft");
 record(
   "baseline normalized (all parcels draft)",
   nonDraft.length === 0 || true,
@@ -86,9 +86,9 @@ try {
       timeout: 15000,
     });
   }
-  await page.goto(`${ADMIN}#land-bank`, { waitUntil: "domcontentloaded" });
-  await page.waitForSelector('.nav-item[data-key="land-bank"]', { visible: true, timeout: 20000 });
-  await page.click('.nav-item[data-key="land-bank"]');
+  await page.goto(`${ADMIN}#assets-under-management`, { waitUntil: "domcontentloaded" });
+  await page.waitForSelector('.nav-item[data-key="assets-under-management"]', { visible: true, timeout: 20000 });
+  await page.click('.nav-item[data-key="assets-under-management"]');
   await page.waitForFunction(() => document.querySelectorAll("#record-list-inner .record-row").length > 0, {
     timeout: 15000,
   });
@@ -219,7 +219,7 @@ try {
       }, target.data.name)),
     `${ui.rows} rows`,
   );
-  const storedC = await apiGet(cookie, "/api/c/land-bank");
+  const storedC = await apiGet(cookie, "/api/c/assets-under-management");
   record(
     "C: workflow status actually changed in the store",
     storedC.body.records.find((r) => r.id === target.id)?.status === "published",
@@ -313,10 +313,10 @@ try {
       expectedName: `${parcelName} \u2014 under construction`,
     };
   }, target.data.name);
-  record("G: opens in place (hash stays on the land bank)", prefill.hash === "#land-bank", prefill.hash);
+  record("G: opens in place (hash stays on the land bank)", prefill.hash === "#assets-under-management", prefill.hash);
   record("G: Name prefilled from the parcel", prefill.name === prefill.expectedName, prefill.name);
   record("G: City prefilled from the parcel district", !!prefill.city, prefill.city);
-  record("G: landBankId pre-linked to THIS parcel", prefill.parcel === target.id, prefill.parcel);
+  record("G: assetsUnderManagementId pre-linked to THIS parcel", prefill.parcel === target.id, prefill.parcel);
 
   /* submitting without the remaining required fields must NOT wipe the form */
   await page.evaluate(() => {
@@ -356,7 +356,7 @@ try {
   await browser.close();
 }
 
-const after = await apiGet(cookie, "/api/c/land-bank");
+const after = await apiGet(cookie, "/api/c/assets-under-management");
 record(
   "store fully restored (35 drafts)",
   after.body.records.length === 35 && after.body.records.every((r) => r.status === "draft"),

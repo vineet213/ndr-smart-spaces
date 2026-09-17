@@ -510,10 +510,10 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
         helper: "Id of the published shared location.",
       },
       {
-        key: "landBankId",
-        label: "Land-bank parcel",
+        key: "assetsUnderManagementId",
+        label: "Assets under management link",
         kind: "text",
-        helper: "Id of a published land-bank parcel this asset is being built on.",
+        helper: "Id of a published assets-under-management record this asset is being built on.",
       },
       {
         key: "class",
@@ -559,12 +559,12 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
     ],
   },
   {
-    key: "land-bank",
-    label: "Land Bank",
+    key: "assets-under-management",
+    label: "Assets Under Management",
     editor: "records",
     statusEnabled: true,
     description:
-      "Developable land bank — parcels held for future development, mapped by state on the portfolio atlas.",
+      "Operating, leasable warehouse assets held by the group's SPVs — mapped by state and city on the portfolio atlas.",
     fields: [
       { key: "name", label: "Name", kind: "text", required: true },
       {
@@ -574,7 +574,15 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
         required: true,
         options: INDIAN_STATE_NAMES,
       },
-      { key: "district", label: "District / city", kind: "text" },
+      {
+        key: "city",
+        label: "City",
+        kind: "text",
+        required: true,
+        helper:
+          "The commercial city grouping (e.g. \"Chennai\") used to cluster assets for the map's city-level zoom — may differ from the administrative district.",
+      },
+      { key: "district", label: "District / locality", kind: "text" },
       {
         key: "classification",
         label: "Classification",
@@ -582,11 +590,12 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
         options: ["industrial", "logistics", "warehousing", "mixed-use"],
       },
       {
-        key: "extentAcres",
-        label: "Extent (acres)",
+        key: "leasableAreaMsf",
+        label: "Total leasable area (msf)",
         kind: "number",
         min: 0,
-        helper: "Developable extent in acres.",
+        required: true,
+        helper: "Leasable floor area in million square feet.",
       },
       {
         key: "landStatus",
@@ -594,20 +603,22 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
         kind: "select",
         options: ["available", "committed", "under-development"],
         helper:
-          "Optional — leave blank when the deed does not state a status. Named landStatus so the workflow status stays unambiguous in generated output.",
+          "Optional — leave blank when the source does not state a status. Named landStatus so the workflow status stays unambiguous in generated output.",
       },
       { key: "summary", label: "Summary", kind: "textarea" },
       {
         key: "lat",
         label: "Latitude",
         kind: "number",
-        helper: "Optional — pins the parcel on the portfolio state map.",
+        required: true,
+        helper: "Pins the asset on the portfolio state/city map.",
       },
       {
         key: "lon",
         label: "Longitude",
         kind: "number",
-        helper: "Optional — required together with latitude for a map pin.",
+        required: true,
+        helper: "Required together with latitude for the map pin.",
       },
       {
         key: "mediaId",

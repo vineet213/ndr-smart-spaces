@@ -868,14 +868,14 @@ export function validatePortfolioAssetsData(
       );
     }
   }
-  const landBankId = asOptionalText(data, "landBankId");
-  if (landBankId && !lookup.landBank.has(landBankId)) {
+  const assetsUnderManagementId = asOptionalText(data, "assetsUnderManagementId");
+  if (assetsUnderManagementId && !lookup.assetsUnderManagement.has(assetsUnderManagementId)) {
     pushIssue(
       issues,
       "portfolio-assets",
       "references",
       recordId,
-      `Asset references land-bank parcel "${landBankId}" which is not a published parcel.`,
+      `Asset references assets-under-management record "${assetsUnderManagementId}" which is not published.`,
     );
   }
   const route = data.route as { href?: string } | undefined;
@@ -1057,22 +1057,22 @@ export function validateContactDirectoryData(
   return issues;
 }
 
-export function validateLandBankData(
+export function validateAssetsUnderManagementData(
   record: RecordWithData,
   lookup: ReferenceLookup,
 ): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
   const data = (record.data ?? {}) as Record<string, JsonValue>;
-  const recordId = record.id ?? "land-bank";
-  validateCoordinates(issues, "land-bank", recordId, data, true);
+  const recordId = record.id ?? "assets-under-management";
+  validateCoordinates(issues, "assets-under-management", recordId, data, true);
   const mediaId = asOptionalText(data, "mediaId");
   if (mediaId && !lookup.media.has(mediaId)) {
     pushIssue(
       issues,
-      "land-bank",
+      "assets-under-management",
       "unpublished-linked-content",
       recordId,
-      `Parcel image "${mediaId}" is not a published media asset.`,
+      `Asset image "${mediaId}" is not a published media asset.`,
     );
   }
   return issues;
@@ -1092,7 +1092,8 @@ export function validateForEditor(
   if (schema.key === "locations") issues.push(...validateLocationsData(record, lookup));
   if (schema.key === "portfolio-assets")
     issues.push(...validatePortfolioAssetsData(record, lookup));
-  if (schema.key === "land-bank") issues.push(...validateLandBankData(record, lookup));
+  if (schema.key === "assets-under-management")
+    issues.push(...validateAssetsUnderManagementData(record, lookup));
   if (schema.key === "business-verticals")
     issues.push(...validateBusinessVerticalsData(record, lookup));
   if (schema.key === "esg-initiatives") issues.push(...validateEsgInitiativesData(record, lookup));

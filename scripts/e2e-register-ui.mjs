@@ -1,7 +1,7 @@
 /**
  * E2E — unified Property Register UI inspection.
  *
- * Temporarily publishes all land-bank drafts (restored byte-exactly at the
+ * Temporarily publishes all assets-under-management drafts (restored byte-exactly at the
  * end) so the real 35-parcel dataset drives the UI checks:
  *   - old catalogue systems are gone from /en/portfolio
  *   - exactly ONE geographic map remains
@@ -19,7 +19,14 @@ import puppeteer from "puppeteer-core";
 
 const ADMIN = "http://localhost:4173";
 const PUBLIC_REGISTER = "http://localhost:3000/en/business/logistics-and-industrial-infrastructure";
-const LANDBANK_MODULE = join(process.cwd(), "src", "lib", "data", "generated", "landBank.ts");
+const ASSETS_UNDER_MANAGEMENT_MODULE = join(
+  process.cwd(),
+  "src",
+  "lib",
+  "data",
+  "generated",
+  "assetsUnderManagement.ts",
+);
 const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
 
 let failures = 0;
@@ -49,15 +56,15 @@ async function apiPost(cookie, path, payload) {
 }
 
 console.log("\n── Unified Property Register — UI inspection ──");
-const moduleBefore = readFileSync(LANDBANK_MODULE, "utf8");
+const moduleBefore = readFileSync(ASSETS_UNDER_MANAGEMENT_MODULE, "utf8");
 const cookie = await apiLogin();
 
 /* Publish every parcel temporarily so the real dataset drives the UI */
-const list = await apiGet(cookie, "/api/c/land-bank");
+const list = await apiGet(cookie, "/api/c/assets-under-management");
 const ids = (list.body.records ?? []).map((r) => r.id);
 record("dataset intact before UI pass", ids.length === 35);
 for (const id of ids) {
-  await apiPost(cookie, "/api/c/land-bank?action=transition", { id, status: "published" });
+  await apiPost(cookie, "/api/c/assets-under-management?action=transition", { id, status: "published" });
 }
 const pubAll = await apiPost(cookie, "/api/publish");
 record(
@@ -384,21 +391,21 @@ try {
 
 /* ── restore everything ── */
 for (const id of ids) {
-  await apiPost(cookie, "/api/c/land-bank?action=transition", { id, status: "draft" });
+  await apiPost(cookie, "/api/c/assets-under-management?action=transition", { id, status: "draft" });
 }
 const pubRestore = await apiPost(cookie, "/api/publish");
 record(
   "restoring Publish All completes",
   pubRestore.body.ok === true && pubRestore.body.stage === "done",
 );
-const after = await apiGet(cookie, "/api/c/land-bank");
+const after = await apiGet(cookie, "/api/c/assets-under-management");
 record(
   "store restored: all 35 drafts",
   after.body.records.every((r) => r.status === "draft") && after.body.records.length === 35,
 );
 record(
-  "generated landBank.ts byte-identical to pre-run state",
-  readFileSync(LANDBANK_MODULE, "utf8") === moduleBefore,
+  "generated assetsUnderManagement.ts byte-identical to pre-run state",
+  readFileSync(ASSETS_UNDER_MANAGEMENT_MODULE, "utf8") === moduleBefore,
 );
 
 console.log(

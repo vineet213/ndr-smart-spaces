@@ -17,7 +17,6 @@ export const siteRoutes: readonly string[] = [
   "/en/business/ndr-asset-management/development-lifecycle",
   "/en/business/ndr-asset-management/asset-performance-management",
   "/en/business/residential-plotting",
-  "/en/investor-centre",
   "/en/investor-centre/announcements",
   "/en/investor-centre/corporate-governance",
   "/en/investor-centre/summary-of-business",
@@ -40,7 +39,6 @@ export const routeAnchors: Readonly<Record<string, readonly string[]>> = {
   "/en/esg": ["framework", "environmental", "certifications"],
   "/en/media": ["press-archive"],
   "/en/contact": ["directory", "business-enquiry"],
-  "/en/investor-centre": [],
   "/en/about-us": ["story"],
 };
 

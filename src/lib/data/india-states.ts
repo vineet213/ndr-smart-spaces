@@ -4,7 +4,7 @@
  *
  * The ids are stable slugs used by the generated state geometry
  * (`india-state-paths.ts`) and by the CMS records (`locations.state`,
- * `land-bank.state`). The names are the official display forms used verbatim
+ * `assets-under-management.state`). The names are the official display forms used verbatim
  * in the admin select options. Geometry is maintained separately by
  * `scripts/generate-india-states.mjs`; this list is hand-frozen.
  */

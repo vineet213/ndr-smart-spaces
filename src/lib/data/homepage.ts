@@ -49,7 +49,7 @@ export const audienceRoutes = [
   {
     label: "Investors",
     descriptor: "Reports, disclosures, governance",
-    href: "/en/investor-centre",
+    href: "/en/investor-centre/announcements",
   },
   {
     label: "Corporate clients",
@@ -85,23 +85,22 @@ export const zones = [
   {
     id: "north",
     name: "North",
-    cities: ["Delhi", "Bilaspur", "Ghaziabad", "Sarita Vihar", "Lucknow", "Kanpur"],
+    cities: ["Delhi", "Bilaspur", "Ghaziabad", "Sarita Vihar"],
   },
   {
     id: "east",
     name: "East",
-    cities: ["Kolkata"],
+    cities: ["Kolkata", "Lucknow", "Kanpur"],
   },
   {
     id: "west",
     name: "West",
-    cities: ["Mumbai", "Pune", "Surat", "Chhatrapati Sambhaji Nagar", "Goa"],
+    cities: ["Mumbai", "Pune", "Surat", "Chhatrapati Sambhaji Nagar", "Hyderabad"],
   },
   {
     id: "south",
     name: "South",
     cities: [
-      "Hyderabad",
       "Chennai",
       "Bengaluru",
       "Sricity",
@@ -109,6 +108,7 @@ export const zones = [
       "Coimbatore",
       "Hosur",
       "Puducherry",
+      "Goa",
     ],
   },
 ] as const satisfies ReadonlyArray<{ id: ZoneId; name: string; cities: readonly string[] }>;
@@ -152,14 +152,14 @@ export const companyOverview = {
       { text: "NDR Group", bold: true },
       {
         text:
-          ", established to spearhead the Group’s development initiatives across logistics, industrial and residential segments, with a clear focus on socio economic infrastructure development that enables greater operational focus, agility and scalability.",
+          ", established to spearhead the Group’s development initiatives across logistics, industrial and residential segments, with a clear focus on socio-economic infrastructure development that enables greater operational focus, agility and scalability.",
       },
     ],
     [
       { text: "In addition to development activities, the Company provides " },
       { text: "project management consultancy services", bold: true },
       {
-        text: ", supporting the planning, execution and coordination of socio economic infrastructure projects.",
+        text: ", supporting the planning, execution and coordination of socio-economic infrastructure projects.",
       },
     ],
     [
@@ -167,7 +167,7 @@ export const companyOverview = {
       { text: "NDR Group", bold: true },
       {
         text:
-          ", NDR Smart Spaces aims to build high-quality, scalable and strategically located assets that contribute to India’s growing logistics, industrial and socio economic infrastructure landscape.",
+          ", NDR Smart Spaces aims to build high-quality, scalable and strategically located assets that contribute to India’s growing logistics, industrial and socio-economic infrastructure landscape.",
       },
     ],
   ] as CompanyOverviewSegment[][],
@@ -192,8 +192,8 @@ export const companyMetrics = [
   {
     value: 500,
     suffix: "+",
-    label: "DEVELOPABLE LAND BANK",
-    context: "DEVELOPABLE LAND BANK",
+    label: "DEVELOPABLE LAND BANK(ACRES)",
+    context: "DEVELOPABLE LAND BANK(ACRES)",
   },
   {
     value: 20,
@@ -203,7 +203,7 @@ export const companyMetrics = [
   },
   {
     value: 10,
-    suffix: " Mn",
+    suffix: " MN",
     label: "SQ FT IN PIPELINE",
     context: "SQ FT IN PIPELINE",
   },
@@ -394,7 +394,7 @@ export const contact = {
     ] as const,
     enquiryTypes: [
       "Logistics and Industrial Infrastructure",
-      "Project and Operations Management Consultancy - NDR Asset Management",
+      "Project Management and Maintenance - NDR Asset Management",
       "Residential Plotting",
       "Business Partnership",
       "Investor Relations",

@@ -23,6 +23,11 @@
   width: 100%;
 }
 
+.figure {
+  margin: 0;
+  width: 100%;
+}
+
 .plate {
   position: relative;
   aspect-ratio: 4 / 5;
@@ -34,6 +39,14 @@
 
 .plateImage {
   object-fit: cover;
+}
+
+.caption {
+  margin-top: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
 }
 
 @media (max-width: 1439px) {

@@ -76,6 +76,52 @@
   border-top: 8px solid var(--color-gold);
 }
 
+/* Visit NDR InvIT panel ---------------------------------------------------- */
+
+.moreInfo {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-6xl);
+  margin-top: var(--space-9xl);
+  padding-top: var(--space-5xl);
+  border-block-start: 2px solid var(--color-charcoal);
+}
+
+.moreInfoCopy {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-lg);
+  max-width: var(--measure-body);
+}
+
+.moreInfoCopy h3 {
+  margin: 0;
+}
+
+.moreInfoBody {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.moreInfoCta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+  flex-shrink: 0;
+}
+
+.moreInfoDomain {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
 @media (max-width: 767px) {
   .overview {
     margin-bottom: var(--space-7xl);
@@ -83,5 +129,12 @@
 
   .node {
     padding: var(--space-xl) var(--space-lg);
+  }
+
+  .moreInfo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5xl);
+    margin-top: var(--space-7xl);
   }
 }

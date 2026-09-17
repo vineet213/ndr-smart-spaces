@@ -56,12 +56,22 @@ export const investorContents = [
 export const assetFlip = {
   eyebrow: "Overview",
   heading: "Asset Flip — Transfer of Special Purpose Vehicles (SPVs)",
+  /** Short masthead line derived from `overview` below — not restating it in full. */
+  mastheadSubtext:
+    "A structured pathway to transfer mature SPVs to NDR InvIT — unlocking value and reinvesting in new development.",
   overview:
     "NDR Smart Spaces develops and operates high-quality logistics and industrial assets through dedicated Special Purpose Vehicles (SPVs). Once assets reach defined maturity and operational milestones, the relevant SPVs can be transferred to NDR InvIT or third party, creating a structured pathway for unlocking value and enabling NDR Smart Spaces to reinvest in the development of new assets.",
   diagram: {
     from: "NDR Smart Spaces Pvt. Ltd.",
     to: "NDR InvIT",
     label: "Asset flip",
+  },
+  moreInfo: {
+    eyebrow: "More information",
+    heading: "For more information, visit NDR InvIT",
+    body: "NDR InvIT Trust — the listed infrastructure investment trust of the NDR Group. Visit the official trust website for the full investor record.",
+    cta: { label: "Visit NDR InvIT", href: "https://ndrinvit.com" },
+    domain: "ndrinvit.com",
   },
 } as const;
 

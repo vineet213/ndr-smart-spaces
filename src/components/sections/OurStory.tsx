@@ -32,14 +32,17 @@ export function OurStory() {
           </GridItem>
           <GridItem span={5} className={styles.plateColumn}>
             <Reveal delay={2} className={styles.plateReveal}>
-              <figure className={styles.plate}>
-                <Image
-                  src={aboutStory.image.src}
-                  alt={aboutStory.image.alt}
-                  fill
-                  sizes="(max-width: 767px) 100vw, 40vw"
-                  className={styles.plateImage}
-                />
+              <figure className={styles.figure}>
+                <div className={styles.plate}>
+                  <Image
+                    src={aboutStory.image.src}
+                    alt={aboutStory.image.alt}
+                    fill
+                    sizes="(max-width: 767px) 100vw, 40vw"
+                    className={styles.plateImage}
+                  />
+                </div>
+                <figcaption className={styles.caption}>{aboutStory.image.caption}</figcaption>
               </figure>
             </Reveal>
           </GridItem>

@@ -23,7 +23,6 @@ export function AveAcresExplore() {
               <Button href={aveAcresClosing.cta.href} target="_blank" rel="noreferrer">
                 {aveAcresClosing.cta.label}
               </Button>
-              <span className={styles.domain}>aveacres.com</span>
             </div>
           </div>
         </Reveal>

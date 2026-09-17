@@ -89,11 +89,21 @@ export async function generateMerged(content: ContentStore): Promise<GeneratedFi
     "portfolioAssets",
   );
   if (portfolioAssets) files.push(portfolioAssets);
-  // The land bank starts empty and grows with the portfolio, so its module is
-  // always emitted (an empty `as const` array when no parcels exist yet) — the
-  // static site imports it unconditionally.
-  const landBank = await registerFile(content, "land-bank", "landBank.ts", "landBank");
-  files.push(landBank ?? { fileName: "landBank.ts", source: serializeAsConst("landBank", []) });
+  // Assets under management starts empty and grows with the portfolio, so its
+  // module is always emitted (an empty `as const` array when no records exist
+  // yet) — the static site imports it unconditionally.
+  const assetsUnderManagement = await registerFile(
+    content,
+    "assets-under-management",
+    "assetsUnderManagement.ts",
+    "assetsUnderManagement",
+  );
+  files.push(
+    assetsUnderManagement ?? {
+      fileName: "assetsUnderManagement.ts",
+      source: serializeAsConst("assetsUnderManagement", []),
+    },
+  );
   const businessVerticals = await registerFile(
     content,
     "business-verticals",

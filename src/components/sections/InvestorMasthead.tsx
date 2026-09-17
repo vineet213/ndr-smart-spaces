@@ -8,6 +8,7 @@ type InvestorMastheadProps = {
   asOn?: string;
   edition?: string;
   eyebrow?: string;
+  subtext?: string;
   variant?: "cover" | "slim";
   id?: string;
 };
@@ -17,6 +18,7 @@ export function InvestorMasthead({
   asOn,
   edition,
   eyebrow,
+  subtext,
   variant = "cover",
   id,
 }: InvestorMastheadProps) {
@@ -32,12 +34,8 @@ export function InvestorMasthead({
   ) : null;
 
   return (
-    <Section
-      tone="charcoal"
-      ariaLabelledby={id}
-      className={cx(styles.section, isCover && styles.coverSection)}
-    >
-      <span className={styles.ruleTop} aria-hidden="true" />
+    <Section tone="charcoal" ariaLabelledby={id} className={styles.section}>
+      {isCover ? <span className={styles.ruleTop} aria-hidden="true" /> : null}
 
       <Container className={styles.inner}>
         {isCover ? (
@@ -67,9 +65,9 @@ export function InvestorMasthead({
                 {title.accent ? <span className={styles.accent}>{title.accent}</span> : null}
                 {title.after}
               </h1>
+              {subtext ? <p className={styles.subtext}>{subtext}</p> : null}
               {meta}
             </div>
-            <span className={styles.rule} aria-hidden="true" />
           </>
         )}
       </Container>

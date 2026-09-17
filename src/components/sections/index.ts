@@ -48,6 +48,7 @@ export { ResilienceIndex } from "./ResilienceIndex";
 export { GovernanceManual } from "./GovernanceManual";
 export { EsgMasthead } from "./EsgMasthead";
 export { EsgStatement } from "./EsgStatement";
+export { EsgGreenFeatures } from "./EsgGreenFeatures";
 export { EsgFramework } from "./EsgFramework";
 export { EsgImpactMap } from "./EsgImpactMap";
 export { EsgCertifications } from "./EsgCertifications";

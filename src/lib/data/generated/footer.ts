@@ -36,10 +36,6 @@ export const footer = {
           "label": "About Us & Our People",
         },
         {
-          "href": "/en/investor-centre",
-          "label": "Investor Centre",
-        },
-        {
           "href": "/en/contact",
           "label": "Contact",
         },
@@ -60,6 +56,10 @@ export const footer = {
           "href": "/en/business/residential-plotting",
           "label": "Residential Plotting",
         },
+        {
+          "href": "/en/investor-centre/asset-flip",
+          "label": "Asset Flip",
+        },
       ],
     },
     {
@@ -76,10 +76,6 @@ export const footer = {
         {
           "href": "/en/investor-centre/summary-of-business",
           "label": "Summary of Business",
-        },
-        {
-          "href": "/en/investor-centre/asset-flip",
-          "label": "Asset Flip",
         },
       ],
     },

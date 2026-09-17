@@ -30,11 +30,11 @@ export const businessVerticals = [
     "proofSource": "Approved homepage content",
     "route": {
       "href": "/en/business/ndr-asset-management",
-      "label": "Project and Operations Management Consultancy - NDR Asset Management",
+      "label": "Project Management and Maintenance - NDR Asset Management",
     },
     "source": "",
     "spec": [],
-    "title": "Project and Operations Management Consultancy \u2014 NDR Asset Management",
+    "title": "Project Management and Maintenance \u2014 NDR Asset Management",
     "writeup": "We provide comprehensive project and operations management consultancy for the construction and development of industrial and logistics assets. Our services span the complete project lifecycle from planning, design coordination and procurement to construction management, quality assurance, cost and schedule control, statutory compliance, commissioning, and handover. By providing strong on-ground oversight and integrated project management, we help ensure that every asset is delivered on time, within budget, to the required quality, and ready for operations.",
   },
   {

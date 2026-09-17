@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer, InvestorMasthead, AssetFlip } from "@/components/sections";
+import { assetFlip } from "@/lib/data/investor";
 
 export const metadata: Metadata = {
   title: "Asset Flip",
@@ -12,8 +13,8 @@ export default function AssetFlipPage() {
     <>
       <InvestorMasthead
         variant="slim"
-        eyebrow="Investor Centre · Asset Flip"
         title={{ before: "Asset Flip — ", accent: "Transfer of SPVs" }}
+        subtext={assetFlip.mastheadSubtext}
         id="asset-flip-title"
       />
       <AssetFlip />

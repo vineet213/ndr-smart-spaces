@@ -1,7 +1,7 @@
 "use client";
 
-import { Container, Grid, GridItem, Stack } from "@/components/layout";
-import { Heading, Lede } from "@/components/ui";
+import { Grid, GridItem, Stack } from "@/components/layout";
+import { Heading } from "@/components/ui";
 import { useInView } from "@/hooks/useInView";
 import { ourCode, type OurCodeValue } from "@/lib/data/about";
 import { cx } from "../ui/cx";
@@ -75,13 +75,16 @@ function CodeMark({ index }: { index: string }) {
         </svg>
       );
     case "07":
-      // People build the organization — a network of individuals, connected.
+      // People build the organization — three figures of rising height, the
+      // organization literally built up from its people.
       return (
         <svg {...markProps} aria-hidden="true" focusable="false">
-          <circle cx="17" cy="18" r="6" />
-          <circle cx="39" cy="18" r="6" />
-          <circle cx="28" cy="41" r="6" />
-          <path d="M22 21 L24 34 M34 21 L32 34 M23 18 H33" />
+          <circle cx="12" cy="21" r="4" />
+          <path d="M5 45 C5 33 19 33 19 45" />
+          <circle cx="28" cy="13" r="4.5" />
+          <path d="M17 45 C17 27 39 27 39 45" />
+          <circle cx="44" cy="21" r="4" />
+          <path d="M37 45 C37 33 51 33 51 45" />
         </svg>
       );
     default:
@@ -149,13 +152,12 @@ function CodeRow({ value, fromLeft }: CodeRowProps) {
 export function OurCode() {
   return (
     <section className={styles.section} aria-labelledby="our-code-title">
-      <Container>
+      <div className={styles.bleed}>
         <Stack gap="xl" className={styles.header}>
           <span className={styles.goldRule} aria-hidden="true" />
           <Heading variant="section" id="our-code-title">
             {ourCode.heading}
           </Heading>
-          <Lede>{ourCode.lede}</Lede>
         </Stack>
 
         <div className={styles.rows}>
@@ -163,7 +165,7 @@ export function OurCode() {
             <CodeRow key={value.index} value={value} fromLeft={index % 2 === 0} />
           ))}
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

@@ -1,7 +1,7 @@
 import { locations as cmsLocations } from "./generated/locations";
 import { portfolioAssets as cmsPortfolioAssets } from "./generated/portfolioAssets";
 import { publicationSettings as cmsPublication } from "./generated/publicationSettings";
-import { landBank as cmsLandBank } from "./generated/landBank";
+import { assetsUnderManagement as cmsAssetsUnderManagement } from "./generated/assetsUnderManagement";
 import { INDIAN_STATES, indianStateByName } from "./india-states";
 import type { ZoneId } from "./homepage";
 
@@ -25,10 +25,13 @@ export type { ZoneId } from "./homepage";
  * `./generated/*`). The atlas system — projection, schematic outline, zone
  * frames and chapter numerals — has no CMS counterpart and stays frozen.
  *
- * Land bank extension — the developable parcels of Annexure A flow from the
- * `land-bank` collection; their pins project raw lat/lon through PROJECTION
- * (no manual offsets) onto the generated state geometry. Only parcels whose
- * workflow status is `published` render publicly; drafts remain admin-only.
+ * Assets Under Management — the group's operating, leasable warehouse assets
+ * flow from the `assets-under-management` collection; their pins project raw
+ * lat/lon through PROJECTION (no manual offsets) onto the generated state
+ * geometry. Only records whose workflow status is `published` render
+ * publicly; drafts remain admin-only. Assets are also grouped by `city` (a
+ * commercial-market label, not always the administrative district) so the
+ * atlas can offer a state→city zoom where a city holds more than one asset.
  */
 
 export const MAP_VIEWBOX = { width: 930, height: 1000 } as const;
@@ -181,29 +184,6 @@ const cmsGeoLocations: readonly GeoLocation[] = cmsLocationData
 
 export const geoLocations: readonly GeoLocation[] = cmsGeoLocations;
 
-/**
- * Homepage-presence-only cities — added to the homepage "Portfolio presence"
- * map for the client, but NOT part of the operating-location survey rendered
- * on the Logistics & industrial infrastructure page (the "Land Bank" atlas).
- * These ids stay `visible.portfolio` in the CMS collection so the destructive
- * reseed keeps them (the seed rebuilds `locations` from `geoLocations`), while
- * the survey helpers below exclude them to restore the 17-location footprint.
- */
-const SURVEY_EXCLUDED_LOCATION_IDS: ReadonlySet<string> = new Set([
-  "delhi",
-  "bilaspur",
-  "sarita-vihar",
-  "mumbai",
-  "surat",
-  "chhatrapati-sambhaji-nagar",
-  "goa",
-  "sricity",
-]);
-
-function isSurveyLocation(location: GeoLocation): boolean {
-  return !SURVEY_EXCLUDED_LOCATION_IDS.has(location.id);
-}
-
 export const geoZones: readonly GeoZone[] = [
   {
     id: "south",
@@ -222,7 +202,7 @@ export const geoZones: readonly GeoZone[] = [
   {
     id: "east",
     name: "East",
-    fact: "Kolkata, Varanasi — a rising consumption belt.",
+    fact: "Kolkata — a rising consumption belt.",
     frame: { x: 345, y: 305, width: 345, height: 250 },
     centroid: { x: 505, y: 420 },
   },
@@ -262,7 +242,7 @@ export type PortfolioAsset = {
   city: string;
   zone: ZoneId;
   locationId?: string;
-  landBankId?: string;
+  assetsUnderManagementId?: string;
   class: AssetClass;
   status: AssetStatus;
   sizeSqFt?: number;
@@ -295,7 +275,7 @@ type CmsPortfolioAsset = {
   class: AssetClass;
   status: AssetStatus;
   locationId?: string;
-  landBankId?: string;
+  assetsUnderManagementId?: string;
   sizeSqFt?: number;
   occupier?: string;
   completedYear?: string;
@@ -312,8 +292,8 @@ const cmsPortfolioAssetsDerived: readonly PortfolioAsset[] = cmsPortfolioAssetDa
   city: asset.city,
   zone: asset.zone,
   ...(asset.locationId !== undefined ? { locationId: asset.locationId } : {}),
-  ...(asset.landBankId !== undefined && asset.landBankId !== ""
-    ? { landBankId: asset.landBankId }
+  ...(asset.assetsUnderManagementId !== undefined && asset.assetsUnderManagementId !== ""
+    ? { assetsUnderManagementId: asset.assetsUnderManagementId }
     : {}),
   class: asset.class,
   status: asset.status,
@@ -344,21 +324,23 @@ export function plateAtLocation(locationId: string): string | null {
   return asset ? asset.plate : null;
 }
 
-/* Land bank — developable parcels (Annexure A) ----------------------------- */
+/* Assets under management — operating, leasable warehouse assets ---------- */
 
-export type LandParcelClassification = "industrial" | "logistics" | "warehousing" | "mixed-use";
+export type AumClassification = "industrial" | "logistics" | "warehousing" | "mixed-use";
 
-export type LandParcelStatus = "available" | "committed" | "under-development";
+export type AumStatus = "available" | "committed" | "under-development";
 
-export type LandBankParcel = {
+export type AumAsset = {
   id: string;
   name: string;
   stateId: string;
   stateName: string;
+  /** Commercial-market grouping (e.g. "Chennai") — drives the map's city zoom. */
+  city: string;
   district?: string;
-  classification?: LandParcelClassification;
-  extentAcres?: number;
-  status?: LandParcelStatus;
+  classification?: AumClassification;
+  leasableAreaMsf?: number;
+  status?: AumStatus;
   summary?: string;
   lat?: number;
   lon?: number;
@@ -366,33 +348,34 @@ export type LandBankParcel = {
   note?: string;
 };
 
-export const LAND_CLASSIFICATION_LABELS: Record<LandParcelClassification, string> = {
+export const AUM_CLASSIFICATION_LABELS: Record<AumClassification, string> = {
   industrial: "Industrial",
   logistics: "Logistics",
   warehousing: "Warehousing",
   "mixed-use": "Mixed-use",
 };
 
-export const LAND_STATUS_LABELS: Record<LandParcelStatus, string> = {
+export const AUM_STATUS_LABELS: Record<AumStatus, string> = {
   available: "Available",
   committed: "Committed",
   "under-development": "Under development",
 };
 
-type CmsLandBankRecord = {
+type CmsAumRecord = {
   id: string;
   name: string;
   state: string;
+  city: string;
   district?: string;
   classification?: string;
-  extentAcres?: number;
+  leasableAreaMsf?: number;
   /**
    * Workflow status emitted by the CMS export ledger (`draft` / `pending` /
    * `published` / `archived`). Only `published` records render on the public
    * site — the same rule the editor engine applies when resolving references.
    */
   status?: string;
-  /** Parcel-level availability, distinct from the workflow `status` above. */
+  /** Asset-level availability, distinct from the workflow `status` above. */
   landStatus?: string;
   summary?: string;
   lat?: number;
@@ -401,99 +384,131 @@ type CmsLandBankRecord = {
   note?: string;
 };
 
-const LAND_CLASSIFICATIONS: readonly LandParcelClassification[] = [
+const AUM_CLASSIFICATIONS: readonly AumClassification[] = [
   "industrial",
   "logistics",
   "warehousing",
   "mixed-use",
 ];
 
-const LAND_STATUSES: readonly LandParcelStatus[] = ["available", "committed", "under-development"];
+const AUM_STATUSES: readonly AumStatus[] = ["available", "committed", "under-development"];
 
-function asClassification(value: unknown): LandParcelClassification | undefined {
-  return LAND_CLASSIFICATIONS.find((option) => option === value);
+function asAumClassification(value: unknown): AumClassification | undefined {
+  return AUM_CLASSIFICATIONS.find((option) => option === value);
 }
 
-function asLandStatus(value: unknown): LandParcelStatus | undefined {
-  return LAND_STATUSES.find((option) => option === value);
+function asAumStatus(value: unknown): AumStatus | undefined {
+  return AUM_STATUSES.find((option) => option === value);
 }
 
-const cmsLandBankData = cmsLandBank as unknown as readonly CmsLandBankRecord[];
+const cmsAumData = cmsAssetsUnderManagement as unknown as readonly CmsAumRecord[];
 
 /**
  * Public visibility rule (Save vs Publish architecture): the generated ledger
- * keeps every record with its workflow status, but only `published` parcels
+ * keeps every record with its workflow status, but only `published` assets
  * flow into the public derivations below. Drafts stay editable in the admin
  * panel and simply do not exist for the public portfolio.
  */
-const cmsLandBankPublished: readonly CmsLandBankRecord[] = cmsLandBankData.filter(
-  (parcel) => parcel.status === "published",
+const cmsAumPublished: readonly CmsAumRecord[] = cmsAumData.filter(
+  (record) => record.status === "published",
 );
 
-const cmsLandBankDerived: readonly LandBankParcel[] = cmsLandBankPublished.map((parcel) => {
-  const state = indianStateByName(parcel.state);
-  const classification = asClassification(parcel.classification);
-  const status = asLandStatus(parcel.landStatus);
+const cmsAumDerived: readonly AumAsset[] = cmsAumPublished.map((record) => {
+  const state = indianStateByName(record.state);
+  const classification = asAumClassification(record.classification);
+  const status = asAumStatus(record.landStatus);
   const lat =
-    typeof parcel.lat === "number" && Number.isFinite(parcel.lat) ? parcel.lat : undefined;
+    typeof record.lat === "number" && Number.isFinite(record.lat) ? record.lat : undefined;
   const lon =
-    typeof parcel.lon === "number" && Number.isFinite(parcel.lon) ? parcel.lon : undefined;
+    typeof record.lon === "number" && Number.isFinite(record.lon) ? record.lon : undefined;
   return {
-    id: parcel.id,
-    name: parcel.name,
-    stateId: state ? state.id : parcel.state,
-    stateName: state ? state.name : parcel.state,
-    ...(parcel.district !== undefined && parcel.district !== ""
-      ? { district: parcel.district }
+    id: record.id,
+    name: record.name,
+    stateId: state ? state.id : record.state,
+    stateName: state ? state.name : record.state,
+    city: record.city,
+    ...(record.district !== undefined && record.district !== ""
+      ? { district: record.district }
       : {}),
     ...(classification !== undefined ? { classification } : {}),
-    ...(typeof parcel.extentAcres === "number" ? { extentAcres: parcel.extentAcres } : {}),
+    ...(typeof record.leasableAreaMsf === "number"
+      ? { leasableAreaMsf: record.leasableAreaMsf }
+      : {}),
     ...(status !== undefined ? { status } : {}),
-    ...(parcel.summary !== undefined && parcel.summary !== "" ? { summary: parcel.summary } : {}),
+    ...(record.summary !== undefined && record.summary !== "" ? { summary: record.summary } : {}),
     ...(lat !== undefined && lon !== undefined ? { lat, lon, pin: projectPlace(lat, lon) } : {}),
-    ...(parcel.note !== undefined && parcel.note !== "" ? { note: parcel.note } : {}),
+    ...(record.note !== undefined && record.note !== "" ? { note: record.note } : {}),
   };
 });
 
-export type StateLandSummary = {
+export type StateAumSummary = {
   stateId: string;
   stateName: string;
   parcelCount: number;
-  totalAcres: number | null;
+  totalLeasableAreaMsf: number | null;
 };
 
 /**
- * States that hold at least one published land-bank parcel, in canonical
- * `INDIAN_STATES` order. `totalAcres` sums recorded extents and is null only
- * when no parcel in the state carries an extent.
+ * States that hold at least one published asset, in canonical `INDIAN_STATES`
+ * order. `totalLeasableAreaMsf` sums recorded areas and is null only when no
+ * asset in the state carries an area.
  */
-export const landBankStates: readonly StateLandSummary[] = INDIAN_STATES.flatMap((state) => {
-  const parcels = cmsLandBankDerived.filter((parcel) => parcel.stateId === state.id);
-  if (parcels.length === 0) return [];
-  const withExtent = parcels.some((parcel) => parcel.extentAcres !== undefined);
+export const aumStates: readonly StateAumSummary[] = INDIAN_STATES.flatMap((state) => {
+  const assets = cmsAumDerived.filter((asset) => asset.stateId === state.id);
+  if (assets.length === 0) return [];
+  const withArea = assets.some((asset) => asset.leasableAreaMsf !== undefined);
   return [
     {
       stateId: state.id,
       stateName: state.name,
-      parcelCount: parcels.length,
-      totalAcres: withExtent
-        ? parcels.reduce((sum, parcel) => sum + (parcel.extentAcres ?? 0), 0)
+      parcelCount: assets.length,
+      totalLeasableAreaMsf: withArea
+        ? assets.reduce((sum, asset) => sum + (asset.leasableAreaMsf ?? 0), 0)
         : null,
     },
   ];
 });
 
-export function landBankByState(stateId: string): readonly LandBankParcel[] {
-  return cmsLandBankDerived.filter((parcel) => parcel.stateId === stateId);
+export function aumByState(stateId: string): readonly AumAsset[] {
+  return cmsAumDerived.filter((asset) => asset.stateId === stateId);
 }
 
-/** Parcels in a state that carry coordinates and can be pinned on the map. */
-export function landPinsByState(stateId: string): readonly LandBankParcel[] {
-  return landBankByState(stateId).filter((parcel) => parcel.pin !== undefined);
+/** Assets in a state that carry coordinates and can be pinned on the map. */
+export function aumPinsByState(stateId: string): readonly AtlasPinData[] {
+  return aumByState(stateId)
+    .filter((asset) => asset.pin !== undefined)
+    .map((asset) => ({
+      id: asset.id,
+      name: asset.name,
+      pin: asset.pin!,
+      city: asset.city,
+      ...(asset.leasableAreaMsf !== undefined ? { leasableAreaMsf: asset.leasableAreaMsf } : {}),
+      ...(asset.district !== undefined ? { district: asset.district } : {}),
+    }));
 }
 
-export function landParcelById(id: string): LandBankParcel | null {
-  return cmsLandBankDerived.find((parcel) => parcel.id === id) ?? null;
+export function aumAssetById(id: string): AumAsset | null {
+  return cmsAumDerived.find((asset) => asset.id === id) ?? null;
+}
+
+/** City groups (within a state) holding 2+ assets — the map's city-zoom targets. */
+export type CityAumSummary = { city: string; stateId: string; assetCount: number };
+
+export const aumCityGroups: readonly CityAumSummary[] = (() => {
+  const counts = new Map<string, { city: string; stateId: string; count: number }>();
+  for (const asset of cmsAumDerived) {
+    const key = `${asset.stateId}::${asset.city}`;
+    const existing = counts.get(key);
+    if (existing) existing.count += 1;
+    else counts.set(key, { city: asset.city, stateId: asset.stateId, count: 1 });
+  }
+  return [...counts.values()]
+    .filter((entry) => entry.count > 1)
+    .map((entry) => ({ city: entry.city, stateId: entry.stateId, assetCount: entry.count }));
+})();
+
+export function aumByCity(stateId: string, city: string): readonly AumAsset[] {
+  return cmsAumDerived.filter((asset) => asset.stateId === stateId && asset.city === city);
 }
 
 /* Under construction — state summaries and map pins ----------------------- */
@@ -503,27 +518,30 @@ export type AtlasPinData = {
   id: string;
   name: string;
   pin: { x: number; y: number };
-  extentAcres?: number;
+  city?: string;
+  leasableAreaMsf?: number;
   district?: string;
 };
 
-export const constructionStates: readonly StateLandSummary[] = INDIAN_STATES.flatMap((state) => {
+export const constructionStates: readonly StateAumSummary[] = INDIAN_STATES.flatMap((state) => {
   const assets = underConstructionAssets().filter((asset) => {
-    if (!asset.landBankId) return false;
-    const parcel = landParcelById(asset.landBankId);
+    if (!asset.assetsUnderManagementId) return false;
+    const parcel = aumAssetById(asset.assetsUnderManagementId);
     return parcel?.stateId === state.id;
   });
   if (assets.length === 0) return [];
-  const totalAcres = assets.reduce((sum, asset) => {
-    const parcel = asset.landBankId ? landParcelById(asset.landBankId) : null;
-    return sum + (parcel?.extentAcres ?? 0);
+  const totalLeasableAreaMsf = assets.reduce((sum, asset) => {
+    const parcel = asset.assetsUnderManagementId
+      ? aumAssetById(asset.assetsUnderManagementId)
+      : null;
+    return sum + (parcel?.leasableAreaMsf ?? 0);
   }, 0);
   return [
     {
       stateId: state.id,
       stateName: state.name,
       parcelCount: assets.length,
-      totalAcres: totalAcres || null,
+      totalLeasableAreaMsf: totalLeasableAreaMsf || null,
     },
   ];
 });
@@ -533,17 +551,17 @@ export function constructionByState(
 ): readonly (AtlasPinData & { city: string; class: AssetClass; sizeSqFt?: number })[] {
   return underConstructionAssets()
     .filter((asset) => {
-      if (!asset.landBankId) return false;
-      const parcel = landParcelById(asset.landBankId);
+      if (!asset.assetsUnderManagementId) return false;
+      const parcel = aumAssetById(asset.assetsUnderManagementId);
       return parcel?.stateId === stateId && parcel?.pin !== undefined;
     })
     .map((asset) => {
-      const parcel = landParcelById(asset.landBankId!)!;
+      const parcel = aumAssetById(asset.assetsUnderManagementId!)!;
       return {
         id: asset.id,
         name: asset.name,
         pin: parcel.pin!,
-        extentAcres: parcel.extentAcres,
+        leasableAreaMsf: parcel.leasableAreaMsf,
         district: parcel.district,
         city: asset.city,
         class: asset.class,
@@ -552,9 +570,9 @@ export function constructionByState(
     });
 }
 
-export function formatAcres(acres: number | undefined | null): string {
-  if (acres == null) return "—";
-  return `${acres.toLocaleString("en-IN")} acres`;
+export function formatMsf(value: number | undefined | null): string {
+  if (value == null) return "—";
+  return `${value.toLocaleString("en-IN")} msf`;
 }
 
 export function formatPlateRange(plates: readonly string[]): string {
@@ -690,27 +708,28 @@ export const portfolioClosing = {
 
 /* Land bank section --------------------------------------------------------- */
 
-export const landBankSection = {
-  eyebrow: "The land bank · Developable extents",
-  heading: "The land bank.",
+export const assetsUnderManagementSection = {
+  eyebrow: "Assets under management · Operating warehouses",
+  heading: "Assets under management.",
   framing:
-    "Deed-recorded parcels held across the group's SPVs for future development — surveyed by state, with extents as recorded in the annexure to the accounts, alongside the group's operating locations.",
-  mapCaptionLabel: "Fig. 02 · Atlas · Land bank survey",
+    "Leasable warehouse assets held across the group's SPVs — surveyed by state and city, with areas as recorded in the group's corporate presentation.",
+  mapCaptionLabel: "Fig. 02 · Atlas · Assets under management survey",
   mapCaptionLead:
-    "Select a state to survey its sites — land-bank parcels with their recorded extents, and operating locations across the group's geography. Pins mark surveyed locations; parcels without coordinates are listed without a pin.",
+    "Select a state to survey its assets — operating warehouses with their recorded leasable area. Select a city with multiple assets to zoom in further. Pins mark surveyed locations; assets without coordinates are listed without a pin.",
   mapSource:
-    "Source: Annexure A · SPV-wise land area statement; locations diagram; state boundaries dissolved from public district data (not to scale)",
+    "Source: NDR corporate presentation · state boundaries dissolved from public district data; city boundaries drawn from public district data (not to scale)",
   stateSelectLabel: "State",
-  parcelUnitLabel: "parcels",
-  acresLabel: "Extent",
+  cityStepLabel: "City",
+  parcelUnitLabel: "assets",
+  acresLabel: "Leasable area",
   classificationLabel: "Classification",
   statusLabel: "Status",
   locationLabel: "Location",
   noteLabel: "Note",
-  noPinsLabel: "No surveyed coordinates for this state's sites.",
-  emptyTitle: "Land bank records are being filed.",
-  emptyNote: "Parcels publish upon archival approval.",
-  source: "Source: Annexure A · SPV-wise land area statement; locations diagram",
+  noPinsLabel: "No surveyed coordinates for this state's assets.",
+  emptyTitle: "Assets under management records are being filed.",
+  emptyNote: "Assets publish upon archival approval.",
+  source: "Source: NDR corporate presentation",
   notToScale: "Schematic outline · not to scale",
 } as const;
 
@@ -720,15 +739,15 @@ export const underConstructionSection = {
   eyebrow: "Asset portfolio · Under construction",
   heading: "Under construction.",
   framing:
-    "Assets currently rising on the group's land — each cross-referenced to its source parcel in the land bank where one is recorded.",
+    "Assets currently rising on the group's land — each cross-referenced to its source record in assets under management where one is recorded.",
   mapCaptionLead:
-    "Select a state to view ongoing projects. Pins mark locations linked to land-bank sites; select a pin for project details.",
+    "Select a state to view ongoing projects. Pins mark locations linked to assets under management; select a pin for project details.",
   columns: {
     asset: "Asset",
     city: "City",
     class: "Class",
     size: "Size",
-    parcel: "Land parcel",
+    parcel: "Linked asset",
   } as const,
   parcelMissingLabel: "—",
   emptyTitle: "Nothing under construction in this edition.",
@@ -737,202 +756,22 @@ export const underConstructionSection = {
   source: "Source: NDR Corporate Presentation · approved website content",
 } as const;
 
-/* Locations mapped mode ------------------------------------------------------
- *
- * The operating footprint — every CMS location resolves to a state from the
- * `line` address (the trailing token is always the state name) so the register
- * can offer the same state survey for geography that it does for parcels and
- * projects.
- */
-
-export type LocationZoneLabel = Record<ZoneId, string>;
-
-export const ZONE_LABELS: LocationZoneLabel = {
-  south: "South",
-  west: "West",
-  east: "East",
-  north: "North",
-};
-
-export const LOCATION_TIER_LABELS: Record<LocationTier, string> = {
-  hq: "Headquarters",
-  hub: "Primary logistics hub",
-  satellite: "Secondary location",
-};
-
-export type MappedLocation = AtlasPinData & {
-  zone: ZoneId;
-  tier: LocationTier;
-  line: string;
-  extentAcres?: number;
-  gradeAInfrastructure?: string;
-  residential?: string;
-};
-
-function locationStateId(location: GeoLocation): string | null {
-  const candidate = location.line.split(",").pop()?.trim() ?? "";
-  return indianStateByName(candidate)?.id ?? null;
-}
-
-function asMappedLocation(location: GeoLocation, stateName: string): MappedLocation {
-  return {
-    id: location.id,
-    name: location.name,
-    pin: { x: location.x, y: location.y },
-    district: stateName,
-    zone: location.zone,
-    tier: location.tier,
-    line: location.line,
-    ...(location.extentAcres !== undefined ? { extentAcres: location.extentAcres } : {}),
-    ...(location.gradeAInfrastructure !== undefined
-      ? { gradeAInfrastructure: location.gradeAInfrastructure }
-      : {}),
-    ...(location.residential !== undefined ? { residential: location.residential } : {}),
-  };
-}
-
-/** States that hold at least one operating location, in canonical order. */
-export const locationStates: readonly StateLandSummary[] = INDIAN_STATES.flatMap((state) => {
-  const locations = geoLocations.filter(
-    (location) => locationStateId(location) === state.id && isSurveyLocation(location),
-  );
-  if (locations.length === 0) return [];
-  return [
-    {
-      stateId: state.id,
-      stateName: state.name,
-      parcelCount: locations.length,
-      totalAcres: null,
-    },
-  ];
-});
-
-/** Every operating location as a map pin — the country default view. */
-export const allLocationPins: readonly MappedLocation[] = geoLocations
-  .filter(isSurveyLocation)
-  .map((location) =>
-    asMappedLocation(
-      location,
-      indianStateByName(location.line.split(",").pop()?.trim() ?? "")?.name ?? "",
-    ),
-  );
-
-/** Locations in a state, shaped as map pins. Empty when the state has none. */
-export function locationsByState(stateId: string): readonly MappedLocation[] {
-  return geoLocations
-    .filter(
-      (location) => locationStateId(location) === stateId && isSurveyLocation(location),
-    )
-    .map((location) =>
-      asMappedLocation(
-        location,
-        indianStateByName(location.line.split(",").pop()?.trim() ?? "")?.name ?? "",
-      ),
-    );
-}
-
-export function locationById(id: string): MappedLocation | null {
-  return allLocationPins.find((location) => location.id === id) ?? null;
-}
-
-/**
- * Unified land-bank survey — developable parcels AND the operating footprint.
- *
- * The atlas exposes two modes (Land bank / Under construction). Land Bank is
- * the combined state survey: every published land-bank parcel followed by the
- * group's operating locations (the 17 V1 CMS `locations` records — the
- * homepage-presence-only cities in `SURVEY_EXCLUDED_LOCATION_IDS` are kept
- * out of the survey). Locations are never draft-gated — they stay visible in
- * the survey regardless of parcel workflow, so the 17 V1 locations remain
- * available under Land Bank without a separate "locations mapped" mode.
- */
-
-export type LandSurveyRecord = LandBankParcel | MappedLocation;
-
-/** States holding at least one published parcel or operating location. */
-export const landSurveyStates: readonly StateLandSummary[] = INDIAN_STATES.flatMap((state) => {
-  const parcels = cmsLandBankDerived.filter((parcel) => parcel.stateId === state.id);
-  const locations = geoLocations.filter(
-    (location) => locationStateId(location) === state.id && isSurveyLocation(location),
-  );
-  if (parcels.length === 0 && locations.length === 0) return [];
-  const withExtent =
-    parcels.some((parcel) => parcel.extentAcres !== undefined) ||
-    locations.some((location) => location.extentAcres !== undefined);
-  return [
-    {
-      stateId: state.id,
-      stateName: state.name,
-      parcelCount: parcels.length + locations.length,
-      totalAcres: withExtent
-        ? parcels.reduce((sum, parcel) => sum + (parcel.extentAcres ?? 0), 0) +
-          locations.reduce((sum, location) => sum + (location.extentAcres ?? 0), 0)
-        : null,
-    },
-  ];
-});
-
-/** Every survey record in a state — parcels first, then operating locations. */
-export function landSurveyByState(stateId: string): readonly LandSurveyRecord[] {
-  return [...landBankByState(stateId), ...locationsByState(stateId)];
-}
-
-/** Map pins for a state — pinned parcels, then operating locations. */
-export function landSurveyPinsByState(stateId: string): readonly AtlasPinData[] {
-  return [
-    ...landBankByState(stateId)
-      .filter((parcel) => parcel.pin !== undefined)
-      .map((parcel) => ({
-        id: parcel.id,
-        name: parcel.name,
-        pin: parcel.pin!,
-        ...(parcel.extentAcres !== undefined ? { extentAcres: parcel.extentAcres } : {}),
-        ...(parcel.district !== undefined ? { district: parcel.district } : {}),
-      })),
-    ...locationsByState(stateId).map((location) => ({
-      id: location.id,
-      name: location.name,
-      pin: location.pin,
-      district: location.district,
-    })),
-  ];
-}
-
-export function landSurveyRecordById(id: string): LandSurveyRecord | null {
-  return landParcelById(id) ?? locationById(id);
-}
-
 /* Unified property register ---------------------------------------------------
  *
- * One Atlas feature with two modes (Land bank / Under construction). Land Bank
- * is the merged survey above — parcels and operating locations; the per-mode
- * copy reuses `landBankSection.*` and `underConstructionSection.*`; this object
- * carries only the shared chrome of the unified section.
+ * One Atlas feature with two modes (Assets under management / Under
+ * construction) — the per-mode copy reuses `assetsUnderManagementSection.*`
+ * and `underConstructionSection.*`; this object carries only the shared
+ * chrome of the unified section.
  */
-
-export const locationsSection = {
-  eyebrow: "Atlas · Operating footprint",
-  heading: "Locations mapped.",
-  framing:
-    "Every operating location across the four zones — surveyed by state, so one map reads the whole footprint at a glance.",
-  mapCaptionLabel: "Fig. 00 · Atlas · Operating locations",
-  mapCaptionLead:
-    "All operating locations across the four zones. Select a state to focus it, or a pin for details.",
-  mapSource: "Source: NDR Smart Presentation · locations diagram",
-  stateSelectLabel: "State",
-  locationUnitLabel: "locations",
-  emptyTitle: "No locations recorded for this state.",
-  source: "Source: NDR Smart Presentation · locations diagram",
-} as const;
 
 export const propertyRegister = {
   eyebrow: "Atlas · Property register",
   heading: "The Portfolio",
   chapter: "V",
   framing:
-    "One state survey for the group's properties — operating locations, developable extents from the land bank and the projects rising on them, each recorded as filed in this edition.",
+    "One state survey for the group's operating assets — leasable warehouses under management and the projects rising to join them, each recorded as filed in this edition.",
   modesLabel: "Register modes",
-  landBankModeLabel: "Land bank",
+  assetsUnderManagementModeLabel: "Assets under management",
   underConstructionModeLabel: "Under construction",
   atlasCaptionLabel: "Fig. 01 · Atlas · State survey",
   recordListLabel: "Site records",

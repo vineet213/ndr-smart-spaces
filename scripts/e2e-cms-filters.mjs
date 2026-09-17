@@ -39,7 +39,7 @@ async function apiGet(cookie, path) {
 
 /* Expected filter results computed independently from the store API */
 const cookie = await apiLogin();
-const store = await apiGet(cookie, "/api/c/land-bank");
+const store = await apiGet(cookie, "/api/c/assets-under-management");
 const records = store.body.records ?? [];
 const tnRecords = records.filter((r) => r.data?.state === "Tamil Nadu");
 const tnDrafts = tnRecords.filter((r) => r.status === "draft");
@@ -57,7 +57,7 @@ const searchHits = (list) =>
 const tnDraftSearch = searchHits(tnDrafts);
 
 console.log("\n── Land Bank CMS filters ──");
-record("store holds 35 land-bank records", records.length === 35, `${records.length}`);
+record("store holds 35 assets-under-management records", records.length === 35, `${records.length}`);
 record(
   "expected fixtures present (TN=19, TN+draft=19)",
   tnRecords.length === 19 && tnDrafts.length === 19,
@@ -95,9 +95,9 @@ try {
   }
 
   /* open Land Bank */
-  await page.goto(`${ADMIN}#land-bank`, { waitUntil: "domcontentloaded" });
-  await page.waitForSelector('.nav-item[data-key="land-bank"]', { visible: true, timeout: 20000 });
-  await page.click('.nav-item[data-key="land-bank"]');
+  await page.goto(`${ADMIN}#assets-under-management`, { waitUntil: "domcontentloaded" });
+  await page.waitForSelector('.nav-item[data-key="assets-under-management"]', { visible: true, timeout: 20000 });
+  await page.click('.nav-item[data-key="assets-under-management"]');
   await page.waitForFunction(() => document.querySelectorAll("#record-list-inner .record-row").length > 0, { timeout: 15000 });
 
   const readUi = () =>
@@ -227,7 +227,7 @@ try {
 }
 
 /* 8 — read-only guarantee */
-const after = await apiGet(cookie, "/api/c/land-bank");
+const after = await apiGet(cookie, "/api/c/assets-under-management");
 record(
   "no records modified or published (still 35 drafts)",
   after.body.records.length === 35 && after.body.records.every((r) => r.status === "draft"),

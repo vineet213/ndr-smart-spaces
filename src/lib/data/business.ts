@@ -99,12 +99,14 @@ export const businessMasthead = {
  */
 
 /**
- * Masthead subtext, keyed by division index. Optional — only Vertical 01
- * (Logistics and Industrial Infrastructure) has copy supplied; other
- * verticals render the heading-only masthead unchanged.
+ * Masthead subtext, keyed by division index. Optional — verticals without an
+ * entry render the heading-only masthead unchanged. "02"'s line is the same
+ * short heading already used to introduce its overview section below
+ * (`verticalOverview["02"].heading`), reused here rather than restated.
  */
 export const verticalMastheadSubtext: Readonly<Record<string, string>> = {
   "01": "From lands to warehouse, we build the infrastructure that keeps the businesses moving. Smart logistics, solid foundations, sustainable growth.",
+  "02": "Building assets. Managing execution. Delivering performance.",
 };
 
 /**
@@ -352,7 +354,7 @@ export const businessClosing = {
 } as const;
 
 /**
- * Vertical 02 — Project and Operations Management Consultancy - NDR Asset
+ * Vertical 02 — Project Management and Maintenance - NDR Asset
  * Management. Figures are configurable and flow through the count-up
  * treatment (`Vertical02Stats`).
  */
@@ -364,7 +366,7 @@ export const vertical02Metrics: readonly (Omit<CompanyMetric, "value"> & { value
     context: "Asset under construction (Sq. Ft.)",
   },
   { value: 230, label: "Strength of the team", context: "Strength of the team" },
-  { value: 11, label: "Projects in Pipeline", context: "Projects in Pipeline" },
+  { value: 14, label: "Projects in Pipeline", context: "Projects in Pipeline" },
 ];
 
 export type AssetPerformanceFunction = { index: string; title: string; description: string };
@@ -413,7 +415,7 @@ export const vertical02AssetManagement = {
       label: "Asset Under Management (Sq. Ft.)",
       context: "Asset Under Management (Sq. Ft.)",
     },
-    { value: 14, label: "Locations", context: "Locations" },
+    { value: 65, label: "Locations", context: "Locations" },
   ] as const satisfies ReadonlyArray<CompanyMetric>,
   cta: {
     eyebrow: "Business Enquiry",
@@ -506,10 +508,10 @@ export const vertical02DevelopmentLifecycle = {
       body: "Identifying strategic locations aligned with tenant requirements, market demand, and growth opportunities.",
       image: {
         src: "/images/lifecycle/01-land-identification.jpg",
-        alt: "Green paddy fields in Andhra Pradesh, India",
-        credit: "Image: Saishna96 / Wikimedia Commons, CC BY-SA 4.0",
-        width: 1920,
-        height: 1280,
+        alt: "Open brown plain land under a wide sky",
+        credit: "",
+        width: 3456,
+        height: 5184,
       },
     },
     {

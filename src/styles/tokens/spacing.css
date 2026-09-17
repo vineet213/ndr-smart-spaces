@@ -32,6 +32,11 @@
 
   --container-max: 80rem;
 
+  /* Shared hero height for every business-vertical masthead — matches the
+     standard already set by the Development Lifecycle / Asset Performance
+     Management sub-pages. */
+  --masthead-height: 78vh;
+
   --section-padding-desktop: 7rem;
   --section-padding-tablet: 4.5rem;
   --section-padding-mobile: 3.5rem;

@@ -38,7 +38,7 @@ async function apiGet(cookie, path) {
   return { status: res.status, body: await res.json() };
 }
 async function apiTransition(cookie, id, status) {
-  const res = await fetch(`${ADMIN}/api/c/land-bank?action=transition`, {
+  const res = await fetch(`${ADMIN}/api/c/assets-under-management?action=transition`, {
     method: "POST",
     headers: { "content-type": "application/json", cookie },
     body: JSON.stringify({ id, status }),
@@ -48,7 +48,7 @@ async function apiTransition(cookie, id, status) {
 
 console.log("\n── Filter persistence across publish/edit navigation ──");
 const cookie = await apiLogin();
-const store = await apiGet(cookie, "/api/c/land-bank");
+const store = await apiGet(cookie, "/api/c/assets-under-management");
 const records = store.body.records ?? [];
 const tnDrafts = records.filter((r) => r.data?.state === "Tamil Nadu" && r.status === "draft");
 const searchHits = tnDrafts.filter((r) => {
@@ -91,9 +91,9 @@ try {
       },
     );
   }
-  await page.goto(`${ADMIN}#land-bank`, { waitUntil: "domcontentloaded" });
-  await page.waitForSelector('.nav-item[data-key="land-bank"]', { visible: true, timeout: 20000 });
-  await page.click('.nav-item[data-key="land-bank"]');
+  await page.goto(`${ADMIN}#assets-under-management`, { waitUntil: "domcontentloaded" });
+  await page.waitForSelector('.nav-item[data-key="assets-under-management"]', { visible: true, timeout: 20000 });
+  await page.click('.nav-item[data-key="assets-under-management"]');
   await page.waitForFunction(
     () => document.querySelectorAll("#record-list-inner .record-row").length > 0,
     {
@@ -228,7 +228,7 @@ try {
     `${ui.rows} rows`,
   );
 
-  const stored = await apiGet(cookie, "/api/c/land-bank");
+  const stored = await apiGet(cookie, "/api/c/assets-under-management");
   const nowPublished = stored.body.records.find((r) => r.id === target.id)?.status;
   record(
     "workflow status actually changed in the store",
@@ -301,7 +301,7 @@ try {
 }
 
 /* final read-only guarantee */
-const after = await apiGet(cookie, "/api/c/land-bank");
+const after = await apiGet(cookie, "/api/c/assets-under-management");
 record(
   "store fully restored (35 drafts)",
   after.body.records.length === 35 && after.body.records.every((r) => r.status === "draft"),

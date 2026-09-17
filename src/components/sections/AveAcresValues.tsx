@@ -2,7 +2,7 @@
 
 import { useRef, useState, type CSSProperties } from "react";
 import { Container } from "@/components/layout";
-import { Eyebrow, Heading } from "@/components/ui";
+import { Heading } from "@/components/ui";
 import { useInView } from "@/hooks/useInView";
 import { vertical03Values } from "@/lib/data/business";
 import { cx } from "../ui/cx";
@@ -77,7 +77,6 @@ export function AveAcresValues() {
         <Reveal>
           <header className={styles.header}>
             <span className={styles.goldRule} aria-hidden="true" />
-            <Eyebrow tone="dark">{vertical03Values.eyebrow}</Eyebrow>
             <Heading variant="section" tone="dark" id="what-defines-title">
               {vertical03Values.heading}
             </Heading>
