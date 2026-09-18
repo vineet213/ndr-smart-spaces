@@ -7,4 +7,11 @@
 .logo {
   width: 11.875rem;
   height: auto;
+  transition:
+    width var(--duration-standard) var(--ease-standard),
+    opacity var(--duration-standard) var(--ease-standard);
+}
+
+.linkScrolled .logo {
+  width: 10rem;
 }

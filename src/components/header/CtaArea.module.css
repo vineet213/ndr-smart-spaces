@@ -19,3 +19,16 @@
     display: inline-flex;
   }
 }
+
+.enquiryButton {
+  transition:
+    height var(--duration-standard) var(--ease-standard),
+    padding var(--duration-standard) var(--ease-standard),
+    border-radius var(--duration-standard) var(--ease-standard);
+}
+
+.enquiryButtonScrolled {
+  height: var(--space-5xl);
+  padding-inline: var(--space-2xl);
+  border-radius: 999px;
+}

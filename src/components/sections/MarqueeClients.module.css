@@ -1,8 +1,6 @@
 .section {
   padding-block: var(--space-7xl);
   background-color: var(--color-ivory-dim);
-  border-top: 1px solid var(--color-hairline-light);
-  border-bottom: 1px solid var(--color-hairline-light);
 }
 
 .claim {

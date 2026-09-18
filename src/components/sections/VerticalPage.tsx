@@ -1,7 +1,12 @@
 import type { ReactNode } from "react";
 import { Container, Section } from "@/components/layout";
 import { SourceFootnote } from "@/components/ui";
-import { verticalOverview, verticalMastheadSubtext, type Division } from "@/lib/data/business";
+import {
+  verticalOverview,
+  verticalMastheadSubtext,
+  verticalMastheadTitle,
+  type Division,
+} from "@/lib/data/business";
 import { cx } from "@/components/ui/cx";
 import { AveAcresExplore } from "./AveAcresExplore";
 import { AveAcresProcess } from "./AveAcresProcess";
@@ -41,6 +46,7 @@ export function VerticalPage({ division }: VerticalPageProps) {
   const isV3 = division.index === "03";
   const title = division.title;
   const mastheadSubtext = verticalMastheadSubtext[division.index];
+  const mastheadTitle = verticalMastheadTitle[division.index];
 
   return (
     <>
@@ -53,8 +59,19 @@ export function VerticalPage({ division }: VerticalPageProps) {
         {isV3 ? null : <span className={styles.ruleTop} aria-hidden="true" />}
 
         <Container className={cx(styles.hero, isV3 && styles.heroTall)}>
-          <h1 id="vertical-masthead-title" className={styles.title}>
-            {title}
+          <h1
+            id="vertical-masthead-title"
+            className={cx(styles.title, isV3 && styles.titleCompact)}
+          >
+            {mastheadTitle ? (
+              <>
+                {mastheadTitle.before}
+                <span className={styles.titleAccent}>{mastheadTitle.accent}</span>
+                {mastheadTitle.after}
+              </>
+            ) : (
+              title
+            )}
           </h1>
           {mastheadSubtext ? <p className={styles.subtext}>{mastheadSubtext}</p> : null}
         </Container>

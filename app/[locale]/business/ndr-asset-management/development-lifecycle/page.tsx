@@ -19,7 +19,7 @@ export default function DevelopmentLifecyclePage() {
 
         <Container className={styles.hero}>
           <h1 id="subpage-title" className={styles.title}>
-            Development Lifecycle
+            Development <span className={styles.titleAccent}>Lifecycle</span>
           </h1>
           <p className={styles.overviewBody}>{intro.description}</p>
         </Container>

@@ -1,6 +1,4 @@
 import type { ReactNode } from "react";
-import styles from "./SourceFootnote.module.css";
-import { cx } from "./cx";
 import type { Tone } from "./types";
 
 type SourceFootnoteProps = {
@@ -10,22 +8,6 @@ type SourceFootnoteProps = {
   children: ReactNode;
 };
 
-export function SourceFootnote({
-  as: Tag = "p",
-  tone = "light",
-  className,
-  children,
-}: SourceFootnoteProps) {
-  return (
-    <Tag
-      className={cx(
-        "text-small",
-        styles.footnote,
-        tone === "dark" ? styles.onDark : styles.onLight,
-        className,
-      )}
-    >
-      {children}
-    </Tag>
-  );
+export function SourceFootnote(_props: SourceFootnoteProps) {
+  return null;
 }

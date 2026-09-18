@@ -18,7 +18,7 @@
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-nav);
   line-height: var(--leading-nav);
-  color: var(--color-text-primary);
+  color: var(--nav-fg, var(--color-text-primary));
   white-space: nowrap;
   text-decoration: none;
   text-align: left;
@@ -26,27 +26,9 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.trigger::after {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  height: 2px;
-  background-color: var(--color-gold);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--duration-standard) var(--ease-standard);
-}
-
 .triggerActive,
 .trigger:hover {
-  color: var(--color-maroon);
-}
-
-.triggerActive::after,
-.trigger:hover::after,
-.trigger:focus-visible::after {
-  transform: scaleX(1);
+  color: var(--nav-fg-hover, var(--color-maroon));
 }
 
 .chevron {

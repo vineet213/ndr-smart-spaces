@@ -41,7 +41,6 @@ export function DivisionPlate({ division }: DivisionPlateProps) {
             <p className={styles.proof}>
               <span className={styles.proofLabel}>Proof</span>
               <span className={styles.proofText}> {division.proof}</span>
-              <span className={styles.proofSource}> — {division.proofSource}</span>
             </p>
             {external ? (
               <ExternalLink href={division.route.href}>{division.route.label}</ExternalLink>

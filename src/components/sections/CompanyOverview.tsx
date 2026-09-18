@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Container, Grid, GridItem, Stack } from "@/components/layout";
-import { Heading, Eyebrow, Body, TextLink } from "@/components/ui";
+import { Heading, Body, TextLink } from "@/components/ui";
 import { companyOverview } from "@/lib/data/homepage";
 import styles from "./CompanyOverview.module.css";
 
@@ -23,7 +23,6 @@ export function CompanyOverview() {
           <GridItem span={7}>
             <Stack gap="4xl">
               <Stack gap="3xl">
-                <Eyebrow>{companyOverview.eyebrow}</Eyebrow>
                 <Heading variant="section" id="company-overview-title">
                   {companyOverview.heading}
                 </Heading>

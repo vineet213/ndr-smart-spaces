@@ -14,9 +14,15 @@ const H = 0.5 * S;
 const OX = 700;
 const OY = 720;
 
+/* Rounded to 2dp: Math.sin/cos (used by the organic water/scrub outlines)   */
+/* can differ in their last bit between the server's JS engine and the      */
+/* browser's, which otherwise propagates into these coordinates and trips a */
+/* hydration mismatch even though the visual difference is sub-pixel.       */
+const round2 = (n: number): number => Math.round(n * 100) / 100;
+
 const pt = (x: number, y: number, z = 0): [number, number] => [
-  OX + (x - y) * K,
-  OY + (x + y) * H - z * S,
+  round2(OX + (x - y) * K),
+  round2(OY + (x + y) * H - z * S),
 ];
 
 const face = (points: Array<[number, number, number]>): string =>
@@ -421,7 +427,10 @@ function organicBlob(
   for (let i = 0; i < n; i += 1) {
     const t = (i / n) * Math.PI * 2;
     const wobble = 1 + 0.14 * Math.sin(3 * t + seed) + 0.06 * Math.sin(7 * t + seed * 1.6);
-    out.push([ox + rx * wobble * Math.cos(t), oy + ry * wobble * Math.sin(t)]);
+    /* Rounded here at the source (not just in pt()) — some callers (Tree's   */
+    /* canopy) use this directly on already-projected screen coordinates,     */
+    /* bypassing pt()'s own rounding entirely.                                */
+    out.push([round2(ox + rx * wobble * Math.cos(t)), round2(oy + ry * wobble * Math.sin(t))]);
   }
   return out;
 }

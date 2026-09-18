@@ -7,17 +7,6 @@
   position: relative;
 }
 
-.chapter {
-  position: absolute;
-  top: -1.5rem;
-  right: 0;
-  font-family: var(--font-display, var(--font-body));
-  font-size: clamp(3rem, 6vw, 5rem);
-  line-height: 1;
-  color: rgba(240, 182, 90, 0.35);
-  pointer-events: none;
-}
-
 .framing {
   max-width: 46rem;
   margin-top: var(--space-md);

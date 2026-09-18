@@ -1,39 +1,62 @@
-@property --header-height {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 4.5rem;
+/* `position: fixed` on the whole header, not `sticky` on the nav alone.     */
+/* Sticky positioning here was measurably failing (verified with a real      */
+/* browser, not assumption) — the nav detached from the top after a short    */
+/* scroll on every page, and neither a containing-block fix nor a formatting */
+/* -context fix resolved it. Fixed positioning has no such ambiguity: it     */
+/* pins to the viewport unconditionally. The trade-off is that the header    */
+/* leaves normal document flow, so `.spacer` in Header.tsx reserves an       */
+/* equivalent amount of space at the top of the page so content underneath   */
+/* doesn't jump up.                                                          */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
 }
 
-.header {
-  position: relative;
+.spacer {
+  height: 6.75rem;
+}
+
+@media (max-width: 767px) {
+  .spacer {
+    height: 4.5rem;
+  }
 }
 
 .navBar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  height: var(--header-height);
-  background-color: var(--color-ivory-96);
-  border-bottom: 1px solid var(--color-hairline-light);
-  transition: --header-height var(--duration-standard) var(--ease-standard);
+  background: transparent;
 }
 
-.navBarScrolled {
-  --header-height: 3.5rem;
-  background-color: var(--color-ivory);
-  box-shadow: var(--color-shadow-warm);
-}
-
+/* Resting state: a solid bar in the same dark tone used by every masthead   */
+/* on the site (BusinessMasthead, MediaMasthead, InvestorMasthead, etc.).    */
 .navContainer {
-  height: 100%;
+  height: var(--header-height, 4.5rem);
   width: 100%;
   max-width: 90rem;
   margin-inline: auto;
   padding-inline: var(--margin-mobile);
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2xl);
+  background-color: var(--color-charcoal-masthead);
+  border-bottom: none;
+  border-radius: 0;
+  box-shadow: none;
+  transition:
+    margin var(--duration-standard) var(--ease-standard),
+    width var(--duration-standard) var(--ease-standard),
+    border-radius var(--duration-standard) var(--ease-standard),
+    background-color var(--duration-standard) var(--ease-standard),
+    box-shadow var(--duration-standard) var(--ease-standard);
+  /* Consumed by MainNav/MegaMenu/CtaArea so every child reacts to the       */
+  /* scrolled state without threading a boolean through each one.           */
+  --nav-fg: var(--color-ivory);
+  --nav-fg-hover: var(--color-gold-light);
+  --nav-accent: var(--color-gold);
 }
 
 @media (min-width: 768px) {
@@ -46,4 +69,21 @@
   .navContainer {
     padding-inline: var(--margin-desktop);
   }
+}
+
+.navBarScrolled .navContainer {
+  height: 3.5rem;
+  width: auto;
+  max-width: none;
+  margin-inline: clamp(1rem, 4vw, 3rem);
+  margin-top: 0.75rem;
+  padding-inline: var(--space-2xl);
+  border-radius: 999px;
+  background-color: rgba(28, 26, 25, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 12px 32px rgba(17, 16, 15, 0.28);
+  --nav-fg: var(--color-ivory);
+  --nav-fg-hover: var(--color-gold-light);
+  --nav-accent: var(--color-gold);
 }

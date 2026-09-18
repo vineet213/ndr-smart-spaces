@@ -61,14 +61,13 @@ section.masthead {
 
 /* hero ------------------------------------------------------------------ */
 
-/* Same panel height/rhythm as the Development Lifecycle and Asset          */
-/* Performance Management sub-page mastheads (the established standard) —   */
-/* Logistics, NDR Asset Management and Residential Plotting all match it     */
-/* now instead of each picking their own height.                            */
+/* Residential Plotting keeps its original shared height via .heroTall's own */
+/* untouched calc below; Logistics/NDR Asset Management now match the        */
+/* Media & Newsroom masthead's exact panel height instead.                   */
 .hero {
   position: relative;
   z-index: 1;
-  min-height: var(--masthead-height);
+  min-height: 80vh;
   padding-top: var(--space-12xl);
   padding-bottom: var(--space-6xl);
   display: flex;
@@ -83,24 +82,32 @@ section.masthead {
   min-height: calc(var(--masthead-height) + 6vh);
 }
 
-/* One title size for all three verticals — sized to fit NDR Asset          */
-/* Management's long combined heading ("Project and Operations Management   */
-/* Consultancy - NDR Asset Management") without wrapping onto too many       */
-/* lines; the shorter titles simply render at the same size instead of       */
-/* each vertical picking its own scale.                                      */
+/* Matches the Media & Newsroom masthead's exact title scale/proportion —    */
+/* the same big editorial statement treatment, not a smaller sub-page size.  */
 .title {
   position: relative;
   z-index: 1;
   margin: 0;
-  max-width: 34ch;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  line-height: 1.08;
+  font-size: clamp(3.5rem, 7.5vw, 6.75rem);
+  line-height: 0.95;
   letter-spacing: -0.02em;
   color: var(--color-ivory);
   text-wrap: balance;
   animation: title-rise 1000ms var(--ease-standard) 150ms both;
+}
+
+.titleAccent {
+  color: var(--color-gold);
+}
+
+/* Residential Plotting keeps its original, smaller title scale — it's       */
+/* excluded from the Media-matching size bump above, video masthead only.    */
+.titleCompact {
+  max-width: 34ch;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.08;
 }
 
 .subtext {

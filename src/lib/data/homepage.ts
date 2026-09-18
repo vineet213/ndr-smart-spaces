@@ -104,7 +104,7 @@ export const zones = [
       "Chennai",
       "Bengaluru",
       "Sricity",
-      "Cochin",
+      "Kochi",
       "Coimbatore",
       "Hosur",
       "Puducherry",
@@ -152,14 +152,14 @@ export const companyOverview = {
       { text: "NDR Group", bold: true },
       {
         text:
-          ", established to spearhead the Group’s development initiatives across logistics, industrial and residential segments, with a clear focus on socio-economic infrastructure development that enables greater operational focus, agility and scalability.",
+          ", established to spearhead the Group's development initiatives across logistics, industrial and residential segments, with a clear focus on social and economic infrastructure development that enables greater operational focus, agility and scalability.",
       },
     ],
     [
-      { text: "In addition to development activities, the Company provides " },
-      { text: "project management consultancy services", bold: true },
+      { text: "In addition to development activities, the Company has a " },
+      { text: "project management and maintenance services wing", bold: true },
       {
-        text: ", supporting the planning, execution and coordination of socio-economic infrastructure projects.",
+        text: ", supporting the planning, execution and coordination of the entity's projects.",
       },
     ],
     [
@@ -167,7 +167,7 @@ export const companyOverview = {
       { text: "NDR Group", bold: true },
       {
         text:
-          ", NDR Smart Spaces aims to build high-quality, scalable and strategically located assets that contribute to India’s growing logistics, industrial and socio-economic infrastructure landscape.",
+          ", NDR Smart Spaces aims to build high-quality, scalable and strategically located assets that contribute to India's growing infrastructure landscape.",
       },
     ],
   ] as CompanyOverviewSegment[][],

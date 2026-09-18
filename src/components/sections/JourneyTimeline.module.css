@@ -1,7 +1,5 @@
 .band {
   background-color: var(--color-ivory);
-  border-top: 1px solid var(--color-hairline-light);
-  border-bottom: 1px solid var(--color-hairline-light);
   padding-block: var(--space-9xl);
 }
 

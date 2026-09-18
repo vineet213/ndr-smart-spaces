@@ -45,7 +45,7 @@ export const aboutStory = {
   heading: "Six decades of building",
   paragraphs: [
     "The NDR Group was founded in 1954 by the late Mr. Naidu Dasaratha Rami Reddy. It began with a modest land parcel and a vision to establish a rice mill, marking the start of entrepreneurship in a family rooted in agriculture. His pioneering spirit laid the foundation for a multi-generational legacy of growth and innovation.",
-    "Since 2002, the company has achieved significant scale, attracted marquee investors and executed strategic acquisitions to strengthen its market position. Today, Mr. N. Amrutesh Reddy is steering the organization into a new phase of growth and modernization, with a vision to strengthen India's socio-economic infrastructure landscape, anchored primarily in logistics and industrial infrastructure.",
+    "Since 2002, under new leadership, the company has achieved significant scale, attracted marquee investors and executed strategic acquisitions to strengthen its market position. Today, the organization is entering a new phase of growth and modernization, with a vision to strengthen India's socio-economic infrastructure landscape, anchored primarily in logistics and industrial infrastructure.",
   ],
   quote: "A modest land parcel, a rice mill, and a multi-generational legacy.",
   quoteAttribution: "Mr. Naidu Dasaratha Rami Reddy · Founder, 1954",
@@ -88,7 +88,7 @@ export const aboutTimeline = {
     {
       year: "2005",
       title:
-        "NDR Warehousing invested in CWCNSL, Along With IL&FS Investment Managers — The Group's First Foray With Private Equity",
+        "NDR Warehousing invested in CWCNSL, Along With IL&FS Investment Managers - The Group's First Foray With Private Equity",
     },
     {
       year: "2008",
@@ -108,7 +108,8 @@ export const aboutTimeline = {
     },
     {
       year: "2018",
-      title: "NDR Warehousing Exits CWCNSL",
+      title:
+        "NDR Warehousing Exits CWCNSL, CWCNSL Acquired by DP World, One of the Largest Logistics Deals of the Decade",
     },
     {
       year: "2020",
@@ -127,17 +128,13 @@ export const aboutTimeline = {
       title: "NDR InvIT Listed on NSE with ₹8.8 Billion Offer Size and 19 Million Sq. Ft. Asset Portfolio",
     },
     {
-      year: "2024",
-      title: "8 Million Sq. Ft. of Construction Completed",
-    },
-    {
       year: "2025",
       title: "Incorporation Of NDR Smart Spaces",
     },
     {
       year: "2026",
       title:
-        "IFC brings a 225 crore equity investment into NDR Smart Spaces, with 23 Million Sq. Ft. Under Management and 10 Million Sq. Ft. Under Construction",
+        "IFC (International Finance Corporation) brings a 225 crore equity investment into NDR Smart Spaces, with 23 Million Sq. Ft. Under Management and 10 Million Sq. Ft. Under Construction",
     },
   ] as readonly TimelineNode[],
 } as const;
@@ -150,7 +147,7 @@ export const aboutPrinciples = {
     {
       index: "01",
       title: "Vision",
-      body: "We aspire to be a leading force in the Logistics, industrial and socio-economic Infrastructure Sector, actively contributing to India's dynamic growth story. We aim to positively impact social development and elevate infrastructure standards, positioning ourselves as a key player committed to excellence and progress.",
+      body: "We aspire to be a leading organisation in the Logistics, industrial and socio-economic Infrastructure Sector, actively contributing to India's dynamic growth story. We aim to positively impact social development and elevate infrastructure standards, positioning ourselves as a key player committed to excellence and progress.",
       image: {
         src: "/images/vision-mission/vision.svg",
         alt: "Editorial line illustration of a future-ready master plan — plotted land rising into an institutional skyline.",
@@ -314,6 +311,12 @@ export const leadership = {
           role: "Director",
           bio: "N. Amrutesh Reddy is a third-generation entrepreneur and a prominent leader in India's infrastructure and logistics sector. He holds a Bachelors in Commerce degree from Madras University, Chennai. He is the Managing Director of NDR Warehousing Private Limited and Sponsor & Board Member of NDR InvIT. With over two decades of leadership experience, he has overseen marquee investments and led several industry-defining initiatives in warehousing and logistics. He was honored with the Entrepreneur of the Year Award in 2025.",
           photo: "/images/leadership/board-directors/n-amrutesh-reddy.jpg",
+        },
+        {
+          name: "Raj Srinivasan",
+          role: "Director",
+          bio: "Raj Srinivasan is the Chief Executive Officer of NDR Smart Spaces, with nearly two decades of experience within the NDR Group. He is a management graduate from Sikkim University and previously served as CEO of NDR Warehousing for five years. He brings deep expertise in logistics, industrial real estate operations and business strategy. Known for his strong client relationships and operational discipline, he has played a key role in driving strategic growth and delivering complex construction projects.",
+          photo: "/images/leadership/management-team/raj-srinivasan.jpg",
         },
       ] as readonly LeadershipProfile[],
       placeholderSlots: 3,

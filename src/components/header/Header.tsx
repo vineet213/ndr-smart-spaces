@@ -12,21 +12,26 @@ import { MobileNav } from "./MobileNav";
 import styles from "./Header.module.css";
 
 export function Header() {
-  const scrolled = useScrolled(4);
+  const scrolled = useScrolled(40);
   const mobileMenu = useDisclosure(false);
 
   return (
-    <header className={styles.header}>
-      <UtilityStrip />
-      <div className={cx(styles.navBar, scrolled && styles.navBarScrolled)}>
-        <div className={styles.navContainer}>
-          <LogoWordmark />
-          <MainNav />
-          <CtaArea />
-          <MenuButton open={mobileMenu.open} onToggle={mobileMenu.toggle} />
+    <>
+      <header className={styles.header}>
+        <UtilityStrip />
+        <div className={cx(styles.navBar, scrolled && styles.navBarScrolled)}>
+          <div className={styles.navContainer}>
+            <LogoWordmark scrolled={scrolled} light />
+            <MainNav />
+            <CtaArea scrolled={scrolled} />
+            <MenuButton open={mobileMenu.open} onToggle={mobileMenu.toggle} />
+          </div>
         </div>
-      </div>
-      <MobileNav open={mobileMenu.open} onClose={mobileMenu.closePanel} />
-    </header>
+        <MobileNav open={mobileMenu.open} onClose={mobileMenu.closePanel} />
+      </header>
+      {/* The header is now `position: fixed` (see Header.module.css for why), */}
+      {/* so it's out of normal flow — this reserves the equivalent space.     */}
+      <div aria-hidden="true" className={styles.spacer} />
+    </>
   );
 }

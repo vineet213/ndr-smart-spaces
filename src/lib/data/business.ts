@@ -110,6 +110,20 @@ export const verticalMastheadSubtext: Readonly<Record<string, string>> = {
 };
 
 /**
+ * Two-tone masthead headline, keyed by division index — mirrors the Media &
+ * Newsroom masthead's white/gold split (`mediaMasthead.title`). Only "01"
+ * and "02" have an entry on purpose: "03" (Residential Plotting) keeps its
+ * own video masthead treatment untouched, and Asset Flip isn't part of this
+ * division system at all.
+ */
+export const verticalMastheadTitle: Readonly<
+  Record<string, { before: string; accent: string; after: string }>
+> = {
+  "01": { before: "Logistics and ", accent: "Industrial", after: " Infrastructure" },
+  "02": { before: "Project Management and Maintenance — ", accent: "NDR Asset Management", after: "" },
+};
+
+/**
  * Per-vertical overview heading rendered above the overview description.
  * `emphasis` lists phrases within the description that are set off in the
  * rendered copy.
