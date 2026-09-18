@@ -1,32 +1,42 @@
-/* `position: fixed` on the whole header, not `sticky` on the nav alone.     */
-/* Sticky positioning here was measurably failing (verified with a real      */
-/* browser, not assumption) — the nav detached from the top after a short    */
-/* scroll on every page, and neither a containing-block fix nor a formatting */
-/* -context fix resolved it. Fixed positioning has no such ambiguity: it     */
-/* pins to the viewport unconditionally. The trade-off is that the header    */
-/* leaves normal document flow, so `.spacer` in Header.tsx reserves an       */
-/* equivalent amount of space at the top of the page so content underneath   */
-/* doesn't jump up.                                                          */
 .header {
+}
+
+/* Only the nav bar is fixed — the utility strip above it is normal document */
+/* flow and scrolls away naturally. At rest the nav sits `top: 2rem`, right  */
+/* below the strip's own height; once scrolled the strip has scrolled out   */
+/* of view, so the nav slides up to `top: 0` to fill that space.            */
+.navBar {
   position: fixed;
-  top: 0;
+  top: 2rem;
   left: 0;
   right: 0;
   z-index: 100;
+  background: transparent;
+  transition: top var(--duration-standard) var(--ease-standard);
 }
 
+.navBarScrolled {
+  top: 0;
+}
+
+@media (max-width: 767px) {
+  .navBar {
+    /* The utility strip hides on mobile (see UtilityStrip.module.css), so   */
+    /* there's no strip height to sit below. */
+    top: 0;
+  }
+}
+
+/* Reserves the nav's own height right after the utility strip in normal    */
+/* flow, since the nav itself is `position: fixed` (out of flow).           */
 .spacer {
-  height: 6.75rem;
+  height: 4.5rem;
 }
 
 @media (max-width: 767px) {
   .spacer {
     height: 4.5rem;
   }
-}
-
-.navBar {
-  background: transparent;
 }
 
 /* Resting state: a solid bar in the same dark tone used by every masthead   */

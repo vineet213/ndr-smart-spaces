@@ -16,22 +16,23 @@ export function Header() {
   const mobileMenu = useDisclosure(false);
 
   return (
-    <>
-      <header className={styles.header}>
-        <UtilityStrip />
-        <div className={cx(styles.navBar, scrolled && styles.navBarScrolled)}>
-          <div className={styles.navContainer}>
-            <LogoWordmark scrolled={scrolled} light />
-            <MainNav />
-            <CtaArea scrolled={scrolled} />
-            <MenuButton open={mobileMenu.open} onToggle={mobileMenu.toggle} />
-          </div>
+    <header className={styles.header}>
+      {/* Normal document flow — scrolls away naturally, is not part of the */}
+      {/* fixed nav below. */}
+      <UtilityStrip />
+      <div className={cx(styles.navBar, scrolled && styles.navBarScrolled)}>
+        <div className={styles.navContainer}>
+          <LogoWordmark scrolled={scrolled} light />
+          <MainNav />
+          <CtaArea scrolled={scrolled} />
+          <MenuButton open={mobileMenu.open} onToggle={mobileMenu.toggle} />
         </div>
-        <MobileNav open={mobileMenu.open} onClose={mobileMenu.closePanel} />
-      </header>
-      {/* The header is now `position: fixed` (see Header.module.css for why), */}
-      {/* so it's out of normal flow — this reserves the equivalent space.     */}
+      </div>
+      {/* .navBar is `position: fixed` (out of flow) — this reserves the    */}
+      {/* equivalent space right after the utility strip so content below  */}
+      {/* doesn't jump up underneath it. */}
       <div aria-hidden="true" className={styles.spacer} />
-    </>
+      <MobileNav open={mobileMenu.open} onClose={mobileMenu.closePanel} />
+    </header>
   );
 }
