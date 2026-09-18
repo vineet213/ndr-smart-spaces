@@ -59,7 +59,7 @@ export const locations = [
     "lat": 12.8456,
     "line": "Bengaluru, Karnataka",
     "lon": 77.4861,
-    "name": "Bangalore",
+    "name": "Bengaluru",
     "portfolioOffset": {
       "x": 296,
       "y": 835,

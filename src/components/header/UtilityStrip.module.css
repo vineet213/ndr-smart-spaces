@@ -1,7 +1,6 @@
 .strip {
   height: 2rem;
-  background-color: var(--color-maroon-dark);
-  border-bottom: 1px solid var(--color-hairline-dark);
+  background-color: var(--color-charcoal-masthead);
 }
 
 .inner {

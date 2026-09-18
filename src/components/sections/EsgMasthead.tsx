@@ -4,15 +4,11 @@ import styles from "./EsgMasthead.module.css";
 
 export function EsgMasthead() {
   return (
-    <Section tone="light" ariaLabelledby="esg-masthead-title" className={styles.section}>
+    <Section tone="charcoal" ariaLabelledby="esg-masthead-title" className={styles.section}>
       <span className={styles.ruleTop} aria-hidden="true" />
 
       <Container className={styles.content}>
         <div className={styles.hero} id="esg-hero">
-          <span className={styles.watermark} aria-hidden="true">
-            {esgMasthead.watermark}
-          </span>
-
           <h1 id="esg-masthead-title" className={styles.title}>
             {esgMasthead.title.before}
             <span className={styles.titleAccent}>{esgMasthead.title.accent}</span>

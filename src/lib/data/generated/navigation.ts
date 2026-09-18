@@ -63,7 +63,7 @@ export const navigation = {
       ],
       "href": "/en/business/logistics-and-industrial-infrastructure",
       "id": "business",
-      "label": "Business",
+      "label": "Verticals",
       "type": "menu",
     },
     {
@@ -156,7 +156,7 @@ export const navigation = {
       ],
       "href": "/en/business/logistics-and-industrial-infrastructure",
       "id": "business",
-      "label": "Business",
+      "label": "Verticals",
       "type": "menu",
     },
     {

@@ -164,6 +164,7 @@ export function MegaMenuButton({
           aria-expanded={open}
           aria-haspopup="true"
           aria-controls={panelId}
+          data-nav-anchor
           onKeyDown={handleTriggerKeyDown}
         >
           {menu.label}
@@ -177,6 +178,7 @@ export function MegaMenuButton({
           aria-expanded={open}
           aria-haspopup="menu"
           aria-controls={panelId}
+          data-nav-anchor
           onKeyDown={handleTriggerKeyDown}
         >
           {menu.label}

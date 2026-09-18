@@ -1,5 +1,4 @@
 import { Grid, GridItem } from "@/components/layout";
-import { Eyebrow } from "@/components/ui";
 import { aboutPrinciples } from "@/lib/data/about";
 import { Reveal, type RevealDelay } from "./Reveal";
 import { VisionDiagram, MissionDiagram } from "./VisionMissionArt";
@@ -19,17 +18,9 @@ export function VisionMissionValues() {
                 <div className={styles.scrim} aria-hidden="true" />
                 <span className={styles.curtain} aria-hidden="true" />
                 <div className={styles.content}>
-                  <Eyebrow tone="dark" as="span" className={styles.index}>
-                    {column.index}
-                  </Eyebrow>
                   <h3 className={styles.title}>{column.title}</h3>
                   <span className={styles.titleRule} aria-hidden="true" />
                   <p className={styles.body}>{column.body}</p>
-                  <span className={styles.cue} aria-hidden="true">
-                    <svg width="34" height="28" viewBox="0 0 34 28" fill="none" aria-hidden="true">
-                      <path d="M1 27 L29 2 M22 2 H29 V9" stroke="currentColor" strokeWidth="1.5" />
-                    </svg>
-                  </span>
                 </div>
               </article>
             </Reveal>

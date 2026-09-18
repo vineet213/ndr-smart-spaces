@@ -135,9 +135,6 @@ export function PropertyRegister() {
       <Container>
         <Reveal>
           <div className={styles.headingBlock}>
-            <span className={styles.chapter} aria-hidden="true">
-              {propertyRegister.chapter}
-            </span>
             <Heading variant="section" id="register-title">
               {propertyRegister.heading}
             </Heading>
@@ -174,9 +171,6 @@ export function PropertyRegister() {
                   ) : null}
                 </button>
               </div>
-              <span className={styles.provenanceSource}>
-                {mode === "aum" ? assetsUnderManagementSection.source : underConstructionSection.source}
-              </span>
               <span className={styles.provenanceMeta}>
                 {mode === "aum"
                   ? `${aumStates.length} ${

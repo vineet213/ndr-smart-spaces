@@ -35,9 +35,7 @@ export function MetricsBand() {
                 <h3 className={styles.label}>{metric.stat}</h3>
                 <div className={styles.report}>
                   <span className={styles.period}>{metric.period}</span>
-                  <span className={styles.origin}>
-                    {metric.source} · {entityName[metric.entity]}
-                  </span>
+                  <span className={styles.origin}>{entityName[metric.entity]}</span>
                 </div>
               </article>
             </Reveal>

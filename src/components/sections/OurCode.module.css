@@ -1,32 +1,13 @@
 .section {
-  padding-block: var(--section-padding-desktop);
+  padding-block: var(--section-padding-desktop) 0;
   background-color: var(--color-ivory);
-  overflow-x: hidden;
   overflow-x: clip;
-}
-
-/* Full-bleed: spans edge-to-edge of the viewport instead of the site's
-   80rem container — the client asked for this section specifically to
-   stretch the full window width, unlike the rest of the page. */
-.bleed {
-  width: 100%;
-  padding-inline: var(--margin-mobile);
-}
-
-@media (min-width: 768px) {
-  .bleed {
-    padding-inline: var(--margin-tablet);
-  }
-}
-
-@media (min-width: 1440px) {
-  .bleed {
-    padding-inline: var(--margin-desktop);
-  }
 }
 
 .header {
   max-width: var(--measure-body);
+  margin-inline: auto;
+  padding-inline: var(--margin-desktop);
   margin-bottom: var(--space-9xl);
 }
 
@@ -37,220 +18,235 @@
   background-color: var(--color-gold);
 }
 
-.rows {
+/* The Ledger Reel ----------------------------------------------------------- */
+/* The track is a tall scroll runway; while it's on screen the inner `.sticky` */
+/* viewport pins in place and every panel is positioned purely by scroll       */
+/* position via --offset/--center (no CSS transitions on those — the          */
+/* continuous per-frame update from OurCode.tsx *is* the animation).           */
+
+.track {
+  position: relative;
+}
+
+.sticky {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 55% at 50% 42%, rgba(240, 182, 90, 0.07) 0%, rgba(240, 182, 90, 0) 70%),
+    var(--color-maroon-dark);
+}
+
+.stickyPinned {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+/* DrawnGrid's hairline reads its color from this token — overriding it     */
+/* just for this instance (custom properties cascade regardless of CSS      */
+/* module scoping) so the column rhythm stays visible against charcoal.     */
+.grid {
+  --color-hairline-light: rgba(250, 247, 242, 0.35);
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 18rem) minmax(0, 42rem);
+  align-items: center;
+  gap: var(--space-9xl);
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--margin-desktop);
+}
+
+.panelPinned {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  background-color: var(--color-maroon-dark);
+  /* Fade is the whole point of the motion now — a true 0→1 dissolve, eased  */
+  /* (smoothstep, computed in OurCode.tsx) rather than linear, with only a   */
+  /* whisper of horizontal drift so it reads as "fade" and not "swipe".      */
+  opacity: var(--center, 1);
+  transform: translateX(calc(var(--offset, 0) * 20%));
+  will-change: transform, opacity;
+}
+
+.panel:not(.panelPinned) {
+  grid-template-columns: 1fr;
+  gap: var(--space-4xl);
+  padding-block: var(--space-9xl);
+}
+
+.panel:not(.panelPinned) + .panel:not(.panelPinned) {
+  padding-top: 0;
+}
+
+.panelMeta {
   display: flex;
   flex-direction: column;
-  gap: var(--space-7xl);
+  gap: var(--space-lg);
 }
 
-.grid {
-  align-items: center;
+.panelNumeral {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(6rem, 11vw, 11rem);
+  line-height: 1;
+  color: rgba(240, 182, 90, 0.24);
+  /* Drifts a touch opposite the panel's own small movement — a background   */
+  /* layer lagging behind the foreground content for a hint of depth.       */
+  transform: translateX(calc(var(--offset, 0) * -4%));
 }
 
-/* paper-tint panels ------------------------------------------------------ */
-/* each row sits on a warm paper card: ivory base with a soft maroon blush  */
-/* anchored toward the gold mark plate, a whisper of maroon hairline and a  */
-/* faint gold inner ring — the archival-sheet language from PropertyRegister */
-
-.row {
-  padding: var(--space-3xl) var(--space-4xl);
-  border: 1px solid rgba(160, 53, 58, 0.16);
-  border-radius: var(--radius-sm);
-  box-shadow: inset 0 0 0 1px rgba(240, 182, 90, 0.1);
-  background:
-    radial-gradient(
-      140% 170% at var(--plate-side, 6%) 0%,
-      rgba(160, 53, 58, 0.16) 0%,
-      rgba(160, 53, 58, 0.06) 38%,
-      rgba(160, 53, 58, 0) 72%
-    ),
-    var(--color-ivory);
-}
-
-.row.fromLeft {
-  --plate-side: 6%;
-}
-
-.row.fromRight {
-  --plate-side: 94%;
-}
-
-.plateColumn {
-  display: flex;
-}
-
-.plate {
-  position: relative;
-  width: 100%;
-  max-width: 20rem;
-  aspect-ratio: 1 / 1;
-  margin-inline: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-charcoal);
-  border-top: 2px solid var(--color-gold);
-}
-
-.mark {
-  width: 40%;
+.panelMark {
+  width: clamp(2.75rem, 4vw, 4rem);
   color: var(--color-gold);
 }
 
-.mark svg {
+.panelMark svg {
   display: block;
   width: 100%;
   height: 100%;
+  overflow: visible;
 }
 
-.textColumn {
-  display: flex;
+/* The icon draws itself in as its panel approaches center, and un-draws as  */
+/* it departs — pathLength=1 (set in OurCode.tsx) means this dash math is    */
+/* identical for every path regardless of its real length.                  */
+.panelMark svg path,
+.panelMark svg circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--center, 1));
 }
 
-.text {
-  max-width: 34rem;
+.panelText {
+  max-width: 40rem;
 }
 
-.index {
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-meta);
-  line-height: var(--leading-meta);
-  letter-spacing: var(--tracking-meta);
-  color: var(--color-gold);
-  font-variant-numeric: tabular-nums;
-}
-
-.title {
+.panelTitle {
   margin: 0;
+  /* Kinetic wipe — reveals left-to-right instead of fading, the signature   */
+  /* motion of the reel's arrival moment. */
+  clip-path: inset(0 calc((1 - var(--center, 1)) * 100%) 0 0);
 }
 
-.tagline {
+.panelTagline {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
   font-size: var(--font-lede);
   line-height: var(--leading-lede);
-  color: var(--color-maroon);
+  color: var(--color-gold-light);
 }
 
-.body {
+.panelBody {
   margin: 0;
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-regular);
   font-size: var(--font-body-size);
   line-height: var(--leading-body);
-  color: var(--color-text-secondary);
+  color: var(--color-text-inverse-80);
 }
 
-/* alternating entrance — mirrors DevelopmentLifecycle's fromLeft/fromRight  */
-/* fly-in: the whole row slides in from alternating sides, and its inner    */
-/* elements settle in with their own short staggered fade-up on top.        */
-
-@media (prefers-reduced-motion: no-preference) {
-  .row {
-    opacity: 0;
-    transform: translateX(60px);
-    transition:
-      opacity 980ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 980ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .row.fromLeft {
-    transform: translateX(-60px);
-  }
-
-  .row.fromRight {
-    transform: translateX(60px);
-  }
-
-  .row.isInView {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .row .plate,
-  .row .index,
-  .row .title,
-  .row .tagline,
-  .row .body {
-    opacity: 0;
-    transform: translateY(18px);
-    transition:
-      opacity 820ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 820ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .row .plate {
-    transition-delay: 100ms;
-  }
-
-  .row .index {
-    transition-delay: 80ms;
-  }
-
-  .row .title {
-    transition-delay: 180ms;
-  }
-
-  .row .tagline {
-    transition-delay: 260ms;
-  }
-
-  .row .body {
-    transition-delay: 340ms;
-  }
-
-  .row.isInView .plate,
-  .row.isInView .index,
-  .row.isInView .title,
-  .row.isInView .tagline,
-  .row.isInView .body {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.panel:not(.panelPinned) .panelNumeral {
+  transform: none;
 }
 
-/* responsive -------------------------------------------------------------- */
+.panel:not(.panelPinned) .panelMark svg path,
+.panel:not(.panelPinned) .panelMark svg circle {
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+}
+
+.panel:not(.panelPinned) .panelTitle {
+  clip-path: none;
+}
+
+/* Ledger line — folds the old numbered rail into a single physical progress */
+/* indicator: a hairline track with a marker that slides in lockstep with    */
+/* the filmstrip, and tick numerals that light up as their value centers.    */
+
+.ledger {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-8xl);
+  transform: translateX(-50%);
+  z-index: 30;
+  width: min(90%, 46rem);
+}
+
+.ledger::before {
+  content: "";
+  display: block;
+  height: 1px;
+  background-color: rgba(250, 247, 242, 0.18);
+}
+
+.ledgerMarker {
+  position: absolute;
+  top: -3px;
+  left: calc(var(--reel-progress, 0) * 100%);
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  border-radius: 50%;
+  background-color: var(--color-gold);
+  box-shadow: 0 0 0 4px rgba(240, 182, 90, 0.18);
+}
+
+.ledgerTicks {
+  display: flex;
+  justify-content: space-between;
+  margin: var(--space-lg) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ledgerTick {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-inverse-70);
+  transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.ledgerTickActive {
+  color: var(--color-gold);
+}
+
+/* responsive --------------------------------------------------------------- */
 
 @media (max-width: 1439px) {
   .section {
-    padding-block: var(--section-padding-tablet);
-  }
-}
-
-@media (max-width: 1023px) {
-  .rows {
-    gap: var(--space-6xl);
+    padding-block: var(--section-padding-tablet) 0;
   }
 
-  .row {
-    padding: var(--space-3xl);
+  .header {
+    padding-inline: var(--margin-tablet);
   }
 
-  .grid {
-    row-gap: var(--space-4xl);
-  }
-
-  .plate {
-    max-width: 14rem;
+  .panel {
+    grid-template-columns: minmax(0, 15rem) minmax(0, 34rem);
+    gap: var(--space-7xl);
+    padding-inline: var(--margin-tablet);
   }
 }
 
 @media (max-width: 767px) {
-  .section {
-    padding-block: var(--section-padding-mobile);
-  }
-
   .header {
+    padding-inline: var(--margin-mobile);
     margin-bottom: var(--space-7xl);
   }
 
-  .rows {
-    gap: var(--space-5xl);
+  .panel {
+    padding-inline: var(--margin-mobile);
   }
 
-  .row {
-    padding: var(--space-2xl) var(--space-3xl);
+  .panel:not(.panelPinned) {
+    padding-block: var(--space-7xl);
   }
 }

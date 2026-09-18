@@ -21,7 +21,7 @@ export default function AssetPerformanceManagementPage() {
 
         <Container className={styles.hero}>
           <h1 id="subpage-title" className={styles.title}>
-            Asset Performance Management
+            Asset <span className={styles.titleAccent}>Performance</span> Management
           </h1>
           <p className={styles.overviewNote}>{intro.description}</p>
         </Container>

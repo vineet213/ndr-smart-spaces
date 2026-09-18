@@ -32,24 +32,29 @@ section.masthead {
   z-index: 1;
   padding-top: var(--space-12xl);
   padding-bottom: var(--space-6xl);
-  min-height: 78vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
 }
 
+/* Matches the Media & Newsroom masthead's exact title scale/proportion. */
 .title {
   position: relative;
   z-index: 1;
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);
-  font-size: clamp(3.25rem, 7vw, 7rem);
+  font-size: clamp(3.5rem, 7.5vw, 6.75rem);
   line-height: 0.95;
   letter-spacing: -0.02em;
   color: var(--color-ivory);
   text-wrap: balance;
   animation: title-rise 1000ms var(--ease-standard) 150ms both;
+}
+
+.titleAccent {
+  color: var(--color-gold);
 }
 
 .overviewHeading {
@@ -92,8 +97,11 @@ section.masthead {
 
 /* body ------------------------------------------------------------------ */
 
+/* Removes the shared Section's default top padding so the first lifecycle   */
+/* image sits flush against the masthead instead of leaving a visible gap.   */
 .bodySection {
   position: relative;
+  padding-top: 0;
 }
 
 /* keyframes -------------------------------------------------------------- */

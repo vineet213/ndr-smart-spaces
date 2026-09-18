@@ -131,29 +131,9 @@ export function IndiaMap({
                   onFocus={() => onLocationEnter(location)}
                   onBlur={onLocationLeave}
                 >
-                  {location.tier === "hq" ? (
-                    <g className={styles.hqGroup}>
-                      <circle className={styles.haloHq} cx={location.x} cy={location.y} r={19} />
-                      <circle className={styles.ringHq} cx={location.x} cy={location.y} r={13} />
-                      <rect
-                        className={styles.nodeHq}
-                        x={location.x - 7.5}
-                        y={location.y - 7.5}
-                        width={15}
-                        height={15}
-                        rx={1}
-                        transform={`rotate(45 ${location.x} ${location.y})`}
-                      />
-                    </g>
-                  ) : location.tier === "hub" ? (
-                    <>
-                      <circle className={styles.halo} cx={location.x} cy={location.y} r={18} />
-                      <circle className={styles.glow} cx={location.x} cy={location.y} r={11} />
-                      <circle className={styles.node} cx={location.x} cy={location.y} r={8} />
-                    </>
-                  ) : (
-                    <circle className={styles.nodeSat} cx={location.x} cy={location.y} r={5} />
-                  )}
+                  <circle className={styles.halo} cx={location.x} cy={location.y} r={16} />
+                  <circle className={styles.glow} cx={location.x} cy={location.y} r={10} />
+                  <circle className={styles.node} cx={location.x} cy={location.y} r={7} />
                 </g>
               );
             })}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Container, Grid, GridItem } from "@/components/layout";
-import { Heading, Eyebrow, VisuallyHidden } from "@/components/ui";
+import { Heading, VisuallyHidden } from "@/components/ui";
 import type { MapLocation, ZoneId } from "@/lib/data/homepage";
 import { zones, mapLocations, portfolioPresence } from "@/lib/data/homepage";
 import { IndiaMap } from "./IndiaMap";
@@ -18,7 +18,6 @@ export function PortfolioPresence() {
       <Container>
         <Grid className={styles.grid}>
           <GridItem span={5} className={styles.content}>
-            <Eyebrow>{portfolioPresence.eyebrow}</Eyebrow>
             <Heading variant="section" id="portfolio-presence-title">
               {portfolioPresence.heading}
             </Heading>

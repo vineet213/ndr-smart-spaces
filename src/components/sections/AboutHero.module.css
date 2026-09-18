@@ -1,6 +1,6 @@
 .hero {
   padding-block: var(--space-9xl);
-  background-color: var(--color-maroon-dark);
+  background-color: var(--color-charcoal-masthead);
   color: var(--color-ivory);
   border-bottom: 1px solid var(--color-gold-30);
   overflow: hidden;

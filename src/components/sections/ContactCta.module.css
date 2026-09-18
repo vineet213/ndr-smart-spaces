@@ -1,7 +1,6 @@
 .section {
   padding-block: var(--section-padding-desktop);
   background-color: var(--color-ivory);
-  border-top: 1px solid var(--color-hairline-light);
 }
 
 .goldRule {

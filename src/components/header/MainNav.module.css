@@ -3,6 +3,7 @@
 }
 
 .list {
+  position: relative;
   display: flex;
   align-items: stretch;
   gap: var(--space-lg);
@@ -22,32 +23,33 @@
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-nav);
   line-height: var(--leading-nav);
-  color: var(--color-text-primary);
+  color: var(--nav-fg, var(--color-text-primary));
   white-space: nowrap;
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.link::after {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  height: 2px;
-  background-color: var(--color-gold);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--duration-standard) var(--ease-standard);
-}
-
 .linkActive,
 .link:hover {
-  color: var(--color-maroon);
+  color: var(--nav-fg-hover, var(--color-maroon));
 }
 
-.linkActive::after,
-.link:hover::after,
-.link:focus-visible::after {
-  transform: scaleX(1);
+/* The liquid indicator — one shared element that glides beneath whichever   */
+/* nav anchor is hovered/focused (position set from MainNav.tsx via event    */
+/* delegation), replacing what used to be a static underline per link.       */
+.indicator {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  background-color: var(--nav-accent, var(--color-gold));
+  border-radius: 1px;
+  opacity: 0;
+  transition:
+    transform var(--duration-standard) var(--ease-standard),
+    width var(--duration-standard) var(--ease-standard),
+    opacity var(--duration-micro) var(--ease-standard);
+  pointer-events: none;
+  will-change: transform, width;
 }
 
 @media (min-width: 1280px) {

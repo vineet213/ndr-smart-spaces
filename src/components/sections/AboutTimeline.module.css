@@ -1,5 +1,5 @@
 .section {
-  padding-block: var(--section-padding-desktop);
+  padding-block: var(--section-padding-desktop) 0;
   background-color: var(--color-ivory-dim);
 }
 
@@ -179,7 +179,7 @@
 
 @media (max-width: 1023px) {
   .section {
-    padding-block: var(--section-padding-tablet);
+    padding-block: var(--section-padding-tablet) 0;
   }
 
   .list::before {
@@ -217,7 +217,7 @@
 
 @media (max-width: 767px) {
   .section {
-    padding-block: var(--section-padding-mobile);
+    padding-block: var(--section-padding-mobile) 0;
   }
 
   .item {
