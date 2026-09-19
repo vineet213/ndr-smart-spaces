@@ -35,7 +35,7 @@ export function InvestorMasthead({
 
   return (
     <Section tone="charcoal" ariaLabelledby={id} className={styles.section}>
-      {isCover ? <span className={styles.ruleTop} aria-hidden="true" /> : null}
+      <span className={styles.ruleTop} aria-hidden="true" />
 
       <Container className={styles.inner}>
         {isCover ? (

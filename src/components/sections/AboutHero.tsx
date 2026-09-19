@@ -9,6 +9,8 @@ import { cx } from "../ui/cx";
 export function AboutHero() {
   return (
     <section className={styles.hero} aria-labelledby="about-hero-title">
+      <span className={styles.ruleTop} aria-hidden="true" />
+
       <Container className={styles.content}>
         <Stack gap="4xl">
           <Stack gap="3xl">

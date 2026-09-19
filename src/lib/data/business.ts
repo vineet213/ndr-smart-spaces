@@ -375,7 +375,7 @@ export const businessClosing = {
 export const vertical02Metrics: readonly (Omit<CompanyMetric, "value"> & { value: number })[] = [
   {
     value: 10,
-    suffix: " Mn",
+    suffix: " MN",
     label: "Asset under construction (Sq. Ft.)",
     context: "Asset under construction (Sq. Ft.)",
   },
@@ -425,7 +425,7 @@ export const vertical02AssetManagement = {
     { value: 98, suffix: "%", label: "Occupancy Status", context: "Occupancy Status" },
     {
       value: 33,
-      suffix: " Mn",
+      suffix: " MN",
       label: "Asset Under Management (Sq. Ft.)",
       context: "Asset Under Management (Sq. Ft.)",
     },

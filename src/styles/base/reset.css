@@ -11,6 +11,11 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  /* Gentle page-level snap: only elements that explicitly opt in with     */
+  /* `scroll-snap-align` (e.g. DevelopmentLifecycle's stage markers)       */
+  /* become snap points; `proximity` never fights or hijacks a scroll      */
+  /* gesture the way `mandatory` can.                                     */
+  scroll-snap-type: y proximity;
 }
 
 body {

@@ -24,7 +24,8 @@ import { INDIA_OUTLINE, MAP_VIEWBOX } from "./portfolio";
 
 export const contactMasthead = {
   publication: "Contact",
-  title: "Contact Us",
+  title: { before: "Contact ", accent: "Us" },
+  statement: "Good things start with a conversation. Let's start ours.",
 } as const;
 
 /* office directory -------------------------------------------------------- */

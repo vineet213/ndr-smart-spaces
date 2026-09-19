@@ -1,18 +1,11 @@
 .section {
   padding-block: var(--section-padding-desktop);
   background-color: var(--color-ivory);
-  overflow-x: hidden;
-  overflow-x: clip;
 }
 
 .header {
   max-width: var(--measure-body);
-  margin-bottom: var(--space-9xl);
-}
-
-.eyebrow {
-  margin: 0 0 var(--space-xl);
-  display: inline-block;
+  margin-bottom: var(--space-8xl);
 }
 
 .heading {
@@ -23,34 +16,156 @@
   margin-top: var(--space-lg);
 }
 
-.rows {
+/* contained cross-fade card stack ------------------------------------------ */
+/* A bounded, centred rectangle — not a full-bleed section — that pins in
+ * place while the page scrolls past a tall track behind it. Cards are laid
+ * on top of one another and cross-fade with a blur: the outgoing card
+ * blurs and fades as the next one sharpens and fades in over it, driven by
+ * native CSS scroll-driven animation (`animation-timeline: view()`) — no
+ * scroll listeners, no rAF, so the crossfade can't drift out of sync with
+ * the scroll itself.
+ *
+ * Browsers without scroll-driven animation support (`@supports` below)
+ * fall back to a plain vertical list of the same cards — still fully
+ * readable, just without the pinned crossfade.                            */
+
+.stackTrack {
+  position: relative;
+}
+
+.stackBox {
   display: flex;
   flex-direction: column;
-  gap: var(--space-7xl);
+  gap: var(--space-2xl);
 }
 
-.grid {
-  align-items: center;
-}
-
-/* photo card --------------------------------------------------------------- */
-/* Sized close to the source photographs' native resolution (~372×201) so
-   they render sharp instead of being stretched full-bleed across the
-   viewport. */
-
-.photoColumn {
-  display: flex;
-}
-
-.photo {
+.card {
   position: relative;
-  width: 100%;
-  max-width: 26rem;
-  aspect-ratio: 372 / 201;
-  margin: 0 auto;
+  min-height: 24rem;
+  border-radius: 1.25rem;
   overflow: hidden;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(160, 53, 58, 0.16);
+  box-shadow: 0 20px 40px rgba(17, 16, 15, 0.22);
+}
+
+@supports (animation-timeline: view()) {
+  .stackTrack {
+    height: 480vh;
+  }
+
+  .stackBox {
+    display: block;
+    position: sticky;
+    top: clamp(5.5rem, 12vh, 8rem);
+    width: 100%;
+    max-width: 62rem;
+    height: min(39rem, 74vh);
+    margin-inline: auto;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow:
+      0 32px 64px rgba(17, 16, 15, 0.32),
+      0 8px 24px rgba(17, 16, 15, 0.2);
+    view-timeline-name: --esg-stack-progress;
+    view-timeline-axis: block;
+  }
+
+  .card {
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+/* curated, on-brand palette — deep/muted tones, cycling per card.          */
+.colorMaroon {
+  background-color: #5a1e22;
+}
+
+.colorBronze {
+  background-color: #7a4a1f;
+}
+
+.colorTeal {
+  background-color: #1c3634;
+}
+
+.colorPlum {
+  background-color: #432142;
+}
+
+.colorTerracotta {
+  background-color: #7a3a26;
+}
+
+.colorForest {
+  background-color: #2b3a28;
+}
+
+.row {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+}
+
+.row.sideRight {
+  flex-direction: row-reverse;
+}
+
+/* text column, with a ghost numeral behind it ------------------------------ */
+
+.textCol {
+  position: relative;
+  flex: 1 1 50%;
+  max-width: 27rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-4xl);
+  box-sizing: border-box;
+}
+
+.ghostIndex {
+  position: absolute;
+  top: -2.25rem;
+  left: -0.25rem;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: 6.5rem;
+  line-height: 1;
+  color: rgba(240, 182, 90, 0.16);
+  user-select: none;
+  pointer-events: none;
+}
+
+.title {
+  position: relative;
+  margin: 0;
+  color: var(--color-ivory);
+  font-size: clamp(1.75rem, 2.6vw, 2.25rem);
+}
+
+.body {
+  position: relative;
+  margin: var(--space-md) 0 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--color-text-inverse);
+}
+
+/* photo — fills its entire half of the box edge-to-edge --------------------- */
+/* The box's own `overflow: hidden` + border-radius (see .stackBox) clips
+ * this flush to a rounded corner automatically, whichever side it's on —
+ * no separate frame/border needed now that it isn't a floating thumbnail. */
+
+.photoCol {
+  position: relative;
+  flex: 1 1 50%;
+  margin: 0;
   background-color: var(--color-charcoal-deep);
 }
 
@@ -58,99 +173,114 @@
   object-fit: cover;
 }
 
-.textColumn {
-  display: flex;
+/* the cross-fade + blur itself ---------------------------------------------- */
+/* Each card owns a slice of the shared timeline (set inline via
+ * --card-range-start/--card-range-end in EsgGreenFeatures.tsx, overlapping
+ * its neighbours) so the outgoing card is still blurring out while the
+ * next one sharpens in over it — a true cross-fade. The first/last cards
+ * use their own keyframes since there's nothing before the first or after
+ * the last to fade against.                                                */
+
+/* A subtle scale rides along with the blur/opacity — each card eases in
+ * from ~1.04 down to 1.00 as it sharpens, and back up as it blurs away.
+ * Deliberately small and in the same direction as the blur (never a slide
+ * or a second competing motion), so it reinforces "arriving into focus"
+ * rather than adding a distinct effect on top of it.                      */
+
+@keyframes esgCardFirst {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+    scale: 1;
+  }
+  82% {
+    opacity: 1;
+    filter: blur(0);
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    filter: blur(20px);
+    scale: 1.04;
+  }
 }
 
-.text {
-  max-width: 34rem;
+@keyframes esgCardMiddle {
+  0% {
+    opacity: 0;
+    filter: blur(20px);
+    scale: 1.04;
+  }
+  18% {
+    opacity: 1;
+    filter: blur(0);
+    scale: 1;
+  }
+  82% {
+    opacity: 1;
+    filter: blur(0);
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    filter: blur(20px);
+    scale: 1.04;
+  }
 }
 
-.index {
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-meta);
-  line-height: var(--leading-meta);
-  letter-spacing: var(--tracking-meta);
-  color: var(--color-gold);
-  font-variant-numeric: tabular-nums;
+@keyframes esgCardLast {
+  0% {
+    opacity: 0;
+    filter: blur(20px);
+    scale: 1.04;
+  }
+  18% {
+    opacity: 1;
+    filter: blur(0);
+    scale: 1;
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    scale: 1;
+  }
 }
-
-.title {
-  margin: 0;
-}
-
-.body {
-  margin: 0;
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-regular);
-  font-size: var(--font-body-size);
-  line-height: var(--leading-body);
-  color: var(--color-text-secondary);
-}
-
-/* alternating entrance — same fly-in mechanic as Development Lifecycle /
-   Our Code: the whole row slides in from alternating sides. */
 
 @media (prefers-reduced-motion: no-preference) {
-  .row {
-    opacity: 0;
-    transform: translateX(60px);
-    transition:
-      opacity 980ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 980ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
+  @supports (animation-timeline: view()) {
+    /* Longhand throughout (never the `animation` shorthand) — the shorthand
+     * resets every animation-* longhand to its initial value for whatever
+     * it doesn't explicitly set, which would silently wipe out the
+     * animation-timeline/animation-range below if a later rule used it.  */
+    .card {
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --esg-stack-progress;
+      animation-range: var(--card-range-start) var(--card-range-end);
+    }
 
-  .row.fromLeft {
-    transform: translateX(-60px);
-  }
+    .cardFirst {
+      animation-name: esgCardFirst;
+    }
 
-  .row.fromRight {
-    transform: translateX(60px);
-  }
+    .cardMiddle {
+      animation-name: esgCardMiddle;
+    }
 
-  .row.isInView {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .row .photo,
-  .row .index,
-  .row .title,
-  .row .body {
-    opacity: 0;
-    transform: translateY(18px);
-    transition:
-      opacity 820ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 820ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .row .photo {
-    transition-delay: 100ms;
-  }
-
-  .row .index {
-    transition-delay: 80ms;
-  }
-
-  .row .title {
-    transition-delay: 180ms;
-  }
-
-  .row .body {
-    transition-delay: 260ms;
-  }
-
-  .row.isInView .photo,
-  .row.isInView .index,
-  .row.isInView .title,
-  .row.isInView .body {
-    opacity: 1;
-    transform: translateY(0);
+    .cardLast {
+      animation-name: esgCardLast;
+    }
   }
 }
 
-/* responsive ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    opacity: 1 !important;
+    filter: none !important;
+  }
+}
+
+/* responsive -------------------------------------------------------------- */
 
 @media (max-width: 1439px) {
   .section {
@@ -159,16 +289,43 @@
 }
 
 @media (max-width: 1023px) {
-  .rows {
-    gap: var(--space-6xl);
+  @supports (animation-timeline: view()) {
+    .stackBox {
+      height: min(30rem, 68vh);
+    }
   }
 
-  .grid {
-    row-gap: var(--space-4xl);
+  .row {
+    flex-direction: column;
+    text-align: center;
+    overflow-y: auto;
   }
 
-  .photo {
-    max-width: 22rem;
+  .row.sideRight {
+    flex-direction: column;
+  }
+
+  .textCol {
+    /* .textCol/.photoCol are `flex: 1 1 50%` for the desktop row layout,
+     * where 50% is a WIDTH basis. Once .row switches to a column, that
+     * same percentage reads as a HEIGHT basis against .row's auto height
+     * — an unresolvable percentage (same bug hit and fixed on Development
+     * Lifecycle's mobile layout earlier this session). Give each an
+     * explicit sizing instead of relying on the flex-basis percentage. */
+    flex: none;
+    width: 100%;
+    max-width: none;
+    padding: var(--space-3xl);
+  }
+
+  .ghostIndex {
+    display: none;
+  }
+
+  .photoCol {
+    flex: none;
+    width: 100%;
+    height: 11rem;
   }
 }
 
@@ -178,10 +335,16 @@
   }
 
   .header {
-    margin-bottom: var(--space-7xl);
+    margin-bottom: var(--space-6xl);
   }
 
-  .rows {
-    gap: var(--space-5xl);
+  @supports (animation-timeline: view()) {
+    .stackTrack {
+      height: 360vh;
+    }
+
+    .stackBox {
+      height: min(28rem, 62vh);
+    }
   }
 }

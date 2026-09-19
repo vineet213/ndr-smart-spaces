@@ -11,6 +11,29 @@
   overflow: hidden;
 }
 
+/* gold registration rule — same treatment as every other page masthead
+ * (Esg/Media/Portfolio/Contact/business verticals); the homepage hero was
+ * the one place it had never been added. */
+.ruleTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: block;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(240, 182, 90, 0) 0%,
+    var(--color-gold) 16%,
+    var(--color-gold-light) 50%,
+    var(--color-gold) 84%,
+    rgba(240, 182, 90, 0) 100%
+  );
+  transform-origin: left;
+  animation: draw-right 1200ms var(--ease-standard) 100ms both;
+}
+
 .media {
   position: absolute;
   inset: 0;
@@ -132,6 +155,15 @@
   }
 }
 
+@keyframes draw-right {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @media (max-width: 1439px) {
   .scrollCue {
     bottom: var(--space-9xl);
@@ -170,7 +202,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mediaVideo {
+  .mediaVideo,
+  .ruleTop {
     animation: none;
   }
 }

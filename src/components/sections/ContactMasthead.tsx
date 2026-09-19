@@ -9,15 +9,13 @@ export function ContactMasthead() {
 
       <Container className={styles.content}>
         <div className={styles.hero} id="contact-hero">
-          <p className={styles.eyebrow}>{contactMasthead.publication}</p>
-
           <h1 id="contact-masthead-title" className={styles.title}>
-            {contactMasthead.title}
+            {contactMasthead.title.before}
+            <span className={styles.titleAccent}>{contactMasthead.title.accent}</span>
           </h1>
+          <p className={styles.statement}>{contactMasthead.statement}</p>
         </div>
       </Container>
-
-      <span className={styles.rule} aria-hidden="true" />
     </Section>
   );
 }
