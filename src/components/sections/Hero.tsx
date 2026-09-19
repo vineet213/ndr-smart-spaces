@@ -20,6 +20,8 @@ export function Hero() {
 
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
+      <span className={styles.ruleTop} aria-hidden="true" />
+
       <div className={styles.media}>
         <div className={styles.mediaScrim} aria-hidden="true" />
       </div>

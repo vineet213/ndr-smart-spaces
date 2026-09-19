@@ -1,9 +1,32 @@
 .hero {
+  position: relative;
   padding-block: var(--space-9xl);
   background-color: var(--color-charcoal-masthead);
   color: var(--color-ivory);
   border-bottom: 1px solid var(--color-gold-30);
   overflow: hidden;
+}
+
+/* gold registration rule — same treatment as every other page masthead
+ * (Esg/Media/Portfolio/Contact/business verticals); About Us was the other
+ * place it had never been added. */
+.ruleTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: block;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(240, 182, 90, 0) 0%,
+    var(--color-gold) 16%,
+    var(--color-gold-light) 50%,
+    var(--color-gold) 84%,
+    rgba(240, 182, 90, 0) 100%
+  );
+  transform-origin: left;
+  animation: draw-right 1200ms var(--ease-standard) 100ms both;
 }
 
 .content {
@@ -94,5 +117,20 @@
   .ledgerRow + .ledgerRow {
     border-left: 0;
     border-top: 1px solid var(--color-gold-40);
+  }
+}
+
+@keyframes draw-right {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ruleTop {
+    animation: none;
   }
 }

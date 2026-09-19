@@ -1,73 +1,96 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import Image from "next/image";
-import { Container, Grid, GridItem, Stack } from "@/components/layout";
+import { Container } from "@/components/layout";
 import { Heading, Lede } from "@/components/ui";
 import { esgGreenFeatures } from "@/lib/data/esg";
 import type { EsgGreenFeature } from "@/lib/data/esg";
-import { useInView } from "@/hooks/useInView";
 import { cx } from "../ui/cx";
 import { Reveal } from "./Reveal";
 import styles from "./EsgGreenFeatures.module.css";
 
-type FeatureRowProps = {
+/* Six curated, on-brand tones (deep/muted, not neon) cycling per card. */
+const CARD_COLORS = [
+  styles.colorMaroon,
+  styles.colorBronze,
+  styles.colorTeal,
+  styles.colorPlum,
+  styles.colorTerracotta,
+  styles.colorForest,
+] as const;
+
+const SIDES = [styles.sideLeft, styles.sideRight] as const;
+
+/* Each card owns a slice of the track's scroll timeline, sliced with a
+ * deliberate overlap between neighbours so the outgoing card is still
+ * blurring out while the incoming one is sharpening in — a true cross-fade,
+ * not a hard cut. The first and last cards use their own keyframe (already
+ * sharp at rest / staying sharp at rest) since there's nothing before the
+ * first or after the last to cross-fade against. */
+const CARD_POSITION = {
+  first: styles.cardFirst,
+  middle: styles.cardMiddle,
+  last: styles.cardLast,
+} as const;
+
+const SLICE_RANGES = [
+  ["0%", "20%"],
+  ["14%", "36%"],
+  ["30%", "52%"],
+  ["46%", "68%"],
+  ["62%", "84%"],
+  ["78%", "100%"],
+] as const;
+
+type FeatureCardProps = {
   feature: EsgGreenFeature;
-  fromLeft: boolean;
+  order: number;
+  total: number;
   priority: boolean;
 };
 
-function FeatureRow({ feature, fromLeft, priority }: FeatureRowProps) {
-  const { ref, inView } = useInView<HTMLDivElement>({ rootMargin: "0px 0px -12% 0px" });
-
-  const photo = (
-    <div className={styles.photoColumn}>
-      <figure className={styles.photo}>
-        <Image
-          src={feature.image.src}
-          alt={feature.image.alt}
-          fill
-          sizes="(min-width: 1024px) 420px, 90vw"
-          className={styles.image}
-          priority={priority}
-          unoptimized
-        />
-      </figure>
-    </div>
-  );
-
-  const text = (
-    <Stack gap="md" className={cx(styles.textColumn, styles.text)}>
-      <span className={styles.index}>{feature.index}</span>
-      <Heading variant="sub" as="h3" className={styles.title}>
-        {feature.title}
-      </Heading>
-      <p className={styles.body}>{feature.body}</p>
-    </Stack>
-  );
+function FeatureCard({ feature, order, total, priority }: FeatureCardProps) {
+  const colorClass = CARD_COLORS[order % CARD_COLORS.length];
+  const side = SIDES[order % 2];
+  const position = order === 0 ? CARD_POSITION.first : order === total - 1 ? CARD_POSITION.last : CARD_POSITION.middle;
+  const [rangeStart, rangeEnd] = SLICE_RANGES[order] ?? ["0%", "100%"];
 
   return (
-    <div
-      ref={ref}
-      className={cx(styles.row, fromLeft ? styles.fromLeft : styles.fromRight, inView && styles.isInView)}
+    <article
+      className={cx(styles.card, colorClass, position)}
+      style={{ "--card-range-start": rangeStart, "--card-range-end": rangeEnd } as CSSProperties}
     >
-      <Grid className={styles.grid}>
-        {fromLeft ? (
-          <>
-            <GridItem span={5}>{photo}</GridItem>
-            <GridItem span={7}>{text}</GridItem>
-          </>
-        ) : (
-          <>
-            <GridItem span={7}>{text}</GridItem>
-            <GridItem span={5}>{photo}</GridItem>
-          </>
-        )}
-      </Grid>
-    </div>
+      <div className={cx(styles.row, side)}>
+        <div className={styles.textCol}>
+          <span className={styles.ghostIndex} aria-hidden="true">
+            {feature.index}
+          </span>
+          <Heading variant="sub" as="h3" className={styles.title}>
+            {feature.title}
+          </Heading>
+          <p className={styles.body}>{feature.body}</p>
+        </div>
+
+        <figure className={styles.photoCol}>
+          <Image
+            src={feature.image.src}
+            alt={feature.image.alt}
+            fill
+            sizes="(min-width: 1024px) 31rem, 100vw"
+            className={styles.image}
+            priority={priority}
+            unoptimized
+          />
+        </figure>
+      </div>
+    </article>
   );
 }
 
 export function EsgGreenFeatures() {
+  const total = esgGreenFeatures.features.length;
+
   return (
     <section className={styles.section} id="in-practice" aria-labelledby="esg-in-practice-title">
       <Container>
@@ -80,15 +103,12 @@ export function EsgGreenFeatures() {
           </header>
         </Reveal>
 
-        <div className={styles.rows}>
-          {esgGreenFeatures.features.map((feature, index) => (
-            <FeatureRow
-              key={feature.index}
-              feature={feature}
-              fromLeft={index % 2 === 0}
-              priority={index === 0}
-            />
-          ))}
+        <div className={styles.stackTrack}>
+          <div className={styles.stackBox}>
+            {esgGreenFeatures.features.map((feature, index) => (
+              <FeatureCard key={feature.index} feature={feature} order={index} total={total} priority={index === 0} />
+            ))}
+          </div>
         </div>
       </Container>
     </section>
