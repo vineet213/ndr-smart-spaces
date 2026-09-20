@@ -482,6 +482,9 @@ export function aumPinsByState(stateId: string): readonly AtlasPinData[] {
       name: asset.name,
       pin: asset.pin!,
       city: asset.city,
+      stateId: asset.stateId,
+      ...(asset.lat !== undefined ? { lat: asset.lat } : {}),
+      ...(asset.lon !== undefined ? { lon: asset.lon } : {}),
       ...(asset.leasableAreaMsf !== undefined ? { leasableAreaMsf: asset.leasableAreaMsf } : {}),
       ...(asset.district !== undefined ? { district: asset.district } : {}),
     }));
@@ -521,6 +524,9 @@ export type AtlasPinData = {
   city?: string;
   leasableAreaMsf?: number;
   district?: string;
+  stateId?: string;
+  lat?: number;
+  lon?: number;
 };
 
 export const constructionStates: readonly StateAumSummary[] = INDIAN_STATES.flatMap((state) => {
@@ -561,6 +567,9 @@ export function constructionByState(
         id: asset.id,
         name: asset.name,
         pin: parcel.pin!,
+        stateId: parcel.stateId,
+        lat: parcel.lat,
+        lon: parcel.lon,
         leasableAreaMsf: parcel.leasableAreaMsf,
         district: parcel.district,
         city: asset.city,

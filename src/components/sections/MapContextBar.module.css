@@ -1,0 +1,124 @@
+.slot {
+  position: absolute;
+  top: 20px;
+  right: 84px;
+  left: 420px;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  transition:
+    opacity 320ms var(--ease-standard),
+    transform 320ms var(--ease-standard);
+}
+
+.hidden {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.bar {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  max-width: 100%;
+  padding: 10px 14px 10px 18px;
+  color: #faf7f2;
+  background: linear-gradient(180deg, rgba(34, 31, 29, 0.86), rgba(20, 18, 15, 0.9));
+  border: 1px solid rgba(250, 247, 242, 0.16);
+  border-top: 2px solid var(--color-gold);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(14px) saturate(1.2);
+  pointer-events: auto;
+  animation: barIn 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hidden .bar {
+  pointer-events: none;
+}
+
+@keyframes barIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: var(--font-weight-body-medium);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  white-space: nowrap;
+}
+
+.title {
+  font-family: var(--font-display, var(--font-body));
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.figures {
+  display: flex;
+  gap: 14px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(250, 247, 242, 0.16);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(250, 247, 242, 0.6);
+  white-space: nowrap;
+}
+
+.figure b {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--color-gold);
+  font-variant-numeric: tabular-nums;
+}
+
+.close {
+  align-self: center;
+  width: 24px;
+  height: 24px;
+  font-size: 17px;
+  line-height: 1;
+  color: rgba(250, 247, 242, 0.6);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 250ms var(--ease-standard);
+}
+
+.close:hover,
+.close:focus-visible {
+  color: var(--color-gold);
+}
+
+@media (max-width: 767px) {
+  .slot {
+    top: 12px;
+    right: 64px;
+    left: 12px;
+    justify-content: flex-start;
+  }
+
+  .figures {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    animation: none;
+  }
+}
