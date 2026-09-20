@@ -1,53 +1,46 @@
 .wrapper {
-  width: 100%;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: clamp(1rem, 6%, 5rem);
 }
 
-.mapFrame {
-  position: relative;
-}
-
+/* The map sits to the right of the panel and fills the stage height. */
 .map {
   display: block;
-  width: 100%;
-  height: auto;
+  height: calc(100% - 1rem);
+  max-width: calc(100% - 25rem);
   aspect-ratio: 1020 / 1090;
-  background-color: var(--color-ivory-96);
-}
-
-.notToScale {
-  margin-top: var(--space-2, 8px);
-  font-family: var(--font-body);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  color: rgba(28, 26, 25, 0.5);
 }
 
 .graticule line {
-  stroke: var(--color-charcoal);
+  stroke: #faf7f2;
   stroke-width: 1;
-  opacity: 0.06;
+  opacity: 0.05;
 }
 
 .ticks line {
-  stroke: rgba(28, 26, 25, 0.6);
+  stroke: rgba(250, 247, 242, 0.35);
   stroke-width: 1;
 }
 
 /* zoom layer — transform is set inline from INDIA_STATE_BOUNDS -------------- */
 
 .zoomLayer {
-  transition: transform 800ms var(--ease-standard);
+  transition: transform 900ms var(--ease-standard);
   transform-origin: 0px 0px;
 }
 
 /* states -------------------------------------------------------------------- */
 
 .states path {
-  fill: rgba(28, 26, 25, 0.045);
-  stroke: rgba(28, 26, 25, 0.35);
+  fill: rgba(250, 247, 242, 0.04);
+  stroke: rgba(250, 247, 242, 0.28);
   stroke-width: 0.75;
   stroke-linejoin: round;
-  opacity: 1;
+  opacity: 0;
   transition:
     fill 300ms var(--ease-standard),
     stroke 300ms var(--ease-standard),
@@ -56,14 +49,9 @@
 
 .states path.stateSelectable {
   cursor: pointer;
-  fill: rgba(240, 182, 90, 0.14);
-  stroke: rgba(28, 26, 25, 0.5);
+  fill: rgba(240, 182, 90, 0.16);
+  stroke: rgba(240, 182, 90, 0.55);
   outline: none;
-}
-
-/* staggered reveal */
-.states path {
-  opacity: 0;
 }
 
 .isInView .states path {
@@ -81,167 +69,12 @@
 .states path.stateSelectable:focus-visible {
   stroke: var(--color-gold);
   stroke-width: 1.5;
-  filter: drop-shadow(0 0 4px var(--color-gold-30));
+  filter: drop-shadow(0 0 4px var(--color-gold));
 }
 
 .states path.stateDimmed {
-  fill: rgba(28, 26, 25, 0.02);
-  stroke: rgba(28, 26, 25, 0.18);
-}
-
-/* district backdrop (city zoom) ---------------------------------------------- */
-
-.districtBackdrop {
-  fill: rgba(240, 182, 90, 0.1);
-  stroke: rgba(28, 26, 25, 0.4);
-  stroke-width: 0.6;
-  stroke-dasharray: 3 2;
-  pointer-events: none;
-}
-
-/* city cluster markers -------------------------------------------------------- */
-
-.clusterGroup {
-  cursor: pointer;
-  outline: none;
-  opacity: 0;
-  translate: 0 -6px;
-  transition:
-    opacity 500ms var(--ease-standard),
-    translate 500ms var(--ease-standard);
-  transition-delay: calc(var(--i, 0) * 70ms + 350ms);
-}
-
-.isInView .pinsShown .clusterGroup,
-.pinsShown .clusterGroup {
-  opacity: 1;
-  translate: 0 0;
-}
-
-.clusterHit {
-  fill: transparent;
-}
-
-.clusterDot {
-  fill: var(--color-maroon);
-  stroke: var(--color-ivory);
-  stroke-width: 1.6;
-}
-
-.clusterCount {
-  fill: var(--color-ivory);
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: var(--font-weight-body-medium);
-  text-anchor: middle;
-  dominant-baseline: central;
-  pointer-events: none;
-}
-
-.clusterHover .clusterDot {
-  fill: var(--color-gold);
-  r: 10;
-  filter: drop-shadow(0 0 4px var(--color-gold));
-}
-
-.clusterGroup:focus-visible .clusterDot {
-  filter: drop-shadow(0 0 4px var(--color-gold));
-}
-
-/* parcel pins --------------------------------------------------------------- */
-
-.pins {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 400ms var(--ease-standard) 250ms;
-}
-
-.pinsShown {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.pinGroup {
-  cursor: pointer;
-  outline: none;
-  opacity: 0;
-  translate: 0 -6px;
-  transition:
-    opacity 500ms var(--ease-standard),
-    translate 500ms var(--ease-standard),
-    transform 800ms var(--ease-standard);
-  transition-delay: calc(var(--i, 0) * 70ms + 350ms), calc(var(--i, 0) * 70ms + 350ms), 0ms;
-}
-
-.isInView .pinsShown .pinGroup,
-.pinsShown .pinGroup {
-  opacity: 1;
-  translate: 0 0;
-}
-
-.pinHit {
-  fill: transparent;
-}
-
-.pinDot {
-  fill: var(--color-gold);
-  stroke: rgba(28, 26, 25, 0.65);
-  stroke-width: 1.4;
-}
-
-.pinCore {
-  fill: var(--color-ivory);
-}
-
-.pinHover .pinDot {
-  fill: var(--color-maroon);
-  r: 6;
-  filter: drop-shadow(0 0 3px var(--color-gold));
-}
-
-.pinSelected .pinDot {
-  fill: var(--color-maroon);
-  r: 7;
-  stroke: var(--color-gold);
-  stroke-width: 2;
-  filter: drop-shadow(0 0 5px var(--color-gold));
-}
-
-.pinSelected .pinCore {
-  fill: var(--color-gold);
-}
-
-.pinGroup:focus-visible .pinDot {
-  filter: drop-shadow(0 0 4px var(--color-gold));
-}
-
-/* reset ---------------------------------------------------------------------- */
-
-.reset {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  padding: 6px 14px;
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: var(--font-weight-body-medium);
-  letter-spacing: 0.08em;
-  color: rgba(28, 26, 25, 0.85);
-  background-color: var(--color-ivory);
-  border: 1px solid rgba(28, 26, 25, 0.45);
-  border-radius: 999px;
-  cursor: pointer;
-  transition:
-    border-color 250ms var(--ease-standard),
-    color 250ms var(--ease-standard),
-    background-color 250ms var(--ease-standard);
-}
-
-.reset:hover,
-.reset:focus-visible {
-  border-color: var(--color-gold);
-  color: var(--color-maroon);
-  background-color: rgba(240, 182, 90, 0.12);
+  fill: rgba(250, 247, 242, 0.02);
+  stroke: rgba(250, 247, 242, 0.14);
 }
 
 /* tooltip -------------------------------------------------------------------- */
@@ -251,17 +84,14 @@
 }
 
 .tooltip rect {
-  fill: var(--color-charcoal);
-  opacity: 0.96;
+  fill: #1c1a19;
+  stroke: var(--color-gold);
+  stroke-width: 1;
 }
 
-/* This text lives inside the 1020x1090 viewBox, not the page's own pixel     */
-/* grid — the SVG is scaled down to fit its container, so a "13px" value in   */
-/* viewBox units was rendering far smaller on screen than a real 13px. Sized  */
-/* up here so the on-screen result reads at a normal caption size instead of  */
-/* stacking a second override on top of an already-scaled value.             */
+/* Text lives inside the 1020x1090 viewBox, so it is sized in viewBox units. */
 .tooltipText {
-  fill: var(--color-ivory);
+  fill: #faf7f2;
   font-family: var(--font-body);
   font-size: 20px;
   font-weight: var(--font-weight-body-medium);
@@ -270,24 +100,21 @@
 
 @media (prefers-reduced-motion: reduce) {
   .zoomLayer,
-  .states path,
-  .pins,
-  .pinGroup,
-  .clusterGroup,
-  .reset {
+  .states path {
     transition: none !important;
-  }
-
-  .pinGroup,
-  .clusterGroup {
-    translate: 0 0;
   }
 }
 
 @media (max-width: 767px) {
+  .wrapper {
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0;
+  }
+
   .map {
-    width: min(100%, 32rem);
-    height: auto;
-    margin-inline: auto;
+    height: 46%;
+    max-width: 100%;
+    margin-top: 0.5rem;
   }
 }

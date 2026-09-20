@@ -1,0 +1,154 @@
+.wrapper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-color: #14120f;
+  opacity: 0;
+  transition: opacity 900ms var(--ease-standard);
+}
+
+.ready {
+  opacity: 1;
+}
+
+/* Soft edge so the map melts into the dark section instead of ending in a hard box. */
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 62% 50%, transparent 58%, rgba(20, 18, 15, 0.72) 100%),
+    linear-gradient(90deg, rgba(20, 18, 15, 0.55), transparent 34%);
+}
+
+.tip {
+  position: absolute;
+  z-index: 5;
+  padding: 6px 12px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: var(--font-weight-body-medium);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #faf7f2;
+  pointer-events: none;
+  background: rgba(20, 18, 15, 0.9);
+  border: 1px solid rgba(240, 182, 90, 0.7);
+  backdrop-filter: blur(8px);
+  transform: translate(14px, -130%);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+}
+
+/* controls ---------------------------------------------------------------- */
+
+.controls {
+  position: absolute;
+  top: 68px;
+  right: 20px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.controls button {
+  width: 36px;
+  height: 36px;
+  font-size: 17px;
+  line-height: 1;
+  color: #faf7f2;
+  background-color: rgba(20, 18, 15, 0.88);
+  border: 1px solid rgba(250, 247, 242, 0.28);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition:
+    color 250ms var(--ease-standard),
+    border-color 250ms var(--ease-standard);
+}
+
+.controls button:hover,
+.controls button:focus-visible {
+  color: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+/* marker size legend ------------------------------------------------------- */
+
+.legend {
+  position: absolute;
+  bottom: 22px;
+  left: 440px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  margin: 0;
+  padding: 8px 14px;
+  list-style: none;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: rgba(250, 247, 242, 0.65);
+  background-color: rgba(20, 18, 15, 0.7);
+  border: 1px solid rgba(250, 247, 242, 0.14);
+  backdrop-filter: blur(8px);
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pinIcon {
+  display: block;
+  border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%;
+  background-color: var(--color-gold);
+  border: 2px solid #14120f;
+  box-shadow: 0 0 0 1px rgba(240, 182, 90, 0.5);
+}
+
+.legendMaroon .pinIcon {
+  background-color: #c14750;
+}
+
+/* maplibre chrome ---------------------------------------------------------- */
+
+.wrapper :global(.maplibregl-ctrl-attrib) {
+  color: rgba(250, 247, 242, 0.7);
+  background-color: rgba(20, 18, 15, 0.8);
+}
+
+.wrapper :global(.maplibregl-ctrl-attrib a) {
+  color: var(--color-gold);
+}
+
+.wrapper :global(.maplibregl-cooperative-gesture-screen) {
+  font-family: var(--font-body);
+}
+
+@media (max-width: 767px) {
+  .legend {
+    display: none;
+  }
+}
+
+.controls .toggle {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: var(--font-weight-body-medium);
+  letter-spacing: 0.02em;
+}
+
+.controls .toggleOn {
+  color: #14120f;
+  background-color: var(--color-gold);
+  border-color: var(--color-gold);
+}
