@@ -346,7 +346,7 @@ async function main(): Promise<void> {
     collectionKey: "navigation",
     data: {
       siteHome: { label: "Home", href: "/en" },
-      utilityStrip: [{ label: "Investor Centre", href: "/en/investor-centre" }],
+      utilityStrip: [{ label: "Investor Centre", href: "/en/investor-centre/announcements" }],
       headerCta: { label: "Contact us", href: "/en/contact" },
       navItems: [
         {
@@ -646,7 +646,7 @@ async function main(): Promise<void> {
       value: "98%",
       period: "As on 31 March 2026",
       source: "NDR Corporate Presentation",
-      usages: [{ target: "/en/investor-centre", label: "Capital strength" }],
+      usages: [{ target: "/en/investor-centre/announcements", label: "Capital strength" }],
     },
     status: "draft",
     user: "investor-editor@ndr.com",

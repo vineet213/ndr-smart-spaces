@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>NDR Smart Spaces — CMS</title>
+    <title>NDR Smart Spaces — Website Manager</title>
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <style>
       :root {
@@ -731,6 +731,7 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="/assets/admin-friendly.css" />
   </head>
   <body>
     <div class="app">
@@ -765,6 +766,7 @@
     </div>
     <div class="drawer" id="drawer"><div class="drawer-panel" id="drawer-panel"></div></div>
     <div id="toasts"></div>
+    <script src="/assets/admin-friendly.js" defer></script>
     <div id="login-overlay" style="display:none;position:fixed;inset:0;background:#111;z-index:9999;display:flex;align-items:center;justify-content:center">
       <div style="background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:32px;width:320px">
         <h2 style="margin:0 0 16px;color:#fff;font-size:16px">NDR CMS — Sign in</h2>
@@ -858,6 +860,16 @@
         },
       ];
       const STATUS_ORDER = ["draft", "pending", "published", "external", "archived"];
+      const STATUS_LABELS = {
+        draft: "Draft · not on site",
+        pending: "In review",
+        published: "Live",
+        external: "Live · external",
+        archived: "Hidden",
+      };
+      function statusLabel(status) {
+        return STATUS_LABELS[status] || status;
+      }
 
       /* ═══════════════ Session (Phase 4.1) ═══════════════ */
       async function checkSession() {
@@ -1222,7 +1234,7 @@
               },
               s === "all"
                 ? `All (${allRecords.length})`
-                : `${s} (${allRecords.filter((r) => r.status === s).length})`,
+                : `${statusLabel(s)} (${allRecords.filter((r) => r.status === s).length})`,
             ),
           );
         }
@@ -1496,7 +1508,7 @@
               `rev ${record.revision}${record.data.ref ? " · " + record.data.ref : ""}${record.version ? " · v" + record.version : ""}`,
             ),
           ),
-          el("span", { class: "pill " + record.status }, record.status),
+          el("span", { class: "pill " + record.status }, statusLabel(record.status)),
           el("div", null, statusActions(schema, record)),
           linkedAssetActions(schema, record),
           el(
@@ -1721,10 +1733,10 @@
               label,
             ),
           );
-        if (record.status === "draft" || record.status === "pending") add("Publish", "published");
+        if (record.status === "draft" || record.status === "pending") add("Set live", "published");
         if (record.status === "archived") add("Restore", "draft");
         if (record.status === "published" || record.status === "external" || role === "super-admin")
-          add("Archive", "archived");
+          add("Hide from site", "archived");
         return row;
       }
 
@@ -1907,12 +1919,12 @@
 
         /* status selector */
         if (schema.statusEnabled && !isNew) {
-          card.append(el("div", { class: "section-label" }, "Publication"));
+          card.append(el("div", { class: "section-label" }, "Visibility"));
           card.append(
             el(
               "div",
               { class: "row" },
-              el("label", null, "Status"),
+              el("label", null, "Show on website?"),
               el(
                 "select",
                 {
@@ -1922,7 +1934,7 @@
                   },
                 },
                 ...STATUS_ORDER.map((s) =>
-                  el("option", { value: s, selected: s === record.status }, s),
+                  el("option", { value: s, selected: s === record.status }, statusLabel(s)),
                 ),
               ),
             ),
@@ -1980,6 +1992,8 @@
           id: r.id,
           name: r.data.name,
           kind: r.data.kind,
+          fileId: r.data.fileId,
+          fileName: r.data.fileName,
           status: r.status,
         }));
         const docs = (state.records["documents"]?.records || []).map((r) => ({
@@ -2098,9 +2112,9 @@
 
       async function transition(key, id, status) {
         if (status === "published") {
-          const ok = await showModal("Publish changes?", "Publishing makes this content eligible for the public website. This action is recorded in the audit log.", [
+          const ok = await showModal("Set this item live?", "It will appear on the website the next time you press “Update website”. Everything you do here is recorded in the history.", [
             { label: "Cancel", value: false },
-            { label: "Publish", value: true, primary: true },
+            { label: "Set live", value: true, primary: true },
           ]);
           if (!ok) return;
         }
@@ -3284,7 +3298,9 @@
         renderSidebar();
         await openEditor(initialEditorKey(), { restoreStored: true });
       }
-      boot();
+      /* Deferred scripts (admin-friendly.js) run before DOMContentLoaded, so
+         they can extend the UI before the first render. */
+      document.addEventListener("DOMContentLoaded", boot);
     </script>
   </body>
 </html>

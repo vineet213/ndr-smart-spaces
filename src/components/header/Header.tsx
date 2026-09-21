@@ -22,7 +22,7 @@ export function Header() {
       <UtilityStrip />
       <div className={cx(styles.navBar, scrolled && styles.navBarScrolled)}>
         <div className={styles.navContainer}>
-          <LogoWordmark scrolled={scrolled} light />
+          <LogoWordmark scrolled={scrolled} />
           <MainNav />
           <CtaArea scrolled={scrolled} />
           <MenuButton open={mobileMenu.open} onToggle={mobileMenu.toggle} />
