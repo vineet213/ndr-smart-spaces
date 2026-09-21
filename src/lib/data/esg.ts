@@ -139,7 +139,7 @@ export type EsgPillarItem = {
 };
 
 export type EsgPillar = {
-  key: "E" | "S" | "G";
+  key: "E" | "S" | "G" | "H";
   name: string;
   chapter: string;
   focus: string;
@@ -148,8 +148,8 @@ export type EsgPillar = {
 
 export const esgFramework = {
   eyebrow: "The framework",
-  heading: "Three disciplines, one ledger.",
-  lede: "The sustainability framework is organised into three governed disciplines — environmental, social and governance — each carrying coded commitments that recur across this edition.",
+  heading: "Four disciplines, one ledger.",
+  lede: "The sustainability framework is organised into four governed disciplines — environmental, social, governance, and health & safety — each carrying coded commitments that recur across this edition.",
   pillars: [
     {
       key: "E",
@@ -242,6 +242,39 @@ export const esgFramework = {
           ref: "GV-04",
           label: "Zero tolerance on corruption",
           note: "A strict anti-corruption stance applied at every level.",
+        },
+      ],
+    },
+    {
+      key: "H",
+      name: "Health & Safety",
+      chapter: "IV",
+      focus: "Safe sites, safe movement, and accident prevention across every project.",
+      items: [
+        {
+          ref: "HS-01",
+          label: "Health and safety literacy education to ensure accident prevention at project sites",
+          note: "Training that builds safety awareness among everyone working on site.",
+        },
+        {
+          ref: "HS-02",
+          label: "Mandatory safety gear and protocols",
+          note: "Protective equipment and site protocols required for all personnel.",
+        },
+        {
+          ref: "HS-03",
+          label: "Separate pathways for trucks & vehicle movement",
+          note: "Dedicated routes that keep vehicles and pedestrians apart.",
+        },
+        {
+          ref: "HS-04",
+          label: "Segregation of hazardous equipment",
+          note: "Hazardous equipment stored and handled apart from general work areas.",
+        },
+        {
+          ref: "HS-05",
+          label: "Reducing noise pollution",
+          note: "Measures that limit noise for workers and neighbouring communities.",
         },
       ],
     },

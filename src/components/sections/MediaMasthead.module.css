@@ -35,8 +35,8 @@ section.section {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding-top: var(--space-11xl);
-  padding-bottom: var(--space-6xl);
+  padding-top: var(--space-5xl);
+  padding-bottom: var(--space-9xl);
 }
 
 .title {

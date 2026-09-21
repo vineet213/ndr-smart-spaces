@@ -7,8 +7,16 @@
  * version history (§15.1).
  */
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { basename, join } from "node:path";
+
+/** Strip any directory part and unsafe characters so a name can never escape its folder. */
+export function safeFileName(name: string): string {
+  const cleaned = basename(name.replace(/\\/g, "/"))
+    .replace(/[^\w.\- ]+/g, "_")
+    .replace(/^\.+/, "");
+  return cleaned || "file";
+}
 
 export type StoredFileMeta = {
   fileId: string;
@@ -45,9 +53,11 @@ export class FileStore {
     const index = this.readIndex();
     const history = index[fileId] ?? [];
     const version = String(history.length + 1);
+    fileId = safeFileName(fileId);
+    fileName = safeFileName(fileName);
     const directory = join(this.root, fileId);
     mkdirSync(directory, { recursive: true });
-    writeFileSync(join(directory, fileName), Buffer.from(data), "utf8");
+    writeFileSync(join(directory, fileName), Buffer.from(data));
     const meta: StoredFileMeta = {
       fileId,
       fileName,
@@ -62,12 +72,29 @@ export class FileStore {
     return meta;
   }
 
+  /** Copy the newest stored version of every file into `destRoot/{fileId}/{fileName}` (publish step). */
+  copyLatestTo(destRoot: string): number {
+    const index = this.readIndex();
+    let copied = 0;
+    for (const [fileId, history] of Object.entries(index)) {
+      const latest = history[history.length - 1];
+      if (!latest) continue;
+      const source = join(this.root, safeFileName(fileId), safeFileName(latest.fileName));
+      if (!existsSync(source)) continue;
+      const target = join(destRoot, safeFileName(fileId));
+      mkdirSync(target, { recursive: true });
+      copyFileSync(source, join(target, safeFileName(latest.fileName)));
+      copied += 1;
+    }
+    return copied;
+  }
+
   async history(fileId: string): Promise<StoredFileMeta[]> {
     return this.readIndex()[fileId] ?? [];
   }
 
   async read(fileId: string, fileName: string): Promise<Uint8Array | null> {
-    const file = join(this.root, fileId, fileName);
+    const file = join(this.root, safeFileName(fileId), safeFileName(fileName));
     if (!existsSync(file)) return null;
     return readFileSync(file);
   }

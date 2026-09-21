@@ -17,7 +17,7 @@ export function EsgFramework() {
 
         <Grid className={styles.pillars}>
           {esgFramework.pillars.map((pillar, index) => (
-            <GridItem key={pillar.key} span={4} className={styles.pillar}>
+            <GridItem key={pillar.key} span={3} className={styles.pillar}>
               <Reveal delay={(index + 1) as RevealDelay}>
                 <span className={styles.chapter} aria-hidden="true">
                   {pillar.chapter}
@@ -27,10 +27,8 @@ export function EsgFramework() {
                 <ol className={styles.items}>
                   {pillar.items.map((item) => (
                     <li key={item.ref} className={styles.item}>
-                      <span className={styles.itemRef}>{item.ref}</span>
                       <div className={styles.itemBody}>
                         <span className={styles.itemLabel}>{item.label}</span>
-                        <span className={styles.itemNote}>{item.note}</span>
                       </div>
                     </li>
                   ))}

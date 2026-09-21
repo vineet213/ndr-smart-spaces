@@ -35,6 +35,7 @@ import {
   EDITOR_SCHEMAS,
   writeGenerated,
 } from "../src/lib/cms/editor";
+import { safeFileName } from "../src/lib/cms/editor/fileStore";
 import { verifyExportContract, DataModuleName } from "../src/lib/cms/export";
 import { createDeploymentAdapter, DeploymentAdapter } from "../src/lib/cms/deploy";
 import { AuditLog } from "../src/lib/cms/audit";
@@ -63,6 +64,31 @@ const FILES_DIR = join(ROOT, ".cms-store", "files");
 const GENERATED_DIR = join(ROOT, "src", "lib", "data", "generated");
 const DATA_DIR = join(ROOT, "src", "lib", "data");
 const ADMIN_HTML = join(ROOT, "admin", "public", "admin.html");
+const UPLOADS_DIR = join(ROOT, "public", "uploads");
+const MAX_BODY_BYTES = 40 * 1024 * 1024; // ~30 MB file once base64-encoded
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+const LOGIN_MAX_FAILURES = 8;
+const loginFailures = new Map<string, { count: number; first: number }>();
+let publishing = false;
+
+function loginBlocked(key: string): boolean {
+  const entry = loginFailures.get(key);
+  if (!entry) return false;
+  if (Date.now() - entry.first > LOGIN_WINDOW_MS) {
+    loginFailures.delete(key);
+    return false;
+  }
+  return entry.count >= LOGIN_MAX_FAILURES;
+}
+
+function recordLoginFailure(key: string): void {
+  const entry = loginFailures.get(key);
+  if (!entry || Date.now() - entry.first > LOGIN_WINDOW_MS) {
+    loginFailures.set(key, { count: 1, first: Date.now() });
+  } else {
+    entry.count += 1;
+  }
+}
 
 const REGISTRY_DEFAULTS: RegistryConfig = {
   ref: { prefix: "PR-", width: 3, start: 4 },
@@ -111,7 +137,16 @@ function sendClearCookie(res: ServerResponse): void {
 function readJson(req: IncomingMessage): Promise<unknown> {
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = [];
-    req.on("data", (chunk: Buffer) => chunks.push(chunk));
+    let received = 0;
+    req.on("data", (chunk: Buffer) => {
+      received += chunk.length;
+      if (received > MAX_BODY_BYTES) {
+        reject(new Error("Upload too large (limit 30 MB)."));
+        req.destroy();
+        return;
+      }
+      chunks.push(chunk);
+    });
     req.on("end", () => {
       try {
         resolve(JSON.parse(Buffer.concat(chunks).toString("utf8") || "{}"));
@@ -146,6 +181,9 @@ async function handleExport(session: {
   // Stage 1: Export (generate + write + verify)
   const filesToWrite = await generateMerged(content);
   writeGenerated(GENERATED_DIR, filesToWrite);
+  // Uploaded documents/media must ship with the static site: copy the newest
+  // version of every stored file into public/uploads/{id}/{name}.
+  files.copyLatestTo(UPLOADS_DIR);
   const generated = await verifyGeneratedExports(content, GENERATED_DIR);
   const contract = verifyExportContract(DATA_DIR);
   const chain = await auditLog.verify();
@@ -275,6 +313,19 @@ async function handlePublish(session: {
     build?: { ok: boolean; durationMs: number; tail: string };
   }
 > {
+  if (publishing) throw new Error("A publish is already running. Wait for it to finish.");
+  publishing = true;
+  try {
+    return await publishLocked(session);
+  } finally {
+    publishing = false;
+  }
+}
+
+async function publishLocked(session: {
+  user: string;
+  role: string;
+}): ReturnType<typeof handlePublish> {
   const exportResult = await handleExport(session);
   if (!exportResult.ok) {
     return { ...exportResult, ok: false, stage: "export" };
@@ -306,6 +357,20 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
       return send(res, 404, "");
     }
 
+    // ── Public: admin UI assets (fixed allow-list) ──────────────────────────
+    const adminAsset = path.match(/^\/assets\/(admin-friendly\.(?:css|js))$/);
+    if (req.method === "GET" && adminAsset) {
+      const file = join(ROOT, "admin", "public", adminAsset[1]);
+      if (!existsSync(file)) return send(res, 404, "");
+      res.writeHead(200, {
+        "content-type": adminAsset[1].endsWith(".css")
+          ? "text/css; charset=utf-8"
+          : "text/javascript; charset=utf-8",
+        "cache-control": "no-store",
+      });
+      return res.end(readFileSync(file, "utf8"));
+    }
+
     // ── Public: serve admin HTML ────────────────────────────────────────────
     if (req.method === "GET" && path === "/") {
       if (!existsSync(ADMIN_HTML))
@@ -319,10 +384,16 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
       const body = (await readJson(req)) as Record<string, unknown>;
       const user = String(body.user ?? "");
       const password = String(body.password ?? "");
+      const limiterKey = `${req.socket.remoteAddress ?? "?"}|${user}`;
+      if (loginBlocked(limiterKey)) {
+        return send(res, 429, { error: "Too many failed sign-ins. Try again in 15 minutes." });
+      }
       const session = authenticate(user, password);
       if (!session) {
+        recordLoginFailure(limiterKey);
         return send(res, 401, { error: "Invalid credentials." });
       }
+      loginFailures.delete(limiterKey);
       sendSetCookie(res, signSessionCookie(session.sessionId));
       return send(res, 200, {
         user: session.user,
@@ -482,6 +553,52 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
         };
       }
       return send(res, 200, { ok: deployment.deployed || !deployment.configured, deployment });
+    }
+
+    // ── Stored file preview (thumbnails in the media picker) ────────────────
+    const fileMatch = path.match(/^\/api\/files\/([^/]+)\/([^/]+)$/);
+    if (fileMatch && req.method === "GET") {
+      requirePermission(session, "collection:read");
+      const data = await files.read(decodeURIComponent(fileMatch[1]), decodeURIComponent(fileMatch[2]));
+      if (!data) return send(res, 404, "Not found.");
+      const history = await files.history(safeFileName(decodeURIComponent(fileMatch[1])));
+      const meta = history[history.length - 1];
+      res.writeHead(200, {
+        "content-type": meta?.mime ?? "application/octet-stream",
+        "cache-control": "private, max-age=60",
+        "x-content-type-options": "nosniff",
+        "content-security-policy": "sandbox; default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'",
+      });
+      return res.end(Buffer.from(data));
+    }
+
+    // ── Publish state: which saved sections are not on the site yet ───────
+    if (req.method === "GET" && path === "/api/status") {
+      requirePermission(session, "collection:read");
+      const entries = await auditLog.tail(500);
+      let lastPublishAt: string | null = null;
+      for (const entry of entries) if (entry.action === "export") lastPublishAt = entry.timestamp;
+      const generated = await verifyGeneratedExports(content, GENERATED_DIR);
+      const pendingSections = generated.statuses
+        .filter((status) => !status.byteIdentical)
+        .map((status) => status.fileName.replace(/.ts$/, ""));
+      return send(res, 200, {
+        unpublishedChanges: pendingSections.length,
+        pendingSections,
+        lastPublishedAt: lastPublishAt,
+        recent: entries
+          .filter((entry) => entry.action !== "export" && entry.action !== "deploy")
+          .slice(-8)
+          .reverse()
+          .map((entry) => ({
+            seq: entry.seq,
+            user: entry.user,
+            action: entry.action,
+            collection: entry.collection,
+            recordId: entry.recordId,
+            timestamp: entry.timestamp,
+          })),
+      });
     }
 
     // ── Audit log ───────────────────────────────────────────────────────────
