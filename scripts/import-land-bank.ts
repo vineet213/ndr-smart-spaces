@@ -1,7 +1,7 @@
 /**
  * Land bank import — Annexure A parcels into the CMS as DRAFTS.
  *
- * Reads the user-provided extraction (`ndr-land-bank-extracted.json`) and the
+ * Reads the user-provided extraction (`data/ndr-land-bank-extracted.json`) and the
  * research manifest (`scripts/land-bank-enrichment.json`), then flows every
  * parcel through CollectionEditor.save — validation, ordering, hash-chained
  * audit — WITHOUT publishing. The public site keeps rendering an empty land
@@ -39,7 +39,7 @@ const STORE_FILE = join(ROOT, ".cms-store", "content.json");
 const FILES_DIR = join(ROOT, ".cms-store", "files");
 const GENERATED_DIR = join(ROOT, "src", "lib", "data", "generated");
 
-const EXTRACT_FILE = join(ROOT, "ndr-land-bank-extracted.json");
+const EXTRACT_FILE = join(ROOT, "data", "ndr-land-bank-extracted.json");
 const MANIFEST_FILE = join(ROOT, "scripts", "land-bank-enrichment.json");
 const IMPORT_USER = "cms-import@ndr.com";
 

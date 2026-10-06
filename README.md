@@ -38,7 +38,8 @@ The site runs at http://localhost:3000 and redirects to `/en/`.
 | `public/` | Images, videos, logos and downloadable documents |
 | `admin/` | Local CMS admin server and interface |
 | `scripts/` | CMS tooling, data imports and the static server |
-| `docs/` | Architecture notes; planning documents live in `docs/planning/` |
+| `docs/` | Architecture notes; planning in `docs/planning/`, client review spreadsheets in `docs/client-review/` |
+| `data/` | Source extractions read by the import scripts |
 | `Project resources/` | Source material supplied for the site |
 
 ## Content

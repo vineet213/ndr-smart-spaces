@@ -2,7 +2,7 @@
  * Assets Under Management import — the corporate-presentation warehouse
  * table into the CMS as DRAFTS.
  *
- * Reads the source extraction (`ndr-aum-extracted.json`) and the research
+ * Reads the source extraction (`data/ndr-aum-extracted.json`) and the research
  * manifest (`scripts/aum-enrichment.json`), then flows every asset through
  * CollectionEditor.save — validation, ordering, hash-chained audit — WITHOUT
  * publishing. The public site keeps rendering an empty Assets Under
@@ -41,7 +41,7 @@ const STORE_FILE = join(ROOT, ".cms-store", "content.json");
 const FILES_DIR = join(ROOT, ".cms-store", "files");
 const GENERATED_DIR = join(ROOT, "src", "lib", "data", "generated");
 
-const EXTRACT_FILE = join(ROOT, "ndr-aum-extracted.json");
+const EXTRACT_FILE = join(ROOT, "data", "ndr-aum-extracted.json");
 const MANIFEST_FILE = join(ROOT, "scripts", "aum-enrichment.json");
 const IMPORT_USER = "cms-import@ndr.com";
 
