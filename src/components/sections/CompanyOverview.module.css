@@ -3,13 +3,24 @@
   background-color: var(--color-ivory);
 }
 
+.paragraph {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-body-medium);
+}
+
 .paragraph strong {
   font-weight: var(--font-weight-body-semibold);
 }
 
 .aboutLink {
   display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
   width: fit-content;
+}
+
+.aboutLinkArrow {
+  flex-shrink: 0;
 }
 
 .grid {

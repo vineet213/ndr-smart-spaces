@@ -1,144 +1,15 @@
-/* masthead -------------------------------------------------------------- */
-
-section.masthead {
-  position: relative;
-  overflow: hidden;
-  /* The shared Section component's own ambient padding-block is meant for   */
-  /* regular flowing content, not this viewport-anchored hero — .hero below  */
-  /* already owns its full vertical rhythm via min-height + its own padding. */
-  /* Left stacked, the two combined pushed the masthead taller than the      */
-  /* viewport itself at 1024x768/1280x720 regardless of content.             */
-  padding-block: 0;
-  background-color: var(--color-charcoal-masthead);
-}
-
-.ruleTop {
-  position: relative;
-  z-index: 1;
-  display: block;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    rgba(240, 182, 90, 0) 0%,
-    var(--color-gold) 16%,
-    var(--color-gold-light) 50%,
-    var(--color-gold) 84%,
-    rgba(240, 182, 90, 0) 100%
-  );
-  transform-origin: left;
-  animation: draw-right 1200ms var(--ease-standard) 100ms both;
-}
-
-/* Residential Plotting masthead video — sits behind the rules/hero content   */
-/* (all given z-index: 1) and above the Section's own charcoal-maroon        */
-/* background, which remains the fallback if the video can't play/load.      */
-.mastheadVideo {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.mastheadVideoEl {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Bottom-weighted wash only — keeps the footage visible while guaranteeing  */
-/* the bottom-anchored heading stays readable against it.                    */
-.mastheadVideoScrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(28, 12, 15, 0.65) 0%,
-    rgba(28, 12, 15, 0.32) 32%,
-    rgba(28, 12, 15, 0.05) 60%,
-    rgba(28, 12, 15, 0) 100%
-  );
-}
-
-/* hero ------------------------------------------------------------------ */
-
-/* Residential Plotting keeps its original shared height via .heroTall's own */
-/* untouched calc below; Logistics/NDR Asset Management now match the        */
-/* Media & Newsroom masthead's exact panel height instead.                   */
-.hero {
-  position: relative;
-  z-index: 1;
-  min-height: 80vh;
-  padding-top: var(--space-12xl);
-  padding-bottom: var(--space-6xl);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-/* Residential Plotting's video masthead reads cramped at the shared height —
-   a modest bump gives the footage room to breathe without standing out as a
-   different-sized panel from the rest of the business verticals. */
-.heroTall {
-  min-height: calc(var(--masthead-height) + 6vh);
-}
-
-/* Matches the Media & Newsroom masthead's exact title scale/proportion —    */
-/* the same big editorial statement treatment, not a smaller sub-page size.  */
-.title {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-light);
-  font-size: clamp(3.5rem, 7.5vw, 6.75rem);
-  line-height: 0.95;
-  letter-spacing: -0.02em;
-  color: var(--color-ivory);
-  text-wrap: balance;
-  animation: title-rise 1000ms var(--ease-standard) 150ms both;
-}
-
-.titleAccent {
-  color: var(--color-gold);
-}
-
-/* Residential Plotting keeps its original, smaller title scale — it's       */
-/* excluded from the Media-matching size bump above, video masthead only.    */
-.titleCompact {
-  max-width: 34ch;
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  line-height: 1.08;
-}
-
-.subtext {
-  position: relative;
-  z-index: 1;
-  margin: var(--space-4xl) 0 0;
-  max-width: 52ch;
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-regular);
-  font-size: var(--font-body-size);
-  line-height: var(--leading-body);
-  color: var(--color-text-inverse-70);
-  animation: rise-fade var(--duration-long) var(--ease-standard) 320ms both;
-}
-
-.rule {
-  position: relative;
-  z-index: 1;
-  display: block;
-  width: 100%;
-  height: 2px;
-  margin-top: var(--space-9xl);
-  background-color: var(--color-gold);
-  transform-origin: left;
-  animation: draw-right 1200ms var(--ease-standard) 450ms both;
-}
-
 /* sheet body ------------------------------------------------------------ */
 
 .bodySection {
   position: relative;
+}
+
+/* Scopes DrawnGrid's absolute inset:0 overlay to just the overview/spec      */
+/* copy — without this wrapper it stretches to cover the whole section,      */
+/* including the full-bleed stats band added after it for "02".              */
+.overviewWrap {
+  position: relative;
+  padding-bottom: var(--space-9xl);
 }
 
 .content {
@@ -146,11 +17,13 @@ section.masthead {
   z-index: 1;
 }
 
-.sheetHeader {
-  padding-top: var(--space-7xl);
+/* overview ---------------------------------------------------------------- */
+
+.overview {
+  margin-top: var(--space-7xl);
 }
 
-.sheetTitle {
+.overviewHeading {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
@@ -158,21 +31,6 @@ section.masthead {
   line-height: 1.05;
   letter-spacing: -0.01em;
   color: var(--color-charcoal);
-}
-
-/* overview ---------------------------------------------------------------- */
-
-.overview {
-  margin-top: var(--space-6xl);
-}
-
-.overviewHeading {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-lede);
-  line-height: var(--leading-lede);
-  color: var(--color-maroon);
 }
 
 .overview .writeup {
@@ -257,60 +115,27 @@ section.masthead {
   color: var(--color-stone);
 }
 
-/* load-in keyframes ----------------------------------------------------- */
+/* standalone video section (Residential Plotting) ------------------------ */
 
-@keyframes rise-fade {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+.videoSection {
+  padding-block: 0;
 }
 
-@keyframes title-rise {
-  from {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+.videoFrame {
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
 }
 
-@keyframes draw-right {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
+.videoEl {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* responsive ------------------------------------------------------------ */
 
 @media (max-width: 767px) {
-  .hero {
-    padding-top: var(--space-10xl);
-    min-height: auto;
-  }
-
-  .title {
-    font-size: clamp(2.25rem, 9vw, 3rem);
-  }
-
-  .subtext {
-    margin-top: var(--space-3xl);
-    max-width: 100%;
-  }
-
-  .rule {
-    margin-top: var(--space-8xl);
-  }
-
   .specRow {
     grid-template-columns: 1fr;
     gap: var(--space-sm);
@@ -320,14 +145,5 @@ section.masthead {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-lg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ruleTop,
-  .title,
-  .subtext,
-  .rule {
-    animation: none;
   }
 }

@@ -461,4 +461,14 @@ export const assetsUnderManagement = [
     "name": "NDR Space",
     "state": "Kerala",
   },
+  {
+    "id": "ndr-nallur-chennai",
+    "status": "published",
+    "city": "Chennai",
+    "lat": 13.03,
+    "leasableAreaMsf": 0.48,
+    "lon": 80.05,
+    "name": "NDR Nallur (Chennai)",
+    "state": "Tamil Nadu",
+  },
 ] as const;

@@ -18,7 +18,7 @@ export const businessVerticals = [
     "source": "",
     "spec": [],
     "title": "Logistics and Industrial Infrastructure",
-    "writeup": "We develop strategically located, high-quality industrial and logistics infrastructure designed to meet the evolving needs of modern businesses. From land identification and due diligence to planning, design, approvals, and development, our integrated approach enables us to create efficient, scalable, and future-ready warehouse and industrial spaces. By combining market insights, technical expertise, robust processes, and a strong focus on compliance and sustainability, we deliver infrastructure that supports seamless operations and long-term value.",
+    "writeup": "We build logistics and industrial infrastructure in locations that make sense for how businesses actually operate today. That means staying involved at every stage, from identifying and diligencing the land, through planning, design and approvals, right through to construction and handover, so what we deliver holds up over time. Market knowledge, technical expertise and a close eye on compliance and sustainability shape every decision we make, so our partners end up with infrastructure that just works for years to come.",
   },
   {
     "id": "project-and-operations-management-consultancy-ndr-asset-management",
@@ -51,6 +51,6 @@ export const businessVerticals = [
     "source": "",
     "spec": [],
     "title": "Residential Plotting",
-    "writeup": "We develop residential plotted communities strategically located near industrial infrastructure corridors \u2014 providing quality housing to compliment industrial growth, while driving long-term connectivity, convenience, and socio-economic development for the region",
+    "writeup": "We develop residential plotted communities strategically located near industrial infrastructure corridors, providing quality housing that complements industrial growth. Each community is planned to drive long-term connectivity, convenience, and socio-economic development for the region.",
   },
 ] as const;

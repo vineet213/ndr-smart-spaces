@@ -104,16 +104,16 @@ const CONNECTORS: readonly Connector[] = [
     id: "txn-sale-invit",
     type: "transaction",
     d: `M618 168 L618 540`,
-    lx: 636,
-    ly: 488,
+    lx: 660,
+    ly: 480,
     label: "Sale of SPV Ownership",
   },
   {
     id: "txn-pay-invit",
     type: "transaction",
     d: `M632 540 L632 168`,
-    lx: 650,
-    ly: 516,
+    lx: 660,
+    ly: 526,
     label: "Consideration Paid",
   },
   {
@@ -332,6 +332,7 @@ export function CorporateStructure() {
           chapter={corporateStructureChapter}
           headingId="structure-title"
           animate={false}
+          hideNumeral
         />
 
         <figure className={styles.figure}>
@@ -368,7 +369,7 @@ export function CorporateStructure() {
                         y={connector.ly - PLATE_H / 2}
                         width={width}
                         height={PLATE_H}
-                        rx={3}
+                        rx={5}
                         className={styles.plate}
                       />
                       <text

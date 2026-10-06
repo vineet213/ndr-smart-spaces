@@ -163,14 +163,19 @@
 /* height is now decoupled from the tile's growing width entirely (it no      */
 /* longer scales with a locked aspect-ratio), and the card's total height     */
 /* becomes whichever column is taller, not the sum of photo + text stacked.   */
-@media (min-width: 1024px) {
-  /* Fixed px, not a percentage: siblings on the same row cannot shrink below
-     their flex-basis when the browser decides whether the row wraps (that
-     decision uses each item's un-shrunk basis, not its min-width floor), so
-     an active item can only grow if the OTHER items on the row concede width
-     up front. These two numbers were verified empirically (headless-browser
-     sweep) to keep all four management-team tiles on a single line, down to
-     the narrowest width this rule applies at (1024px viewport). */
+/* The row is a size container so the rules below can ask how wide it really
+   is, and so the portrait cap can be written in cqw (1% of the row width). */
+.grid {
+  container-type: inline-size;
+}
+
+/* The widening only applies while the row is wide enough for four tiles to
+   sit on one line at their percentage width (23% of the row minus the gap
+   share stays above the 14.5rem min-width from 70rem up). In a narrower row
+   the tiles sit at min-width and the fourth wraps, so a widening tile could
+   end up narrower than the spot the cursor opened it from, or jump to the
+   line above. There the tile keeps its width and only grows in height. */
+@container (min-width: 70rem) {
   .itemActive {
     flex-basis: 44%;
   }
@@ -180,10 +185,25 @@
     min-width: 0;
   }
 
+  /* A closing tile switches back to the stacked layout at once while its
+     width is still animating down from 44%. Without a cap the portrait would
+     fill that still-wide card (roughly 500 x 640px for a moment) and land
+     under a cursor that had just left through the bottom edge. Capped at the
+     tile's resting width (.item's basis and min-width, minus the card's
+     padding and border), it is the same size mid-collapse as at rest. */
+  .card:not(.cardActive) .portrait {
+    max-width: calc(
+      max(23cqw - (3 * var(--space-4xl) / 4), 14.5rem) - (2 * var(--space-lg)) - 1px
+    );
+  }
+
   .cardActive {
     flex-direction: row;
     align-items: flex-start;
     gap: var(--space-xl);
+    /* Never shorter than the tile it grew from (--rest-h is measured in
+       Leadership.tsx), so opening can't leave the cursor below the card. */
+    min-height: var(--rest-h, 0px);
   }
 
   .cardActive .portrait {

@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Stack } from "@/components/layout";
-import { Heading } from "@/components/ui";
+import { Eyebrow, Heading } from "@/components/ui";
 import { ourCode, type OurCodeValue } from "@/lib/data/about";
+import { getLenisInstance } from "@/lib/lenis";
 import { cx } from "../ui/cx";
 import { DrawnGrid } from "./DrawnGrid";
 import styles from "./OurCode.module.css";
@@ -74,15 +75,6 @@ function CodeMark({ index }: { index: string }) {
         </svg>
       );
     case "06":
-      // Customer-led approach — the customer at the centre, the business orbiting around them.
-      return (
-        <svg {...markProps} aria-hidden="true" focusable="false">
-          <circle {...drawn} cx="28" cy="29" r="7" />
-          <path {...drawn} d="M28 10 A 19 19 0 1 1 10.4 22.5" />
-          <circle {...drawn} cx="10.4" cy="22.5" r="3" />
-        </svg>
-      );
-    case "07":
       // People build the organization — three figures of rising height, the
       // organization literally built up from its people.
       return (
@@ -93,6 +85,15 @@ function CodeMark({ index }: { index: string }) {
           <path {...drawn} d="M17 45 C17 27 39 27 39 45" />
           <circle {...drawn} cx="44" cy="21" r="4" />
           <path {...drawn} d="M37 45 C37 33 51 33 51 45" />
+        </svg>
+      );
+    case "07":
+      // Customer-led approach — the customer at the centre, the business orbiting around them.
+      return (
+        <svg {...markProps} aria-hidden="true" focusable="false">
+          <circle {...drawn} cx="28" cy="29" r="7" />
+          <path {...drawn} d="M28 10 A 19 19 0 1 1 10.4 22.5" />
+          <circle {...drawn} cx="10.4" cy="22.5" r="3" />
         </svg>
       );
     default:
@@ -141,6 +142,24 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
 
   const totalUnits = transitionStart(values.length - 1) + RISE + HOLD;
 
+  const goToIndex = (i: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const rect = track.getBoundingClientRect();
+    const scrollable = rect.height - window.innerHeight;
+    if (scrollable <= 0) return;
+    const target = i * STEP + HOLD / 2;
+    const raw = Math.min(Math.max(target / totalUnits, 0), 1);
+    const targetY = window.scrollY + rect.top + raw * scrollable;
+
+    const lenis = getLenisInstance();
+    if (lenis) {
+      lenis.scrollTo(targetY);
+    } else {
+      window.scrollTo({ top: targetY, behavior: "smooth" });
+    }
+  };
+
   useEffect(() => {
     const mqDesktop = window.matchMedia("(min-width: 1024px)");
     const mqMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -162,46 +181,48 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
 
     let raf = 0;
 
+    /* Sampled every animation frame rather than driven by the native       */
+    /* `scroll` event — under a smooth-scroll library (Lenis) the document's */
+    /* real scroll position is itself interpolated across frames, so a      */
+    /* listener gated on the native event can read a position that's a      */
+    /* frame behind what's on screen. Reading real geometry every rAF tick  */
+    /* instead stays frame-perfect regardless of what is driving the scroll. */
     const update = () => {
-      raf = 0;
       const rect = track.getBoundingClientRect();
       const viewportH = window.innerHeight;
-      const scrollable = rect.height - viewportH;
-      const raw = scrollable > 0 ? Math.min(Math.max(-rect.top / scrollable, 0), 1) : 0;
-      const continuousIndex = continuousIndexAt(raw * totalUnits, values.length);
 
-      panelRefs.current.forEach((panel, i) => {
-        if (!panel) return;
-        const offset = i - continuousIndex;
-        const linear = Math.min(Math.max(1 - Math.abs(offset), 0), 1);
-        /* Smoothstep, not linear — a true fade curve (slow-fast-slow) rather */
-        /* than a constant-rate crossfade, which is what read as a "flip".   */
-        const center = linear * linear * (3 - 2 * linear);
-        panel.style.setProperty("--offset", String(offset));
-        panel.style.setProperty("--center", String(center));
-      });
+      // Cheap bail while the track is nowhere near the viewport.
+      if (rect.bottom > -viewportH && rect.top < viewportH * 2) {
+        const scrollable = rect.height - viewportH;
+        const raw = scrollable > 0 ? Math.min(Math.max(-rect.top / scrollable, 0), 1) : 0;
+        const continuousIndex = continuousIndexAt(raw * totalUnits, values.length);
 
-      frameRef.current?.style.setProperty(
-        "--reel-progress",
-        String(continuousIndex / (values.length - 1)),
-      );
+        panelRefs.current.forEach((panel, i) => {
+          if (!panel) return;
+          const offset = i - continuousIndex;
+          const linear = Math.min(Math.max(1 - Math.abs(offset), 0), 1);
+          /* Smoothstep, not linear — a true fade curve (slow-fast-slow) rather */
+          /* than a constant-rate crossfade, which is what read as a "flip".   */
+          const center = linear * linear * (3 - 2 * linear);
+          panel.style.setProperty("--offset", String(offset));
+          panel.style.setProperty("--center", String(center));
+        });
 
-      const nextActive = Math.min(values.length - 1, Math.max(0, Math.round(continuousIndex)));
-      setActiveIndex((prev) => (prev === nextActive ? prev : nextActive));
-    };
+        frameRef.current?.style.setProperty(
+          "--reel-progress",
+          String(continuousIndex / (values.length - 1)),
+        );
 
-    const onScroll = () => {
-      if (raf) return;
+        const nextActive = Math.min(values.length - 1, Math.max(0, Math.round(continuousIndex)));
+        setActiveIndex((prev) => (prev === nextActive ? prev : nextActive));
+      }
+
       raf = requestAnimationFrame(update);
     };
 
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    raf = requestAnimationFrame(update);
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (raf) cancelAnimationFrame(raf);
+      cancelAnimationFrame(raf);
     };
   }, [pinEnabled, totalUnits, values.length]);
 
@@ -214,6 +235,10 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
       <div ref={frameRef} className={cx(styles.sticky, pinEnabled && styles.stickyPinned)}>
         {pinEnabled ? <DrawnGrid className={styles.grid} /> : null}
 
+        <Eyebrow as="span" tone="dark" className={styles.sectionHeading}>
+          The Code
+        </Eyebrow>
+
         {values.map((value, i) => (
           <article
             key={value.index}
@@ -224,13 +249,11 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
             aria-hidden={pinEnabled && i !== activeIndex}
           >
             <div className={styles.panelMeta}>
-              <span className={styles.panelNumeral} aria-hidden="true">
-                {value.index}
-              </span>
               <span className={styles.panelMark} aria-hidden="true">
                 <CodeMark index={value.index} />
               </span>
             </div>
+            <span className={styles.panelDivider} aria-hidden="true" />
             <Stack gap="md" className={styles.panelText}>
               <Heading variant="section" as="h3" tone="dark" className={styles.panelTitle}>
                 {value.title}
@@ -243,16 +266,38 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
 
         {pinEnabled ? (
           <div className={styles.ledger}>
-            <span className={styles.ledgerMarker} aria-hidden="true" />
-            <ol className={styles.ledgerTicks}>
-              {values.map((value, i) => (
-                <li key={value.index}>
-                  <span className={cx(styles.ledgerTick, i === activeIndex && styles.ledgerTickActive)}>
-                    {value.index}
-                  </span>
-                </li>
-              ))}
-            </ol>
+            <div className={styles.ledgerBar} aria-hidden="true">
+              <span className={styles.ledgerFill} />
+            </div>
+            <div className={styles.ledgerRow}>
+              <span className={styles.ledgerCounter} aria-hidden="true">
+                <span className={styles.ledgerCounterActive}>
+                  {String(activeIndex + 1).padStart(2, "0")}
+                </span>
+                <span className={styles.ledgerCounterSep}>/</span>
+                <span className={styles.ledgerCounterTotal}>
+                  {String(values.length).padStart(2, "0")}
+                </span>
+              </span>
+              <ol className={styles.ledgerTicks}>
+                {values.map((value, i) => (
+                  <li key={value.index}>
+                    <button
+                      type="button"
+                      className={cx(
+                        styles.ledgerTick,
+                        i === activeIndex && styles.ledgerTickActive,
+                      )}
+                      onClick={() => goToIndex(i)}
+                      aria-label={`Go to ${value.title}`}
+                      aria-current={i === activeIndex ? "true" : undefined}
+                    >
+                      {value.index}
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
         ) : null}
       </div>
@@ -262,14 +307,7 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
 
 export function OurCode() {
   return (
-    <section className={styles.section} aria-labelledby="our-code-title">
-      <Stack gap="xl" className={styles.header}>
-        <span className={styles.goldRule} aria-hidden="true" />
-        <Heading variant="section" id="our-code-title">
-          {ourCode.heading}
-        </Heading>
-      </Stack>
-
+    <section className={styles.section} aria-label={ourCode.heading}>
       <CodeReel values={ourCode.values} />
     </section>
   );

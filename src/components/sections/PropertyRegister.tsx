@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Container } from "@/components/layout";
-import { Heading, Lede } from "@/components/ui";
+import { Heading } from "@/components/ui";
 import { useInView } from "@/hooks/useInView";
 import {
   aumAssetById,
@@ -392,9 +392,6 @@ export function PropertyRegister() {
             <Heading variant="section" tone="dark" id="register-title">
               {propertyRegister.heading}
             </Heading>
-            <Lede tone="dark" className={styles.framing}>
-              {propertyRegister.framing}
-            </Lede>
           </div>
         </Reveal>
 

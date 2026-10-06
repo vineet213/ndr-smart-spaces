@@ -1,14 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/ui/FadeImage";
 import { Container } from "@/components/layout";
 import { Eyebrow, SourceFootnote } from "@/components/ui";
 import type { LifecycleStage } from "@/lib/data/business";
 import { useInView } from "@/hooks/useInView";
+import { getLenisInstance } from "@/lib/lenis";
 import { cx } from "../ui/cx";
 import { Reveal } from "./Reveal";
-import { ProductsSitePlate } from "./ProductsSitePlate";
+import { FinalProductVideo } from "./FinalProductVideo";
 import styles from "./DevelopmentLifecycle.module.css";
 
 type DevelopmentLifecycleProps = {
@@ -20,7 +21,7 @@ type DevelopmentLifecycleProps = {
  * subject stays in frame while the quiet area carries the overlay text.
  */
 const STAGE_POSITIONS: Record<string, string> = {
-  "01": "50% 42%",
+  "01": "50% 62%",
   "02": "50% 38%",
   "03": "50% 40%",
   "04": "50% 62%",
@@ -28,6 +29,7 @@ const STAGE_POSITIONS: Record<string, string> = {
   "06": "50% 34%",
   "07": "50% 40%",
   "08": "50% 45%",
+  "09": "50% 50%",
 };
 
 const CUT_SIDES = [styles.cutLeft, styles.cutRight] as const;
@@ -42,15 +44,23 @@ function easeOutCubic(t: number) {
 /* A deliberately slow, eased jump — not the browser's native smooth scroll,
  * which finishes in well under a second regardless of distance and blows
  * straight past the scroll-scrubbed sweep/develop/text-reveal animations
- * before they can be seen. This is a one-shot rAF loop triggered only by a
- * click (never a continuous scroll listener), so it doesn't carry the same
- * risk as scroll-position-tracking JS — it just interpolates a known start
- * and end value over a fixed duration, then stops.
+ * before they can be seen.
  *
- * Two things fight this kind of manual animation unless neutralised first:
+ * When Lenis (the sitewide smooth-scroll engine, see `SmoothScroll.tsx`) is
+ * mounted, the jump is handed to `lenis.scrollTo` with the same easing curve
+ * and duration instead of driving `window.scrollTo` directly — Lenis already
+ * runs its own continuous rAF loop controlling scroll position, and a second,
+ * independent `window.scrollTo` loop fighting it every frame is what produced
+ * visible stutter/desync. Without Lenis (e.g. it fails to mount) this falls
+ * back to the original hand-rolled rAF loop.
+ *
+ * Two things fight this kind of manual/engine-driven animation unless
+ * neutralised first:
  * 1. The site's global `html { scroll-behavior: smooth }` (reset.css) makes
  *    the browser *also* smooth-animate each `scrollTo` call on top of our
- *    own easing — fixed below with an explicit `behavior: "instant"`.
+ *    own easing — fixed in the fallback path with an explicit
+ *    `behavior: "instant"` (Lenis bypasses native `scrollTo` entirely, so
+ *    this doesn't apply to that path).
  * 2. `html { scroll-snap-type: y proximity }` (also reset.css, added for
  *    manual-scroll landings) tries to pull the page back toward the snap
  *    point we're leaving during the animation's slow, near-stationary
@@ -76,6 +86,17 @@ function calmScrollTo(targetY: number) {
   }
 
   const duration = Math.min(2600, Math.max(1400, Math.abs(distance) * 0.4));
+
+  const lenis = getLenisInstance();
+  if (lenis) {
+    lenis.scrollTo(targetY, {
+      duration: duration / 1000,
+      easing: easeOutCubic,
+      onComplete: restoreSnap,
+    });
+    return;
+  }
+
   const startTime = performance.now();
 
   function step(now: number) {
@@ -256,12 +277,13 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
           </header>
         </Reveal>
 
-        <Reveal>
-          <div className={styles.plate}>
-            <ProductsSitePlate />
-          </div>
-        </Reveal>
+      </Container>
 
+      <div className={styles.plate}>
+        <FinalProductVideo />
+      </div>
+
+      <Container>
         {source ? (
           <Reveal>
             <SourceFootnote>{source}</SourceFootnote>

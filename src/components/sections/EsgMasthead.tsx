@@ -1,24 +1,8 @@
-import { Container, Section } from "@/components/layout";
 import { esgMasthead } from "@/lib/data/esg";
-import styles from "./EsgMasthead.module.css";
+import { PageMasthead } from "./PageMasthead";
 
 export function EsgMasthead() {
   return (
-    <Section tone="charcoal" ariaLabelledby="esg-masthead-title" className={styles.section}>
-      <span className={styles.ruleTop} aria-hidden="true" />
-
-      <Container className={styles.content}>
-        <div className={styles.hero} id="esg-hero">
-          <h1 id="esg-masthead-title" className={styles.title}>
-            {esgMasthead.title.before}
-            <span className={styles.titleAccent}>{esgMasthead.title.accent}</span>
-            {esgMasthead.title.after}
-          </h1>
-          <p className={styles.statement}>{esgMasthead.statement}</p>
-        </div>
-      </Container>
-
-      <span className={styles.rule} aria-hidden="true" />
-    </Section>
+    <PageMasthead id="esg-masthead-title" title={esgMasthead.title} subtext={esgMasthead.statement} />
   );
 }

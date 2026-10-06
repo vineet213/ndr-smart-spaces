@@ -40,10 +40,6 @@ export function ContactCta() {
                   </li>
                 ))}
               </ul>
-              <p className={styles.note}>
-                We typically respond within 2 business days. For investor-specific queries, write to
-                compliance@ndrsmart.com.
-              </p>
             </Stack>
           </GridItem>
           <GridItem span={4} className={styles.cardColumn}>

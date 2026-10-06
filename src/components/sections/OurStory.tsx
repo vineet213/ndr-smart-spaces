@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/ui/FadeImage";
 import { Container, Grid, GridItem, Stack } from "@/components/layout";
 import { Eyebrow, Heading, Body } from "@/components/ui";
 import { aboutStory } from "@/lib/data/about";

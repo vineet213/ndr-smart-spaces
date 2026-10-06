@@ -1,7 +1,21 @@
 .footer {
+  position: relative;
   background-color: var(--color-charcoal-deep);
-  border-top: 3px solid var(--color-gold);
   color: var(--color-text-inverse);
+}
+
+.footer::before {
+  content: "";
+  display: block;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    rgba(240, 182, 90, 0) 0%,
+    var(--color-gold) 16%,
+    var(--color-gold-light) 50%,
+    var(--color-gold) 84%,
+    rgba(240, 182, 90, 0) 100%
+  );
 }
 
 .colophon {

@@ -12,7 +12,6 @@ export default function AssetFlipPage() {
   return (
     <>
       <InvestorMasthead
-        variant="slim"
         title={{ before: "Asset Flip — ", accent: "Transfer of SPVs" }}
         subtext={assetFlip.mastheadSubtext}
         id="asset-flip-title"

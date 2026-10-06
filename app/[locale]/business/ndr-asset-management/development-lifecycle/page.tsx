@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Container, Section } from "@/components/layout";
-import { DevelopmentLifecycle, Footer } from "@/components/sections";
+import { Section } from "@/components/layout";
+import { DevelopmentLifecycle, Footer, PageMasthead } from "@/components/sections";
 import { vertical02DevelopmentLifecycle } from "@/lib/data/business";
 import styles from "./development-lifecycle.module.css";
 
@@ -14,18 +14,11 @@ export default function DevelopmentLifecyclePage() {
 
   return (
     <>
-      <Section tone="charcoal" ariaLabelledby="subpage-title" className={styles.masthead}>
-        <span className={styles.ruleTop} aria-hidden="true" />
-
-        <Container className={styles.hero}>
-          <h1 id="subpage-title" className={styles.title}>
-            Development <span className={styles.titleAccent}>Lifecycle</span>
-          </h1>
-          <p className={styles.overviewBody}>{intro.description}</p>
-        </Container>
-
-        <span className={styles.rule} aria-hidden="true" />
-      </Section>
+      <PageMasthead
+        id="subpage-title"
+        title={{ before: "Development ", accent: "Lifecycle" }}
+        subtext={intro.mastheadSubtext}
+      />
 
       <Section tone="dim" className={styles.bodySection}>
         <DevelopmentLifecycle stages={stages} source={source} />

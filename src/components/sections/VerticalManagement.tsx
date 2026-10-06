@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/ui/FadeImage";
 import { verticalManagement } from "@/lib/data/business";
 import { Reveal, type RevealDelay } from "./Reveal";
 import { cx } from "../ui/cx";
@@ -38,7 +38,7 @@ export function VerticalManagement() {
           const profile = verticalManagement.profiles[index];
           return (
             <li key={index}>
-              <Reveal delay={((index % 4) + 1) as RevealDelay}>
+              <Reveal delay={((index % 4) + 1) as RevealDelay} className={styles.cardReveal}>
                 <div
                   className={cx(styles.slot, isActive && styles.slotActive)}
                   tabIndex={0}

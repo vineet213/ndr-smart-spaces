@@ -350,6 +350,33 @@ export function PortfolioPanel(props: PanelProps) {
           placeholder={props.searchPlaceholder}
           noun={props.searchNoun}
           onPick={props.onSearchPick}
+          browse={
+            level === "india" ? (
+              <ul className={styles.states}>
+                {states.map((state) => (
+                  <li key={state.stateId}>
+                    <button
+                      type="button"
+                      className={cx(
+                        styles.stateRow,
+                        hoveredStateId === state.stateId && styles.stateHover,
+                      )}
+                      onClick={() => onSelectState(state.stateId)}
+                      onMouseEnter={() => onHoverState(state.stateId)}
+                      onMouseLeave={() => onHoverState(null)}
+                      onFocus={() => onHoverState(state.stateId)}
+                      onBlur={() => onHoverState(null)}
+                    >
+                      <span className={styles.stateName}>{state.stateName}</span>
+                      <span className={styles.stateMeta}>
+                        {state.parcelCount} · {formatMsf(state.totalLeasableAreaMsf)}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : undefined
+          }
         />
         <nav className={styles.crumbs} aria-label="Location">
           <button type="button" data-active={level === "india"} onClick={() => onSelectState(null)}>
@@ -402,34 +429,10 @@ export function PortfolioPanel(props: PanelProps) {
 
       <div className={styles.body} key={`${level}:${stateId}:${city?.name}:${record?.asset.id}`}>
         {level === "india" ? (
-          <>
-            <p className={styles.lede}>
-              Select a state, or search for a city or {noun}, to open the map.
-            </p>
-            <ul className={styles.states}>
-              {states.map((state) => (
-                <li key={state.stateId}>
-                  <button
-                    type="button"
-                    className={cx(
-                      styles.stateRow,
-                      hoveredStateId === state.stateId && styles.stateHover,
-                    )}
-                    onClick={() => onSelectState(state.stateId)}
-                    onMouseEnter={() => onHoverState(state.stateId)}
-                    onMouseLeave={() => onHoverState(null)}
-                    onFocus={() => onHoverState(state.stateId)}
-                    onBlur={() => onHoverState(null)}
-                  >
-                    <span className={styles.stateName}>{state.stateName}</span>
-                    <span className={styles.stateMeta}>
-                      {state.parcelCount} · {formatMsf(state.totalLeasableAreaMsf)}
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </>
+          <p className={styles.lede}>
+            Select a state, or search for a city or {noun}, to open the map — click the search
+            bar to browse every state.
+          </p>
         ) : null}
 
         {level === "state" && stateFigures ? (

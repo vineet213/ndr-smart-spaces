@@ -1,13 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
+import { FadeImage as Image } from "@/components/ui/FadeImage";
 import { Container, Stack } from "@/components/layout";
 import { Eyebrow, Heading } from "@/components/ui";
 import { leadership, type LeadershipGroup } from "@/lib/data/about";
 import { Reveal, type RevealDelay } from "./Reveal";
 import styles from "./Leadership.module.css";
 import { cx } from "../ui/cx";
+
+/* Slightly longer than the tiles' 420ms flex-basis transition: the row only  */
+/* counts as "at rest" (safe to measure) once a collapse has fully finished.  */
+const SETTLE_MS = 500;
 
 function initialsOf(name: string) {
   return name
@@ -34,7 +39,12 @@ function LeadershipGroupSection({ group }: { group: LeadershipGroup }) {
   const profiles = group.profiles;
   const slots = Math.max(profiles.length, group.placeholderSlots);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [restHeights, setRestHeights] = useState<readonly number[]>([]);
   const pointerTypeRef = useRef<string>("");
+  const activeRef = useRef<number | null>(null);
+  const listRef = useRef<HTMLOListElement | null>(null);
+  const lastPoint = useRef<{ x: number; y: number } | null>(null);
+  const settledAfter = useRef(0);
 
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -44,22 +54,57 @@ function LeadershipGroupSection({ group }: { group: LeadershipGroup }) {
       leaveTimer.current = null;
     }
   };
+  const setActive = (next: number | null) => {
+    if (next === null && activeRef.current !== null) {
+      settledAfter.current = performance.now() + SETTLE_MS;
+    }
+    activeRef.current = next;
+    setActiveIndex(next);
+  };
+  // Each tile's resting height, read only while the whole row is at rest. The
+  // opened card takes it as a min-height (see .cardActive), so its footprint
+  // always contains the tile it grew from and the cursor that opened it.
+  const measureRest = () => {
+    const list = listRef.current;
+    if (!list) return;
+    const heights: number[] = [];
+    list.querySelectorAll<HTMLElement>("li[data-index]").forEach((li) => {
+      const card = li.querySelector<HTMLElement>("article");
+      heights[Number(li.dataset.index)] = card ? card.offsetHeight : 0;
+    });
+    setRestHeights(heights);
+  };
   const activate = (index: number) => {
     clearLeaveTimer();
-    setActiveIndex(index);
+    if (activeRef.current === index) return;
+    if (activeRef.current === null && performance.now() >= settledAfter.current) measureRest();
+    setActive(index);
   };
   const resetIfActive = (index: number) => {
     clearLeaveTimer();
-    // A short hysteresis delay: the active tile's growth reflows its
-    // neighbours, so a cursor sitting near a tile boundary can otherwise end
-    // up briefly outside the card it's still "on", firing leave/enter in a
-    // flickering loop. Deferring the collapse gives a same-card re-entry a
-    // moment to cancel it before anything visibly changes.
     leaveTimer.current = setTimeout(() => {
-      setActiveIndex((current) => (current === index ? null : current));
+      if (activeRef.current === index) setActive(null);
     }, 120);
   };
-  const toggle = (index: number) => setActiveIndex((current) => (current === index ? null : index));
+  const toggle = (index: number) => {
+    clearLeaveTimer();
+    if (activeRef.current === index) setActive(null);
+    else activate(index);
+  };
+  // Hover opens a tile only on real cursor movement. Browsers re-dispatch
+  // pointer events at the same coordinates whenever layout shifts under a
+  // still cursor; treating those as hovers is what let an opening/closing
+  // tile retrigger itself in a loop.
+  const handlePointerMove = (event: ReactPointerEvent<HTMLOListElement>) => {
+    if (event.pointerType !== "mouse") return;
+    const previous = lastPoint.current;
+    lastPoint.current = { x: event.clientX, y: event.clientY };
+    if (previous && previous.x === event.clientX && previous.y === event.clientY) return;
+    const item = (event.target as HTMLElement).closest<HTMLElement>("li[data-index]");
+    if (!item) return;
+    const index = Number(item.dataset.index);
+    if (profiles[index]) activate(index);
+  };
 
   useEffect(() => clearLeaveTimer, []);
 
@@ -71,19 +116,33 @@ function LeadershipGroupSection({ group }: { group: LeadershipGroup }) {
         </h3>
       </Reveal>
 
-      <ol className={styles.grid} aria-labelledby={`${group.id}-title`}>
+      <ol
+        ref={listRef}
+        className={styles.grid}
+        aria-labelledby={`${group.id}-title`}
+        onPointerMove={handlePointerMove}
+      >
         {Array.from({ length: slots }, (_, index) => {
           const profile = profiles[index];
           const isActive = activeIndex === index;
           const isDimmed = activeIndex !== null && !isActive;
+          const restHeight = restHeights[index];
           return (
             <li
               key={profile?.name ?? index}
+              data-index={index}
               className={cx(
                 styles.item,
                 isActive && styles.itemActive,
                 isDimmed && styles.itemDimmed,
               )}
+              style={restHeight ? ({ "--rest-h": `${restHeight}px` } as CSSProperties) : undefined}
+              // Open (pointermove, above) and close share this one element. It
+              // is the tile's untransformed box, so the opened card's lift
+              // can't carry the hit area away from the cursor.
+              onPointerLeave={(event) => {
+                if (event.pointerType === "mouse") resetIfActive(index);
+              }}
             >
               <Reveal delay={(index + 1) as RevealDelay}>
                 {profile ? (
@@ -97,9 +156,6 @@ function LeadershipGroupSection({ group }: { group: LeadershipGroup }) {
                     role="button"
                     aria-expanded={isActive}
                     aria-label={`${profile.name}, ${profile.role} — read full profile`}
-                    onPointerLeave={(event) => {
-                      if (event.pointerType === "mouse") resetIfActive(index);
-                    }}
                     onFocus={() => {
                       if (pointerTypeRef.current !== "touch") activate(index);
                     }}
@@ -120,12 +176,7 @@ function LeadershipGroupSection({ group }: { group: LeadershipGroup }) {
                       }
                     }}
                   >
-                    <figure
-                      className={styles.portrait}
-                      onPointerEnter={(event) => {
-                        if (event.pointerType === "mouse") activate(index);
-                      }}
-                    >
+                    <figure className={styles.portrait}>
                       {profile.photo ? (
                         <Image
                           src={profile.photo}

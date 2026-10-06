@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import {
   AboutHero,
+  CompanyMetrics,
   OurStory,
   AboutTimeline,
   VisionMissionValues,
@@ -8,6 +9,7 @@ import {
   Leadership,
   Footer,
 } from "@/components/sections";
+import { aboutStats } from "@/lib/data/about";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -19,6 +21,7 @@ export default function AboutUsPage() {
   return (
     <>
       <AboutHero />
+      <CompanyMetrics data={aboutStats} id="about-stats" />
       <OurStory />
       <AboutTimeline />
       <VisionMissionValues />

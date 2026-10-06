@@ -11,7 +11,6 @@ export function AveAcresExplore() {
         <Reveal>
           <div className={styles.panel}>
             <div className={styles.copy}>
-              <span className={styles.goldRule} aria-hidden="true" />
               <Eyebrow>{aveAcresClosing.eyebrow}</Eyebrow>
               <Heading variant="sub" id="ave-acres-explore-title">
                 {aveAcresClosing.heading}

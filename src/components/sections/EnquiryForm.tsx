@@ -5,8 +5,8 @@ import type { FormEvent } from "react";
 import { contact } from "@/lib/data/homepage";
 import styles from "./EnquiryForm.module.css";
 
-type FieldName = "name" | "email" | "company";
-type FormValues = Record<FieldName, string> & { enquiryType: string; message: string };
+type FieldName = "name" | "email" | "company" | "enquiryType";
+type FormValues = Record<FieldName, string> & { message: string };
 
 const initialValues: FormValues = {
   name: "",
@@ -19,9 +19,9 @@ const initialValues: FormValues = {
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function EnquiryForm() {
-  const { fields, enquiryTypes, messageLabel, submit, sending, success, route } = contact.form;
+  const { fields, messageLabel, submit, sending, success, route } = contact.form;
   const [values, setValues] = useState<FormValues>(initialValues);
-  const [errors, setErrors] = useState<Partial<Record<FieldName | "enquiryType", string>>>({});
+  const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
 
   function setField(name: FieldName, value: string) {
@@ -31,7 +31,7 @@ export function EnquiryForm() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const nextErrors: Partial<Record<FieldName | "enquiryType", string>> = {};
+    const nextErrors: Partial<Record<FieldName, string>> = {};
 
     if (!values.name.trim()) nextErrors.name = "Please enter your name.";
     if (!values.email.trim()) {
@@ -40,14 +40,14 @@ export function EnquiryForm() {
       nextErrors.email = "Please enter a valid email address.";
     }
     if (!values.company.trim()) nextErrors.company = "Please enter your company.";
-    if (!values.enquiryType) nextErrors.enquiryType = "Please choose an enquiry type.";
+    if (!values.enquiryType.trim()) nextErrors.enquiryType = "Please enter an enquiry type.";
 
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
     setStatus("sending");
 
-    const recipient = route[values.enquiryType as keyof typeof route] ?? route.default;
+    const recipient = route.default;
     const subject = `Business Enquiry — ${values.enquiryType}`;
     const body = [
       `Name: ${values.name}`,
@@ -98,37 +98,6 @@ export function EnquiryForm() {
           ) : null}
         </div>
       ))}
-
-      <div className={styles.field}>
-        <label className={styles.label} htmlFor={labelId("enquiryType")}>
-          Enquiry type
-        </label>
-        <select
-          id={labelId("enquiryType")}
-          className={styles.select}
-          value={values.enquiryType}
-          onChange={(event) => {
-            setValues((prev) => ({ ...prev, enquiryType: event.target.value }));
-            setErrors((prev) => ({ ...prev, enquiryType: undefined }));
-          }}
-          aria-invalid={Boolean(errors.enquiryType)}
-          aria-describedby={errors.enquiryType ? `${labelId("enquiryType")}-error` : undefined}
-        >
-          <option value="" disabled>
-            Select an option
-          </option>
-          {enquiryTypes.map((type) => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </select>
-        {errors.enquiryType ? (
-          <span id={`${labelId("enquiryType")}-error`} className={styles.error} role="alert">
-            {errors.enquiryType}
-          </span>
-        ) : null}
-      </div>
 
       <div className={styles.field}>
         <label className={styles.label} htmlFor={labelId("message")}>

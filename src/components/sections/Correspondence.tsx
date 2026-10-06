@@ -21,11 +21,6 @@ export function Correspondence() {
                 {correspondenceForm.heading}
               </Heading>
               <p className={styles.subheading}>{correspondenceForm.subheading}</p>
-              <div className={styles.response}>
-                <span className={styles.responseLabel}>Response time</span>
-                <span className={styles.responseValue}>{correspondenceForm.response}</span>
-              </div>
-              <p className={styles.note}>{correspondenceForm.note}</p>
             </Reveal>
           </GridItem>
           <GridItem span={5} className={styles.formColumn}>

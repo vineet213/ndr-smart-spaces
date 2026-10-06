@@ -10,27 +10,36 @@
   background-color: var(--color-gold);
 }
 
-.paragraph {
+.paragraph.paragraph {
   margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.7;
 }
 
+/* The photo column stretches to exactly the text column's height, so the  */
+/* plate's top lines up with the gold rule and its caption with the last   */
+/* paragraph — one block, not a tall image beside a short text column.     */
 .plateColumn {
   display: flex;
-  align-items: center;
+  align-items: stretch;
 }
 
 .plateReveal {
+  display: flex;
   width: 100%;
 }
 
 .figure {
+  display: flex;
+  flex-direction: column;
   margin: 0;
   width: 100%;
 }
 
 .plate {
   position: relative;
-  aspect-ratio: 4 / 5;
+  flex: 1;
+  min-height: 20rem;
   width: 100%;
   background-color: var(--color-charcoal);
   border-top: 2px solid var(--color-gold);
@@ -43,7 +52,9 @@
 
 .caption {
   margin-top: var(--space-md);
+  text-align: center;
   font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
   font-size: var(--font-small);
   line-height: var(--leading-small);
   color: var(--color-stone);
@@ -60,7 +71,14 @@
     padding-block: var(--section-padding-mobile);
   }
 
+  .paragraph.paragraph {
+    font-size: 1.0625rem;
+  }
+
   .plate {
+    flex: none;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
     margin-top: var(--space-3xl);
   }
 }

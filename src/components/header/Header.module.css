@@ -1,30 +1,15 @@
 .header {
 }
 
-/* Only the nav bar is fixed — the utility strip above it is normal document */
-/* flow and scrolls away naturally. At rest the nav sits `top: 2rem`, right  */
-/* below the strip's own height; once scrolled the strip has scrolled out   */
-/* of view, so the nav slides up to `top: 0` to fill that space.            */
+/* The utility strip above the nav was removed sitewide, so the nav simply  */
+/* sits flush at the top of the viewport at all times.                      */
 .navBar {
   position: fixed;
-  top: 2rem;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 100;
   background: transparent;
-  transition: top var(--duration-standard) var(--ease-standard);
-}
-
-.navBarScrolled {
-  top: 0;
-}
-
-@media (max-width: 767px) {
-  .navBar {
-    /* The utility strip hides on mobile (see UtilityStrip.module.css), so   */
-    /* there's no strip height to sit below. */
-    top: 0;
-  }
 }
 
 /* Reserves the nav's own height right after the utility strip in normal    */

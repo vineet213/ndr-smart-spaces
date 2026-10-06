@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import {
-  CapitalMarketTimeline,
   CorporateStructure,
   Footer,
   GovernanceManual,
@@ -19,16 +18,12 @@ export default function CorporateGovernancePage() {
   return (
     <>
       <InvestorMasthead
-        variant="slim"
-        eyebrow={governance.masthead.eyebrow}
-        title={{ before: governance.masthead.title }}
-        asOn={governance.masthead.asOn}
-        edition={governance.masthead.edition}
+        title={{ before: "The ", accent: "governance", after: " manual." }}
+        subtext={governance.masthead.subtext}
         id="corporate-governance-title"
       />
       <GovernanceManual />
       <CorporateStructure />
-      <CapitalMarketTimeline />
       <InvestorClosing />
       <Footer />
     </>

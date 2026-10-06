@@ -1,21 +1,5 @@
 .section {
-  padding-block: var(--section-padding-desktop) 0;
-  background-color: var(--color-ivory);
   overflow-x: clip;
-}
-
-.header {
-  max-width: var(--measure-body);
-  margin-inline: auto;
-  padding-inline: var(--margin-desktop);
-  margin-bottom: var(--space-9xl);
-}
-
-.goldRule {
-  display: block;
-  width: var(--space-6xl);
-  height: 2px;
-  background-color: var(--color-gold);
 }
 
 /* The Ledger Reel ----------------------------------------------------------- */
@@ -31,9 +15,24 @@
 .sticky {
   position: relative;
   overflow: hidden;
+  padding-top: calc(var(--header-height, 4.5rem) + clamp(2.5rem, 5vw, 4rem));
   background:
     radial-gradient(60% 55% at 50% 42%, rgba(240, 182, 90, 0.07) 0%, rgba(240, 182, 90, 0) 70%),
     var(--color-maroon-dark);
+}
+
+.sectionHeading {
+  position: absolute;
+  top: calc(var(--header-height, 4.5rem) + clamp(1rem, 2vw, 1.5rem));
+  left: var(--margin-desktop);
+  z-index: 20;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .stickyPinned {
@@ -51,9 +50,9 @@
 
 .panel {
   display: grid;
-  grid-template-columns: minmax(0, 18rem) minmax(0, 42rem);
+  grid-template-columns: minmax(0, 22rem) auto minmax(0, 42rem);
   align-items: center;
-  gap: var(--space-9xl);
+  gap: var(--space-7xl);
   max-width: var(--container-max);
   margin-inline: auto;
   padding-inline: var(--margin-desktop);
@@ -82,26 +81,27 @@
   padding-top: 0;
 }
 
+.panel:not(.panelPinned) .panelDivider {
+  display: none;
+}
+
 .panelMeta {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: var(--space-lg);
 }
 
-.panelNumeral {
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-light);
-  font-size: clamp(6rem, 11vw, 11rem);
-  line-height: 1;
-  color: rgba(240, 182, 90, 0.24);
-  /* Drifts a touch opposite the panel's own small movement — a background   */
-  /* layer lagging behind the foreground content for a hint of depth.       */
-  transform: translateX(calc(var(--offset, 0) * -4%));
-}
-
+/* A real visual anchor, not a small line-icon in a corner — scaled up to    */
+/* fill its own zone, with a slow scroll-linked parallax (rotate + drift,    */
+/* driven by the same --offset this panel already receives every frame)     */
+/* so it reads as alive rather than a static glyph. */
 .panelMark {
-  width: clamp(2.75rem, 4vw, 4rem);
+  width: clamp(10rem, 15vw, 16rem);
   color: var(--color-gold);
+  transform: rotate(calc(var(--offset, 0) * -10deg)) translateY(calc(var(--offset, 0) * 14px));
+  filter: drop-shadow(0 0 32px rgba(240, 182, 90, 0.16));
 }
 
 .panelMark svg {
@@ -109,6 +109,24 @@
   width: 100%;
   height: 100%;
   overflow: visible;
+}
+
+/* A quiet vertical rule separating the icon and text zones — contained to  */
+/* roughly the height of the content beside it (not the full pinned frame), */
+/* so it reads as a contained divider rather than a stray line across the   */
+/* whole panel. */
+.panelDivider {
+  align-self: center;
+  width: 1px;
+  height: clamp(12rem, 20vw, 18rem);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--color-gold-40) 15%,
+    var(--color-gold) 50%,
+    var(--color-gold-40) 85%,
+    transparent
+  );
 }
 
 /* The icon draws itself in as its panel approaches center, and un-draws as  */
@@ -149,10 +167,6 @@
   color: var(--color-text-inverse-80);
 }
 
-.panel:not(.panelPinned) .panelNumeral {
-  transform: none;
-}
-
 .panel:not(.panelPinned) .panelMark svg path,
 .panel:not(.panelPinned) .panelMark svg circle {
   stroke-dasharray: none;
@@ -163,9 +177,11 @@
   clip-path: none;
 }
 
-/* Ledger line — folds the old numbered rail into a single physical progress */
-/* indicator: a hairline track with a marker that slides in lockstep with    */
-/* the filmstrip, and tick numerals that light up as their value centers.    */
+/* Ledger — a Keynote-style progress bar + large running counter, replacing */
+/* the old small dot-trail. The fill width and the counter digits are both  */
+/* driven by the same --reel-progress/activeIndex already computed every    */
+/* frame; the per-stage tick buttons remain underneath as click targets,    */
+/* now a quiet secondary control rather than the headline element.          */
 
 .ledger {
   position: absolute;
@@ -173,45 +189,83 @@
   bottom: var(--space-8xl);
   transform: translateX(-50%);
   z-index: 30;
-  width: min(90%, 46rem);
+  width: min(90%, 52rem);
 }
 
-.ledger::before {
-  content: "";
-  display: block;
-  height: 1px;
+.ledgerBar {
+  position: relative;
+  height: 3px;
+  border-radius: 2px;
   background-color: rgba(250, 247, 242, 0.18);
+  overflow: hidden;
 }
 
-.ledgerMarker {
+.ledgerFill {
   position: absolute;
-  top: -3px;
-  left: calc(var(--reel-progress, 0) * 100%);
-  width: 7px;
-  height: 7px;
-  margin-left: -3.5px;
-  border-radius: 50%;
-  background-color: var(--color-gold);
-  box-shadow: 0 0 0 4px rgba(240, 182, 90, 0.18);
+  inset: 0;
+  width: calc(var(--reel-progress, 0) * 100%);
+  background: linear-gradient(to right, var(--color-gold-light), var(--color-gold));
+  box-shadow: 0 0 12px rgba(240, 182, 90, 0.5);
+}
+
+.ledgerRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: var(--space-xl);
+}
+
+.ledgerCounter {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-variant-numeric: tabular-nums;
+}
+
+.ledgerCounterActive {
+  font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+  color: var(--color-gold);
+}
+
+.ledgerCounterSep,
+.ledgerCounterTotal {
+  font-size: var(--font-small);
+  color: var(--color-text-inverse-70);
 }
 
 .ledgerTicks {
   display: flex;
-  justify-content: space-between;
-  margin: var(--space-lg) 0 0;
+  gap: var(--space-xl);
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .ledgerTick {
   display: block;
+  padding: var(--space-2xs) 0;
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
   letter-spacing: var(--tracking-meta);
   font-variant-numeric: tabular-nums;
   color: var(--color-text-inverse-70);
+  background: none;
+  border: none;
+  cursor: pointer;
   transition: color var(--duration-standard) var(--ease-standard);
+}
+
+.ledgerTick:hover,
+.ledgerTick:focus-visible {
+  color: var(--color-gold-light);
+}
+
+.ledgerTick:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
 }
 
 .ledgerTickActive {
@@ -221,32 +275,27 @@
 /* responsive --------------------------------------------------------------- */
 
 @media (max-width: 1439px) {
-  .section {
-    padding-block: var(--section-padding-tablet) 0;
-  }
-
-  .header {
-    padding-inline: var(--margin-tablet);
-  }
-
   .panel {
-    grid-template-columns: minmax(0, 15rem) minmax(0, 34rem);
-    gap: var(--space-7xl);
+    grid-template-columns: minmax(0, 17rem) auto minmax(0, 34rem);
+    gap: var(--space-6xl);
     padding-inline: var(--margin-tablet);
+  }
+
+  .sectionHeading {
+    left: var(--margin-tablet);
   }
 }
 
 @media (max-width: 767px) {
-  .header {
-    padding-inline: var(--margin-mobile);
-    margin-bottom: var(--space-7xl);
-  }
-
   .panel {
     padding-inline: var(--margin-mobile);
   }
 
   .panel:not(.panelPinned) {
     padding-block: var(--space-7xl);
+  }
+
+  .sectionHeading {
+    left: var(--margin-mobile);
   }
 }

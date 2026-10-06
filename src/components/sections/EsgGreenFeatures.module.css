@@ -173,6 +173,26 @@
   object-fit: cover;
 }
 
+/* Cards without a site photograph yet — a flat wash of the card's own color */
+/* (set via the colorClass on the ancestor .card showing through) carrying a */
+/* faint line-art mark, same restrained tone as .ghostIndex.                 */
+.photoPlaceholder {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholderGlyph {
+  display: flex;
+  color: rgba(240, 182, 90, 0.3);
+}
+
+.placeholderGlyph svg {
+  width: clamp(5rem, 10vw, 8rem);
+  height: auto;
+}
+
 /* the cross-fade + blur itself ---------------------------------------------- */
 /* Each card owns a slice of the shared timeline (set inline via
  * --card-range-start/--card-range-end in EsgGreenFeatures.tsx, overlapping

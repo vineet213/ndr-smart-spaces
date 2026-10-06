@@ -1,61 +1,12 @@
-import { Container, Stack } from "@/components/layout";
-import { Heading, Lede, Metric, SourceFootnote } from "@/components/ui";
 import { aboutHero } from "@/lib/data/about";
-import { Counter } from "./Counter";
-import { Reveal } from "./Reveal";
-import styles from "./AboutHero.module.css";
-import { cx } from "../ui/cx";
+import { PageMasthead } from "./PageMasthead";
 
 export function AboutHero() {
   return (
-    <section className={styles.hero} aria-labelledby="about-hero-title">
-      <span className={styles.ruleTop} aria-hidden="true" />
-
-      <Container className={styles.content}>
-        <Stack gap="4xl">
-          <Stack gap="3xl">
-            <Heading
-              variant="hero"
-              tone="dark"
-              id="about-hero-title"
-              className={styles.headline}
-            >
-              {aboutHero.headline}
-              <span className={styles.accent}>{aboutHero.headlineAccent}</span>
-            </Heading>
-            <Lede tone="dark" className={styles.lede}>
-              {aboutHero.lede}
-            </Lede>
-          </Stack>
-
-          <Reveal delay={1}>
-            <dl className={styles.ledger}>
-              {aboutHero.stats.map((stat) => (
-                <div key={stat.label} className={styles.ledgerRow}>
-                  <dt className={cx("text-label-meta", styles.ledgerLabel)}>{stat.label}</dt>
-                  <dd className={styles.ledgerValue}>
-                    <Metric variant="hero" tone="dark">
-                      {stat.count ? (
-                        <Counter
-                          value={stat.count.value}
-                          prefix={stat.count.prefix}
-                          suffix={stat.count.suffix}
-                          format={stat.count.format}
-                        />
-                      ) : (
-                        stat.metric
-                      )}
-                    </Metric>
-                  </dd>
-                  {stat.source ? (
-                    <SourceFootnote className={styles.ledgerSource}>{stat.source}</SourceFootnote>
-                  ) : null}
-                </div>
-              ))}
-            </dl>
-          </Reveal>
-        </Stack>
-      </Container>
-    </section>
+    <PageMasthead
+      id="about-hero-title"
+      title={{ before: aboutHero.headline, accent: aboutHero.headlineAccent }}
+      subtext={aboutHero.lede}
+    />
   );
 }

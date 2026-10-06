@@ -702,7 +702,7 @@ export const portfolioRegister = {
   emptyNote: "Records publish upon archival approval.",
   entityNote:
     "Group SPV assets are catalogued here. NDR InvIT's own portfolio is maintained by the trust.",
-  entityLink: { label: "NDR InvIT Trust", href: "https://ndrinvit.com" },
+  entityLink: { label: "NDR InvIT", href: "https://ndrinvit.com" },
   source: "Source: NDR Corporate Presentation · approved website content",
   sizeMissing: "—",
 } as const;
@@ -712,7 +712,7 @@ export const portfolioClosing = {
   line: "The register continues at NDR InvIT.",
   body: "Completed assets are offered to NDR InvIT under a Right of First Offer; the listed portfolio is maintained separately by the trust.",
   primaryCta: { label: "Discuss an asset", href: "mailto:project@ndrsmart.com" },
-  secondaryCta: { label: "NDR InvIT Trust", href: "https://ndrinvit.com" },
+  secondaryCta: { label: "NDR InvIT", href: "https://ndrinvit.com" },
 } as const;
 
 /* Land bank section --------------------------------------------------------- */
@@ -777,8 +777,6 @@ export const propertyRegister = {
   eyebrow: "Atlas · Property register",
   heading: "The Portfolio",
   chapter: "V",
-  framing:
-    "One state survey for the group's operating assets — leasable warehouses under management and the projects rising to join them, each recorded as filed in this edition.",
   modesLabel: "Register modes",
   assetsUnderManagementModeLabel: "Assets under management",
   underConstructionModeLabel: "Under construction",

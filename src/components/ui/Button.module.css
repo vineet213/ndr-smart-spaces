@@ -13,7 +13,30 @@
   transition:
     background-color var(--duration-standard) var(--ease-standard),
     border-color var(--duration-standard) var(--ease-standard),
-    color var(--duration-standard) var(--ease-standard);
+    color var(--duration-standard) var(--ease-standard),
+    transform var(--duration-standard) var(--ease-standard),
+    box-shadow var(--duration-standard) var(--ease-standard);
+}
+
+.base:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(17, 16, 15, 0.16);
+}
+
+.base:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .base {
+    transition: none;
+  }
+
+  .base:hover,
+  .base:active {
+    transform: none;
+  }
 }
 
 .primaryOnLight {

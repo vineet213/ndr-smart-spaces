@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/ui/FadeImage";
 import { Container } from "@/components/layout";
 import { Button } from "@/components/ui";
 import { hero } from "@/lib/data/homepage";

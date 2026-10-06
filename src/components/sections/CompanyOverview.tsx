@@ -1,6 +1,6 @@
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/ui/FadeImage";
 import { Container, Grid, GridItem, Stack } from "@/components/layout";
-import { Heading, Body, TextLink } from "@/components/ui";
+import { Heading, Body, TextLink, Icon } from "@/components/ui";
 import { companyOverview } from "@/lib/data/homepage";
 import styles from "./CompanyOverview.module.css";
 
@@ -37,6 +37,7 @@ export function CompanyOverview() {
                 ))}
                 <TextLink href={companyOverview.aboutLink.href} className={styles.aboutLink}>
                   {companyOverview.aboutLink.label}
+                  <Icon name="arrow-up-right" className={styles.aboutLinkArrow} />
                 </TextLink>
               </Stack>
             </Stack>

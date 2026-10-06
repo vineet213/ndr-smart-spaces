@@ -23,10 +23,28 @@
 
 .pillar {
   padding: var(--space-4xl);
-  background-color: var(--color-ivory);
-  border: 1px solid var(--color-hairline-stone);
-  border-top: 3px solid var(--color-maroon);
+  background-color: var(--color-maroon-dark);
+  border-top: 3px solid var(--color-gold);
   height: 100%;
+}
+
+/* Same curated palette as the ESG "In practice" scroll cards, cycling per    */
+/* pillar — one color language across the whole page instead of a flat       */
+/* ivory card with a single red accent line. */
+.colorMaroon {
+  background-color: #5a1e22;
+}
+
+.colorBronze {
+  background-color: #7a4a1f;
+}
+
+.colorTeal {
+  background-color: #1c3634;
+}
+
+.colorPlum {
+  background-color: #432142;
 }
 
 .chapter {
@@ -45,7 +63,7 @@
   font-weight: var(--font-weight-display-medium);
   font-size: var(--font-h3);
   line-height: var(--leading-h3);
-  color: var(--color-charcoal);
+  color: var(--color-ivory);
 }
 
 .focus {
@@ -53,19 +71,19 @@
   font-family: var(--font-body);
   font-size: var(--font-small);
   line-height: var(--leading-small);
-  color: var(--color-stone);
+  color: var(--color-text-inverse-70);
 }
 
 .items {
   list-style: none;
   margin: var(--space-3xl) 0 0;
   padding: 0;
-  border-top: 1px solid var(--color-hairline-stone);
+  border-top: 1px solid rgba(250, 247, 242, 0.18);
 }
 
 .item {
   padding-block: var(--space-lg);
-  border-bottom: 1px solid var(--color-hairline-stone);
+  border-bottom: 1px solid rgba(250, 247, 242, 0.18);
 }
 
 .itemBody {
@@ -79,14 +97,14 @@
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-body-size);
   line-height: var(--leading-body);
-  color: var(--color-charcoal);
+  color: var(--color-ivory);
 }
 
 .itemNote {
   font-family: var(--font-body);
   font-size: var(--font-small);
   line-height: var(--leading-small);
-  color: var(--color-stone);
+  color: var(--color-text-inverse-70);
 }
 
 @media (max-width: 1023px) {

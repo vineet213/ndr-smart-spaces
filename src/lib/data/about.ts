@@ -1,44 +1,26 @@
-export type CounterStat = {
-  value: number;
-  prefix?: string;
-  suffix?: string;
-  format?: boolean;
-};
-
-export type AboutHeroStat = {
-  label: string;
-  metric: string;
-  count?: CounterStat;
-  source: string;
-};
+import type { CompanyMetric } from "./homepage";
 
 export const aboutHero = {
   headline: "From a rice mill to ",
-  headlineAccent: "built-to-suit infrastructure.",
-  lede: "NDR Smart Spaces Private Limited is an infra development platform of the NDR Group, incorporated in 1954, one of India's largest logistic and industrial infrastructure developers",
+  headlineAccent: "infrastructure.",
+  lede: "The NDR Group's infrastructure platform, incorporated in 1954, today one of India's largest developers in logistics and industrial space.",
   cta: { label: "Our story", href: "#story" },
   ctaSecondary: {
     label: "Explore the business",
     href: "/en/business/logistics-and-industrial-infrastructure/",
   },
-  stats: [
-    {
-      label: "GROUP FOUNDED",
-      metric: "1954",
-      source: "",
-    },
-    {
-      label: "NDR WAREHOUSING ACTIVE OPERATIONS",
-      metric: "2001",
-      source: "",
-    },
-    {
-      label: "NDR SMART SPACES INCORPORATED",
-      metric: "2025",
-      source: "",
-    },
-  ] as readonly AboutHeroStat[],
 } as const;
+
+/**
+ * Full-bleed black-and-gold stat band directly under the About Us masthead —
+ * the same `CompanyMetrics` treatment used on the homepage, rather than the
+ * smaller in-hero ledger this used to be.
+ */
+export const aboutStats: readonly CompanyMetric[] = [
+  { value: 1954, label: "GROUP FOUNDED", context: "GROUP FOUNDED" },
+  { value: 2001, label: "NDR WAREHOUSING ACTIVE OPERATIONS", context: "NDR WAREHOUSING ACTIVE OPERATIONS" },
+  { value: 2025, label: "NDR SMART SPACES INCORPORATED", context: "NDR SMART SPACES INCORPORATED" },
+];
 
 export const aboutStory = {
   eyebrow: "Origin of the group",
@@ -52,7 +34,7 @@ export const aboutStory = {
   image: {
     src: "/images/about/origin.jpg",
     alt: "An archival photograph of an early NDR Group warehouse with trucks loading outside",
-    caption: "Warehouse in Hyderabad, 1984",
+    caption: "One of the first warehouses built in 1979",
   },
 } as const;
 
@@ -78,7 +60,7 @@ export const aboutTimeline = {
     {
       year: "1991",
       title:
-        "India’s First Private Bonded Warehouse Established by CWCNSL (Continental Warehousing Corporation (Nhava Seva) Limited), an NDR Group Company",
+        "India’s First Private Bonded Warehouse Established by CWCNSL (Continental Warehousing Corporation (Nhava Seva) Limited), a former NDR group company",
     },
     {
       year: "2002",
@@ -96,7 +78,7 @@ export const aboutTimeline = {
     },
     {
       year: "2010",
-      title: "Investment secured from Warburg Pincus, IFC & First Association with Kotak",
+      title: "Investment secured from Warburg Pincus, IFC (for CWCNSL) & First Association with Kotak",
     },
     {
       year: "2014",
@@ -113,19 +95,23 @@ export const aboutTimeline = {
     },
     {
       year: "2020",
-      title: "4 Million Sq. Ft. of Construction Completed",
+      title: "8 Million Sq. Ft. of Construction Completed",
+    },
+    {
+      year: "2021",
+      title: "Investcorp's First Tranche NDR Warehousing",
     },
     {
       year: "2022",
-      title: "NDR Warehousing’s First 1 Million Sq. Ft. Park Established at Ayilacherry, Chennai",
+      title: "NDR Warehousing’s First 1 Million Sq. Ft. Park each Established at Chennai and Coimbatore",
     },
     {
       year: "2023",
-      title: "Investcorp Invested in NDR InvIT, India’s First Perpetual Warehousing InvIT",
+      title: "Investcorp Invested in pre round of NDR InvIT, India’s First Perpetual Warehousing InvIT",
     },
     {
       year: "2024",
-      title: "NDR InvIT Listed on NSE with ₹8.8 Billion Offer Size and 19 Million Sq. Ft. Asset Portfolio",
+      title: "NDR InvIT Listed on NSE with ₹8.8 Billion Offer Size and 17 Million (Approx.) Sq. Ft. Asset Portfolio",
     },
     {
       year: "2025",
@@ -208,15 +194,15 @@ export const ourCode = {
     },
     {
       index: "06",
-      title: "Customer-Led Approach",
-      tagline: "Because the right space makes business work better.",
-      body: "We stay close to our customers and understand how they operate. Our approach is hands-on, practical and responsive—creating facilities that are right-fitted to the way businesses actually work, rather than forcing businesses to fit a template.",
-    },
-    {
-      index: "07",
       title: "People Build the Organization",
       tagline: "Infrastructure is built by people who care about getting it right.",
       body: "Our strength lies in the people behind every project. We value ownership, collaboration, integrity and a bias for action. When good people work with a shared purpose, better infrastructure follows.",
+    },
+    {
+      index: "07",
+      title: "Customer-Led Approach",
+      tagline: "Because the right space makes business work better.",
+      body: "We stay close to our customers and understand how they operate. Our approach is hands-on, practical and responsive—creating facilities that are right-fitted to the way businesses actually work, rather than forcing businesses to fit a template.",
     },
   ] as readonly OurCodeValue[],
 } as const;

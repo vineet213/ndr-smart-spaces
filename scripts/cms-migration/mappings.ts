@@ -334,6 +334,8 @@ const mediaRecords: SeedRecordSpec[] = [
       recordStatus: entry.status,
       date: entry.date,
       category: entry.category,
+      ...(entry.publication ? { publication: entry.publication } : {}),
+      ...(entry.image ? { image: entry.image } : {}),
       ...(entry.href ? { href: entry.href } : {}),
       ...(entry.external ? { external: true } : {}),
     },

@@ -78,7 +78,10 @@ export type EsgGreenFeature = {
   index: string;
   title: string;
   body: string;
-  image: { src: string; alt: string };
+  /** Omitted where a site photograph hasn't been supplied yet — the card  */
+  /** renders an on-brand line-icon placeholder instead (see              */
+  /** `EsgGreenFeatures.tsx`), never a broken or mismatched image.        */
+  image?: { src: string; alt: string };
 };
 
 /**
@@ -89,42 +92,42 @@ export type EsgGreenFeature = {
 export const esgGreenFeatures = {
   eyebrow: "In practice",
   heading: "Sustainability, built in.",
-  lede: "The Environmental pillar isn't only a policy — it's specified into every warehouse the group develops.",
+  lede: "The Environmental pillar isn't a line in a policy document — it's drawn into the site plan, built into the roofline, and measured in every warehouse the group develops.",
   features: [
     {
       index: "01",
-      title: "Insulation",
-      body: "Thermal insulation specified across every roof and wall panel, cutting cooling load through peak summer months and keeping day-to-day energy use — and cost — down for whoever occupies the building.",
-      image: { src: "/images/esg/insulation.jpg", alt: "Thermal insulation installed in an NDR warehouse roof" },
+      title: "Solar Panel Installation",
+      body: "Rooftop solar capacity fitted across eligible warehouse spans, offsetting grid draw with on-site generation and cutting the operating carbon footprint of every asset it powers.",
+      image: { src: "/images/esg/solar.jpg", alt: "Rooftop solar panel installation on an NDR warehouse" },
     },
     {
       index: "02",
-      title: "Louvers",
-      body: "Louvred façades positioned to bring in daylight and cross-ventilation without letting in direct heat gain, reducing how hard mechanical systems have to work to keep the floor comfortable.",
-      image: { src: "/images/esg/louvers.jpg", alt: "Louvred façade panels on an NDR warehouse" },
+      title: "Rainwater Harvesting",
+      body: "Rainwater harvesting systems that capture monsoon runoff across each site's roof and paved area, recharging groundwater and reducing dependence on external water supply.",
+      image: { src: "/images/esg/rainwater-harvesting.jpg", alt: "Rainwater harvesting pond at an NDR site" },
     },
     {
       index: "03",
-      title: "Plantation Drive",
+      title: "EV Charging Stations",
+      body: "EV charging infrastructure built into the parking and logistics yard, supporting the shift to electric fleets for tenants and visitors moving through the park.",
+      image: { src: "/images/esg/ev-charging.jpg", alt: "EV charging connector for fleet vehicles at a logistics yard" },
+    },
+    {
+      index: "04",
+      title: "Plantation Drives & Biodiversity",
       body: "Ongoing plantation drives that green every site well beyond its built footprint, restoring tree cover, supporting local biodiversity and softening the immediate impact of construction.",
       image: { src: "/images/esg/plantation-drive.jpg", alt: "Tree plantation drive at an NDR site" },
     },
     {
-      index: "04",
-      title: "Polycarbonate Sheets",
-      body: "Polycarbonate roof sheeting that admits natural daylight straight onto the warehouse floor, cutting daytime lighting load and giving operators a brighter, more energy-conscious working environment.",
-      image: { src: "/images/esg/polycarbonate-sheets.jpg", alt: "Polycarbonate roof sheeting admitting natural light" },
-    },
-    {
       index: "05",
-      title: "Precast Wall",
-      body: "Precast wall systems manufactured off-site to tight tolerances, cutting construction waste, shortening time on site and giving every building a more consistent, weather-resilient envelope.",
-      image: { src: "/images/esg/precast-wall.jpg", alt: "Precast concrete wall panels on an NDR warehouse" },
+      title: "Waste Management/ STP's",
+      body: "Structured bio waste management through STP's and waste segregation across every park, keeping construction and operational waste out of landfill wherever it can be recovered, recycled or reused.",
+      image: { src: "/images/esg/waste-management.jpg", alt: "Colour-coded waste segregation bins" },
     },
     {
       index: "06",
-      title: "Roof Monitor",
-      body: "Roof monitors that vent hot air naturally as it rises, reducing reliance on mechanical cooling and helping stabilise indoor temperatures across the largest, highest-ceilinged spans.",
+      title: "Sustainable Construction Measures",
+      body: "Cool roof paint, roof monitors, louvred façades and precast systems specified across every build, cutting cooling load and construction waste without compromising on speed to delivery.",
       image: { src: "/images/esg/roof-monitor.jpg", alt: "Roof monitor ventilation on an NDR warehouse" },
     },
   ] as const satisfies readonly EsgGreenFeature[],
@@ -959,7 +962,7 @@ export const esgClosing = {
   body: "Sustainability at NDR Smart Spaces is governed and reported as an operating discipline. Records file as they are confirmed and approved; until then every figure carries its source and status.",
   primaryCta: { label: "Write to the ESG desk", href: "mailto:compliance@ndrsmart.com" },
   secondaryCta: { label: "Open the Investor Centre", href: "/en/investor-centre/announcements" },
-  tertiaryLink: { label: "NDR InvIT Trust", href: "https://ndrinvit.com" },
+  tertiaryLink: { label: "NDR InvIT", href: "https://ndrinvit.com" },
   enquiry: { label: "Business Enquiry", href: "/en/contact#business-enquiry" },
   provenanceNote:
     "Draft placeholders in this edition are marked * and remain subject to client confirmation before go-live.",

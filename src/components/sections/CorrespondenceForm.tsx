@@ -21,10 +21,9 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phonePattern = /^[+]?[\d\s().-]+$/;
 
 export function CorrespondenceForm() {
-  const { fields, enquiryTypes, messageLabel, submit, sending, success, route, deskForType } =
-    correspondenceForm;
+  const { fields, messageLabel, submit, sending, success, route } = correspondenceForm;
   const [values, setValues] = useState<FormValues>(initialValues);
-  const [errors, setErrors] = useState<Partial<Record<FieldName | "enquiryType", string>>>({});
+  const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
 
   function setField(name: FieldName, value: string) {
@@ -34,7 +33,7 @@ export function CorrespondenceForm() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const nextErrors: Partial<Record<FieldName | "enquiryType", string>> = {};
+    const nextErrors: Partial<Record<FieldName, string>> = {};
 
     if (!values.name.trim()) nextErrors.name = "Please enter your name.";
     if (!values.company.trim()) nextErrors.company = "Please enter your company.";
@@ -46,21 +45,20 @@ export function CorrespondenceForm() {
     if (values.phone.trim() && !phonePattern.test(values.phone.trim())) {
       nextErrors.phone = "Please enter a valid phone number.";
     }
-    if (!values.enquiryType) nextErrors.enquiryType = "Please choose an enquiry type.";
-
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
     setStatus("sending");
 
-    const recipient = route[values.enquiryType as keyof typeof route] ?? route.General;
-    const subject = `Enquiry — ${values.enquiryType}`;
+    const enquiryType = values.enquiryType.trim();
+    const recipient = route.General;
+    const subject = enquiryType ? `Enquiry — ${enquiryType}` : "Enquiry";
     const body = [
       `Name: ${values.name}`,
       `Company: ${values.company}`,
       `Email: ${values.email}`,
       values.phone.trim() ? `Phone: ${values.phone.trim()}` : "",
-      `Enquiry type: ${values.enquiryType}`,
+      enquiryType ? `Enquiry type: ${enquiryType}` : "",
       ``,
       values.message,
     ]
@@ -112,40 +110,15 @@ export function CorrespondenceForm() {
       <div className={styles.field}>
         <label className={styles.label} htmlFor={labelId("enquiryType")}>
           Enquiry type
+          <span className={styles.optional}>Optional</span>
         </label>
-        <select
+        <input
           id={labelId("enquiryType")}
-          className={styles.select}
+          className={styles.input}
+          type="text"
           value={values.enquiryType}
-          onChange={(event) => {
-            setValues((prev) => ({ ...prev, enquiryType: event.target.value }));
-            setErrors((prev) => ({ ...prev, enquiryType: undefined }));
-          }}
-          aria-invalid={Boolean(errors.enquiryType)}
-          aria-describedby={errors.enquiryType ? `${labelId("enquiryType")}-error` : undefined}
-        >
-          <option value="" disabled>
-            Select an option
-          </option>
-          {enquiryTypes.map((type) => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </select>
-        {errors.enquiryType ? (
-          <span id={`${labelId("enquiryType")}-error`} className={styles.error} role="alert">
-            {errors.enquiryType}
-          </span>
-        ) : null}
-        {values.enquiryType ? (
-          <p className={styles.routing} role="note">
-            <span className={styles.routingLabel}>Routes to</span>
-            <span className={styles.routingDesk}>
-              {deskForType[values.enquiryType as keyof typeof deskForType]}
-            </span>
-          </p>
-        ) : null}
+          onChange={(event) => setValues((prev) => ({ ...prev, enquiryType: event.target.value }))}
+        />
       </div>
 
       <div className={styles.field}>

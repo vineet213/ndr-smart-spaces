@@ -1,6 +1,6 @@
 .section {
   padding-top: 0;
-  padding-bottom: calc(var(--section-padding-desktop) / 2);
+  padding-bottom: 0;
   background-color: var(--color-ivory);
 }
 
@@ -100,7 +100,7 @@
 @media (max-width: 1439px) {
   .section {
     padding-top: 0;
-    padding-bottom: calc(var(--section-padding-tablet) / 2);
+    padding-bottom: 0;
   }
 
   .content {
@@ -111,7 +111,7 @@
 @media (max-width: 767px) {
   .section {
     padding-top: 0;
-    padding-bottom: calc(var(--section-padding-mobile) / 2);
+    padding-bottom: 0;
   }
 
   .content {

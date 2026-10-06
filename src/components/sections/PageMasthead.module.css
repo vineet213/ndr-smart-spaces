@@ -1,0 +1,153 @@
+/* Exactly one screen tall below the in-flow header spacer, so the closing    */
+/* gold rule lands at the bottom of the first view on every page.            */
+.masthead {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100svh - var(--header-height, 4.5rem));
+  overflow: hidden;
+  background-color: var(--color-charcoal-masthead);
+  color: var(--color-ivory);
+}
+
+.ruleTop {
+  display: block;
+  flex-shrink: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(240, 182, 90, 0) 0%,
+    var(--color-gold) 16%,
+    var(--color-gold-light) 50%,
+    var(--color-gold) 84%,
+    rgba(240, 182, 90, 0) 100%
+  );
+  transform-origin: left;
+  animation: draw-right 1200ms var(--ease-standard) 100ms both;
+}
+
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: var(--space-5xl);
+}
+
+/* Each size scales with whichever is tighter — width or height — so it     */
+/* holds the ESG proportions on a wide screen and still fits a short one.   */
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--color-ivory);
+  text-wrap: balance;
+  animation: title-rise 1000ms var(--ease-standard) 150ms both;
+}
+
+/* ESG scale — "The sustainability ledger.", "Contact Us", etc. */
+.titleXl {
+  font-size: clamp(3.75rem, min(10vw, 21svh), 9rem);
+}
+
+/* "Logistics and Industrial Infrastructure", "Asset Performance Management" */
+.titleLg {
+  font-size: clamp(3.25rem, min(8.75vw, 18.5svh), 8.25rem);
+}
+
+/* "Project Management and Maintenance — NDR Asset Management" */
+.titleMd {
+  font-size: clamp(2.75rem, min(7.2vw, 15svh), 7rem);
+}
+
+.accent {
+  color: var(--color-gold);
+}
+
+.subtext {
+  margin: var(--space-6xl) 0 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--color-text-inverse-85);
+  text-wrap: pretty;
+  animation: rise-fade var(--duration-long) var(--ease-standard) 300ms both;
+}
+
+/* ESG scale */
+.subtextLg {
+  max-width: 42ch;
+  font-size: clamp(1.25rem, min(3vw, 6.4svh), 2.5rem);
+}
+
+/* Longer statements (About Us) — one step down so they stay on screen. */
+.subtextMd {
+  max-width: 48ch;
+  font-size: clamp(1.125rem, min(2.6vw, 5.4svh), 2.125rem);
+}
+
+.rule {
+  display: block;
+  flex-shrink: 0;
+  height: 2px;
+  background-color: var(--color-gold);
+  transform-origin: left;
+  animation: draw-right 1200ms var(--ease-standard) 450ms both;
+}
+
+@keyframes rise-fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes title-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes draw-right {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 767px) {
+  .titleXl,
+  .titleLg,
+  .titleMd {
+    font-size: clamp(2.5rem, 11vw, 3.5rem);
+  }
+
+  .subtextLg,
+  .subtextMd {
+    max-width: none;
+    font-size: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ruleTop,
+  .title,
+  .subtext,
+  .rule {
+    animation: none;
+  }
+}

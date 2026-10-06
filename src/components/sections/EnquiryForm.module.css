@@ -21,7 +21,6 @@
 }
 
 .input,
-.select,
 .textarea {
   width: 100%;
   font-family: var(--font-body);
@@ -38,24 +37,14 @@
 }
 
 .input:focus,
-.select:focus,
 .textarea:focus {
   outline: none;
   border-bottom-color: var(--color-gold-light);
 }
 
 .input::placeholder,
-.select::placeholder,
 .textarea::placeholder {
   color: var(--color-text-inverse-70);
-}
-
-.select {
-  appearance: none;
-}
-
-.select option {
-  color: var(--color-charcoal);
 }
 
 .textarea {

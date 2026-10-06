@@ -16,11 +16,6 @@
   position: relative;
 }
 
-.framing {
-  max-width: 46rem;
-  margin-top: var(--space-md);
-}
-
 .instrument {
   margin-top: var(--space-4xl);
 }

@@ -26,6 +26,15 @@
   min-width: 0;
 }
 
+/* .slot's height:100% only resolves if every ancestor up to the grid item
+   (the <li>, already stretched to the row's height by the grid's default
+   align-items: stretch) also has a definite height — Reveal's own wrapper
+   div doesn't set one, which left each card sized to its own content
+   instead of the tallest card in its row. */
+.cardReveal {
+  height: 100%;
+}
+
 .slot {
   display: flex;
   flex-direction: column;
@@ -48,6 +57,9 @@
 
 .slotTitle {
   margin: 0;
+  /* Reserves two lines regardless of whether this name wraps, so the gold
+     rule and role line up at the same height on every card in the row. */
+  min-height: calc(2em * var(--leading-lede));
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
   font-size: var(--font-lede);

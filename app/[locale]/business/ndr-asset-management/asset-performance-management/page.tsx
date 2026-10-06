@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Container, Grid, GridItem, Section, Stack } from "@/components/layout";
-import { CompanyMetrics, EnquiryForm, Footer, MarqueeClients } from "@/components/sections";
-import { Eyebrow, Heading } from "@/components/ui";
+import { Container, Section } from "@/components/layout";
+import { CompanyMetrics, Footer, MarqueeClients, PageMasthead } from "@/components/sections";
 import { vertical02AssetManagement } from "@/lib/data/business";
 import { Reveal } from "@/components/sections/Reveal";
 import styles from "./asset-performance-management.module.css";
@@ -12,22 +11,15 @@ export const metadata: Metadata = {
 };
 
 export default function AssetPerformanceManagementPage() {
-  const { intro, functions, metrics, cta } = vertical02AssetManagement;
+  const { intro, functions, metrics } = vertical02AssetManagement;
 
   return (
     <>
-      <Section tone="charcoal" ariaLabelledby="subpage-title" className={styles.masthead}>
-        <span className={styles.ruleTop} aria-hidden="true" />
-
-        <Container className={styles.hero}>
-          <h1 id="subpage-title" className={styles.title}>
-            Asset <span className={styles.titleAccent}>Performance</span> Management
-          </h1>
-          <p className={styles.overviewNote}>{intro.description}</p>
-        </Container>
-
-        <span className={styles.rule} aria-hidden="true" />
-      </Section>
+      <PageMasthead
+        id="subpage-title"
+        title={{ before: "Asset ", accent: "Performance", after: " Management" }}
+        subtext={intro.mastheadSubtext}
+      />
 
       <Section tone="dim" className={styles.bodySection}>
         <Container className={styles.content}>
@@ -54,43 +46,11 @@ export default function AssetPerformanceManagementPage() {
         </Container>
       </Section>
 
+      <Reveal>
+        <CompanyMetrics data={metrics} id="asset-performance-metrics" />
+      </Reveal>
+
       <MarqueeClients />
-
-      <Section tone="light" className={styles.statsSection}>
-        <Container>
-          <Reveal>
-            <CompanyMetrics data={metrics} id="asset-performance-metrics" bare />
-          </Reveal>
-        </Container>
-      </Section>
-
-      <Section tone="light" className={styles.ctaSection}>
-        <Container>
-          <Grid>
-            <GridItem span={8} className={styles.ctaInfo}>
-              <Stack gap="5xl">
-                <Reveal>
-                  <Stack gap="xl">
-                    <Eyebrow>{cta.eyebrow}</Eyebrow>
-                    <Heading variant="section" id="apm-cta-title">
-                      {cta.heading}
-                    </Heading>
-                    <p className={styles.ctaBody}>{cta.body}</p>
-                    <p className={styles.ctaNote}>{cta.note}</p>
-                  </Stack>
-                </Reveal>
-              </Stack>
-            </GridItem>
-            <GridItem span={4} className={styles.ctaCardColumn}>
-              <Reveal delay={1}>
-                <div className={styles.ctaCard}>
-                  <EnquiryForm />
-                </div>
-              </Reveal>
-            </GridItem>
-          </Grid>
-        </Container>
-      </Section>
 
       <Footer />
     </>

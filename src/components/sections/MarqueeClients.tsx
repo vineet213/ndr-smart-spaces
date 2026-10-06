@@ -1,6 +1,24 @@
+import Image from "next/image";
 import { Container, Grid, GridItem, Stack } from "@/components/layout";
 import { marqueeClients } from "@/lib/data/homepage";
+import type { MarqueeClient } from "@/lib/data/homepage";
 import styles from "./MarqueeClients.module.css";
+
+function ClientMark({ client }: { client: MarqueeClient }) {
+  if (!client.logo) return <span className={styles.item}>{client.name}</span>;
+  return (
+    <span className={styles.itemWithLogo}>
+      <Image
+        src={client.logo.src}
+        alt={client.logo.alt}
+        width={140}
+        height={56}
+        className={styles.logo}
+        unoptimized
+      />
+    </span>
+  );
+}
 
 export function MarqueeClients() {
   const { clients } = marqueeClients;
@@ -22,16 +40,16 @@ export function MarqueeClients() {
             <div className={styles.viewport}>
               <div className={styles.track}>
                 <ul className={styles.list}>
-                  {clients.map((name) => (
-                    <li key={name}>
-                      <span className={styles.item}>{name}</span>
+                  {clients.map((client) => (
+                    <li key={client.name}>
+                      <ClientMark client={client} />
                     </li>
                   ))}
                 </ul>
                 <ul className={styles.list} aria-hidden="true">
-                  {clients.map((name) => (
-                    <li key={`${name}-copy`}>
-                      <span className={styles.item}>{name}</span>
+                  {clients.map((client) => (
+                    <li key={`${client.name}-copy`}>
+                      <ClientMark client={client} />
                     </li>
                   ))}
                 </ul>

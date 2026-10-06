@@ -26,42 +26,6 @@
   color: var(--color-charcoal);
 }
 
-.response {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-4);
-  margin-top: var(--space-5xl);
-  padding-block: var(--space-3);
-  border-top: 1px solid var(--color-charcoal);
-  border-bottom: 1px solid var(--color-hairline-stone);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-meta);
-  line-height: var(--leading-meta);
-  letter-spacing: var(--tracking-meta);
-  text-transform: uppercase;
-  font-variant-numeric: tabular-nums;
-}
-
-.responseLabel {
-  color: var(--color-ink-soft);
-}
-
-.responseValue {
-  color: var(--color-maroon);
-}
-
-.note {
-  margin: var(--space-4xl) 0 0;
-  max-width: 48ch;
-  font-family: var(--font-body);
-  font-size: var(--font-small);
-  line-height: var(--leading-small);
-  color: var(--color-ink-muted);
-}
-
 .card {
   padding: var(--space-6xl);
   background-color: var(--color-ivory-dim);

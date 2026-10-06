@@ -25,12 +25,28 @@
   line-height: var(--leading-nav);
   color: var(--nav-fg, var(--color-text-primary));
   white-space: nowrap;
-  transition: color var(--duration-standard) var(--ease-standard);
+  transition:
+    color var(--duration-standard) var(--ease-standard),
+    transform var(--duration-standard) var(--ease-standard);
 }
 
 .linkActive,
 .link:hover {
   color: var(--nav-fg-hover, var(--color-maroon));
+}
+
+.link:hover {
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link {
+    transition: color var(--duration-standard) var(--ease-standard);
+  }
+
+  .link:hover {
+    transform: none;
+  }
 }
 
 /* The liquid indicator — one shared element that glides beneath whichever   */

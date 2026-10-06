@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import { FadeImage as Image } from "@/components/ui/FadeImage";
 import { Container } from "@/components/layout";
 import { Heading, TextLink } from "@/components/ui";
 import { ExternalLink } from "@/components/ui";

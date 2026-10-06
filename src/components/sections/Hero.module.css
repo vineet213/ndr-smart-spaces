@@ -1,12 +1,11 @@
-/* Height is purely viewport-relative (no rem floor) so the hero scales down */
-/* on shorter windows instead of forcing a fixed minimum that can push the   */
-/* fold below one screen — the 50rem floor previously here required more    */
-/* height than a 1024x768 window (with the sticky header) could give back.  */
+/* Full one-page hero — the charcoal/maroon ground fills the entire first    */
+/* viewport with no sliver of the next (light) section visible until the    */
+/* visitor actually scrolls past it.                                        */
 .hero {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 86vh;
+  min-height: 100vh;
   color: var(--color-ivory);
   overflow: hidden;
 }

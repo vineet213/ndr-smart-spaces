@@ -68,8 +68,6 @@ export const correspondenceForm = {
   heading: "Business Enquiry",
   subheading:
     "Tell us who you are and what you need — the enquiry is routed to the desk that answers it.",
-  response: "Within 2 business days",
-  note: "Enquiries are logged on intake, routed to the desk that answers them, and replied to within two business days.",
   fields: [
     { name: "name", label: "Name", type: "text", autocomplete: "name", required: true },
     {
@@ -82,30 +80,12 @@ export const correspondenceForm = {
     { name: "email", label: "Work email", type: "email", autocomplete: "email", required: true },
     { name: "phone", label: "Phone", type: "tel", autocomplete: "tel", required: false },
   ] as const,
-  enquiryTypes: [
-    "Business enquiry",
-    "Investor relations",
-    "Press & media",
-    "ESG & sustainability",
-    "General",
-  ] as const,
   messageLabel: "Message",
   submit: "Send Inquiry",
   sending: "Sending…",
-  success: "Thank you — your enquiry has been sent and routed to the right desk.",
+  success: "Thank you — your enquiry has been sent.",
   route: {
-    "Business enquiry": "project@ndrsmart.com",
-    "Investor relations": "compliance@ndrsmart.com",
-    "Press & media": "compliance@ndrsmart.com",
-    "ESG & sustainability": "compliance@ndrsmart.com",
     General: "project@ndrsmart.com",
-  } as const,
-  deskForType: {
-    "Business enquiry": "Business desk",
-    "Investor relations": "Investor relations desk",
-    "Press & media": "Media desk",
-    "ESG & sustainability": "ESG desk",
-    General: "General desk",
   } as const,
 } as const;
 

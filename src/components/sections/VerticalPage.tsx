@@ -5,17 +5,18 @@ import {
   verticalOverview,
   verticalMastheadSubtext,
   verticalMastheadTitle,
+  vertical02Metrics,
   type Division,
 } from "@/lib/data/business";
-import { cx } from "@/components/ui/cx";
 import { AveAcresExplore } from "./AveAcresExplore";
 import { AveAcresProcess } from "./AveAcresProcess";
 import { AveAcresValues } from "./AveAcresValues";
+import { CompanyMetrics } from "./CompanyMetrics";
 import { DrawnGrid } from "./DrawnGrid";
+import { PageMasthead } from "./PageMasthead";
 import { PropertyRegister } from "./PropertyRegister";
 import { Reveal } from "./Reveal";
-import { ResidentialPlottingMastheadVideo } from "./ResidentialPlottingMastheadVideo";
-import { Vertical02Stats } from "./Vertical02Stats";
+import { ResidentialPlottingVideo } from "./ResidentialPlottingVideo";
 import { VerticalManagement } from "./VerticalManagement";
 import styles from "./VerticalPage.module.css";
 
@@ -50,89 +51,77 @@ export function VerticalPage({ division }: VerticalPageProps) {
 
   return (
     <>
-      <Section
-        tone="charcoal"
-        ariaLabelledby="vertical-masthead-title"
-        className={styles.masthead}
-      >
-        {isV3 ? <ResidentialPlottingMastheadVideo /> : null}
-        {isV3 ? null : <span className={styles.ruleTop} aria-hidden="true" />}
-
-        <Container className={cx(styles.hero, isV3 && styles.heroTall)}>
-          <h1
-            id="vertical-masthead-title"
-            className={cx(styles.title, isV3 && styles.titleCompact)}
-          >
-            {mastheadTitle ? (
-              <>
-                {mastheadTitle.before}
-                <span className={styles.titleAccent}>{mastheadTitle.accent}</span>
-                {mastheadTitle.after}
-              </>
-            ) : (
-              title
-            )}
-          </h1>
-          {mastheadSubtext ? <p className={styles.subtext}>{mastheadSubtext}</p> : null}
-        </Container>
-
-        {isV3 ? null : <span className={styles.rule} aria-hidden="true" />}
-      </Section>
+      <PageMasthead
+        id="vertical-masthead-title"
+        title={mastheadTitle ?? { before: title }}
+        subtext={mastheadSubtext}
+      />
 
       <Section tone="dim" className={styles.bodySection}>
-        <DrawnGrid />
-        <Container className={styles.content}>
-          <Reveal>
-            <header className={styles.sheetHeader}>
-              <h2 className={styles.sheetTitle}>{division.title}</h2>
-            </header>
-          </Reveal>
-
-          <Reveal>
-            <div className={styles.overview}>
-              {overview ? <h3 className={styles.overviewHeading}>{overview.heading}</h3> : null}
-              <p className={styles.writeup}>
-                {renderEmphasized(division.writeup, overview?.emphasis)}
-              </p>
-            </div>
-          </Reveal>
-
-          {division.spec.length > 0 ? (
+        <div className={styles.overviewWrap}>
+          <DrawnGrid />
+          <Container className={styles.content}>
             <Reveal>
-              <dl className={styles.spec}>
-                {division.spec.map((row) => (
-                  <div key={row.label} className={styles.specRow}>
-                    <dt className={styles.specLabel}>{row.label}</dt>
-                    <dd className={styles.specValue}>{row.value}</dd>
-                  </div>
-                ))}
-              </dl>
+              <div className={styles.overview}>
+                <h2 className={styles.overviewHeading}>{overview?.heading ?? division.title}</h2>
+                <p className={styles.writeup}>
+                  {renderEmphasized(division.writeup, overview?.emphasis)}
+                </p>
+              </div>
             </Reveal>
-          ) : null}
 
-          {isV2 ? (
-            <>
-              <Vertical02Stats />
+            {division.spec.length > 0 ? (
+              <Reveal>
+                <dl className={styles.spec}>
+                  {division.spec.map((row) => (
+                    <div key={row.label} className={styles.specRow}>
+                      <dt className={styles.specLabel}>{row.label}</dt>
+                      <dd className={styles.specValue}>{row.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </Reveal>
+            ) : null}
+
+            {!isV2 && division.source ? (
+              <Reveal>
+                <div className={styles.closing}>
+                  <SourceFootnote className={styles.source}>{division.source}</SourceFootnote>
+                </div>
+              </Reveal>
+            ) : null}
+          </Container>
+        </div>
+
+        {isV2 ? (
+          <>
+            <CompanyMetrics data={vertical02Metrics} id="vertical-02-metrics" />
+            <Container className={styles.content}>
               <Reveal>
                 <VerticalManagement />
               </Reveal>
-            </>
-          ) : null}
 
-          {division.source ? (
-            <Reveal>
-              <div className={styles.closing}>
-                <SourceFootnote className={styles.source}>{division.source}</SourceFootnote>
-              </div>
-            </Reveal>
-          ) : null}
-        </Container>
+              {division.source ? (
+                <Reveal>
+                  <div className={styles.closing}>
+                    <SourceFootnote className={styles.source}>{division.source}</SourceFootnote>
+                  </div>
+                </Reveal>
+              ) : null}
+            </Container>
+          </>
+        ) : null}
       </Section>
 
       {isV3 ? (
         <>
           <Section tone="light">
             <AveAcresProcess />
+          </Section>
+          <Section tone="dark" className={styles.videoSection}>
+            <Reveal>
+              <ResidentialPlottingVideo />
+            </Reveal>
           </Section>
           <Section tone="charcoal">
             <AveAcresValues />

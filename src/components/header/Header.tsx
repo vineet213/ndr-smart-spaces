@@ -3,7 +3,6 @@
 import { useScrolled } from "@/hooks/useScrolled";
 import { useDisclosure } from "@/hooks/useDisclosure";
 import { cx } from "../ui/cx";
-import { UtilityStrip } from "./UtilityStrip";
 import { LogoWordmark } from "./LogoWordmark";
 import { MainNav } from "./MainNav";
 import { CtaArea } from "./CtaArea";
@@ -17,9 +16,6 @@ export function Header() {
 
   return (
     <header className={styles.header}>
-      {/* Normal document flow — scrolls away naturally, is not part of the */}
-      {/* fixed nav below. */}
-      <UtilityStrip />
       <div className={cx(styles.navBar, scrolled && styles.navBarScrolled)}>
         <div className={styles.navContainer}>
           <LogoWordmark scrolled={scrolled} />

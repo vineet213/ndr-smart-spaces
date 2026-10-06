@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import { cx } from "../ui/cx";
 import styles from "./PortfolioSearch.module.css";
 
@@ -32,11 +33,15 @@ export function PortfolioSearch({
   placeholder,
   noun,
   onPick,
+  browse,
 }: {
   items: readonly SearchItem[];
   placeholder: string;
   noun: string;
   onPick: (item: SearchItem) => void;
+  /** Shown in the same dropdown when the field is focused but empty —      */
+  /** e.g. a "browse all states" list, in place of search results.         */
+  browse?: ReactNode;
 }) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
@@ -74,7 +79,9 @@ export function PortfolioSearch({
     setOpen(false);
   };
 
-  const showList = open && query.trim().length > 0;
+  const hasQuery = query.trim().length > 0;
+  const showBrowse = open && !hasQuery && browse !== undefined;
+  const showList = open && (hasQuery || showBrowse);
 
   return (
     <div ref={rootRef} className={styles.root}>
@@ -122,7 +129,11 @@ export function PortfolioSearch({
         />
       </div>
 
-      {showList ? (
+      {showList && showBrowse ? (
+        <div className={cx(styles.list, styles.browse)}>{browse}</div>
+      ) : null}
+
+      {showList && !showBrowse ? (
         <ul id={listId} role="listbox" className={styles.list}>
           {results.length === 0 ? (
             <li className={styles.empty}>

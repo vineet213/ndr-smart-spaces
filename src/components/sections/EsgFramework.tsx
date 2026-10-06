@@ -2,7 +2,10 @@ import { Container, Grid, GridItem } from "@/components/layout";
 import { Heading, Lede } from "@/components/ui";
 import { esgFramework } from "@/lib/data/esg";
 import { Reveal, type RevealDelay } from "./Reveal";
+import { cx } from "../ui/cx";
 import styles from "./EsgFramework.module.css";
+
+const PILLAR_COLORS = [styles.colorMaroon, styles.colorBronze, styles.colorTeal, styles.colorPlum];
 
 export function EsgFramework() {
   return (
@@ -17,7 +20,11 @@ export function EsgFramework() {
 
         <Grid className={styles.pillars}>
           {esgFramework.pillars.map((pillar, index) => (
-            <GridItem key={pillar.key} span={3} className={styles.pillar}>
+            <GridItem
+              key={pillar.key}
+              span={3}
+              className={cx(styles.pillar, PILLAR_COLORS[index % PILLAR_COLORS.length])}
+            >
               <Reveal delay={(index + 1) as RevealDelay}>
                 <span className={styles.chapter} aria-hidden="true">
                   {pillar.chapter}

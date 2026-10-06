@@ -105,22 +105,22 @@ export const businessMasthead = {
  * (`verticalOverview["02"].heading`), reused here rather than restated.
  */
 export const verticalMastheadSubtext: Readonly<Record<string, string>> = {
-  "01": "From lands to warehouse, we build the infrastructure that keeps the businesses moving. Smart logistics, solid foundations, sustainable growth.",
-  "02": "Building assets. Managing execution. Delivering performance.",
+  "01": "From barren lands to smart spaces, we build the infrastructure that keeps businesses moving for the logistics and manufacturing sectors.",
+  "02": "Project management and maintenance — building assets, managing execution and delivering performance.",
+  "03": "Residential plotted communities developed near industrial corridors — quality housing, long-term connectivity, and growth built alongside the regions we serve.",
 };
 
 /**
  * Two-tone masthead headline, keyed by division index — mirrors the Media &
- * Newsroom masthead's white/gold split (`mediaMasthead.title`). Only "01"
- * and "02" have an entry on purpose: "03" (Residential Plotting) keeps its
- * own video masthead treatment untouched, and Asset Flip isn't part of this
- * division system at all.
+ * Newsroom masthead's white/gold split (`mediaMasthead.title`). Asset Flip
+ * isn't part of this division system at all, so it has no entry here.
  */
 export const verticalMastheadTitle: Readonly<
   Record<string, { before: string; accent: string; after: string }>
 > = {
-  "01": { before: "Logistics and ", accent: "Industrial", after: " Infrastructure" },
-  "02": { before: "Project Management and Maintenance — ", accent: "NDR Asset Management", after: "" },
+  "01": { before: "Logistics & Industrial ", accent: "Infrastructure", after: "" },
+  "02": { before: "NDR ", accent: "Asset", after: " Management" },
+  "03": { before: "Residential ", accent: "Plotting", after: "" },
 };
 
 /**
@@ -136,10 +136,6 @@ export const verticalOverview: Readonly<
   },
   "02": {
     heading: "Building assets. Managing execution. Delivering performance.",
-    emphasis: [
-      "construction and development of industrial and logistics assets",
-      "delivered on time, within budget, to the required quality, and ready for operations",
-    ],
   },
   "03": {
     heading: "Building communities where industry grows.",
@@ -296,10 +292,10 @@ export const corporateStructure = {
       route: { label: "Ave Acres", href: "https://aveacres.com", external: true },
     },
     {
-      name: "NDR InvIT Trust",
+      name: "NDR InvIT",
       function: "Separate listed entity under the NDR Group",
       relationship: "Sale of SPV ownership · consideration",
-      route: { label: "NDR InvIT Trust", href: "https://ndrinvit.com", external: true },
+      route: { label: "NDR InvIT", href: "https://ndrinvit.com", external: true },
     },
     {
       name: "Third parties",
@@ -327,7 +323,7 @@ export const capitalDeployment = {
   ] as const satisfies readonly ChainNode[],
   evidence: "INR 143.9 cr MLG transfer · SPV transfers to NDR InvIT",
   evidenceSource: "Source: NDR Corporate Presentation",
-  cta: { label: "NDR InvIT Trust", href: "https://ndrinvit.com" },
+  cta: { label: "NDR InvIT", href: "https://ndrinvit.com" },
   source: "Source: Client IA response · NDR Corporate Presentation",
 } as const;
 
@@ -376,11 +372,17 @@ export const vertical02Metrics: readonly (Omit<CompanyMetric, "value"> & { value
   {
     value: 10,
     suffix: " MN",
-    label: "Asset under construction (Sq. Ft.)",
-    context: "Asset under construction (Sq. Ft.)",
+    label: "Assets Under Construction (Sq. Ft.)",
+    context: "Assets Under Construction (Sq. Ft.)",
   },
-  { value: 230, label: "Strength of the team", context: "Strength of the team" },
-  { value: 14, label: "Projects in Pipeline", context: "Projects in Pipeline" },
+  { value: 230, label: "Strength Of The Team", context: "Strength Of The Team" },
+  { value: 14, label: "Projects In Pipeline", context: "Projects In Pipeline" },
+  {
+    value: 23,
+    suffix: " MN",
+    label: "Assets Under Management (Sq. Ft.)",
+    context: "Assets Under Management (Sq. Ft.)",
+  },
 ];
 
 export type AssetPerformanceFunction = { index: string; title: string; description: string };
@@ -392,6 +394,8 @@ export type AssetPerformanceFunction = { index: string; title: string; descripti
 export const vertical02AssetManagement = {
   intro: {
     heading: "Keeping assets productive. Keeping businesses moving.",
+    mastheadSubtext:
+      "Leasing, upkeep and operational support that keep every asset performing — and every tenant moving — across its working life.",
     description:
       "We manage the leasing and ongoing maintenance of industrial and logistics assets, ensuring facilities deliver consistent performance throughout their operational lifecycle. Our approach combines tenant management, facility upkeep, preventive maintenance, repairs, and operational support to maintain asset quality, tenant satisfaction, safety, and long-term value.",
   },
@@ -424,7 +428,7 @@ export const vertical02AssetManagement = {
   metrics: [
     { value: 98, suffix: "%", label: "Occupancy Status", context: "Occupancy Status" },
     {
-      value: 33,
+      value: 25,
       suffix: " MN",
       label: "Asset Under Management (Sq. Ft.)",
       context: "Asset Under Management (Sq. Ft.)",
@@ -512,8 +516,10 @@ export type LifecycleStage = {
 export const vertical02DevelopmentLifecycle = {
   intro: {
     heading: "From site to asset. Documented stage by stage.",
+    mastheadSubtext:
+      "How a piece of land becomes an operating asset, from identification and approvals through to construction and handover.",
     description:
-      "How a piece of land becomes an operating asset — from land identification through due diligence, acquisition, approvals, design, construction and handover. Each stage below records the standard the manual holds every project to.",
+      "How a piece of land becomes an operating asset, from land identification through due diligence, acquisition, approvals, design, construction and handover. Each stage below records the standard the manual holds every project to.",
   },
   stages: [
     {
@@ -521,11 +527,11 @@ export const vertical02DevelopmentLifecycle = {
       title: "Land Identification",
       body: "Identifying strategic locations aligned with tenant requirements, market demand, and growth opportunities.",
       image: {
-        src: "/images/lifecycle/01-land-identification.jpg",
-        alt: "Open brown plain land under a wide sky",
-        credit: "",
-        width: 3456,
-        height: 5184,
+        src: "/images/lifecycle/01-land-identification-field.jpg",
+        alt: "An excavator clearing a plot of brown earth for construction",
+        credit: "Photo via Pexels",
+        width: 1600,
+        height: 2126,
       },
     },
     {
@@ -578,18 +584,6 @@ export const vertical02DevelopmentLifecycle = {
     },
     {
       index: "06",
-      title: "Integrated Engineering Services",
-      body: "Executing warehouse construction with strong oversight of quality, cost, timelines, and technical standards.",
-      image: {
-        src: "/images/lifecycle/06-engineering.jpg",
-        alt: "Steel structural framework of a warehouse under construction with a crane",
-        credit: "",
-        width: 629,
-        height: 354,
-      },
-    },
-    {
-      index: "07",
       title: "Safety, Security & Risk Management",
       body: "Implementing robust security, safety, and compliance measures to protect people, assets, and operations.",
       image: {
@@ -601,15 +595,39 @@ export const vertical02DevelopmentLifecycle = {
       },
     },
     {
+      index: "07",
+      title: "Integrating Engineering Services",
+      body: "Executing warehouse construction with strong oversight of quality, cost, timelines, and technical standards.",
+      image: {
+        src: "/images/lifecycle/06-engineering.jpg",
+        alt: "Steel structural framework of a warehouse under construction with a crane",
+        credit: "",
+        width: 629,
+        height: 354,
+      },
+    },
+    {
       index: "08",
-      title: "Asset Handover & Operations",
-      body: "Preparing the completed warehouse for seamless handover and efficient day-to-day operations.",
+      title: "Marketing and Leasing the Space",
+      body: "Reaching the right occupiers through targeted marketing and structured leasing, so every completed warehouse moves quickly from built to operating.",
       image: {
         src: "/images/lifecycle/08-asset-handover.jpg",
         alt: "A handshake marking the handover of a completed asset",
         credit: "",
         width: 998,
         height: 402,
+      },
+    },
+    {
+      index: "09",
+      title: "Asset Handover & Operations",
+      body: "Preparing the completed warehouse for seamless handover and efficient day-to-day operations.",
+      image: {
+        src: "/images/lifecycle/09-asset-operations.jpg",
+        alt: "Completed warehouse exterior ready for occupancy and day-to-day operations",
+        credit: "Photo via Pexels",
+        width: 1800,
+        height: 1199,
       },
     },
   ] as const satisfies readonly LifecycleStage[],

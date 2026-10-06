@@ -11,6 +11,7 @@ type ChapterOpenerProps = {
   tone?: "light" | "dark";
   animate?: boolean;
   className?: string;
+  hideNumeral?: boolean;
 };
 
 const sheetOf = (numeral: string) => String(Number(numeral) + 1);
@@ -21,6 +22,7 @@ export function ChapterOpener({
   tone = "light",
   animate = true,
   className,
+  hideNumeral = false,
 }: ChapterOpenerProps) {
   const { ref, inView } = useInView<HTMLElement>();
 
@@ -35,9 +37,11 @@ export function ChapterOpener({
       )}
     >
       <div className={styles.row}>
-        <span className={styles.numeral} aria-hidden="true">
-          {chapter.index}
-        </span>
+        {!hideNumeral && (
+          <span className={styles.numeral} aria-hidden="true">
+            {chapter.index}
+          </span>
+        )}
 
         <div className={styles.type}>
           <h2 id={headingId} className={styles.title}>

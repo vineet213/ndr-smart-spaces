@@ -148,26 +148,28 @@ export const companyOverview = {
   paragraphs: [
     [
       { text: "NDR Smart Spaces", bold: true },
-      { text: " is a logistics and industrial infrastructure development platform of the " },
+      { text: " is the logistics and industrial infrastructure development platform of the " },
       { text: "NDR Group", bold: true },
       {
-        text:
-          ", established to spearhead the Group's development initiatives across logistics, industrial and residential segments, with a clear focus on social and economic infrastructure development that enables greater operational focus, agility and scalability.",
+        text: ", created to shape high-quality spaces for businesses, industries and communities to thrive.",
       },
     ],
     [
-      { text: "In addition to development activities, the Company has a " },
-      { text: "project management and maintenance services wing", bold: true },
       {
-        text: ", supporting the planning, execution and coordination of the entity's projects.",
+        text:
+          "We focus on logistics, industrial and residential development, bringing together the right locations, careful planning and forward-looking infrastructure so businesses can run more efficiently and keep growing without outgrowing their space.",
       },
     ],
     [
-      { text: "Backed by the experience and capabilities of the " },
-      { text: "NDR Group", bold: true },
       {
         text:
-          ", NDR Smart Spaces aims to build high-quality, scalable and strategically located assets that contribute to India's growing infrastructure landscape.",
+          "Every development we build is shaped around how businesses and people actually work and live, from productive industrial parks to well-planned residential communities.",
+      },
+    ],
+    [
+      {
+        text:
+          "Our work goes beyond putting up buildings. We're building the infrastructure that supports businesses, creates employment, strengthens communities and helps the regions we operate in grow over the long term.",
       },
     ],
   ] as CompanyOverviewSegment[][],
@@ -227,7 +229,7 @@ export const journey = [
   },
   {
     year: "2015",
-    title: "NDR InvIT Trust incorporated",
+    title: "NDR InvIT incorporated",
     caption: "The group's infrastructure investment trust is established.",
   },
   {
@@ -300,31 +302,47 @@ export const featuredProjects = {
   },
 } as const;
 
+export type MarqueeClient = {
+  name: string;
+  /** Omitted until the client supplies the brand's logo file — the marquee  */
+  /** renders the name alone rather than a placeholder/fabricated mark.      */
+  logo?: { src: string; alt: string };
+};
+
 export const marqueeClients = {
   claim: "Serving 100+ Fortune Global 500 companies",
   subline: "Across retail, e-commerce, 3PL, FMCG and industrial manufacturing.",
   clients: [
-    "Amazon",
-    "Samsung",
-    "Lenovo",
-    "Philips",
-    "Flipkart",
-    "LG",
-    "ITC",
-    "Dabur",
-    "Godrej",
-    "FedEx",
-    "Apollo Tyres",
-    "Goodyear",
-    "JSW",
-    "Pepsi",
-    "Mahindra Logistics",
-    "Kuehne+Nagel",
-    "Zomato",
-    "Swiggy",
-    "Snitch",
-    "Reliance",
-  ] as const,
+    { name: "Amazon", logo: { src: "/images/clients/amazon.png", alt: "Amazon logo" } },
+    { name: "Samsung", logo: { src: "/images/clients/samsung.png", alt: "Samsung logo" } },
+    { name: "Lenovo", logo: { src: "/images/clients/lenovo.png", alt: "Lenovo logo" } },
+    { name: "Philips", logo: { src: "/images/clients/philips.png", alt: "Philips logo" } },
+    { name: "Flipkart", logo: { src: "/images/clients/flipkart.png", alt: "Flipkart logo" } },
+    { name: "LG", logo: { src: "/images/clients/lg.png", alt: "LG logo" } },
+    { name: "ITC", logo: { src: "/images/clients/itc.png", alt: "ITC Limited logo" } },
+    { name: "Dabur", logo: { src: "/images/clients/dabur.png", alt: "Dabur logo" } },
+    { name: "Godrej", logo: { src: "/images/clients/godrej.png", alt: "Godrej logo" } },
+    { name: "FedEx", logo: { src: "/images/clients/fedex.png", alt: "FedEx logo" } },
+    {
+      name: "Apollo Tyres",
+      logo: { src: "/images/clients/apollo-tyres.png", alt: "Apollo Tyres logo" },
+    },
+    { name: "Goodyear", logo: { src: "/images/clients/goodyear.png", alt: "Goodyear logo" } },
+    { name: "JSW", logo: { src: "/images/clients/jsw.png", alt: "JSW logo" } },
+    { name: "Pepsi", logo: { src: "/images/clients/pepsi.png", alt: "Pepsi logo" } },
+    {
+      name: "Mahindra Logistics",
+      logo: { src: "/images/clients/mahindra-logistics.png", alt: "Mahindra logo" },
+    },
+    {
+      name: "Kuehne+Nagel",
+      logo: { src: "/images/clients/kuehne-nagel.png", alt: "Kuehne+Nagel logo" },
+    },
+    { name: "Zomato", logo: { src: "/images/clients/zomato.png", alt: "Zomato logo" } },
+    { name: "Swiggy", logo: { src: "/images/clients/swiggy.png", alt: "Swiggy logo" } },
+    { name: "Snitch", logo: { src: "/images/clients/snitch.png", alt: "Snitch logo" } },
+    { name: "Reliance", logo: { src: "/images/clients/reliance.png", alt: "Reliance Industries logo" } },
+  ] as const satisfies readonly MarqueeClient[],
 } as const;
 
 export type EsgPillar = {
@@ -375,7 +393,7 @@ export const contact = {
     {
       label: "Directions",
       value: "Open in Google Maps",
-      href: "https://www.google.com/maps/dir/13.0520847,80.246055/NDR+INVIT,+56-79,+Bazulla+Rd,+Bharathy+Nagar,+Rama+Kamat+Puram,+Chennai,+Greater+Chennai,+Tamil+Nadu+600017",
+      href: "https://maps.app.goo.gl/ZJpkBnXqj3M8wXqa9?g_st=iw",
       external: true,
     },
   ] as ContactInfoItem[],
@@ -391,20 +409,19 @@ export const contact = {
         autocomplete: "organization",
         required: true,
       },
-    ] as const,
-    enquiryTypes: [
-      "Logistics and Industrial Infrastructure",
-      "Project Management and Maintenance - NDR Asset Management",
-      "Residential Plotting",
-      "Business Partnership",
-      "Investor Relations",
+      {
+        name: "enquiryType",
+        label: "Enquiry type",
+        type: "text",
+        autocomplete: "off",
+        required: true,
+      },
     ] as const,
     messageLabel: "Message",
     submit: "Send enquiry",
     sending: "Sending…",
     success: "Thank you — your enquiry has been routed.",
     route: {
-      "Investor Relations": "compliance@ndrsmart.com",
       default: "project@ndrsmart.com",
     } as const,
   },

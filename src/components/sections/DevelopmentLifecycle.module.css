@@ -10,9 +10,17 @@
   /* .stageTrack to be a normal-flow sibling, not a grid item.               */
 }
 
+/* Full-bleed, edge to edge — no frame or side gutters around the render. */
 .plate {
-  max-width: 54rem;
-  margin-inline: auto;
+  width: 100%;
+  background-color: var(--color-charcoal);
+}
+
+.plateVideo {
+  display: block;
+  width: 100%;
+  height: min(85svh, 56.25vw);
+  object-fit: cover;
 }
 
 .mapHeading {

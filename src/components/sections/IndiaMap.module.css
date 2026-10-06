@@ -3,7 +3,9 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* Hugs the column's own right edge — the map sits flush with the page's   */
+  /* right margin instead of floating with empty space beside it.           */
+  align-items: flex-end;
   gap: var(--space-md);
 }
 
@@ -13,7 +15,7 @@
 
 .map {
   display: block;
-  height: clamp(29rem, 64vh, 44rem);
+  height: clamp(36rem, 85vh, 60rem);
   width: auto;
   max-width: 100%;
   overflow: visible;
@@ -21,8 +23,8 @@
 
 .outline {
   fill: var(--color-ivory-dim);
-  stroke: rgba(28, 26, 25, 0.55);
-  stroke-width: 3;
+  stroke: var(--color-charcoal-deep);
+  stroke-width: 3.5;
   stroke-linejoin: round;
   stroke-linecap: round;
 }
