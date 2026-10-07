@@ -58,9 +58,14 @@
     border-color 250ms var(--ease-standard);
 }
 
-.tab:hover,
 .tab:focus-visible {
   color: var(--pr-ink);
+}
+
+@media (hover: hover) {
+  .tab:hover {
+    color: var(--pr-ink);
+  }
 }
 
 .tabActive {
@@ -107,7 +112,7 @@
 
 .stage {
   position: relative;
-  height: clamp(38rem, 84vh, 56rem);
+  height: clamp(38rem, 84svh, 56rem);
   margin-top: var(--space-xl);
   overflow: hidden;
   background-color: var(--pr-bg);
@@ -124,7 +129,7 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  height: auto;
+  height: 100dvh;
   margin: 0;
 }
 
@@ -167,10 +172,16 @@
     border-color 250ms var(--ease-standard);
 }
 
-.fullscreen:hover,
 .fullscreen:focus-visible {
   color: var(--color-gold);
   border-color: var(--color-gold);
+}
+
+@media (hover: hover) {
+  .fullscreen:hover {
+    color: var(--color-gold);
+    border-color: var(--color-gold);
+  }
 }
 
 /* crop-mark corners */
@@ -221,6 +232,104 @@
   }
 
   .stage {
-    height: min(44rem, 88vh);
+    height: min(44rem, 88svh);
+  }
+
+  .fullscreen {
+    top: 12px;
+    right: 12px;
+  }
+}
+
+/* Touch: 44px minimum hit area (no change for mouse users). */
+@media (pointer: coarse) {
+  .tab {
+    min-height: 2.75rem;
+  }
+
+  .fullscreen {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}
+
+/* The map box groups the map, its controls and the crop marks. On desktop and in  */
+/* full screen it is invisible to layout (children position against the stage, as  */
+/* before); on phones it becomes a real, sticky box — see the stacked layout below. */
+.mapBox {
+  display: contents;
+}
+
+/* phones: purpose-built stacked layout -------------------------------------------- */
+/* Controls become a segmented switch; the map is a sticky box pinned under the     */
+/* header while the panel (search, states, warehouse detail) flows beneath it as    */
+/* normal page content — no sheet covering the map, no scroller nested in a scroller. */
+@media (max-width: 767px) {
+  .stage.stageFull {
+    height: 100%;
+  }
+
+  .stage.stageCss {
+    height: 100dvh;
+  }
+
+  .controlBar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-lg);
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--pr-line);
+  }
+
+  .tab {
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: var(--space-md) var(--space-sm);
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .tab + .tab {
+    border-left: 1px solid var(--pr-line);
+  }
+
+  .tabActive {
+    background-color: rgba(240, 182, 90, 0.1);
+  }
+
+  .tally {
+    justify-content: space-between;
+    padding-block: var(--space-xs);
+  }
+
+  .stageStacked {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    height: auto;
+    margin-top: var(--space-lg);
+    overflow: visible;
+    background: none;
+    border: none;
+  }
+
+  .stageStacked .mapBox {
+    position: sticky;
+    top: 5rem;
+    z-index: 3;
+    display: block;
+    height: min(46svh, 26rem);
+    min-height: 17rem;
+    overflow: hidden;
+    background-color: var(--pr-bg);
+    border: 1px solid var(--pr-line);
   }
 }

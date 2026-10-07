@@ -42,6 +42,10 @@ type PortfolioMapProps = {
   hoveredStateId: string | null;
   tone: "aum" | "construction";
   sheetOpen: boolean;
+  /** In fullscreen the map owns the whole screen, so one-finger pan / plain wheel zoom apply. */
+  fullscreen?: boolean;
+  /** Phone layout: the map sits in its own box with the panel beneath; nothing overlays it. */
+  stacked?: boolean;
   /** Content of the pointing callout for the open warehouse. */
   callout: CalloutContent | null;
   onCloseCallout: () => void;
@@ -220,6 +224,8 @@ export default function PortfolioMap({
   hoveredStateId,
   tone,
   sheetOpen,
+  fullscreen = false,
+  stacked = false,
   callout,
   onCloseCallout,
   onSelectState,
@@ -328,13 +334,14 @@ export default function PortfolioMap({
     const width = wrapper?.clientWidth ?? 1200;
     const height = wrapper?.clientHeight ?? 700;
     if (width >= 768) return { top: 84, bottom: 64, left: PANEL_RESERVE + 30, right: 90 };
+    if (stacked) return { top: 64, bottom: 36, left: 28, right: 64 };
     return {
       top: 84,
       bottom: sheetOpen ? Math.round(height * 0.5) + 10 : 90,
       left: 20,
       right: 70,
     };
-  }, [sheetOpen]);
+  }, [sheetOpen, stacked]);
 
   /** Where boxes may sit: the map minus the panel, controls, context bar and legend band. */
   const safeRect = useCallback((): Rect => {
@@ -345,9 +352,10 @@ export default function PortfolioMap({
       const x = PANEL_RESERVE + 10;
       return { x, y: 76, w: w - x - 84, h: h - 76 - 64 };
     }
+    if (stacked) return { x: 10, y: 64, w: w - 10 - 64, h: h - 64 - 36 };
     const bottom = sheetOpen ? Math.round(h * 0.5) + 10 : 90;
     return { x: 10, y: 76, w: w - 10 - 64, h: h - 76 - bottom };
-  }, [sheetOpen]);
+  }, [sheetOpen, stacked]);
 
   /* One function describes where the camera should be for the current selection. */
   const frame = useCallback((): Frame => {
@@ -458,6 +466,14 @@ export default function PortfolioMap({
     }, 0);
     return () => window.clearTimeout(timer);
   }, [cityId, revealNames]);
+
+  /* fullscreen: the page can't scroll under the map any more, so drop the two-finger rule */
+  useEffect(() => {
+    const map = mapInstance;
+    if (!map) return;
+    if (fullscreen) map.cooperativeGestures.disable();
+    else map.cooperativeGestures.enable();
+  }, [fullscreen, mapInstance]);
 
   /* map lifecycle */
   useEffect(() => {
@@ -650,7 +666,23 @@ export default function PortfolioMap({
       });
 
       map.on("click", (event) => {
-        const pin = map.queryRenderedFeatures(event.point, { layers: PIN_LAYERS })[0];
+        /* Touch: there is no mouseleave, so hover state set by the synthetic mousemove    */
+        /* would stay stuck on the last tapped pin/state; and a fingertip is far less      */
+        /* precise than a cursor, so pins are hit-tested in a small box around the tap.   */
+        const touch = window.matchMedia("(pointer: coarse)").matches;
+        if (touch) {
+          hoverPin = null;
+          handlers.current.onHoverParcel(null);
+          clearTip();
+        }
+        const reach = touch ? 14 : 0;
+        const pin = map.queryRenderedFeatures(
+          [
+            [event.point.x - reach, event.point.y - reach],
+            [event.point.x + reach, event.point.y + reach],
+          ],
+          { layers: PIN_LAYERS },
+        )[0];
         if (pin) {
           handlers.current.onSelectParcel(pin.properties.id as string);
           return;
@@ -794,7 +826,15 @@ export default function PortfolioMap({
     }
     let raf = 0;
     const started = performance.now();
+    /* Phones: a forced WebGL repaint every frame drains the battery — pulse for a few */
+    /* seconds to draw the eye, then hold a steady ring.                              */
+    const brief = window.matchMedia("(pointer: coarse)").matches;
     const tick = (now: number) => {
+      if (brief && now - started > 5400) {
+        map.setPaintProperty("pin-pulse", "circle-radius", 14);
+        map.setPaintProperty("pin-pulse", "circle-stroke-opacity", 0.6);
+        return;
+      }
       const t = ((now - started) % 1800) / 1800;
       map.setPaintProperty("pin-pulse", "circle-radius", 8 + t * 26);
       map.setPaintProperty("pin-pulse", "circle-stroke-opacity", 0.7 * (1 - t));
@@ -854,7 +894,10 @@ export default function PortfolioMap({
   };
 
   return (
-    <div ref={wrapperRef} className={cx(styles.wrapper, ready && styles.ready)}>
+    <div
+      ref={wrapperRef}
+      className={cx(styles.wrapper, ready && styles.ready, stacked && styles.stacked)}
+    >
       <div ref={canvasRef} className={styles.canvas} />
       <div className={styles.vignette} aria-hidden="true" />
 

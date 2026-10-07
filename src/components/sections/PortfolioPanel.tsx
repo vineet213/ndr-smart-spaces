@@ -305,6 +305,8 @@ type PanelProps = {
   onSearchPick: (item: SearchItem) => void;
   sheetOpen: boolean;
   onToggleSheet: () => void;
+  /** Phone layout: ordinary page content under the map, not a sheet over it. */
+  stacked?: boolean;
 };
 
 export function PortfolioPanel(props: PanelProps) {
@@ -330,18 +332,72 @@ export function PortfolioPanel(props: PanelProps) {
     onSelectRecord,
     sheetOpen,
     onToggleSheet,
+    stacked,
   } = props;
 
   const plural = noun === "warehouse" ? "warehouses" : "projects";
+  const dragStartY = useRef<number | null>(null);
+  const suppressClick = useRef(false);
+
+  const statesList = (
+    <ul className={styles.states}>
+      {states.map((state) => (
+        <li key={state.stateId}>
+          <button
+            type="button"
+            className={cx(styles.stateRow, hoveredStateId === state.stateId && styles.stateHover)}
+            onClick={() => onSelectState(state.stateId)}
+            onMouseEnter={() => onHoverState(state.stateId)}
+            onMouseLeave={() => onHoverState(null)}
+            onFocus={() => onHoverState(state.stateId)}
+            onBlur={() => onHoverState(null)}
+          >
+            <span className={styles.stateName}>{state.stateName}</span>
+            <span className={styles.stateMeta}>
+              {state.parcelCount} · {formatMsf(state.totalLeasableAreaMsf)}
+            </span>
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
 
   return (
-    <aside className={cx(styles.panel, sheetOpen ? styles.open : styles.collapsed)}>
+    <aside
+      className={cx(
+        styles.panel,
+        sheetOpen ? styles.open : styles.collapsed,
+        stacked && styles.stacked,
+      )}
+    >
       <button
         type="button"
         className={styles.handle}
         aria-label={sheetOpen ? "Collapse panel" : "Expand panel"}
         aria-expanded={sheetOpen}
-        onClick={onToggleSheet}
+        onPointerDown={(event) => {
+          dragStartY.current = event.clientY;
+        }}
+        onPointerUp={(event) => {
+          // Swipe down collapses, swipe up expands; a plain tap falls through to onClick.
+          const start = dragStartY.current;
+          dragStartY.current = null;
+          if (start === null) return;
+          const dy = event.clientY - start;
+          if (Math.abs(dy) < 24) return;
+          suppressClick.current = true;
+          if ((dy > 0 && sheetOpen) || (dy < 0 && !sheetOpen)) onToggleSheet();
+        }}
+        onPointerCancel={() => {
+          dragStartY.current = null;
+        }}
+        onClick={() => {
+          if (suppressClick.current) {
+            suppressClick.current = false;
+            return;
+          }
+          onToggleSheet();
+        }}
       />
 
       <div className={styles.head}>
@@ -350,33 +406,7 @@ export function PortfolioPanel(props: PanelProps) {
           placeholder={props.searchPlaceholder}
           noun={props.searchNoun}
           onPick={props.onSearchPick}
-          browse={
-            level === "india" ? (
-              <ul className={styles.states}>
-                {states.map((state) => (
-                  <li key={state.stateId}>
-                    <button
-                      type="button"
-                      className={cx(
-                        styles.stateRow,
-                        hoveredStateId === state.stateId && styles.stateHover,
-                      )}
-                      onClick={() => onSelectState(state.stateId)}
-                      onMouseEnter={() => onHoverState(state.stateId)}
-                      onMouseLeave={() => onHoverState(null)}
-                      onFocus={() => onHoverState(state.stateId)}
-                      onBlur={() => onHoverState(null)}
-                    >
-                      <span className={styles.stateName}>{state.stateName}</span>
-                      <span className={styles.stateMeta}>
-                        {state.parcelCount} · {formatMsf(state.totalLeasableAreaMsf)}
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : undefined
-          }
+          browse={level === "india" ? statesList : undefined}
         />
         <nav className={styles.crumbs} aria-label="Location">
           <button type="button" data-active={level === "india"} onClick={() => onSelectState(null)}>
@@ -429,10 +459,19 @@ export function PortfolioPanel(props: PanelProps) {
 
       <div className={styles.body} key={`${level}:${stateId}:${city?.name}:${record?.asset.id}`}>
         {level === "india" ? (
-          <p className={styles.lede}>
-            Select a state, or search for a city or {noun}, to open the map — click the search
-            bar to browse every state.
-          </p>
+          <>
+            <p className={styles.lede}>
+              Select a state, or search for a city or {noun}, to open the map
+              <span className={styles.desktopOnly}>
+                {" "}
+                — click the search bar to browse every state
+              </span>
+              .
+            </p>
+            {/* Touch: the state list lives in the sheet itself instead of only in the */}
+            {/* search dropdown, which needs the on-screen keyboard to open.           */}
+            <div className={styles.mobileStates}>{statesList}</div>
+          </>
         ) : null}
 
         {level === "state" && stateFigures ? (

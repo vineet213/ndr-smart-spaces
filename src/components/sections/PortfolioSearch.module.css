@@ -28,7 +28,17 @@
   color: var(--pr-ink, #faf7f2);
   background: none;
   border: none;
+  border-radius: 0;
   outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* type="search" brings native clear/decoration chrome — keep the existing look. */
+.input::-webkit-search-decoration,
+.input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .input::placeholder {
@@ -96,4 +106,28 @@
   padding: var(--space-md);
   font-size: 0.875rem;
   color: var(--pr-muted, rgba(250, 247, 242, 0.55));
+}
+
+/* Touch: 16px field text (iOS zooms the page on focus below that) and 44px rows. */
+@media (pointer: coarse) {
+  .input {
+    font-size: 1rem;
+    min-height: 2.75rem;
+  }
+
+  .option {
+    min-height: 2.75rem;
+    align-items: center;
+  }
+}
+
+/* Phones: the results expand inline inside the sheet rather than floating over */
+/* it, where the stage's overflow clip would cut off everything below the fold.  */
+@media (max-width: 767px) {
+  .list {
+    position: static;
+    margin-top: 4px;
+    max-height: min(15rem, 32svh);
+    overscroll-behavior: contain;
+  }
 }

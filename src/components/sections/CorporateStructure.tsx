@@ -134,8 +134,8 @@ const CONNECTORS: readonly Connector[] = [
   },
 ];
 
-const markerId = (t: ConnType) =>
-  t === "ownership" ? "a-own" : t === "service" ? "a-svc" : "a-txn";
+const markerId = (t: ConnType, prefix = "a") =>
+  `${prefix}-${t === "ownership" ? "own" : t === "service" ? "svc" : "txn"}`;
 
 /* ═══════════════════════════════════════════════════════════════════════════
    TEXT HELPERS — deterministic word-wrap for titles and relationship lines
@@ -179,11 +179,13 @@ function tidyWrap(lines: string[]): string[] {
    SVG SUB-COMPONENTS
    ═══════════════════════════════════════════════════════════════════════════ */
 
-function ArrowDefs() {
+/* `prefix` keeps marker ids unique per SVG: the phone diagram cannot borrow the
+   desktop one's arrowheads, because markers inside a `display: none` SVG don't render. */
+function ArrowDefs({ prefix = "a" }: { prefix?: string }) {
   return (
     <defs>
       <marker
-        id="a-own"
+        id={`${prefix}-own`}
         viewBox="0 0 12 12"
         refX="11"
         refY="6"
@@ -201,7 +203,7 @@ function ArrowDefs() {
         />
       </marker>
       <marker
-        id="a-svc"
+        id={`${prefix}-svc`}
         viewBox="0 0 12 12"
         refX="11"
         refY="6"
@@ -219,7 +221,7 @@ function ArrowDefs() {
         />
       </marker>
       <marker
-        id="a-txn"
+        id={`${prefix}-txn`}
         viewBox="0 0 12 12"
         refX="11"
         refY="6"
@@ -317,6 +319,331 @@ function Legend() {
         </g>
       ))}
     </g>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PORTRAIT DIAGRAM (phones) — the same entity map redrawn for a tall screen
+   ═══════════════════════════════════════════════════════════════════════════
+   360 units wide, so one unit is roughly one CSS pixel on a small phone and the
+   text (12+ units) stays readable. Top to bottom:
+
+     NDR InvIT            capital partner, paired transaction arrows to the hub
+     NDR Smart Spaces     the hub
+     Asset Mgmt | SPVs    owned entities
+     Warehouses | Ave     rental assets, plotting entity
+     Legend     | Third   land purchasers
+
+   Long-haul lines run in dedicated channels (centre gutter, right margin) so no
+   connector ever passes through a card.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+const P_W = 360;
+const P_H = 852;
+const P_COL_L = 30;
+const P_COL_R = 192;
+const P_BOX_W = 138;
+const P_BOX_H = 124;
+const P_GUTTER_X = 180;
+const P_RAIL_X = 345;
+
+const P_NODES: Record<EntityId, N> = {
+  invit: { x: 90, y: 16, w: 180, h: 88 },
+  center: { x: 40, y: 166, w: 280, h: 92 },
+  am: { x: P_COL_L, y: 332, w: P_BOX_W, h: P_BOX_H },
+  spv: { x: P_COL_R, y: 332, w: P_BOX_W, h: P_BOX_H },
+  warehouses: { x: P_COL_L, y: 566, w: P_BOX_W, h: 100 },
+  ave: { x: P_COL_R, y: 566, w: P_BOX_W, h: 100 },
+  third: { x: P_COL_R, y: 736, w: P_BOX_W, h: 84 },
+};
+
+const P_ENTITIES: readonly { id: Exclude<EntityId, "center">; title: string; fn: string }[] = [
+  { id: "invit", title: invit.name, fn: "Separate listed entity under the NDR Group" },
+  { id: "am", title: am.name, fn: "Project management company" },
+  { id: "spv", title: spv.name, fn: "Owns / leases land · constructs warehouses" },
+  { id: "warehouses", title: "Warehouses", fn: "Rental income assets" },
+  { id: "ave", title: ave.name, fn: "Development entity · plotting" },
+  { id: "third", title: third.name, fn: "Land purchasers" },
+];
+
+type PortraitConnector = {
+  id: string;
+  type: ConnType;
+  d: string;
+  /** Label plate: centre point, or an edge to align against (`start` / `end`). */
+  lx: number;
+  ly: number;
+  anchor?: "start" | "middle" | "end";
+  lines: readonly string[];
+};
+
+const P_CONNECTORS: readonly PortraitConnector[] = [
+  /* hub ⇄ InvIT, a tight vertical pair with a label on each side */
+  {
+    id: "txn-sale-invit",
+    type: "transaction",
+    d: "M172 166 L172 110",
+    lx: 162,
+    ly: 135,
+    anchor: "end",
+    lines: ["Sale of SPV ownership"],
+  },
+  {
+    id: "txn-pay-invit",
+    type: "transaction",
+    d: "M188 104 L188 160",
+    lx: 198,
+    ly: 135,
+    anchor: "start",
+    lines: ["Consideration paid"],
+  },
+  /* hub → owned entities directly beneath it */
+  {
+    id: "own-am",
+    type: "ownership",
+    d: "M99 258 L99 326",
+    lx: 99,
+    ly: 292,
+    lines: ["Ownership"],
+  },
+  {
+    id: "own-spv",
+    type: "ownership",
+    d: "M261 258 L261 326",
+    lx: 261,
+    ly: 292,
+    lines: ["Ownership"],
+  },
+  /* Group SPVs → Asset Management, a U beneath the two cards */
+  {
+    id: "svc-pmc",
+    type: "service",
+    d: "M240 456 L240 482 L120 482 L120 462",
+    lx: P_GUTTER_X,
+    ly: 482,
+    lines: ["PMC fee ·", "consultancy"],
+  },
+  /* hub → Warehouses, down the centre gutter between the cards */
+  {
+    id: "svc-rental",
+    type: "service",
+    d: `M${P_GUTTER_X} 258 L${P_GUTTER_X} 520 L80 520 L80 560`,
+    lx: 148,
+    ly: 520,
+    lines: ["Rental", "income"],
+  },
+  /* hub → Ave Acres, down the right-margin rail */
+  {
+    id: "own-ave",
+    type: "ownership",
+    d: `M320 212 L${P_RAIL_X} 212 L${P_RAIL_X} 520 L262 520 L262 560`,
+    lx: 304,
+    ly: 520,
+    lines: ["Ownership"],
+  },
+  /* Ave Acres ⇄ Third parties */
+  {
+    id: "txn-sale-ave",
+    type: "transaction",
+    d: "M206 666 L206 730",
+    lx: 196,
+    ly: 698,
+    anchor: "end",
+    lines: ["Sale of", "developed land"],
+  },
+  {
+    id: "txn-pay-ave",
+    type: "transaction",
+    d: "M222 736 L222 672",
+    lx: 232,
+    ly: 698,
+    anchor: "start",
+    lines: ["Consideration", "paid"],
+  },
+];
+
+const P_LABEL_CHAR_W = 6.7;
+const P_LABEL_LINE_H = 15;
+const P_LABEL_PAD_X = 8;
+
+/* Greedy wrap by character budget, never leaving a "·" or "/" dangling at a line end. */
+function wrapLines(text: string, maxChars: number): string[] {
+  const lines: string[] = [];
+  let current = "";
+  for (const word of text.split(" ")) {
+    const next = current ? `${current} ${word}` : word;
+    if (next.length <= maxChars || current === "") current = next;
+    else {
+      lines.push(current);
+      current = word;
+    }
+  }
+  if (current) lines.push(current);
+  return tidyWrap(lines);
+}
+
+function PortraitLabel({ connector }: { connector: PortraitConnector }) {
+  const { lines, lx, ly, anchor = "middle" } = connector;
+  const width =
+    Math.ceil(Math.max(...lines.map((line) => line.length)) * P_LABEL_CHAR_W) + P_LABEL_PAD_X * 2;
+  const height = lines.length * P_LABEL_LINE_H + 8;
+  const x = anchor === "middle" ? lx - width / 2 : anchor === "end" ? lx - width : lx;
+  const firstBaseline = ly - ((lines.length - 1) * P_LABEL_LINE_H) / 2 + 4;
+  return (
+    <g>
+      <rect
+        x={x}
+        y={ly - height / 2}
+        width={width}
+        height={height}
+        rx={4}
+        className={styles.plate}
+      />
+      {lines.map((line, index) => (
+        <text
+          key={line}
+          x={x + width / 2}
+          y={firstBaseline + index * P_LABEL_LINE_H}
+          textAnchor="middle"
+          className={styles.pLabel}
+        >
+          {line}
+        </text>
+      ))}
+    </g>
+  );
+}
+
+function PortraitNode({ id, title, fn }: { id: EntityId; title: string; fn: string }) {
+  const node = P_NODES[id];
+  const textX = node.x + 12;
+  const titleLines = wrapLines(title, Math.floor((node.w - 24) / 7.6));
+  const fnLines = wrapLines(fn, Math.floor((node.w - 24) / 6.5));
+  const titleY = node.y + 30;
+  const fnY = titleY + titleLines.length * 17 + 3;
+  return (
+    <g>
+      <rect x={node.x} y={node.y} width={node.w} height={node.h} rx={4} className={styles.nodeBg} />
+      <rect
+        x={node.x}
+        y={node.y}
+        width={node.w}
+        height={4}
+        rx={2}
+        className={id === "invit" ? styles.accentG : styles.accentM}
+      />
+      {titleLines.map((line, index) => (
+        <text key={line} x={textX} y={titleY + index * 17} className={styles.pTitle}>
+          {line}
+        </text>
+      ))}
+      {fnLines.map((line, index) => (
+        <text key={line} x={textX} y={fnY + index * 15} className={styles.pFn}>
+          {line}
+        </text>
+      ))}
+      <g transform={`translate(${node.x + node.w - 28}, ${node.y - 11})`}>
+        <circle cx="11" cy="11" r="11" className={styles.badgeBg} strokeWidth={2} />
+        <g transform="translate(1.5, 1.5) scale(0.56)" className={styles.badgeIcon}>
+          {ICONS[id]}
+        </g>
+      </g>
+    </g>
+  );
+}
+
+function PortraitLegend() {
+  const x = P_COL_L;
+  const top = P_NODES.third.y + 22;
+  const items = [
+    { label: "Ownership", cls: styles.legendOwn },
+    { label: "Services / fees", cls: styles.legendSvc },
+    { label: "Transactions", cls: styles.legendTxn },
+  ];
+  return (
+    <g className={styles.legend}>
+      <text x={x} y={top} className={styles.pLegendHeading}>
+        LEGEND
+      </text>
+      {items.map((item, index) => {
+        const y = top + 26 + index * 26;
+        return (
+          <g key={item.label}>
+            <line x1={x} y1={y - 4} x2={x + 30} y2={y - 4} className={item.cls} />
+            <text x={x + 40} y={y} className={styles.pLegendText}>
+              {item.label}
+            </text>
+          </g>
+        );
+      })}
+    </g>
+  );
+}
+
+function PortraitDiagram() {
+  const hub = P_NODES.center;
+  const hubCx = hub.x + hub.w / 2;
+  return (
+    <div className={styles.diagramPortrait}>
+      <svg
+        className={styles.svg}
+        viewBox={`0 0 ${P_W} ${P_H}`}
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden="true"
+      >
+        <ArrowDefs prefix="p" />
+
+        {/* lines first, then every label plate, so a plate can sit over a crossing */}
+        <g className={styles.connectors}>
+          {P_CONNECTORS.map((connector) => (
+            <path
+              key={connector.id}
+              d={connector.d}
+              fill="none"
+              strokeWidth={1.7}
+              className={cx(
+                styles.connP,
+                connector.type === "ownership" && styles.pOwn,
+                connector.type === "service" && styles.pSvc,
+                connector.type === "transaction" && styles.pTxn,
+              )}
+              markerEnd={`url(#${markerId(connector.type, "p")})`}
+            />
+          ))}
+          {P_CONNECTORS.map((connector) => (
+            <PortraitLabel key={connector.id} connector={connector} />
+          ))}
+        </g>
+
+        {/* hub */}
+        <g>
+          <rect
+            x={hub.x}
+            y={hub.y}
+            width={hub.w}
+            height={hub.h}
+            rx={4}
+            className={styles.centerBg}
+          />
+          <rect x={hub.x} y={hub.y} width={hub.w} height={4} rx={2} className={styles.centerAcc} />
+          <text x={hubCx} y={hub.y + 38} textAnchor="middle" className={styles.pHubTitle}>
+            NDR Smart Spaces
+          </text>
+          <text x={hubCx} y={hub.y + 58} textAnchor="middle" className={styles.pHubSub}>
+            Pvt. Ltd.
+          </text>
+          <text x={hubCx} y={hub.y + 79} textAnchor="middle" className={styles.pHubRole}>
+            Parent platform of the NDR Group
+          </text>
+        </g>
+
+        {P_ENTITIES.map((entity) => (
+          <PortraitNode key={entity.id} {...entity} />
+        ))}
+
+        <PortraitLegend />
+      </svg>
+    </div>
   );
 }
 
@@ -471,69 +798,42 @@ export function CorporateStructure() {
             </svg>
           </div>
 
-          {/* Mobile: a stacked relationship tree built from the same data. */}
+          {/* Phones: the same map redrawn for a tall screen. */}
+          <PortraitDiagram />
+
+          {/* Screen-reader version of both (decorative) diagrams. */}
           <ol className={styles.tree}>
-            <li className={styles.treeItem}>
-              <span className={styles.treeRole}>{corporateStructure.header.role}</span>
-              <span className={styles.treeName}>{corporateStructure.header.name}</span>
+            <li>
+              {corporateStructure.header.name}: {corporateStructure.header.role}
             </li>
-            <li className={styles.treeItem}>
-              <span className={styles.treeRel}>Ownership</span>
-              <span className={styles.treeName}>{am.name}</span>
-              <span className={styles.treeRole}>
-                {am.function} · {am.relationship}
-              </span>
+            <li>
+              Ownership: {am.name}. {am.function}.
             </li>
-            <li className={styles.treeItem}>
-              <span className={styles.treeRel}>Ownership</span>
-              <span className={styles.treeName}>{spv.name}</span>
-              <span className={styles.treeRole}>
-                {spv.function} · {spv.relationship}
-              </span>
+            <li>
+              Ownership: {spv.name}. {spv.function}.
             </li>
-            <li className={styles.treeItem}>
-              <span className={styles.treeRel}>Services / Fees · PMC fee · Consultancy</span>
-              <span className={styles.treeName}>
-                {spv.name} → {am.name}
-              </span>
+            <li>
+              Services / Fees, PMC fee and consultancy: {spv.name} to {am.name}.
             </li>
-            <li className={styles.treeItem}>
-              <span className={styles.treeRel}>Services / Fees · Rental income</span>
-              <span className={styles.treeName}>{corporateStructure.header.name} → Warehouses</span>
-              <span className={styles.treeRole}>
-                Rental income assets · Income generating assets
-              </span>
+            <li>
+              Services / Fees, rental income: {corporateStructure.header.name} to Warehouses (rental
+              income assets).
             </li>
-            <li className={styles.treeItem}>
-              <span className={styles.treeRel}>Ownership</span>
-              <span className={styles.treeName}>{ave.name}</span>
-              <span className={styles.treeRole}>
-                {ave.function} · {ave.relationship}
-              </span>
+            <li>
+              Ownership: {ave.name}. {ave.function}.
             </li>
-            <li className={styles.treeItem}>
-              <span className={styles.treeRel}>Transactions · Sale of developed land</span>
-              <span className={styles.treeName}>{ave.name} → Third parties</span>
-              <span className={styles.treeRole}>Land purchasers</span>
+            <li>
+              Transactions, sale of developed land: {ave.name} to {third.name} (land purchasers).
             </li>
-            <li className={styles.treeItem}>
-              <span className={styles.treeRel}>Transactions · Consideration paid</span>
-              <span className={styles.treeName}>Third parties → {ave.name}</span>
+            <li>
+              Transactions, consideration paid: {third.name} to {ave.name}.
             </li>
-            <li className={styles.treeItem}>
-              <span className={styles.treeRel}>Transactions · Sale of SPV ownership</span>
-              <span className={styles.treeName}>
-                {corporateStructure.header.name} → {invit.name}
-              </span>
-              <span className={styles.treeRole}>
-                {invit.function} · {invit.relationship}
-              </span>
+            <li>
+              Transactions, sale of SPV ownership: {corporateStructure.header.name} to {invit.name}{" "}
+              ({invit.function}).
             </li>
-            <li className={styles.treeItem}>
-              <span className={styles.treeRel}>Transactions · Consideration paid</span>
-              <span className={styles.treeName}>
-                {invit.name} → {corporateStructure.header.name}
-              </span>
+            <li>
+              Transactions, consideration paid: {invit.name} to {corporateStructure.header.name}.
             </li>
           </ol>
 

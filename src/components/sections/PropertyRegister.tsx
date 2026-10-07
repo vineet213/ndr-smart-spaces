@@ -1,9 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { preconnect } from "react-dom";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { Container } from "@/components/layout";
 import { Heading } from "@/components/ui";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useInView } from "@/hooks/useInView";
 import {
   aumAssetById,
@@ -32,7 +34,18 @@ type RegisterMode = "aum" | "construction";
 
 const round2 = (value: number) => Math.round(value * 100) / 100;
 
+const PHONE_QUERY = "(max-width: 767px)";
+
+function subscribePhone(onChange: () => void) {
+  const query = window.matchMedia(PHONE_QUERY);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+
 export function PropertyRegister() {
+  // Vector tiles / glyphs come from this origin; warm the connection before the map mounts.
+  preconnect("https://tiles.openfreemap.org", { crossOrigin: "anonymous" });
+
   const [mode, setMode] = useState<RegisterMode>("aum");
   const [selectedStateId, setSelectedStateId] = useState<string | null>(null);
   const [selectedCityId, setSelectedCityId] = useState<string | null>(null);
@@ -344,13 +357,11 @@ export function PropertyRegister() {
       if (event.key === "Escape") setCssFullscreen(false);
     };
     document.addEventListener("keydown", onKey);
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = previous;
-    };
+    return () => document.removeEventListener("keydown", onKey);
   }, [cssFullscreen]);
+
+  /* iOS ignores overflow:hidden on <body>; the shared hook pins it properly */
+  useBodyScrollLock(cssFullscreen);
 
   const toggleFullscreen = useCallback(() => {
     const stage = stageRef.current;
@@ -367,6 +378,16 @@ export function PropertyRegister() {
   }, [cssFullscreen]);
 
   const isFull = fullscreen || cssFullscreen;
+
+  /* Phones get a purpose-built stacked layout (sticky map on top, the panel flowing   */
+  /* beneath it as ordinary page content) instead of a sheet laid over the map. Full   */
+  /* screen keeps the immersive map-with-bottom-sheet.                                  */
+  const phone = useSyncExternalStore(
+    subscribePhone,
+    () => window.matchMedia(PHONE_QUERY).matches,
+    () => false,
+  );
+  const stacked = phone && !isFull;
 
   /* totals ---------------------------------------------------------------------- */
 
@@ -443,61 +464,84 @@ export function PropertyRegister() {
                 styles.stage,
                 isFull && styles.stageFull,
                 cssFullscreen && styles.stageCss,
+                stacked && styles.stageStacked,
               )}
             >
-              {mapFailed ? (
-                <div className={styles.atlasLayer}>
-                  <PortfolioAtlas
-                    selectedStateId={selectedStateId}
-                    onStateSelect={handleStateSelect}
-                    states={currentStates}
-                    ariaLabel="Map of India — select a state to see its warehouses."
-                  />
-                </div>
-              ) : null}
+              <div className={styles.mapBox}>
+                {mapFailed ? (
+                  <div className={styles.atlasLayer}>
+                    <PortfolioAtlas
+                      selectedStateId={selectedStateId}
+                      onStateSelect={handleStateSelect}
+                      states={currentStates}
+                      ariaLabel="Map of India — select a state to see its warehouses."
+                    />
+                  </div>
+                ) : null}
 
-              {showMap ? (
-                <div className={styles.mapLayer}>
-                  <PortfolioMap
-                    pins={allPins}
-                    states={currentStates}
-                    stateId={selectedStateId}
-                    cityId={selectedCityId}
-                    parcelId={selectedParcelId}
-                    hoveredId={hoveredId}
-                    spotlightId={spotlightId}
-                    hoveredStateId={hoveredStateId}
-                    tone={mode}
-                    sheetOpen={sheetOpen}
-                    callout={warehouseCallout}
-                    onCloseCallout={() => setCalloutOpen(false)}
-                    onSelectState={handleStateSelect}
-                    onSelectCity={handleCitySelect}
-                    onSelectParcel={handleRecordSelect}
-                    onHoverParcel={setHoveredId}
-                    onHoverState={setHoveredStateId}
-                    onBackground={() => setCalloutOpen(false)}
-                    onReady={() => setMapReady(true)}
-                    onFailure={() => setMapFailed(true)}
-                  >
-                    {({ flying }) =>
-                      context ? (
-                        <MapContextBar
-                          visible={!flying}
-                          eyebrow={context.eyebrow}
-                          title={context.title}
-                          figures={context.figures}
-                          onClose={() => setCalloutOpen(false)}
-                        />
-                      ) : null
-                    }
-                  </PortfolioMap>
-                </div>
-              ) : null}
+                {showMap ? (
+                  <div className={styles.mapLayer}>
+                    <PortfolioMap
+                      pins={allPins}
+                      states={currentStates}
+                      stateId={selectedStateId}
+                      cityId={selectedCityId}
+                      parcelId={selectedParcelId}
+                      hoveredId={hoveredId}
+                      spotlightId={spotlightId}
+                      hoveredStateId={hoveredStateId}
+                      tone={mode}
+                      sheetOpen={sheetOpen}
+                      stacked={stacked}
+                      fullscreen={isFull}
+                      callout={warehouseCallout}
+                      onCloseCallout={() => setCalloutOpen(false)}
+                      onSelectState={handleStateSelect}
+                      onSelectCity={handleCitySelect}
+                      onSelectParcel={handleRecordSelect}
+                      onHoverParcel={setHoveredId}
+                      onHoverState={setHoveredStateId}
+                      onBackground={() => setCalloutOpen(false)}
+                      onReady={() => setMapReady(true)}
+                      onFailure={() => setMapFailed(true)}
+                    >
+                      {({ flying }) =>
+                        context ? (
+                          <MapContextBar
+                            visible={!flying}
+                            compact={stacked}
+                            eyebrow={context.eyebrow}
+                            title={context.title}
+                            figures={context.figures}
+                            onClose={() => setCalloutOpen(false)}
+                          />
+                        ) : null
+                      }
+                    </PortfolioMap>
+                  </div>
+                ) : null}
 
-              {!mapReady && !mapFailed ? <span className={styles.loading}>Loading map</span> : null}
+                {!mapReady && !mapFailed ? (
+                  <span className={styles.loading}>Loading map</span>
+                ) : null}
+
+                <button
+                  type="button"
+                  className={styles.fullscreen}
+                  aria-label={isFull ? "Exit full screen" : "Full screen"}
+                  onClick={toggleFullscreen}
+                >
+                  {isFull ? "×" : "⤢"}
+                </button>
+
+                <span className={cx(styles.corner, styles.tl)} aria-hidden="true" />
+                <span className={cx(styles.corner, styles.tr)} aria-hidden="true" />
+                <span className={cx(styles.corner, styles.bl)} aria-hidden="true" />
+                <span className={cx(styles.corner, styles.br)} aria-hidden="true" />
+              </div>
 
               <PortfolioPanel
+                stacked={stacked}
                 level={level}
                 noun={noun}
                 states={currentStates}
@@ -536,20 +580,6 @@ export function PropertyRegister() {
                 sheetOpen={sheetOpen}
                 onToggleSheet={() => setSheetOpen((value) => !value)}
               />
-
-              <button
-                type="button"
-                className={styles.fullscreen}
-                aria-label={isFull ? "Exit full screen" : "Full screen"}
-                onClick={toggleFullscreen}
-              >
-                {isFull ? "×" : "⤢"}
-              </button>
-
-              <span className={cx(styles.corner, styles.tl)} aria-hidden="true" />
-              <span className={cx(styles.corner, styles.tr)} aria-hidden="true" />
-              <span className={cx(styles.corner, styles.bl)} aria-hidden="true" />
-              <span className={cx(styles.corner, styles.br)} aria-hidden="true" />
             </div>
           </div>
         </Reveal>

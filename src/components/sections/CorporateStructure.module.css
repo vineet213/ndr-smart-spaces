@@ -231,6 +231,74 @@
   white-space: nowrap;
 }
 
+/* ─── Portrait diagram (phones) ───────────────────────────────────────────
+   Sizes are in the portrait SVG's own units (360 wide ≈ CSS px on a phone). */
+
+.diagramPortrait {
+  display: none;
+  background-color: var(--color-ivory);
+  border: 1px solid var(--color-hairline-light);
+}
+
+.pHubTitle {
+  fill: var(--color-ivory);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 21px;
+  letter-spacing: 0.01em;
+}
+
+.pHubSub {
+  fill: var(--color-text-inverse-85);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-regular);
+  font-size: 15px;
+}
+
+.pHubRole {
+  fill: var(--color-text-inverse-70);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.pTitle {
+  fill: var(--color-charcoal);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-semibold);
+  font-size: 14px;
+}
+
+.pFn {
+  fill: var(--color-stone);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: 12px;
+}
+
+.pLabel {
+  fill: var(--color-charcoal);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: 12px;
+}
+
+.pLegendHeading {
+  fill: var(--color-stone);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-semibold);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+.pLegendText {
+  fill: var(--color-stone);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: 12.5px;
+}
+
 /* responsive ------------------------------------------------------------ */
 
 @media (max-width: 767px) {
@@ -242,52 +310,7 @@
     display: none;
   }
 
-  .tree {
-    position: static;
-    width: 100%;
-    height: auto;
-    overflow: visible;
-    clip: auto;
-    clip-path: none;
-    white-space: normal;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-    list-style: none;
-  }
-
-  .treeItem {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-    padding: var(--space-lg);
-    background-color: var(--color-ivory);
-    border: 1px solid var(--color-hairline-light);
-  }
-
-  .treeRel {
-    font-family: var(--font-body);
-    font-weight: var(--font-weight-body-medium);
-    font-size: var(--font-meta);
-    line-height: var(--leading-meta);
-    letter-spacing: var(--tracking-meta);
-    text-transform: uppercase;
-    color: var(--color-maroon);
-  }
-
-  .treeName {
-    font-family: var(--font-display);
-    font-weight: var(--font-weight-display-medium);
-    font-size: 1.125rem;
-    line-height: 1.2;
-    color: var(--color-charcoal);
-  }
-
-  .treeRole {
-    font-family: var(--font-body);
-    font-weight: var(--font-weight-body-regular);
-    font-size: var(--font-small);
-    line-height: var(--leading-small);
-    color: var(--color-text-secondary);
+  .diagramPortrait {
+    display: block;
   }
 }

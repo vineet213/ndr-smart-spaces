@@ -72,10 +72,16 @@
   color: #faf7f2;
 }
 
-.chip:hover,
 .chip:focus-visible {
   border-color: #f5c97f;
   background-color: rgba(34, 30, 26, 0.98);
+}
+
+@media (hover: hover) {
+  .chip:hover {
+    border-color: #f5c97f;
+    background-color: rgba(34, 30, 26, 0.98);
+  }
 }
 
 /* warehouse name box */
@@ -106,10 +112,16 @@
   color: #f0b65a;
 }
 
-.pill:hover,
 .pill:focus-visible {
   border-color: #f5c97f;
   background-color: rgba(34, 30, 26, 0.98);
+}
+
+@media (hover: hover) {
+  .pill:hover {
+    border-color: #f5c97f;
+    background-color: rgba(34, 30, 26, 0.98);
+  }
 }
 
 /* warehouse callout */
@@ -158,9 +170,14 @@
   cursor: pointer;
 }
 
-.close:hover,
 .close:focus-visible {
   color: #f0b65a;
+}
+
+@media (hover: hover) {
+  .close:hover {
+    color: #f0b65a;
+  }
 }
 
 .figures {
@@ -199,5 +216,15 @@
   .callout,
   .leader {
     transition: none;
+  }
+}
+
+/* Touch: 44px callout close button. */
+@media (pointer: coarse) {
+  .close {
+    top: 0;
+    right: 0;
+    width: 2.75rem;
+    height: 2.75rem;
   }
 }

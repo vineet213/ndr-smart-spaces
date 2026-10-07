@@ -14,16 +14,22 @@ export function MapContextBar({
   eyebrow,
   title,
   figures,
+  compact = false,
   onClose,
 }: {
   visible: boolean;
   eyebrow: string;
   title: string;
   figures: readonly CalloutFigure[];
+  /** Phone layout: one tidy row; the panel beneath the map already lists the figures. */
+  compact?: boolean;
   onClose: () => void;
 }) {
   return (
-    <div className={cx(styles.slot, !visible && styles.hidden)} aria-hidden={!visible}>
+    <div
+      className={cx(styles.slot, !visible && styles.hidden, compact && styles.compact)}
+      aria-hidden={!visible}
+    >
       <div className={styles.bar} role="status">
         <span className={styles.eyebrow}>{eyebrow}</span>
         <strong className={styles.title}>{title}</strong>

@@ -47,6 +47,7 @@ export function PortfolioSearch({
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const listId = useId();
 
   const results = useMemo(() => {
@@ -66,17 +67,20 @@ export function PortfolioSearch({
   }, [items, query]);
 
   useEffect(() => {
-    const onDown = (event: MouseEvent) => {
+    // pointerdown (not mousedown) so a tap on the map canvas also dismisses the list.
+    const onDown = (event: PointerEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
     };
-    document.addEventListener("mousedown", onDown);
-    return () => document.removeEventListener("mousedown", onDown);
+    document.addEventListener("pointerdown", onDown);
+    return () => document.removeEventListener("pointerdown", onDown);
   }, []);
 
   const pick = (item: SearchItem) => {
     onPick(item);
     setQuery("");
     setOpen(false);
+    // Dismiss the on-screen keyboard once a result is chosen.
+    inputRef.current?.blur();
   };
 
   const hasQuery = query.trim().length > 0;
@@ -91,7 +95,12 @@ export function PortfolioSearch({
           <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" strokeWidth="2" />
         </svg>
         <input
-          type="text"
+          ref={inputRef}
+          type="search"
+          inputMode="search"
+          enterKeyHint="search"
+          autoCapitalize="off"
+          spellCheck={false}
           role="combobox"
           aria-expanded={showList}
           aria-controls={listId}
@@ -148,10 +157,10 @@ export function PortfolioSearch({
                 aria-selected={index === active}
                 className={cx(styles.option, index === active && styles.optionActive)}
                 onMouseEnter={() => setActive(index)}
-                onMouseDown={(event) => {
-                  event.preventDefault();
-                  pick(item);
-                }}
+                // Keep focus in the field for mouse users; the pick itself is a click so it
+                // also works for touch (a tap fires click, and no ghost click hits the map).
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => pick(item)}
               >
                 <span className={styles.kind}>{item.kind === "city" ? "City" : noun}</span>
                 <span className={styles.label}>{item.label}</span>

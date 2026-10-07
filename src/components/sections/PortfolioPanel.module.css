@@ -21,6 +21,11 @@
   display: none;
 }
 
+/* Browse-all-states list inside the sheet: phones only (desktop has the search dropdown). */
+.mobileStates {
+  display: none;
+}
+
 .head {
   position: relative;
   z-index: 2;
@@ -58,9 +63,14 @@
   color: var(--color-gold);
 }
 
-.crumbs button:hover,
 .crumbs button:focus-visible {
   color: var(--pr-ink, #faf7f2);
+}
+
+@media (hover: hover) {
+  .crumbs button:hover {
+    color: var(--pr-ink, #faf7f2);
+  }
 }
 
 .body {
@@ -157,10 +167,15 @@
   transition: background-color 250ms var(--ease-standard);
 }
 
-.stateRow:hover,
 .stateRow:focus-visible,
 .stateHover {
   background-color: rgba(240, 182, 90, 0.1);
+}
+
+@media (hover: hover) {
+  .stateRow:hover {
+    background-color: rgba(240, 182, 90, 0.1);
+  }
 }
 
 .stateName {
@@ -200,9 +215,14 @@
   transition: background-color 250ms var(--ease-standard);
 }
 
-.groupHead:hover,
 .groupHead:focus-visible {
   background-color: rgba(240, 182, 90, 0.16);
+}
+
+@media (hover: hover) {
+  .groupHead:hover {
+    background-color: rgba(240, 182, 90, 0.16);
+  }
 }
 
 .groupMeta {
@@ -232,10 +252,15 @@
   transition: background-color 250ms var(--ease-standard);
 }
 
-.row:hover,
 .row:focus-visible,
 .rowHover {
   background-color: rgba(240, 182, 90, 0.12);
+}
+
+@media (hover: hover) {
+  .row:hover {
+    background-color: rgba(240, 182, 90, 0.12);
+  }
 }
 
 .rowIndex {
@@ -302,15 +327,26 @@
   transition: transform 250ms var(--ease-standard);
 }
 
-.backBar:hover,
 .backBar:focus-visible {
   color: #14120f;
   background: var(--color-gold);
 }
 
-.backBar:hover .backArrow,
+@media (hover: hover) {
+  .backBar:hover {
+    color: #14120f;
+    background: var(--color-gold);
+  }
+}
+
 .backBar:focus-visible .backArrow {
   transform: translateX(-4px);
+}
+
+@media (hover: hover) {
+  .backBar:hover .backArrow {
+    transform: translateX(-4px);
+  }
 }
 
 .dossier {
@@ -507,10 +543,16 @@
     border-color 250ms var(--ease-standard);
 }
 
-.action:hover,
 .action:focus-visible {
   color: var(--color-gold);
   border-color: var(--color-gold);
+}
+
+@media (hover: hover) {
+  .action:hover {
+    color: var(--color-gold);
+    border-color: var(--color-gold);
+  }
 }
 
 /* phones: bottom sheet ------------------------------------------------------------ */
@@ -522,14 +564,15 @@
     bottom: 0;
     left: 0;
     width: auto;
-    height: 50%;
+    height: 52%;
     border-inline: none;
     border-bottom: none;
     transition: height 420ms var(--ease-standard);
   }
 
   .collapsed {
-    height: 4.5rem;
+    height: 6.5rem;
+    overflow: hidden;
   }
 
   .collapsed .body,
@@ -537,29 +580,49 @@
     display: none;
   }
 
+  /* Full-width, 44px drag/tap target across the top edge of the sheet. */
   .handle {
     position: absolute;
     top: -3px;
-    left: 50%;
+    left: 0;
+    right: 0;
     z-index: 3;
     display: block;
-    width: 3.5rem;
-    height: 1.25rem;
+    height: 2.75rem;
     padding: 0;
     background: none;
     border: none;
     cursor: pointer;
-    transform: translateX(-50%);
+    touch-action: none;
   }
 
   .handle::after {
     content: "";
     position: absolute;
-    top: 8px;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background-color: rgba(250, 247, 242, 0.4);
+    top: 0.75rem;
+    left: 50%;
+    width: 3.5rem;
+    height: 4px;
+    border-radius: 2px;
+    transform: translateX(-50%);
+    background-color: rgba(250, 247, 242, 0.5);
+  }
+
+  /* Leave room for the handle so it never overlaps the search field. */
+  .head {
+    padding-top: 2.5rem;
+  }
+
+  .mobileStates {
+    display: block;
+  }
+
+  .desktopOnly {
+    display: none;
+  }
+
+  .body {
+    overscroll-behavior: contain;
   }
 }
 
@@ -570,5 +633,56 @@
 
   .panel {
     transition: none;
+  }
+}
+
+/* Touch: 44px hit areas for the breadcrumb, action and list rows. */
+@media (pointer: coarse) {
+  .crumbs button,
+  .backBar {
+    min-height: 2.75rem;
+  }
+
+  .action,
+  .stateRow {
+    min-height: 2.75rem;
+  }
+
+  .crumbs button {
+    padding-inline: var(--space-xs);
+  }
+}
+
+/* phones, stacked layout: the panel is ordinary page content beneath the sticky map */
+@media (max-width: 767px) {
+  .panel.stacked {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    transition: none;
+    border: 1px solid rgba(250, 247, 242, 0.14);
+    border-top: 3px solid var(--color-maroon);
+    backdrop-filter: none;
+  }
+
+  .panel.stacked .handle {
+    display: none;
+  }
+
+  .panel.stacked .head {
+    padding-top: var(--space-md);
+  }
+
+  .panel.stacked .body {
+    overflow: visible;
+  }
+
+  .panel.stacked.collapsed .crumbs {
+    display: flex;
+  }
+
+  .panel.stacked.collapsed .body {
+    display: flex;
   }
 }

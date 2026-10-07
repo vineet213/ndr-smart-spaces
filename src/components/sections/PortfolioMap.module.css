@@ -72,10 +72,16 @@
     border-color 250ms var(--ease-standard);
 }
 
-.controls button:hover,
 .controls button:focus-visible {
   color: var(--color-gold);
   border-color: var(--color-gold);
+}
+
+@media (hover: hover) {
+  .controls button:hover {
+    color: var(--color-gold);
+    border-color: var(--color-gold);
+  }
 }
 
 /* marker size legend ------------------------------------------------------- */
@@ -135,8 +141,44 @@
 }
 
 @media (max-width: 767px) {
+  /* Kept on phones (it is the key to the pin sizes), tucked above the bottom sheet. */
   .legend {
-    display: none;
+    bottom: calc(52% + 0.5rem);
+    left: 12px;
+    gap: var(--space-md);
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+
+  .controls {
+    top: 64px;
+    right: 12px;
+  }
+
+  /* The bottom sheet covers the map's lower half, which would bury the required  */
+  /* OpenStreetMap / OpenMapTiles attribution — lift it to sit just above it.     */
+  .wrapper :global(.maplibregl-ctrl-bottom-right) {
+    bottom: calc(52% + 0.5rem);
+  }
+}
+
+/* Touch: 44px zoom / reset / names controls and attribution toggle. */
+@media (pointer: coarse) {
+  .wrapper :global(.maplibregl-ctrl-attrib-button) {
+    width: 2.75rem;
+    height: 2.75rem;
+    /* the icon is a background image: enlarging the box must not tile it */
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .controls {
+    gap: 6px;
+  }
+
+  .controls button {
+    width: 2.75rem;
+    height: 2.75rem;
   }
 }
 
@@ -151,4 +193,16 @@
   color: #14120f;
   background-color: var(--color-gold);
   border-color: var(--color-gold);
+}
+
+/* phones, stacked layout: nothing overlays the map, so legend and attribution sit at its edge */
+@media (max-width: 767px) {
+  .wrapper.stacked .legend {
+    bottom: 8px;
+    left: 8px;
+  }
+
+  .wrapper.stacked :global(.maplibregl-ctrl-bottom-right) {
+    bottom: 0;
+  }
 }
