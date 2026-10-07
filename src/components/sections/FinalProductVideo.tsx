@@ -3,7 +3,11 @@
 import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
 import styles from "./DevelopmentLifecycle.module.css";
 
-const VIDEO_SRC = "/videos/development-lifecycle/final-product.mp4";
+const SOURCES = {
+  desktop: "/videos/development-lifecycle/final-product.mp4",
+  // 640px / 30fps encode: ~5 MB instead of ~31 MB
+  mobile: "/videos/development-lifecycle/final-product-mobile.mp4",
+} as const;
 const POSTER_SRC = "/videos/development-lifecycle/final-product-poster.jpg";
 
 /**
@@ -12,18 +16,18 @@ const POSTER_SRC = "/videos/development-lifecycle/final-product-poster.jpg";
  * is handled by `useAutoplayVideo`, same as the Residential Plotting video.
  */
 export function FinalProductVideo() {
-  const { videoRef, motionAllowed } = useAutoplayVideo();
+  const { videoRef, motionAllowed, autoplayBlocked } = useAutoplayVideo(SOURCES);
 
   return (
     <video
       ref={videoRef}
       className={styles.plateVideo}
-      src={VIDEO_SRC}
       poster={POSTER_SRC}
       muted
       loop={motionAllowed}
       playsInline
-      preload="metadata"
+      controls={autoplayBlocked}
+      preload="none"
     />
   );
 }

@@ -8,6 +8,9 @@
 # Production builds
 /build
 
+# Generated responsive image variants (scripts/build-images.mjs)
+/public/_img/
+
 # Local scratch / personal files
 Trash/
 

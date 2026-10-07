@@ -3,7 +3,12 @@
 import { useAutoplayVideo } from "@/hooks/useAutoplayVideo";
 import styles from "./VerticalPage.module.css";
 
-const VIDEO_SRC = "/videos/residential-plotting/masthead.mp4";
+const SOURCES = {
+  desktop: "/videos/residential-plotting/masthead.mp4",
+  // 640px / 30fps encode: ~2 MB instead of ~27 MB
+  mobile: "/videos/residential-plotting/masthead-mobile.mp4",
+} as const;
+const POSTER_SRC = "/videos/residential-plotting/masthead-poster.jpg";
 
 /**
  * Framed video panel for the Residential Plotting vertical, placed below the
@@ -11,18 +16,19 @@ const VIDEO_SRC = "/videos/residential-plotting/masthead.mp4";
  * reduced-motion static frame) is handled by `useAutoplayVideo`.
  */
 export function ResidentialPlottingVideo() {
-  const { videoRef, motionAllowed } = useAutoplayVideo();
+  const { videoRef, motionAllowed, autoplayBlocked } = useAutoplayVideo(SOURCES);
 
   return (
     <div className={styles.videoFrame}>
       <video
         ref={videoRef}
         className={styles.videoEl}
-        src={VIDEO_SRC}
+        poster={POSTER_SRC}
         muted
         loop={motionAllowed}
         playsInline
-        preload="auto"
+        controls={autoplayBlocked}
+        preload="none"
       />
     </div>
   );

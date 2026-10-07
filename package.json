@@ -4,10 +4,13 @@
   "private": true,
   "description": "Corporate website for NDR Smart Spaces Pvt. Ltd.",
   "scripts": {
+    "images": "node scripts/build-images.mjs",
+    "predev": "node scripts/build-images.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/build-images.mjs",
     "build": "next build",
     "start": "node scripts/serve-static.mjs",
-    "publish": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-export.js && next build",
+    "publish": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-export.js && npm run build",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
@@ -39,6 +42,7 @@
     "lint-staged": "17.3.0",
     "prettier": "3.9.6",
     "puppeteer-core": "^25.8.0",
+    "sharp": "^0.35.5",
     "typescript": "5.9.3"
   },
   "lint-staged": {
