@@ -23,6 +23,7 @@
   gap: var(--space-5xl);
   padding: var(--space-2xl);
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .header {
@@ -104,14 +105,49 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.link:hover {
-  color: var(--color-gold);
+@media (hover: hover) {
+  .link:hover {
+    color: var(--color-gold);
+  }
 }
 
 .linkIcon {
   width: 1rem;
   height: 1rem;
+  flex-shrink: 0;
   color: var(--color-gold);
+  transition: transform var(--duration-standard) var(--ease-standard);
+}
+
+.linkIconOpen {
+  transform: rotate(180deg);
+}
+
+/* Parent row: the overview link plus a separate 48px expand/collapse toggle. */
+.row {
+  display: flex;
+  align-items: stretch;
+}
+
+.row > a.link {
+  flex: 1;
+  min-width: 0;
+  width: auto;
+}
+
+.toggle {
+  flex: 0 0 var(--space-6xl);
+  width: var(--space-6xl);
+  justify-content: center;
+}
+
+.toggleRow {
+  /* No overview page: the whole row is the toggle. */
+  width: 100%;
+}
+
+.groups[hidden] {
+  display: none;
 }
 
 .groups {
@@ -138,7 +174,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-  min-height: var(--space-5xl);
+  min-height: var(--space-6xl);
   padding-inline-start: var(--space-lg);
   font-family: var(--font-body);
   font-size: var(--font-small);
@@ -147,8 +183,10 @@
   text-decoration: none;
 }
 
-.subLink:hover {
-  color: var(--color-gold);
+@media (hover: hover) {
+  .subLink:hover {
+    color: var(--color-gold);
+  }
 }
 
 .childList {
@@ -162,7 +200,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-  min-height: var(--space-5xl);
+  min-height: var(--space-6xl);
   padding-inline-start: var(--space-lg);
   font-family: var(--font-body);
   font-size: var(--font-small);
@@ -171,14 +209,16 @@
   text-decoration: none;
 }
 
-.childLink:hover {
-  color: var(--color-gold);
+@media (hover: hover) {
+  .childLink:hover {
+    color: var(--color-gold);
+  }
 }
 
 .externalIcon {
   width: 0.875rem;
   height: 0.875rem;
-  color: var(--color-text-inverse-50);
+  color: var(--color-text-inverse-70);
 }
 
 .ctas {
@@ -213,22 +253,25 @@
 .email {
   display: inline-flex;
   align-items: center;
-  min-height: var(--space-5xl);
+  min-height: var(--space-6xl);
+  overflow-wrap: anywhere;
   font-family: var(--font-body);
   font-size: var(--font-small);
   line-height: var(--leading-small);
   color: var(--color-ivory);
 }
 
-.email:hover {
-  color: var(--color-gold);
+@media (hover: hover) {
+  .email:hover {
+    color: var(--color-gold);
+  }
 }
 
 .footerNote {
   font-family: var(--font-body);
   font-size: var(--font-small);
   line-height: var(--leading-small);
-  color: var(--color-text-inverse-50);
+  color: var(--color-text-inverse-70);
 }
 
 @media (min-width: 1280px) {

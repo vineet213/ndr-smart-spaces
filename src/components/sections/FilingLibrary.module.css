@@ -121,9 +121,11 @@
     background-color var(--duration-micro) var(--ease-standard);
 }
 
-.tab:hover {
-  color: var(--color-maroon);
-  border-color: var(--color-maroon);
+@media (hover: hover) {
+  .tab:hover {
+    color: var(--color-maroon);
+    border-color: var(--color-maroon);
+  }
 }
 
 .tab:focus-visible {
@@ -137,8 +139,10 @@
   border-color: var(--color-maroon);
 }
 
-.tabActive:hover {
-  color: var(--color-ivory);
+@media (hover: hover) {
+  .tabActive:hover {
+    color: var(--color-ivory);
+  }
 }
 
 /* archive register -------------------------------------------------------- */
@@ -181,8 +185,10 @@
   transition: background-color var(--duration-micro) var(--ease-standard);
 }
 
-.row:hover {
-  background-color: var(--color-ivory-dim);
+@media (hover: hover) {
+  .row:hover {
+    background-color: var(--color-ivory-dim);
+  }
 }
 
 .ref {
@@ -333,6 +339,14 @@
   .pendingRow .type {
     display: none;
   }
+
+  /* The column-header row is hidden here, so each cell carries its own label. */
+  .asOn[data-label]::before,
+  .category[data-label]::before,
+  .type[data-label]::before {
+    content: attr(data-label) " · ";
+    opacity: 0.7;
+  }
 }
 
 @media (max-width: 767px) {
@@ -342,7 +356,7 @@
 
   .summary {
     grid-template-columns: 1fr;
-    padding: var(--space-5xl);
+    padding: var(--space-3xl) var(--space-xl);
     margin-top: var(--space-6xl);
   }
 

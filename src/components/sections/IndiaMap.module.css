@@ -15,7 +15,7 @@
 
 .map {
   display: block;
-  height: clamp(36rem, 85vh, 60rem);
+  height: clamp(36rem, 85svh, 60rem);
   width: auto;
   max-width: 100%;
   overflow: visible;
@@ -44,6 +44,17 @@
 
 .dot {
   cursor: pointer;
+}
+
+.hit {
+  display: none;
+  fill: transparent;
+}
+
+@media (pointer: coarse) {
+  .hit {
+    display: block;
+  }
 }
 
 .halo {
@@ -97,10 +108,16 @@
   transition: opacity var(--duration-standard) var(--ease-standard);
 }
 
-.dot:hover .node,
 .dot:focus-visible .node {
   transform: scale(1.6);
   fill: var(--color-maroon);
+}
+
+@media (hover: hover) {
+  .dot:hover .node {
+    transform: scale(1.6);
+    fill: var(--color-maroon);
+  }
 }
 
 .dot:focus-visible {
@@ -149,6 +166,17 @@
   font-size: var(--font-small);
   line-height: var(--leading-small);
   color: var(--color-text-inverse-75);
+}
+
+/* Phones: the map is shown (never dropped) at a width-led size.            */
+@media (max-width: 767px) {
+  .wrap {
+    align-items: center;
+  }
+
+  .map {
+    height: min(32rem, 72svh);
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -239,5 +267,12 @@
   100% {
     transform: scale(1.7);
     opacity: 0;
+  }
+}
+
+/* Touch: pulse a few times then rest — an endless animation on 15 glows drains the battery. */
+@media (pointer: coarse) and (prefers-reduced-motion: no-preference) {
+  .glow {
+    animation-iteration-count: 3;
   }
 }

@@ -162,9 +162,14 @@
   transition: opacity var(--duration-standard) var(--ease-standard);
 }
 
-.railLink:hover .railLabel,
 .railLink:focus-visible .railLabel {
   opacity: 1;
+}
+
+@media (hover: hover) {
+  .railLink:hover .railLabel {
+    opacity: 1;
+  }
 }
 
 .stripNav {
@@ -223,8 +228,10 @@
     border-color var(--duration-standard) var(--ease-standard);
 }
 
-.stripLink:hover {
-  color: var(--color-charcoal);
+@media (hover: hover) {
+  .stripLink:hover {
+    color: var(--color-charcoal);
+  }
 }
 
 .stripNumeral {
@@ -236,8 +243,10 @@
   transition: opacity var(--duration-standard) var(--ease-standard);
 }
 
-.stripLink:hover .stripNumeral {
-  opacity: 1;
+@media (hover: hover) {
+  .stripLink:hover .stripNumeral {
+    opacity: 1;
+  }
 }
 
 .stripLabel {
@@ -245,8 +254,10 @@
   transition: opacity var(--duration-standard) var(--ease-standard);
 }
 
-.stripLink:hover .stripLabel {
-  opacity: 1;
+@media (hover: hover) {
+  .stripLink:hover .stripLabel {
+    opacity: 1;
+  }
 }
 
 .stripActive {

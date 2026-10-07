@@ -44,10 +44,16 @@ function FilingRow({ filing }: { filing: Filing }) {
   return (
     <li className={styles.row}>
       <span className={styles.ref}>{filing.ref}</span>
-      <span className={styles.asOn}>{filing.asOn}</span>
+      <span className={styles.asOn} data-label="As on">
+        {filing.asOn}
+      </span>
       <span className={styles.title}>{filing.title}</span>
-      <span className={styles.category}>{filing.category}</span>
-      <span className={styles.type}>{filing.type}</span>
+      <span className={styles.category} data-label="Category">
+        {filing.category}
+      </span>
+      <span className={styles.type} data-label="Type">
+        {filing.type}
+      </span>
       <span className={styles.status}>
         <StatusBadge status={filing.status} />
       </span>

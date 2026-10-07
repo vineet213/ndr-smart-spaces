@@ -36,12 +36,20 @@
   border-left: 2px solid var(--color-gold);
 }
 
-.zoneRow:hover .zoneFact,
 .zoneRow:focus-visible .zoneFact {
   text-decoration: underline;
   text-decoration-color: var(--color-gold);
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
+}
+
+@media (hover: hover) {
+  .zoneRow:hover .zoneFact {
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
 }
 
 .zoneLabel {
@@ -87,10 +95,6 @@
 @media (max-width: 767px) {
   .section {
     padding-block: var(--section-padding-mobile);
-  }
-
-  .mapColumn {
-    display: none;
   }
 
   .grid {

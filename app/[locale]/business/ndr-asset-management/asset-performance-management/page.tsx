@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Container, Section } from "@/components/layout";
-import { CompanyMetrics, Footer, MarqueeClients, PageMasthead } from "@/components/sections";
+import { CompanyMetrics } from "@/components/sections/CompanyMetrics";
+import { Footer } from "@/components/sections/Footer";
+import { MarqueeClients } from "@/components/sections/MarqueeClients";
+import { PageMasthead } from "@/components/sections/PageMasthead";
 import { vertical02AssetManagement } from "@/lib/data/business";
 import { Reveal } from "@/components/sections/Reveal";
 import styles from "./asset-performance-management.module.css";

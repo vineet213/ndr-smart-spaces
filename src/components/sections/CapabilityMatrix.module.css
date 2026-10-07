@@ -137,9 +137,11 @@
   border-block-end: 2px solid var(--color-maroon);
 }
 
-.matrix tbody tr:hover td {
-  background-color: var(--color-ivory-dim);
-  box-shadow: inset 3px 0 0 var(--color-maroon);
+@media (hover: hover) {
+  .matrix tbody tr:hover td {
+    background-color: var(--color-ivory-dim);
+    box-shadow: inset 3px 0 0 var(--color-maroon);
+  }
 }
 
 .phase {
@@ -223,13 +225,17 @@
     border-block-end: 0;
   }
 
-  .matrix tbody tr:hover td {
-    background-color: transparent;
+  @media (hover: hover) {
+    .matrix tbody tr:hover td {
+      background-color: transparent;
+    }
   }
 
-  .matrix tbody tr:hover td:first-child {
-    background-color: var(--color-ivory-dim);
-    box-shadow: inset 3px 0 0 var(--color-maroon);
+  @media (hover: hover) {
+    .matrix tbody tr:hover td:first-child {
+      background-color: var(--color-ivory-dim);
+      box-shadow: inset 3px 0 0 var(--color-maroon);
+    }
   }
 }
 

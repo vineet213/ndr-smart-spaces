@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { Footer, InvestorMasthead, SummaryOfBusiness } from "@/components/sections";
+import { Footer } from "@/components/sections/Footer";
+import { InvestorMasthead } from "@/components/sections/InvestorMasthead";
+import { SummaryOfBusiness } from "@/components/sections/SummaryOfBusiness";
 import { businessMasthead } from "@/lib/data/business";
 
 export const metadata: Metadata = {

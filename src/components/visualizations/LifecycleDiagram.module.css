@@ -333,10 +333,15 @@
     opacity var(--duration-standard) var(--ease-standard);
 }
 
-.cell:hover,
 .cell:focus-visible,
 .cell[aria-pressed="true"] {
   background-color: var(--color-maroon-deep);
+}
+
+@media (hover: hover) {
+  .cell:hover {
+    background-color: var(--color-maroon-deep);
+  }
 }
 
 .cell[aria-pressed="true"] {

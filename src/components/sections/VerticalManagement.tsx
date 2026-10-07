@@ -54,6 +54,12 @@ export function VerticalManagement() {
                   onPointerDown={(event) => {
                     pointerTypeRef.current = event.pointerType;
                   }}
+                  onClick={() => {
+                    // Touch has no hover: a tap toggles the slot (and its note).
+                    if (pointerTypeRef.current !== "touch") return;
+                    if (isActive) resetIfActive(index);
+                    else activate(index);
+                  }}
                 >
                   {profile ? (
                     <>

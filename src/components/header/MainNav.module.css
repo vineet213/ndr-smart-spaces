@@ -30,13 +30,20 @@
     transform var(--duration-standard) var(--ease-standard);
 }
 
-.linkActive,
-.link:hover {
+.linkActive {
   color: var(--nav-fg-hover, var(--color-maroon));
 }
 
-.link:hover {
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .link:hover {
+    color: var(--nav-fg-hover, var(--color-maroon));
+  }
+}
+
+@media (hover: hover) {
+  .link:hover {
+    transform: translateY(-1px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -44,8 +51,10 @@
     transition: color var(--duration-standard) var(--ease-standard);
   }
 
-  .link:hover {
-    transform: none;
+  @media (hover: hover) {
+    .link:hover {
+      transform: none;
+    }
   }
 }
 

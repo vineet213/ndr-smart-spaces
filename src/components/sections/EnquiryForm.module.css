@@ -83,8 +83,10 @@
     color var(--duration-standard) var(--ease-standard);
 }
 
-.submit:hover {
-  background-color: var(--color-gold-light);
+@media (hover: hover) {
+  .submit:hover {
+    background-color: var(--color-gold-light);
+  }
 }
 
 .submit:disabled {
@@ -107,4 +109,18 @@
   border-radius: var(--radius-md);
   background-color: rgba(240, 182, 90, 0.08);
   border: 1px solid var(--color-gold-40);
+}
+
+.fallback {
+  margin-top: var(--space-md);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
+  overflow-wrap: anywhere;
+}
+
+.fallback a {
+  color: var(--color-maroon);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }

@@ -88,8 +88,10 @@
     color var(--duration-standard) var(--ease-standard);
 }
 
-.submit:hover {
-  background-color: var(--color-maroon);
+@media (hover: hover) {
+  .submit:hover {
+    background-color: var(--color-maroon);
+  }
 }
 
 .submit:disabled {
@@ -122,4 +124,18 @@
   .submit {
     min-height: var(--space-6xl);
   }
+}
+
+.fallback {
+  margin-top: var(--space-md);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-stone);
+  overflow-wrap: anywhere;
+}
+
+.fallback a {
+  color: var(--color-maroon);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }

@@ -15,7 +15,10 @@
 
 .isInView {
   opacity: 1;
-  transform: translateY(0);
+  /* `none`, not translateY(0): a lingering transform makes this wrapper the     */
+  /* containing block of any `position: fixed` descendant (e.g. the map's CSS    */
+  /* fullscreen fallback on iPhone), collapsing it into the wrapper's box.      */
+  transform: none;
 }
 
 .d0 {

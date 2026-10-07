@@ -61,9 +61,14 @@
   transition: opacity var(--duration-micro) var(--ease-standard);
 }
 
-.item:hover,
 .item:focus-visible {
   opacity: 1;
+}
+
+@media (hover: hover) {
+  .item:hover {
+    opacity: 1;
+  }
 }
 
 .itemWithLogo {
@@ -73,9 +78,14 @@
   transition: opacity var(--duration-standard) var(--ease-standard);
 }
 
-.itemWithLogo:hover,
 .itemWithLogo:focus-visible {
   opacity: 1;
+}
+
+@media (hover: hover) {
+  .itemWithLogo:hover {
+    opacity: 1;
+  }
 }
 
 .logo {
@@ -87,9 +97,14 @@
   transition: filter var(--duration-standard) var(--ease-standard);
 }
 
-.itemWithLogo:hover .logo,
 .itemWithLogo:focus-visible .logo {
   filter: grayscale(0);
+}
+
+@media (hover: hover) {
+  .itemWithLogo:hover .logo {
+    filter: grayscale(0);
+  }
 }
 
 /* Institutional marquee — only when motion is allowed */
@@ -122,9 +137,14 @@
     padding-inline: var(--space-xl);
   }
 
-  .viewport:hover .track,
   .viewport:focus-within .track {
     animation-play-state: paused;
+  }
+
+  @media (hover: hover) {
+    .viewport:hover .track {
+      animation-play-state: paused;
+    }
   }
 }
 
@@ -165,5 +185,12 @@
 
   .item {
     opacity: 0.7;
+  }
+}
+
+/* Touch has no hover: pressing and holding the strip pauses it (WCAG 2.2.2). */
+@media (pointer: coarse) {
+  .viewport:active .track {
+    animation-play-state: paused;
   }
 }

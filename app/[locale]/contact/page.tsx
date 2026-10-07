@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import {
-  ContactClosing,
-  ContactMasthead,
-  Correspondence,
-  Footer,
-  OfficeDirectory,
-} from "@/components/sections";
+import { ContactClosing } from "@/components/sections/ContactClosing";
+import { ContactMasthead } from "@/components/sections/ContactMasthead";
+import { Correspondence } from "@/components/sections/Correspondence";
+import { Footer } from "@/components/sections/Footer";
+import { OfficeDirectory } from "@/components/sections/OfficeDirectory";
 import { runContactValidation } from "@/lib/data/contactValidation";
 
 export const metadata: Metadata = {

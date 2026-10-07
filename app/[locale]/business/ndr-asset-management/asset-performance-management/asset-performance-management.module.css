@@ -74,10 +74,15 @@
   transition: transform 420ms var(--ease-standard);
 }
 
-.functionCell:hover .functionCurtain,
 .functionCell:focus-visible .functionCurtain,
 .functionCell:focus-within .functionCurtain {
   transform: scaleY(1);
+}
+
+@media (hover: hover) {
+  .functionCell:hover .functionCurtain {
+    transform: scaleY(1);
+  }
 }
 
 .functionContent {
@@ -123,16 +128,26 @@
   transition: color 300ms var(--ease-standard);
 }
 
-.functionCell:hover .functionTitle,
 .functionCell:focus-visible .functionTitle,
 .functionCell:focus-within .functionTitle {
   color: var(--color-ivory);
 }
 
-.functionCell:hover .functionNote,
+@media (hover: hover) {
+  .functionCell:hover .functionTitle {
+    color: var(--color-ivory);
+  }
+}
+
 .functionCell:focus-visible .functionNote,
 .functionCell:focus-within .functionNote {
   color: var(--color-text-inverse-70);
+}
+
+@media (hover: hover) {
+  .functionCell:hover .functionNote {
+    color: var(--color-text-inverse-70);
+  }
 }
 
 /* responsive ------------------------------------------------------------ */

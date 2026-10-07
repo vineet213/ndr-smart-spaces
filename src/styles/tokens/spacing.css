@@ -32,9 +32,12 @@
 
   --container-max: 80rem;
 
+  /* Height of the fixed site header bar (resting state). */
+  --header-height: 4.5rem;
+
   /* Shared hero height for every Investor Centre masthead (InvestorMasthead) —
      a full one-page masthead, matching the homepage/About Us hero treatment. */
-  --masthead-height: 100vh;
+  --masthead-height: 100svh;
 
   --section-padding-desktop: 7rem;
   --section-padding-tablet: 4.5rem;

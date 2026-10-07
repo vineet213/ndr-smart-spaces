@@ -15,7 +15,7 @@
 .panel {
   position: relative;
   margin: 0;
-  height: clamp(28rem, 62vh, 42rem);
+  height: clamp(28rem, 62svh, 42rem);
   overflow: hidden;
   background-color: var(--color-charcoal);
 }
@@ -47,11 +47,17 @@
     opacity 420ms var(--ease-standard);
 }
 
-.panel:hover .curtain,
 .panel:focus-visible .curtain,
 .panel:focus-within .curtain {
   opacity: 0.8;
   transform: scaleY(1);
+}
+
+@media (hover: hover) {
+  .panel:hover .curtain {
+    opacity: 0.8;
+    transform: scaleY(1);
+  }
 }
 
 .content {
@@ -114,8 +120,17 @@
     padding-bottom: 0;
   }
 
+  /* Content-driven height: copy can never be clipped by a fixed-height panel. */
+  .panel {
+    height: auto;
+    min-height: clamp(26rem, 62svh, 42rem);
+  }
+
   .content {
-    padding: var(--space-4xl);
+    position: relative;
+    inset: auto;
+    min-height: clamp(26rem, 62svh, 42rem);
+    padding: var(--space-4xl) var(--space-xl);
     gap: var(--space-sm);
   }
 

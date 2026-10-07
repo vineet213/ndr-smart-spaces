@@ -2,6 +2,8 @@
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
+  /* 48px hit area even when the pill header is collapsed to 3.5rem. */
+  min-height: var(--space-6xl);
 }
 
 .logo {

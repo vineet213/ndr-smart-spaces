@@ -44,9 +44,11 @@
     color 200ms;
 }
 
-.arrow:hover:not(:disabled) {
-  background-color: var(--color-charcoal);
-  color: var(--color-ivory);
+@media (hover: hover) {
+  .arrow:hover:not(:disabled) {
+    background-color: var(--color-charcoal);
+    color: var(--color-ivory);
+  }
 }
 
 .arrow:disabled {

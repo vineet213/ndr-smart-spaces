@@ -26,9 +26,14 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.triggerActive,
-.trigger:hover {
+.triggerActive {
   color: var(--nav-fg-hover, var(--color-maroon));
+}
+
+@media (hover: hover) {
+  .trigger:hover {
+    color: var(--nav-fg-hover, var(--color-maroon));
+  }
 }
 
 .chevron {
@@ -103,9 +108,14 @@
   transition: transform var(--duration-standard) var(--ease-standard);
 }
 
-.overviewLink:hover::after,
 .overviewLink:focus-visible::after {
   transform: scaleX(1);
+}
+
+@media (hover: hover) {
+  .overviewLink:hover::after {
+    transform: scaleX(1);
+  }
 }
 
 .overviewLabel {
@@ -119,9 +129,14 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.overviewLinkActive .overviewLabel,
-.overviewLink:hover .overviewLabel {
+.overviewLinkActive .overviewLabel {
   color: var(--color-maroon-deep);
+}
+
+@media (hover: hover) {
+  .overviewLink:hover .overviewLabel {
+    color: var(--color-maroon-deep);
+  }
 }
 
 .overviewTagline {
@@ -184,15 +199,25 @@
   transition: transform var(--duration-standard) var(--ease-standard);
 }
 
-.linkActive,
-.link:hover {
+.linkActive {
   color: var(--color-maroon-deep);
 }
 
+@media (hover: hover) {
+  .link:hover {
+    color: var(--color-maroon-deep);
+  }
+}
+
 .linkActive::after,
-.link:hover::after,
 .link:focus-visible::after {
   transform: scaleX(1);
+}
+
+@media (hover: hover) {
+  .link:hover::after {
+    transform: scaleX(1);
+  }
 }
 
 .externalIcon {
@@ -237,12 +262,22 @@
   transition: transform var(--duration-standard) var(--ease-standard);
 }
 
-.nestedLink:hover,
 .nestedLink.linkActive {
   color: var(--color-maroon-deep);
 }
 
-.nestedLink:hover::after,
+@media (hover: hover) {
+  .nestedLink:hover {
+    color: var(--color-maroon-deep);
+  }
+}
+
 .nestedLink:focus-visible::after {
   transform: scaleX(1);
+}
+
+@media (hover: hover) {
+  .nestedLink:hover::after {
+    transform: scaleX(1);
+  }
 }

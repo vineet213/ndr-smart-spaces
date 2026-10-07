@@ -108,13 +108,17 @@ type FeatureCardProps = {
   feature: EsgGreenFeature;
   order: number;
   total: number;
-  priority: boolean;
 };
 
-function FeatureCard({ feature, order, total, priority }: FeatureCardProps) {
+function FeatureCard({ feature, order, total }: FeatureCardProps) {
   const colorClass = CARD_COLORS[order % CARD_COLORS.length];
   const side = SIDES[order % 2];
-  const position = order === 0 ? CARD_POSITION.first : order === total - 1 ? CARD_POSITION.last : CARD_POSITION.middle;
+  const position =
+    order === 0
+      ? CARD_POSITION.first
+      : order === total - 1
+        ? CARD_POSITION.last
+        : CARD_POSITION.middle;
   const [rangeStart, rangeEnd] = SLICE_RANGES[order] ?? ["0%", "100%"];
 
   return (
@@ -141,8 +145,6 @@ function FeatureCard({ feature, order, total, priority }: FeatureCardProps) {
               fill
               sizes="(min-width: 1024px) 31rem, 100vw"
               className={styles.image}
-              priority={priority}
-              unoptimized
             />
           ) : (
             <span className={styles.placeholderGlyph}>
@@ -173,7 +175,7 @@ export function EsgGreenFeatures() {
         <div className={styles.stackTrack}>
           <div className={styles.stackBox}>
             {esgGreenFeatures.features.map((feature, index) => (
-              <FeatureCard key={feature.index} feature={feature} order={index} total={total} priority={index === 0} />
+              <FeatureCard key={feature.index} feature={feature} order={index} total={total} />
             ))}
           </div>
         </div>

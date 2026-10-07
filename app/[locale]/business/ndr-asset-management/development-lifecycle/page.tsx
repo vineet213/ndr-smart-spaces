@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Section } from "@/components/layout";
-import { DevelopmentLifecycle, Footer, PageMasthead } from "@/components/sections";
+import { DevelopmentLifecycle } from "@/components/sections/DevelopmentLifecycle";
+import { Footer } from "@/components/sections/Footer";
+import { PageMasthead } from "@/components/sections/PageMasthead";
 import { vertical02DevelopmentLifecycle } from "@/lib/data/business";
 import styles from "./development-lifecycle.module.css";
 

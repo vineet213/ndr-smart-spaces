@@ -92,9 +92,11 @@
   transition: transform 800ms var(--ease-standard);
 }
 
-.mediaPrimary:hover .zoom,
-.mediaCompact:hover .zoom {
-  transform: scale(1.03);
+@media (hover: hover) {
+  .mediaPrimary:hover .zoom,
+  .mediaCompact:hover .zoom {
+    transform: scale(1.03);
+  }
 }
 
 .compact {

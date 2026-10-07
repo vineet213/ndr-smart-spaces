@@ -10,7 +10,7 @@
 /* the animation ends — which is already visually identical to the end       */
 /* keyframe here, so there's no visible snap.                                */
 .fade {
-  animation: pageFadeIn 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: pageFadeIn 300ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @keyframes pageFadeIn {

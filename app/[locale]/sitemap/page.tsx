@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Footer, LegalSitemap } from "@/components/sections";
+import { Footer } from "@/components/sections/Footer";
+import { LegalSitemap } from "@/components/sections/LegalSitemap";
 
 export const metadata: Metadata = {
   title: "Website Sitemap",

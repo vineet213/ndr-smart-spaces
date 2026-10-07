@@ -48,8 +48,10 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.infoValue:hover {
-  color: var(--color-maroon-deep);
+@media (hover: hover) {
+  .infoValue:hover {
+    color: var(--color-maroon-deep);
+  }
 }
 
 .infoValuePlain {
@@ -111,5 +113,14 @@
 
   .card {
     padding: 1.75rem;
+  }
+}
+
+/* Touch: 44px minimum hit area (no change for mouse users). */
+@media (pointer: coarse) {
+  .infoValue {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
   }
 }

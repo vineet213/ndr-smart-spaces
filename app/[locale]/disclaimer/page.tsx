@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Footer, LegalDocument } from "@/components/sections";
+import { Footer } from "@/components/sections/Footer";
+import { LegalDocument } from "@/components/sections/LegalDocument";
 import { disclaimer } from "@/lib/data/legal";
 
 export const metadata: Metadata = {

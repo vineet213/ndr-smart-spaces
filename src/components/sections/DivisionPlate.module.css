@@ -31,8 +31,10 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.plate:hover .ruleCode {
-  color: var(--color-maroon-deep);
+@media (hover: hover) {
+  .plate:hover .ruleCode {
+    color: var(--color-maroon-deep);
+  }
 }
 
 /* body ------------------------------------------------------------------ */
@@ -56,8 +58,10 @@
     transform var(--duration-standard) var(--ease-standard);
 }
 
-.plate:hover .numeral {
-  transform: translateY(-3px);
+@media (hover: hover) {
+  .plate:hover .numeral {
+    transform: translateY(-3px);
+  }
 }
 
 .content {
@@ -81,8 +85,10 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.plate:hover .name {
-  color: var(--color-maroon-deep);
+@media (hover: hover) {
+  .plate:hover .name {
+    color: var(--color-maroon-deep);
+  }
 }
 
 .tag {
@@ -98,8 +104,10 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.plate:hover .tag {
-  color: var(--color-maroon);
+@media (hover: hover) {
+  .plate:hover .tag {
+    color: var(--color-maroon);
+  }
 }
 
 .writeup {
@@ -163,8 +171,10 @@
   transition: transform var(--duration-standard) var(--ease-standard);
 }
 
-.footer :global(a:hover) :global(svg) {
-  transform: translateX(3px);
+@media (hover: hover) {
+  .footer :global(a:hover) :global(svg) {
+    transform: translateX(3px);
+  }
 }
 
 .proof {

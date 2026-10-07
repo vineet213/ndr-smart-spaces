@@ -92,8 +92,10 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.item:hover .caption {
-  color: var(--color-maroon-deep);
+@media (hover: hover) {
+  .item:hover .caption {
+    color: var(--color-maroon-deep);
+  }
 }
 
 @keyframes drawLine {

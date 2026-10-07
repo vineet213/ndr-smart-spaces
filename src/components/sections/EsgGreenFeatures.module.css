@@ -47,34 +47,36 @@
   box-shadow: 0 20px 40px rgba(17, 16, 15, 0.22);
 }
 
-@supports (animation-timeline: view()) {
-  .stackTrack {
-    height: 480vh;
-  }
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .stackTrack {
+      height: 480svh;
+    }
 
-  .stackBox {
-    display: block;
-    position: sticky;
-    top: clamp(5.5rem, 12vh, 8rem);
-    width: 100%;
-    max-width: 62rem;
-    height: min(39rem, 74vh);
-    margin-inline: auto;
-    border-radius: 1.5rem;
-    overflow: hidden;
-    box-shadow:
-      0 32px 64px rgba(17, 16, 15, 0.32),
-      0 8px 24px rgba(17, 16, 15, 0.2);
-    view-timeline-name: --esg-stack-progress;
-    view-timeline-axis: block;
-  }
+    .stackBox {
+      display: block;
+      position: sticky;
+      top: clamp(5.5rem, 12svh, 8rem);
+      width: 100%;
+      max-width: 62rem;
+      height: min(39rem, 74svh);
+      margin-inline: auto;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      box-shadow:
+        0 32px 64px rgba(17, 16, 15, 0.32),
+        0 8px 24px rgba(17, 16, 15, 0.2);
+      view-timeline-name: --esg-stack-progress;
+      view-timeline-axis: block;
+    }
 
-  .card {
-    position: absolute;
-    inset: 0;
-    min-height: 0;
-    border-radius: 0;
-    box-shadow: none;
+    .card {
+      position: absolute;
+      inset: 0;
+      min-height: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
   }
 }
 
@@ -209,16 +211,19 @@
 
 @keyframes esgCardFirst {
   0% {
+    pointer-events: auto;
     opacity: 1;
     filter: blur(0);
     scale: 1;
   }
   82% {
+    pointer-events: auto;
     opacity: 1;
     filter: blur(0);
     scale: 1;
   }
   100% {
+    pointer-events: none;
     opacity: 0;
     filter: blur(20px);
     scale: 1.04;
@@ -227,21 +232,25 @@
 
 @keyframes esgCardMiddle {
   0% {
+    pointer-events: none;
     opacity: 0;
     filter: blur(20px);
     scale: 1.04;
   }
   18% {
+    pointer-events: auto;
     opacity: 1;
     filter: blur(0);
     scale: 1;
   }
   82% {
+    pointer-events: auto;
     opacity: 1;
     filter: blur(0);
     scale: 1;
   }
   100% {
+    pointer-events: none;
     opacity: 0;
     filter: blur(20px);
     scale: 1.04;
@@ -250,16 +259,19 @@
 
 @keyframes esgCardLast {
   0% {
+    pointer-events: none;
     opacity: 0;
     filter: blur(20px);
     scale: 1.04;
   }
   18% {
+    pointer-events: auto;
     opacity: 1;
     filter: blur(0);
     scale: 1;
   }
   100% {
+    pointer-events: auto;
     opacity: 1;
     filter: blur(0);
     scale: 1;
@@ -309,9 +321,11 @@
 }
 
 @media (max-width: 1023px) {
-  @supports (animation-timeline: view()) {
-    .stackBox {
-      height: min(30rem, 68vh);
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .stackBox {
+        height: min(34rem, 80svh);
+      }
     }
   }
 
@@ -345,7 +359,7 @@
   .photoCol {
     flex: none;
     width: 100%;
-    height: 11rem;
+    height: 10rem;
   }
 }
 
@@ -358,13 +372,32 @@
     margin-bottom: var(--space-6xl);
   }
 
-  @supports (animation-timeline: view()) {
-    .stackTrack {
-      height: 360vh;
-    }
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .stackTrack {
+        height: 360svh;
+      }
 
-    .stackBox {
-      height: min(28rem, 62vh);
+      .stackBox {
+        top: 5rem;
+        height: min(38rem, calc(100svh - 6.5rem));
+      }
     }
+  }
+
+  .textCol {
+    padding: var(--space-2xl) var(--space-xl);
+  }
+
+  .body {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  /* The photo takes whatever height the copy leaves, so the card has no empty tail. */
+  .photoCol {
+    flex: 1 1 8.5rem;
+    height: auto;
+    min-height: 8.5rem;
   }
 }

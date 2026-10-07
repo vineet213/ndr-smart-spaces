@@ -7,6 +7,7 @@ import { Eyebrow, SourceFootnote } from "@/components/ui";
 import type { LifecycleStage } from "@/lib/data/business";
 import { useInView } from "@/hooks/useInView";
 import { getLenisInstance } from "@/lib/lenis";
+import { Icon } from "../ui/Icon";
 import { cx } from "../ui/cx";
 import { Reveal } from "./Reveal";
 import { FinalProductVideo } from "./FinalProductVideo";
@@ -33,7 +34,12 @@ const STAGE_POSITIONS: Record<string, string> = {
 };
 
 const CUT_SIDES = [styles.cutLeft, styles.cutRight] as const;
-const SWEEP_DIRECTIONS = [styles.sweepLeft, styles.sweepRight, styles.sweepTop, styles.sweepBottom] as const;
+const SWEEP_DIRECTIONS = [
+  styles.sweepLeft,
+  styles.sweepRight,
+  styles.sweepTop,
+  styles.sweepBottom,
+] as const;
 
 // Ease-out: responds immediately on click (no slow-start "did that even
 // register?" phase), decelerating smoothly only into the landing.
@@ -115,18 +121,20 @@ function calmScrollTo(targetY: number) {
 type StageRowProps = {
   stage: LifecycleStage;
   order: number;
-  priority: boolean;
   onDwell: (order: number) => void;
   sweetSpotRef: (el: HTMLSpanElement | null) => void;
 };
 
-function StageRow({ stage, order, priority, onDwell, sweetSpotRef }: StageRowProps) {
+function StageRow({ stage, order, onDwell, sweetSpotRef }: StageRowProps) {
   // Fires once and stays true forever — drives the permanent sweep/text reveal.
   const { ref: revealRef, inView: revealed } = useInView<HTMLElement>({ threshold: 0.6 });
   // Fires every time this stage becomes (or stops being) the dominant one on
   // screen — used only to tell the parent which nav number to highlight, so
   // it must be able to flip back off as the user scrolls away.
-  const { ref: dwellRef, inView: dwelling } = useInView<HTMLElement>({ threshold: 0.6, once: false });
+  const { ref: dwellRef, inView: dwelling } = useInView<HTMLElement>({
+    threshold: 0.6,
+    once: false,
+  });
 
   const setArticleRef = useCallback(
     (el: HTMLElement | null) => {
@@ -166,8 +174,6 @@ function StageRow({ stage, order, priority, onDwell, sweetSpotRef }: StageRowPro
               sizes="100vw"
               className={styles.image}
               style={{ "--stage-crop": position } as CSSProperties}
-              priority={priority}
-              unoptimized
             />
           </figure>
 
@@ -223,6 +229,33 @@ function StageNav({ stages, activeIndex, visible, onSelect }: StageNavProps) {
           );
         })}
       </ol>
+
+      {/* Phones/tablets: the vertical number rail doesn't fit, but the pinned
+       * runway is ~20 screens long — a compact prev / counter / next stepper
+       * keeps every stage one tap away. */}
+      <div className={styles.stageStepper}>
+        <button
+          type="button"
+          className={cx(styles.stepperButton, styles.stepperPrev)}
+          aria-label="Previous stage"
+          disabled={activeIndex === 0}
+          onClick={() => onSelect(activeIndex - 1)}
+        >
+          <Icon name="chevron-down" />
+        </button>
+        <span className={styles.stepperCount} aria-live="polite">
+          {stages[activeIndex]?.index} / {String(stages.length).padStart(2, "0")}
+        </span>
+        <button
+          type="button"
+          className={cx(styles.stepperButton, styles.stepperNext)}
+          aria-label="Next stage"
+          disabled={activeIndex === stages.length - 1}
+          onClick={() => onSelect(activeIndex + 1)}
+        >
+          <Icon name="chevron-down" />
+        </button>
+      </div>
     </nav>
   );
 }
@@ -253,7 +286,6 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
             key={stage.index}
             stage={stage}
             order={index}
-            priority={index === 0}
             onDwell={handleDwell}
             sweetSpotRef={(el) => {
               sweetSpotRefs.current[index] = el;
@@ -262,7 +294,12 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
         ))}
       </div>
 
-      <StageNav stages={stages} activeIndex={activeIndex} visible={listInView} onSelect={handleSelect} />
+      <StageNav
+        stages={stages}
+        activeIndex={activeIndex}
+        visible={listInView}
+        onSelect={handleSelect}
+      />
 
       <Container>
         <Reveal>
@@ -276,7 +313,6 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
             </p>
           </header>
         </Reveal>
-
       </Container>
 
       <div className={styles.plate}>

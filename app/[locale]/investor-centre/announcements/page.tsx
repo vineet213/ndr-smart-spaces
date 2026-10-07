@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { FilingLibrary, Footer } from "@/components/sections";
+import { FilingLibrary } from "@/components/sections/FilingLibrary";
+import { Footer } from "@/components/sections/Footer";
 import { announcements } from "@/lib/data/investor";
 
 export const metadata: Metadata = {

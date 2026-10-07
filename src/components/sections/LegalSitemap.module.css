@@ -87,8 +87,10 @@ section.cover {
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.groupLink:hover {
-  color: var(--color-maroon);
+@media (hover: hover) {
+  .groupLink:hover {
+    color: var(--color-maroon);
+  }
 }
 
 @media (max-width: 767px) {

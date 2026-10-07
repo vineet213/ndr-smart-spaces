@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import { EsgFramework, EsgGreenFeatures, EsgMasthead, Footer } from "@/components/sections";
+import { EsgFramework } from "@/components/sections/EsgFramework";
+import { EsgGreenFeatures } from "@/components/sections/EsgGreenFeatures";
+import { EsgMasthead } from "@/components/sections/EsgMasthead";
+import { Footer } from "@/components/sections/Footer";
 import { runEsgValidation } from "@/lib/data/esgValidation";
 
 export const metadata: Metadata = {

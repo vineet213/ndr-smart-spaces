@@ -42,8 +42,10 @@
     border-color var(--duration-micro) var(--ease-standard);
 }
 
-.link:hover {
-  color: var(--color-maroon);
+@media (hover: hover) {
+  .link:hover {
+    color: var(--color-maroon);
+  }
 }
 
 .link:focus-visible {

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { Footer, InvestorMasthead, AssetFlip } from "@/components/sections";
+import { Footer } from "@/components/sections/Footer";
+import { InvestorMasthead } from "@/components/sections/InvestorMasthead";
+import { AssetFlip } from "@/components/sections/AssetFlip";
 import { assetFlip } from "@/lib/data/investor";
 
 export const metadata: Metadata = {

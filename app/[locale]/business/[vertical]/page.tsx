@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Footer, VerticalPage } from "@/components/sections";
+import { Footer } from "@/components/sections/Footer";
+import { VerticalPage } from "@/components/sections/VerticalPage";
 import { divisions } from "@/lib/data/business";
 
 function slugFromHref(href: string): string | null {

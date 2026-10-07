@@ -4,12 +4,14 @@
   justify-content: center;
   width: var(--space-6xl);
   height: var(--space-6xl);
-  color: var(--color-charcoal);
+  color: var(--nav-fg, var(--color-ivory));
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.button:hover {
-  color: var(--color-maroon);
+@media (hover: hover) {
+  .button:hover {
+    color: var(--nav-fg-hover, var(--color-gold-light));
+  }
 }
 
 .icon {

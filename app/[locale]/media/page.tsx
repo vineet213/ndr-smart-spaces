@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { Footer, MediaMasthead, PressArchive } from "@/components/sections";
+import { Footer } from "@/components/sections/Footer";
+import { MediaMasthead } from "@/components/sections/MediaMasthead";
+import { PressArchive } from "@/components/sections/PressArchive";
 import { runMediaValidation } from "@/lib/data/mediaValidation";
 
 export const metadata: Metadata = {

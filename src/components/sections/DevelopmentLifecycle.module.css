@@ -64,7 +64,7 @@
 
 /* sticky card stack -------------------------------------------------------- */
 /* Each stage lives in a tall, non-sticky "track" (.stageTrack). Its inner
- * .stage panel is `position: sticky; top: 0; height: 100vh`, so it pins at
+ * .stage panel is `position: sticky; top: 0; height: 100svh`, so it pins at
  * the top of the viewport once it reaches it, holds there while the track's
  * extra height scrolls by, then is released and covered by the next stage's
  * panel sliding up over it — pure CSS, no scroll-linked JS, so it can't
@@ -75,7 +75,7 @@
   /* Generous scroll runway: this is what lets the entrance below be a
    * slow, deliberate scroll-scrubbed animation instead of a raw 1:1 cover
    * that only ever moves exactly as fast as the user's wheel. */
-  height: 220vh;
+  height: 220svh;
   /* Named view-timeline, sourced from this plain, non-sticky box (never   */
   /* from the sticky .stage itself — sticky + scroll-timeline geometry is  */
   /* ambiguous across engines).                                            */
@@ -87,9 +87,9 @@
   position: absolute;
   /* The "sweet spot": comfortably after the image finishes developing
    * (cover 62%, see .image below) and comfortably before recede starts
-   * (cover 69% = the native dwell end, 220vh - 100vh = 120vh into the
+   * (cover 69% = the native dwell end, 220svh - 100svh = 120svh into the
    * track) — image at its sharpest, text fully revealed. */
-  top: 110vh;
+  top: 110svh;
   left: 0;
   width: 1px;
   height: 1px;
@@ -99,7 +99,7 @@
 .stage {
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: 100svh;
   overflow: hidden;
   background-color: var(--color-charcoal-deep);
 }
@@ -342,9 +342,14 @@
   transition: color 320ms ease;
 }
 
-.stageNavItem:hover .stageNavNumber,
 .stageNavItem:focus-visible .stageNavNumber {
   color: var(--color-gold-light);
+}
+
+@media (hover: hover) {
+  .stageNavItem:hover .stageNavNumber {
+    color: var(--color-gold-light);
+  }
 }
 
 .stageNavItem:focus-visible {
@@ -369,9 +374,69 @@
   font-weight: var(--font-weight-body-semibold, var(--font-weight-body-medium));
 }
 
+.stageStepper {
+  display: none;
+}
+
 @media (max-width: 1023px) {
+  /* The vertical number rail is replaced by a compact stepper under the header. */
   .stageNav {
+    left: 50%;
+    top: calc(var(--header-height) + 0.5rem);
+    translate: -50% 0;
+  }
+
+  .stageNavTrack,
+  .stageNavList {
     display: none;
+  }
+
+  .stageStepper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 0 var(--space-xs);
+    border-radius: 999px;
+    background-color: rgba(28, 26, 25, 0.72);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    color: var(--color-ivory);
+  }
+
+  .stepperButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--space-6xl);
+    height: var(--space-6xl);
+    color: var(--color-gold-light);
+  }
+
+  .stepperButton:disabled {
+    opacity: 0.35;
+  }
+
+  .stepperButton svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .stepperPrev svg {
+    transform: rotate(90deg);
+  }
+
+  .stepperNext svg {
+    transform: rotate(-90deg);
+  }
+
+  .stepperCount {
+    min-width: 4.25rem;
+    text-align: center;
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-body-medium);
+    font-size: 0.8125rem;
+    letter-spacing: var(--tracking-meta);
+    font-variant-numeric: tabular-nums;
   }
 }
 
@@ -391,7 +456,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .stageInner {
-    translate: 0 6vh;
+    translate: 0 6svh;
     opacity: 0;
     transition:
       translate 700ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -637,9 +702,9 @@
     padding-block: var(--space-3xl) var(--space-5xl);
   }
 
-  /* Track height is left at the base 220vh across breakpoints: the
+  /* Track height is left at the base 220svh across breakpoints: the
    * arrive/recede animation-range percentages above are derived from that
-   * height (specifically the 69% recede-start = 220vh / (220vh+100vh)), so
+   * height (specifically the 69% recede-start = 220svh / (220svh+100svh)), so
    * changing it per breakpoint would throw off the sync between a stage's
    * own recede and the next stage's arrival. */
 
@@ -665,5 +730,29 @@
 
   .body {
     font-size: 1.0625rem;
+  }
+}
+
+/* phones: lighter compositing for the glass caption over a full-bleed photo */
+@media (max-width: 767px) {
+  .textPanel {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* Reduced motion: no pinned ~20-screen runway — stages simply stack, one
+ * viewport each, with the nav/stepper jumping to each stage's top.        */
+@media (prefers-reduced-motion: reduce) {
+  .stageTrack {
+    height: auto;
+  }
+
+  .snapMarker {
+    top: 0;
+  }
+
+  .stage {
+    position: relative;
   }
 }

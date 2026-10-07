@@ -258,9 +258,14 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.ledgerTick:hover,
 .ledgerTick:focus-visible {
   color: var(--color-gold-light);
+}
+
+@media (hover: hover) {
+  .ledgerTick:hover {
+    color: var(--color-gold-light);
+  }
 }
 
 .ledgerTick:focus-visible {

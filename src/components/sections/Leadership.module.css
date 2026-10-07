@@ -62,8 +62,10 @@
     opacity 380ms var(--ease-standard);
 }
 
-.slot:hover {
-  border-color: var(--color-gold-40);
+@media (hover: hover) {
+  .slot:hover {
+    border-color: var(--color-gold-40);
+  }
 }
 
 .slotHeader {
@@ -192,9 +194,7 @@
      tile's resting width (.item's basis and min-width, minus the card's
      padding and border), it is the same size mid-collapse as at rest. */
   .card:not(.cardActive) .portrait {
-    max-width: calc(
-      max(23cqw - (3 * var(--space-4xl) / 4), 14.5rem) - (2 * var(--space-lg)) - 1px
-    );
+    max-width: calc(max(23cqw - (3 * var(--space-4xl) / 4), 14.5rem) - (2 * var(--space-lg)) - 1px);
   }
 
   .cardActive {
@@ -363,5 +363,12 @@
   .curtain,
   .bio {
     transition: none;
+  }
+}
+
+/* Phones: single narrow column — long bios need more than the desktop ceiling. */
+@media (max-width: 767px) {
+  .cardActive .bio {
+    max-height: 90rem;
   }
 }

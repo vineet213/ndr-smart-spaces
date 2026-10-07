@@ -53,15 +53,26 @@
   color: var(--color-stone);
 }
 
-.link:hover .label,
 .link:focus-visible .label {
   color: var(--color-maroon-deep);
 }
 
-.link:hover .arrow,
+@media (hover: hover) {
+  .link:hover .label {
+    color: var(--color-maroon-deep);
+  }
+}
+
 .link:focus-visible .arrow {
   color: var(--color-gold);
   transform: translateX(var(--space-sm));
+}
+
+@media (hover: hover) {
+  .link:hover .arrow {
+    color: var(--color-gold);
+    transform: translateX(var(--space-sm));
+  }
 }
 
 @media (max-width: 1439px) {

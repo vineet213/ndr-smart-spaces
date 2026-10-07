@@ -78,7 +78,13 @@ export function IndiaMap({
       role="img"
       aria-label="Map of India showing NDR Smart Spaces locations — headquarters, primary logistics hubs and secondary locations"
     >
-      <div className={styles.frame}>
+      <div
+        className={styles.frame}
+        onClick={(event) => {
+          // Tapping empty map (not a dot) dismisses the tooltip — touch has no mouseleave.
+          if (!(event.target as Element).closest('[role="button"]')) onLocationLeave();
+        }}
+      >
         <svg
           viewBox={`0 0 ${MAP_VIEWBOX.width} ${MAP_VIEWBOX.height}`}
           className={styles.map}
@@ -130,7 +136,11 @@ export function IndiaMap({
                   onMouseLeave={onLocationLeave}
                   onFocus={() => onLocationEnter(location)}
                   onBlur={onLocationLeave}
+                  onClick={() => onLocationEnter(location)}
                 >
+                  {/* Touch only (see CSS): a generous invisible hit area, since the dots */}
+                  {/* render a few pixels wide once the map is scaled to a phone.         */}
+                  <circle className={styles.hit} cx={location.x} cy={location.y} r={66} />
                   <circle className={styles.halo} cx={location.x} cy={location.y} r={16} />
                   <circle className={styles.glow} cx={location.x} cy={location.y} r={10} />
                   <circle className={styles.node} cx={location.x} cy={location.y} r={7} />

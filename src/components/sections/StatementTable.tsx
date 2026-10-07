@@ -60,15 +60,16 @@ export function StatementTable({
     <figure className={styles.figure}>
       <figcaption className={styles.caption}>{caption}</figcaption>
       <div className={styles.scroll}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
+        <table className={styles.table} role="table">
+          <thead role="rowgroup">
+            <tr role="row">
               {columns.map((column) => {
                 const isSorted = sort?.key === column.key;
                 return (
                   <th
                     key={column.key}
                     scope="col"
+                    role="columnheader"
                     className={cx(
                       column.numeric && styles.numeric,
                       firstColAccent && columns.indexOf(column) === 0 && styles.accentHead,
@@ -92,20 +93,22 @@ export function StatementTable({
               })}
             </tr>
           </thead>
-          <tbody>
+          <tbody role="rowgroup">
             {empty ? (
-              <tr>
-                <td className={styles.emptyCell} colSpan={columns.length}>
+              <tr role="row">
+                <td className={styles.emptyCell} colSpan={columns.length} role="cell">
                   <span className={styles.emptyKicker}>Statement pending publication.</span>
                   <span className={styles.emptyBody}>Rows publish as statements are approved.</span>
                 </td>
               </tr>
             ) : (
               sorted.map((row, index) => (
-                <tr key={row.id} className={index % 2 === 1 ? styles.zebra : undefined}>
+                <tr key={row.id} role="row" className={index % 2 === 1 ? styles.zebra : undefined}>
                   {columns.map((column) => (
                     <td
                       key={column.key}
+                      role="cell"
+                      data-label={column.label}
                       className={cx(
                         column.numeric && styles.numeric,
                         firstColAccent && columns.indexOf(column) === 0 && styles.accentCell,

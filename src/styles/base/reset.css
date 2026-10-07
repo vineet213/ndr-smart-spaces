@@ -18,8 +18,25 @@ html {
   scroll-snap-type: y proximity;
 }
 
+/* Touch scrolling is momentum-driven; page-level snap points tug against it. */
+@media (pointer: coarse) {
+  html {
+    scroll-snap-type: none;
+  }
+}
+
 body {
   min-height: 100dvh;
+  /* Guard: no stray element may ever pan the page sideways. `clip` (not    */
+  /* `hidden`) so it does not create a scroll container and break sticky.   */
+  overflow-x: clip;
+}
+
+a,
+button,
+summary,
+[role="button"] {
+  touch-action: manipulation;
 }
 
 img,
@@ -63,7 +80,14 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+a,
+li,
+dd,
+dt,
+td,
+th,
+label {
   overflow-wrap: break-word;
 }
 

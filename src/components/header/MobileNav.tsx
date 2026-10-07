@@ -1,11 +1,19 @@
-import { useRef } from "react";
+import { useId, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { Icon } from "../ui/Icon";
 import { Button } from "../ui/Button";
 import { cx } from "../ui/cx";
 import { canonicalHref } from "@/lib/routes";
-import { headerCta, mobileMenuFooter, mobileNavItems, utilityStrip } from "@/lib/data/navigation";
+import {
+  headerCta,
+  isActivePath,
+  mobileMenuFooter,
+  mobileNavItems,
+  utilityStrip,
+  type NavMenu,
+} from "@/lib/data/navigation";
 import styles from "./MobileNav.module.css";
 
 type MobileNavProps = {
@@ -13,10 +21,27 @@ type MobileNavProps = {
   onClose: () => void;
 };
 
+/** True when the current page is the menu's own page or one of its links. */
+function menuIsActive(menu: NavMenu, pathname: string): boolean {
+  const hrefs = menu.columns.flatMap((column) =>
+    column.links.flatMap((link) => [link.href, ...(link.children?.map((c) => c.href) ?? [])]),
+  );
+  return [menu.href, ...hrefs].some((href) => isActivePath(pathname, href));
+}
+
 export function MobileNav({ open, onClose }: MobileNavProps) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const idBase = useId();
+  const pathname = (usePathname() ?? "").replace(/\/+$/, "") || "/en";
 
-  useFocusTrap(panelRef, open, onClose);
+  // Accordion state: groups the visitor toggled; the section they are in starts open.
+  const [toggled, setToggled] = useState<Record<string, boolean>>({});
+  const isExpanded = (menu: NavMenu) => toggled[menu.id] ?? menuIsActive(menu, pathname);
+  const toggleMenu = (menu: NavMenu) =>
+    setToggled((current) => ({ ...current, [menu.id]: !isExpanded(menu) }));
+
+  useFocusTrap(panelRef, open, onClose, closeRef);
   useBodyScrollLock(open);
 
   return (
@@ -44,7 +69,13 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
               </a>
             </div>
           </div>
-          <button type="button" className={styles.close} aria-label="Close menu" onClick={onClose}>
+          <button
+            ref={closeRef}
+            type="button"
+            className={styles.close}
+            aria-label="Close menu"
+            onClick={onClose}
+          >
             <Icon name="close" />
           </button>
         </div>
@@ -61,18 +92,32 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                 </li>
               ) : (
                 <li key={item.id}>
-                  {item.overview ? (
-                    <a className={styles.link} href={canonicalHref(item.href)} onClick={onClose}>
-                      {item.label}
-                      <Icon name="chevron-down" className={styles.linkIcon} />
-                    </a>
-                  ) : (
-                    <button type="button" className={styles.link}>
-                      {item.label}
-                      <Icon name="chevron-down" className={styles.linkIcon} />
+                  <div className={styles.row}>
+                    {item.overview ? (
+                      <a className={styles.link} href={canonicalHref(item.href)} onClick={onClose}>
+                        {item.label}
+                      </a>
+                    ) : null}
+                    <button
+                      type="button"
+                      className={cx(styles.link, item.overview ? styles.toggle : styles.toggleRow)}
+                      aria-expanded={isExpanded(item)}
+                      aria-controls={`${idBase}-${item.id}`}
+                      aria-label={item.overview ? `Toggle ${item.label} links` : undefined}
+                      onClick={() => toggleMenu(item)}
+                    >
+                      {item.overview ? null : item.label}
+                      <Icon
+                        name="chevron-down"
+                        className={cx(styles.linkIcon, isExpanded(item) && styles.linkIconOpen)}
+                      />
                     </button>
-                  )}
-                  <div className={styles.groups}>
+                  </div>
+                  <div
+                    id={`${idBase}-${item.id}`}
+                    className={styles.groups}
+                    hidden={!isExpanded(item)}
+                  >
                     {item.columns.map((column) => (
                       <div key={column.heading} className={styles.group}>
                         <p className={cx("text-label-meta", styles.groupHeading)}>

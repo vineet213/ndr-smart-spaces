@@ -19,7 +19,7 @@
 .pending {
   display: flex;
   align-items: center;
-  min-height: clamp(18rem, 45vh, 26rem);
+  min-height: clamp(18rem, 45svh, 26rem);
 }
 
 .pendingLabel {

@@ -84,16 +84,22 @@
   fill: var(--color-stone);
 }
 
-.group:hover .name {
-  fill: var(--color-maroon-deep);
+@media (hover: hover) {
+  .group:hover .name {
+    fill: var(--color-maroon-deep);
+  }
 }
 
-.group:hover .leader {
-  stroke: var(--color-gold);
+@media (hover: hover) {
+  .group:hover .leader {
+    stroke: var(--color-gold);
+  }
 }
 
-.group:hover .nodeCircle {
-  transform: scale(1.12);
+@media (hover: hover) {
+  .group:hover .nodeCircle {
+    transform: scale(1.12);
+  }
 }
 
 .medallionDisc {

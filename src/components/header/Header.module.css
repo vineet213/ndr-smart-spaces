@@ -15,19 +15,13 @@
 /* Reserves the nav's own height right after the utility strip in normal    */
 /* flow, since the nav itself is `position: fixed` (out of flow).           */
 .spacer {
-  height: 4.5rem;
-}
-
-@media (max-width: 767px) {
-  .spacer {
-    height: 4.5rem;
-  }
+  height: var(--header-height);
 }
 
 /* Resting state: a solid bar in the same dark tone used by every masthead   */
 /* on the site (BusinessMasthead, MediaMasthead, InvestorMasthead, etc.).    */
 .navContainer {
-  height: var(--header-height, 4.5rem);
+  height: var(--header-height);
   width: 100%;
   max-width: 90rem;
   margin-inline: auto;

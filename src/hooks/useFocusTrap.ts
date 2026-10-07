@@ -14,6 +14,7 @@ export function useFocusTrap(
   ref: RefObject<HTMLElement | null>,
   active: boolean,
   onClose: () => void,
+  initialFocusRef?: RefObject<HTMLElement | null>,
 ): void {
   useEffect(() => {
     if (!active) return;
@@ -55,7 +56,7 @@ export function useFocusTrap(
       }
     };
 
-    const initial = getFocusable()[0] as HTMLElement | undefined;
+    const initial = initialFocusRef?.current ?? (getFocusable()[0] as HTMLElement | undefined);
     (initial ?? node).focus();
 
     document.addEventListener("keydown", handleKeyDown, true);
@@ -63,5 +64,5 @@ export function useFocusTrap(
       document.removeEventListener("keydown", handleKeyDown, true);
       previouslyFocused?.focus?.();
     };
-  }, [active, onClose, ref]);
+  }, [active, onClose, ref, initialFocusRef]);
 }

@@ -18,9 +18,11 @@
     box-shadow var(--duration-standard) var(--ease-standard);
 }
 
-.base:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(17, 16, 15, 0.16);
+@media (hover: hover) {
+  .base:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(17, 16, 15, 0.16);
+  }
 }
 
 .base:active {
@@ -33,9 +35,14 @@
     transition: none;
   }
 
-  .base:hover,
   .base:active {
     transform: none;
+  }
+
+  @media (hover: hover) {
+    .base:hover {
+      transform: none;
+    }
   }
 }
 
@@ -45,9 +52,11 @@
   color: var(--color-ivory);
 }
 
-.primaryOnLight:hover {
-  background-color: var(--color-maroon-deep);
-  border-color: var(--color-gold);
+@media (hover: hover) {
+  .primaryOnLight:hover {
+    background-color: var(--color-maroon-deep);
+    border-color: var(--color-gold);
+  }
 }
 
 .primaryOnLight:active {
@@ -60,9 +69,11 @@
   color: var(--color-maroon-deep);
 }
 
-.primaryOnDark:hover {
-  background-color: var(--color-gold-light);
-  border-color: var(--color-gold-light);
+@media (hover: hover) {
+  .primaryOnDark:hover {
+    background-color: var(--color-gold-light);
+    border-color: var(--color-gold-light);
+  }
 }
 
 .secondaryOnLight {
@@ -71,10 +82,12 @@
   color: var(--color-charcoal);
 }
 
-.secondaryOnLight:hover {
-  background-color: var(--color-maroon);
-  border-color: var(--color-maroon);
-  color: var(--color-ivory);
+@media (hover: hover) {
+  .secondaryOnLight:hover {
+    background-color: var(--color-maroon);
+    border-color: var(--color-maroon);
+    color: var(--color-ivory);
+  }
 }
 
 .secondaryOnDark {
@@ -83,10 +96,12 @@
   color: var(--color-ivory);
 }
 
-.secondaryOnDark:hover {
-  background-color: var(--color-maroon-deep);
-  border-color: var(--color-maroon-deep);
-  color: var(--color-ivory);
+@media (hover: hover) {
+  .secondaryOnDark:hover {
+    background-color: var(--color-maroon-deep);
+    border-color: var(--color-maroon-deep);
+    color: var(--color-ivory);
+  }
 }
 
 .base:disabled {

@@ -69,8 +69,10 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.ctaLink:hover {
-  color: var(--color-gold-light);
+@media (hover: hover) {
+  .ctaLink:hover {
+    color: var(--color-gold-light);
+  }
 }
 
 .mainGrid {
@@ -136,8 +138,10 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.colLink:hover {
-  color: var(--color-ivory);
+@media (hover: hover) {
+  .colLink:hover {
+    color: var(--color-ivory);
+  }
 }
 
 .contactBand {
@@ -183,8 +187,10 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.emailLink:hover {
-  color: var(--color-gold-light);
+@media (hover: hover) {
+  .emailLink:hover {
+    color: var(--color-gold-light);
+  }
 }
 
 .contactCta {
@@ -203,8 +209,10 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.contactCta:hover {
-  color: var(--color-gold-light);
+@media (hover: hover) {
+  .contactCta:hover {
+    color: var(--color-gold-light);
+  }
 }
 
 .legal {
@@ -243,8 +251,10 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.legalLink:hover {
-  color: var(--color-ivory);
+@media (hover: hover) {
+  .legalLink:hover {
+    color: var(--color-ivory);
+  }
 }
 
 @media (max-width: 1023px) {
@@ -286,5 +296,33 @@
 
   .mainGrid {
     padding-block: var(--space-6xl);
+  }
+
+  .colophon {
+    flex-wrap: wrap;
+    gap: var(--space-md) var(--space-2xl);
+    padding-block: var(--space-3xl);
+  }
+
+  .ctaRow {
+    padding-block: var(--space-6xl);
+  }
+
+  .emailLink,
+  .contactValue {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Touch: 44px minimum hit area (no change for mouse users). */
+@media (pointer: coarse) {
+  .colLink,
+  .emailLink,
+  .contactCta,
+  .ctaLink,
+  .legalLink {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
   }
 }

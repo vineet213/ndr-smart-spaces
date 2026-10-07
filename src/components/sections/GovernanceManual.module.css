@@ -102,9 +102,14 @@
   transition: text-decoration-color var(--duration-standard) var(--ease-standard);
 }
 
-.documentLink:hover,
 .documentLink:focus-visible {
   text-decoration-color: currentColor;
+}
+
+@media (hover: hover) {
+  .documentLink:hover {
+    text-decoration-color: currentColor;
+  }
 }
 
 .documentLinkIcon {
@@ -131,5 +136,12 @@
   .rowInner {
     gap: var(--space-md);
     padding-block: var(--space-4xl);
+  }
+}
+
+/* Touch: 44px minimum hit area (no change for mouse users). */
+@media (pointer: coarse) {
+  .documentLink {
+    min-height: 2.75rem;
   }
 }

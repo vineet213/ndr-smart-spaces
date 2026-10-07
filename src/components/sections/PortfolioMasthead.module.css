@@ -115,7 +115,7 @@ section.section {
   }
 
   .title {
-    font-size: clamp(2.75rem, 12vw, 4rem);
+    font-size: clamp(2.25rem, 11vw, 2.75rem);
   }
 
   .rule {

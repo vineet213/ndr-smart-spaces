@@ -26,6 +26,8 @@ export function CorrespondenceForm() {
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
 
+  const labelId = (name: string) => `correspondence-${name}`;
+
   function setField(name: FieldName, value: string) {
     setValues((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: undefined }));
@@ -46,7 +48,16 @@ export function CorrespondenceForm() {
       nextErrors.phone = "Please enter a valid phone number.";
     }
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) return;
+    if (Object.keys(nextErrors).length > 0) {
+      // Bring the first problem into view and under the keyboard's focus.
+      const firstInvalid = fields.find((field) => nextErrors[field.name]);
+      if (firstInvalid) {
+        window.requestAnimationFrame(() =>
+          document.getElementById(labelId(firstInvalid.name))?.focus(),
+        );
+      }
+      return;
+    }
 
     setStatus("sending");
 
@@ -73,13 +84,17 @@ export function CorrespondenceForm() {
 
   if (status === "sent") {
     return (
-      <p className={styles.success} role="status">
-        {success}
-      </p>
+      <div className={styles.success} role="status">
+        <p>{success}</p>
+        {/* The enquiry is handed to the visitor's mail app (static site, no backend). */}
+        {/* If none is set up (common on phones) nothing opens, so say where to write. */}
+        <p className={styles.fallback}>
+          Your email app should have opened with your message ready to send. If it did not, write to{" "}
+          <a href={`mailto:${route.General}`}>{route.General}</a>.
+        </p>
+      </div>
     );
   }
-
-  const labelId = (name: string) => `correspondence-${name}`;
 
   return (
     <form className={styles.form} onSubmit={handleSubmit} noValidate>
@@ -92,8 +107,14 @@ export function CorrespondenceForm() {
           <input
             id={labelId(field.name)}
             className={styles.input}
+            name={field.name}
             type={field.type}
             autoComplete={field.autocomplete}
+            inputMode={field.type === "email" ? "email" : field.type === "tel" ? "tel" : undefined}
+            enterKeyHint="next"
+            autoCapitalize={field.type === "email" ? "none" : undefined}
+            required={field.required}
+            aria-required={field.required}
             value={values[field.name]}
             onChange={(event) => setField(field.name, event.target.value)}
             aria-invalid={Boolean(errors[field.name])}

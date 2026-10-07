@@ -43,6 +43,6 @@
   }
 
   .card {
-    padding: var(--space-5xl) var(--space-5);
+    padding: var(--space-5xl) var(--space-xl);
   }
 }

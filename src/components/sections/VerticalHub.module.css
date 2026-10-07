@@ -35,8 +35,10 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.item:hover .ruleCode {
-  color: var(--color-maroon-deep);
+@media (hover: hover) {
+  .item:hover .ruleCode {
+    color: var(--color-maroon-deep);
+  }
 }
 
 /* body ------------------------------------------------------------------ */
@@ -60,8 +62,10 @@
     transform var(--duration-standard) var(--ease-standard);
 }
 
-.item:hover .numeral {
-  transform: translateY(-3px);
+@media (hover: hover) {
+  .item:hover .numeral {
+    transform: translateY(-3px);
+  }
 }
 
 .identity {
@@ -82,8 +86,10 @@
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
-.item:hover .title {
-  color: var(--color-maroon-deep);
+@media (hover: hover) {
+  .item:hover .title {
+    color: var(--color-maroon-deep);
+  }
 }
 
 .link {

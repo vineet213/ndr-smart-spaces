@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { Footer, PortfolioMasthead, WhyNdr } from "@/components/sections";
+import { Footer } from "@/components/sections/Footer";
+import { PortfolioMasthead } from "@/components/sections/PortfolioMasthead";
+import { WhyNdr } from "@/components/sections/WhyNdr";
 
 export const metadata: Metadata = {
   title: "Portfolio",

@@ -21,23 +21,39 @@
   transition: transform var(--duration-standard) var(--ease-standard);
 }
 
-.base:hover::after,
 .base:focus-visible::after {
   transform: scaleX(1);
+}
+
+@media (hover: hover) {
+  .base:hover::after {
+    transform: scaleX(1);
+  }
 }
 
 .onLight {
   color: var(--color-maroon);
 }
 
-.onLight:hover {
-  color: var(--color-maroon-deep);
+@media (hover: hover) {
+  .onLight:hover {
+    color: var(--color-maroon-deep);
+  }
 }
 
 .onDark {
   color: var(--color-gold);
 }
 
-.onDark:hover {
-  color: var(--color-gold-light);
+@media (hover: hover) {
+  .onDark:hover {
+    color: var(--color-gold-light);
+  }
+}
+
+/* Touch: 44px minimum hit area (no change for mouse users). */
+@media (pointer: coarse) {
+  .base {
+    min-height: 2.75rem;
+  }
 }
