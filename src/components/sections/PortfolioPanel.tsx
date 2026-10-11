@@ -8,7 +8,12 @@ import {
   formatMsf,
   formatSqFt,
 } from "@/lib/data/portfolio";
-import type { AumAsset, PortfolioAsset, StateAumSummary } from "@/lib/data/portfolio";
+import type {
+  AumAsset,
+  ConstructionPlace,
+  PortfolioAsset,
+  StateAumSummary,
+} from "@/lib/data/portfolio";
 import { INDIA_STATE_BOUNDS, INDIA_STATE_PATHS } from "@/lib/data/india-state-paths";
 import { cx } from "../ui/cx";
 import { PortfolioSearch } from "./PortfolioSearch";
@@ -17,7 +22,12 @@ import styles from "./PortfolioPanel.module.css";
 
 export type CardRecord =
   | { kind: "aum"; asset: AumAsset }
-  | { kind: "construction"; asset: PortfolioAsset; linked: AumAsset | null };
+  | {
+      kind: "construction";
+      asset: PortfolioAsset;
+      linked: AumAsset | null;
+      place: ConstructionPlace | null;
+    };
 
 export type CardCity = {
   name: string;
@@ -36,15 +46,15 @@ export type CityGroup = {
 export type PanelLevel = "india" | "state" | "city" | "warehouse";
 
 export function recordMsf(record: CardRecord): number | undefined {
-  return record.kind === "aum" ? record.asset.leasableAreaMsf : record.linked?.leasableAreaMsf;
+  return record.kind === "aum" ? record.asset.leasableAreaMsf : record.place?.leasableAreaMsf;
 }
 
 function recordPin(record: CardRecord): { x: number; y: number } | null {
-  return (record.kind === "aum" ? record.asset.pin : record.linked?.pin) ?? null;
+  return (record.kind === "aum" ? record.asset.pin : record.place?.pin) ?? null;
 }
 
 function recordCoords(record: CardRecord): { lat: number; lon: number } | null {
-  const source = record.kind === "aum" ? record.asset : record.linked;
+  const source = record.kind === "aum" ? record.asset : record.place;
   return source?.lat !== undefined && source?.lon !== undefined
     ? { lat: source.lat, lon: source.lon }
     : null;

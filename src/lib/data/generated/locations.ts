@@ -209,9 +209,9 @@ export const locations = [
   {
     "id": "krishnapuram-kandigai",
     "status": "published",
-    "lat": 12.87,
+    "lat": 13.276194,
     "line": "Chennai, Tamil Nadu",
-    "lon": 80.17,
+    "lon": 80.109139,
     "name": "Krishnapuram Kandigai",
     "portfolioOffset": {
       "leaderTo": {

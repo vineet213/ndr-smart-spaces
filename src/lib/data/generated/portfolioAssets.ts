@@ -124,7 +124,6 @@ export const portfolioAssets = [
   {
     "id": "ndr-nallur-ii-chennai-uc",
     "status": "ongoing",
-    "assetsUnderManagementId": "ndr-nallur-chennai",
     "city": "Chennai",
     "class": "warehousing",
     "locationId": "nallur",

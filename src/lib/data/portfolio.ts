@@ -529,24 +529,76 @@ export type AtlasPinData = {
   lon?: number;
 };
 
-export const constructionStates: readonly StateAumSummary[] = INDIAN_STATES.flatMap((state) => {
-  const assets = underConstructionAssets().filter((asset) => {
-    if (!asset.assetsUnderManagementId) return false;
+/**
+ * Where an under-construction project sits on the map.
+ *
+ * Two sources, in order: the assets-under-management record it is being built
+ * on (its coordinates and area), else the shared location record it is filed
+ * under (`locationId`: coordinates only, area from the project's own size).
+ * Projects with neither have no place and simply carry no pin; nothing is
+ * inferred.
+ */
+export type ConstructionPlace = {
+  stateId: string;
+  lat: number;
+  lon: number;
+  pin: { x: number; y: number };
+  leasableAreaMsf?: number;
+  district?: string;
+};
+
+function stateIdFromLocationLine(line: string): string | null {
+  const name = line.split(",").pop()?.trim();
+  const state = name ? indianStateByName(name) : undefined;
+  return state ? state.id : null;
+}
+
+export function constructionPlaceOf(asset: PortfolioAsset): ConstructionPlace | null {
+  if (asset.assetsUnderManagementId) {
     const parcel = aumAssetById(asset.assetsUnderManagementId);
-    return parcel?.stateId === state.id;
-  });
-  if (assets.length === 0) return [];
-  const totalLeasableAreaMsf = assets.reduce((sum, asset) => {
-    const parcel = asset.assetsUnderManagementId
-      ? aumAssetById(asset.assetsUnderManagementId)
-      : null;
-    return sum + (parcel?.leasableAreaMsf ?? 0);
-  }, 0);
+    if (parcel && parcel.pin && parcel.lat !== undefined && parcel.lon !== undefined) {
+      return {
+        stateId: parcel.stateId,
+        lat: parcel.lat,
+        lon: parcel.lon,
+        pin: parcel.pin,
+        ...(parcel.leasableAreaMsf !== undefined
+          ? { leasableAreaMsf: parcel.leasableAreaMsf }
+          : {}),
+        ...(parcel.district !== undefined ? { district: parcel.district } : {}),
+      };
+    }
+    return null;
+  }
+  if (asset.locationId) {
+    const location = geoLocations.find((item) => item.id === asset.locationId);
+    const stateId = location ? stateIdFromLocationLine(location.line) : null;
+    if (location && stateId) {
+      return {
+        stateId,
+        lat: location.lat,
+        lon: location.lon,
+        pin: projectPlace(location.lat, location.lon),
+        ...(asset.sizeSqFt !== undefined
+          ? { leasableAreaMsf: Math.round((asset.sizeSqFt / 1_000_000) * 100) / 100 }
+          : {}),
+      };
+    }
+  }
+  return null;
+}
+
+export const constructionStates: readonly StateAumSummary[] = INDIAN_STATES.flatMap((state) => {
+  const places = underConstructionAssets()
+    .map((asset) => constructionPlaceOf(asset))
+    .filter((place): place is ConstructionPlace => place !== null && place.stateId === state.id);
+  if (places.length === 0) return [];
+  const totalLeasableAreaMsf = places.reduce((sum, place) => sum + (place.leasableAreaMsf ?? 0), 0);
   return [
     {
       stateId: state.id,
       stateName: state.name,
-      parcelCount: assets.length,
+      parcelCount: places.length,
       totalLeasableAreaMsf: totalLeasableAreaMsf || null,
     },
   ];
@@ -555,28 +607,25 @@ export const constructionStates: readonly StateAumSummary[] = INDIAN_STATES.flat
 export function constructionByState(
   stateId: string,
 ): readonly (AtlasPinData & { city: string; class: AssetClass; sizeSqFt?: number })[] {
-  return underConstructionAssets()
-    .filter((asset) => {
-      if (!asset.assetsUnderManagementId) return false;
-      const parcel = aumAssetById(asset.assetsUnderManagementId);
-      return parcel?.stateId === stateId && parcel?.pin !== undefined;
-    })
-    .map((asset) => {
-      const parcel = aumAssetById(asset.assetsUnderManagementId!)!;
-      return {
+  return underConstructionAssets().flatMap((asset) => {
+    const place = constructionPlaceOf(asset);
+    if (!place || place.stateId !== stateId) return [];
+    return [
+      {
         id: asset.id,
         name: asset.name,
-        pin: parcel.pin!,
-        stateId: parcel.stateId,
-        lat: parcel.lat,
-        lon: parcel.lon,
-        leasableAreaMsf: parcel.leasableAreaMsf,
-        district: parcel.district,
+        pin: place.pin,
+        stateId: place.stateId,
+        lat: place.lat,
+        lon: place.lon,
+        ...(place.leasableAreaMsf !== undefined ? { leasableAreaMsf: place.leasableAreaMsf } : {}),
+        ...(place.district !== undefined ? { district: place.district } : {}),
         city: asset.city,
         class: asset.class,
         sizeSqFt: asset.sizeSqFt,
-      };
-    });
+      },
+    ];
+  });
 }
 
 export function formatMsf(value: number | undefined | null): string {
@@ -750,7 +799,7 @@ export const underConstructionSection = {
   framing:
     "Assets currently rising on the group's land — each cross-referenced to its source record in assets under management where one is recorded.",
   mapCaptionLead:
-    "Select a state to view ongoing projects. Pins mark locations linked to assets under management; select a pin for project details.",
+    "Select a state to view ongoing projects. Pins mark the project locations; select a pin for project details.",
   columns: {
     asset: "Asset",
     city: "City",

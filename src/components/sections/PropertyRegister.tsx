@@ -12,6 +12,7 @@ import {
   aumPinsByState,
   aumStates,
   constructionByState,
+  constructionPlaceOf,
   constructionStates,
   formatMsf,
   propertyRegister,
@@ -103,7 +104,7 @@ export function PropertyRegister() {
       const linked = asset.assetsUnderManagementId
         ? aumAssetById(asset.assetsUnderManagementId)
         : null;
-      return { kind: "construction", asset, linked };
+      return { kind: "construction", asset, linked, place: constructionPlaceOf(asset) };
     },
     [mode, constructionAssets],
   );

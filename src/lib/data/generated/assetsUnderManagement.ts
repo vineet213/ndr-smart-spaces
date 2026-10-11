@@ -3,7 +3,7 @@ export const assetsUnderManagement = [
     "id": "ndr-bilaspur-tauru",
     "status": "published",
     "city": "Tauru",
-    "district": "Nuh",
+    "district": "Mewat",
     "lat": 28.255583,
     "leasableAreaMsf": 0.84,
     "lon": 76.921389,
@@ -46,7 +46,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-broadview-coimbatore",
     "status": "published",
-    "city": "Coimbatore",
+    "city": "Chettipalayam",
     "district": "Coimbatore",
     "lat": 10.923139,
     "leasableAreaMsf": 0.62,
@@ -57,7 +57,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-distribution-coimbatore",
     "status": "published",
-    "city": "Coimbatore",
+    "city": "Chettipalayam",
     "district": "Coimbatore",
     "lat": 10.9235,
     "leasableAreaMsf": 0.2,
@@ -68,7 +68,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-factor-coimbatore",
     "status": "published",
-    "city": "Coimbatore",
+    "city": "Chettipalayam",
     "district": "Coimbatore",
     "lat": 10.921611,
     "leasableAreaMsf": 0.43,
@@ -79,7 +79,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-ennore-chennai",
     "status": "published",
-    "city": "Chennai",
+    "city": "Ennore",
     "district": "Tiruvallur",
     "lat": 13.22175,
     "leasableAreaMsf": 0.13,
@@ -90,7 +90,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-ettimadai-coimbatore",
     "status": "published",
-    "city": "Coimbatore",
+    "city": "Ettimadai",
     "district": "Coimbatore",
     "lat": 10.8855,
     "leasableAreaMsf": 0.34,
@@ -145,7 +145,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-svahgraha-koduvali-chennai",
     "status": "published",
-    "city": "Chennai",
+    "city": "Koduvalli",
     "district": "Thiruvallur",
     "lat": 13.2204,
     "leasableAreaMsf": 0.63,
@@ -167,7 +167,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-okm-coimbatore",
     "status": "published",
-    "city": "Coimbatore",
+    "city": "Othakalmandapam",
     "district": "Coimbatore",
     "lat": 10.8918,
     "leasableAreaMsf": 0.38,
@@ -189,7 +189,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-seahorse-ponneri-chennai",
     "status": "published",
-    "city": "Chennai",
+    "city": "Ponneri",
     "district": "Thiruvallur",
     "lat": 13.2454,
     "leasableAreaMsf": 0.74,
@@ -200,7 +200,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-poochi-chennai",
     "status": "published",
-    "city": "Chennai",
+    "city": "Poochiathipedu",
     "district": "Thiruvallur",
     "lat": 13.2217,
     "leasableAreaMsf": 1.28,
@@ -211,7 +211,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-sri-amruthalingeswara-chennai",
     "status": "published",
-    "city": "Chennai",
+    "city": "Ayilachery",
     "district": "Thiruvallur",
     "lat": 13.2286,
     "leasableAreaMsf": 0.99,
@@ -222,7 +222,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-angadu-chennai",
     "status": "published",
-    "city": "Chennai",
+    "city": "Angadu",
     "district": "Thiruvallur",
     "lat": 13.2243,
     "leasableAreaMsf": 0.37,
@@ -244,7 +244,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-pagalmedu-chennai",
     "status": "published",
-    "city": "Chennai",
+    "city": "Pagalmedu",
     "district": "Thiruvallur",
     "lat": 13.2461,
     "leasableAreaMsf": 0.86,
@@ -321,7 +321,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-goa-space-verna-goa",
     "status": "published",
-    "city": "Goa",
+    "city": "Verna",
     "district": "South Goa",
     "lat": 15.3605,
     "leasableAreaMsf": 0.46,
@@ -332,7 +332,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-varama-sir-goa",
     "status": "published",
-    "city": "Goa",
+    "city": "Verna",
     "district": "South Goa",
     "lat": 15.3753,
     "leasableAreaMsf": 1.16,
@@ -376,7 +376,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-storehouse-talegaon-pune",
     "status": "published",
-    "city": "Pune",
+    "city": "Talegaon",
     "district": "Pune",
     "lat": 18.753444,
     "leasableAreaMsf": 0.3,
@@ -387,7 +387,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-tradehouse-sudhavadi-pune",
     "status": "published",
-    "city": "Pune",
+    "city": "Sudhavadi",
     "district": "Pune",
     "lat": 18.745778,
     "leasableAreaMsf": 0.39,
@@ -398,8 +398,8 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-surat-surat",
     "status": "published",
-    "city": "Surat",
-    "district": "Surat",
+    "city": "Surat Kosamba",
+    "district": "Mangrol",
     "lat": 21.477472,
     "leasableAreaMsf": 0.9,
     "lon": 73.004278,
@@ -409,7 +409,7 @@ export const assetsUnderManagement = [
   {
     "id": "mlg-warehousing-lucknow",
     "status": "published",
-    "city": "Lucknow",
+    "city": "Mohanlal Ganj",
     "district": "Lucknow",
     "lat": 26.694611,
     "leasableAreaMsf": 0.46,
@@ -420,7 +420,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-unique-space-krishnagiri",
     "status": "published",
-    "city": "Krishnagiri",
+    "city": "Hosur",
     "district": "Krishnagiri",
     "lat": 12.584278,
     "leasableAreaMsf": 1.78,
@@ -431,7 +431,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-bigbox-pune",
     "status": "published",
-    "city": "Pune",
+    "city": "Sudhavadi",
     "district": "Pune",
     "lat": 18.744111,
     "leasableAreaMsf": 0.71,
@@ -442,7 +442,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-space-coimbatore",
     "status": "published",
-    "city": "Coimbatore",
+    "city": "Thirumanapalayam",
     "district": "Coimbatore",
     "lat": 10.85972,
     "leasableAreaMsf": 0.57,
@@ -460,15 +460,5 @@ export const assetsUnderManagement = [
     "lon": 76.35,
     "name": "NDR Space",
     "state": "Kerala",
-  },
-  {
-    "id": "ndr-nallur-chennai",
-    "status": "published",
-    "city": "Chennai",
-    "lat": 13.03,
-    "leasableAreaMsf": 0.48,
-    "lon": 80.05,
-    "name": "NDR Nallur (Chennai)",
-    "state": "Tamil Nadu",
   },
 ] as const;
