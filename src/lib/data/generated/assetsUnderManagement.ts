@@ -46,7 +46,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-broadview-coimbatore",
     "status": "published",
-    "city": "Chettipalayam",
+    "city": "Coimbatore",
     "district": "Coimbatore",
     "lat": 10.923139,
     "leasableAreaMsf": 0.62,
@@ -57,7 +57,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-distribution-coimbatore",
     "status": "published",
-    "city": "Chettipalayam",
+    "city": "Coimbatore",
     "district": "Coimbatore",
     "lat": 10.9235,
     "leasableAreaMsf": 0.2,
@@ -68,7 +68,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-factor-coimbatore",
     "status": "published",
-    "city": "Chettipalayam",
+    "city": "Coimbatore",
     "district": "Coimbatore",
     "lat": 10.921611,
     "leasableAreaMsf": 0.43,
@@ -79,7 +79,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-ennore-chennai",
     "status": "published",
-    "city": "Ennore",
+    "city": "Chennai",
     "district": "Tiruvallur",
     "lat": 13.22175,
     "leasableAreaMsf": 0.13,
@@ -90,7 +90,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-ettimadai-coimbatore",
     "status": "published",
-    "city": "Ettimadai",
+    "city": "Coimbatore",
     "district": "Coimbatore",
     "lat": 10.8855,
     "leasableAreaMsf": 0.34,
@@ -145,7 +145,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-svahgraha-koduvali-chennai",
     "status": "published",
-    "city": "Koduvalli",
+    "city": "Chennai",
     "district": "Thiruvallur",
     "lat": 13.2204,
     "leasableAreaMsf": 0.63,
@@ -167,7 +167,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-okm-coimbatore",
     "status": "published",
-    "city": "Othakalmandapam",
+    "city": "Coimbatore",
     "district": "Coimbatore",
     "lat": 10.8918,
     "leasableAreaMsf": 0.38,
@@ -189,7 +189,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-seahorse-ponneri-chennai",
     "status": "published",
-    "city": "Ponneri",
+    "city": "Chennai",
     "district": "Thiruvallur",
     "lat": 13.2454,
     "leasableAreaMsf": 0.74,
@@ -200,7 +200,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-poochi-chennai",
     "status": "published",
-    "city": "Poochiathipedu",
+    "city": "Chennai",
     "district": "Thiruvallur",
     "lat": 13.2217,
     "leasableAreaMsf": 1.28,
@@ -211,7 +211,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-sri-amruthalingeswara-chennai",
     "status": "published",
-    "city": "Ayilachery",
+    "city": "Chennai",
     "district": "Thiruvallur",
     "lat": 13.2286,
     "leasableAreaMsf": 0.99,
@@ -222,7 +222,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-angadu-chennai",
     "status": "published",
-    "city": "Angadu",
+    "city": "Chennai",
     "district": "Thiruvallur",
     "lat": 13.2243,
     "leasableAreaMsf": 0.37,
@@ -244,7 +244,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-pagalmedu-chennai",
     "status": "published",
-    "city": "Pagalmedu",
+    "city": "Chennai",
     "district": "Thiruvallur",
     "lat": 13.2461,
     "leasableAreaMsf": 0.86,
@@ -376,7 +376,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-storehouse-talegaon-pune",
     "status": "published",
-    "city": "Talegaon",
+    "city": "Pune",
     "district": "Pune",
     "lat": 18.753444,
     "leasableAreaMsf": 0.3,
@@ -387,7 +387,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-tradehouse-sudhavadi-pune",
     "status": "published",
-    "city": "Sudhavadi",
+    "city": "Pune",
     "district": "Pune",
     "lat": 18.745778,
     "leasableAreaMsf": 0.39,
@@ -431,7 +431,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-bigbox-pune",
     "status": "published",
-    "city": "Sudhavadi",
+    "city": "Pune",
     "district": "Pune",
     "lat": 18.744111,
     "leasableAreaMsf": 0.71,
@@ -442,7 +442,7 @@ export const assetsUnderManagement = [
   {
     "id": "ndr-space-coimbatore",
     "status": "published",
-    "city": "Thirumanapalayam",
+    "city": "Coimbatore",
     "district": "Coimbatore",
     "lat": 10.85972,
     "leasableAreaMsf": 0.57,

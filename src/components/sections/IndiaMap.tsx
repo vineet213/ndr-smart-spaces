@@ -1,3 +1,7 @@
+"use client";
+
+import type { CSSProperties } from "react";
+import { useInView } from "@/hooks/useInView";
 import type { MapLocation, ZoneId } from "@/lib/data/homepage";
 import styles from "./IndiaMap.module.css";
 import { cx } from "../ui/cx";
@@ -72,9 +76,15 @@ export function IndiaMap({
   onLocationEnter,
   onLocationLeave,
 }: IndiaMapProps) {
+  // The dots build in (and start breathing) when the map scrolls into view, not on page load.
+  const { ref, inView } = useInView<HTMLDivElement>({
+    threshold: 0.35,
+    rootMargin: "0px 0px -5% 0px",
+  });
   return (
     <div
-      className={styles.wrap}
+      ref={ref}
+      className={cx(styles.wrap, inView && styles.inView)}
       role="img"
       aria-label="Map of India showing NDR Smart Spaces locations — headquarters, primary logistics hubs and secondary locations"
     >
@@ -113,7 +123,7 @@ export function IndiaMap({
             )}
           </g>
           <g className={styles.dots}>
-            {locations.map((location) => {
+            {locations.map((location, index) => {
               const active = activeZone === location.zone;
               const hovered = tooltip?.name === location.name;
               const dimmed =
@@ -122,6 +132,7 @@ export function IndiaMap({
               return (
                 <g
                   key={location.name}
+                  style={{ "--i": index } as CSSProperties}
                   className={cx(
                     styles.dot,
                     active && styles.dotActive,
@@ -142,7 +153,9 @@ export function IndiaMap({
                   {/* render a few pixels wide once the map is scaled to a phone.         */}
                   <circle className={styles.hit} cx={location.x} cy={location.y} r={66} />
                   <circle className={styles.halo} cx={location.x} cy={location.y} r={16} />
-                  <circle className={styles.glow} cx={location.x} cy={location.y} r={10} />
+                  <circle className={styles.glow} cx={location.x} cy={location.y} r={9} />
+                  <circle className={styles.glowB} cx={location.x} cy={location.y} r={9} />
+                  <circle className={styles.rim} cx={location.x} cy={location.y} r={9.2} />
                   <circle className={styles.node} cx={location.x} cy={location.y} r={7} />
                 </g>
               );
