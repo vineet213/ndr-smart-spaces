@@ -9,7 +9,7 @@ import { governance } from "@/lib/data/investor";
 export const metadata: Metadata = {
   title: "Corporate Governance",
   description:
-    "The governance manual and capital market record of NDR Smart Spaces — the framework, board, committees, policies and capital-market timeline.",
+    "The governance framework, board, committees, policies and capital-market timeline of NDR Smart Spaces.",
 };
 
 export default function CorporateGovernancePage() {

@@ -155,7 +155,7 @@ function LeadershipGroupSection({ group }: { group: LeadershipGroup }) {
                     tabIndex={0}
                     role="button"
                     aria-expanded={isActive}
-                    aria-label={`${profile.name}, ${profile.role} — read full profile`}
+                    aria-label={`${profile.name}, ${profile.role}: read full profile`}
                     onFocus={() => {
                       if (pointerTypeRef.current !== "touch") activate(index);
                     }}

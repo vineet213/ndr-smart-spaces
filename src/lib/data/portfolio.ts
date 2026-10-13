@@ -188,28 +188,28 @@ export const geoZones: readonly GeoZone[] = [
   {
     id: "south",
     name: "South",
-    fact: "Chennai, Hyderabad, Bidadi, Hosur, Kochi — warehousing corridors of Tamil Nadu, Karnataka and Telangana.",
+    fact: "Chennai, Hyderabad, Bidadi, Hosur, Kochi: warehousing corridors of Tamil Nadu, Karnataka and Telangana.",
     frame: { x: 225, y: 780, width: 250, height: 190 },
     centroid: { x: 340, y: 850 },
   },
   {
     id: "west",
     name: "West",
-    fact: "Pune — a major production and consumption centre.",
+    fact: "Pune: a major production and consumption centre.",
     frame: { x: 140, y: 600, width: 260, height: 150 },
     centroid: { x: 260, y: 665 },
   },
   {
     id: "east",
     name: "East",
-    fact: "Kolkata — a rising consumption belt.",
+    fact: "Kolkata: a rising consumption belt.",
     frame: { x: 345, y: 305, width: 345, height: 250 },
     centroid: { x: 505, y: 420 },
   },
   {
     id: "north",
     name: "North",
-    fact: "Ghaziabad, Lucknow, Kanpur — a gateway to the NCR and the northern consumption belt.",
+    fact: "Ghaziabad, Lucknow, Kanpur: a gateway to the NCR and the northern consumption belt.",
     frame: { x: 230, y: 235, width: 180, height: 120 },
     centroid: { x: 315, y: 292 },
   },
@@ -629,7 +629,7 @@ export function constructionByState(
 }
 
 export function formatMsf(value: number | undefined | null): string {
-  if (value == null) return "—";
+  if (value == null) return "N/A";
   return `${value.toLocaleString("en-IN")} msf`;
 }
 
@@ -645,14 +645,14 @@ export function formatPlateRange(plates: readonly string[]): string {
 }
 
 export function formatSqFt(sizeSqFt: number | undefined): string {
-  if (sizeSqFt == null) return "—";
+  if (sizeSqFt == null) return "N/A";
   return `${sizeSqFt.toLocaleString("en-IN")} sq ft`;
 }
 
 export const portfolioMasthead = {
   eyebrow: "Portfolio",
   title: "The Portfolio",
-  lede: "Assets developed and owned by the NDR Smart Spaces group — mapped by zone, recorded as numbered plates, and cross-referenced in an analyst register.",
+  lede: "Assets developed and owned by the NDR Smart Spaces group, mapped by zone and cross-referenced in a register.",
   editionPeriod: `Edition ${cmsPublication.editionPeriod}`,
 } as const;
 
@@ -662,7 +662,7 @@ export const atlasField = {
   mark: "The Atlas · Register of places",
   captionLabel: "Fig. 01 · Atlas · Survey map",
   captionLead:
-    "Mapped from the group's corporate diagrams — headquarters, logistics hubs and secondary locations across four operating zones.",
+    "Mapped from the group's corporate diagrams: headquarters, logistics hubs and secondary locations across four operating zones.",
   captionDetail: "Each catalogued plate is cross-referenced in the register below.",
   source: "Source: NDR Smart Presentation · locations diagram",
   zoneIndexLabel: "Zone index",
@@ -694,7 +694,7 @@ export const filingBand = {
   label: "Plates in filing",
   chapterLabel: "Chapter IV · Filing",
   framing:
-    "Asset documentation is under archival review. Plates publish as records clear approval — filed zones are cross-referenced in the register below.",
+    "Asset documentation is under archival review. Plates are published as records clear approval. Filed zones are cross-referenced in the register below.",
   filedLabel: "filed",
   pendingLabel: "Record in preparation",
   referenceLabel: "Filing reference",
@@ -719,8 +719,7 @@ export const plateCopy = {
 export const portfolioRegister = {
   eyebrow: "Register · Cross-reference",
   heading: "The register of assets.",
-  framing:
-    "The cross-reference record of the catalogue — every catalogued asset, compared by class, zone, size and status.",
+  framing: "A cross-reference of every catalogued asset, compared by class, zone, size and status.",
   provenanceLabel: "Cross-referenced from the records filed in this edition",
   summary: {
     locationsLabel: "Locations mapped",
@@ -741,9 +740,9 @@ export const portfolioRegister = {
   allPlatesLabel: "All plates",
   orderLabel: "Order",
   orderOptions: [
-    { value: "plate-asc", label: "Catalogue — plate" },
-    { value: "size-desc", label: "Size — largest first" },
-    { value: "asset-asc", label: "Asset — A to Z" },
+    { value: "plate-asc", label: "Catalogue: plate" },
+    { value: "size-desc", label: "Size: largest first" },
+    { value: "asset-asc", label: "Asset: A to Z" },
   ] as const,
   noRecordsLabel: "No records match the current index.",
   noRecordsReset: "Show all plates",
@@ -753,7 +752,7 @@ export const portfolioRegister = {
     "Group SPV assets are catalogued here. NDR InvIT's own portfolio is maintained by the trust.",
   entityLink: { label: "NDR InvIT", href: "https://ndrinvit.com" },
   source: "Source: NDR Corporate Presentation · approved website content",
-  sizeMissing: "—",
+  sizeMissing: "N/A",
 } as const;
 
 export const portfolioClosing = {
@@ -770,10 +769,10 @@ export const assetsUnderManagementSection = {
   eyebrow: "Assets under management · Operating warehouses",
   heading: "Assets under management.",
   framing:
-    "Leasable warehouse assets held across the group's SPVs — surveyed by state and city, with areas as recorded in the group's corporate presentation.",
+    "Leasable warehouse assets held across the group's SPVs: surveyed by state and city, with areas as recorded in the group's corporate presentation.",
   mapCaptionLabel: "Fig. 02 · Atlas · Assets under management survey",
   mapCaptionLead:
-    "Select a state to survey its assets — operating warehouses with their recorded leasable area. Select a city with multiple assets to zoom in further. Pins mark surveyed locations; assets without coordinates are listed without a pin.",
+    "Select a state to see its operating warehouses and their recorded leasable area. Select a city with multiple assets to zoom in further. Pins mark surveyed locations; assets without coordinates are listed without a pin.",
   mapSource:
     "Source: NDR corporate presentation · state boundaries dissolved from public district data; city boundaries drawn from public district data (not to scale)",
   stateSelectLabel: "State",
@@ -797,7 +796,7 @@ export const underConstructionSection = {
   eyebrow: "Asset portfolio · Under construction",
   heading: "Under construction.",
   framing:
-    "Assets currently rising on the group's land — each cross-referenced to its source record in assets under management where one is recorded.",
+    "Assets currently rising on the group's land: each cross-referenced to its source record in assets under management where one is recorded.",
   mapCaptionLead:
     "Select a state to view ongoing projects. Pins mark the project locations; select a pin for project details.",
   columns: {
@@ -807,7 +806,7 @@ export const underConstructionSection = {
     size: "Size",
     parcel: "Linked asset",
   } as const,
-  parcelMissingLabel: "—",
+  parcelMissingLabel: "N/A",
   emptyTitle: "Nothing under construction in this edition.",
   emptyNote: "Projects publish as records clear approval.",
   stateSelectLabel: "State",

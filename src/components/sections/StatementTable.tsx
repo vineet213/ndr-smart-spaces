@@ -114,7 +114,7 @@ export function StatementTable({
                         firstColAccent && columns.indexOf(column) === 0 && styles.accentCell,
                       )}
                     >
-                      {row.cells[column.key] ?? "—"}
+                      {row.cells[column.key] ?? "N/A"}
                     </td>
                   ))}
                 </tr>

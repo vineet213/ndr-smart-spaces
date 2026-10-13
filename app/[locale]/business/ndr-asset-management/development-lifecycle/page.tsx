@@ -8,7 +8,7 @@ import styles from "./development-lifecycle.module.css";
 
 export const metadata: Metadata = {
   title: "Development Lifecycle",
-  description: "NDR Asset Management — the development lifecycle from origination to handover.",
+  description: "NDR Asset Management: the development lifecycle from origination to handover.",
 };
 
 export default function DevelopmentLifecyclePage() {

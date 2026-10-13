@@ -20,7 +20,7 @@ export const privacyPolicy: LegalDocumentData = {
     {
       heading: "Information we collect",
       body: [
-        "We collect the details you submit through the business enquiry form — name, work email, company and message — along with the enquiry type you select. We also record standard technical data (IP address, browser, pages visited) to operate and protect the site.",
+        "We collect the details you submit through the business enquiry form (name, work email, company and message), along with the enquiry type you select. We also record standard technical data (IP address, browser, pages visited) to operate and protect the site.",
       ],
     },
     {
@@ -65,7 +65,7 @@ export const termsOfUse: LegalDocumentData = {
     {
       heading: "Use of content",
       body: [
-        "Content on this site — including text, graphics, logos, and the operating manual and investor record publications — is provided for information only. You may not reproduce, distribute or commercially exploit it without prior written consent from NDR Smart Spaces Pvt. Ltd.",
+        "Content on this site, including text, graphics, logos, and the operating manual and investor record publications, is provided for information only. You may not reproduce, distribute or commercially exploit it without prior written consent from NDR Smart Spaces Pvt. Ltd.",
       ],
     },
     {

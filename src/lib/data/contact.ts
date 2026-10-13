@@ -67,7 +67,7 @@ export const correspondenceForm = {
   eyebrow: "Send an enquiry",
   heading: "Business Enquiry",
   subheading:
-    "Tell us who you are and what you need — the enquiry is routed to the desk that answers it.",
+    "Tell us who you are and what you need, and we will send your enquiry to the right desk.",
   fields: [
     { name: "name", label: "Name", type: "text", autocomplete: "name", required: true },
     {
@@ -83,7 +83,7 @@ export const correspondenceForm = {
   messageLabel: "Message",
   submit: "Send Inquiry",
   sending: "Sending…",
-  success: "Thank you — your enquiry has been sent.",
+  success: "Thank you. Your enquiry has been sent.",
   route: {
     General: "project@ndrsmart.com",
   } as const,
@@ -98,7 +98,7 @@ const chennaiContactOffset =
 export const contactMap = {
   eyebrow: "Office locations",
   heading: "The office on the map.",
-  lede: "The corporate office in Chennai — the company's primary correspondence address — plotted on the group's schematic outline of India.",
+  lede: "Our corporate office in Chennai, the company's primary correspondence address, shown on a schematic map of India.",
   frameMark: "NDR Smart Spaces",
   plateRef: "Office locations",
   notToScale: "Schematic outline · not to scale",

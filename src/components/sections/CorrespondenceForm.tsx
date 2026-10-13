@@ -63,7 +63,7 @@ export function CorrespondenceForm() {
 
     const enquiryType = values.enquiryType.trim();
     const recipient = route.General;
-    const subject = enquiryType ? `Enquiry — ${enquiryType}` : "Enquiry";
+    const subject = enquiryType ? `Enquiry: ${enquiryType}` : "Enquiry";
     const body = [
       `Name: ${values.name}`,
       `Company: ${values.company}`,

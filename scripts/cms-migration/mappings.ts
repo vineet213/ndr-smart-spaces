@@ -444,7 +444,7 @@ const corporateSettingsRecord: SeedRecordSpec = {
   data: {
     companyName: "NDR Smart Spaces",
     legalEntity: "NDR Smart Spaces Pvt. Ltd.",
-    registryLine: "NDR Smart Spaces Pvt. Ltd. — an NDR Group platform",
+    registryLine: "NDR Smart Spaces Pvt. Ltd., an NDR Group platform",
     cin: "U45201TN2005PTC059267",
     addresses: [
       {
@@ -546,22 +546,22 @@ const mediaSlideshowSeed: SeedRecordSpec = {
       {
         image: "/images/media/coverage-01.jpg",
         alt: "Business Standard feature on NDR Smart Spaces logistics portfolio",
-        caption: "Business Standard — Logistics portfolio deep-dive",
+        caption: "Business Standard: Logistics portfolio deep-dive",
       },
       {
         image: "/images/media/coverage-02.jpg",
         alt: "Economic Times coverage of NDR InvIT trust structure",
-        caption: "Economic Times — InvIT trust structure",
+        caption: "Economic Times: InvIT trust structure",
       },
       {
         image: "/images/media/coverage-03.jpg",
         alt: "Moneycontrol report on NDR Grade A warehousing expansion",
-        caption: "Moneycontrol — Grade A warehousing expansion",
+        caption: "Moneycontrol: Grade A warehousing expansion",
       },
       {
         image: "/images/media/coverage-04.jpg",
         alt: "Livemint profile of NDR Smart Spaces leadership",
-        caption: "Livemint — Leadership profile",
+        caption: "Livemint: Leadership profile",
       },
     ],
   } as JsonValue,

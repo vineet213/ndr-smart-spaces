@@ -145,7 +145,7 @@ export function PortfolioAtlas({
         viewBox={ATLAS_VIEWBOX}
         className={styles.map}
         role="img"
-        aria-label={ariaLabel ?? "Map of India by state — select a state to survey it."}
+        aria-label={ariaLabel ?? "Map of India by state. Select a state to survey it."}
         focusable="false"
       >
         <EdgeTicks />
@@ -172,7 +172,7 @@ export function PortfolioAtlas({
                     )}
                     tabIndex={isSelectable ? 0 : undefined}
                     role={isSelectable ? "button" : undefined}
-                    aria-label={isSelectable ? `${state.name} — select` : undefined}
+                    aria-label={isSelectable ? `${state.name}: select` : undefined}
                     aria-pressed={isSelectable ? selectedStateId === state.id : undefined}
                     onMouseEnter={(e) => {
                       setHoveredStateId(state.id);

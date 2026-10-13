@@ -16,10 +16,12 @@ export function LogoWordmark({ scrolled = false, light = false }: LogoWordmarkPr
     <a
       href={canonicalHref(siteHome)}
       className={cx(styles.link, scrolled && styles.linkScrolled)}
-      aria-label="NDR Smart Spaces — home"
+      aria-label="NDR Smart Spaces: home"
     >
       <Image
-        src={light ? "/logos/ndr-smart-spaces-lockup-light.svg" : "/logos/ndr-smart-spaces-lockup.svg"}
+        src={
+          light ? "/logos/ndr-smart-spaces-lockup-light.svg" : "/logos/ndr-smart-spaces-lockup.svg"
+        }
         alt=""
         width={190}
         height={43}

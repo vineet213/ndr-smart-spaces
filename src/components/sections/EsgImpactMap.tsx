@@ -61,8 +61,8 @@ export function EsgImpactMap() {
             Where the work happens.
           </Heading>
           <Lede tone="dark" className={styles.lede}>
-            Each property hosts a measured set of sustainability initiatives — tracked by category,
-            verified by status and recorded as part of the ESG register.
+            Each property hosts a measured set of sustainability initiatives, tracked by category,
+            verified by status and recorded in the ESG register.
           </Lede>
         </Reveal>
 

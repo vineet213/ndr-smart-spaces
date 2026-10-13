@@ -161,7 +161,7 @@ export default function DemoPage() {
               <GridItem span={6}>
                 <Stack gap="md">
                   <Body tone="dark">
-                    A transparent, disciplined engine that keeps building — serving retail,
+                    A transparent, disciplined engine that keeps building, serving retail,
                     e-commerce, 3PL and manufacturing.
                   </Body>
                   <Caption tone="dark">Eyebrows shift to gold on dark.</Caption>
@@ -184,7 +184,7 @@ export default function DemoPage() {
             <ShowcaseHeading
               eyebrow="02 · Metrics"
               title="One figure, one source."
-              description="Work Sans numerals carry the proof — maroon on ivory, gold on maroon."
+              description="Work Sans numerals carry the proof, maroon on ivory, gold on maroon."
             />
             <Grid>
               <GridItem span={4}>

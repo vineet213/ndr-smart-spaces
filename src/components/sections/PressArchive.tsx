@@ -23,7 +23,7 @@ function PressCard({ entry, categoryLabel }: { entry: PressArchiveEntry; categor
         {entry.image ? (
           <Image
             src={entry.image}
-            alt={`${badge} — ${entry.title}`}
+            alt={`${badge}: ${entry.title}`}
             fill
             sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
             className={styles.mediaImage}

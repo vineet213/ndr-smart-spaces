@@ -6,8 +6,7 @@ import { runMediaValidation } from "@/lib/data/mediaValidation";
 
 export const metadata: Metadata = {
   title: "Media",
-  description:
-    "The press archive and featured coverage of NDR Smart Spaces — press releases, media kit and editorial content.",
+  description: "Press releases, media coverage and the media kit for NDR Smart Spaces.",
 };
 
 if (process.env.NODE_ENV === "development") {

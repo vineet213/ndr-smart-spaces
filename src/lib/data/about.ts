@@ -18,7 +18,11 @@ export const aboutHero = {
  */
 export const aboutStats: readonly CompanyMetric[] = [
   { value: 1954, label: "GROUP FOUNDED", context: "GROUP FOUNDED" },
-  { value: 2001, label: "NDR WAREHOUSING ACTIVE OPERATIONS", context: "NDR WAREHOUSING ACTIVE OPERATIONS" },
+  {
+    value: 2001,
+    label: "NDR WAREHOUSING ACTIVE OPERATIONS",
+    context: "NDR WAREHOUSING ACTIVE OPERATIONS",
+  },
   { value: 2025, label: "NDR SMART SPACES INCORPORATED", context: "NDR SMART SPACES INCORPORATED" },
 ];
 
@@ -78,7 +82,8 @@ export const aboutTimeline = {
     },
     {
       year: "2010",
-      title: "Investment secured from Warburg Pincus, IFC (for CWCNSL) & First Association with Kotak",
+      title:
+        "Investment secured from Warburg Pincus, IFC (for CWCNSL) & First Association with Kotak",
     },
     {
       year: "2014",
@@ -103,15 +108,18 @@ export const aboutTimeline = {
     },
     {
       year: "2022",
-      title: "NDR Warehousing’s First 1 Million Sq. Ft. Park each Established at Chennai and Coimbatore",
+      title:
+        "NDR Warehousing’s First 1 Million Sq. Ft. Park each Established at Chennai and Coimbatore",
     },
     {
       year: "2023",
-      title: "Investcorp Invested in pre round of NDR InvIT, India’s First Perpetual Warehousing InvIT",
+      title:
+        "Investcorp Invested in pre round of NDR InvIT, India’s First Perpetual Warehousing InvIT",
     },
     {
       year: "2024",
-      title: "NDR InvIT Listed on NSE with ₹8.8 Billion Offer Size and 17 Million (Approx.) Sq. Ft. Asset Portfolio",
+      title:
+        "NDR InvIT Listed on NSE with ₹8.8 Billion Offer Size and 17 Million (Approx.) Sq. Ft. Asset Portfolio",
     },
     {
       year: "2025",
@@ -136,7 +144,7 @@ export const aboutPrinciples = {
       body: "We aspire to be a leading organisation in the Logistics, industrial and socio-economic Infrastructure Sector, actively contributing to India's dynamic growth story. We aim to positively impact social development and elevate infrastructure standards, positioning ourselves as a key player committed to excellence and progress.",
       image: {
         src: "/images/vision-mission/vision.svg",
-        alt: "Editorial line illustration of a future-ready master plan — plotted land rising into an institutional skyline.",
+        alt: "Editorial line illustration of a future-ready master plan, with plotted land rising into an institutional skyline.",
       },
     },
     {
@@ -145,7 +153,7 @@ export const aboutPrinciples = {
       body: "Our mission is to deliver infrastructure solutions that create lasting impact for communities, build enduring partnerships with our clients, and create sustainable long-term value for our investors, while upholding uncompromising standards of safety, ethics and environmental responsibility.",
       image: {
         src: "/images/vision-mission/mission.svg",
-        alt: "Editorial line illustration of construction in progress — a tower crane, braced building frame and survey datum lines.",
+        alt: "Editorial line illustration of construction in progress: a tower crane, braced building frame and survey datum lines.",
       },
     },
   ],
@@ -160,49 +168,49 @@ export type OurCodeValue = {
 
 export const ourCode = {
   heading: "Our Code",
-  lede: "We believe infrastructure is more than what gets built. It is what gets enabled.",
+  lede: "Infrastructure matters for what it lets people do, not just for what gets built.",
   values: [
     {
       index: "01",
       title: "Infrastructure That Enables",
       tagline: "More than steel and concrete.",
-      body: "Logistics and industrial infrastructure are the foundations of trade, employment and regional growth. We build assets that enable businesses to move faster, operate better and create lasting economic value.",
+      body: "Trade, jobs and regional growth all rest on logistics and industrial infrastructure. We build assets that help businesses move faster, run better and create value that lasts.",
     },
     {
       index: "02",
       title: "Enabling the Last Mile",
       tagline: "Closer to where business happens.",
-      body: "The last mile is where infrastructure meets everyday commerce. We focus on strategically located facilities that connect businesses to markets, people and supply chains—efficiently and reliably.",
+      body: "The last mile is where infrastructure meets everyday commerce. We build in well-placed locations that connect businesses to their markets, their people and their supply chains.",
     },
     {
       index: "03",
       title: "Efficiency at Scale",
-      tagline: "Built with Intelligence. Faster execution. Better outcomes.",
-      body: "We combine operational discipline, intelligent engineering and streamlined construction to deliver quality infrastructure at speed. Every decision is designed to improve efficiency, from the first drawing to the final handover.",
+      tagline: "Faster to build. Better in use.",
+      body: "We bring together disciplined operations, sound engineering and streamlined construction to deliver good infrastructure quickly. From the first drawing to the final handover, we look for ways to do it more efficiently.",
     },
     {
       index: "04",
-      title: "Design that delivers",
+      title: "Design That Delivers",
       tagline: "Built for today. Ready for tomorrow.",
-      body: "We design for the realities businesses face—not just the requirements of today. From robust structures to thoughtful layouts and infrastructure, resilience is engineered into every asset we create.",
+      body: "Businesses change, so we design for more than today's requirements. Strong structures and sensible layouts make every asset ready for what comes next.",
     },
     {
       index: "05",
       title: "Agility with Accountability",
       tagline: "Move fast. Build right.",
-      body: "Speed matters, but so does discipline. We bring urgency to execution without compromising on compliance, transparency, safety or quality. Clear processes and accountable decision-making keep every project moving forward.",
+      body: "We work with urgency, but never at the cost of compliance, safety, quality or openness. Clear processes and people who own their decisions keep every project moving.",
     },
     {
       index: "06",
       title: "People Build the Organization",
-      tagline: "Infrastructure is built by people who care about getting it right.",
-      body: "Our strength lies in the people behind every project. We value ownership, collaboration, integrity and a bias for action. When good people work with a shared purpose, better infrastructure follows.",
+      tagline: "Good infrastructure comes from people who care about getting it right.",
+      body: "Our strength is the people behind every project. We value ownership, teamwork, integrity and getting on with it. When good people share a purpose, better infrastructure follows.",
     },
     {
       index: "07",
       title: "Customer-Led Approach",
-      tagline: "Because the right space makes business work better.",
-      body: "We stay close to our customers and understand how they operate. Our approach is hands-on, practical and responsive—creating facilities that are right-fitted to the way businesses actually work, rather than forcing businesses to fit a template.",
+      tagline: "The right space makes business easier.",
+      body: "We stay close to our customers and learn how they work. We build facilities that fit the way their business actually runs, instead of asking them to fit a template.",
     },
   ] as readonly OurCodeValue[],
 } as const;
@@ -210,14 +218,14 @@ export const ourCode = {
 export const businessModel = {
   eyebrow: "Integrated business model",
   heading: "The complete asset lifecycle.",
-  lede: "One integrated chain, owned end to end — land in, listed assets out, capital recycled back to land.",
+  lede: "One integrated chain, owned end to end: land in, listed assets out, capital recycled back to land.",
   returnLabel: "Back to land",
-  returnCaption: "Proceeds recycle into new development — the loop closes and begins again.",
+  returnCaption: "Proceeds go back into new development and the loop begins again.",
   steps: [
     {
       index: "01",
       name: "Land",
-      caption: "Acquisition, entitlement and planning — a modest land parcel begins the journey.",
+      caption: "Acquisition, entitlement and planning: a modest land parcel begins the journey.",
     },
     {
       index: "02",
@@ -253,7 +261,7 @@ export const businessModel = {
     {
       index: "08",
       name: "Capital recycling",
-      caption: "Proceeds recycle into new development — a disciplined engine that keeps building.",
+      caption: "Proceeds go back into new development, so the cycle keeps running.",
     },
   ],
 } as const;
@@ -352,31 +360,31 @@ export const whyNdr = {
     {
       index: "01",
       title: "Governance",
-      body: "Prudent management and governance, reported as a discipline.",
+      body: "Prudent management and strong governance.",
       proof: "AAA-rated entity · long-term bonds · long WALE · low receivable risk",
     },
     {
       index: "02",
       title: "Execution",
-      body: "Institutional delivery from concept to completion.",
+      body: "Delivery from concept to completion.",
       proof: "6,00,000 sq ft delivered in 4 months · 99% greenfield",
     },
     {
       index: "03",
       title: "Capital discipline",
-      body: "A transparent engine that recycles capital into new development.",
+      body: "Capital from completed assets goes back into new development.",
       proof: "Develop → stabilize → offer under ROFO → recycle",
     },
     {
       index: "04",
       title: "Long-term partnerships",
-      body: "Relationships measured in decades, not deals.",
+      body: "Relationships that last for decades.",
       proof: "100+ Fortune Global 500 companies served",
     },
     {
       index: "05",
       title: "Institutional credibility",
-      body: "Backing from institutional investors who underwrite the platform.",
+      body: "Backed by institutional investors.",
       proof: "Kotak Alternatives · Investcorp-led $55 mn",
     },
   ],
@@ -385,7 +393,7 @@ export const whyNdr = {
 export const aboutClosing = {
   eyebrow: "Next",
   heading: "From land to listed assets.",
-  lede: "Explore the business, the portfolio and the capital model — or speak to the team building India's warehousing infrastructure.",
+  lede: "Explore the business, the portfolio and the capital model, or speak to the team building India's warehousing infrastructure.",
   primaryCta: { label: "Business Enquiry", href: "mailto:project@ndrsmart.com" },
   secondaryCta: { label: "Investor Centre", href: "https://ndrinvit.com" },
 } as const;

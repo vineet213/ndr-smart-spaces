@@ -167,13 +167,13 @@ async function main(): Promise<void> {
   const chain = await audit.verify();
 
   console.log(`imported ${imported} assets as drafts (${skipped} already present)`);
-  console.log(`${unverified} record(s) carry unverified/approximate coordinates — review before publishing`);
+  console.log(`${unverified} record(s) carry unverified/approximate coordinates, review before publishing`);
   console.log(`extract total leasable area: ${areaSum.toFixed(2)} msf (table total: 22.96)`);
   console.log(`generated exports byte-identical: ${generatedCheck.valid}`);
   console.log(`audit chain valid: ${chain.valid}`);
 
   if (!generatedCheck.valid || !chain.valid) process.exit(1);
-  console.log("IMPORT OK — drafts await review in the admin; nothing was published.");
+  console.log("IMPORT OK: drafts await review in the admin; nothing was published.");
 }
 
 main().catch((error) => {

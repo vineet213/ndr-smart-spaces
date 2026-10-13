@@ -6,8 +6,7 @@ import { businessMasthead } from "@/lib/data/business";
 
 export const metadata: Metadata = {
   title: "Summary of Business",
-  description:
-    "Investor Centre · Summary of Business — the business of NDR Smart Spaces at a glance.",
+  description: "The NDR Smart Spaces business at a glance.",
 };
 
 export default function SummaryOfBusinessPage() {

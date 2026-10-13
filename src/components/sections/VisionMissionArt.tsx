@@ -28,7 +28,7 @@ export function VisionDiagram() {
         fill="none"
         preserveAspectRatio="xMidYMid slice"
         role="img"
-        aria-label="Editorial line illustration of a future-ready master plan — plotted land rising into an institutional skyline."
+        aria-label="Editorial line illustration of a future-ready master plan, with plotted land rising into an institutional skyline."
       >
         <rect width="800" height="1000" fill="#1c1a19" />
 
@@ -125,7 +125,7 @@ export function MissionDiagram() {
         fill="none"
         preserveAspectRatio="xMidYMid slice"
         role="img"
-        aria-label="Editorial line illustration of construction in progress — a tower crane, braced building frame and survey datum lines."
+        aria-label="Editorial line illustration of construction in progress: a tower crane, braced building frame and survey datum lines."
       >
         <rect width="800" height="1000" fill="#1c1a19" />
 

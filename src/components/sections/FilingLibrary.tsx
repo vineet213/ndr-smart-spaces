@@ -33,7 +33,7 @@ function StatusBadge({ status }: { status: FilingStatus }) {
       )}
     >
       <span className={styles.badgeGlyph} aria-hidden="true">
-        {status === "published" ? "●" : status === "external" ? "↗" : "—"}
+        {status === "published" ? "●" : status === "external" ? "↗" : "-"}
       </span>
       {statusLabel[status]}
     </span>
@@ -74,10 +74,10 @@ function PendingRow({ category }: { category: string }) {
   return (
     <li className={cx(styles.row, styles.pendingRow)}>
       <span className={styles.ref} aria-hidden="true">
-        —
+        -
       </span>
       <span className={styles.asOn} aria-hidden="true">
-        —
+        -
       </span>
       <span className={styles.title}>
         <span className={styles.entryLabel}>{category}</span>
@@ -85,13 +85,13 @@ function PendingRow({ category }: { category: string }) {
       </span>
       <span className={styles.category}>Pending</span>
       <span className={styles.type} aria-hidden="true">
-        —
+        -
       </span>
       <span className={styles.status}>
         <StatusBadge status="pending" />
       </span>
       <span className={styles.action} aria-hidden="true">
-        —
+        -
       </span>
     </li>
   );
@@ -173,7 +173,7 @@ function TableMode({ config }: { config: FilingLibraryConfig }) {
     config.statements?.map((statement) => {
       const cells: Record<string, string> = { period: statement.period };
       for (const cell of statement.cells) {
-        cells[cell.label] = cell.value ?? "—";
+        cells[cell.label] = cell.value ?? "N/A";
       }
       return { id: statement.period, cells };
     }) ?? [];

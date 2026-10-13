@@ -77,8 +77,7 @@ export function EsgTrendChart({ trend, className }: EsgTrendChartProps) {
     <div ref={ref} className={cx(styles.root, inView && styles.drawn, className)}>
       <svg viewBox={`0 0 ${W} ${H}`} className={styles.svg} role="img" aria-labelledby={titleId}>
         <title id={titleId}>
-          {trend.title} —{" "}
-          {trend.points.map((p) => `${p.period} ${p.value}${trend.unit}`).join(", ")}
+          {trend.title}: {trend.points.map((p) => `${p.period} ${p.value}${trend.unit}`).join(", ")}
         </title>
         <desc>
           Trend of {trend.title}. Source: {trend.source}.

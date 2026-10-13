@@ -156,20 +156,17 @@ export const companyOverview = {
     ],
     [
       {
-        text:
-          "We focus on logistics, industrial and residential development, bringing together the right locations, careful planning and forward-looking infrastructure so businesses can run more efficiently and keep growing without outgrowing their space.",
+        text: "We focus on logistics, industrial and residential development, bringing together the right locations, careful planning and forward-looking infrastructure so businesses can run more efficiently and keep growing without outgrowing their space.",
       },
     ],
     [
       {
-        text:
-          "Every development we build is shaped around how businesses and people actually work and live, from productive industrial parks to well-planned residential communities.",
+        text: "Every development we build is shaped around how businesses and people actually work and live, from productive industrial parks to well-planned residential communities.",
       },
     ],
     [
       {
-        text:
-          "Our work goes beyond putting up buildings. We're building the infrastructure that supports businesses, creates employment, strengthens communities and helps the regions we operate in grow over the long term.",
+        text: "Our work goes beyond putting up buildings. We're building the infrastructure that supports businesses, creates employment, strengthens communities and helps the regions we operate in grow over the long term.",
       },
     ],
   ] as CompanyOverviewSegment[][],
@@ -220,7 +217,7 @@ export const journey = [
   {
     year: "1996",
     title: "First bonded warehouse",
-    caption: "India's first private bonded warehouse — an industry first for the group.",
+    caption: "India's first private bonded warehouse.",
   },
   {
     year: "2002",
@@ -245,7 +242,7 @@ export const journey = [
 ] as const;
 
 const BUSINESS_HIGHLIGHT_BODY: Record<string, string> = {
-  "01": "Strategically located, spec-forward facilities near highways, ports, railways and airports — serving retail, e-commerce, 3PL and manufacturing.",
+  "01": "Strategically located, spec-forward facilities near highways, ports, railways and airports, serving retail, e-commerce, 3PL and manufacturing.",
   "02": "End-to-end project planning, execution and delivery, plus ongoing portfolio operations and maintenance.",
   "03": "RERA-compliant plotted layouts developed through the group's plotting entity.",
 };
@@ -269,7 +266,7 @@ export const businessHighlights = {
   })),
   partnership: {
     title: "The NDR InvIT relationship",
-    line: "Completed assets are offered to NDR InvIT under a Right of First Offer, recycling capital into new development. A transparent, disciplined engine that keeps building.",
+    line: "Completed assets are offered to NDR InvIT under a Right of First Offer, recycling capital into new development. The cycle then repeats.",
     cta: {
       label: "The capital model",
       href: "/en/business/logistics-and-industrial-infrastructure",
@@ -284,7 +281,7 @@ export const featuredProjects = {
     eyebrow: "Featured · 01",
     title: "Amazon Fulfilment Centre, Coimbatore",
     narrative:
-      "A Grade-A, air-conditioned warehouse spanning 6,00,000 sq ft — including a 2,00,000 sq ft mezzanine — conceptualized, designed and delivered in 4 months to institutional ESG standards.",
+      "A Grade-A, air-conditioned warehouse spanning 6,00,000 sq ft (including a 2,00,000 sq ft mezzanine), conceptualized, designed and delivered in 4 months to institutional ESG standards.",
     facts: [
       { value: 600000, unit: "sq ft", label: "Grade-A area", format: true },
       { value: 4, unit: "months", label: "Concept to delivery", format: true },
@@ -297,7 +294,7 @@ export const featuredProjects = {
     eyebrow: "Featured · 02",
     title: "Lenovo Industrial Facility, Puducherry",
     narrative:
-      "Lenovo's first industrial facility in India (2002), built to international manufacturing and warehousing specifications — two decades ahead of the industry.",
+      "Lenovo's first industrial facility in India (2002), built to international manufacturing and warehousing specifications, two decades ahead of the industry.",
     link: { label: "Project details", href: "/en/portfolio" },
   },
 } as const;
@@ -341,7 +338,10 @@ export const marqueeClients = {
     { name: "Zomato", logo: { src: "/images/clients/zomato.png", alt: "Zomato logo" } },
     { name: "Swiggy", logo: { src: "/images/clients/swiggy.png", alt: "Swiggy logo" } },
     { name: "Snitch", logo: { src: "/images/clients/snitch.png", alt: "Snitch logo" } },
-    { name: "Reliance", logo: { src: "/images/clients/reliance.png", alt: "Reliance Industries logo" } },
+    {
+      name: "Reliance",
+      logo: { src: "/images/clients/reliance.png", alt: "Reliance Industries logo" },
+    },
   ] as const satisfies readonly MarqueeClient[],
 } as const;
 
@@ -420,7 +420,7 @@ export const contact = {
     messageLabel: "Message",
     submit: "Send enquiry",
     sending: "Sending…",
-    success: "Thank you — your enquiry has been routed.",
+    success: "Thank you. Your enquiry has been sent.",
     route: {
       default: "project@ndrsmart.com",
     } as const,

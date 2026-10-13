@@ -10,7 +10,7 @@ import styles from "./asset-performance-management.module.css";
 
 export const metadata: Metadata = {
   title: "Asset Performance Management",
-  description: "NDR Asset Management — operating and maintaining assets for long-term performance.",
+  description: "NDR Asset Management: operating and maintaining assets for long-term performance.",
 };
 
 export default function AssetPerformanceManagementPage() {

@@ -243,7 +243,7 @@ function validateFilings(): ValidationIssue[] {
             collection: "documents",
             recordId: filing.ref,
             severity: "error",
-            message: `Filing "${filing.ref}" is ${filing.status} but has no href — the document cannot resolve.`,
+            message: `Filing "${filing.ref}" is ${filing.status} but has no href, the document cannot resolve.`,
           });
         }
         if (filing.status === "published" && !filing.asOn.trim()) {
@@ -402,7 +402,7 @@ function validateHomepageLocationDuplication(): ValidationIssue[] {
         collection: "locations",
         recordId: location.name,
         severity: "warning",
-        message: `Homepage map location "${location.name}" duplicates a portfolio location — the CMS migrates it to the shared Locations collection (§6.1).`,
+        message: `Homepage map location "${location.name}" duplicates a portfolio location, the CMS migrates it to the shared Locations collection (§6.1).`,
       });
     }
   }
@@ -461,7 +461,7 @@ export function runValidation(): boolean {
     const where = issue.recordId
       ? ` · ${issue.collection}:${issue.recordId}`
       : ` · ${issue.collection}`;
-    console.error(`[cms-validation] ${tag} ${issue.rule}${where} — ${issue.message}`);
+    console.error(`[cms-validation] ${tag} ${issue.rule}${where}, ${issue.message}`);
   }
   return report.valid;
 }

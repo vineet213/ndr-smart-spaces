@@ -131,7 +131,7 @@ export function MediaSlideshow({ slideshow }: { slideshow: MediaSlideshowData })
           ))}
         </div>
         <SourceFootnote className={styles.source}>
-          Source: NDR Smart Spaces — editorial archive
+          Source: NDR Smart Spaces editorial archive
         </SourceFootnote>
       </Container>
     </section>

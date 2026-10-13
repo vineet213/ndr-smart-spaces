@@ -28,7 +28,7 @@ export function CapitalCycleDiagram() {
           <div
             className={styles.diagram}
             role="img"
-            aria-label="The capital cycle: develop, stabilise, offer to NDR InvIT, recycle — the loop closes back to development."
+            aria-label="The capital cycle: develop, stabilise, offer to NDR InvIT, recycle. The loop closes back to development."
           >
             <div className={styles.track}>
               {capitalCycle.nodes.map((node, index) => (
@@ -50,7 +50,7 @@ export function CapitalCycleDiagram() {
             </div>
             <div className={styles.return} aria-hidden="true">
               <span className={styles.returnLabel}>
-                The loop closes — capital returns to development
+                The loop closes as capital returns to development
               </span>
               <span className={styles.returnArrow} />
             </div>
@@ -61,7 +61,7 @@ export function CapitalCycleDiagram() {
           <ol>
             {capitalCycle.nodes.map((node) => (
               <li key={node.number}>
-                {node.number} — {node.label}: {node.caption}
+                {node.number}. {node.label}: {node.caption}
               </li>
             ))}
           </ol>

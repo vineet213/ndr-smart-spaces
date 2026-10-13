@@ -201,7 +201,7 @@ export function LifecycleDiagram({
           aria-labelledby={titleId}
         >
           <title id={titleId}>
-            The complete asset lifecycle — land, planning, development, industrial infrastructure,
+            The complete asset lifecycle: land, planning, development, industrial infrastructure,
             warehousing, asset management, NDR InvIT, capital recycling, and back to land.
           </title>
           <desc>

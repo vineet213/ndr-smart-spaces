@@ -60,7 +60,7 @@ async function main(): Promise<void> {
     const tag = issue.severity === "error" ? "ERROR" : "WARN ";
     const where = issue.recordId ? `${issue.collection}:${issue.recordId}` : issue.collection;
     console[issue.severity === "error" ? "error" : "log"](
-      `    ${tag} ${issue.rule} · ${where} — ${issue.message}`,
+      `    ${tag} ${issue.rule} · ${where}: ${issue.message}`,
     );
   }
   assert(
@@ -924,7 +924,7 @@ async function main(): Promise<void> {
   const sharedChain = await sharedAudit.verify();
   assert(sharedChain.valid, "audit chain stays valid across shared collections");
 
-  console.log("\n[7] Publication lifecycle — CMS → export → public path");
+  console.log("\n[7] Publication lifecycle: CMS → export → public path");
 
   // 7a. The export emits every record regardless of status (complete ledger).
   const lifecycleStore = new MemoryStore();
@@ -1106,7 +1106,7 @@ async function main(): Promise<void> {
   const lifecycleChain = await lifecycleAudit.verify();
   assert(lifecycleChain.valid, "audit chain stays valid through the full publication lifecycle");
 
-  console.log("\n[8] Deployment seam — export → deploy pipeline");
+  console.log("\n[8] Deployment seam: export → deploy pipeline");
 
   // 8a. Null adapter (no deployment configured) returns deployed: false.
   {

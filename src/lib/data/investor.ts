@@ -27,7 +27,7 @@ export type InvestorMetric = {
 };
 
 export const investorMasthead = {
-  registry: "NDR Smart Spaces Pvt. Ltd. — an NDR Group platform",
+  registry: "NDR Smart Spaces Pvt. Ltd., an NDR Group platform",
   section: "Investor Centre",
   title: { before: "The ", accent: "financial", after: " statement." },
   asOn: cmsPublication.asOnDate,
@@ -44,7 +44,7 @@ export const editorialStatement = {
   eyebrow: "The editorial statement",
   heading: "We report to you as fiduciaries.",
   statement:
-    "This document is the investor record of NDR Smart Spaces — what the company owns, how its capital moves, how it is governed, and what it files. Every figure carries a source and a period; nothing is stated that is not reported.",
+    "This document is the investor record of NDR Smart Spaces: what the company owns, how its capital moves, how it is governed and what it files. Every figure shows its source and period.",
 } as const;
 
 export const investorContents = [
@@ -55,7 +55,7 @@ export const investorContents = [
 
 export const assetFlip = {
   eyebrow: "Overview",
-  heading: "Asset Flip — Transfer of Special Purpose Vehicles (SPVs)",
+  heading: "Asset Flip: Transfer of Special Purpose Vehicles (SPVs)",
   /** Short masthead line derived from `overview` below — not restating it in full. */
   mastheadSubtext:
     "A structured pathway to transfer mature SPVs - unlocking value and reinvesting in new development.",
@@ -114,7 +114,7 @@ export type CapitalCycleNode = {
 export const capitalCycle = {
   eyebrow: "The capital cycle",
   heading: "How value is created.",
-  lede: "Develop, stabilise, offer to NDR InvIT, recycle. Four steps, one loop — the company's capital story in five seconds.",
+  lede: "Develop, stabilise, offer to NDR InvIT, recycle. Four steps, one loop: the company's capital story in brief.",
   nodes: [
     {
       number: "01",
@@ -142,7 +142,7 @@ export const capitalCycle = {
 export const capitalMarketTimeline = {
   eyebrow: "The capital-market record",
   heading: "How the platform was capitalised.",
-  lede: "The investor's record of the group — distinct from the company's founding journey.",
+  lede: "The group's investor timeline, separate from the company's founding story.",
   nodes: [
     {
       year: "2011",
@@ -178,7 +178,7 @@ export const capitalMarketTimeline = {
       year: "2025",
       title: "SPV transfers",
       caption: "MLG (INR 143.9 cr) and three SPVs transfer to NDR InvIT.",
-      detail: "Capital recycles into new development — the loop closes.",
+      detail: "Capital goes back into new development and the loop closes.",
     },
     {
       year: "2026",
@@ -194,7 +194,7 @@ export const invitRelationship = {
   heading: "A matter of record.",
   body: [
     "NDR Smart Spaces and NDR InvIT are distinct entities under the NDR group. NDR Smart Spaces is the development platform; NDR InvIT owns and manages income-generating infrastructure assets. To facilitate this relationship, NDR Smart Spaces has granted NDR InvIT a Right of First Offer (ROFO) over eligible assets developed by the company: once an asset is completed and meets the prescribed eligibility criteria, NDR InvIT receives the first opportunity to evaluate and acquire it.",
-    "This framework supports transparent, disciplined asset transfer while giving NDR InvIT visibility into a pipeline of high-quality investment opportunities \u2014 and it lets NDR Smart Spaces recycle capital into new development.",
+    "This framework supports transparent, disciplined asset transfer while giving NDR InvIT visibility into a pipeline of high-quality investment opportunities, and it lets NDR Smart Spaces recycle capital into new development.",
   ],
   external: { label: "NDR InvIT", href: "https://ndrinvit.com" },
   note: "NDR InvIT's own financial results, distributions and disclosures are published at ndrinvit.com.",
@@ -210,7 +210,7 @@ export const safeHarbour = {
 } as const;
 
 export const safeHarbourDisclaimer =
-  "Forward-looking statements — read the full safe-harbour statement.";
+  "Forward-looking statements: read the full safe-harbour statement.";
 
 export type ResilienceRow = {
   label: string;
@@ -221,7 +221,7 @@ export type ResilienceRow = {
 export const resilience = {
   eyebrow: "Risk & resilience",
   heading: "How the platform is protected.",
-  lede: "Qualitative commitments reported to investors — no figure is stated without a number.",
+  lede: "Qualitative commitments reported to investors.",
   rows: [
     {
       label: "Portfolio resilience",
@@ -377,7 +377,7 @@ export const governance = {
     eyebrow: "Corporate Governance",
     title: "The governance manual.",
     subtext:
-      "The framework, board, committees and policies NDR Smart Spaces reports to investors — each commitment sourced and referenced.",
+      "The framework, board, committees and policies NDR Smart Spaces reports to investors, each with its source and reference.",
     asOn: investorEdition.asOn,
     edition: investorEdition.edition,
   },
@@ -385,14 +385,17 @@ export const governance = {
     eyebrow: "Governance framework",
     heading: "How the company is governed.",
     statement:
-      "Control is documented, not assumed. The governance commitments below are those NDR Smart Spaces reports to investors; each is sourced and each publishes its documentary reference.",
+      "The governance commitments below are those NDR Smart Spaces reports to investors. Each has a source and a document reference.",
     rows: [
       {
         label: "Conflict of Interest Policy",
         note: "Governs how directors, key managerial personnel and senior management identify, disclose and manage conflicts of interest.",
         source: "Board-approved · effective 5 September 2026",
         documents: [
-          { title: "Conflict of Interest Policy", href: "/documents/governance/conflict-of-interest-policy.pdf" },
+          {
+            title: "Conflict of Interest Policy",
+            href: "/documents/governance/conflict-of-interest-policy.pdf",
+          },
         ],
       },
       {
@@ -400,7 +403,10 @@ export const governance = {
         note: "Sets out the framework the Board follows when determining and distributing dividends.",
         source: "Board-approved · effective 5 September 2026",
         documents: [
-          { title: "Dividend Distribution Policy", href: "/documents/governance/dividend-distribution-policy.pdf" },
+          {
+            title: "Dividend Distribution Policy",
+            href: "/documents/governance/dividend-distribution-policy.pdf",
+          },
         ],
       },
       {

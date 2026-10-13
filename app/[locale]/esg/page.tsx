@@ -8,7 +8,7 @@ import { runEsgValidation } from "@/lib/data/esgValidation";
 export const metadata: Metadata = {
   title: "ESG & Sustainability",
   description:
-    "The sustainability ledger of NDR Smart Spaces — the environmental, social and governance record, measured, governed and reported as an operating discipline.",
+    "How NDR Smart Spaces measures and reports its environmental, social and governance performance.",
 };
 
 if (process.env.NODE_ENV === "development") {

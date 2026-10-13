@@ -5,7 +5,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 100svh;
+  min-height: calc(100svh - var(--header-height));
   color: var(--color-ivory);
   overflow: hidden;
 }
@@ -73,7 +73,8 @@
 
 .typeBlock {
   margin-top: auto;
-  padding-bottom: var(--space-10xl);
+  /* leaves a clear lane at the bottom for the scroll cue */
+  padding-bottom: 5.5rem;
 }
 
 .screenReaderTitle {
@@ -116,7 +117,7 @@
 .scrollCue {
   position: absolute;
   left: 50%;
-  bottom: var(--space-11xl);
+  bottom: 1.25rem;
   z-index: 2;
   transform: translateX(-50%);
   color: var(--color-gold);
@@ -126,8 +127,21 @@
 
 .scrollCue svg {
   display: block;
-  width: var(--space-5xl);
-  height: var(--space-5xl);
+  width: 2rem;
+  height: 2rem;
+  animation: cueBob 2200ms ease-in-out infinite;
+}
+
+@keyframes cueBob {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
 }
 
 .scrollCueHidden {
@@ -163,12 +177,6 @@
   }
 }
 
-@media (max-width: 1439px) {
-  .scrollCue {
-    bottom: var(--space-9xl);
-  }
-}
-
 @media (max-width: 767px) {
   .hero {
     min-height: 35rem;
@@ -201,6 +209,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .scrollCue svg {
+    animation: none;
+  }
+
   .mediaVideo,
   .ruleTop {
     animation: none;

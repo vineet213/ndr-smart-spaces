@@ -474,7 +474,7 @@ export function PortfolioPanel(props: PanelProps) {
               Select a state, or search for a city or {noun}, to open the map
               <span className={styles.desktopOnly}>
                 {" "}
-                — click the search bar to browse every state
+                or click the search bar to browse every state
               </span>
               .
             </p>

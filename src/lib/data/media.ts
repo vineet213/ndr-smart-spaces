@@ -141,7 +141,7 @@ export const PRESS_ARCHIVE_ENTRIES: readonly PressArchiveEntry[] = [
     date: "10 June 2026*",
     category: "coverage",
     title: "NDR Smart Spaces launches new warehousing facility",
-    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu — pending client confirmation.",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu; pending client confirmation.",
     publication: "South India Times",
     image: "/images/media/coverage-07.jpg",
     status: "draft",
@@ -163,7 +163,7 @@ export const PRESS_ARCHIVE_ENTRIES: readonly PressArchiveEntry[] = [
     date: "10 June 2026*",
     category: "coverage",
     title: "NDR Smart Spaces opens new warehouse",
-    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu — pending client confirmation.",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu; pending client confirmation.",
     publication: "Nava Telangana (print)",
     image: "/images/media/coverage-02.jpg",
     status: "draft",
@@ -174,7 +174,7 @@ export const PRESS_ARCHIVE_ENTRIES: readonly PressArchiveEntry[] = [
     date: "10 June 2026*",
     category: "coverage",
     title: "NDR launches large warehouse at Kongara Kalan",
-    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu — pending client confirmation.",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu; pending client confirmation.",
     publication: "Praja Sakti",
     image: "/images/media/coverage-03.jpg",
     status: "draft",
@@ -210,7 +210,7 @@ export const PRESS_ARCHIVE_ENTRIES: readonly PressArchiveEntry[] = [
     date: "9 June 2026*",
     category: "coverage",
     title: "NDR Smart Spaces opens 0.6 million sq ft facility",
-    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu — pending client confirmation.",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu; pending client confirmation.",
     publication: "Nava Telangana (online)",
     status: "draft",
     href: "https://navatelangana.com/ndr-smart-spaces-opens-0-6-million-sq-ft-facility/",
@@ -223,7 +223,7 @@ export const PRESS_ARCHIVE_ENTRIES: readonly PressArchiveEntry[] = [
     category: "coverage",
     title:
       "NDR Smart Spaces launches approximately 0.6 million sq ft facility at Kongara Kalan, Hyderabad",
-    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu — pending client confirmation.",
+    note: "Coverage of the Kongara Kalan, Hyderabad warehouse inauguration. Headline translated from Telugu; pending client confirmation.",
     publication: "Daily Hunt",
     status: "draft",
     href: "https://m.dailyhunt.in/news/india/telugu/pvrnews-epaper-dh4fcab02e50334d6f8a069dbf5eaa5131/haidaraabaadloni+kongara+kalaanlo+sumaaru+06+miliyan+chadarapu+adugula+sadupaayaanni+praarambhinchina+endiaar+smaart+speses-newsid-dh4fcab02e50334d6f8a069dbf5eaa5131_d51cedd0642011f1b6b72f9b905a4ba2?sm=Y",
@@ -238,8 +238,7 @@ export const mediaMasthead = {
   publication: "NDR Press Register",
   section: "Media & Newsroom",
   title: { before: "The ", accent: "Media Highlights", after: "" },
-  statement:
-    "The company's newsroom archive — releases, coverage, interviews and updates, dated and referenced as a public record.",
+  statement: "The company's newsroom archive: releases, coverage, interviews and updates.",
   asOn: MEDIA_EDITION.asOn,
   edition: MEDIA_EDITION.edition,
   folio: `Register ${cmsPublication.editionPeriod}`,
@@ -253,7 +252,7 @@ export const mediaStatement = {
   eyebrow: "The editorial statement",
   heading: "A newsroom archive, kept as a public record.",
   statement:
-    "This register records how NDR Smart Spaces speaks to the public — the releases it issues, the coverage it receives and the updates it files. Every entry carries a date and a reference; nothing is stated that is not on record.",
+    "This register covers how NDR Smart Spaces speaks to the public: the releases it issues, the coverage it receives and the updates it files. Every entry has a date and a reference.",
   signatory: "NDR Smart Spaces · Media Desk",
   provenance:
     "Entries in this register marked * are placeholders pending confirmation against the approved newsroom record.",
@@ -343,7 +342,7 @@ const cmsPressEntries: readonly PressArchiveEntry[] = (() => {
 export const pressArchive = {
   eyebrow: "The archive",
   heading: "The public record, dated and referenced.",
-  lede: "Releases, coverage, interviews and updates filed by the company — each entry with its date and reference. The archive is being filed; entries publish as approvals land.",
+  lede: "Releases, coverage, interviews and updates from the company, each with its date and reference. The archive is still being built, and entries appear as they are approved.",
   note: "The archive is being filed. Entries publish as they are approved.",
   registerCode: `${MEDIA_PUBLICATION.ref} · Press archive`,
   folio: "Folio PR",
@@ -385,7 +384,7 @@ const cmsMediaKit: readonly MediaKitItem[] = (() => {
 export const mediaKit = {
   eyebrow: "Media kit",
   heading: "Assets for the press.",
-  lede: "The official materials of the company — profile, logos and brand guidance — filed for editorial use.",
+  lede: "Official company materials for editorial use: profile, logos and brand guidance.",
   note: "Kit assets publish as the brand system is approved.",
   registerCode: `${MEDIA_PUBLICATION.ref} · Asset register`,
   items: cmsMediaKit,
@@ -401,7 +400,7 @@ const businessEmail =
 export const pressContact = {
   eyebrow: "Press contact",
   heading: "Write to the correspondence office.",
-  body: "Journalists and editors: direct press enquiries to the press desk below. Every enquiry is logged, routed and answered within two business days.",
+  body: "Journalists and editors: direct press enquiries to the press desk below. We aim to answer every enquiry within two business days.",
   response: {
     label: "Response",
     value: cmsCorporate.pressResponseExpectation,
@@ -414,7 +413,7 @@ export const pressContact = {
       label: "Press desk",
       value: pressEmail.value,
       href: `mailto:${pressEmail.value}`,
-      note: "Releases, coverage and interviews — the newsroom register.",
+      note: "Releases, coverage and interviews: the newsroom register.",
     },
     {
       ref: "PC-02",
@@ -432,7 +431,7 @@ export const pressContact = {
 export const mediaClosing = {
   eyebrow: "Register · Endnote",
   line: "The register remains open.",
-  body: "The company's public record is kept in order — releases, coverage, interviews and updates file as they are approved. Until then, every entry carries its status.",
+  body: "Releases, coverage, interviews and updates are added as they are approved. Until then, every entry shows its status.",
   publicationRef: MEDIA_PUBLICATION.ref,
   edition: MEDIA_EDITION.edition,
   primaryCta: { label: "Write to the press desk", href: "mailto:compliance@ndrsmart.com" },

@@ -143,7 +143,7 @@ function text(data: JsonValue, key: string): string {
 }
 
 async function main(): Promise<void> {
-  console.log("CMS Phase 2A — parity verification");
+  console.log("CMS Phase 2A: parity verification");
   const store = new JsonFileStore(STORE_FILE);
   const content = new ContentStore(store);
   const audit = new AuditLog(store);
@@ -377,7 +377,7 @@ async function main(): Promise<void> {
     check(
       "relations.audit-chain",
       "relations",
-      `audit chain intact — ${totalRecords} create entries (one per seeded record)`,
+      `audit chain intact: ${totalRecords} create entries (one per seeded record)`,
       "expected",
       chain.valid && chain.lastVerifiedSeq === totalRecords,
       `valid=${chain.valid}, verified=${chain.lastVerifiedSeq}, expected=${totalRecords}`,
@@ -413,12 +413,12 @@ async function main(): Promise<void> {
   writeFileSync(join(REPORT_DIR, "parity-report.md"), renderMarkdown(report), "utf8");
 
   console.log(
-    `\n${results.length} checks — ${report.counts.passed} passed, ${report.counts.failed} failed, ${unintended.length} unintended.`,
+    `\n${results.length} checks: ${report.counts.passed} passed, ${report.counts.failed} failed, ${unintended.length} unintended.`,
   );
   if (failed.length > 0) {
     for (const result of failed) {
       console.error(
-        `  ✗ [${result.layer}] ${result.description}${result.detail ? ` — ${result.detail}` : ""}`,
+        `  ✗ [${result.layer}] ${result.description}${result.detail ? `: ${result.detail}` : ""}`,
       );
     }
   }
@@ -954,7 +954,7 @@ async function verifySettings(content: ContentStore): Promise<void> {
   const corporatePass =
     corporate.companyName === "NDR Smart Spaces" &&
     corporate.legalEntity === "NDR Smart Spaces Pvt. Ltd." &&
-    corporate.registryLine === "NDR Smart Spaces Pvt. Ltd. — an NDR Group platform" &&
+    corporate.registryLine === "NDR Smart Spaces Pvt. Ltd., an NDR Group platform" &&
     corporate.cin === "U45201TN2005PTC059267" &&
     addresses[0]?.label === "Corporate office" &&
     JSON.stringify(lines) === JSON.stringify(corporateAddressLines) &&
@@ -1152,7 +1152,7 @@ async function verifyHomepageIntegration(): Promise<void> {
   check(
     "integration.homepage.no-new-sections",
     "integration",
-    "homepage keeps esg null and latestUpdates empty — no new sections introduced",
+    "homepage keeps esg null and latestUpdates empty, no new sections introduced",
     "expected",
     esg === null && latestUpdates.length === 0,
     undefined,
@@ -1482,13 +1482,13 @@ function renderMarkdown(report: unknown): string {
     results: CheckResult[];
   };
   const lines: string[] = [];
-  lines.push("# CMS Phase 2A/2B — Parity Report");
+  lines.push("# CMS Phase 2A/2B: Parity Report");
   lines.push("");
   lines.push(`- Generated: ${new Date().toISOString()}`);
   lines.push(`- Store: \`.cms-store/content.json\``);
   lines.push(`- Generated modules: \`src/lib/data/generated/\``);
   lines.push(
-    `- Verdict: **${r.verdict}** — ${r.counts.passed}/${r.counts.total} checks passed, ${r.counts.failed} failed, ${r.counts.unintended} unintended`,
+    `- Verdict: **${r.verdict}**: ${r.counts.passed}/${r.counts.total} checks passed, ${r.counts.failed} failed, ${r.counts.unintended} unintended`,
   );
   lines.push("");
   const byLayer = new Map<string, CheckResult[]>();

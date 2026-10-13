@@ -45,7 +45,7 @@ const REGISTRY_DEFAULTS: RegistryConfig = {
 };
 
 async function main(): Promise<void> {
-  console.log("CMS Phase 2A — seed collections from the frozen data modules");
+  console.log("CMS Phase 2A: seed collections from the frozen data modules");
   rmSync(join(ROOT, ".cms-store"), { recursive: true, force: true });
   rmSync(GENERATED_DIR, { recursive: true, force: true });
 

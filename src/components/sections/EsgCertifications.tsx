@@ -59,7 +59,7 @@ export function EsgCertifications() {
                       )}
                     >
                       <span className={styles.statusGlyph} aria-hidden="true">
-                        {ESG_STATUS_TONES[certification.status] === "active" ? "●" : "—"}
+                        {ESG_STATUS_TONES[certification.status] === "active" ? "●" : "-"}
                       </span>
                       {ESG_STATUS_LABELS[certification.status]}
                     </span>

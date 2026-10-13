@@ -40,7 +40,7 @@ export function CapabilityMatrix() {
               <p className={styles.footprintLabel}>{capabilityMatrix.footprint.label}</p>
               <p className={styles.footprintLine}>
                 {capabilityMatrix.footprint.line}
-                <span className={styles.footprintNote}> — {capabilityMatrix.footprint.note}</span>
+                <span className={styles.footprintNote}> {capabilityMatrix.footprint.note}</span>
               </p>
               <SourceFootnote className={styles.footprintSource}>
                 {capabilityMatrix.footprint.source}

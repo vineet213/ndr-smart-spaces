@@ -412,7 +412,7 @@ export function WarehousePlate() {
       />
 
       <span className={cx(styles.plateRef, styles.fade)} style={stagger(2)}>
-        PL. 101 — Operating Verticals
+        PL. 101: Operating Verticals
       </span>
       <span className={cx(styles.figureRef, styles.fade)} style={stagger(3)}>
         Fig. 1.1
@@ -717,7 +717,7 @@ export function WarehousePlate() {
           fy={922}
           lx={150}
           ly={970}
-          label="LOADING DOCKS — 5 NOS"
+          label="LOADING DOCKS: 5 NOS"
           style={stagger(22)}
         />
         <Callout
@@ -725,7 +725,7 @@ export function WarehousePlate() {
           fy={1085}
           lx={1440}
           ly={1100}
-          label="TRUCK CIRCULATION — ONE-WAY"
+          label="TRUCK CIRCULATION: ONE-WAY"
           anchor="end"
           style={stagger(23)}
         />
@@ -734,7 +734,7 @@ export function WarehousePlate() {
           fy={1095}
           lx={1450}
           ly={930}
-          label="ROOF PLANT — HVAC &amp; CHW"
+          label="ROOF PLANT: HVAC &amp; CHW"
           anchor="end"
           style={stagger(24)}
         />
@@ -743,7 +743,7 @@ export function WarehousePlate() {
           fy={921}
           lx={120}
           ly={900}
-          label="SUBSTATION — 33 / 11 KV"
+          label="SUBSTATION: 33 / 11 KV"
           style={stagger(25)}
         />
         <Callout fx={789} fy={781} lx={240} ly={640} label="11 KV FEEDER" style={stagger(26)} />
@@ -752,7 +752,7 @@ export function WarehousePlate() {
           fy={934}
           lx={90}
           ly={1150}
-          label="ELEVATED WATER TANK — 250 KL"
+          label="ELEVATED WATER TANK: 250 KL"
           style={stagger(27)}
         />
         <Callout
@@ -760,7 +760,7 @@ export function WarehousePlate() {
           fy={1272}
           lx={520}
           ly={1540}
-          label="STAFF PARKING — 24 BAYS"
+          label="STAFF PARKING: 24 BAYS"
           style={stagger(28)}
         />
         <Callout
@@ -768,7 +768,7 @@ export function WarehousePlate() {
           fy={1184}
           lx={360}
           ly={1280}
-          label="SECURITY GATEHOUSE — GATE B"
+          label="SECURITY GATEHOUSE: GATE B"
           style={stagger(29)}
         />
 

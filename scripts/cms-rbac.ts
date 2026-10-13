@@ -49,7 +49,7 @@ function assert(condition: boolean, message: string): void {
 }
 
 function assertEqual<T>(actual: T, expected: T, message: string): void {
-  assert(actual === expected, `${message} — expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+  assert(actual === expected, `${message}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
 }
 
 function section(name: string): void {
@@ -128,7 +128,7 @@ assert(hasPermission("super-admin", "collection:archive"), "super-admin can arch
 assert(hasPermission("super-admin", "export:run"), "super-admin can export");
 assert(hasPermission("super-admin", "deploy:run"), "super-admin can deploy");
 
-section("Authentication — dev credentials");
+section("Authentication: dev credentials");
 for (const cred of DEV_CREDENTIALS) {
   const session = authenticate(cred.user, cred.password);
   assert(session !== null, `authenticate("${cred.user}", "${cred.password}") succeeds`);
@@ -159,7 +159,7 @@ assert(verifySessionCookie("tampered." + signed.split(".")[1]) === null, "tamper
 assert(verifySessionCookie("abc.badhex") === null, "bad hex signature fails");
 assert(verifySessionCookie("noseparator") === null, "no dot fails");
 
-section("requirePermission — allowed");
+section("requirePermission: allowed");
 const viewerSession = createSession("viewer", "viewer");
 const editorSession = createSession("editor", "editor");
 const publisherSession = createSession("publisher", "publisher");
@@ -173,7 +173,7 @@ requirePermission(adminSession, "export:run");
 requirePermission(adminSession, "deploy:run");
 assert(true, "requirePermission did not throw for allowed operations");
 
-section("requirePermission — denied");
+section("requirePermission: denied");
 function expectDenied(fn: () => void, name: string): void {
   try {
     fn();
@@ -194,7 +194,7 @@ expectDenied(() => requirePermission(editorSession, "deploy:run"), "editor → d
 expectDenied(() => requirePermission(editorSession, "collection:delete"), "editor → delete");
 expectDenied(() => requirePermission(publisherSession, "collection:delete"), "publisher → delete");
 
-section("Editor integration — archive restriction");
+section("Editor integration: archive restriction");
 {
   const { editor } = makeEditorContext();
   const saved = await editor.save({
@@ -228,7 +228,7 @@ section("Editor integration — archive restriction");
   }
 }
 
-section("Archive transition — published → archived (Phase 4.1.1)");
+section("Archive transition: published → archived (Phase 4.1.1)");
 {
   const { editor, audit } = makeEditorContext();
   const saved = await editor.save({
@@ -254,7 +254,7 @@ section("Archive transition — published → archived (Phase 4.1.1)");
   assert(chain.valid, "audit chain stays valid through archive transition");
 }
 
-section("Archive transition — no schema re-validation on status change");
+section("Archive transition: no schema re-validation on status change");
 {
   const { editor } = makeEditorContext();
   const saved = await editor.save({
@@ -273,7 +273,7 @@ section("Archive transition — no schema re-validation on status change");
   }
 }
 
-section("Archive transition — publisher blocked from archive");
+section("Archive transition: publisher blocked from archive");
 {
   const { editor } = makeEditorContext();
   const saved = await editor.save({
@@ -319,7 +319,7 @@ assert(devRoles.includes("super-admin"), "dev credentials include super-admin");
 assert(devRoles.includes("editor"), "dev credentials include editor");
 assert(devRoles.includes("viewer"), "dev credentials include viewer");
 
-section("Deployment adapter — default (no provider configured)");
+section("Deployment adapter: default (no provider configured)");
 {
   const adapter = createDeploymentAdapter();
   const result = adapter.deploy();
@@ -328,7 +328,7 @@ section("Deployment adapter — default (no provider configured)");
   assert(typeof result.message === "string", "default adapter returns message");
 }
 
-section("Deployment adapter — DeployResult shape");
+section("Deployment adapter: DeployResult shape");
 {
   const adapter = createDeploymentAdapter();
   const result: DeployResult = adapter.deploy();
@@ -337,7 +337,7 @@ section("Deployment adapter — DeployResult shape");
   assert("message" in result && typeof result.message === "string", "result has message string");
 }
 
-section("Audit trail — export and deploy actions");
+section("Audit trail: export and deploy actions");
 {
   const store = new MemoryStore();
   const audit = new AuditLog(store);

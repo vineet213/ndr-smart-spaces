@@ -59,7 +59,7 @@ export function EnquiryForm() {
     setStatus("sending");
 
     const recipient = route.default;
-    const subject = `Business Enquiry — ${values.enquiryType}`;
+    const subject = `Business Enquiry: ${values.enquiryType}`;
     const body = [
       `Name: ${values.name}`,
       `Email: ${values.email}`,

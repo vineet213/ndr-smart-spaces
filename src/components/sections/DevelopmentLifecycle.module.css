@@ -27,19 +27,6 @@
   margin-bottom: var(--space-8xl);
 }
 
-.mapEyebrow {
-  margin: 0 0 var(--space-xl);
-  display: inline-block;
-}
-
-.goldRule {
-  display: inline-block;
-  width: 3.5rem;
-  height: 2px;
-  margin-right: var(--space-md);
-  background-color: var(--color-gold);
-}
-
 .mapTitle {
   margin: 0;
   max-width: var(--measure-body);
@@ -681,6 +668,24 @@
 
     .textPanelInner > *:nth-child(3) {
       animation-range: cover 40% cover 64%;
+    }
+
+    /* Once a stage's reveal has fully played it stays finished: scrolling back
+     * up no longer scrubs the photo back to blurred or the text back to hidden.
+     * (The recede/dim on .stageInner is untouched and still follows scroll.) */
+    .stage.settled .image {
+      animation: none;
+    }
+
+    .stage.settled .sweep {
+      animation: none;
+      transform: translate(0, 0);
+    }
+
+    .stage.settled .textPanelInner > * {
+      animation: none;
+      opacity: 1;
+      transform: none;
     }
   }
 }

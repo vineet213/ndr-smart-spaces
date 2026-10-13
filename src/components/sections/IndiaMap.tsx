@@ -86,7 +86,7 @@ export function IndiaMap({
       ref={ref}
       className={cx(styles.wrap, inView && styles.inView)}
       role="img"
-      aria-label="Map of India showing NDR Smart Spaces locations — headquarters, primary logistics hubs and secondary locations"
+      aria-label="Map of India showing NDR Smart Spaces locations: headquarters, primary logistics hubs and secondary locations"
     >
       <div
         className={styles.frame}
@@ -141,7 +141,7 @@ export function IndiaMap({
                   )}
                   role="button"
                   tabIndex={0}
-                  aria-label={`${location.name}, ${location.line} — ${location.zone} zone · ${TIER_LABEL[location.tier]}`}
+                  aria-label={`${location.name}, ${location.line}: ${location.zone} zone · ${TIER_LABEL[location.tier]}`}
                   aria-describedby={hovered ? "map-tooltip" : undefined}
                   onMouseEnter={() => onLocationEnter(location)}
                   onMouseLeave={onLocationLeave}

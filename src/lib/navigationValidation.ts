@@ -111,7 +111,7 @@ export function validateNavigation(): string[] {
     const existingLabel = surfaceMap.get(entry.href);
     if (existingLabel && existingLabel !== entry.label) {
       errors.push(
-        `Destination "${entry.href}" carries two labels — "${existingLabel}" and "${entry.label}" (${entry.surface}).`,
+        `Destination "${entry.href}" carries two labels, "${existingLabel}" and "${entry.label}" (${entry.surface}).`,
       );
     } else if (!existingLabel) {
       surfaceMap.set(entry.href, entry.label);

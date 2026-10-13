@@ -475,7 +475,7 @@ export function PropertyRegister() {
                       selectedStateId={selectedStateId}
                       onStateSelect={handleStateSelect}
                       states={currentStates}
-                      ariaLabel="Map of India — select a state to see its warehouses."
+                      ariaLabel="Map of India. Select a state to see its warehouses."
                     />
                   </div>
                 ) : null}

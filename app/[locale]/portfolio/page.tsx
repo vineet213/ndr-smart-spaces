@@ -6,7 +6,7 @@ import { WhyNdr } from "@/components/sections/WhyNdr";
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "The institutional catalogue of NDR Smart Spaces — one state survey of the group's properties: the developable land bank and the assets rising on it, recorded as filed.",
+    "The NDR Smart Spaces portfolio: the group's land bank and the assets being built on it, state by state.",
 };
 
 export default function PortfolioPage() {

@@ -251,7 +251,7 @@ export function validateLinks(
         collection: "navigation",
         recordId: surface,
         severity: "error",
-        message: `"${surface}" uses a bare anchor "${entry.href}" — anchors must ride on a route.`,
+        message: `"${surface}" uses a bare anchor "${entry.href}", anchors must ride on a route.`,
       });
       return;
     }
@@ -568,7 +568,7 @@ export function validateRouteReference(
       collection,
       "broken-routes",
       recordId,
-      `"${surface}" uses a bare anchor "${href}" — anchors must ride on a route.`,
+      `"${surface}" uses a bare anchor "${href}", anchors must ride on a route.`,
     );
     return;
   }
@@ -680,7 +680,7 @@ function validateCoordinates(
         collection,
         "coordinates",
         recordId,
-        "No coordinates set — this record will not render as a pin on the state map.",
+        "No coordinates set, this record will not render as a pin on the state map.",
         "warning",
       );
     }
@@ -863,7 +863,7 @@ export function validatePortfolioAssetsData(
         "portfolio-assets",
         "unpublished-linked-content",
         recordId,
-        `Asset image "${imageMedia}" is media of kind "${asText(media.data, "kind")}" — expected an image.`,
+        `Asset image "${imageMedia}" is media of kind "${asText(media.data, "kind")}", expected an image.`,
         "warning",
       );
     }

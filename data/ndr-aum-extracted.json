@@ -1,5 +1,5 @@
 {
-  "source": "NDR corporate presentation — Key Characteristics warehouse table (as of March 31)",
+  "source": "NDR corporate presentation: Key Characteristics warehouse table (as of March 31)",
   "source_section": "Warehouse Name / Interest Valued / Total Leasable Area (msf)",
   "records": [
     { "sr_no": 1, "name": "NDR Bilaspur", "tableCityLabel": "NCR", "interestValued": "Freehold", "leasableAreaMsf": 0.84 },

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { FadeImage as Image } from "@/components/ui/FadeImage";
 import { Container } from "@/components/layout";
-import { Eyebrow, SourceFootnote } from "@/components/ui";
+import { SourceFootnote } from "@/components/ui";
 import type { LifecycleStage } from "@/lib/data/business";
 import { useInView } from "@/hooks/useInView";
 import { getLenisInstance } from "@/lib/lenis";
@@ -136,6 +136,26 @@ function StageRow({ stage, order, onDwell, sweetSpotRef }: StageRowProps) {
     once: false,
   });
 
+  // Latches true once this stage's marker has scrolled past the top of the
+  // viewport, i.e. its scroll-scrubbed reveal has fully played. From then on the
+  // finished state is held, so scrolling back up never un-develops a stage the
+  // visitor has already seen (the card still recedes/dims with scroll).
+  const [settled, setSettled] = useState(false);
+  const markerRef = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    const marker = markerRef.current;
+    if (!marker || settled) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.boundingClientRect.top < 0) {
+        setSettled(true);
+        observer.disconnect();
+      }
+    });
+    observer.observe(marker);
+    return () => observer.disconnect();
+  }, [settled]);
+
   const setArticleRef = useCallback(
     (el: HTMLElement | null) => {
       revealRef.current = el;
@@ -159,8 +179,18 @@ function StageRow({ stage, order, onDwell, sweetSpotRef }: StageRowProps) {
        * sharpest, text fully revealed. Doubles as the scroll-snap point and
        * as the destination the fixed stage nav scrolls to on click, so
        * "landing on the perfect moment" never depends on manual scrolling. */}
-      <span ref={sweetSpotRef} className={styles.snapMarker} aria-hidden="true" />
-      <article ref={setArticleRef} className={cx(styles.stage, revealed && styles.isActive)}>
+      <span
+        ref={(el) => {
+          markerRef.current = el;
+          sweetSpotRef(el);
+        }}
+        className={styles.snapMarker}
+        aria-hidden="true"
+      />
+      <article
+        ref={setArticleRef}
+        className={cx(styles.stage, revealed && styles.isActive, settled && styles.settled)}
+      >
         {/* .stageInner carries the entrance-slide + recede/dim animation,   */}
         {/* kept separate from .stage (the sticky positioning box) so the   */}
         {/* two concerns — "where this pins" vs "how it arrives/departs" —  */}
@@ -270,6 +300,13 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
     once: false,
   });
 
+  // The stage index belongs to the scrolling stage stack only: hide it as soon
+  // as the "final product" heading below the stack comes into view.
+  const { ref: headingRef, inView: headingInView } = useInView<HTMLElement>({
+    threshold: 0,
+    once: false,
+  });
+
   const handleDwell = useCallback((order: number) => setActiveIndex(order), []);
 
   const handleSelect = useCallback((index: number) => {
@@ -297,19 +334,17 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
       <StageNav
         stages={stages}
         activeIndex={activeIndex}
-        visible={listInView}
+        visible={listInView && !headingInView}
         onSelect={handleSelect}
       />
 
       <Container>
         <Reveal>
-          <header className={styles.mapHeading}>
-            <span className={styles.goldRule} aria-hidden="true" />
-            <Eyebrow className={styles.mapEyebrow}>Logistics and Industrial Infrastructure</Eyebrow>
+          <header ref={headingRef} className={styles.mapHeading}>
             <h2 className={styles.mapTitle}>A peak into the final product</h2>
             <p className={styles.mapBody}>
               Strategically located, spec-forward facilities near highways, ports, railways and
-              airports — serving retail, e-commerce, 3PL and manufacturing.
+              airports, serving retail, e-commerce, 3PL and manufacturing.
             </p>
           </header>
         </Reveal>

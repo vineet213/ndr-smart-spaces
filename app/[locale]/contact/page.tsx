@@ -8,8 +8,7 @@ import { runContactValidation } from "@/lib/data/contactValidation";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description:
-    "Smart Spaces, HR and Grievance desks — reach the NDR Smart Spaces team that answers your enquiry.",
+  description: "Reach the NDR Smart Spaces team through the Smart Spaces, HR and Grievance desks.",
 };
 
 if (process.env.NODE_ENV === "development") {

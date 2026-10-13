@@ -162,7 +162,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
       { key: "brandName", label: "Brand name", kind: "text", required: true },
       {
         key: "logoLight",
-        label: "Logo — light",
+        label: "Logo: light",
         kind: "object",
         fields: [
           { key: "src", label: "Path", kind: "text", required: true },
@@ -171,7 +171,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
       },
       {
         key: "logoDark",
-        label: "Logo — dark",
+        label: "Logo: dark",
         kind: "object",
         fields: [
           { key: "src", label: "Path", kind: "text", required: true },
@@ -222,7 +222,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
     editor: "documents",
     statusEnabled: true,
     refKind: "doc",
-    description: "Filings, disclosures, policies — the central publication gate (blueprint §11.4).",
+    description: "Filings, disclosures, policies, the central publication gate (blueprint §11.4).",
     fields: [
       { key: "title", label: "Title", kind: "text", required: true },
       { key: "category", label: "Category", kind: "text", required: true },
@@ -246,7 +246,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
     label: "Media Library",
     editor: "media",
     statusEnabled: true,
-    description: "Images, logos, PDFs, SVGs — referenceable across collections (blueprint §11.5).",
+    description: "Images, logos, PDFs, SVGs, referenceable across collections (blueprint §11.5).",
     fields: [
       { key: "name", label: "File name", kind: "text", required: true },
       {
@@ -274,7 +274,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
     editor: "records",
     statusEnabled: true,
     description:
-      "Canonical metric ledger — every figure with its source and period (blueprint §11.1).",
+      "Canonical metric ledger, every figure with its source and period (blueprint §11.1).",
     fields: [
       { key: "name", label: "Name", kind: "text", required: true },
       {
@@ -347,7 +347,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
     editor: "records",
     statusEnabled: true,
     description:
-      "Master geographic collection — zones, tiers, coordinates, visibility, offsets (blueprint §11.2).",
+      "Master geographic collection, zones, tiers, coordinates, visibility, offsets (blueprint §11.2).",
     fields: [
       { key: "name", label: "Name", kind: "text", required: true },
       {
@@ -362,7 +362,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
         label: "Zone",
         kind: "select",
         options: ["south", "west", "east", "north"],
-        helper: "Optional — leave blank when no authoritative zone has been supplied yet.",
+        helper: "Optional: leave blank when no authoritative zone has been supplied yet.",
       },
       { key: "region", label: "Region", kind: "text", placeholder: "Tamil Nadu" },
       {
@@ -397,13 +397,13 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
         key: "lat",
         label: "Latitude",
         kind: "number",
-        helper: "Optional — pins the location on the portfolio state map.",
+        helper: "Optional: pins the location on the portfolio state map.",
       },
       {
         key: "lon",
         label: "Longitude",
         kind: "number",
-        helper: "Optional — required together with latitude for a map pin.",
+        helper: "Optional: required together with latitude for a map pin.",
       },
       {
         key: "homepageOffset",
@@ -484,7 +484,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
     label: "Portfolio Assets",
     editor: "records",
     statusEnabled: true,
-    description: "Catalogue plates — each asset linked to a shared location (blueprint §11.3).",
+    description: "Catalogue plates, each asset linked to a shared location (blueprint §11.3).",
     fields: [
       { key: "name", label: "Name", kind: "text", required: true },
       {
@@ -564,7 +564,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
     editor: "records",
     statusEnabled: true,
     description:
-      "Operating, leasable warehouse assets held by the group's SPVs — mapped by state and city on the portfolio atlas.",
+      "Operating, leasable warehouse assets held by the group's SPVs, mapped by state and city on the portfolio atlas.",
     fields: [
       { key: "name", label: "Name", kind: "text", required: true },
       {
@@ -580,7 +580,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
         kind: "text",
         required: true,
         helper:
-          "The commercial city grouping (e.g. \"Chennai\") used to cluster assets for the map's city-level zoom — may differ from the administrative district.",
+          'The commercial city grouping (e.g. "Chennai") used to cluster assets for the map\'s city-level zoom, may differ from the administrative district.',
       },
       { key: "district", label: "District / locality", kind: "text" },
       {
@@ -603,7 +603,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
         kind: "select",
         options: ["available", "committed", "under-development"],
         helper:
-          "Optional — leave blank when the source does not state a status. Named landStatus so the workflow status stays unambiguous in generated output.",
+          "Optional: leave blank when the source does not state a status. Named landStatus so the workflow status stays unambiguous in generated output.",
       },
       { key: "summary", label: "Summary", kind: "textarea" },
       {
@@ -658,7 +658,12 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
       },
       { key: "proof", label: "Proof", kind: "text", required: true },
       { key: "proofSource", label: "Proof source", kind: "text", required: true },
-      { key: "anchor", label: "Section anchor", kind: "text", placeholder: "logistics-and-industrial-infrastructure" },
+      {
+        key: "anchor",
+        label: "Section anchor",
+        kind: "text",
+        placeholder: "logistics-and-industrial-infrastructure",
+      },
       {
         key: "route",
         label: "Route",
@@ -691,7 +696,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
     editor: "records",
     statusEnabled: true,
     description:
-      "Impact initiatives on the ledger map — each tied to a shared location (blueprint §11.7).",
+      "Impact initiatives on the ledger map, each tied to a shared location (blueprint §11.7).",
     fields: [
       { key: "name", label: "Name", kind: "text", required: true },
       {
@@ -749,7 +754,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
     statusEnabled: true,
     refKind: "register:gv",
     description:
-      "Board, committee, policy and charter records — numbered by the register (blueprint §11.8).",
+      "Board, committee, policy and charter records, numbered by the register (blueprint §11.8).",
     fields: [
       { key: "title", label: "Title", kind: "text", required: true },
       {
@@ -785,7 +790,7 @@ export const EDITOR_SCHEMAS: readonly CollectionEditorSchema[] = [
     editor: "records",
     statusEnabled: true,
     description:
-      "Offices and response desks — each optionally tied to a shared location (blueprint §11.9).",
+      "Offices and response desks, each optionally tied to a shared location (blueprint §11.9).",
     fields: [
       { key: "name", label: "Name", kind: "text", required: true },
       {

@@ -40,7 +40,7 @@ async function main(): Promise<number> {
   const content = new ContentStore(store);
   const auditLog = new AuditLog(store);
 
-  console.log("CMS export — generating managed modules");
+  console.log("CMS export: generating managed modules");
   const filesToWrite = await generateMerged(content);
   writeGenerated(GENERATED_DIR, filesToWrite);
   for (const file of filesToWrite) {
@@ -68,7 +68,7 @@ async function main(): Promise<number> {
 
   const exportOk = generated.valid && contract.stable && chain.valid;
   if (!exportOk) {
-    console.error("CMS export failed — see errors above. Public build NOT updated.");
+    console.error("CMS export failed: see errors above. Public build NOT updated.");
     return 1;
   }
   console.log(
@@ -78,7 +78,7 @@ async function main(): Promise<number> {
   // Stage 2: deployment — reported separately, never gates export success.
   try {
     const result = createDeploymentAdapter().deploy();
-    console.log(`deployment: provider=${result.provider} deployed=${result.deployed} — ${result.message}`);
+    console.log(`deployment: provider=${result.provider} deployed=${result.deployed}: ${result.message}`);
   } catch (error) {
     console.error(
       `deployment failed (export unaffected): ${error instanceof Error ? error.message : String(error)}`,

@@ -154,7 +154,7 @@ async function main(): Promise<void> {
     imported += 1;
     if (typeof record.area_acres === "number") acreSum += record.area_acres;
     console.log(
-      `  + ${id.padEnd(46)} ${String(record.area_acres ?? "—").padStart(7)} acres${
+      `  + ${id.padEnd(46)} ${String(record.area_acres ?? "N/A").padStart(7)} acres${
         result.issuedRef ? ` [${result.issuedRef}]` : ""
       }`,
     );
@@ -171,7 +171,7 @@ async function main(): Promise<void> {
   console.log(`audit chain valid: ${chain.valid}`);
 
   if (!generatedCheck.valid || !chain.valid) process.exit(1);
-  console.log("IMPORT OK — drafts await review in the admin; nothing was published.");
+  console.log("IMPORT OK: drafts await review in the admin; nothing was published.");
 }
 
 main().catch((error) => {

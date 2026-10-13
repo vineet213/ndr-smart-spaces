@@ -106,8 +106,8 @@ export const businessMasthead = {
  */
 export const verticalMastheadSubtext: Readonly<Record<string, string>> = {
   "01": "From barren lands to smart spaces, we build the infrastructure that keeps businesses moving for the logistics and manufacturing sectors.",
-  "02": "Project management and maintenance — building assets, managing execution and delivering performance.",
-  "03": "Residential plotted communities developed near industrial corridors — quality housing, long-term connectivity, and growth built alongside the regions we serve.",
+  "02": "Project management and maintenance: building assets, managing execution and delivering performance.",
+  "03": "Residential plotted communities near industrial corridors, offering quality housing, long-term connectivity and growth alongside the regions we serve.",
 };
 
 /**
@@ -309,7 +309,7 @@ export const corporateStructure = {
 export type ChainNode = { index: string; name: string; caption: string };
 
 export const capitalDeployment = {
-  rofo: "Right of First Offer — NDR InvIT evaluates each eligible asset before any third party.",
+  rofo: "Right of First Offer: NDR InvIT evaluates each eligible asset before any third party.",
   chain: [
     { index: "01", name: "Develop", caption: "SPVs build on owned or leased land" },
     {
@@ -395,7 +395,7 @@ export const vertical02AssetManagement = {
   intro: {
     heading: "Keeping assets productive. Keeping businesses moving.",
     mastheadSubtext:
-      "Leasing, upkeep and operational support that keep every asset performing — and every tenant moving — across its working life.",
+      "Leasing, upkeep and operational support that keep every asset performing across its working life.",
     description:
       "We manage the leasing and ongoing maintenance of industrial and logistics assets, ensuring facilities deliver consistent performance throughout their operational lifecycle. Our approach combines tenant management, facility upkeep, preventive maintenance, repairs, and operational support to maintain asset quality, tenant satisfaction, safety, and long-term value.",
   },
@@ -519,7 +519,7 @@ export const vertical02DevelopmentLifecycle = {
     mastheadSubtext:
       "How a piece of land becomes an operating asset, from identification and approvals through to construction and handover.",
     description:
-      "How a piece of land becomes an operating asset, from land identification through due diligence, acquisition, approvals, design, construction and handover. Each stage below records the standard the manual holds every project to.",
+      "How a piece of land becomes an operating asset, from land identification through due diligence, acquisition, approvals, design, construction and handover. Each stage below sets out the standard we hold every project to.",
   },
   stages: [
     {
@@ -597,7 +597,7 @@ export const vertical02DevelopmentLifecycle = {
     {
       index: "07",
       title: "Integrating Engineering Services",
-      body: "Executing warehouse construction with strong oversight of quality, cost, timelines, and technical standards.",
+      body: "Executing warehouse construction with strong oversight of quality, cost, timelines and technical standards.",
       image: {
         src: "/images/lifecycle/06-engineering.jpg",
         alt: "Steel structural framework of a warehouse under construction with a crane",

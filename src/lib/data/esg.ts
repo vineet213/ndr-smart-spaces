@@ -48,11 +48,11 @@ export const ESG_STATUS_TONES: Record<EsgRecordStatus, "active" | "pending"> = {
 /* masthead ---------------------------------------------------------------- */
 
 export const esgMasthead = {
-  registry: "NDR Smart Spaces Pvt. Ltd. — an NDR Group platform",
+  registry: "NDR Smart Spaces Pvt. Ltd., an NDR Group platform",
   section: "ESG & Sustainability",
   title: { before: "The sustainability ", accent: "ledger", after: "." },
   statement:
-    "How the company measures, governs and reports its environmental, social and governance performance — as an operating discipline.",
+    "Four values guide how we build: the environment, our people, sound governance and safety. Here is how we measure and report on each.",
   asOn: ESG_EDITION.asOn,
   edition: ESG_EDITION.edition,
   folio: "Ledger FY26",
@@ -64,9 +64,9 @@ export const esgMasthead = {
 
 export const esgStatement = {
   eyebrow: "The editorial statement",
-  heading: "Sustainability is an operating discipline, governed and reported.",
+  heading: "How we run sustainability across the business.",
   statement:
-    "This ledger records how NDR Smart Spaces measures its environmental, social and governance performance — the standards it holds, the targets it sets, and the evidence it files. Every figure carries a source and a period; nothing is stated that is not reported.",
+    "This ledger covers how NDR Smart Spaces measures its environmental, social and governance performance: the standards it follows, the targets it sets and the evidence it files. Every figure shows its source and period.",
   signatory: "NDR Smart Spaces · Sustainability Desk",
   provenance:
     "Figures in this edition marked * are placeholders pending confirmation against the approved ESG data source.",
@@ -92,43 +92,61 @@ export type EsgGreenFeature = {
 export const esgGreenFeatures = {
   eyebrow: "In practice",
   heading: "Sustainability, built in.",
-  lede: "The Environmental pillar isn't a line in a policy document — it's drawn into the site plan, built into the roofline, and measured in every warehouse the group develops.",
+  lede: "Environmental measures are part of the site plan and the roofline, and are measured in every warehouse the group develops.",
   features: [
     {
       index: "01",
       title: "Solar Panel Installation",
       body: "Rooftop solar capacity fitted across eligible warehouse spans, offsetting grid draw with on-site generation and cutting the operating carbon footprint of every asset it powers.",
-      image: { src: "/images/esg/solar.jpg", alt: "Rooftop solar panel installation on an NDR warehouse" },
+      image: {
+        src: "/images/esg/solar.jpg",
+        alt: "Rooftop solar panel installation on an NDR warehouse",
+      },
     },
     {
       index: "02",
       title: "Rainwater Harvesting",
       body: "Rainwater harvesting systems that capture monsoon runoff across each site's roof and paved area, recharging groundwater and reducing dependence on external water supply.",
-      image: { src: "/images/esg/rainwater-harvesting.jpg", alt: "Rainwater harvesting pond at an NDR site" },
+      image: {
+        src: "/images/esg/rainwater-harvesting.jpg",
+        alt: "Rainwater harvesting pond at an NDR site",
+      },
     },
     {
       index: "03",
       title: "EV Charging Stations",
       body: "EV charging infrastructure built into the parking and logistics yard, supporting the shift to electric fleets for tenants and visitors moving through the park.",
-      image: { src: "/images/esg/ev-charging.jpg", alt: "EV charging connector for fleet vehicles at a logistics yard" },
+      image: {
+        src: "/images/esg/ev-charging.jpg",
+        alt: "EV charging connector for fleet vehicles at a logistics yard",
+      },
     },
     {
       index: "04",
       title: "Plantation Drives & Biodiversity",
       body: "Ongoing plantation drives that green every site well beyond its built footprint, restoring tree cover, supporting local biodiversity and softening the immediate impact of construction.",
-      image: { src: "/images/esg/plantation-drive.jpg", alt: "Tree plantation drive at an NDR site" },
+      image: {
+        src: "/images/esg/plantation-drive.jpg",
+        alt: "Tree plantation drive at an NDR site",
+      },
     },
     {
       index: "05",
       title: "Waste Management/ STP's",
       body: "Structured bio waste management through STP's and waste segregation across every park, keeping construction and operational waste out of landfill wherever it can be recovered, recycled or reused.",
-      image: { src: "/images/esg/waste-management.jpg", alt: "Colour-coded waste segregation bins" },
+      image: {
+        src: "/images/esg/waste-management.jpg",
+        alt: "Colour-coded waste segregation bins",
+      },
     },
     {
       index: "06",
       title: "Sustainable Construction Measures",
       body: "Cool roof paint, roof monitors, louvred façades and precast systems specified across every build, cutting cooling load and construction waste without compromising on speed to delivery.",
-      image: { src: "/images/esg/roof-monitor.jpg", alt: "Roof monitor ventilation on an NDR warehouse" },
+      image: {
+        src: "/images/esg/roof-monitor.jpg",
+        alt: "Roof monitor ventilation on an NDR warehouse",
+      },
     },
   ] as const satisfies readonly EsgGreenFeature[],
 } as const;
@@ -152,7 +170,7 @@ export type EsgPillar = {
 export const esgFramework = {
   eyebrow: "The framework",
   heading: "Four disciplines, one ledger.",
-  lede: "The sustainability framework is organised into four governed disciplines — environmental, social, governance, and health & safety — each carrying coded commitments that recur across this edition.",
+  lede: "The sustainability framework rests on four values: environmental, social, governance, and health & safety. Each has coded commitments that recur across this edition.",
   pillars: [
     {
       key: "E",
@@ -256,7 +274,8 @@ export const esgFramework = {
       items: [
         {
           ref: "HS-01",
-          label: "Health and safety literacy education to ensure accident prevention at project sites",
+          label:
+            "Health and safety literacy education to ensure accident prevention at project sites",
           note: "Training that builds safety awareness among everyone working on site.",
         },
         {
@@ -308,7 +327,7 @@ export type EsgEnvironmentCategory = {
 export const esgEnvironment = {
   eyebrow: "Environmental",
   heading: "The environmental record.",
-  lede: "How the portfolio consumes energy and water, manages waste, and maps its emissions — measured on the same assets the company develops and owns.",
+  lede: "How the portfolio consumes energy and water, manages waste, and maps its emissions, measured across the assets the company develops and owns.",
   note: "Headline figures marked * are placeholders pending confirmation against the approved ESG data source.",
   metrics: cmsMetrics
     .filter(
@@ -379,14 +398,14 @@ export type EsgSocialRow = {
 export const esgSocial = {
   eyebrow: "Social",
   heading: "The social record.",
-  lede: "Workforce, safety, training, community and inclusion — the social evidence reported at asset level.",
+  lede: "Workforce, safety, training, community and inclusion, reported at asset level.",
   note: "Qualitative commitments are reported to the same standard as figures: each carries a source and a filing status.",
   rows: [
     {
       ref: "SO-01",
       label: "Workforce",
       note: "Permanent and contracted employment is recorded at every operating location.",
-      source: "Draft — site HR records",
+      source: "Draft: site HR records",
       status: "draft",
     },
     {
@@ -400,7 +419,7 @@ export const esgSocial = {
       ref: "SO-03",
       label: "Training",
       note: "Skilling hours tracked per employee category and per site.",
-      source: "Draft — site HR records",
+      source: "Draft: site HR records",
       status: "draft",
     },
     {
@@ -466,7 +485,7 @@ const committeeRecords = cmsGovData
   .map((record) => ({
     id: record.id,
     ref: record.sourceRef,
-    asOn: "—" as const,
+    asOn: "N/A" as const,
     entry: record.title,
     note: record.summary,
     status: (record.status === "published" ? "published" : "pending") as EsgRecordStatus,
@@ -477,7 +496,7 @@ const policyRecords = cmsGovData
   .map((record) => ({
     id: record.id,
     ref: record.sourceRef,
-    asOn: "—" as const,
+    asOn: "N/A" as const,
     entry: record.title,
     note: record.summary,
     status: (record.status === "published" ? "published" : "pending") as EsgRecordStatus,
@@ -486,7 +505,7 @@ const policyRecords = cmsGovData
 export const esgGovernance = {
   eyebrow: "Governance",
   heading: "The governance record.",
-  lede: "Oversight, risk, policy and disclosure — how the sustainability programme is controlled.",
+  lede: "Oversight, risk, policy and disclosure: how the sustainability programme is controlled.",
   commitments: [
     {
       ref: "GV-01",
@@ -534,7 +553,7 @@ export const esgGovernance = {
         {
           id: "dis-brsr",
           ref: "GD-01",
-          asOn: "—",
+          asOn: "N/A",
           entry: "BRSR",
           note: "Business Responsibility & Sustainability Report.",
           status: "pending",
@@ -542,15 +561,15 @@ export const esgGovernance = {
         {
           id: "dis-esg",
           ref: "GD-02",
-          asOn: "—",
+          asOn: "N/A",
           entry: "ESG report",
-          note: "This ledger — the primary sustainability disclosure.",
+          note: "This ledger, the primary sustainability disclosure.",
           status: "pending",
         },
         {
           id: "dis-ghg",
           ref: "GD-03",
-          asOn: "—",
+          asOn: "N/A",
           entry: "GHG inventory",
           note: "Greenhouse-gas inventory for scope 1 and 2.",
           status: "pending",
@@ -603,7 +622,7 @@ export type EsgComposition = {
 export const esgDashboard = {
   eyebrow: "The dashboard",
   heading: "The metrics ledger.",
-  lede: "Trends, targets and composition — the numbers behind the narrative. All series are placeholders pending confirmation of the approved ESG data source.",
+  lede: "Trends, targets and composition: the numbers behind the narrative. All series are placeholders pending confirmation of the approved ESG data source.",
   note: "Series marked * are draft placeholders for design verification only.",
   trends: [
     {
@@ -611,7 +630,7 @@ export const esgDashboard = {
       code: "T-01",
       title: "Renewable energy share",
       unit: "%",
-      source: "Draft — internal energy records",
+      source: "Draft: internal energy records",
       draft: true,
       points: [
         { period: "FY21", value: 12 },
@@ -627,7 +646,7 @@ export const esgDashboard = {
       code: "T-02",
       title: "Waste diversion",
       unit: "%",
-      source: "Draft — internal waste records",
+      source: "Draft: internal waste records",
       draft: true,
       points: [
         { period: "FY21", value: 42 },
@@ -643,7 +662,7 @@ export const esgDashboard = {
       code: "T-03",
       title: "Water intensity",
       unit: "kl / sq ft · yr",
-      source: "Draft — internal water records",
+      source: "Draft: internal water records",
       draft: true,
       points: [
         { period: "FY21", value: 0.62 },
@@ -665,7 +684,7 @@ export const esgDashboard = {
       target: 60,
       targetPeriod: "FY28",
       direction: "higher",
-      source: "Draft — internal target",
+      source: "Draft: internal target",
       draft: true,
     },
     {
@@ -677,7 +696,7 @@ export const esgDashboard = {
       target: 90,
       targetPeriod: "FY27",
       direction: "higher",
-      source: "Draft — internal target",
+      source: "Draft: internal target",
       draft: true,
     },
     {
@@ -689,7 +708,7 @@ export const esgDashboard = {
       target: 0.26,
       targetPeriod: "FY28",
       direction: "lower",
-      source: "Draft — internal target",
+      source: "Draft: internal target",
       draft: true,
     },
     {
@@ -701,7 +720,7 @@ export const esgDashboard = {
       target: 5.8,
       targetPeriod: "FY28",
       direction: "lower",
-      source: "Draft — internal target",
+      source: "Draft: internal target",
       draft: true,
     },
   ] as const satisfies readonly EsgGoal[],
@@ -711,7 +730,7 @@ export const esgDashboard = {
       code: "C-01",
       title: "Energy mix",
       unit: "% of energy consumed",
-      source: "Draft — internal energy records",
+      source: "Draft: internal energy records",
       draft: true,
       parts: [
         { label: "Grid", value: 44 },
@@ -725,7 +744,7 @@ export const esgDashboard = {
       code: "C-02",
       title: "Waste handling",
       unit: "% of waste generated",
-      source: "Draft — internal waste records",
+      source: "Draft: internal waste records",
       draft: true,
       parts: [
         { label: "Recycled", value: 68 },
@@ -739,7 +758,7 @@ export const esgDashboard = {
       code: "C-03",
       title: "Workforce composition",
       unit: "% of workforce",
-      source: "Draft — site HR records",
+      source: "Draft: site HR records",
       draft: true,
       parts: [
         { label: "Permanent", value: 82 },
@@ -818,10 +837,10 @@ const cmsDerivedInitiatives: readonly ImpactInitiative[] = cmsInitiativeData.map
 export const esgImpactMap = {
   eyebrow: "Impact map",
   heading: "Where the work is done.",
-  lede: "Sustainability initiatives mapped to the locations where the company operates — each recorded with its category and status.",
+  lede: "Sustainability initiatives mapped to the locations where the company operates, each recorded with its category and status.",
   captionLead: "Fig. 02 · Ledger · Impact map",
   captionDetail: "Each initiative is recorded by category and status in the register below.",
-  source: "Source: Draft — initiative register",
+  source: "Source: draft initiative register",
   notToScale: "Schematic outline · not to scale",
   mapViewbox: MAP_VIEWBOX,
   indiaOutline: INDIA_OUTLINE,
@@ -843,13 +862,13 @@ export type EsgCertification = {
 export const esgCertifications = {
   eyebrow: "Certifications",
   heading: "The certificate register.",
-  lede: "Standards the company holds or is working toward — each entry with its scope and status. Certificates publish as they are awarded.",
+  lede: "Standards the company holds or is working toward, each entry with its scope and status. Certificates publish as they are awarded.",
   note: "Certificates publish as they are awarded. Rows pending carry no validity date until then.",
   certifications: [
     {
       ref: "CE-01",
       standard: "EDGE / EDGE Advanced",
-      scope: "Green building certification — certified assets",
+      scope: "Green building certification: certified assets",
       status: "pending",
       note: "Pipeline under assessment for the built portfolio.",
     },
@@ -949,7 +968,7 @@ const cmsDisclosureGroups: readonly EsgDocumentGroup[] = CATEGORY_ORDER.map((cat
 export const esgDisclosures = {
   eyebrow: "Disclosures",
   heading: "The disclosure archive.",
-  lede: "The records of this ledger — annual, sustainability, climate and governance filings. Documents publish as they are approved.",
+  lede: "The records of this ledger: annual, sustainability, climate and governance filings. Documents publish as they are approved.",
   note: "The archive is being filed. Documents publish as approvals land.",
   groups: cmsDisclosureGroups,
 } as const;
@@ -959,7 +978,7 @@ export const esgDisclosures = {
 export const esgClosing = {
   eyebrow: "Ledger · Endnote",
   line: "The ledger remains open.",
-  body: "Sustainability at NDR Smart Spaces is governed and reported as an operating discipline. Records file as they are confirmed and approved; until then every figure carries its source and status.",
+  body: "Sustainability reporting at NDR Smart Spaces is updated as records are confirmed and approved. Until then, every figure shows its source and status.",
   primaryCta: { label: "Write to the ESG desk", href: "mailto:compliance@ndrsmart.com" },
   secondaryCta: { label: "Open the Investor Centre", href: "/en/investor-centre/announcements" },
   tertiaryLink: { label: "NDR InvIT", href: "https://ndrinvit.com" },
