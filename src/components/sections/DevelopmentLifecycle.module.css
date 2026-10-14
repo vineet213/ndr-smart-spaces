@@ -693,6 +693,18 @@
 /* responsive ------------------------------------------------------------ */
 
 @media (max-width: 1023px) {
+  /* Follow the live viewport as the phone's toolbar collapses, so the pinned */
+  /* stage never leaves a strip of section background under it.              */
+  .stage {
+    height: 100dvh;
+  }
+
+  /* The last stage has no following stage to cover it; receding + dimming it */
+  /* just left a shrunken, darkened band above the closing heading.          */
+  .stageTrack:last-child .stageInner {
+    animation: none;
+  }
+
   .mapHeading {
     margin-bottom: var(--space-5xl);
   }
@@ -713,14 +725,30 @@
    * changing it per breakpoint would throw off the sync between a stage's
    * own recede and the next stage's arrival. */
 
-  /* A diagonal cut reads poorly at phone width — collapse to a plain
-   * bottom-anchored glass panel, keeping the glass material and sweep. */
+  /* Phones are portrait, so the full-bleed photo + diagonal glass cut is     */
+  /* re-composed rather than reduced: the same photograph fills the top 46%   */
+  /* of the pinned stage and the same caption (stage no., title, body, sweep) */
+  /* sits beneath it on a solid panel. All scroll-scrubbed reveals still run. */
+  .figure,
+  .photoScrim {
+    inset: 0 0 auto 0;
+    height: 46%;
+  }
+
+  .figure {
+    overflow: hidden;
+  }
+
   .cutLeft,
   .cutRight {
     clip-path: none;
-    inset: auto 0 0 0;
+    inset: 46% 0 0 0;
     height: auto;
+    align-items: center;
     justify-content: flex-start;
+    background: var(--color-charcoal-deep);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
   .textPanelInner,
@@ -735,14 +763,6 @@
 
   .body {
     font-size: 1.0625rem;
-  }
-}
-
-/* phones: lighter compositing for the glass caption over a full-bleed photo */
-@media (max-width: 767px) {
-  .textPanel {
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
   }
 }
 
