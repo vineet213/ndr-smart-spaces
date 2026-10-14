@@ -181,10 +181,32 @@
   .viewport {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-lg);
+    /* air between the claim copy and the logo strip */
+    margin-top: var(--space-3xl);
   }
 
   .item {
     opacity: 0.7;
+    font-size: 1.25rem;
+  }
+
+  /* Phone-sized logos: smaller, with room to breathe, so several are visible */
+  /* at once instead of two oversized marks cropped at the edges.            */
+  .logo {
+    height: 1.5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .item,
+    .itemWithLogo {
+      padding-inline: var(--space-3xl);
+    }
+
+    /* Soft edges so logos fade in/out rather than being cut mid-word. */
+    .viewport {
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+      mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+    }
   }
 }
 
