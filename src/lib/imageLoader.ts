@@ -21,5 +21,6 @@ const PHOTO = /^\/images\/(?!clients\/|logos\/).+\.(?:jpe?g|png)$/i;
 export default function imageLoader({ src, width }: { src: string; width: number }): string {
   if (!PHOTO.test(src)) return `${src}?w=${width}`;
   const target = IMAGE_WIDTHS.find((candidate) => candidate >= width) ?? IMAGE_WIDTHS.at(-1);
-  return `/_img${src.replace(/\.(?:jpe?g|png)$/i, "")}-${target}.webp`;
+  // Encoded so filenames with spaces stay a single srcset token.
+  return encodeURI(`/_img${src.replace(/\.(?:jpe?g|png)$/i, "")}-${target}.webp`);
 }

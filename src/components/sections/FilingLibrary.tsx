@@ -249,7 +249,12 @@ export function FilingLibrary({ config }: FilingLibraryProps) {
             <span className={styles.ref}>DOC · {config.eyebrow}</span>
           </div>
           <Eyebrow>{config.eyebrow}</Eyebrow>
-          <Heading variant="section" id="filing-library-title" className={styles.heading}>
+          <Heading
+            as={config.headingAs}
+            variant="section"
+            id="filing-library-title"
+            className={styles.heading}
+          >
             {config.title}
           </Heading>
           <Lede className={styles.lede}>{config.lede}</Lede>

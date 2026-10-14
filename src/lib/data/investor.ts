@@ -291,6 +291,8 @@ export type FilingLibraryConfig = {
   groups?: DocumentGroup[];
   note?: string;
   entityNote?: string;
+  /** Element for the title. Defaults to h2; set h1 where the library is the page's only title. */
+  headingAs?: "h1" | "h2";
 };
 
 /** Reports & Disclosures — documentary archive. Content-gated; rows file when approved. */
@@ -350,6 +352,7 @@ export const announcements: FilingLibraryConfig = {
   categories: ["Announcement"],
   filings: [],
   note: "The announcement index is being filed. Items publish as they are approved.",
+  headingAs: "h1",
 };
 
 /** Downloads — the documentary library, grouped by category (the folded IA routes). */
