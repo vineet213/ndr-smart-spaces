@@ -6,6 +6,7 @@ import { Container } from "@/components/layout";
 import { SourceFootnote } from "@/components/ui";
 import type { LifecycleStage } from "@/lib/data/business";
 import { useInView } from "@/hooks/useInView";
+import { useStageSnap } from "@/hooks/useStageSnap";
 import { getLenisInstance } from "@/lib/lenis";
 import { Icon } from "../ui/Icon";
 import { cx } from "../ui/cx";
@@ -306,6 +307,13 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
     threshold: 0,
     once: false,
   });
+
+  // Touch: one swipe glides to exactly the next / previous stage.
+  useStageSnap(() =>
+    sweetSpotRefs.current.flatMap((el) =>
+      el ? [Math.round(el.getBoundingClientRect().top + window.scrollY)] : [],
+    ),
+  );
 
   const handleDwell = useCallback((order: number) => setActiveIndex(order), []);
 

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Stack } from "@/components/layout";
 import { Eyebrow, Heading } from "@/components/ui";
 import { ourCode, type OurCodeValue } from "@/lib/data/about";
+import { useStageSnap } from "@/hooks/useStageSnap";
 import { getLenisInstance } from "@/lib/lenis";
 import { cx } from "../ui/cx";
 import { DrawnGrid } from "./DrawnGrid";
@@ -143,15 +144,23 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
 
   const totalUnits = transitionStart(values.length - 1) + RISE + HOLD;
 
-  const goToIndex = (i: number) => {
+  const targetYFor = (i: number): number | null => {
     const track = trackRef.current;
-    if (!track) return;
+    if (!track) return null;
     const rect = track.getBoundingClientRect();
     const scrollable = rect.height - window.innerHeight;
-    if (scrollable <= 0) return;
+    if (scrollable <= 0) return null;
     const target = i * STEP + HOLD / 2;
     const raw = Math.min(Math.max(target / totalUnits, 0), 1);
-    const targetY = window.scrollY + rect.top + raw * scrollable;
+    return Math.round(window.scrollY + rect.top + raw * scrollable);
+  };
+
+  // Touch: one swipe glides to exactly the next / previous value.
+  useStageSnap(() => values.flatMap((_, i) => targetYFor(i) ?? []), pinEnabled);
+
+  const goToIndex = (i: number) => {
+    const targetY = targetYFor(i);
+    if (targetY === null) return;
 
     const lenis = getLenisInstance();
     if (lenis) {
