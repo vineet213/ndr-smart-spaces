@@ -352,7 +352,6 @@ export const announcements: FilingLibraryConfig = {
   categories: ["Announcement"],
   filings: [],
   note: "The announcement index is being filed. Items publish as they are approved.",
-  headingAs: "h1",
 };
 
 /** Downloads — the documentary library, grouped by category (the folded IA routes). */

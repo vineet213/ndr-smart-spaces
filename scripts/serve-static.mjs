@@ -12,6 +12,7 @@
 import { createServer } from "node:http";
 import { promises as fs } from "node:fs";
 import { join, normalize, resolve, sep } from "node:path";
+import { handleContact } from "./contact-mock.mjs";
 
 const ROOT = process.cwd();
 const OUT_DIR = join(ROOT, "out");
@@ -51,6 +52,8 @@ const server = createServer(async (req, res) => {
     const pathname = decodeURIComponent(
       new URL(req.url ?? "/", `http://${req.headers.host ?? "localhost"}`).pathname,
     );
+    // On the real host Apache runs api/contact.php; locally the mock stands in for it.
+    if (pathname === "/api/contact.php" && req.method !== "GET") return handleContact(req, res);
     const relative = normalize(pathname).replace(/^([/\\]|\.\.)+/, "");
     let target = await fileIfExists(resolve(OUT_DIR, relative));
     if (!target && !pathname.endsWith("/")) {

@@ -124,3 +124,76 @@
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+/* Spam check and consent (FormSafeguards). */
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.consentField {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--space-md);
+  row-gap: var(--space-sm);
+  align-items: start;
+}
+
+.checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+  accent-color: var(--color-gold);
+  cursor: pointer;
+}
+
+.checkbox:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 2px;
+}
+
+.consentLabel {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-inverse-70);
+  cursor: pointer;
+}
+
+.consentLink {
+  color: var(--color-gold-light);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.consentField .error {
+  grid-column: 2;
+}
+
+/* Reserves the widget's height so the button does not jump when it loads. */
+.captcha {
+  min-height: 65px;
+}
+
+.formError {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-ivory);
+  padding: var(--space-md) var(--space-4xl);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-gold-40);
+}
+
+.formError .fallback {
+  color: var(--color-text-inverse-70);
+}
+
+.formError .fallback a {
+  color: var(--color-gold-light);
+}

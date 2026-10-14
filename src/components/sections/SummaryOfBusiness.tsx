@@ -1,5 +1,5 @@
 import { Container, Section } from "@/components/layout";
-import { Eyebrow, Heading, Lede } from "@/components/ui";
+import { Heading, Lede } from "@/components/ui";
 import { businessMasthead, verticalsChapter } from "@/lib/data/business";
 import { Reveal } from "./Reveal";
 import styles from "./SummaryOfBusiness.module.css";
@@ -10,8 +10,6 @@ export function SummaryOfBusiness() {
       <Container>
         <Reveal>
           <header className={styles.overview}>
-            <span className={styles.goldRule} aria-hidden="true" />
-            <Eyebrow>Investor summary</Eyebrow>
             <Heading variant="section" id="summary-of-business-overview-title">
               {verticalsChapter.title}
             </Heading>

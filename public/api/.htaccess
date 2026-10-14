@@ -1,0 +1,7 @@
+# Enquiry endpoint folder (Apache / GoDaddy cPanel).
+Options -Indexes
+
+# Settings files are read by contact.php only, never served.
+<FilesMatch "^config(\.example)?\.php$">
+  Require all denied
+</FilesMatch>

@@ -421,6 +421,10 @@ export const contact = {
     submit: "Send enquiry",
     sending: "Sending…",
     success: "Thank you. Your enquiry has been sent.",
+    consentLabel:
+      "I agree to NDR Smart Spaces processing these details to respond to my enquiry, as set out in the",
+    consentError: "Please confirm you agree so we can respond.",
+    // Shown as the write-to-us fallback; delivery recipients are set in public/api/config.php.
     route: {
       default: "project@ndrsmart.com",
     } as const,

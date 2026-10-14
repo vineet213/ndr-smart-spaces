@@ -3,6 +3,8 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { contact } from "@/lib/data/homepage";
+import { enquiryErrorText, submitEnquiry } from "@/lib/enquiry";
+import { FormSafeguards, isVerified, resetVerification } from "./FormSafeguards";
 import styles from "./EnquiryForm.module.css";
 
 type FieldName = "name" | "email" | "company" | "enquiryType";
@@ -19,10 +21,13 @@ const initialValues: FormValues = {
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function EnquiryForm() {
-  const { fields, messageLabel, submit, sending, success, route } = contact.form;
+  const { fields, messageLabel, submit, sending, success, consentLabel, consentError, route } =
+    contact.form;
   const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [consentMissing, setConsentMissing] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [submitError, setSubmitError] = useState("");
 
   const labelId = (name: string) => `enquiry-${name}`;
 
@@ -31,8 +36,9 @@ export function EnquiryForm() {
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget;
     const nextErrors: Partial<Record<FieldName, string>> = {};
 
     if (!values.name.trim()) nextErrors.name = "Please enter your name.";
@@ -44,47 +50,38 @@ export function EnquiryForm() {
     if (!values.company.trim()) nextErrors.company = "Please enter your company.";
     if (!values.enquiryType.trim()) nextErrors.enquiryType = "Please enter an enquiry type.";
 
+    const noConsent = !new FormData(form).get("consent");
+
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) {
+    setConsentMissing(noConsent);
+    if (Object.keys(nextErrors).length > 0 || noConsent) {
       // Bring the first problem into view and under the keyboard's focus.
       const firstInvalid = fields.find((field) => nextErrors[field.name]);
-      if (firstInvalid) {
-        window.requestAnimationFrame(() =>
-          document.getElementById(labelId(firstInvalid.name))?.focus(),
-        );
-      }
+      const target = firstInvalid ? labelId(firstInvalid.name) : labelId("consent");
+      window.requestAnimationFrame(() => document.getElementById(target)?.focus());
+      return;
+    }
+    if (!isVerified(form)) {
+      setSubmitError(enquiryErrorText.verification);
+      setStatus("error");
       return;
     }
 
     setStatus("sending");
-
-    const recipient = route.default;
-    const subject = `Business Enquiry: ${values.enquiryType}`;
-    const body = [
-      `Name: ${values.name}`,
-      `Email: ${values.email}`,
-      `Company: ${values.company}`,
-      `Enquiry type: ${values.enquiryType}`,
-      ``,
-      values.message,
-    ].join("\n");
-
-    window.setTimeout(() => {
-      window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const result = await submitEnquiry(form);
+    if (result.ok) {
       setStatus("sent");
-    }, 400);
+      return;
+    }
+    resetVerification(form);
+    setSubmitError(enquiryErrorText[result.error]);
+    setStatus("error");
   }
 
   if (status === "sent") {
     return (
       <div className={styles.success} role="status">
         <p>{success}</p>
-        {/* The enquiry is handed to the visitor's mail app (static site, no backend). */}
-        {/* If none is set up (common on phones) nothing opens, so say where to write. */}
-        <p className={styles.fallback}>
-          Your email app should have opened with your message ready to send. If it did not, write to{" "}
-          <a href={`mailto:${route.default}`}>{route.default}</a>.
-        </p>
       </div>
     );
   }
@@ -127,11 +124,32 @@ export function EnquiryForm() {
         <textarea
           id={labelId("message")}
           className={styles.textarea}
+          name="message"
           rows={4}
           value={values.message}
           onChange={(event) => setValues((prev) => ({ ...prev, message: event.target.value }))}
         />
       </div>
+
+      <FormSafeguards
+        formId="homepage"
+        idPrefix="enquiry"
+        theme="dark"
+        consentLabel={consentLabel}
+        consentError={consentMissing ? consentError : undefined}
+        onConsentChange={() => setConsentMissing(false)}
+        styles={styles}
+      />
+
+      {status === "error" ? (
+        <div className={styles.formError} role="alert">
+          <p>{submitError}</p>
+          <p className={styles.fallback}>
+            You can also write to us directly at{" "}
+            <a href={`mailto:${route.default}`}>{route.default}</a>.
+          </p>
+        </div>
+      ) : null}
 
       <button
         className={styles.submit}

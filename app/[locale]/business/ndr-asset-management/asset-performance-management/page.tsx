@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container, Section } from "@/components/layout";
+import { FadeImage } from "@/components/ui/FadeImage";
 import { CompanyMetrics } from "@/components/sections/CompanyMetrics";
 import { Footer } from "@/components/sections/Footer";
 import { MarqueeClients } from "@/components/sections/MarqueeClients";
@@ -36,6 +37,14 @@ export default function AssetPerformanceManagementPage() {
             <ul className={styles.functionGrid} aria-label="Asset performance functions">
               {functions.map((fn) => (
                 <li key={fn.index} className={styles.functionCell} tabIndex={0}>
+                  <FadeImage
+                    src={fn.image.src}
+                    alt=""
+                    fill
+                    sizes="(max-width: 767px) 100vw, 50vw"
+                    className={styles.functionImage}
+                  />
+                  <span className={styles.functionScrim} aria-hidden="true" />
                   <span className={styles.functionCurtain} aria-hidden="true" />
                   <div className={styles.functionContent}>
                     <span className={styles.functionIndex}>{fn.index}</span>

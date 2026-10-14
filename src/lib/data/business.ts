@@ -385,7 +385,12 @@ export const vertical02Metrics: readonly (Omit<CompanyMetric, "value"> & { value
   },
 ];
 
-export type AssetPerformanceFunction = { index: string; title: string; description: string };
+export type AssetPerformanceFunction = {
+  index: string;
+  title: string;
+  description: string;
+  image: { src: string; width: number; height: number };
+};
 
 /**
  * Vertical 02 subpage — Asset Performance Management. The three stats flow
@@ -405,24 +410,28 @@ export const vertical02AssetManagement = {
       title: "Facility & Technical Management",
       description:
         "Upkeep of buildings, MEP systems, fire safety, roads, and utilities to keep the park physically operational.",
+      image: { src: "/images/asset-management/facility-technical.jpg", width: 960, height: 639 },
     },
     {
       index: "02",
       title: "Security & Safety",
       description:
         "Access control, surveillance, and safety protocols to protect people, assets, and goods within the park.",
+      image: { src: "/images/asset-management/security-safety.jpg", width: 1600, height: 1200 },
     },
     {
       index: "03",
       title: "Soft Services",
       description:
         "Day-to-day upkeep like housekeeping, landscaping, and pest control that maintains the park's cleanliness and environment.",
+      image: { src: "/images/asset-management/soft-services.jpg", width: 960, height: 640 },
     },
     {
       index: "04",
       title: "Commercial & Compliance",
       description:
         "Leasing, tenant relations, vendor contracts, and statutory/legal compliance that keep the business side running smoothly.",
+      image: { src: "/images/asset-management/commercial-compliance.jpg", width: 1024, height: 768 },
     },
   ] as const satisfies ReadonlyArray<AssetPerformanceFunction>,
   metrics: [
@@ -587,9 +596,9 @@ export const vertical02DevelopmentLifecycle = {
       title: "Safety, Security & Risk Management",
       body: "Implementing robust security, safety, and compliance measures to protect people, assets, and operations.",
       image: {
-        src: "/images/lifecycle/07-safety-risk.jpg",
-        alt: "Orange construction area and hard hat safety signs",
-        credit: "Image: The Navigators / Wikimedia Commons, CC0",
+        src: "/images/lifecycle/07-safety-risk-harness.jpg",
+        alt: "Roofing crew in hard hats, respirators and fall-arrest harnesses",
+        credit: "Image: OSHA / Wikimedia Commons, public domain",
         width: 1920,
         height: 1280,
       },

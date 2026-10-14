@@ -36,22 +36,26 @@ export function OfficeDirectory() {
               </div>
 
               <div className={styles.contact}>
-                <div className={styles.contactRow}>
-                  <span className={styles.contactLabel}>Phone</span>
-                  <a className={styles.contactPhone} href={phoneHref(office.phone)}>
-                    {office.phone}
-                  </a>
-                </div>
+                {officeDirectory.detailsConfirmed ? (
+                  <div className={styles.contactRow}>
+                    <span className={styles.contactLabel}>Phone</span>
+                    <a className={styles.contactPhone} href={phoneHref(office.phone)}>
+                      {office.phone}
+                    </a>
+                  </div>
+                ) : null}
                 <div className={styles.contactRow}>
                   <span className={styles.contactLabel}>Email</span>
                   <TextLink href={office.email.href} className={styles.contactEmail}>
                     {office.email.label}
                   </TextLink>
                 </div>
-                <div className={styles.contactRow}>
-                  <span className={styles.contactLabel}>Hours</span>
-                  <span className={styles.contactHours}>{office.hours}</span>
-                </div>
+                {officeDirectory.detailsConfirmed ? (
+                  <div className={styles.contactRow}>
+                    <span className={styles.contactLabel}>Hours</span>
+                    <span className={styles.contactHours}>{office.hours}</span>
+                  </div>
+                ) : null}
                 {office.directions ? (
                   <ExternalLink href={office.directions.href} className={styles.directions}>
                     {office.directions.label}
@@ -62,7 +66,9 @@ export function OfficeDirectory() {
           ))}
         </div>
 
-        <SourceFootnote className={styles.note}>{officeDirectory.note}</SourceFootnote>
+        {officeDirectory.detailsConfirmed ? (
+          <SourceFootnote className={styles.note}>{officeDirectory.note}</SourceFootnote>
+        ) : null}
       </Container>
     </section>
   );

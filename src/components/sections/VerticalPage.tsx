@@ -8,6 +8,7 @@ import {
   vertical02Metrics,
   type Division,
 } from "@/lib/data/business";
+import { cx } from "../ui/cx";
 import { AveAcresExplore } from "./AveAcresExplore";
 import { AveAcresProcess } from "./AveAcresProcess";
 import { AveAcresValues } from "./AveAcresValues";
@@ -57,8 +58,8 @@ export function VerticalPage({ division }: VerticalPageProps) {
         subtext={mastheadSubtext}
       />
 
-      <Section tone="dim" className={styles.bodySection}>
-        <div className={styles.overviewWrap}>
+      <Section tone="dim" className={cx(styles.bodySection, isV3 && styles.bodySectionCompact)}>
+        <div className={cx(styles.overviewWrap, isV3 && styles.overviewWrapCompact)}>
           <DrawnGrid />
           <Container className={styles.content}>
             <Reveal>

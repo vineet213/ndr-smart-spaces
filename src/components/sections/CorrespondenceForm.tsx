@@ -3,6 +3,8 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { correspondenceForm } from "@/lib/data/contact";
+import { enquiryErrorText, submitEnquiry } from "@/lib/enquiry";
+import { FormSafeguards, isVerified, resetVerification } from "./FormSafeguards";
 import styles from "./CorrespondenceForm.module.css";
 
 type FieldName = "name" | "company" | "email" | "phone";
@@ -21,10 +23,13 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phonePattern = /^[+]?[\d\s().-]+$/;
 
 export function CorrespondenceForm() {
-  const { fields, messageLabel, submit, sending, success, route } = correspondenceForm;
+  const { fields, messageLabel, submit, sending, success, consentLabel, consentError, route } =
+    correspondenceForm;
   const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [consentMissing, setConsentMissing] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [submitError, setSubmitError] = useState("");
 
   const labelId = (name: string) => `correspondence-${name}`;
 
@@ -33,8 +38,9 @@ export function CorrespondenceForm() {
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget;
     const nextErrors: Partial<Record<FieldName, string>> = {};
 
     if (!values.name.trim()) nextErrors.name = "Please enter your name.";
@@ -47,51 +53,38 @@ export function CorrespondenceForm() {
     if (values.phone.trim() && !phonePattern.test(values.phone.trim())) {
       nextErrors.phone = "Please enter a valid phone number.";
     }
+    const noConsent = !new FormData(form).get("consent");
+
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) {
+    setConsentMissing(noConsent);
+    if (Object.keys(nextErrors).length > 0 || noConsent) {
       // Bring the first problem into view and under the keyboard's focus.
       const firstInvalid = fields.find((field) => nextErrors[field.name]);
-      if (firstInvalid) {
-        window.requestAnimationFrame(() =>
-          document.getElementById(labelId(firstInvalid.name))?.focus(),
-        );
-      }
+      const target = firstInvalid ? labelId(firstInvalid.name) : labelId("consent");
+      window.requestAnimationFrame(() => document.getElementById(target)?.focus());
+      return;
+    }
+    if (!isVerified(form)) {
+      setSubmitError(enquiryErrorText.verification);
+      setStatus("error");
       return;
     }
 
     setStatus("sending");
-
-    const enquiryType = values.enquiryType.trim();
-    const recipient = route.General;
-    const subject = enquiryType ? `Enquiry: ${enquiryType}` : "Enquiry";
-    const body = [
-      `Name: ${values.name}`,
-      `Company: ${values.company}`,
-      `Email: ${values.email}`,
-      values.phone.trim() ? `Phone: ${values.phone.trim()}` : "",
-      enquiryType ? `Enquiry type: ${enquiryType}` : "",
-      ``,
-      values.message,
-    ]
-      .filter(Boolean)
-      .join("\n");
-
-    window.setTimeout(() => {
-      window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const result = await submitEnquiry(form);
+    if (result.ok) {
       setStatus("sent");
-    }, 400);
+      return;
+    }
+    resetVerification(form);
+    setSubmitError(enquiryErrorText[result.error]);
+    setStatus("error");
   }
 
   if (status === "sent") {
     return (
       <div className={styles.success} role="status">
         <p>{success}</p>
-        {/* The enquiry is handed to the visitor's mail app (static site, no backend). */}
-        {/* If none is set up (common on phones) nothing opens, so say where to write. */}
-        <p className={styles.fallback}>
-          Your email app should have opened with your message ready to send. If it did not, write to{" "}
-          <a href={`mailto:${route.General}`}>{route.General}</a>.
-        </p>
       </div>
     );
   }
@@ -136,6 +129,7 @@ export function CorrespondenceForm() {
         <input
           id={labelId("enquiryType")}
           className={styles.input}
+          name="enquiryType"
           type="text"
           value={values.enquiryType}
           onChange={(event) => setValues((prev) => ({ ...prev, enquiryType: event.target.value }))}
@@ -149,11 +143,32 @@ export function CorrespondenceForm() {
         <textarea
           id={labelId("message")}
           className={styles.textarea}
+          name="message"
           rows={4}
           value={values.message}
           onChange={(event) => setValues((prev) => ({ ...prev, message: event.target.value }))}
         />
       </div>
+
+      <FormSafeguards
+        formId="contact"
+        idPrefix="correspondence"
+        theme="light"
+        consentLabel={consentLabel}
+        consentError={consentMissing ? consentError : undefined}
+        onConsentChange={() => setConsentMissing(false)}
+        styles={styles}
+      />
+
+      {status === "error" ? (
+        <div className={styles.formError} role="alert">
+          <p>{submitError}</p>
+          <p className={styles.fallback}>
+            You can also write to us directly at{" "}
+            <a href={`mailto:${route.General}`}>{route.General}</a>.
+          </p>
+        </div>
+      ) : null}
 
       <button
         className={styles.submit}

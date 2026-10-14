@@ -12,6 +12,16 @@
   padding-bottom: var(--space-9xl);
 }
 
+/* Residential Plotting has no stats band or spec table after the overview, */
+/* so the stacked section + wrapper padding reads as dead space.            */
+.bodySection.bodySectionCompact {
+  padding-bottom: var(--space-5xl);
+}
+
+.overviewWrapCompact {
+  padding-bottom: 0;
+}
+
 .content {
   position: relative;
   z-index: 1;

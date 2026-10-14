@@ -57,7 +57,10 @@ const cmsOffices: readonly ContactOffice[] = cmsDirectory.map((entry) => ({
 export const officeDirectory = {
   eyebrow: "Office directory",
   heading: "Where to reach us.",
-  note: "Phone numbers and office hours are draft particulars awaiting client confirmation before go-live. Hours are Indian Standard Time (IST).",
+  // Phone numbers and office hours are draft particulars awaiting client
+  // confirmation. Until this is true they are not shown; set it once confirmed.
+  detailsConfirmed: false,
+  note: "Hours are Indian Standard Time (IST).",
   offices: cmsOffices,
 } as const;
 
@@ -84,6 +87,10 @@ export const correspondenceForm = {
   submit: "Send Inquiry",
   sending: "Sending…",
   success: "Thank you. Your enquiry has been sent.",
+  consentLabel:
+    "I agree to NDR Smart Spaces processing these details to respond to my enquiry, as set out in the",
+  consentError: "Please confirm you agree so we can respond.",
+  // Shown as the write-to-us fallback; delivery recipients are set in public/api/config.php.
   route: {
     General: "project@ndrsmart.com",
   } as const,
