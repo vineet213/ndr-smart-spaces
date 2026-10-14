@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { FadeImage as Image } from "@/components/ui/FadeImage";
 import { Container, Stack } from "@/components/layout";
-import { Eyebrow, Heading } from "@/components/ui";
+import { Heading } from "@/components/ui";
 import { leadership, type LeadershipGroup } from "@/lib/data/about";
 import { Reveal, type RevealDelay } from "./Reveal";
 import styles from "./Leadership.module.css";
@@ -233,8 +233,6 @@ export function Leadership() {
         <Stack gap="8xl">
           <Reveal>
             <Stack gap="xl">
-              <span className={styles.goldRule} aria-hidden="true" />
-              <Eyebrow>{leadership.eyebrow}</Eyebrow>
               <Heading variant="section" id="leadership-title">
                 {leadership.heading}
               </Heading>

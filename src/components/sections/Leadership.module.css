@@ -3,13 +3,6 @@
   background-color: var(--color-ivory);
 }
 
-.goldRule {
-  display: block;
-  width: var(--space-6xl);
-  height: 2px;
-  background-color: var(--color-gold);
-}
-
 .groupTitle {
   margin: 0;
   font-family: var(--font-display);
