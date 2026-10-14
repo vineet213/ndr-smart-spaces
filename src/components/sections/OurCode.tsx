@@ -138,6 +138,7 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
   const frameRef = useRef<HTMLDivElement | null>(null);
   const panelRefs = useRef<(HTMLElement | null)[]>([]);
   const [pinEnabled, setPinEnabled] = useState(false);
+  const [compact, setCompact] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const totalUnits = transitionStart(values.length - 1) + RISE + HOLD;
@@ -164,11 +165,19 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
     // The pinned, scroll-scrubbed reel runs at every width (phones included);
     // only reduced-motion users get the static stacked panels.
     const mqMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mqCompact = window.matchMedia("(max-width: 1023px)");
 
-    const updateMode = () => setPinEnabled(!mqMotion.matches);
+    const updateMode = () => {
+      setPinEnabled(!mqMotion.matches);
+      setCompact(mqCompact.matches);
+    };
     updateMode();
     mqMotion.addEventListener("change", updateMode);
-    return () => mqMotion.removeEventListener("change", updateMode);
+    mqCompact.addEventListener("change", updateMode);
+    return () => {
+      mqMotion.removeEventListener("change", updateMode);
+      mqCompact.removeEventListener("change", updateMode);
+    };
   }, []);
 
   useEffect(() => {
@@ -227,7 +236,7 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
     <div
       ref={trackRef}
       className={styles.track}
-      style={pinEnabled ? { height: `${(totalUnits + 1) * 100}svh` } : undefined}
+      style={pinEnabled ? { height: `${(totalUnits + 1) * (compact ? 60 : 100)}svh` } : undefined}
     >
       <div ref={frameRef} className={cx(styles.sticky, pinEnabled && styles.stickyPinned)}>
         {pinEnabled ? <DrawnGrid className={styles.grid} /> : null}
