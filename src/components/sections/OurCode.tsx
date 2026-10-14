@@ -161,17 +161,14 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
   };
 
   useEffect(() => {
-    const mqDesktop = window.matchMedia("(min-width: 1024px)");
+    // The pinned, scroll-scrubbed reel runs at every width (phones included);
+    // only reduced-motion users get the static stacked panels.
     const mqMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    const updateMode = () => setPinEnabled(mqDesktop.matches && !mqMotion.matches);
+    const updateMode = () => setPinEnabled(!mqMotion.matches);
     updateMode();
-    mqDesktop.addEventListener("change", updateMode);
     mqMotion.addEventListener("change", updateMode);
-    return () => {
-      mqDesktop.removeEventListener("change", updateMode);
-      mqMotion.removeEventListener("change", updateMode);
-    };
+    return () => mqMotion.removeEventListener("change", updateMode);
   }, []);
 
   useEffect(() => {
@@ -230,7 +227,7 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
     <div
       ref={trackRef}
       className={styles.track}
-      style={pinEnabled ? { height: `${(totalUnits + 1) * 100}vh` } : undefined}
+      style={pinEnabled ? { height: `${(totalUnits + 1) * 100}svh` } : undefined}
     >
       <div ref={frameRef} className={cx(styles.sticky, pinEnabled && styles.stickyPinned)}>
         {pinEnabled ? <DrawnGrid className={styles.grid} /> : null}

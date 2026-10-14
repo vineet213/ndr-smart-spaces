@@ -39,6 +39,9 @@
   position: sticky;
   top: 0;
   height: 100vh;
+  /* Tracks the live viewport on phones, so the pinned frame always fills the  */
+  /* screen as the browser toolbar collapses (no strip of page showing below). */
+  height: 100dvh;
 }
 
 /* DrawnGrid's hairline reads its color from this token — overriding it     */
@@ -338,5 +341,173 @@
 
   .sectionHeading {
     left: var(--margin-mobile);
+  }
+}
+
+/* Portrait phones and tablets: same pinned, scroll-scrubbed reel as desktop  */
+/* (same --offset/--center drive, same icon draw-in, title wipe and ledger),  */
+/* re-laid-out for a tall screen — icon above text instead of icon | rule |   */
+/* text, and a ledger whose tick buttons are real 44px touch targets.        */
+
+@media (max-width: 1023px) {
+  .sticky .grid {
+    display: block;
+  }
+
+  .panelPinned {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    justify-items: start;
+    gap: var(--space-2xl);
+    padding-top: calc(var(--header-height, 4.5rem) + 4.25rem);
+    padding-bottom: calc(8.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .panelPinned .panelDivider {
+    display: none;
+  }
+
+  .panelPinned .panelMeta {
+    aspect-ratio: 1;
+    width: clamp(6rem, 24vw, 10rem);
+  }
+
+  .panelPinned .panelMark {
+    width: 56%;
+  }
+
+  .panelPinned .panelText {
+    max-width: 36rem;
+  }
+
+  .panelPinned .panelText .panelTitle {
+    font-size: clamp(1.75rem, 6.2vw, 3rem);
+  }
+
+  .panelPinned .panelTagline {
+    font-size: clamp(1.0625rem, 4.4vw, 1.5rem);
+  }
+
+  .panelPinned .panelBody {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    line-height: 1.55;
+  }
+
+  .ledger {
+    bottom: calc(var(--space-xl) + env(safe-area-inset-bottom, 0px));
+    width: calc(100% - 2 * var(--margin-mobile));
+  }
+
+  .ledgerRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2xs);
+    margin-top: var(--space-md);
+  }
+
+  .ledgerTicks {
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .ledgerTick {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0;
+  }
+}
+
+/* Short phones (e.g. 360x740): tighten the icon so text keeps its room. */
+@media (max-width: 1023px) and (max-height: 760px) {
+  .panelPinned {
+    gap: var(--space-lg);
+    padding-top: calc(var(--header-height, 4.5rem) + 3.5rem);
+  }
+
+  .panelPinned .panelMeta {
+    width: 5rem;
+  }
+}
+
+/* Very short screens (browser chrome eating a small phone, ~400x520): the   */
+/* icon, copy and ledger can't all stack at full size. Everything stays —    */
+/* the icon shrinks, type scales with the screen height, and the ledger      */
+/* folds to one row (counter left, ticks right, 44px-tall targets) — and     */
+/* content starts from the top so it can never ride up under the heading.    */
+@media (max-width: 1023px) and (max-height: 640px) {
+  .sectionHeading {
+    top: calc(var(--header-height, 4.5rem) + 0.5rem);
+    font-size: 1.5rem;
+  }
+
+  .panelPinned {
+    align-content: start;
+    gap: var(--space-md);
+    padding-top: calc(var(--header-height, 4.5rem) + 3rem);
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .panelPinned .panelMeta {
+    width: 3.5rem;
+  }
+
+  .panelPinned .panelText {
+    gap: var(--space-sm);
+  }
+
+  .panelPinned .panelText .panelTitle {
+    font-size: clamp(1.375rem, 4.4vh, 1.75rem);
+  }
+
+  .panelPinned .panelTagline {
+    font-size: clamp(0.9375rem, 2.9vh, 1.0625rem);
+  }
+
+  .panelPinned .panelBody {
+    font-size: clamp(0.8125rem, 2.6vh, 1rem);
+    line-height: 1.45;
+  }
+
+  .ledger {
+    bottom: calc(var(--space-sm) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .ledgerRow {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--space-xs);
+  }
+
+  .ledgerTicks {
+    justify-content: flex-end;
+  }
+
+  .ledgerTick {
+    min-width: 2.25rem;
+  }
+}
+
+/* Landscape phones: wide but only ~350-430px tall — icon beside the copy,   */
+/* like the desktop arrangement, instead of stacked above it.               */
+@media (max-width: 1023px) and (max-height: 520px) and (orientation: landscape) {
+  .panelPinned {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-content: center;
+    align-items: center;
+    gap: var(--space-2xl);
+    padding-top: calc(var(--header-height, 4.5rem) + 2.5rem);
+    padding-bottom: 4.5rem;
+  }
+
+  .panelPinned .panelMeta {
+    width: 6rem;
+  }
+
+  .panelPinned .panelText {
+    max-width: 40rem;
   }
 }
