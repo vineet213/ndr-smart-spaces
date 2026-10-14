@@ -208,21 +208,11 @@
   }
 }
 
-/* Tablets and phones: match every other page masthead — one full screen     */
-/* tall below the header, content left-aligned and vertically centred.        */
+/* Tablets and phones: one full screen tall like every other page masthead,  */
+/* with the logo anchored at the bottom (never clipped on short screens).    */
 @media (max-width: 1023px) {
   .hero {
     min-height: calc(100svh - var(--header-height));
-  }
-
-  .typeContainer {
-    justify-content: center;
-    padding-top: 0;
-  }
-
-  .typeBlock {
-    margin-block: auto;
-    padding-bottom: 0;
   }
 
   .lockup {
