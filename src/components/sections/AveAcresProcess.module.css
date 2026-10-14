@@ -206,21 +206,50 @@
 
   .list {
     flex-direction: column;
-    gap: var(--space-6xl);
+    gap: var(--space-4xl);
   }
 
   .mark {
-    top: 6px;
-    left: 3px;
+    top: 50%;
+    /* centred on the spine (spine sits 8px into the track, node 30px in) */
+    left: -27px;
+    margin-top: -6px;
     transform: rotate(45deg);
   }
 
+  /* Compact row: glyph on the left, step number over title on the right. */
   .nodeInner {
     padding-top: 0;
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    column-gap: var(--space-xl);
+    align-items: center;
   }
 
   .glyphWrap {
+    grid-column: 1;
+    grid-row: 1 / span 2;
     justify-content: flex-start;
+  }
+
+  .glyphWrap svg {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .index {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    margin-top: 0;
+  }
+
+  .title {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    font-size: 1.1875rem;
   }
 
   .index {
