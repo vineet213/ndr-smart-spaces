@@ -4,6 +4,14 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { correspondenceForm } from "@/lib/data/contact";
 import { enquiryErrorText, submitEnquiry } from "@/lib/enquiry";
+import {
+  FIELD_MAX,
+  isValidEmail,
+  isValidLabel,
+  isValidName,
+  isValidPhone,
+  sanitizePhone,
+} from "@/lib/formValidation";
 import { FormSafeguards, isVerified, resetVerification } from "./FormSafeguards";
 import styles from "./CorrespondenceForm.module.css";
 
@@ -19,9 +27,6 @@ const initialValues: FormValues = {
   message: "",
 };
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const phonePattern = /^[+]?[\d\s().-]+$/;
-
 export function CorrespondenceForm() {
   const { fields, messageLabel, submit, sending, success, consentLabel, consentError, route } =
     correspondenceForm;
@@ -34,7 +39,8 @@ export function CorrespondenceForm() {
   const labelId = (name: string) => `correspondence-${name}`;
 
   function setField(name: FieldName, value: string) {
-    setValues((prev) => ({ ...prev, [name]: value }));
+    const next = name === "phone" ? sanitizePhone(value) : value;
+    setValues((prev) => ({ ...prev, [name]: next }));
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   }
 
@@ -43,15 +49,23 @@ export function CorrespondenceForm() {
     const form = event.currentTarget;
     const nextErrors: Partial<Record<FieldName, string>> = {};
 
-    if (!values.name.trim()) nextErrors.name = "Please enter your name.";
-    if (!values.company.trim()) nextErrors.company = "Please enter your company.";
+    if (!values.name.trim()) {
+      nextErrors.name = "Please enter your name.";
+    } else if (!isValidName(values.name)) {
+      nextErrors.name = "Please enter your name using letters only.";
+    }
+    if (!values.company.trim()) {
+      nextErrors.company = "Please enter your company.";
+    } else if (!isValidLabel(values.company, FIELD_MAX.company)) {
+      nextErrors.company = "Please enter a valid company name.";
+    }
     if (!values.email.trim()) {
       nextErrors.email = "Please enter your work email.";
-    } else if (!emailPattern.test(values.email.trim())) {
-      nextErrors.email = "Please enter a valid email address.";
+    } else if (!isValidEmail(values.email)) {
+      nextErrors.email = "Please enter a valid email address, like name@company.com.";
     }
-    if (values.phone.trim() && !phonePattern.test(values.phone.trim())) {
-      nextErrors.phone = "Please enter a valid phone number.";
+    if (values.phone.trim() && !isValidPhone(values.phone)) {
+      nextErrors.phone = "Please enter a phone number with 7 to 15 digits.";
     }
     const noConsent = !new FormData(form).get("consent");
 
@@ -104,6 +118,7 @@ export function CorrespondenceForm() {
             type={field.type}
             autoComplete={field.autocomplete}
             inputMode={field.type === "email" ? "email" : field.type === "tel" ? "tel" : undefined}
+            maxLength={FIELD_MAX[field.name]}
             enterKeyHint="next"
             autoCapitalize={field.type === "email" ? "none" : undefined}
             required={field.required}

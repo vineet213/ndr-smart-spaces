@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { contact } from "@/lib/data/homepage";
 import { enquiryErrorText, submitEnquiry } from "@/lib/enquiry";
+import { FIELD_MAX, isValidEmail, isValidLabel, isValidName } from "@/lib/formValidation";
 import { FormSafeguards, isVerified, resetVerification } from "./FormSafeguards";
 import styles from "./EnquiryForm.module.css";
 
@@ -17,8 +18,6 @@ const initialValues: FormValues = {
   enquiryType: "",
   message: "",
 };
-
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function EnquiryForm() {
   const { fields, messageLabel, submit, sending, success, consentLabel, consentError, route } =
@@ -41,14 +40,26 @@ export function EnquiryForm() {
     const form = event.currentTarget;
     const nextErrors: Partial<Record<FieldName, string>> = {};
 
-    if (!values.name.trim()) nextErrors.name = "Please enter your name.";
+    if (!values.name.trim()) {
+      nextErrors.name = "Please enter your name.";
+    } else if (!isValidName(values.name)) {
+      nextErrors.name = "Please enter your name using letters only.";
+    }
     if (!values.email.trim()) {
       nextErrors.email = "Please enter your work email.";
-    } else if (!emailPattern.test(values.email.trim())) {
-      nextErrors.email = "Please enter a valid email address.";
+    } else if (!isValidEmail(values.email)) {
+      nextErrors.email = "Please enter a valid email address, like name@company.com.";
     }
-    if (!values.company.trim()) nextErrors.company = "Please enter your company.";
-    if (!values.enquiryType.trim()) nextErrors.enquiryType = "Please enter an enquiry type.";
+    if (!values.company.trim()) {
+      nextErrors.company = "Please enter your company.";
+    } else if (!isValidLabel(values.company, FIELD_MAX.company)) {
+      nextErrors.company = "Please enter a valid company name.";
+    }
+    if (!values.enquiryType.trim()) {
+      nextErrors.enquiryType = "Please enter an enquiry type.";
+    } else if (!isValidLabel(values.enquiryType, FIELD_MAX.enquiryType)) {
+      nextErrors.enquiryType = "Please enter a valid enquiry type.";
+    }
 
     const noConsent = !new FormData(form).get("consent");
 
@@ -100,6 +111,7 @@ export function EnquiryForm() {
             type={field.type}
             autoComplete={field.autocomplete}
             inputMode={field.type === "email" ? "email" : undefined}
+            maxLength={FIELD_MAX[field.name]}
             enterKeyHint="next"
             autoCapitalize={field.type === "email" ? "none" : undefined}
             required={field.required}
