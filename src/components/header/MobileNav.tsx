@@ -56,6 +56,8 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
         aria-modal={open}
         aria-label="Site menu"
         className={styles.panel}
+        // Lenis (touch smoothing) otherwise swallows swipes here while it is stopped.
+        data-lenis-prevent
       >
         <div className={styles.header}>
           <div className={styles.headerInfo}>

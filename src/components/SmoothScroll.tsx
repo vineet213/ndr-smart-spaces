@@ -23,6 +23,8 @@ export function SmoothScroll() {
             syncTouchLerp: 0.1,
             touchInertiaExponent: 1.7,
             touchMultiplier: 1,
+            // Let inner scroll containers (menu, portfolio lists, ESG cards) scroll natively.
+            allowNestedScroll: true,
           }
         : undefined,
     );
