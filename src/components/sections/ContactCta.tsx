@@ -1,5 +1,5 @@
 import { Container, Grid, GridItem, Stack } from "@/components/layout";
-import { Eyebrow, Heading } from "@/components/ui";
+import { Heading } from "@/components/ui";
 import { canonicalHref } from "@/lib/routes";
 import { contact } from "@/lib/data/homepage";
 import { EnquiryForm } from "./EnquiryForm";
@@ -15,8 +15,6 @@ export function ContactCta() {
             <Stack gap="5xl">
               <Reveal>
                 <Stack gap="xl">
-                  <span className={styles.goldRule} aria-hidden="true" />
-                  <Eyebrow>{contact.eyebrow}</Eyebrow>
                   <Heading variant="section" id="contact-title">
                     {contact.heading}
                   </Heading>

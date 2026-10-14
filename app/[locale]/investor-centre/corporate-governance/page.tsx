@@ -16,7 +16,7 @@ export default function CorporateGovernancePage() {
   return (
     <>
       <InvestorMasthead
-        title={{ before: "The ", accent: "governance", after: " manual." }}
+        title={{ before: "The ", accent: "governance", after: " manual" }}
         subtext={governance.masthead.subtext}
         id="corporate-governance-title"
       />

@@ -50,9 +50,10 @@
 
 .panel {
   display: grid;
-  grid-template-columns: minmax(0, 22rem) auto minmax(0, 42rem);
+  grid-template-columns: minmax(0, 22rem) auto minmax(0, 46rem);
+  justify-content: center;
   align-items: center;
-  gap: var(--space-7xl);
+  gap: var(--space-6xl);
   max-width: var(--container-max);
   margin-inline: auto;
   padding-inline: var(--margin-desktop);
@@ -62,6 +63,11 @@
   position: absolute;
   inset: 0;
   height: 100%;
+  box-sizing: border-box;
+  /* keep the content clear of the section heading above and the progress   */
+  /* bar below, whatever the viewport height                                */
+  padding-top: calc(var(--header-height, 4.5rem) + 2.5rem);
+  padding-bottom: 9rem;
   background-color: var(--color-maroon-dark);
   /* Fade is the whole point of the motion now — a true 0→1 dissolve, eased  */
   /* (smoothstep, computed in OurCode.tsx) rather than linear, with only a   */
@@ -85,12 +91,35 @@
   display: none;
 }
 
+.panel:not(.panelPinned) .panelMeta {
+  aspect-ratio: auto;
+}
+
+.panel:not(.panelPinned) .panelRing {
+  display: none;
+}
+
 .panelMeta {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: var(--space-lg);
+  aspect-ratio: 1;
+}
+
+/* Concentric ring framing the icon. */
+.panelRing {
+  position: absolute;
+  width: 78%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(240, 182, 90, 0.35);
+  box-shadow:
+    0 0 0 clamp(1rem, 2vw, 1.75rem) rgba(240, 182, 90, 0.05),
+    inset 0 0 60px rgba(240, 182, 90, 0.08);
+  opacity: var(--center, 1);
 }
 
 /* A real visual anchor, not a small line-icon in a corner — scaled up to    */
@@ -98,7 +127,8 @@
 /* driven by the same --offset this panel already receives every frame)     */
 /* so it reads as alive rather than a static glyph. */
 .panelMark {
-  width: clamp(10rem, 15vw, 16rem);
+  position: relative;
+  width: clamp(9rem, 14vw, 15rem);
   color: var(--color-gold);
   transform: rotate(calc(var(--offset, 0) * -10deg)) translateY(calc(var(--offset, 0) * 14px));
   filter: drop-shadow(0 0 32px rgba(240, 182, 90, 0.16));
@@ -139,7 +169,12 @@
 }
 
 .panelText {
-  max-width: 40rem;
+  max-width: 44rem;
+}
+
+.panelText .panelTitle {
+  font-size: clamp(2rem, min(4vw, 7svh), 4.25rem);
+  line-height: 1.02;
 }
 
 .panelTitle {
@@ -153,7 +188,7 @@
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-lede);
+  font-size: clamp(1.1875rem, min(1.8vw, 3.4svh), 1.625rem);
   line-height: var(--leading-lede);
   color: var(--color-gold-light);
 }
@@ -162,8 +197,8 @@
   margin: 0;
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-regular);
-  font-size: var(--font-body-size);
-  line-height: var(--leading-body);
+  font-size: clamp(1.125rem, min(1.5vw, 3.2svh), 1.375rem);
+  line-height: 1.65;
   color: var(--color-text-inverse-80);
 }
 
@@ -281,7 +316,8 @@
 
 @media (max-width: 1439px) {
   .panel {
-    grid-template-columns: minmax(0, 17rem) auto minmax(0, 34rem);
+    grid-template-columns: minmax(0, 18rem) auto minmax(0, 30rem);
+    justify-content: center;
     gap: var(--space-6xl);
     padding-inline: var(--margin-tablet);
   }

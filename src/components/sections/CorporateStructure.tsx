@@ -626,14 +626,13 @@ function PortraitDiagram() {
             className={styles.centerBg}
           />
           <rect x={hub.x} y={hub.y} width={hub.w} height={4} rx={2} className={styles.centerAcc} />
-          <text x={hubCx} y={hub.y + 38} textAnchor="middle" className={styles.pHubTitle}>
-            NDR Smart Spaces
-          </text>
-          <text x={hubCx} y={hub.y + 58} textAnchor="middle" className={styles.pHubSub}>
-            Pvt. Ltd.
-          </text>
-          <text x={hubCx} y={hub.y + 79} textAnchor="middle" className={styles.pHubRole}>
-            Parent platform of the NDR Group
+          <text
+            x={hubCx}
+            y={hub.y + hub.h / 2 + 6}
+            textAnchor="middle"
+            className={styles.pHubTitle}
+          >
+            NDR Smart Spaces Pvt. Ltd.
           </text>
         </g>
 
@@ -660,6 +659,8 @@ export function CorporateStructure() {
           headingId="structure-title"
           animate={false}
           hideNumeral
+          hideThesis
+          hideRule
         />
 
         <figure className={styles.figure}>
@@ -730,19 +731,13 @@ export function CorporateStructure() {
                   rx={2.5}
                   className={styles.centerAcc}
                 />
-                <text x={CCX} y={NODES.center.y + 62} textAnchor="middle" className={styles.cTitle}>
-                  NDR Smart Spaces
-                </text>
                 <text
-                  x={CCX}
-                  y={NODES.center.y + 88}
+                  x={CCX - 18}
+                  y={NODES.center.y + NODES.center.h / 2 + 9}
                   textAnchor="middle"
-                  className={styles.cTitleSub}
+                  className={styles.cTitle}
                 >
-                  Pvt. Ltd.
-                </text>
-                <text x={CCX} y={NODES.center.y + 114} textAnchor="middle" className={styles.cRole}>
-                  PARENT PLATFORM OF THE NDR GROUP
+                  NDR Smart Spaces Pvt. Ltd.
                 </text>
                 <g
                   transform={`translate(${NODES.center.x + NODES.center.w - 44}, ${NODES.center.y + 43})`}

@@ -249,6 +249,7 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
             aria-hidden={pinEnabled && i !== activeIndex}
           >
             <div className={styles.panelMeta}>
+              <span className={styles.panelRing} aria-hidden="true" />
               <span className={styles.panelMark} aria-hidden="true">
                 <CodeMark index={value.index} />
               </span>

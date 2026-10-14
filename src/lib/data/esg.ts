@@ -50,9 +50,9 @@ export const ESG_STATUS_TONES: Record<EsgRecordStatus, "active" | "pending"> = {
 export const esgMasthead = {
   registry: "NDR Smart Spaces Pvt. Ltd., an NDR Group platform",
   section: "ESG & Sustainability",
-  title: { before: "The sustainability ", accent: "ledger", after: "." },
+  title: { before: "Environment, Social & ", accent: "Governance", after: "" },
   statement:
-    "Four values guide how we build: the environment, our people, sound governance and safety. Here is how we measure and report on each.",
+    "Four elements that guide how we build: the environment, our people, sound governance and safety. Here is how we measure and report on each.",
   asOn: ESG_EDITION.asOn,
   edition: ESG_EDITION.edition,
   folio: "Ledger FY26",
@@ -92,12 +92,12 @@ export type EsgGreenFeature = {
 export const esgGreenFeatures = {
   eyebrow: "In practice",
   heading: "Sustainability, built in.",
-  lede: "Environmental measures are part of the site plan and the roofline, and are measured in every warehouse the group develops.",
+  lede: "Environmental measures are part of the site plan and its surroundings, and are measured in every warehouse the group develops.",
   features: [
     {
       index: "01",
       title: "Solar Panel Installation",
-      body: "Rooftop solar capacity fitted across eligible warehouse spans, offsetting grid draw with on-site generation and cutting the operating carbon footprint of every asset it powers.",
+      body: "Rooftop photovoltaic arrays are fitted across eligible warehouse spans. On-site generation offsets grid draw and lowers the operating carbon footprint of each asset.",
       image: {
         src: "/images/esg/solar.jpg",
         alt: "Rooftop solar panel installation on an NDR warehouse",
@@ -106,7 +106,7 @@ export const esgGreenFeatures = {
     {
       index: "02",
       title: "Rainwater Harvesting",
-      body: "Rainwater harvesting systems that capture monsoon runoff across each site's roof and paved area, recharging groundwater and reducing dependence on external water supply.",
+      body: "Roof and paved-area runoff is captured across each site and routed to recharge pits and storage. This replenishes groundwater and reduces dependence on external water supply.",
       image: {
         src: "/images/esg/rainwater-harvesting.jpg",
         alt: "Rainwater harvesting pond at an NDR site",
@@ -115,7 +115,7 @@ export const esgGreenFeatures = {
     {
       index: "03",
       title: "EV Charging Stations",
-      body: "EV charging infrastructure built into the parking and logistics yard, supporting the shift to electric fleets for tenants and visitors moving through the park.",
+      body: "EV charging points are built into the parking and logistics yard. They support the shift to electric fleets for tenants and visitors across the park.",
       image: {
         src: "/images/esg/ev-charging.jpg",
         alt: "EV charging connector for fleet vehicles at a logistics yard",
@@ -124,7 +124,7 @@ export const esgGreenFeatures = {
     {
       index: "04",
       title: "Plantation Drives & Biodiversity",
-      body: "Ongoing plantation drives that green every site well beyond its built footprint, restoring tree cover, supporting local biodiversity and softening the immediate impact of construction.",
+      body: "Ongoing plantation drives extend green cover well beyond the built footprint. They restore tree cover, support local biodiversity and soften the impact of construction.",
       image: {
         src: "/images/esg/plantation-drive.jpg",
         alt: "Tree plantation drive at an NDR site",
@@ -133,7 +133,7 @@ export const esgGreenFeatures = {
     {
       index: "05",
       title: "Waste Management/ STP's",
-      body: "Structured bio waste management through STP's and waste segregation across every park, keeping construction and operational waste out of landfill wherever it can be recovered, recycled or reused.",
+      body: "Sewage treatment plants (STPs) and source segregation operate across every park. Construction and operational waste is recovered, recycled or reused instead of going to landfill.",
       image: {
         src: "/images/esg/waste-management.jpg",
         alt: "Colour-coded waste segregation bins",
@@ -142,7 +142,7 @@ export const esgGreenFeatures = {
     {
       index: "06",
       title: "Sustainable Construction Measures",
-      body: "Cool roof paint, roof monitors, louvred façades and precast systems specified across every build, cutting cooling load and construction waste without compromising on speed to delivery.",
+      body: "Cool-roof coatings, roof monitors, louvred façades and precast systems are specified across every build. Together they cut cooling load and construction waste without slowing delivery.",
       image: {
         src: "/images/esg/roof-monitor.jpg",
         alt: "Roof monitor ventilation on an NDR warehouse",
@@ -195,7 +195,7 @@ export const esgFramework = {
         },
         {
           ref: "EN-04",
-          label: "Natural-light roofing & lighting systems",
+          label: "Daylight-optimised roofing and lighting",
           note: "Daylight-integrated roofing and lighting designed to reduce energy dependence.",
         },
         {
@@ -213,12 +213,12 @@ export const esgFramework = {
       items: [
         {
           ref: "SO-01",
-          label: "Minimum wage adherence; strict no child labour policy",
+          label: "Fair wage adherence; strict no child labour policy",
           note: "Wage floors and an absolute prohibition on child labour across operations and supply chains.",
         },
         {
           ref: "SO-02",
-          label: "Diversity, equity & inclusion in hiring",
+          label: "Diversity, equity & inclusivity",
           note: "Inclusive recruitment practices that reflect equitable opportunity.",
         },
         {
@@ -228,7 +228,7 @@ export const esgFramework = {
         },
         {
           ref: "SO-04",
-          label: "POSH and employee-safeguard policies",
+          label: "POSH and other employee-safeguard policies",
           note: "Prevention of sexual harassment and safeguarding policies for all employees.",
         },
         {
@@ -242,7 +242,7 @@ export const esgFramework = {
       key: "G",
       name: "Governance",
       chapter: "III",
-      focus: "Board oversight, ethics, integrity, and accountability.",
+      focus: "Board stewardship, ethics, integrity, and accountability.",
       items: [
         {
           ref: "GV-01",
@@ -261,7 +261,7 @@ export const esgFramework = {
         },
         {
           ref: "GV-04",
-          label: "Zero tolerance on corruption",
+          label: "Zero tolerance to corruption",
           note: "A strict anti-corruption stance applied at every level.",
         },
       ],
@@ -270,7 +270,7 @@ export const esgFramework = {
       key: "H",
       name: "Health & Safety",
       chapter: "IV",
-      focus: "Safe sites, safe movement, and accident prevention across every project.",
+      focus: "Safe sites, safe movement and a safety-first culture on every project.",
       items: [
         {
           ref: "HS-01",
@@ -292,11 +292,6 @@ export const esgFramework = {
           ref: "HS-04",
           label: "Segregation of hazardous equipment",
           note: "Hazardous equipment stored and handled apart from general work areas.",
-        },
-        {
-          ref: "HS-05",
-          label: "Reducing noise pollution",
-          note: "Measures that limit noise for workers and neighbouring communities.",
         },
       ],
     },

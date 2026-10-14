@@ -151,22 +151,22 @@ export const companyOverview = {
       { text: " is the logistics and industrial infrastructure development platform of the " },
       { text: "NDR Group", bold: true },
       {
-        text: ", created to shape high-quality spaces for businesses, industries and communities to thrive.",
+        text: ", created to develop high-quality, well-located spaces where businesses, industries and communities can grow.",
       },
     ],
     [
       {
-        text: "We focus on logistics, industrial and residential development, bringing together the right locations, careful planning and forward-looking infrastructure so businesses can run more efficiently and keep growing without outgrowing their space.",
+        text: "We focus on logistics, industrial and residential plotting. Careful site selection and planning, backed by forward-looking infrastructure, let businesses operate efficiently and expand without outgrowing their space.",
       },
     ],
     [
       {
-        text: "Every development we build is shaped around how businesses and people actually work and live, from productive industrial parks to well-planned residential communities.",
+        text: "Every development is designed around how businesses and people actually work and live, from productive industrial parks to well-planned residential communities.",
       },
     ],
     [
       {
-        text: "Our work goes beyond putting up buildings. We're building the infrastructure that supports businesses, creates employment, strengthens communities and helps the regions we operate in grow over the long term.",
+        text: "Our work goes beyond construction. We build infrastructure that supports business operations, generates employment, strengthens communities and drives long-term growth in the regions we serve.",
       },
     ],
   ] as CompanyOverviewSegment[][],
@@ -197,8 +197,8 @@ export const companyMetrics = [
   {
     value: 20,
     suffix: "+",
-    label: "MARKETS · PRESENCE",
-    context: "MARKETS · PRESENCE",
+    label: "MARKET PRESENCE",
+    context: "MARKET PRESENCE",
   },
   {
     value: 10,

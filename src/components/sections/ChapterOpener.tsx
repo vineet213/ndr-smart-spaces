@@ -12,9 +12,9 @@ type ChapterOpenerProps = {
   animate?: boolean;
   className?: string;
   hideNumeral?: boolean;
+  hideThesis?: boolean;
+  hideRule?: boolean;
 };
-
-const sheetOf = (numeral: string) => String(Number(numeral) + 1);
 
 export function ChapterOpener({
   chapter,
@@ -23,6 +23,8 @@ export function ChapterOpener({
   animate = true,
   className,
   hideNumeral = false,
+  hideThesis = false,
+  hideRule = false,
 }: ChapterOpenerProps) {
   const { ref, inView } = useInView<HTMLElement>();
 
@@ -47,16 +49,11 @@ export function ChapterOpener({
           <h2 id={headingId} className={styles.title}>
             {chapter.label}
           </h2>
-          <p className={styles.thesis}>{chapter.title}</p>
-        </div>
-
-        <div className={styles.meta}>
-          <span className={styles.plate}>{chapter.plate}</span>
-          <span className={styles.sheet}>Sheet {sheetOf(chapter.index)} of 06</span>
+          {!hideThesis && <p className={styles.thesis}>{chapter.title}</p>}
         </div>
       </div>
 
-      <span className={styles.rule} aria-hidden="true" />
+      {!hideRule && <span className={styles.rule} aria-hidden="true" />}
     </header>
   );
 }

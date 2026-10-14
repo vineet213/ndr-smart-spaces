@@ -32,9 +32,6 @@ export function Footer({ hideWorkWithUsCta = true }: { hideWorkWithUsCta?: boole
   return (
     <footer className={styles.footer}>
       <Container>
-        <div className={styles.colophon}>
-          <span className={styles.colophonMark}>NDR Smart Spaces</span>
-        </div>
         {!hideWorkWithUsCta ? (
           <div className={styles.ctaRow}>
             <p className={styles.ctaLabel}>Work with us</p>
@@ -51,12 +48,11 @@ export function Footer({ hideWorkWithUsCta = true }: { hideWorkWithUsCta?: boole
               <Image
                 src="/logos/ndr-smart-spaces-lockup.svg"
                 alt=""
-                width={180}
-                height={41}
+                width={360}
+                height={82}
                 className={styles.logo}
               />
             </Link>
-            <p className={styles.descriptor}>{footer.descriptor}</p>
             <ul className={styles.ecosystem}>
               {footer.ecosystem.map((link) => (
                 <li key={link.href}>

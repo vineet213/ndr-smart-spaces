@@ -107,7 +107,7 @@ export const businessMasthead = {
 export const verticalMastheadSubtext: Readonly<Record<string, string>> = {
   "01": "From barren lands to smart spaces, we build the infrastructure that keeps businesses moving for the logistics and manufacturing sectors.",
   "02": "Project management and maintenance: building assets, managing execution and delivering performance.",
-  "03": "Residential plotted communities near industrial corridors, offering quality housing, long-term connectivity and growth alongside the regions we serve.",
+  "03": "Residential plotted communities near industrial corridors, offering optimised layouts, seamless connectivity and growth alongside the regions we serve.",
 };
 
 /**
@@ -395,7 +395,7 @@ export const vertical02AssetManagement = {
   intro: {
     heading: "Keeping assets productive. Keeping businesses moving.",
     mastheadSubtext:
-      "Leasing, upkeep and operational support that keep every asset performing across its working life.",
+      "Leasing, upkeep and operational support that keeps every asset performing efficiently.",
     description:
       "We manage the leasing and ongoing maintenance of industrial and logistics assets, ensuring facilities deliver consistent performance throughout their operational lifecycle. Our approach combines tenant management, facility upkeep, preventive maintenance, repairs, and operational support to maintain asset quality, tenant satisfaction, safety, and long-term value.",
   },
@@ -517,7 +517,7 @@ export const vertical02DevelopmentLifecycle = {
   intro: {
     heading: "From site to asset. Documented stage by stage.",
     mastheadSubtext:
-      "How a piece of land becomes an operating asset, from identification and approvals through to construction and handover.",
+      "How a piece of land becomes an operating asset, from identification and approvals to construction and handover.",
     description:
       "How a piece of land becomes an operating asset, from land identification through due diligence, acquisition, approvals, design, construction and handover. Each stage below sets out the standard we hold every project to.",
   },

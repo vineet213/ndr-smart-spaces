@@ -2,6 +2,7 @@
 
 .section {
   background-color: var(--color-ivory);
+  padding-top: var(--space-4xl);
 }
 
 .header {

@@ -104,7 +104,7 @@ export const aboutTimeline = {
     },
     {
       year: "2021",
-      title: "Investcorp's First Tranche NDR Warehousing",
+      title: "Investcorp's First Tranche of Investment in NDR Warehousing",
     },
     {
       year: "2022",
@@ -114,16 +114,16 @@ export const aboutTimeline = {
     {
       year: "2023",
       title:
-        "Investcorp Invested in pre round of NDR InvIT, India’s First Perpetual Warehousing InvIT",
+        "Investcorp's Second Tranche of Investment in the Pre-Round of NDR InvIT, India’s First Perpetual Warehousing InvIT",
     },
     {
       year: "2024",
       title:
-        "NDR InvIT Listed on NSE with ₹8.8 Billion Offer Size and 17 Million (Approx.) Sq. Ft. Asset Portfolio",
+        "NDR InvIT Listed on NSE with ₹8.8 Billion Offer Size and 17 Million (Approx.) Sq. Ft. of Asset Portfolio",
     },
     {
       year: "2025",
-      title: "Incorporation Of NDR Smart Spaces",
+      title: "Incorporation of NDR Smart Spaces",
     },
     {
       year: "2026",
@@ -168,49 +168,49 @@ export type OurCodeValue = {
 
 export const ourCode = {
   heading: "Our Code",
-  lede: "Infrastructure matters for what it lets people do, not just for what gets built.",
+  lede: "What we build matters. What it makes possible for people matters more.",
   values: [
     {
       index: "01",
       title: "Infrastructure That Enables",
       tagline: "More than steel and concrete.",
-      body: "Trade, jobs and regional growth all rest on logistics and industrial infrastructure. We build assets that help businesses move faster, run better and create value that lasts.",
+      body: "Warehouses and industrial parks keep trade moving, give people jobs and help regions grow. We build them so the businesses inside can move faster, work better and keep going for the long term.",
     },
     {
       index: "02",
       title: "Enabling the Last Mile",
       tagline: "Closer to where business happens.",
-      body: "The last mile is where infrastructure meets everyday commerce. We build in well-placed locations that connect businesses to their markets, their people and their supply chains.",
+      body: "Goods reach customers through the last mile, and that is where good location counts. We build near the places our customers already work, so their markets, people and supply chains stay within easy reach.",
     },
     {
       index: "03",
       title: "Efficiency at Scale",
       tagline: "Faster to build. Better in use.",
-      body: "We bring together disciplined operations, sound engineering and streamlined construction to deliver good infrastructure quickly. From the first drawing to the final handover, we look for ways to do it more efficiently.",
+      body: "Disciplined operations, sound engineering and streamlined construction help us deliver quality at speed. From the first drawing to the handover, we keep asking how it could be done better.",
     },
     {
       index: "04",
       title: "Design That Delivers",
       tagline: "Built for today. Ready for tomorrow.",
-      body: "Businesses change, so we design for more than today's requirements. Strong structures and sensible layouts make every asset ready for what comes next.",
+      body: "Businesses change, and their buildings need to keep up. We design strong structures and flexible layouts so each asset can adapt to what its customers need next.",
     },
     {
       index: "05",
       title: "Agility with Accountability",
       tagline: "Move fast. Build right.",
-      body: "We work with urgency, but never at the cost of compliance, safety, quality or openness. Clear processes and people who own their decisions keep every project moving.",
+      body: "We work with urgency, but never by cutting corners on compliance, safety or quality. Clear processes and people who own their decisions keep every project honest and on track.",
     },
     {
       index: "06",
       title: "People Build the Organization",
-      tagline: "Good infrastructure comes from people who care about getting it right.",
-      body: "Our strength is the people behind every project. We value ownership, teamwork, integrity and getting on with it. When good people share a purpose, better infrastructure follows.",
+      tagline: "Good infrastructure comes from people who care.",
+      body: "The people behind each project are our real strength. We look for ownership, teamwork and integrity, and for people who get on with the job. Give good people a shared purpose and the work follows.",
     },
     {
       index: "07",
       title: "Customer-Led Approach",
       tagline: "The right space makes business easier.",
-      body: "We stay close to our customers and learn how they work. We build facilities that fit the way their business actually runs, instead of asking them to fit a template.",
+      body: "We spend time with our customers to understand how they actually work. Then we build the space around them, instead of asking them to fit into a standard design.",
     },
   ] as readonly OurCodeValue[],
 } as const;

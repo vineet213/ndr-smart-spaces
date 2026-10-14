@@ -375,9 +375,9 @@ export const downloads: FilingLibraryConfig = {
 export const governance = {
   masthead: {
     eyebrow: "Corporate Governance",
-    title: "The governance manual.",
+    title: "The governance manual",
     subtext:
-      "The framework, board, committees and policies NDR Smart Spaces reports to investors, each with its source and reference.",
+      "The framework, board, committees and policies of NDR Smart Spaces, for ethical and responsible compliance reporting.",
     asOn: investorEdition.asOn,
     edition: investorEdition.edition,
   },
@@ -411,13 +411,13 @@ export const governance = {
       },
       {
         label: "POSH Policy",
-        note: "Policy on the prevention, prohibition and redressal of sexual harassment of women at the workplace, across all operational locations.",
+        note: "Ensuring a workplace free from sexual harassment by preventing, prohibiting and redressing it across all operational locations and digital forums.",
         source: "Board-approved · effective 1 August 2026",
         documents: [{ title: "POSH Policy", href: "/documents/governance/posh-policy.pdf" }],
       },
       {
         label: "Whistle-Blower Policy (Vigil Mechanism)",
-        note: "The vigil mechanism through which employees and directors can report genuine concerns without fear of victimisation.",
+        note: "Enable employees and directors to report genuine concerns through a whistle-blower mechanism, without fear of victimisation.",
         source: "Board-approved · effective 5 September 2026",
         documents: [
           {

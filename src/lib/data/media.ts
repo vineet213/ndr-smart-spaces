@@ -341,7 +341,7 @@ const cmsPressEntries: readonly PressArchiveEntry[] = (() => {
 
 export const pressArchive = {
   eyebrow: "The archive",
-  heading: "The public record, dated and referenced.",
+  heading: "Latest from the newsroom",
   lede: "Releases, coverage, interviews and updates from the company, each with its date and reference. The archive is still being built, and entries appear as they are approved.",
   note: "The archive is being filed. Entries publish as they are approved.",
   registerCode: `${MEDIA_PUBLICATION.ref} · Press archive`,
