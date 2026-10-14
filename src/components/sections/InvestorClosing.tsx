@@ -1,5 +1,5 @@
 import { Container } from "@/components/layout";
-import { Body, Button, Eyebrow, Heading, TextLink } from "@/components/ui";
+import { Body, Button, Heading, TextLink } from "@/components/ui";
 import { investorClosing, safeHarbourDisclaimer } from "@/lib/data/investor";
 import { Reveal } from "./Reveal";
 import styles from "./InvestorClosing.module.css";
@@ -9,13 +9,6 @@ export function InvestorClosing() {
     <section className={styles.section} aria-labelledby="investor-closing-title">
       <Container>
         <Reveal>
-          <div className={styles.docHeader}>
-            <span className={styles.ref}>REF 07 · CLOSING</span>
-          </div>
-          <span className={styles.goldRule} aria-hidden="true" />
-          <Eyebrow tone="dark" className={styles.eyebrow}>
-            Investor Centre · Financial Statement
-          </Eyebrow>
           <Heading
             variant="section"
             tone="dark"
