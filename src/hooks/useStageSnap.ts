@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 import { getLenisInstance } from "@/lib/lenis";
 
-const MIN_SWIPE_PX = 24;
+const MIN_SWIPE_PX = 48;
 const TOLERANCE_PX = 12;
 
 function easeOutCubic(t: number): number {

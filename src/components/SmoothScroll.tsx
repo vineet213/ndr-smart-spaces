@@ -20,9 +20,9 @@ export function SmoothScroll() {
             // sync, so the rAF-driven reels and sticky sections see one
             // continuous, interpolated scroll value.
             syncTouch: true,
-            syncTouchLerp: 0.2,
-            touchInertiaExponent: 2.2,
-            touchMultiplier: 1.8,
+            syncTouchLerp: 0.12,
+            touchInertiaExponent: 1.7,
+            touchMultiplier: 1.1,
             // Let inner scroll containers (menu, portfolio lists, ESG cards) scroll natively.
             allowNestedScroll: true,
           }
