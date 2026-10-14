@@ -49,8 +49,15 @@
 
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
+    /* Pinned-window geometry (see EsgGreenFeatures.tsx): the box sticks when */
+    /* the track's top is --stick below the viewport top, and releases after   */
+    /* (--track-h - --box-h) more scrolling. Card ranges are measured inside   */
+    /* that window so every card gets a real dwell while pinned.               */
     .stackTrack {
       height: 480svh;
+      --track-h: 480svh;
+      --stick: clamp(5.5rem, 12svh, 8rem);
+      --box-h: min(39rem, 74svh);
     }
 
     .stackBox {
@@ -197,7 +204,7 @@
 
 /* the cross-fade + blur itself ---------------------------------------------- */
 /* Each card owns a slice of the shared timeline (set inline via
- * --card-range-start/--card-range-end in EsgGreenFeatures.tsx, overlapping
+ * --card-s/--card-e in EsgGreenFeatures.tsx, overlapping
  * its neighbours) so the outgoing card is still blurring out while the
  * next one sharpens in over it — a true cross-fade. The first/last cards
  * use their own keyframes since there's nothing before the first or after
@@ -288,7 +295,8 @@
       animation-timing-function: linear;
       animation-fill-mode: both;
       animation-timeline: --esg-stack-progress;
-      animation-range: var(--card-range-start) var(--card-range-end);
+      animation-range: calc(100svh - var(--stick) + (var(--track-h) - var(--box-h)) * var(--card-s))
+        calc(100svh - var(--stick) + (var(--track-h) - var(--box-h)) * var(--card-e));
     }
 
     .cardFirst {
@@ -323,6 +331,10 @@
 @media (max-width: 1023px) {
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {
+      .stackTrack {
+        --box-h: min(34rem, 80svh);
+      }
+
       .stackBox {
         height: min(34rem, 80svh);
       }
@@ -376,6 +388,9 @@
     @supports (animation-timeline: view()) {
       .stackTrack {
         height: 360svh;
+        --track-h: 360svh;
+        --stick: 5rem;
+        --box-h: min(38rem, calc(100svh - 6.5rem));
       }
 
       .stackBox {

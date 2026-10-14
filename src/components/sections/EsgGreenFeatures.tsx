@@ -1,9 +1,10 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { FadeImage as Image } from "@/components/ui/FadeImage";
 import { Container } from "@/components/layout";
 import { Heading, Lede } from "@/components/ui";
+import { useStageSnap } from "@/hooks/useStageSnap";
 import { esgGreenFeatures } from "@/lib/data/esg";
 import type { EsgGreenFeature } from "@/lib/data/esg";
 import { cx } from "../ui/cx";
@@ -95,14 +96,22 @@ const CARD_POSITION = {
   last: styles.cardLast,
 } as const;
 
+/* Each card's slice of the *pinned* scroll window, as 0–1 fractions (the
+ * window runs from the moment the box sticks to the moment it releases — see
+ * --pin-* in the stylesheet). Neighbours overlap so a card is still blurring
+ * out while the next sharpens in. */
 const SLICE_RANGES = [
-  ["0%", "20%"],
-  ["14%", "36%"],
-  ["30%", "52%"],
-  ["46%", "68%"],
-  ["62%", "84%"],
-  ["78%", "100%"],
+  [0, 0.2],
+  [0.14, 0.36],
+  [0.3, 0.52],
+  [0.46, 0.68],
+  [0.62, 0.84],
+  [0.78, 1],
 ] as const;
+
+/* Where each card is fully sharp, as a fraction of the pinned window — the
+ * stop points for one-swipe-per-card on touch. */
+const CARD_REST = [0.06, 0.25, 0.41, 0.57, 0.73, 0.93] as const;
 
 type FeatureCardProps = {
   feature: EsgGreenFeature;
@@ -119,12 +128,12 @@ function FeatureCard({ feature, order, total }: FeatureCardProps) {
       : order === total - 1
         ? CARD_POSITION.last
         : CARD_POSITION.middle;
-  const [rangeStart, rangeEnd] = SLICE_RANGES[order] ?? ["0%", "100%"];
+  const [rangeStart, rangeEnd] = SLICE_RANGES[order] ?? [0, 1];
 
   return (
     <article
       className={cx(styles.card, colorClass, position)}
-      style={{ "--card-range-start": rangeStart, "--card-range-end": rangeEnd } as CSSProperties}
+      style={{ "--card-s": rangeStart, "--card-e": rangeEnd } as CSSProperties}
     >
       <div className={cx(styles.row, side)}>
         <div className={styles.textCol}>
@@ -159,6 +168,29 @@ function FeatureCard({ feature, order, total }: FeatureCardProps) {
 
 export function EsgGreenFeatures() {
   const total = esgGreenFeatures.features.length;
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const boxRef = useRef<HTMLDivElement | null>(null);
+  const [pinned, setPinned] = useState(false);
+
+  // The pinned crossfade only exists with scroll-driven animation and motion allowed.
+  useEffect(() => {
+    const motion = window.matchMedia("(prefers-reduced-motion: no-preference)");
+    const update = () => setPinned(motion.matches && CSS.supports("animation-timeline", "view()"));
+    update();
+    motion.addEventListener("change", update);
+    return () => motion.removeEventListener("change", update);
+  }, []);
+
+  // Touch: one swipe glides to exactly the next / previous card.
+  useStageSnap(() => {
+    const track = trackRef.current;
+    const box = boxRef.current;
+    if (!track || !box) return [];
+    const stick = parseFloat(getComputedStyle(box).top) || 0;
+    const pinStart = track.getBoundingClientRect().top + window.scrollY - stick;
+    const pinLength = track.offsetHeight - box.offsetHeight;
+    return CARD_REST.map((fraction) => Math.round(pinStart + pinLength * fraction));
+  }, pinned);
 
   return (
     <section className={styles.section} id="in-practice" aria-labelledby="esg-in-practice-title">
@@ -172,8 +204,8 @@ export function EsgGreenFeatures() {
           </header>
         </Reveal>
 
-        <div className={styles.stackTrack}>
-          <div className={styles.stackBox}>
+        <div ref={trackRef} className={styles.stackTrack}>
+          <div ref={boxRef} className={styles.stackBox}>
             {esgGreenFeatures.features.map((feature, index) => (
               <FeatureCard key={feature.index} feature={feature} order={index} total={total} />
             ))}
