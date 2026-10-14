@@ -24,7 +24,15 @@
 }
 
 .mapHeading {
+  /* breathing room between the last stage and the closing heading */
+  padding-top: var(--space-10xl);
   margin-bottom: var(--space-8xl);
+}
+
+/* The last stage has no following stage to cover it; receding + dimming it  */
+/* just left a shrunken, darkened frame above the closing heading.          */
+.stageTrack:last-child .stageInner {
+  animation: none;
 }
 
 .mapTitle {
@@ -699,13 +707,8 @@
     height: 100dvh;
   }
 
-  /* The last stage has no following stage to cover it; receding + dimming it */
-  /* just left a shrunken, darkened band above the closing heading.          */
-  .stageTrack:last-child .stageInner {
-    animation: none;
-  }
-
   .mapHeading {
+    padding-top: var(--space-7xl);
     margin-bottom: var(--space-5xl);
   }
 
