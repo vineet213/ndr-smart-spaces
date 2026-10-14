@@ -24,7 +24,8 @@ export function LogoWordmark({ scrolled = false, light = false }: LogoWordmarkPr
         }
         alt=""
         width={190}
-        height={43}
+        height={44}
+        loading="eager"
         className={styles.logo}
       />
     </a>

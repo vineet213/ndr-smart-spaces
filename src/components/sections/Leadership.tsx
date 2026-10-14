@@ -56,6 +56,8 @@ function LeadershipGroupSection({ group }: { group: LeadershipGroup }) {
   };
   const setActive = (next: number | null) => {
     if (next === null && activeRef.current !== null) {
+      // Runs only from pointer/click handlers, never during render.
+      // eslint-disable-next-line react-hooks/purity
       settledAfter.current = performance.now() + SETTLE_MS;
     }
     activeRef.current = next;
@@ -77,6 +79,8 @@ function LeadershipGroupSection({ group }: { group: LeadershipGroup }) {
   const activate = (index: number) => {
     clearLeaveTimer();
     if (activeRef.current === index) return;
+    // Pointer handler, not render (see setActive).
+    // eslint-disable-next-line react-hooks/purity
     if (activeRef.current === null && performance.now() >= settledAfter.current) measureRest();
     setActive(index);
   };

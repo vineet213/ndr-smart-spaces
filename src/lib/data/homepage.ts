@@ -191,8 +191,8 @@ export const companyMetrics = [
   {
     value: 500,
     suffix: "+",
-    label: "DEVELOPABLE LAND BANK(ACRES)",
-    context: "DEVELOPABLE LAND BANK(ACRES)",
+    label: "DEVELOPABLE LAND BANK (ACRES)",
+    context: "DEVELOPABLE LAND BANK (ACRES)",
   },
   {
     value: 20,

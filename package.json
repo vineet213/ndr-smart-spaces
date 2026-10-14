@@ -9,6 +9,7 @@
     "dev": "next dev",
     "prebuild": "node scripts/build-images.mjs",
     "build": "next build",
+    "postbuild": "node scripts/flatten-segment-prefetch.mjs",
     "start": "node scripts/serve-static.mjs",
     "publish": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-export.js && npm run build",
     "lint": "eslint .",
