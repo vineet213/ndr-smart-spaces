@@ -14,7 +14,7 @@ export function Correspondence() {
     >
       <Container>
         <Grid>
-          <GridItem span={7} className={styles.intro}>
+          <GridItem span={5} className={styles.intro}>
             <Reveal>
               <Eyebrow className={styles.eyebrow}>{correspondenceForm.eyebrow}</Eyebrow>
               <Heading variant="section" id="correspondence-title" className={styles.heading}>
@@ -23,7 +23,7 @@ export function Correspondence() {
               <p className={styles.subheading}>{correspondenceForm.subheading}</p>
             </Reveal>
           </GridItem>
-          <GridItem span={5} className={styles.formColumn}>
+          <GridItem span={7} className={styles.formColumn}>
             <Reveal delay={1}>
               <div className={styles.card}>
                 <CorrespondenceForm />

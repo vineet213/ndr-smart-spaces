@@ -29,6 +29,8 @@
 .card {
   padding: var(--space-6xl);
   background-color: var(--color-ivory-dim);
+  border: 1px solid var(--color-hairline-stone);
+  border-top: 3px solid var(--color-maroon);
 }
 
 @media (max-width: 1023px) {

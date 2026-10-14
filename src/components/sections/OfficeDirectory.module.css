@@ -11,20 +11,29 @@
   margin-top: var(--space-4xl);
 }
 
-/* office register -------------------------------------------------------- */
+/* office cards ---------------------------------------------------------- */
+/* Three desks read as one set: equal cards side by side on desktop, a row    */
+/* per card on tablets, a compact stack on phones. The email is the action,   */
+/* so it sits in its own full-width, tappable strip at the foot of each card. */
 
 .directory {
-  margin-top: var(--space-7xl);
-  border-block-end: 1px solid var(--color-hairline-stone);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2xl);
+  margin-top: var(--space-6xl);
 }
 
 .office {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-  column-gap: var(--space-8xl);
-  align-items: start;
-  padding-block: var(--space-6xl);
-  border-block-start: 1px solid var(--color-hairline-stone);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-ivory-dim);
+  border: 1px solid var(--color-hairline-stone);
+  border-top: 3px solid var(--color-maroon);
+}
+
+.officeBody {
+  flex: 1;
+  padding: var(--space-4xl) var(--space-4xl) var(--space-3xl);
 }
 
 .officeKind {
@@ -38,22 +47,22 @@
 }
 
 .officeName {
-  margin: var(--space-3xl) 0 0;
+  margin: var(--space-xl) 0 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: clamp(1.5rem, 2.4vw, 2.125rem);
-  line-height: 1.1;
+  font-size: clamp(1.5rem, 1.9vw, 1.75rem);
+  line-height: 1.15;
   color: var(--color-charcoal);
 }
 
 .lines {
   list-style: none;
-  margin: var(--space-3xl) 0 0;
+  margin: var(--space-xl) 0 0;
   padding: 0;
 }
 
 .line {
-  margin-top: var(--space-sm);
+  margin-top: var(--space-xs);
   font-family: var(--font-body);
   font-size: var(--font-body-size);
   line-height: var(--leading-body);
@@ -65,7 +74,9 @@
 .contact {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
+  gap: var(--space-md);
+  padding: var(--space-xl) var(--space-4xl) var(--space-2xl);
+  border-top: 1px solid var(--color-hairline-stone);
 }
 
 .contactRow {
@@ -105,6 +116,7 @@
 
 .contactEmail {
   align-self: flex-start;
+  overflow-wrap: anywhere;
   font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
   font-weight: var(--font-weight-body-medium);
   text-transform: none;
@@ -120,7 +132,7 @@
 
 .directions {
   align-self: flex-start;
-  margin-top: var(--space-2xl);
+  margin-top: var(--space-md);
 }
 
 .note {
@@ -130,14 +142,24 @@
 }
 
 @media (max-width: 1023px) {
+  .directory {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Tablets: each card is a row — details left, contact right. */
+@media (min-width: 640px) and (max-width: 1023px) {
   .office {
-    grid-template-columns: 1fr;
-    row-gap: var(--space-5xl);
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    align-items: stretch;
   }
 
   .contact {
-    border-top: 1px solid var(--color-hairline-stone);
-    padding-top: var(--space-4xl);
+    justify-content: center;
+    border-top: 0;
+    border-left: 1px solid var(--color-hairline-stone);
+    padding: var(--space-4xl);
   }
 }
 
@@ -146,14 +168,23 @@
     padding-block: var(--space-5xl);
   }
 
-  .office {
-    padding-block: var(--space-4xl);
+  .directory {
+    gap: var(--space-xl);
+  }
+
+  .officeBody {
+    padding: var(--space-2xl) var(--space-xl) var(--space-xl);
+  }
+
+  .contact {
+    padding: var(--space-lg) var(--space-xl) var(--space-xl);
   }
 }
 
 /* Touch: 44px minimum hit area (no change for mouse users). */
 @media (pointer: coarse) {
-  .contactPhone {
+  .contactPhone,
+  .contactEmail {
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
