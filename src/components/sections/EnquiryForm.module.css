@@ -197,3 +197,26 @@
 .formError .fallback a {
   color: var(--color-gold-light);
 }
+
+/* Touch: the whole label row (not just the 20px box) is a 44px target, and
+   the inline privacy link gets a 44px-tall hit area without moving the text. */
+@media (pointer: coarse) {
+  .checkbox {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.625rem;
+  }
+
+  .consentLabel {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 44px;
+  }
+
+  .consentLink {
+    display: inline-block;
+    padding-block: 0.75rem;
+    margin-block: -0.75rem;
+  }
+}
