@@ -208,6 +208,38 @@
   }
 }
 
+/* Tablets and phones: the hero is logo-only, so a full-screen panel with the  */
+/* logo pinned to its bottom edge read as a large empty block (and cut the    */
+/* logo off on short screens). Use a compact panel with the logo centred in   */
+/* it; never taller than the space under the header, so nothing is clipped.   */
+@media (max-width: 1023px) {
+  .hero {
+    min-height: min(clamp(20rem, 56svh, 32rem), calc(100svh - var(--header-height)));
+  }
+
+  .typeContainer {
+    justify-content: center;
+    padding-top: 0;
+  }
+
+  .typeBlock {
+    margin-block: auto;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .lockup {
+    width: min(78%, 22rem);
+    max-width: none;
+  }
+
+  .ctas {
+    justify-content: center;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .scrollCue svg {
     animation: none;
