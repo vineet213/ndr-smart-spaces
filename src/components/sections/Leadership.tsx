@@ -35,7 +35,15 @@ function initialsOf(name: string) {
 }
 
 /** A portrait with a fixed 4:5 box (explicit width/height), or a monogram if there is no photo. */
-function Photo({ profile, eager }: { profile: LeadershipProfile; eager: boolean }) {
+function Photo({
+  profile,
+  eager,
+  sizes,
+}: {
+  profile: LeadershipProfile;
+  eager: boolean;
+  sizes: string;
+}) {
   if (!profile.photo) {
     return (
       <span className={styles.monogram} aria-hidden="true">
@@ -49,7 +57,7 @@ function Photo({ profile, eager }: { profile: LeadershipProfile; eager: boolean 
       alt=""
       width={640}
       height={800}
-      sizes="(max-width: 767px) 80vw, (max-width: 1023px) 45vw, 22rem"
+      sizes={sizes}
       loading={eager ? "eager" : undefined}
       decoding="async"
       className={styles.photo}
@@ -82,7 +90,7 @@ function PersonCard({ profile, index, eager, onOpen }: PersonCardProps) {
         <span className={styles.media}>
           <span className={styles.frame}>
             <span className={styles.portrait}>
-              <Photo profile={profile} eager={eager} />
+              <Photo profile={profile} eager={eager} sizes="(max-width: 767px) 46vw, 13rem" />
             </span>
           </span>
           <svg className={styles.bracket} viewBox="0 0 52 52" aria-hidden="true" focusable="false">
@@ -225,7 +233,7 @@ function LeadershipGroupSection({ group, eager }: { group: LeadershipGroup; eage
                 inert={!active}
               >
                 <div className={styles.sheetPortrait}>
-                  <Photo profile={profile} eager />
+                  <Photo profile={profile} eager sizes="(max-width: 767px) 120px, 12rem" />
                 </div>
                 <div className={styles.sheetHead}>
                   <h4 className={styles.sheetName} id={`${baseId}-name-${index}`}>
@@ -255,7 +263,7 @@ function LeadershipGroupSection({ group, eager }: { group: LeadershipGroup; eage
   );
 
   return (
-    <Stack gap="6xl">
+    <Stack gap="3xl">
       <Reveal>
         <h3 className={styles.groupTitle} id={`${group.id}-title`}>
           {group.title}
@@ -264,6 +272,7 @@ function LeadershipGroupSection({ group, eager }: { group: LeadershipGroup; eage
 
       <ul
         ref={gridRef}
+        style={{ "--cols": profiles.length + pending } as CSSProperties}
         className={cx(styles.grid, ready && styles.ready, revealed && styles.revealed)}
         aria-labelledby={`${group.id}-title`}
       >
@@ -290,7 +299,7 @@ export function Leadership() {
   return (
     <section className={styles.section} aria-labelledby="leadership-title">
       <Container>
-        <Stack gap="8xl">
+        <Stack gap="5xl">
           <Reveal>
             <Stack gap="xl">
               <Heading variant="section" id="leadership-title">
