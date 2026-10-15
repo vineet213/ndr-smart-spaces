@@ -31,7 +31,8 @@ type MegaMenuButtonProps = {
  * `/en/investor-centre`), whose panel leads with a featured overview row, then
  * a divider, then the child-link columns. Trigger without an overview (e.g.
  * Business): a plain button that only opens the panel — it never navigates.
- * Keyboard users open the panel with ArrowDown and navigate with Enter.
+ * Clicking or tapping either trigger toggles the panel (it never navigates; the
+ * overview row does). Keyboard users can also open it with ArrowDown.
  */
 export function MegaMenuButton({
   menu,
@@ -46,6 +47,8 @@ export function MegaMenuButton({
   const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const suppressRef = useRef(false);
+  // Set by a click/tap: the panel stays open until clicked again, dismissed, or another menu opens.
+  const pinnedRef = useRef(false);
   const panelId = useId();
 
   const cancelOpen = useCallback(() => {
@@ -86,6 +89,7 @@ export function MegaMenuButton({
 
   const closeIntent = useCallback(() => {
     cancelOpen();
+    if (pinnedRef.current) return;
     const node = itemRef.current;
     if (node && node.contains(document.activeElement)) return;
     cancelClose();
@@ -95,10 +99,32 @@ export function MegaMenuButton({
     }, CLOSE_GRACE_MS);
   }, [onClose, cancelOpen, cancelClose]);
 
+  /* Click / tap / Enter toggles the panel, so it works without hover (touch,
+   * keyboard, and anyone who simply clicks). The first click on a menu that
+   * hover just opened keeps it open ("pins" it); the next click closes it. The
+   * trigger never navigates: the panel's featured overview link does that. */
+  const handleTriggerClick = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      event.preventDefault();
+      clearTimers();
+      if (!open) {
+        pinnedRef.current = true;
+        openNow();
+      } else if (!pinnedRef.current) {
+        pinnedRef.current = true;
+      } else {
+        pinnedRef.current = false;
+        onClose();
+      }
+    },
+    [open, openNow, onClose, clearTimers],
+  );
+
   const handleTriggerKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLElement>) => {
       if (event.key === "Escape") {
         suppressRef.current = true;
+        pinnedRef.current = false;
         clearTimers();
         onClose();
         triggerRef.current?.focus();
@@ -125,10 +151,16 @@ export function MegaMenuButton({
       const next = event.relatedTarget as Node | null;
       if (itemRef.current && next && itemRef.current.contains(next)) return;
       clearTimers();
+      pinnedRef.current = false;
       onClose();
     },
     [onClose, clearTimers],
   );
+
+  // Whenever the panel closes (another menu opened, Esc, outside click), drop the pin.
+  useEffect(() => {
+    if (!open) pinnedRef.current = false;
+  }, [open]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -138,6 +170,7 @@ export function MegaMenuButton({
       const node = itemRef.current;
       if (node && !node.contains(event.target as Node)) {
         suppressRef.current = false;
+        pinnedRef.current = false;
         clearTimers();
         onClose();
       }
@@ -165,6 +198,7 @@ export function MegaMenuButton({
           aria-haspopup="true"
           aria-controls={panelId}
           data-nav-anchor
+          onClick={handleTriggerClick}
           onKeyDown={handleTriggerKeyDown}
         >
           {menu.label}
@@ -179,6 +213,7 @@ export function MegaMenuButton({
           aria-haspopup="menu"
           aria-controls={panelId}
           data-nav-anchor
+          onClick={handleTriggerClick}
           onKeyDown={handleTriggerKeyDown}
         >
           {menu.label}
@@ -247,7 +282,10 @@ export function MegaMenuButton({
                             <li key={nested.href}>
                               {nested.external ? (
                                 <a
-                                  className={cx(styles.nestedLink, nestedActive && styles.linkActive)}
+                                  className={cx(
+                                    styles.nestedLink,
+                                    nestedActive && styles.linkActive,
+                                  )}
                                   href={canonicalHref(nested.href)}
                                   target="_blank"
                                   rel="noopener noreferrer"
@@ -258,7 +296,10 @@ export function MegaMenuButton({
                                 </a>
                               ) : (
                                 <a
-                                  className={cx(styles.nestedLink, nestedActive && styles.linkActive)}
+                                  className={cx(
+                                    styles.nestedLink,
+                                    nestedActive && styles.linkActive,
+                                  )}
                                   href={canonicalHref(nested.href)}
                                   aria-current={nestedActive ? "page" : undefined}
                                 >

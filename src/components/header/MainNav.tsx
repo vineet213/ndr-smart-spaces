@@ -27,7 +27,8 @@ export function MainNav() {
   /* without MainNav needing to know anything about how that one opens.      */
   const moveIndicatorTo = useCallback((target: EventTarget | null) => {
     const list = listRef.current;
-    const anchor = target instanceof HTMLElement ? target.closest<HTMLElement>("[data-nav-anchor]") : null;
+    const anchor =
+      target instanceof HTMLElement ? target.closest<HTMLElement>("[data-nav-anchor]") : null;
     if (!list || !anchor) return;
     const listRect = list.getBoundingClientRect();
     const anchorRect = anchor.getBoundingClientRect();
@@ -86,7 +87,7 @@ export function MainNav() {
               pathname={pathname}
               open={openMenuId === item.id}
               onOpen={() => openMenu(item.id)}
-              onClose={closeMenu}
+              onClose={() => setOpenMenuId((current) => (current === item.id ? null : current))}
             />
           );
         })}
@@ -95,7 +96,11 @@ export function MainNav() {
           aria-hidden="true"
           style={
             indicator
-              ? { opacity: 1, transform: `translateX(${indicator.left}px)`, width: `${indicator.width}px` }
+              ? {
+                  opacity: 1,
+                  transform: `translateX(${indicator.left}px)`,
+                  width: `${indicator.width}px`,
+                }
               : { opacity: 0 }
           }
         />
