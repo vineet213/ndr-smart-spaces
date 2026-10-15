@@ -1,0 +1,74 @@
+# Builds the site and uploads it to the cPanel server (ndrsmartspaces.com).
+# Runs on every push to main, or by hand: GitHub -> Actions -> Deploy to cPanel -> Run workflow.
+# Setup (one time): docs/auto-deploy.md
+name: Deploy to cPanel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-cpanel
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      FTP_HOST: ${{ secrets.FTP_HOST }}
+      FTP_USER: ${{ secrets.FTP_USER }}
+      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      # Folder on the FTP account to upload into. "/" when the FTP account is
+      # restricted to public_html (recommended).
+      FTP_DIR: ${{ vars.FTP_DIR || '/' }}
+      # The server's FTP certificate is currently self-signed and expired, so
+      # strict checking is off by default (the connection is still encrypted).
+      # Set the repository variable FTP_VERIFY_CERT to "yes" once it is renewed.
+      FTP_VERIFY_CERT: ${{ vars.FTP_VERIFY_CERT || 'no' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Check upload settings
+        id: settings
+        run: |
+          if [ -z "$FTP_HOST" ] || [ -z "$FTP_USER" ] || [ -z "$FTP_PASSWORD" ]; then
+            echo "::warning::Built OK but NOT uploaded: add the FTP_HOST, FTP_USER and FTP_PASSWORD secrets (see docs/auto-deploy.md)."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload to server
+        if: steps.settings.outputs.ready == 'true'
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          rm -rf out/videos/homepage   # unused 21 MB video
+          DIR="${FTP_DIR%/}"
+          lftp -u "$FTP_USER","$FTP_PASSWORD" "ftp://$FTP_HOST" <<LFTP
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate $FTP_VERIFY_CERT
+          set net:max-retries 3
+          set net:timeout 30
+          set cmd:fail-exit true
+          mirror -R --parallel=4 --verbose=1 -x ^videos/ -x ^_img/ -x ^images/ out ${DIR:-/}
+          mirror -R --parallel=4 --ignore-time --verbose=1 out/videos $DIR/videos
+          mirror -R --parallel=4 --ignore-time --verbose=1 out/_img $DIR/_img
+          mirror -R --parallel=4 --ignore-time --verbose=1 out/images $DIR/images
+          bye
+          LFTP
