@@ -3,15 +3,42 @@ import Link from "next/link";
 import { Container, Grid, GridItem } from "@/components/layout";
 import { ExternalLink, Icon } from "@/components/ui";
 import { footer } from "@/lib/data/homepage";
+import { navItems, type MenuLink } from "@/lib/data/navigation";
 import styles from "./Footer.module.css";
 
-function FooterNavColumn({
-  heading,
-  links,
-}: {
-  heading: string;
-  links: readonly { label: string; href: string }[];
-}) {
+type FooterColumn = { heading: string; links: readonly MenuLink[] };
+
+/* The footer's link columns are built from the navbar's own items, in the same
+ * order and with the same labels, so the two can never drift apart:
+ * runs of plain links become a column, and each dropdown becomes a column
+ * headed by its label (with its sub-pages nested, as in the dropdown). */
+const LINK_RUN_HEADINGS = ["Company", "More"];
+
+function buildFooterColumns(): FooterColumn[] {
+  const columns: FooterColumn[] = [];
+  let run: MenuLink[] = [];
+  let runCount = 0;
+  const closeRun = () => {
+    if (run.length === 0) return;
+    columns.push({ heading: LINK_RUN_HEADINGS[runCount] ?? "More", links: run });
+    runCount += 1;
+    run = [];
+  };
+  for (const item of navItems) {
+    if (item.type === "link") {
+      run.push({ label: item.label, href: item.href });
+    } else {
+      closeRun();
+      columns.push({ heading: item.label, links: item.columns.flatMap((column) => column.links) });
+    }
+  }
+  closeRun();
+  return columns;
+}
+
+const footerColumns = buildFooterColumns();
+
+function FooterNavColumn({ heading, links }: FooterColumn) {
   return (
     <nav aria-label={heading} className={styles.col}>
       <h3 className={styles.colHeading}>{heading}</h3>
@@ -21,6 +48,17 @@ function FooterNavColumn({
             <Link href={link.href} className={styles.colLink}>
               {link.label}
             </Link>
+            {link.children && link.children.length > 0 ? (
+              <ul className={styles.subList}>
+                {link.children.map((child) => (
+                  <li key={child.href}>
+                    <Link href={child.href} className={styles.subLink}>
+                      {child.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </li>
         ))}
       </ul>
@@ -63,9 +101,9 @@ export function Footer({ hideWorkWithUsCta = true }: { hideWorkWithUsCta?: boole
               ))}
             </ul>
           </GridItem>
-          {footer.groups.map((group) => (
-            <GridItem key={group.heading} span={2}>
-              <FooterNavColumn heading={group.heading} links={group.links} />
+          {footerColumns.map((column) => (
+            <GridItem key={column.heading} span={2}>
+              <FooterNavColumn heading={column.heading} links={column.links} />
             </GridItem>
           ))}
         </Grid>
