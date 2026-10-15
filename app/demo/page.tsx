@@ -21,6 +21,9 @@ import demoStyles from "./demo.module.css";
 
 export const metadata: Metadata = {
   title: "Core UI Library",
+  // Internal design-system page: keep it out of search results. It is NOT blocked in
+  // robots.txt, because a crawler has to be able to fetch the page to see this tag.
+  robots: { index: false, follow: false },
 };
 
 const iconNames: IconName[] = [

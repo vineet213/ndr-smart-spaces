@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Container } from "@/components/layout";
 import { cx } from "../ui/cx";
 import styles from "./PageMasthead.module.css";
@@ -8,6 +9,8 @@ type PageMastheadProps = {
   id: string;
   title: MastheadTitle;
   subtext?: string;
+  /** Optional extra content under the subtext (e.g. the 404 page's buttons). */
+  children?: ReactNode;
 };
 
 /* The ESG masthead's scale is the default. Only titles/subtexts too long to   */
@@ -27,7 +30,7 @@ function subtextSize(length: number): string {
  * tall below the header, content centred so there's no dead band above or
  * below it.
  */
-export function PageMasthead({ id, title, subtext }: PageMastheadProps) {
+export function PageMasthead({ id, title, subtext, children }: PageMastheadProps) {
   const titleLength = `${title.before}${title.accent ?? ""}${title.after ?? ""}`.length;
 
   return (
@@ -43,6 +46,7 @@ export function PageMasthead({ id, title, subtext }: PageMastheadProps) {
         {subtext ? (
           <p className={cx(styles.subtext, subtextSize(subtext.length))}>{subtext}</p>
         ) : null}
+        {children}
       </Container>
 
       <span className={styles.rule} aria-hidden="true" />
