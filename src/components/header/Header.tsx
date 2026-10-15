@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useScrolled } from "@/hooks/useScrolled";
 import { useDisclosure } from "@/hooks/useDisclosure";
 import { cx } from "../ui/cx";
@@ -10,13 +11,92 @@ import { MenuButton } from "./MenuButton";
 import { MobileNav } from "./MobileNav";
 import styles from "./Header.module.css";
 
+const HIDE_AFTER_PX = 200;
+const HIDE_DELTA_PX = 8;
+
 export function Header() {
   const scrolled = useScrolled(40);
   const mobileMenu = useDisclosure(false);
+  const headerRef = useRef<HTMLElement | null>(null);
+  const progressRef = useRef<HTMLSpanElement | null>(null);
+  const [hidden, setHidden] = useState(false);
+  const menuOpenRef = useRef(false);
+
+  // The scroll handler reads this instead of re-subscribing when the menu toggles.
+  useEffect(() => {
+    menuOpenRef.current = mobileMenu.open;
+  }, [mobileMenu.open]);
+
+  // setState only when the value really changes (this runs on every scroll frame).
+  const setHiddenSafe = useCallback(
+    (next: boolean) => setHidden((current) => (current === next ? current : next)),
+    [],
+  );
+
+  // One scroll listener (once per frame) drives both the reading-progress line
+  // and the hide-on-scroll-down / show-on-scroll-up behaviour.
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let last = window.scrollY;
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progressRef.current?.style.setProperty(
+        "--p",
+        max > 0 ? String(Math.min(Math.max(y / max, 0), 1)) : "0",
+      );
+
+      const delta = y - last;
+      const header = headerRef.current;
+      const pinned =
+        reduced.matches ||
+        menuOpenRef.current ||
+        !!header?.querySelector('[aria-expanded="true"]') ||
+        !!header?.contains(document.activeElement);
+      if (pinned || y < HIDE_AFTER_PX) {
+        setHiddenSafe(false);
+        last = y;
+      } else if (delta > HIDE_DELTA_PX) {
+        setHiddenSafe(true);
+        last = y;
+      } else if (delta < -HIDE_DELTA_PX) {
+        setHiddenSafe(false);
+        last = y;
+      }
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    const reveal = () => setHiddenSafe(false);
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    const header = headerRef.current;
+    header?.addEventListener("focusin", reveal);
+    header?.addEventListener("pointerenter", reveal);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      header?.removeEventListener("focusin", reveal);
+      header?.removeEventListener("pointerenter", reveal);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [setHiddenSafe]);
 
   return (
-    <header className={styles.header}>
-      <div className={cx(styles.navBar, scrolled && styles.navBarScrolled)}>
+    <header ref={headerRef} className={styles.header}>
+      <span ref={progressRef} className={styles.progress} aria-hidden="true" />
+      <div
+        className={cx(
+          styles.navBar,
+          scrolled && styles.navBarScrolled,
+          hidden && !mobileMenu.open && styles.navBarHidden,
+        )}
+      >
         <div className={styles.navContainer}>
           <LogoWordmark scrolled={scrolled} />
           <MainNav />

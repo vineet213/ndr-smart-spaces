@@ -20,6 +20,38 @@
   background-color: transparent;
 }
 
+/* Hide on scroll down, return on scroll up (transform only). */
+.navBar {
+  transition:
+    background-color var(--duration-standard) var(--ease-standard),
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.navBarHidden {
+  transform: translateY(-140%);
+}
+
+/* Reading-progress hairline at the very top of the viewport. */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--color-gold), var(--color-gold-light));
+  transform: scaleX(var(--p, 0));
+  transform-origin: left;
+  opacity: calc(var(--p, 0) * 40);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navBar {
+    transition: background-color var(--duration-standard) var(--ease-standard);
+  }
+}
+
 /* Reserves the nav's own height right after the utility strip in normal    */
 /* flow, since the nav itself is `position: fixed` (out of flow).           */
 .spacer {

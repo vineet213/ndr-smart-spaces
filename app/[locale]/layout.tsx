@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Header } from "@/components/header";
+import { BackToTop } from "@/components/BackToTop";
 import { PageTransition } from "@/components/PageTransition";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -25,6 +26,7 @@ export default function LocaleLayout({ children }: { children: ReactNode }) {
       <main id="main-content" tabIndex={-1}>
         <PageTransition>{children}</PageTransition>
       </main>
+      <BackToTop />
     </>
   );
 }

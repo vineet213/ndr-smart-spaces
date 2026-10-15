@@ -9,7 +9,16 @@ export const viewport: Viewport = {
   themeColor: "#2a1216",
 };
 
+const SITE_URL = "https://ndrsmartspaces.com";
+const SHARE_IMAGE = {
+  url: "/og/ndr-smart-spaces.png",
+  width: 1200,
+  height: 630,
+  alt: "NDR Smart Spaces: developing, owning and managing logistics and industrial infrastructure",
+};
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "NDR Smart Spaces Pvt. Ltd.",
     template: "%s · NDR Smart Spaces",
@@ -18,6 +27,22 @@ export const metadata: Metadata = {
     "NDR Smart Spaces is a diversified infrastructure organization focused on developing, owning, and managing high-quality industrial and institutional assets.",
   // Phone numbers are marked up explicitly; stop iOS auto-linking other digit runs.
   formatDetection: { telephone: false },
+  openGraph: {
+    type: "website",
+    siteName: "NDR Smart Spaces",
+    locale: "en_IN",
+    title: "NDR Smart Spaces Pvt. Ltd.",
+    description:
+      "Developing, owning and managing high-quality industrial and institutional assets.",
+    images: [SHARE_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NDR Smart Spaces Pvt. Ltd.",
+    description:
+      "Developing, owning and managing high-quality industrial and institutional assets.",
+    images: [SHARE_IMAGE.url],
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
