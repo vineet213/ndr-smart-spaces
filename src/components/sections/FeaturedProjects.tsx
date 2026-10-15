@@ -1,5 +1,5 @@
 import { Container, Grid, GridItem, Stack } from "@/components/layout";
-import { Heading, Eyebrow, Body, TextLink, Icon } from "@/components/ui";
+import { Heading, Eyebrow, Body } from "@/components/ui";
 import { featuredProjects } from "@/lib/data/homepage";
 import { ArchitecturalField } from "./ArchitecturalField";
 import { Counter } from "./Counter";
@@ -68,12 +68,6 @@ export function FeaturedProjects() {
                       </li>
                     ))}
                   </ul>
-                  <div>
-                    <TextLink href={primary.link.href}>
-                      {primary.link.label}
-                      <Icon name="arrow-right" size="sm" />
-                    </TextLink>
-                  </div>
                 </Stack>
               </GridItem>
               <GridItem span={7} className={styles.primaryMedia}>
@@ -106,12 +100,6 @@ export function FeaturedProjects() {
                       {secondary.title}
                     </Heading>
                     <Body>{secondary.narrative}</Body>
-                    <div>
-                      <TextLink href={secondary.link.href}>
-                        {secondary.link.label}
-                        <Icon name="arrow-right" size="sm" />
-                      </TextLink>
-                    </div>
                   </Stack>
                 </GridItem>
               </Grid>

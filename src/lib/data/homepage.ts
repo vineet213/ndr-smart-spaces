@@ -52,11 +52,6 @@ export const audienceRoutes = [
     href: "/investor-centre/announcements",
   },
   {
-    label: "Corporate clients",
-    descriptor: "Warehouses & industrial space",
-    href: "/portfolio",
-  },
-  {
     label: "Business partners",
     descriptor: "Land, development, JVs",
     href: "/business/logistics-and-industrial-infrastructure",
@@ -288,14 +283,12 @@ export const featuredProjects = {
       { value: "Amazon", unit: "", label: "Occupier", format: false },
       { value: "ESG", unit: "standards", label: "Institutional benchmark", format: false },
     ],
-    link: { label: "Explore the portfolio", href: "/portfolio" },
   },
   secondary: {
     eyebrow: "Featured · 02",
     title: "Lenovo Industrial Facility, Puducherry",
     narrative:
       "Lenovo's first industrial facility in India (2002), built to international manufacturing and warehousing specifications, two decades ahead of the industry.",
-    link: { label: "Project details", href: "/portfolio" },
   },
 } as const;
 

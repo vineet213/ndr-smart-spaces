@@ -32,7 +32,6 @@ const routeNames: Readonly<Record<string, string>> = {
   "/investor-centre/asset-flip": "Asset Flip",
   "/esg": "ESG & Sustainability",
   "/media": "Media",
-  "/portfolio": "Portfolio",
   "/contact": "Contact",
   "/privacy-policy": "Privacy Policy",
   "/terms": "Terms & Conditions",
