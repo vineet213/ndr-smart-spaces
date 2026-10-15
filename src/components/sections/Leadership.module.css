@@ -1,6 +1,7 @@
 .section {
   padding-block: var(--section-padding-desktop);
   background-color: var(--color-ivory);
+  overflow-x: clip;
 }
 
 .groupTitle {
@@ -12,87 +13,60 @@
   color: var(--color-maroon);
 }
 
-/* Layout ------------------------------------------------------------------ */
-/* Spotlight on the left (~62%), roster on the right (~38%). Neither column    */
-/* ever changes size: the spotlight's panels share one grid cell (below).      */
+/* Grid ------------------------------------------------------------------------ */
+/* Equal-weight portrait cards: 3 columns, 2 on tablets, 1 on phones.            */
 
-.layout {
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: minmax(0, 67fr) minmax(0, 33fr);
-  gap: var(--space-6xl);
-  align-items: start;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6xl) var(--space-4xl);
 }
 
-/* Spotlight ----------------------------------------------------------------- */
-/* Every panel occupies the SAME cell (grid-area 1/1), so the container is     */
-/* always as tall as the tallest profile and switching people can't move the   */
-/* page. Inactive panels stay in layout but are hidden and inert.              */
-
-.spotlight {
-  display: grid;
+.item {
+  min-width: 0;
 }
 
-.panel {
-  grid-area: 1 / 1;
-  display: grid;
-  grid-template-columns: minmax(0, 17.5rem) minmax(0, 1fr);
-  gap: var(--space-4xl);
-  align-items: start;
-  visibility: hidden;
-  /* Stays visible while its content fades out, then hides. */
-  transition: visibility 0s linear 260ms;
-}
+/* Card ------------------------------------------------------------------------ */
 
-.panelActive {
-  visibility: visible;
-  transition-delay: 0s;
-}
-
-/* Portrait -------------------------------------------------------------------- */
-
-.portraitOuter {
-  position: relative;
+.card {
+  display: block;
   width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
 }
 
-/* A square bracket in the logo's own gesture, tucked at the portrait's corner. */
-.portraitOuter::after {
-  content: "";
-  position: absolute;
-  top: -0.875rem;
-  right: -0.875rem;
-  width: 3.25rem;
-  height: 3.25rem;
-  border-top: 3px solid var(--color-gold);
-  border-right: 3px solid var(--color-gold);
-  pointer-events: none;
+.card:focus-visible {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: 6px;
 }
 
-.portraitFrame {
+.media {
+  position: relative;
+  display: block;
+}
+
+/* The frame is a fixed 4:5 box that clips its contents: everything that moves */
+/* on hover or on reveal moves inside it, so no box ever changes size.         */
+.frame {
+  display: block;
   aspect-ratio: 4 / 5;
   overflow: hidden;
   background-color: var(--color-charcoal);
-  box-shadow: 0 28px 48px -28px rgba(28, 26, 25, 0.5);
-  /* Hidden: clipped from the top, so it reveals bottom -> top. */
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path 280ms var(--ease-standard);
 }
 
-.panelActive .portraitFrame {
-  clip-path: inset(0 0 0 0);
-  transition: clip-path 900ms cubic-bezier(0.22, 1, 0.36, 1) 60ms;
-}
-
-.portraitInner {
+.portrait {
+  display: block;
   width: 100%;
   height: 100%;
-  transform: scale(1.08);
-  transition: transform 320ms var(--ease-standard);
-}
-
-.panelActive .portraitInner {
-  transform: scale(1);
-  transition: transform 1200ms cubic-bezier(0.22, 1, 0.36, 1) 60ms;
 }
 
 .photo {
@@ -101,6 +75,9 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
+  transition:
+    filter 600ms var(--ease-standard),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .monogram {
@@ -116,206 +93,43 @@
   background-color: var(--color-charcoal);
 }
 
-/* Text ------------------------------------------------------------------------ */
-
-.text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-md);
-  min-width: 0;
-  padding-top: var(--space-md);
-}
-
-/* Each line rises and fades in with a short stagger; fading out is quick and    */
-/* un-staggered. Opacity and transform only.                                    */
-.reveal {
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 200ms var(--ease-standard),
-    transform 200ms var(--ease-standard);
-}
-
-.panelActive .reveal {
-  opacity: 1;
-  transform: none;
-  transition:
-    opacity 650ms var(--ease-standard) var(--delay, 0ms),
-    transform 750ms var(--ease-standard) var(--delay, 0ms);
-}
-
-.counter {
-  --delay: 140ms;
-  margin: 0;
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-meta);
-  line-height: var(--leading-meta);
-  letter-spacing: var(--tracking-meta);
-  font-variant-numeric: tabular-nums;
-  color: color-mix(in srgb, var(--color-gold) 62%, var(--color-charcoal));
-}
-
-.counterTotal {
-  color: var(--color-stone);
-}
-
-.name {
-  --delay: 200ms;
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-light);
-  font-size: clamp(2rem, 2.8vw, 2.75rem);
-  line-height: 1.05;
-  letter-spacing: -0.015em;
-  color: var(--color-charcoal);
-  text-wrap: balance;
-}
-
-.role {
-  --delay: 260ms;
-  margin: 0;
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-meta);
-  line-height: var(--leading-meta);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-meta);
-  color: var(--color-maroon);
-}
-
-/* Draws left -> right on selection (scaleX instead of animating width). */
-.rule {
-  --delay: 320ms;
-  display: block;
-  width: 4rem;
-  height: 2px;
-  margin-block: var(--space-xs);
-  background-color: var(--color-gold);
-  transform: scaleX(0);
-  transform-origin: left;
-}
-
-.panelActive .rule {
-  transform: scaleX(1);
-  transition:
-    opacity 650ms var(--ease-standard) var(--delay),
-    transform 900ms cubic-bezier(0.22, 1, 0.36, 1) var(--delay);
-}
-
-.bio {
-  --delay: 380ms;
-  margin: 0;
-  max-width: 38rem;
-  font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: 1.65;
-  color: var(--color-ink-muted);
-}
-
-/* Roster ---------------------------------------------------------------------- */
-
-.roster {
-  display: flex;
-  flex-direction: column;
-  border-top: 1px solid var(--color-hairline-stone);
-}
-
-.tab {
-  position: relative;
-  display: grid;
-  grid-template-columns: 4.5rem minmax(0, 1fr) auto;
-  align-items: center;
-  gap: var(--space-xl);
-  width: 100%;
-  min-height: 5.5rem;
-  padding: var(--space-md) var(--space-lg);
-  margin: 0;
-  text-align: left;
-  font: inherit;
-  color: inherit;
-  background-color: transparent;
-  border: 0;
-  border-bottom: 1px solid var(--color-hairline-stone);
-  border-radius: 0;
-  cursor: pointer;
-  transition: background-color 320ms var(--ease-standard);
-}
-
-/* Active marker: a maroon bar that grows up from the row's centre. */
-.tab::before {
-  content: "";
+/* Gold bracket echoing the NDR logo, overlapping the portrait's top-right corner. */
+/* Drawn with stroke-dashoffset: a short stub once revealed, the full bracket on   */
+/* hover / focus.                                                                  */
+.bracket {
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background-color: var(--color-maroon);
-  transform: scaleY(0);
-  transition: transform 360ms var(--ease-standard);
+  top: -0.75rem;
+  right: -0.75rem;
+  width: 3.25rem;
+  height: 3.25rem;
+  overflow: visible;
+  pointer-events: none;
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-width: 3;
+  stroke-linecap: square;
 }
 
-.tabActive {
-  background-color: rgba(110, 31, 38, 0.06);
+.bracket path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0.6;
+  transition: stroke-dashoffset 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.tabActive::before {
-  transform: scaleY(1);
-}
-
-@media (hover: hover) {
-  .tab:not(.tabActive):not(.tabPending):hover {
-    background-color: rgba(110, 31, 38, 0.03);
-  }
-}
-
-.tab:focus-visible {
-  outline: 2px solid var(--color-maroon);
-  outline-offset: -4px;
-}
-
-.thumb {
-  position: relative;
+.cardName {
   display: block;
-  width: 4.5rem;
-  height: 4.5rem;
-  overflow: hidden;
-  background-color: var(--color-charcoal);
-  filter: grayscale(1);
-  transition: filter 360ms var(--ease-standard);
-}
-
-.tabActive .thumb {
-  filter: grayscale(0);
-}
-
-.thumb .photo,
-.thumb .monogram {
-  width: 100%;
-  height: 100%;
-}
-
-.thumb .monogram {
-  font-size: var(--font-lede);
-}
-
-.tabText {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-  min-width: 0;
-}
-
-.tabName {
+  margin-top: var(--space-xl);
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
   font-size: var(--font-lede);
   line-height: 1.15;
   color: var(--color-charcoal);
+  overflow-wrap: anywhere;
 }
 
-.tabRole {
+.cardRole {
+  display: block;
+  margin-top: var(--space-xs);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
@@ -325,106 +139,327 @@
   color: var(--color-maroon);
 }
 
-.tabArrow {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: var(--color-gold);
-  opacity: 0;
-  transform: translateX(-6px);
-  transition:
-    opacity 320ms var(--ease-standard),
-    transform 320ms var(--ease-standard);
+/* Fixed-width rule; hover scales it out from the left (transform, not width). */
+.rule {
+  display: block;
+  width: 4.5rem;
+  height: 2px;
+  margin-top: var(--space-lg);
+  background-color: var(--color-gold);
+  transform: scaleX(0.45);
+  transform-origin: left;
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.tabActive .tabArrow {
-  opacity: 1;
-  transform: none;
+.cue {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: 2.75rem;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-small);
+  line-height: 1;
+  color: var(--color-charcoal);
+}
+
+/* Hover / keyboard focus: decorative only. Grayscale is a hover-capable-device */
+/* treatment; touch screens always show colour.                                 */
+@media (hover: hover) {
+  .photo {
+    filter: grayscale(1);
+  }
+
+  .card:hover .photo,
+  .card:focus-visible .photo {
+    filter: grayscale(0);
+    transform: scale(1.03);
+  }
+}
+
+@media (hover: hover) {
+  .card:hover .rule,
+  .card:focus-visible .rule {
+    transform: scaleX(1);
+  }
+
+  .card:hover .bracket path,
+  .card:focus-visible .bracket path {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Scroll reveal ----------------------------------------------------------------- */
+/* The hidden state only exists once JS has marked the grid .ready, so the cards    */
+/* are fully visible without JS. Each portrait wipes up from the bottom while       */
+/* scaling 1.06 -> 1, staggered ~90ms by position; the bracket draws in after.      */
+
+.ready .portrait {
+  clip-path: inset(100% 0 0 0);
+  transform: scale(1.06);
+}
+
+.ready .bracket path {
+  stroke-dashoffset: 1;
+}
+
+.revealed .portrait {
+  clip-path: inset(0 0 0 0);
+  transform: scale(1);
+  transition:
+    clip-path 1000ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 90ms),
+    transform 1300ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 90ms);
+}
+
+.revealed .bracket path {
+  stroke-dashoffset: 0.6;
+  transition: stroke-dashoffset 1000ms cubic-bezier(0.22, 1, 0.36, 1)
+    calc(var(--i, 0) * 90ms + 500ms);
+}
+
+@media (hover: hover) {
+  .revealed .card:hover .bracket path,
+  .revealed .card:focus-visible .bracket path {
+    stroke-dashoffset: 0;
+    transition-delay: 0ms;
+  }
 }
 
 /* Seats not yet confirmed: muted and not interactive. */
-.tabPending {
-  cursor: default;
+.pendingCard {
+  display: block;
+  opacity: 0.7;
 }
 
-.tabPending .tabName,
-.tabPending .tabRole {
-  color: var(--color-stone);
-}
-
-.thumbPending {
-  filter: none;
-  background-color: transparent;
+.pendingFrame {
+  display: block;
+  aspect-ratio: 4 / 5;
   border: 1px dashed var(--color-hairline-stone);
 }
 
-/* Tablets: the roster becomes a swipeable strip of chips above the spotlight. */
-@media (max-width: 1023px) {
-  .layout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-4xl);
-  }
+.pending .cardName,
+.pending .cardRole {
+  color: var(--color-stone);
+}
 
-  .roster {
-    order: -1;
-    flex-direction: row;
-    gap: var(--space-md);
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    scrollbar-width: thin;
-    padding-bottom: var(--space-sm);
-    border-top: 0;
-  }
+/* Drawer ---------------------------------------------------------------------- */
+/* A right-hand drawer (bottom sheet on phones). It lives at the document root,   */
+/* is always laid out, and only moves with transform/opacity, so the page behind  */
+/* never changes size.                                                            */
 
-  .tab {
-    flex: 0 0 auto;
-    width: 7.5rem;
-    min-height: 0;
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: start;
-    gap: var(--space-sm);
-    padding: var(--space-sm);
-    border: 1px solid var(--color-hairline-stone);
-    scroll-snap-align: start;
-  }
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  pointer-events: none;
+  visibility: hidden;
+  transition: visibility 0s linear 480ms;
+}
 
-  .tab::before {
-    display: none;
-  }
+.layerOpen {
+  pointer-events: auto;
+  visibility: visible;
+  transition-delay: 0s;
+}
 
-  .tabActive {
-    border-color: var(--color-gold);
-    box-shadow: inset 0 0 0 1px var(--color-gold);
-  }
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(28, 26, 25, 0.5);
+  opacity: 0;
+  transition: opacity 400ms var(--ease-standard);
+}
 
-  .thumb {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1;
-  }
+.layerOpen .backdrop {
+  opacity: 1;
+}
 
-  .tabName {
-    font-size: 0.8125rem;
-    overflow-wrap: anywhere;
-  }
+.drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: min(34rem, 100vw);
+  background-color: var(--color-ivory);
+  box-shadow: -28px 0 64px -24px rgba(28, 26, 25, 0.45);
+  transform: translateX(100%);
+  transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
+}
 
-  .tabRole,
-  .tabArrow {
-    display: none;
-  }
+.layerOpen .drawer {
+  transform: none;
+}
 
-  .panel {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-4xl);
-  }
+.drawerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding: var(--space-lg) var(--space-2xl);
+  border-bottom: 1px solid var(--color-hairline-stone);
+}
 
-  .portraitOuter {
-    width: min(100%, 22rem);
+.drawerGroup {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-meta);
+  color: var(--color-maroon);
+}
+
+.iconButton,
+.navButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0 var(--space-lg);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-small);
+  color: var(--color-charcoal);
+  background: none;
+  border: 1px solid var(--color-hairline-stone);
+  cursor: pointer;
+  transition:
+    background-color 240ms var(--ease-standard),
+    border-color 240ms var(--ease-standard);
+}
+
+.iconButton {
+  padding: 0;
+}
+
+@media (hover: hover) {
+  .iconButton:hover,
+  .navButton:hover {
+    background-color: rgba(110, 31, 38, 0.06);
+    border-color: var(--color-maroon);
   }
 }
+
+.iconButton:focus-visible,
+.navButton:focus-visible {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: 2px;
+}
+
+.flip {
+  transform: scaleX(-1);
+}
+
+/* The body is a fixed-size scroll area; every person's sheet sits in the SAME   */
+/* grid cell, so it is always as tall as the longest profile and switching        */
+/* people can never change the drawer's height. Only opacity changes.             */
+.drawerBody {
+  flex: 1 1 auto;
+  display: grid;
+  align-content: start;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-3xl) var(--space-2xl);
+}
+
+.sheet {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: var(--space-2xl);
+  min-width: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 280ms var(--ease-standard),
+    visibility 0s linear 280ms;
+}
+
+.sheetActive {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.sheetPortrait {
+  width: min(100%, 15rem);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background-color: var(--color-charcoal);
+}
+
+.sheetHead {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.sheetName {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(1.875rem, 4vw, 2.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.012em;
+  color: var(--color-charcoal);
+  overflow-wrap: anywhere;
+}
+
+.sheetRole {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-meta);
+  color: var(--color-maroon);
+}
+
+.sheetRule {
+  display: block;
+  width: 4rem;
+  height: 2px;
+  margin-top: var(--space-xs);
+  background-color: var(--color-gold);
+}
+
+.sheetBio {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-ink-muted);
+}
+
+.drawerNav {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding: var(--space-lg) var(--space-2xl);
+  padding-bottom: max(var(--space-lg), env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--color-hairline-stone);
+}
+
+/* Responsive ------------------------------------------------------------------ */
 
 @media (max-width: 1439px) {
   .section {
     padding-block: var(--section-padding-tablet);
+  }
+}
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5xl) var(--space-3xl);
   }
 }
 
@@ -433,33 +468,76 @@
     padding-block: var(--section-padding-mobile);
   }
 
-  .portraitOuter {
-    width: min(100%, 20rem);
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 26rem;
+    margin-inline: auto;
+    width: 100%;
   }
 
-  .name {
-    font-size: 2rem;
+  /* Bottom sheet on phones. */
+  .drawer {
+    top: auto;
+    left: 0;
+    width: 100%;
+    height: min(88dvh, 44rem);
+    border-radius: 1rem 1rem 0 0;
+    box-shadow: 0 -24px 64px -24px rgba(28, 26, 25, 0.45);
+    transform: translateY(100%);
+  }
+
+  .layerOpen .drawer {
+    transform: none;
+  }
+
+  .drawerBar,
+  .drawerNav {
+    padding-inline: var(--space-xl);
+  }
+
+  .drawerBody {
+    padding: var(--space-2xl) var(--space-xl);
+  }
+
+  .sheet {
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    align-items: start;
+    gap: var(--space-lg);
+  }
+
+  .sheetPortrait {
+    width: 7.5rem;
+  }
+
+  .sheetBio {
+    grid-column: 1 / -1;
   }
 }
 
+/* Reduced motion: no wipe, no draw, the drawer appears instantly. */
 @media (prefers-reduced-motion: reduce) {
-  .panel,
-  .portraitFrame,
-  .portraitInner,
-  .reveal,
-  .rule,
-  .tab,
-  .tab::before,
-  .thumb,
-  .tabArrow,
-  .panelActive .portraitFrame,
-  .panelActive .portraitInner,
-  .panelActive .reveal,
-  .panelActive .rule {
+  .ready .portrait,
+  .revealed .portrait {
+    clip-path: none;
+    transform: none;
     transition: none;
   }
 
-  .portraitInner {
-    transform: none;
+  .ready .bracket path,
+  .revealed .bracket path {
+    stroke-dashoffset: 0.6;
+    transition: none;
+  }
+
+  .photo,
+  .rule,
+  .bracket path,
+  .layer,
+  .backdrop,
+  .drawer,
+  .sheet,
+  .iconButton,
+  .navButton {
+    transition: none;
   }
 }

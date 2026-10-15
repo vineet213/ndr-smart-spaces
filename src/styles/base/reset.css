@@ -30,6 +30,13 @@ html {
   }
 }
 
+/* A modal drawer (Leadership profiles) is open: stop the page scrolling, but keep */
+/* the scrollbar gutter reserved so nothing behind it changes width or shifts.     */
+html.drawer-open {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
 body {
   min-height: 100dvh;
   /* Guard: no stray element may ever pan the page sideways. `clip` (not    */
