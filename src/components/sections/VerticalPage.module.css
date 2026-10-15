@@ -127,7 +127,10 @@
 
 /* standalone video section (Residential Plotting) ------------------------ */
 
-.videoSection {
+/* Doubled class: Section re-applies its padding inside width media queries, */
+/* so a single-class rule can lose to it and leave visible bands of the dark   */
+/* section colour above and below the video.                                   */
+.videoSection.videoSection {
   padding-block: 0;
 }
 
