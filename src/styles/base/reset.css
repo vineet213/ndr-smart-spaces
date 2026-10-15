@@ -11,11 +11,10 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  /* Gentle page-level snap: only elements that explicitly opt in with     */
-  /* `scroll-snap-align` (e.g. DevelopmentLifecycle's stage markers)       */
-  /* become snap points; `proximity` never fights or hijacks a scroll      */
-  /* gesture the way `mandatory` can.                                     */
-  scroll-snap-type: y proximity;
+  /* No CSS page snap on desktop: the Development Lifecycle stages settle via */
+  /* Lenis's eased snap instead (an instant CSS snap felt abrupt there).     */
+  /* Touch devices use native snap, switched on per section (snap-zone).    */
+  scroll-snap-type: none;
 }
 
 /* Touch scrolling is momentum-driven; page-level snap points tug against it. */

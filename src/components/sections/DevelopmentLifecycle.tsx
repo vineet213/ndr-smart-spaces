@@ -7,6 +7,7 @@ import { SourceFootnote } from "@/components/ui";
 import type { LifecycleStage } from "@/lib/data/business";
 import { useInView } from "@/hooks/useInView";
 import { useSnapZone } from "@/hooks/useSnapZone";
+import Snap from "lenis/snap";
 import { getLenisInstance } from "@/lib/lenis";
 import { Icon } from "../ui/Icon";
 import { cx } from "../ui/cx";
@@ -45,6 +46,10 @@ const SWEEP_DIRECTIONS = [
 
 // Ease-out: responds immediately on click (no slow-start "did that even
 // register?" phase), decelerating smoothly only into the landing.
+function easeInOutCubic(t: number) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
 function easeOutCubic(t: number) {
   return 1 - (1 - t) ** 3;
 }
@@ -311,6 +316,36 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
 
   // Touch: native scroll-snap, switched on only while the stage stack is pinned.
   useSnapZone(listRef);
+
+  // Desktop (mouse wheel via Lenis): when scrolling comes to rest near a stage,
+  // glide onto it with a slow ease instead of the browser's instant snap jump.
+  useEffect(() => {
+    if (window.matchMedia("(pointer: coarse), (prefers-reduced-motion: reduce)").matches) return;
+    let snap: Snap | null = null;
+    let frame = 0;
+    let tries = 0;
+    const attach = () => {
+      const lenis = getLenisInstance();
+      if (!lenis) {
+        if (tries++ < 120) frame = requestAnimationFrame(attach);
+        return;
+      }
+      snap = new Snap(lenis, {
+        type: "proximity",
+        duration: 1.1,
+        easing: easeInOutCubic,
+        distanceThreshold: "30%",
+        debounce: 350,
+      });
+      const markers = sweetSpotRefs.current.filter((el): el is HTMLSpanElement => el !== null);
+      snap.addElements(markers, { align: ["start"] });
+    };
+    attach();
+    return () => {
+      cancelAnimationFrame(frame);
+      snap?.destroy();
+    };
+  }, []);
 
   const handleDwell = useCallback((order: number) => setActiveIndex(order), []);
 
