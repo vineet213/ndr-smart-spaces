@@ -13,8 +13,13 @@
   position: relative;
 }
 
+.frameHot .map {
+  cursor: pointer;
+}
+
 .map {
   display: block;
+  cursor: default;
   height: clamp(36rem, 85svh, 60rem);
   width: auto;
   max-width: 100%;
@@ -66,17 +71,6 @@
     stroke var(--duration-standard) var(--ease-standard);
 }
 
-/* Expanding red ripple rings. Hidden unless motion is allowed (see below). */
-.glow,
-.glowB {
-  fill: none;
-  stroke: var(--color-maroon);
-  stroke-width: 1.5;
-  opacity: 0;
-  transform-origin: center;
-  transform-box: fill-box;
-}
-
 /* Thin ivory keyline just outside the red outline, so the dot stays crisp over map lines. */
 .rim {
   fill: none;
@@ -121,30 +115,11 @@
   stroke: var(--color-maroon);
 }
 
-.dotHovered .glow,
-.dotHovered .glowB {
-  animation-play-state: paused;
-  opacity: 0;
-}
-
 .dotDim .node,
 .dotDim .rim,
 .dotDim .halo {
   opacity: 0.25;
   transition: opacity var(--duration-standard) var(--ease-standard);
-}
-
-/* While a zone or a single dot is highlighted, every other dot goes quiet: its ripples stop and vanish. */
-.dotDim .glow,
-.dotDim .glowB {
-  animation: none;
-  opacity: 0;
-}
-
-/* The highlighted dots ripple a little faster and bolder, so they carry the eye. */
-.dotActive .glow,
-.dotActive .glowB {
-  stroke-width: 2;
 }
 
 .dot:focus-visible .node,
@@ -177,12 +152,6 @@
     fill: rgba(160, 53, 58, 0.18);
     stroke: var(--color-maroon);
   }
-
-  .dot:hover .glow,
-  .dot:hover .glowB {
-    animation-play-state: paused;
-    opacity: 0;
-  }
 }
 
 .dot:focus-visible {
@@ -193,6 +162,8 @@
 .tooltip {
   position: absolute;
   z-index: 2;
+  /* Never steals the pointer from the map underneath (nearest-dot hover). */
+  pointer-events: none;
   transform: translate(-50%, calc(-100% - var(--space-md)));
   display: flex;
   flex-direction: column;
@@ -249,32 +220,15 @@
     animation: mapFade var(--duration-reveal) var(--ease-standard) 1 both;
   }
 
-  /* Per-dot timing comes from --i (the dot's index), so any number of dots is covered. */
+  /* Simple, quiet arrival: the dots fade in with a short stagger the first time */
+  /* the map scrolls into view. No bounce, no ripples, nothing looping.          */
   .dots .dot {
-    animation: dotPop 760ms cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--i, 0) * 70ms) both;
+    opacity: 0;
+    transition: opacity 500ms var(--ease-standard) calc(var(--i, 0) * 40ms);
   }
 
-  .dots .dot .glow {
-    animation-delay: calc(1100ms + var(--i, 0) * 230ms);
-  }
-
-  .dots .dot .glowB {
-    animation-delay: calc(2700ms + var(--i, 0) * 230ms);
-  }
-
-  /* Held at their first frame (dots hidden, rings off) until the map scrolls into view. */
-  .wrap:not(.inView) .dots .dot,
-  .wrap:not(.inView) .glow,
-  .wrap:not(.inView) .glowB {
-    animation-play-state: paused;
-  }
-
-  /* One slow, faint ring that breathes out and fades; the second ring stays off. */
-  .glow {
-    animation: ripple 5s ease-in-out infinite backwards;
-  }
-  .dotActive .glow {
-    animation-duration: 3.6s;
+  .inView .dots .dot {
+    opacity: 1;
   }
 }
 
@@ -284,43 +238,5 @@
   }
   to {
     opacity: 1;
-  }
-}
-
-/* A springy arrival with a small overshoot. */
-@keyframes dotPop {
-  0% {
-    opacity: 0;
-    transform: scale(0);
-  }
-  55% {
-    opacity: 1;
-    transform: scale(1.18);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* A faint red ring that eases out a short way and fades, barely there. */
-@keyframes ripple {
-  0% {
-    opacity: 0;
-    transform: scale(1);
-  }
-  30% {
-    opacity: 0.28;
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.7);
-  }
-}
-
-/* Touch: ripple a few times then rest; endless animation on 15 dots drains the battery. */
-@media (pointer: coarse) and (prefers-reduced-motion: no-preference) {
-  .glow {
-    animation-iteration-count: 3;
   }
 }

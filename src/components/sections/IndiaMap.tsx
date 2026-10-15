@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { useRef, type CSSProperties, type PointerEvent } from "react";
 import { useInView } from "@/hooks/useInView";
 import type { MapLocation, ZoneId } from "@/lib/data/homepage";
 import styles from "./IndiaMap.module.css";
@@ -55,6 +55,11 @@ const OUTLINE =
   "57.6 47.4 L159.3 42.6 L139.9 42.9 L139.3 29.7 L152.6 21.3 L155.6 13.7 L181.0 12.8 L174.9 6.0 L186.7 9.0 L207.3 0.0 L214." +
   "1 5.3 L221.9 2.1 L230.5 4.7 L231.9 12.6 L240.6 11.8 L249.9 22.6 L271.9 32.2 L275.7 42.6 L291.9 47.4 L297.4 55.5 Z";
 
+/* Mouse/pen hover snaps to the nearest dot within this many screen pixels, so */
+/* the target is comfortable at any map size and neighbouring dots never fight */
+/* over overlapping hit areas.                                                 */
+const HOVER_RADIUS_PX = 24;
+
 const TIER_LABEL = {
   hq: "Headquarters",
   hub: "Primary logistics hub",
@@ -76,11 +81,36 @@ export function IndiaMap({
   onLocationEnter,
   onLocationLeave,
 }: IndiaMapProps) {
-  // The dots build in (and start breathing) when the map scrolls into view, not on page load.
+  // The dots fade in when the map scrolls into view, not on page load.
   const { ref, inView } = useInView<HTMLDivElement>({
     threshold: 0.35,
     rootMargin: "0px 0px -5% 0px",
   });
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const lastPointerType = useRef<string>("mouse");
+
+  const handlePointerMove = (event: PointerEvent<SVGSVGElement>) => {
+    lastPointerType.current = event.pointerType;
+    if (event.pointerType === "touch") return;
+    const svg = svgRef.current;
+    const ctm = svg?.getScreenCTM();
+    if (!svg || !ctm) return;
+    const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(ctm.inverse());
+    let nearest: MapLocation | null = null;
+    let nearestDistance = HOVER_RADIUS_PX / ctm.a; // screen px -> map units
+    for (const location of locations) {
+      const distance = Math.hypot(location.x - point.x, location.y - point.y);
+      if (distance <= nearestDistance) {
+        nearest = location;
+        nearestDistance = distance;
+      }
+    }
+    if (nearest) {
+      if (nearest.name !== tooltip?.name) onLocationEnter(nearest);
+    } else if (tooltip) {
+      onLocationLeave();
+    }
+  };
   return (
     <div
       ref={ref}
@@ -89,16 +119,26 @@ export function IndiaMap({
       aria-label="Map of India showing NDR Smart Spaces locations: headquarters, primary logistics hubs and secondary locations"
     >
       <div
-        className={styles.frame}
+        className={cx(styles.frame, tooltip && styles.frameHot)}
+        onPointerDown={(event) => {
+          lastPointerType.current = event.pointerType;
+        }}
         onClick={(event) => {
-          // Tapping empty map (not a dot) dismisses the tooltip — touch has no mouseleave.
+          // Tapping empty map (not a dot) dismisses the tooltip; touch has no hover.
+          // A mouse uses nearest-dot hover instead, so its clicks never dismiss.
+          if (lastPointerType.current !== "touch") return;
           if (!(event.target as Element).closest('[role="button"]')) onLocationLeave();
         }}
       >
         <svg
+          ref={svgRef}
           viewBox={`0 0 ${MAP_VIEWBOX.width} ${MAP_VIEWBOX.height}`}
           className={styles.map}
           focusable="false"
+          onPointerMove={handlePointerMove}
+          onPointerLeave={(event) => {
+            if (event.pointerType !== "touch" && tooltip) onLocationLeave();
+          }}
         >
           <path className={styles.outline} d={OUTLINE} />
           <g className={styles.leaders} aria-hidden="true">
@@ -143,8 +183,6 @@ export function IndiaMap({
                   tabIndex={0}
                   aria-label={`${location.name}, ${location.line}: ${location.zone} zone · ${TIER_LABEL[location.tier]}`}
                   aria-describedby={hovered ? "map-tooltip" : undefined}
-                  onMouseEnter={() => onLocationEnter(location)}
-                  onMouseLeave={onLocationLeave}
                   onFocus={() => onLocationEnter(location)}
                   onBlur={onLocationLeave}
                   onClick={() => onLocationEnter(location)}
@@ -153,8 +191,6 @@ export function IndiaMap({
                   {/* render a few pixels wide once the map is scaled to a phone.         */}
                   <circle className={styles.hit} cx={location.x} cy={location.y} r={66} />
                   <circle className={styles.halo} cx={location.x} cy={location.y} r={16} />
-                  <circle className={styles.glow} cx={location.x} cy={location.y} r={9} />
-                  <circle className={styles.glowB} cx={location.x} cy={location.y} r={9} />
                   <circle className={styles.rim} cx={location.x} cy={location.y} r={9.2} />
                   <circle className={styles.node} cx={location.x} cy={location.y} r={7} />
                 </g>
