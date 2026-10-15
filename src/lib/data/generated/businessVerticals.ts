@@ -12,7 +12,7 @@ export const businessVerticals = [
     proof: "99% greenfield",
     proofSource: "NDR Corporate Presentation",
     route: {
-      href: "/en/business/logistics-and-industrial-infrastructure",
+      href: "/business/logistics-and-industrial-infrastructure",
       label: "Logistics and Industrial Infrastructure",
     },
     source: "",
@@ -30,7 +30,7 @@ export const businessVerticals = [
     proof: "100%-owned project management arm",
     proofSource: "Approved homepage content",
     route: {
-      href: "/en/business/ndr-asset-management",
+      href: "/business/ndr-asset-management",
       label: "Project Management and Maintenance - NDR Asset Management",
     },
     source: "",
@@ -47,7 +47,7 @@ export const businessVerticals = [
     proof: "External entity",
     proofSource: "Post-Demerger business note",
     route: {
-      href: "/en/business/residential-plotting",
+      href: "/business/residential-plotting",
       label: "Residential Plotting",
     },
     source: "",

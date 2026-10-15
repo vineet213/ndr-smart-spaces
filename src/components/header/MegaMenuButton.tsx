@@ -28,7 +28,7 @@ type MegaMenuButtonProps = {
  * visible state always matches `aria-expanded`.
  *
  * Trigger with an overview: a real link to the publication root (e.g.
- * `/en/investor-centre`), whose panel leads with a featured overview row, then
+ * `/investor-centre`), whose panel leads with a featured overview row, then
  * a divider, then the child-link columns. Trigger without an overview (e.g.
  * Business): a plain button that only opens the panel — it never navigates.
  * Clicking or tapping either trigger toggles the panel (it never navigates; the

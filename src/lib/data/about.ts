@@ -7,7 +7,7 @@ export const aboutHero = {
   cta: { label: "Our story", href: "#story" },
   ctaSecondary: {
     label: "Explore the business",
-    href: "/en/business/logistics-and-industrial-infrastructure/",
+    href: "/business/logistics-and-industrial-infrastructure/",
   },
 } as const;
 

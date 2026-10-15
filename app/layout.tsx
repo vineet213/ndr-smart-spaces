@@ -1,7 +1,18 @@
 import type { Metadata, Viewport } from "next";
 import { preload } from "react-dom";
 import type { ReactNode } from "react";
+import { Header } from "@/components/header";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { BackToTop } from "@/components/BackToTop";
+import { PageTransition } from "@/components/PageTransition";
+import { ScrollToTop } from "@/components/ScrollToTop";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { runNavigationValidation } from "@/lib/navigationValidation";
 import "../src/styles/index.css";
+
+if (process.env.NODE_ENV === "development") {
+  runNavigationValidation();
+}
 
 export const viewport: Viewport = {
   // Matches the header ground (--color-charcoal-masthead) so the mobile browser
@@ -19,6 +30,8 @@ const SHARE_IMAGE = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  // Self-referencing canonical, resolved against metadataBase and the page's own path.
+  alternates: { canonical: "./" },
   title: {
     default: "NDR Smart Spaces Pvt. Ltd.",
     template: "%s · NDR Smart Spaces",
@@ -51,7 +64,19 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <SmoothScroll />
+        <ScrollToTop />
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
+        <Header />
+        <main id="main-content" tabIndex={-1}>
+          <PageTransition>{children}</PageTransition>
+        </main>
+        <BackToTop />
+        <BreadcrumbJsonLd />
+      </body>
     </html>
   );
 }

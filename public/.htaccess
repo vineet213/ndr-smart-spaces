@@ -1,15 +1,20 @@
 # NDR Smart Spaces: Apache (cPanel) settings for the static export.
 # Safe to leave in place; every block is skipped if the module is missing.
 
-# Send every visitor to HTTPS (certificate renewals under /.well-known are exempt).
+# 1) Old /en/... URLs (the site used to live under /en): one permanent redirect to
+#    the same page without the prefix. These run BEFORE the HTTPS rule and point at
+#    https:// directly, so http://host/en/x reaches https://host/x in a single hop.
+# 2) Everything else on plain http is sent to https.
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  RewriteRule ^en/?$ https://%{HTTP_HOST}/ [R=301,L]
+  RewriteRule ^en/(.*/)$ https://%{HTTP_HOST}/$1 [R=301,L]
+  RewriteRule ^en/(.*[^/])$ https://%{HTTP_HOST}/$1/ [R=301,L]
+
   RewriteCond %{HTTPS} off
   RewriteCond %{REQUEST_URI} !^/\.well-known/
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
-
-  # Home page: send "/" to the English site.
-  RewriteRule ^$ /en/ [R=302,L]
 </IfModule>
 
 # File types Apache doesn't know by default. Without the .mjs one the browser

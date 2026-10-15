@@ -4,7 +4,7 @@ const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
 const browser = await puppeteer.launch({ executablePath: EDGE, headless: "new" });
 const page = await browser.newPage();
 await page.setViewport({ width: 390, height: 844 });
-await page.goto("http://localhost:3000/en/", { waitUntil: "domcontentloaded", timeout: 30000 });
+await page.goto("http://localhost:3000/", { waitUntil: "domcontentloaded", timeout: 30000 });
 await new Promise((r) => setTimeout(r, 800));
 
 const info = await page.evaluate(() => {

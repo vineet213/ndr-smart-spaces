@@ -32,11 +32,11 @@ export const footer = {
       "heading": "Corporate",
       "links": [
         {
-          "href": "/en/about-us",
+          "href": "/about-us",
           "label": "About Us & Our People",
         },
         {
-          "href": "/en/contact",
+          "href": "/contact",
           "label": "Contact",
         },
       ],
@@ -45,19 +45,19 @@ export const footer = {
       "heading": "Business",
       "links": [
         {
-          "href": "/en/business/logistics-and-industrial-infrastructure",
+          "href": "/business/logistics-and-industrial-infrastructure",
           "label": "Logistics and Industrial Infrastructure",
         },
         {
-          "href": "/en/business/ndr-asset-management",
+          "href": "/business/ndr-asset-management",
           "label": "NDR Asset Management",
         },
         {
-          "href": "/en/business/residential-plotting",
+          "href": "/business/residential-plotting",
           "label": "Residential Plotting",
         },
         {
-          "href": "/en/investor-centre/asset-flip",
+          "href": "/investor-centre/asset-flip",
           "label": "Asset Flip",
         },
       ],
@@ -66,15 +66,15 @@ export const footer = {
       "heading": "Investor",
       "links": [
         {
-          "href": "/en/investor-centre/announcements",
+          "href": "/investor-centre/announcements",
           "label": "Announcements",
         },
         {
-          "href": "/en/investor-centre/corporate-governance",
+          "href": "/investor-centre/corporate-governance",
           "label": "Corporate Governance",
         },
         {
-          "href": "/en/investor-centre/summary-of-business",
+          "href": "/investor-centre/summary-of-business",
           "label": "Summary of Business",
         },
       ],
@@ -83,11 +83,11 @@ export const footer = {
       "heading": "ESG & Media",
       "links": [
         {
-          "href": "/en/esg",
+          "href": "/esg",
           "label": "ESG & Sustainability",
         },
         {
-          "href": "/en/media",
+          "href": "/media",
           "label": "Media & Newsroom",
         },
       ],
@@ -95,19 +95,19 @@ export const footer = {
   ],
   "legal": [
     {
-      "href": "/en/privacy-policy",
+      "href": "/privacy-policy",
       "label": "Privacy Policy",
     },
     {
-      "href": "/en/terms",
+      "href": "/terms",
       "label": "Terms & Conditions",
     },
     {
-      "href": "/en/disclaimer",
+      "href": "/disclaimer",
       "label": "Disclaimer",
     },
     {
-      "href": "/en/sitemap",
+      "href": "/sitemap",
       "label": "Website Sitemap",
     },
   ],

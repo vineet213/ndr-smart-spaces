@@ -33,7 +33,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const idBase = useId();
-  const pathname = (usePathname() ?? "").replace(/\/+$/, "") || "/en";
+  const pathname = (usePathname() ?? "").replace(/\/+$/, "") || "/";
 
   // Accordion state: groups the visitor toggled; the section they are in starts open.
   const [toggled, setToggled] = useState<Record<string, boolean>>({});

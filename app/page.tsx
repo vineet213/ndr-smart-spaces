@@ -1,5 +1,26 @@
-import { redirect } from "next/navigation";
+import { JsonLd } from "@/components/JsonLd";
+import { organizationJsonLd } from "@/lib/seo";
+import { Hero } from "@/components/sections/Hero";
+import { CompanyOverview } from "@/components/sections/CompanyOverview";
+import { PortfolioPresence } from "@/components/sections/PortfolioPresence";
+import { CompanyMetrics } from "@/components/sections/CompanyMetrics";
+import { Esg } from "@/components/sections/Esg";
+import { LatestUpdates } from "@/components/sections/LatestUpdates";
+import { ContactCta } from "@/components/sections/ContactCta";
+import { Footer } from "@/components/sections/Footer";
 
-export default function RootPage() {
-  redirect("/en/");
+export default function HomePage() {
+  return (
+    <>
+      <JsonLd data={organizationJsonLd()} />
+      <Hero />
+      <CompanyOverview />
+      <PortfolioPresence />
+      <CompanyMetrics />
+      <Esg />
+      <LatestUpdates />
+      <ContactCta />
+      <Footer />
+    </>
+  );
 }

@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "NDR Smart Spaces Pvt. Ltd.",
     short_name: "NDR Smart Spaces",
-    start_url: "/en/",
+    start_url: "/",
     display: "browser",
     background_color: "#faf7f2",
     theme_color: "#2a1216",

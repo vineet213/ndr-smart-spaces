@@ -22,7 +22,7 @@ import { join } from "node:path";
 import puppeteer from "puppeteer-core";
 
 const ADMIN = "http://localhost:4173";
-const PUBLIC_REGISTER = "http://localhost:3000/en/business/logistics-and-industrial-infrastructure";
+const PUBLIC_REGISTER = "http://localhost:3000/business/logistics-and-industrial-infrastructure";
 const ASSETS_UNDER_MANAGEMENT_MODULE = join(
   process.cwd(),
   "src",

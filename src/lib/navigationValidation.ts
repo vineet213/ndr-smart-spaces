@@ -66,7 +66,7 @@ function collectFooterEntries(): NavEntry[] {
   for (const link of footer.ecosystem) {
     entries.push({ label: link.label, href: link.href, surface: "footer · ecosystem" });
   }
-  entries.push({ label: "NDR Smart Spaces", href: "/en", surface: "brand mark" });
+  entries.push({ label: "NDR Smart Spaces", href: "/", surface: "brand mark" });
   return entries;
 }
 

@@ -5,8 +5,8 @@ import { VerticalPage } from "@/components/sections/VerticalPage";
 import { divisions } from "@/lib/data/business";
 
 function slugFromHref(href: string): string | null {
-  if (!href.startsWith("/en/business/")) return null;
-  const slug = href.slice("/en/business/".length).split("#")[0];
+  if (!href.startsWith("/business/")) return null;
+  const slug = href.slice("/business/".length).split("#")[0];
   return slug.length > 0 ? slug : null;
 }
 
@@ -20,10 +20,10 @@ export function generateStaticParams() {
   return divisions
     .map((division) => slugFromHref(division.route.href))
     .filter((slug): slug is string => slug !== null)
-    .map((slug) => ({ locale: "en", vertical: slug }));
+    .map((slug) => ({ vertical: slug }));
 }
 
-type Params = Promise<{ locale: string; vertical: string }>;
+type Params = Promise<{ vertical: string }>;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { vertical } = await params;

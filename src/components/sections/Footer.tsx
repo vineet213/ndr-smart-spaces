@@ -77,7 +77,7 @@ export function Footer({ hideWorkWithUsCta = true }: { hideWorkWithUsCta?: boole
         {!hideWorkWithUsCta ? (
           <div className={styles.ctaRow}>
             <p className={styles.ctaLabel}>Work with us</p>
-            <Link href="/en/contact" className={styles.ctaLink}>
+            <Link href="/contact" className={styles.ctaLink}>
               Start a conversation
               <Icon name="arrow-right" size="sm" />
             </Link>
@@ -86,7 +86,7 @@ export function Footer({ hideWorkWithUsCta = true }: { hideWorkWithUsCta?: boole
 
         <Grid className={styles.mainGrid}>
           <GridItem span={3} className={styles.brand}>
-            <Link href="/en" aria-label="NDR Smart Spaces: home">
+            <Link href="/" aria-label="NDR Smart Spaces: home">
               <Image
                 src="/logos/ndr-smart-spaces-lockup.svg"
                 alt=""
@@ -135,7 +135,7 @@ export function Footer({ hideWorkWithUsCta = true }: { hideWorkWithUsCta?: boole
               </span>
             </GridItem>
             <GridItem span={3} className={styles.contactItem}>
-              <Link href="/en/contact" className={styles.contactCta}>
+              <Link href="/contact" className={styles.contactCta}>
                 Contact us
                 <Icon name="arrow-up-right" size="sm" />
               </Link>

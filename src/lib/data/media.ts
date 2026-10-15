@@ -435,9 +435,9 @@ export const mediaClosing = {
   publicationRef: MEDIA_PUBLICATION.ref,
   edition: MEDIA_EDITION.edition,
   primaryCta: { label: "Write to the press desk", href: "mailto:compliance@ndrsmart.com" },
-  secondaryCta: { label: "Contact NDR Smart Spaces.", href: "/en/contact" },
+  secondaryCta: { label: "Contact NDR Smart Spaces.", href: "/contact" },
   tertiaryLink: { label: "NDR InvIT", href: "https://ndrinvit.com" },
-  enquiry: { label: "Business Enquiry", href: "/en/contact#business-enquiry" },
+  enquiry: { label: "Business Enquiry", href: "/contact#business-enquiry" },
   provenanceNote:
     "Draft entries in this register are marked * and remain subject to client confirmation before go-live.",
 } as const;

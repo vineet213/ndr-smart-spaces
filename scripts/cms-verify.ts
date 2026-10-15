@@ -330,8 +330,8 @@ async function main(): Promise<void> {
     await editor.save({
       collectionKey: "navigation",
       data: {
-        siteHome: { label: "Home", href: "/en" },
-        navItems: [{ label: "Business", href: "/en/does-not-exist" }],
+        siteHome: { label: "Home", href: "/" },
+        navItems: [{ label: "Business", href: "/does-not-exist" }],
       },
       user: "business-editor@ndr.com",
       role: "business-editor",
@@ -345,25 +345,25 @@ async function main(): Promise<void> {
   await editor.save({
     collectionKey: "navigation",
     data: {
-      siteHome: { label: "Home", href: "/en" },
-      utilityStrip: [{ label: "Investor Centre", href: "/en/investor-centre/announcements" }],
-      headerCta: { label: "Contact us", href: "/en/contact" },
+      siteHome: { label: "Home", href: "/" },
+      utilityStrip: [{ label: "Investor Centre", href: "/investor-centre/announcements" }],
+      headerCta: { label: "Contact us", href: "/contact" },
       navItems: [
         {
           label: "Business",
-          href: "/en/business/logistics-and-industrial-infrastructure",
+          href: "/business/logistics-and-industrial-infrastructure",
           columns: [
             {
               heading: "Business Verticals",
               links: [
-                { label: "Logistics and Industrial Infrastructure", href: "/en/business/logistics-and-industrial-infrastructure" },
+                { label: "Logistics and Industrial Infrastructure", href: "/business/logistics-and-industrial-infrastructure" },
               ],
             },
           ],
         },
       ],
-      mobileNavItems: [{ label: "Home", href: "/en" }],
-      mobileMenuFooter: [{ label: "Privacy Policy", href: "/en/privacy-policy" }],
+      mobileNavItems: [{ label: "Home", href: "/" }],
+      mobileMenuFooter: [{ label: "Privacy Policy", href: "/privacy-policy" }],
     },
     user: "business-editor@ndr.com",
     role: "business-editor",
@@ -377,8 +377,8 @@ async function main(): Promise<void> {
     data: {
       descriptor: "The Operating Manual",
       ecosystem: [{ label: "NDR InvIT Trust", href: "https://ndrinvit.com" }],
-      groups: [{ heading: "Quick Links", links: [{ label: "About Us", href: "/en/about-us" }] }],
-      legal: [{ label: "Privacy Policy", href: "/en/privacy-policy" }],
+      groups: [{ heading: "Quick Links", links: [{ label: "About Us", href: "/about-us" }] }],
+      legal: [{ label: "Privacy Policy", href: "/privacy-policy" }],
       socialLinks: [
         { label: "LinkedIn", href: "https://www.linkedin.com/company/ndr-smart-spaces" },
       ],
@@ -646,7 +646,7 @@ async function main(): Promise<void> {
       value: "98%",
       period: "As on 31 March 2026",
       source: "NDR Corporate Presentation",
-      usages: [{ target: "/en/investor-centre/announcements", label: "Capital strength" }],
+      usages: [{ target: "/investor-centre/announcements", label: "Capital strength" }],
     },
     status: "draft",
     user: "investor-editor@ndr.com",
@@ -684,7 +684,7 @@ async function main(): Promise<void> {
         value: "1",
         period: "FY26",
         source: "Source",
-        usages: [{ target: "/en/does-not-exist", label: "Nope" }],
+        usages: [{ target: "/does-not-exist", label: "Nope" }],
       },
       status: "draft",
       user: "investor-editor@ndr.com",
@@ -733,7 +733,7 @@ async function main(): Promise<void> {
       proof: "99% greenfield",
       proofSource: "NDR Corporate Presentation",
       metrics: [{ metricKey: "M17" }],
-      route: { label: "Grade A Warehousing", href: "/en/business/logistics-and-industrial-infrastructure" },
+      route: { label: "Grade A Warehousing", href: "/business/logistics-and-industrial-infrastructure" },
     },
     status: "draft",
     user: "business-editor@ndr.com",

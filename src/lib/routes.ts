@@ -10,24 +10,24 @@
  */
 
 export const siteRoutes: readonly string[] = [
-  "/en",
-  "/en/about-us",
-  "/en/business/logistics-and-industrial-infrastructure",
-  "/en/business/ndr-asset-management",
-  "/en/business/ndr-asset-management/development-lifecycle",
-  "/en/business/ndr-asset-management/asset-performance-management",
-  "/en/business/residential-plotting",
-  "/en/investor-centre/announcements",
-  "/en/investor-centre/corporate-governance",
-  "/en/investor-centre/summary-of-business",
-  "/en/investor-centre/asset-flip",
-  "/en/esg",
-  "/en/media",
-  "/en/contact",
-  "/en/privacy-policy",
-  "/en/terms",
-  "/en/disclaimer",
-  "/en/sitemap",
+  "/",
+  "/about-us",
+  "/business/logistics-and-industrial-infrastructure",
+  "/business/ndr-asset-management",
+  "/business/ndr-asset-management/development-lifecycle",
+  "/business/ndr-asset-management/asset-performance-management",
+  "/business/residential-plotting",
+  "/investor-centre/announcements",
+  "/investor-centre/corporate-governance",
+  "/investor-centre/summary-of-business",
+  "/investor-centre/asset-flip",
+  "/esg",
+  "/media",
+  "/contact",
+  "/privacy-policy",
+  "/terms",
+  "/disclaimer",
+  "/sitemap",
 ];
 
 /**
@@ -35,23 +35,23 @@ export const siteRoutes: readonly string[] = [
  * route. Only routes with linkable sections need an entry.
  */
 export const routeAnchors: Readonly<Record<string, readonly string[]>> = {
-  "/en/business/logistics-and-industrial-infrastructure": ["register"],
-  "/en/esg": ["framework", "environmental", "certifications"],
-  "/en/media": ["press-archive"],
-  "/en/contact": ["directory", "business-enquiry"],
-  "/en/about-us": ["story"],
+  "/business/logistics-and-industrial-infrastructure": ["register"],
+  "/esg": ["framework", "environmental", "certifications"],
+  "/media": ["press-archive"],
+  "/contact": ["directory", "business-enquiry"],
+  "/about-us": ["story"],
 };
 
 /**
  * Normalise an internal href to the canonical exported form. Elements that
  * must stay untouched are left as-is:
  *
- *   /en/about-us         → /en/about-us/
- *   /en/contact#enquiry  → /en/contact/#enquiry
+ *   /about-us            → /about-us/
+ *   /contact#enquiry     → /contact/#enquiry
  *   #in-page-anchor      → #in-page-anchor      (fragment-only)
  *   mailto:… / tel:…     → unchanged
  *   https://…            → unchanged            (external)
- *   /en                  → /en/
+ *   /                    → /
  */
 export function canonicalHref(href: string): string {
   if (!href.startsWith("/")) return href;

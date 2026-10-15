@@ -1,6 +1,6 @@
 /**
- * Section progress probe: for "The Code" (/en/about-us) and the Development
- * Lifecycle (/en/business/ndr-asset-management/development-lifecycle), scrolls
+ * Section progress probe: for "The Code" (/about-us) and the Development
+ * Lifecycle (/business/ndr-asset-management/development-lifecycle), scrolls
  * through each section and screenshots at 0/25/50/75/100% of its scroll
  * progress. Also samples the pinned frame's bottom edge to catch gaps.
  * Usage: MSYS_NO_PATHCONV=1 node scripts/section-progress-probe.mjs --out <dir> --width 390 --height 844 [--desktop]
@@ -21,13 +21,13 @@ mkdirSync(OUT, { recursive: true });
 const SECTIONS = [
   {
     name: "code",
-    route: "/en/about-us",
+    route: "/about-us",
     find: () =>
       document.querySelector("section[aria-label]:has([class*=sticky])")?.firstElementChild,
   },
   {
     name: "lifecycle",
-    route: "/en/business/ndr-asset-management/development-lifecycle",
+    route: "/business/ndr-asset-management/development-lifecycle",
     find: () => document.querySelector("[class*=stageTrack]")?.parentElement,
   },
 ];

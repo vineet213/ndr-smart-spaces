@@ -141,7 +141,7 @@ export function FormSafeguards({
         />
         <label className={styles.consentLabel} htmlFor={consentId}>
           {consentLabel}{" "}
-          <Link href="/en/privacy-policy/" className={styles.consentLink}>
+          <Link href="/privacy-policy/" className={styles.consentLink}>
             Privacy Policy
           </Link>
           .

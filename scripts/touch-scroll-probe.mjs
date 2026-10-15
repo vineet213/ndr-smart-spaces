@@ -5,8 +5,8 @@
  *   - CLS accumulated during the walk
  * plus, at the end, elements that never revealed (opacity 0, sized, not display:none).
  * Usage: BASE_URL=http://localhost:3000 node scripts/touch-scroll-probe.mjs --out <dir>
- *        [--routes /en,/en/esg] [--width 390] [--height 844] [--shots]
- * (Git Bash mangles a bare "/en"; set MSYS_NO_PATHCONV=1.)
+ *        [--routes /,/esg] [--width 390] [--height 844] [--shots]
+ * (Git Bash mangles a bare "/"; set MSYS_NO_PATHCONV=1.)
  */
 import { readdirSync, statSync, mkdirSync, writeFileSync } from "node:fs";
 import { join, relative, sep } from "node:path";
@@ -34,7 +34,7 @@ function discover() {
         if (!name.startsWith("_")) walk(full);
       } else if (name === "index.html") {
         const rel = "/" + relative(root, dir).split(sep).join("/");
-        if (rel.startsWith("/en")) routes.push(rel);
+        if (rel.startsWith("/")) routes.push(rel);
       }
     }
   };

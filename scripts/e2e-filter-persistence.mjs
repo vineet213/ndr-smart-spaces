@@ -16,7 +16,7 @@
 import puppeteer from "puppeteer-core";
 
 const ADMIN = "http://localhost:4173";
-const PUBLIC_REGISTER = "http://localhost:3000/en/business/logistics-and-industrial-infrastructure";
+const PUBLIC_REGISTER = "http://localhost:3000/business/logistics-and-industrial-infrastructure";
 const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
 const SEARCH_TERM = "eskate";
 

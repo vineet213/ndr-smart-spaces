@@ -11,7 +11,7 @@ import { getLenisInstance } from "@/lib/lenis";
  * fixed header's spacer, so every page opened from a footer link ended up ~86px
  * down (title half under the navbar), arriving by a slow glide from the old
  * scroll position. This jumps straight to 0 instead. Links that target a
- * section (`/en/contact#business-enquiry`) are left to the browser.
+ * section (`/contact#business-enquiry`) are left to the browser.
  */
 export function ScrollToTop() {
   const pathname = usePathname();

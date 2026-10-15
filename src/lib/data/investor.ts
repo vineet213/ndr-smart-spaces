@@ -48,9 +48,9 @@ export const editorialStatement = {
 } as const;
 
 export const investorContents = [
-  { label: "Governance", href: "/en/investor-centre/corporate-governance", type: "route" },
-  { label: "Announcements", href: "/en/investor-centre/announcements", type: "route" },
-  { label: "Asset Flip", href: "/en/investor-centre/asset-flip", type: "route" },
+  { label: "Governance", href: "/investor-centre/corporate-governance", type: "route" },
+  { label: "Announcements", href: "/investor-centre/announcements", type: "route" },
+  { label: "Asset Flip", href: "/investor-centre/asset-flip", type: "route" },
 ] as const;
 
 export const assetFlip = {
@@ -443,8 +443,8 @@ export const investorClosing = {
   primaryCta: { label: "Write to Investor Relations", href: "mailto:compliance@ndrsmart.com" },
   secondaryCta: {
     label: "Open the Download Archive",
-    href: "/en/investor-centre/downloads",
+    href: "/investor-centre/downloads",
   },
   tertiaryLink: { label: "NDR InvIT", href: "https://ndrinvit.com" },
-  enquiry: { label: "Business Enquiry", href: "/en/contact#business-enquiry" },
+  enquiry: { label: "Business Enquiry", href: "/contact#business-enquiry" },
 } as const;

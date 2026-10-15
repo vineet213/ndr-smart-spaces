@@ -12,7 +12,7 @@ import puppeteer from "puppeteer-core";
 import { writeFile, rm } from "node:fs/promises";
 
 const ADMIN = "http://localhost:4173";
-const PUBLIC_EN = "http://localhost:3000/en/";
+const PUBLIC_EN = "http://localhost:3000/";
 const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
 const BROKEN_FILE = new URL("../src/lib/data/zz-e2e-broken.ts", import.meta.url);
 

@@ -137,50 +137,50 @@ export const sitemapGroups: readonly SitemapGroup[] = [
   {
     heading: "Operating Manual",
     links: [
-      { label: "Home", href: "/en" },
-      { label: "About Us & Our People", href: "/en/about-us" },
+      { label: "Home", href: "/" },
+      { label: "About Us & Our People", href: "/about-us" },
       {
         label: "Logistics and Industrial Infrastructure",
-        href: "/en/business/logistics-and-industrial-infrastructure",
+        href: "/business/logistics-and-industrial-infrastructure",
       },
       {
         label: "Project Management and Maintenance - NDR Asset Management",
-        href: "/en/business/ndr-asset-management",
+        href: "/business/ndr-asset-management",
       },
       {
         label: "Development Lifecycle",
-        href: "/en/business/ndr-asset-management/development-lifecycle",
+        href: "/business/ndr-asset-management/development-lifecycle",
       },
       {
         label: "Asset Performance Management",
-        href: "/en/business/ndr-asset-management/asset-performance-management",
+        href: "/business/ndr-asset-management/asset-performance-management",
       },
-      { label: "Residential Plotting", href: "/en/business/residential-plotting" },
-      { label: "ESG & Sustainability", href: "/en/esg" },
+      { label: "Residential Plotting", href: "/business/residential-plotting" },
+      { label: "ESG & Sustainability", href: "/esg" },
     ],
   },
   {
     heading: "Investor Centre",
     links: [
-      { label: "Announcements", href: "/en/investor-centre/announcements" },
-      { label: "Corporate Governance", href: "/en/investor-centre/corporate-governance" },
-      { label: "Summary of Business", href: "/en/investor-centre/summary-of-business" },
+      { label: "Announcements", href: "/investor-centre/announcements" },
+      { label: "Corporate Governance", href: "/investor-centre/corporate-governance" },
+      { label: "Summary of Business", href: "/investor-centre/summary-of-business" },
     ],
   },
   {
     heading: "Media & Contact",
     links: [
-      { label: "Media & Newsroom", href: "/en/media" },
-      { label: "Contact", href: "/en/contact" },
+      { label: "Media & Newsroom", href: "/media" },
+      { label: "Contact", href: "/contact" },
     ],
   },
   {
     heading: "Legal & Notice",
     links: [
-      { label: "Privacy Policy", href: "/en/privacy-policy" },
-      { label: "Terms & Conditions", href: "/en/terms" },
-      { label: "Disclaimer", href: "/en/disclaimer" },
-      { label: "Website Sitemap", href: "/en/sitemap" },
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Terms & Conditions", href: "/terms" },
+      { label: "Disclaimer", href: "/disclaimer" },
+      { label: "Website Sitemap", href: "/sitemap" },
     ],
   },
 ];

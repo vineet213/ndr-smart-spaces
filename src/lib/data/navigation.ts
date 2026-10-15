@@ -62,6 +62,7 @@ export function isActivePath(pathname: string, href: string): boolean {
   if (href === "#") return false;
   if (href.startsWith("mailto:") || href.startsWith("https://")) return false;
   const clean = href.split("#")[0];
-  if (clean === "/en") return pathname === "/en";
+  // The Home link has never been styled as the current page; keep it that way.
+  if (clean === "/") return false;
   return pathname === clean || pathname.startsWith(clean + "/");
 }

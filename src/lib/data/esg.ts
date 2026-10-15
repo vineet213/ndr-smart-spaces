@@ -975,9 +975,9 @@ export const esgClosing = {
   line: "The ledger remains open.",
   body: "Sustainability reporting at NDR Smart Spaces is updated as records are confirmed and approved. Until then, every figure shows its source and status.",
   primaryCta: { label: "Write to the ESG desk", href: "mailto:compliance@ndrsmart.com" },
-  secondaryCta: { label: "Open the Investor Centre", href: "/en/investor-centre/announcements" },
+  secondaryCta: { label: "Open the Investor Centre", href: "/investor-centre/announcements" },
   tertiaryLink: { label: "NDR InvIT", href: "https://ndrinvit.com" },
-  enquiry: { label: "Business Enquiry", href: "/en/contact#business-enquiry" },
+  enquiry: { label: "Business Enquiry", href: "/contact#business-enquiry" },
   provenanceNote:
     "Draft placeholders in this edition are marked * and remain subject to client confirmation before go-live.",
 } as const;

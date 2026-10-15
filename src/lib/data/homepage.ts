@@ -49,22 +49,22 @@ export const audienceRoutes = [
   {
     label: "Investors",
     descriptor: "Reports, disclosures, governance",
-    href: "/en/investor-centre/announcements",
+    href: "/investor-centre/announcements",
   },
   {
     label: "Corporate clients",
     descriptor: "Warehouses & industrial space",
-    href: "/en/portfolio",
+    href: "/portfolio",
   },
   {
     label: "Business partners",
     descriptor: "Land, development, JVs",
-    href: "/en/business/logistics-and-industrial-infrastructure",
+    href: "/business/logistics-and-industrial-infrastructure",
   },
   {
     label: "Media",
     descriptor: "News, press, gallery",
-    href: "/en/media",
+    href: "/media",
   },
 ] as const;
 
@@ -170,7 +170,7 @@ export const companyOverview = {
       },
     ],
   ] as CompanyOverviewSegment[][],
-  aboutLink: { label: "More about NDR Smart Spaces", href: "/en/about-us" },
+  aboutLink: { label: "More about NDR Smart Spaces", href: "/about-us" },
   image: {
     src: "/images/homepage/company-overview.jpg",
     alt: "Aerial view of an NDR Smart Spaces industrial warehousing development",
@@ -269,7 +269,7 @@ export const businessHighlights = {
     line: "Completed assets are offered to NDR InvIT under a Right of First Offer, recycling capital into new development. The cycle then repeats.",
     cta: {
       label: "The capital model",
-      href: "/en/business/logistics-and-industrial-infrastructure",
+      href: "/business/logistics-and-industrial-infrastructure",
     },
   },
 };
@@ -288,14 +288,14 @@ export const featuredProjects = {
       { value: "Amazon", unit: "", label: "Occupier", format: false },
       { value: "ESG", unit: "standards", label: "Institutional benchmark", format: false },
     ],
-    link: { label: "Explore the portfolio", href: "/en/portfolio" },
+    link: { label: "Explore the portfolio", href: "/portfolio" },
   },
   secondary: {
     eyebrow: "Featured · 02",
     title: "Lenovo Industrial Facility, Puducherry",
     narrative:
       "Lenovo's first industrial facility in India (2002), built to international manufacturing and warehousing specifications, two decades ahead of the industry.",
-    link: { label: "Project details", href: "/en/portfolio" },
+    link: { label: "Project details", href: "/portfolio" },
   },
 } as const;
 

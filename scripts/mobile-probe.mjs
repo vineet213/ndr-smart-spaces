@@ -1,7 +1,7 @@
 /**
  * Mobile probe — per-route, per-width audit against the static export.
  *
- * Reports for every route in out/en/**\/index.html at 360 / 390 / 430px:
+ * Reports for every route in out/**\/index.html at 360 / 390 / 430px:
  *   - horizontal overflow (+ offending elements)
  *   - interactive elements under 44x44 CSS px
  *   - visible text under 12px
@@ -10,7 +10,7 @@
  * and saves full-page screenshots.
  *
  * Usage: npm run build && npm start   (port 3000)
- *        node scripts/mobile-probe.mjs [--out <dir>] [--routes /en/esg,/en/contact] [--widths 360,390]
+ *        node scripts/mobile-probe.mjs [--out <dir>] [--routes /esg,/contact] [--widths 360,390]
  *        [--desktop]   also capture 1440 screenshots (desktop regression baseline)
  */
 
@@ -41,7 +41,7 @@ function discoverRoutes() {
         walk(full);
       } else if (name === "index.html") {
         const rel = "/" + relative(root, dir).split(sep).join("/");
-        if (rel.startsWith("/en")) routes.push(rel);
+        if (rel.startsWith("/")) routes.push(rel);
       }
     }
   };
