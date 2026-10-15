@@ -11,6 +11,7 @@
     "build": "next build",
     "postbuild": "node scripts/flatten-segment-prefetch.mjs",
     "start": "node scripts/serve-static.mjs",
+    "package": "npm run build && python scripts/package-for-cpanel.py",
     "contact:mock": "node scripts/contact-mock.mjs",
     "publish": "tsc -p scripts/tsconfig.cms.json && node .cms-build/scripts/cms-export.js && npm run build",
     "lint": "eslint .",

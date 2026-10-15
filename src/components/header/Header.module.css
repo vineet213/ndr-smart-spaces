@@ -9,7 +9,15 @@
   left: 0;
   right: 0;
   z-index: 100;
-  background: transparent;
+  /* Full-bleed resting bar: the dark ground spans the whole viewport, so on   */
+  /* screens wider than the centred content (max-width below) there are no     */
+  /* light strips at the sides. It goes clear once the floating pill takes over. */
+  background-color: var(--color-charcoal-masthead);
+  transition: background-color var(--duration-standard) var(--ease-standard);
+}
+
+.navBarScrolled {
+  background-color: transparent;
 }
 
 /* Reserves the nav's own height right after the utility strip in normal    */
