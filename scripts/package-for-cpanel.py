@@ -12,7 +12,7 @@ import zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "out")
 DEST_DIR = os.path.join(os.path.dirname(ROOT), "deploy")
-DEST = os.path.join(DEST_DIR, "ndr-smart-spaces-cpanel.zip")
+DEST = os.path.join(DEST_DIR, "smart-spaces-panel.zip")
 
 if not os.path.isfile(os.path.join(SRC, "index.html")):
     sys.exit("out/ is missing: run `npm run build` first.")
