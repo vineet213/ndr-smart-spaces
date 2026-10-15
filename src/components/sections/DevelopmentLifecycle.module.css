@@ -6,6 +6,7 @@
 }
 
 .list {
+  position: relative; /* anchors the touch snap stops */
   /* plain block flow — the sticky-stack mechanic below needs each          */
   /* .stageTrack to be a normal-flow sibling, not a grid item.               */
 }
@@ -89,6 +90,13 @@
   width: 1px;
   height: 1px;
   scroll-snap-align: start;
+}
+
+/* Touch: a fast swipe can't skip past a stage's resting point. */
+@media (pointer: coarse) {
+  .snapMarker {
+    scroll-snap-stop: always;
+  }
 }
 
 .stage {

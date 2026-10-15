@@ -23,6 +23,12 @@ html {
   html {
     scroll-snap-type: none;
   }
+
+  /* Native one-swipe-per-stage snapping, switched on by useSnapZone only while
+     a pinned scroll section (The Code, Development Lifecycle, ESG) is on screen. */
+  html.snap-zone {
+    scroll-snap-type: y mandatory;
+  }
 }
 
 body {

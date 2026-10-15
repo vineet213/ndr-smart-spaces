@@ -6,11 +6,12 @@ import { Container } from "@/components/layout";
 import { SourceFootnote } from "@/components/ui";
 import type { LifecycleStage } from "@/lib/data/business";
 import { useInView } from "@/hooks/useInView";
-import { useStageSnap } from "@/hooks/useStageSnap";
+import { useSnapZone } from "@/hooks/useSnapZone";
 import { getLenisInstance } from "@/lib/lenis";
 import { Icon } from "../ui/Icon";
 import { cx } from "../ui/cx";
 import { Reveal } from "./Reveal";
+import { SnapStop } from "./SnapStop";
 import { FinalProductVideo } from "./FinalProductVideo";
 import styles from "./DevelopmentLifecycle.module.css";
 
@@ -308,12 +309,8 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
     once: false,
   });
 
-  // Touch: one swipe glides to exactly the next / previous stage.
-  useStageSnap(() =>
-    sweetSpotRefs.current.flatMap((el) =>
-      el ? [Math.round(el.getBoundingClientRect().top + window.scrollY)] : [],
-    ),
-  );
+  // Touch: native scroll-snap, switched on only while the stage stack is pinned.
+  useSnapZone(listRef);
 
   const handleDwell = useCallback((order: number) => setActiveIndex(order), []);
 
@@ -326,6 +323,9 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
   return (
     <section className={styles.section}>
       <div ref={listRef} className={styles.list}>
+        {/* Touch snap stops bracketing the stack (each stage adds its own). */}
+        <SnapStop top="0" />
+        <SnapStop top="calc(100% - 100svh)" />
         {stages.map((stage, index) => (
           <StageRow
             key={stage.index}

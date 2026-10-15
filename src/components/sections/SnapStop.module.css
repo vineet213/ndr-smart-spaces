@@ -1,0 +1,15 @@
+.stop {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+/* Only touch devices snap (the desktop wheel/Lenis path is untouched). */
+@media (pointer: coarse) {
+  .stop {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}

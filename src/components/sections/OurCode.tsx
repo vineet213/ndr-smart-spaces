@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { Stack } from "@/components/layout";
 import { Eyebrow, Heading } from "@/components/ui";
 import { ourCode, type OurCodeValue } from "@/lib/data/about";
-import { useStageSnap } from "@/hooks/useStageSnap";
+import { useSnapZone } from "@/hooks/useSnapZone";
 import { getLenisInstance } from "@/lib/lenis";
 import { cx } from "../ui/cx";
 import { DrawnGrid } from "./DrawnGrid";
+import { SnapStop } from "./SnapStop";
 import styles from "./OurCode.module.css";
 
 const markProps = {
@@ -155,8 +156,8 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
     return Math.round(window.scrollY + rect.top + raw * scrollable);
   };
 
-  // Touch: one swipe glides to exactly the next / previous value.
-  useStageSnap(() => values.flatMap((_, i) => targetYFor(i) ?? []), pinEnabled);
+  // Touch: native scroll-snap (switched on only while this reel is pinned).
+  useSnapZone(trackRef, pinEnabled);
 
   const goToIndex = (i: number) => {
     const targetY = targetYFor(i);
@@ -195,6 +196,7 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
     if (!track) return;
 
     let raf = 0;
+    let running = false;
 
     /* Sampled every animation frame rather than driven by the native       */
     /* `scroll` event — under a smooth-scroll library (Lenis) the document's */
@@ -232,12 +234,29 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
         setActiveIndex((prev) => (prev === nextActive ? prev : nextActive));
       }
 
-      raf = requestAnimationFrame(update);
+      if (running) raf = requestAnimationFrame(update);
     };
 
-    raf = requestAnimationFrame(update);
-    return () => {
+    // Only run the per-frame loop while the reel is within a screen of the viewport.
+    const start = () => {
+      if (running) return;
+      running = true;
+      raf = requestAnimationFrame(update);
+    };
+    const stop = () => {
+      running = false;
       cancelAnimationFrame(raf);
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting ? start() : stop()),
+      {
+        rootMargin: "100% 0px 100% 0px",
+      },
+    );
+    observer.observe(track);
+    return () => {
+      observer.disconnect();
+      stop();
     };
   }, [pinEnabled, totalUnits, values.length]);
 
@@ -247,6 +266,17 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
       className={styles.track}
       style={pinEnabled ? { height: `${(totalUnits + 1) * (compact ? 60 : 100)}svh` } : undefined}
     >
+      {pinEnabled ? (
+        <>
+          {/* Touch snap stops: entry, one per value (centre of its hold), exit. */}
+          <SnapStop top="0" />
+          {values.map((value, i) => {
+            const f = Math.min(Math.max((i * STEP + HOLD / 2) / totalUnits, 0), 1);
+            return <SnapStop key={value.index} top={`calc((100% - 100svh) * ${f})`} />;
+          })}
+          <SnapStop top="calc(100% - 100svh)" />
+        </>
+      ) : null}
       <div ref={frameRef} className={cx(styles.sticky, pinEnabled && styles.stickyPinned)}>
         {pinEnabled ? <DrawnGrid className={styles.grid} /> : null}
 

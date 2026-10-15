@@ -4,11 +4,12 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { FadeImage as Image } from "@/components/ui/FadeImage";
 import { Container } from "@/components/layout";
 import { Heading, Lede } from "@/components/ui";
-import { useStageSnap } from "@/hooks/useStageSnap";
+import { useSnapZone } from "@/hooks/useSnapZone";
 import { esgGreenFeatures } from "@/lib/data/esg";
 import type { EsgGreenFeature } from "@/lib/data/esg";
 import { cx } from "../ui/cx";
 import { Reveal } from "./Reveal";
+import { SnapStop } from "./SnapStop";
 import styles from "./EsgGreenFeatures.module.css";
 
 /* Six curated, on-brand tones (deep/muted, not neon) cycling per card. */
@@ -181,16 +182,8 @@ export function EsgGreenFeatures() {
     return () => motion.removeEventListener("change", update);
   }, []);
 
-  // Touch: one swipe glides to exactly the next / previous card.
-  useStageSnap(() => {
-    const track = trackRef.current;
-    const box = boxRef.current;
-    if (!track || !box) return [];
-    const stick = parseFloat(getComputedStyle(box).top) || 0;
-    const pinStart = track.getBoundingClientRect().top + window.scrollY - stick;
-    const pinLength = track.offsetHeight - box.offsetHeight;
-    return CARD_REST.map((fraction) => Math.round(pinStart + pinLength * fraction));
-  }, pinned);
+  // Touch: native scroll-snap, switched on only while the card stack is pinned.
+  useSnapZone(trackRef, pinned, boxRef);
 
   return (
     <section className={styles.section} id="in-practice" aria-labelledby="esg-in-practice-title">
@@ -205,6 +198,19 @@ export function EsgGreenFeatures() {
         </Reveal>
 
         <div ref={trackRef} className={styles.stackTrack}>
+          {pinned ? (
+            <>
+              {/* Touch snap stops: pin start, one per card, pin end (see CARD_REST). */}
+              <SnapStop top="calc(var(--stick) * -1)" />
+              {CARD_REST.map((fraction) => (
+                <SnapStop
+                  key={fraction}
+                  top={`calc((100% - var(--box-h)) * ${fraction} - var(--stick))`}
+                />
+              ))}
+              <SnapStop top="calc(100% - var(--box-h) - var(--stick))" />
+            </>
+          ) : null}
           <div ref={boxRef} className={styles.stackBox}>
             {esgGreenFeatures.features.map((feature, index) => (
               <FeatureCard key={feature.index} feature={feature} order={index} total={total} />

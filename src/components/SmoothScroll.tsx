@@ -6,28 +6,14 @@ import { setLenisInstance } from "@/lib/lenis";
 
 export function SmoothScroll() {
   useEffect(() => {
-    // Only users who ask for reduced motion keep native scrolling. Touch
-    // devices get Lenis too (syncTouch), so phones scroll with the same eased
-    // momentum as the desktop wheel.
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (reduced.matches) return;
+    // Lenis smooths the mouse wheel only. Touch devices keep the browser's own
+    // scrolling: it runs off the main thread and has the exact momentum and
+    // rubber-banding people expect from their phone, which no JS imitation
+    // matches. Reduced-motion users keep native scrolling too.
+    const skip = window.matchMedia("(pointer: coarse), (prefers-reduced-motion: reduce)");
+    if (skip.matches) return;
 
-    const coarse = window.matchMedia("(pointer: coarse)").matches;
-    const lenis = new Lenis(
-      coarse
-        ? {
-            // Mimic native touch scrolling while keeping Lenis's position in
-            // sync, so the rAF-driven reels and sticky sections see one
-            // continuous, interpolated scroll value.
-            syncTouch: true,
-            syncTouchLerp: 0.12,
-            touchInertiaExponent: 1.7,
-            touchMultiplier: 1.1,
-            // Let inner scroll containers (menu, portfolio lists, ESG cards) scroll natively.
-            allowNestedScroll: true,
-          }
-        : undefined,
-    );
+    const lenis = new Lenis();
     setLenisInstance(lenis);
 
     let frame: number;
@@ -37,21 +23,7 @@ export function SmoothScroll() {
     }
     frame = requestAnimationFrame(raf);
 
-    // iOS Safari resizes the visual viewport as the address bar collapses and
-    // on rotation; make Lenis re-measure so its scroll limit stays correct.
-    const viewport = window.visualViewport;
-    let resizeTimer: number | undefined;
-    const onViewportResize = () => {
-      window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(() => lenis.resize(), 120);
-    };
-    viewport?.addEventListener("resize", onViewportResize);
-    window.addEventListener("orientationchange", onViewportResize);
-
     return () => {
-      window.clearTimeout(resizeTimer);
-      viewport?.removeEventListener("resize", onViewportResize);
-      window.removeEventListener("orientationchange", onViewportResize);
       cancelAnimationFrame(frame);
       lenis.destroy();
       setLenisInstance(null);
