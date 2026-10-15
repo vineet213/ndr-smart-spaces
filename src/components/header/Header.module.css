@@ -84,3 +84,19 @@
   --nav-fg-hover: var(--color-gold-light);
   --nav-accent: var(--color-gold);
 }
+
+/* Small laptops / tablet landscape (1024–1279px): the full menu must fit, so */
+/* the bar is tightened (padding, gaps, nav text) rather than falling back to */
+/* the phone hamburger. 1280px and up is unchanged.                           */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .navContainer {
+    padding-inline: var(--space-lg);
+    gap: var(--space-md);
+    --font-nav: 0.875rem;
+  }
+
+  .navBarScrolled .navContainer {
+    margin-inline: var(--space-lg);
+    padding-inline: var(--space-lg);
+  }
+}

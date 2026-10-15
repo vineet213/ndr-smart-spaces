@@ -32,3 +32,16 @@
   padding-inline: var(--space-2xl);
   border-radius: 999px;
 }
+
+/* Small laptops (1024–1279px): a more compact enquiry button. Two classes so */
+/* this reliably beats Button's own padding regardless of stylesheet order.  */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .enquiryWrap .enquiryButton {
+    padding-inline: 1.125rem;
+    font-size: 0.8125rem;
+  }
+
+  .enquiryWrap .enquiryButtonScrolled {
+    padding-inline: var(--space-lg);
+  }
+}

@@ -274,7 +274,7 @@
   color: var(--color-text-inverse-70);
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1024px) {
   .wrapper {
     display: none;
   }
