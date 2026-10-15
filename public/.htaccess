@@ -12,6 +12,12 @@
   RewriteRule ^$ /en/ [R=302,L]
 </IfModule>
 
+# File types Apache doesn't know by default. Without the .mjs one the browser
+# refuses the map's module scripts ("non-JavaScript MIME type") and the
+# portfolio map never loads.
+AddType text/javascript .mjs
+AddType application/manifest+json .webmanifest
+
 ErrorDocument 404 /404.html
 
 <IfModule mod_deflate.c>
