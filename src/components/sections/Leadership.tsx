@@ -1,18 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
+import type { KeyboardEvent } from "react";
 import { FadeImage as Image } from "@/components/ui/FadeImage";
 import { Container, Stack } from "@/components/layout";
-import { Heading } from "@/components/ui";
-import { leadership, type LeadershipGroup } from "@/lib/data/about";
-import { Reveal, type RevealDelay } from "./Reveal";
+import { Heading, Icon } from "@/components/ui";
+import { leadership, type LeadershipGroup, type LeadershipProfile } from "@/lib/data/about";
+import { Reveal } from "./Reveal";
 import styles from "./Leadership.module.css";
 import { cx } from "../ui/cx";
 
-/* Slightly longer than the tiles' 420ms flex-basis transition: the row only  */
-/* counts as "at rest" (safe to measure) once a collapse has fully finished.  */
-const SETTLE_MS = 500;
+/* How long the pointer must rest on a roster row before it selects that person. */
+/* Long enough that sweeping across the list doesn't flicker; short enough to feel */
+/* instant. Clicks, taps and keyboard focus select immediately.                  */
+const HOVER_INTENT_MS = 80;
 
 function initialsOf(name: string) {
   return name
@@ -24,93 +25,120 @@ function initialsOf(name: string) {
     .toUpperCase();
 }
 
+function pad(value: number) {
+  return String(value).padStart(2, "0");
+}
+
+type PhotoProps = {
+  profile: LeadershipProfile;
+  /** Portrait (spotlight) or square thumbnail (roster). */
+  variant: "portrait" | "thumb";
+  eager: boolean;
+};
+
 /**
- * "Pop & grow" member grid: the default state is a compact photo + name +
- * designation tile — no reserved space, nothing empty. Hovering, focusing or
- * tapping a tile makes it (and only it) the active one: the portrait lifts
- * slightly, a tonal curtain rises over it, and the bio unfolds inside that
- * same tile via a height reveal — never an absolutely positioned overlay, so
- * it can never spill outside the grid. On wide screens the active tile also
- * widens (flex-basis grows), and siblings on its row reflow to make room,
- * exactly like an editorial "featured tile" grid. Narrower breakpoints keep
- * the width fixed and let the tile grow only in height (a plain accordion).
+ * Every portrait is in the DOM from the start (the first group eager, the rest
+ * lazy but async-decoded) with an explicit aspect ratio, so a selection change
+ * never reveals an empty box and never changes any layout.
  */
-function LeadershipGroupSection({ group }: { group: LeadershipGroup }) {
+function Photo({ profile, variant, eager }: PhotoProps) {
+  if (!profile.photo) {
+    return (
+      <div className={styles.monogram} aria-hidden="true">
+        {initialsOf(profile.name)}
+      </div>
+    );
+  }
+  const portrait = variant === "portrait";
+  return (
+    <Image
+      src={profile.photo}
+      alt={portrait ? profile.name : ""}
+      width={portrait ? 640 : 144}
+      height={portrait ? 800 : 144}
+      sizes={portrait ? "(max-width: 767px) 80vw, 18rem" : "72px"}
+      loading={eager ? "eager" : undefined}
+      decoding="async"
+      className={styles.photo}
+    />
+  );
+}
+
+/**
+ * "Spotlight & Roster": one person is shown large (the spotlight) while the
+ * roster lists everyone. Nothing ever changes size or position on hover or
+ * selection: every spotlight panel sits in the SAME grid cell, so the box is
+ * always as tall as the tallest profile, and switching people only animates
+ * opacity, transform and clip-path. All motion is CSS state classes, so
+ * interrupting A -> B -> C mid-transition simply reverses from where it is.
+ */
+function LeadershipGroupSection({ group, eager }: { group: LeadershipGroup; eager: boolean }) {
   const profiles = group.profiles;
-  const slots = Math.max(profiles.length, group.placeholderSlots);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [restHeights, setRestHeights] = useState<readonly number[]>([]);
-  const pointerTypeRef = useRef<string>("");
-  const activeRef = useRef<number | null>(null);
-  const listRef = useRef<HTMLOListElement | null>(null);
-  const lastPoint = useRef<{ x: number; y: number } | null>(null);
-  const settledAfter = useRef(0);
+  const pending = Math.max(0, Math.max(profiles.length, group.placeholderSlots) - profiles.length);
+  const [active, setActive] = useState(0);
+  const [vertical, setVertical] = useState(true);
+  const baseId = useId();
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const clearHover = useCallback(() => {
+    if (hoverTimer.current !== null) {
+      clearTimeout(hoverTimer.current);
+      hoverTimer.current = null;
+    }
+  }, []);
 
-  const clearLeaveTimer = () => {
-    if (leaveTimer.current !== null) {
-      clearTimeout(leaveTimer.current);
-      leaveTimer.current = null;
-    }
-  };
-  const setActive = (next: number | null) => {
-    if (next === null && activeRef.current !== null) {
-      // Runs only from pointer/click handlers, never during render.
-      // eslint-disable-next-line react-hooks/purity
-      settledAfter.current = performance.now() + SETTLE_MS;
-    }
-    activeRef.current = next;
-    setActiveIndex(next);
-  };
-  // Each tile's resting height, read only while the whole row is at rest. The
-  // opened card takes it as a min-height (see .cardActive), so its footprint
-  // always contains the tile it grew from and the cursor that opened it.
-  const measureRest = () => {
-    const list = listRef.current;
-    if (!list) return;
-    const heights: number[] = [];
-    list.querySelectorAll<HTMLElement>("li[data-index]").forEach((li) => {
-      const card = li.querySelector<HTMLElement>("article");
-      heights[Number(li.dataset.index)] = card ? card.offsetHeight : 0;
-    });
-    setRestHeights(heights);
-  };
-  const activate = (index: number) => {
-    clearLeaveTimer();
-    if (activeRef.current === index) return;
-    // Pointer handler, not render (see setActive).
-    // eslint-disable-next-line react-hooks/purity
-    if (activeRef.current === null && performance.now() >= settledAfter.current) measureRest();
+  const select = (index: number) => {
+    clearHover();
     setActive(index);
   };
-  const resetIfActive = (index: number) => {
-    clearLeaveTimer();
-    leaveTimer.current = setTimeout(() => {
-      if (activeRef.current === index) setActive(null);
-    }, 120);
-  };
-  const toggle = (index: number) => {
-    clearLeaveTimer();
-    if (activeRef.current === index) setActive(null);
-    else activate(index);
-  };
-  // Hover opens a tile only on real cursor movement. Browsers re-dispatch
-  // pointer events at the same coordinates whenever layout shifts under a
-  // still cursor; treating those as hovers is what let an opening/closing
-  // tile retrigger itself in a loop.
-  const handlePointerMove = (event: ReactPointerEvent<HTMLOListElement>) => {
-    if (event.pointerType !== "mouse") return;
-    const previous = lastPoint.current;
-    lastPoint.current = { x: event.clientX, y: event.clientY };
-    if (previous && previous.x === event.clientX && previous.y === event.clientY) return;
-    const item = (event.target as HTMLElement).closest<HTMLElement>("li[data-index]");
-    if (!item) return;
-    const index = Number(item.dataset.index);
-    if (profiles[index]) activate(index);
+
+  // Hover selects after a short intent delay, and only where hover really exists
+  // (so a touch laptop's emulated mouse events don't double-fire with the tap).
+  const hoverSelect = (index: number) => {
+    clearHover();
+    if (!window.matchMedia("(hover: hover)").matches) return;
+    hoverTimer.current = setTimeout(() => {
+      hoverTimer.current = null;
+      setActive(index);
+    }, HOVER_INTENT_MS);
   };
 
-  useEffect(() => clearLeaveTimer, []);
+  useEffect(() => clearHover, [clearHover]);
+
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 1024px)");
+    const update = () => setVertical(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  const move = (event: KeyboardEvent<HTMLDivElement>) => {
+    const last = profiles.length - 1;
+    let next: number | null = null;
+    switch (event.key) {
+      case "ArrowDown":
+      case "ArrowRight":
+        next = active === last ? 0 : active + 1;
+        break;
+      case "ArrowUp":
+      case "ArrowLeft":
+        next = active === 0 ? last : active - 1;
+        break;
+      case "Home":
+        next = 0;
+        break;
+      case "End":
+        next = last;
+        break;
+      default:
+        return;
+    }
+    event.preventDefault();
+    select(next);
+    tabRefs.current[next]?.focus();
+  };
 
   return (
     <Stack gap="6xl">
@@ -120,108 +148,99 @@ function LeadershipGroupSection({ group }: { group: LeadershipGroup }) {
         </h3>
       </Reveal>
 
-      <ol
-        ref={listRef}
-        className={styles.grid}
-        aria-labelledby={`${group.id}-title`}
-        onPointerMove={handlePointerMove}
-      >
-        {Array.from({ length: slots }, (_, index) => {
-          const profile = profiles[index];
-          const isActive = activeIndex === index;
-          const isDimmed = activeIndex !== null && !isActive;
-          const restHeight = restHeights[index];
-          return (
-            <li
-              key={profile?.name ?? index}
-              data-index={index}
-              className={cx(
-                styles.item,
-                isActive && styles.itemActive,
-                isDimmed && styles.itemDimmed,
-              )}
-              style={restHeight ? ({ "--rest-h": `${restHeight}px` } as CSSProperties) : undefined}
-              // Open (pointermove, above) and close share this one element. It
-              // is the tile's untransformed box, so the opened card's lift
-              // can't carry the hit area away from the cursor.
-              onPointerLeave={(event) => {
-                if (event.pointerType === "mouse") resetIfActive(index);
-              }}
-            >
-              <Reveal delay={(index + 1) as RevealDelay}>
-                {profile ? (
-                  <article
-                    className={cx(
-                      styles.card,
-                      isActive && styles.cardActive,
-                      isDimmed && styles.cardDimmed,
-                    )}
-                    tabIndex={0}
-                    role="button"
-                    aria-expanded={isActive}
-                    aria-label={`${profile.name}, ${profile.role}: read full profile`}
-                    onFocus={() => {
-                      if (pointerTypeRef.current !== "touch") activate(index);
-                    }}
-                    onBlur={(event) => {
-                      const next = event.relatedTarget as Node | null;
-                      if (!event.currentTarget.contains(next)) resetIfActive(index);
-                    }}
-                    onPointerDown={(event) => {
-                      pointerTypeRef.current = event.pointerType;
-                    }}
-                    onClick={() => {
-                      if (pointerTypeRef.current === "touch") toggle(index);
-                    }}
-                    onKeyDown={(event) => {
-                      if (event.key === "Enter" || event.key === " ") {
-                        event.preventDefault();
-                        toggle(index);
-                      }
-                    }}
-                  >
-                    <figure className={styles.portrait}>
-                      {profile.photo ? (
-                        <Image
-                          src={profile.photo}
-                          alt={profile.name}
-                          fill
-                          sizes="(max-width: 767px) 90vw, (max-width: 1023px) 45vw, 28rem"
-                          className={styles.photo}
-                        />
-                      ) : (
-                        <div className={styles.monogram} aria-hidden="true">
-                          {initialsOf(profile.name)}
-                        </div>
-                      )}
-                      <span className={styles.curtain} aria-hidden="true" />
-                    </figure>
-                    <div className={styles.cardBody}>
-                      <h4 className={styles.cardName}>{profile.name}</h4>
-                      <p className={styles.cardRole}>{profile.role}</p>
-                      <div className={styles.bio}>
-                        <p className={styles.bioText}>{profile.bio}</p>
-                      </div>
+      <div className={styles.layout}>
+        <div className={styles.spotlight}>
+          {profiles.map((profile, index) => {
+            const isActive = index === active;
+            return (
+              <div
+                key={profile.name}
+                id={`${baseId}-panel-${index}`}
+                role="tabpanel"
+                aria-labelledby={`${baseId}-tab-${index}`}
+                aria-hidden={!isActive}
+                inert={!isActive}
+                className={cx(styles.panel, isActive && styles.panelActive)}
+              >
+                <div className={styles.portraitOuter}>
+                  <div className={styles.portraitFrame}>
+                    <div className={styles.portraitInner}>
+                      <Photo profile={profile} variant="portrait" eager={eager} />
                     </div>
-                  </article>
-                ) : (
-                  <div className={cx(styles.slot, isDimmed && styles.cardDimmed)}>
-                    <div className={styles.slotHeader}>
-                      <span className={styles.slotIndex}>
-                        Record {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span className={styles.slotMark} aria-hidden="true" />
-                    </div>
-                    <p className={styles.slotTitle}>{group.placeholderTitle}</p>
-                    <p className={styles.slotStatus}>{group.placeholderStatus}</p>
-                    <p className={styles.slotNote}>{group.placeholderNote}</p>
                   </div>
-                )}
-              </Reveal>
-            </li>
-          );
-        })}
-      </ol>
+                </div>
+                <div className={styles.text}>
+                  <p className={cx(styles.reveal, styles.counter)}>
+                    {pad(index + 1)}
+                    <span className={styles.counterTotal}> / {pad(profiles.length)}</span>
+                  </p>
+                  <h4 className={cx(styles.reveal, styles.name)}>{profile.name}</h4>
+                  <p className={cx(styles.reveal, styles.role)}>{profile.role}</p>
+                  <span className={cx(styles.reveal, styles.rule)} aria-hidden="true" />
+                  <p className={cx(styles.reveal, styles.bio)}>{profile.bio}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div
+          role="tablist"
+          aria-orientation={vertical ? "vertical" : "horizontal"}
+          aria-label={group.title}
+          className={styles.roster}
+          onKeyDown={move}
+        >
+          {profiles.map((profile, index) => {
+            const isActive = index === active;
+            return (
+              <button
+                key={profile.name}
+                ref={(element) => {
+                  tabRefs.current[index] = element;
+                }}
+                type="button"
+                role="tab"
+                id={`${baseId}-tab-${index}`}
+                aria-selected={isActive}
+                aria-controls={`${baseId}-panel-${index}`}
+                tabIndex={isActive ? 0 : -1}
+                className={cx(styles.tab, isActive && styles.tabActive)}
+                onMouseEnter={() => hoverSelect(index)}
+                onMouseLeave={clearHover}
+                onFocus={() => select(index)}
+                onClick={() => select(index)}
+              >
+                <span className={styles.thumb}>
+                  <Photo profile={profile} variant="thumb" eager={eager} />
+                </span>
+                <span className={styles.tabText}>
+                  <span className={styles.tabName}>{profile.name}</span>
+                  <span className={styles.tabRole}>{profile.role}</span>
+                </span>
+                <Icon name="arrow-right" className={styles.tabArrow} />
+              </button>
+            );
+          })}
+
+          {Array.from({ length: pending }, (_, slot) => (
+            <div
+              key={`pending-${slot}`}
+              role="tab"
+              aria-selected="false"
+              aria-disabled="true"
+              tabIndex={-1}
+              className={cx(styles.tab, styles.tabPending)}
+            >
+              <span className={cx(styles.thumb, styles.thumbPending)} aria-hidden="true" />
+              <span className={styles.tabText}>
+                <span className={styles.tabName}>{group.placeholderTitle}</span>
+                <span className={styles.tabRole}>{group.placeholderStatus}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
     </Stack>
   );
 }
@@ -239,8 +258,8 @@ export function Leadership() {
             </Stack>
           </Reveal>
 
-          {leadership.groups.map((group) => (
-            <LeadershipGroupSection key={group.id} group={group} />
+          {leadership.groups.map((group, index) => (
+            <LeadershipGroupSection key={group.id} group={group} eager={index === 0} />
           ))}
         </Stack>
       </Container>

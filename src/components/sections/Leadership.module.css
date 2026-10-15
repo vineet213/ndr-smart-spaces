@@ -12,231 +12,95 @@
   color: var(--color-maroon);
 }
 
-/* member grid ------------------------------------------------------------- */
+/* Layout ------------------------------------------------------------------ */
+/* Spotlight on the left (~62%), roster on the right (~38%). Neither column    */
+/* ever changes size: the spotlight's panels share one grid cell (below).      */
 
-/* Flexbox rather than CSS Grid: the active tile's flex-basis grows and the   */
-/* row reflows around it with a single, natively-smooth animation — no FLIP  */
-/* trickery or absolute positioning needed for the "pop & grow" motion.       */
-.grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: var(--space-5xl) var(--space-4xl);
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 67fr) minmax(0, 33fr);
+  gap: var(--space-6xl);
+  align-items: start;
 }
 
-.item {
-  flex: 0 1 calc(23% - (3 * var(--space-4xl) / 4));
-  min-width: 14.5rem;
-  transition: flex-basis 420ms var(--ease-standard);
+/* Spotlight ----------------------------------------------------------------- */
+/* Every panel occupies the SAME cell (grid-area 1/1), so the container is     */
+/* always as tall as the tallest profile and switching people can't move the   */
+/* page. Inactive panels stay in layout but are hidden and inert.              */
+
+.spotlight {
+  display: grid;
 }
 
-/* Desktop only: the active tile claims extra width. At the tablet/mobile     */
-/* tiers below, .item's own basis already matches this value (tablet) or is  */
-/* explicitly reset (mobile), so no width change happens there — only the    */
-/* bio's height reveal communicates "active" on narrower screens, which is   */
-/* what a touch/small-screen accordion should feel like.                     */
-.itemActive {
-  z-index: 1;
+.panel {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: minmax(0, 17.5rem) minmax(0, 1fr);
+  gap: var(--space-4xl);
+  align-items: start;
+  visibility: hidden;
+  /* Stays visible while its content fades out, then hides. */
+  transition: visibility 0s linear 260ms;
 }
 
-.slot {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  height: 100%;
-  padding: var(--space-lg);
-  border: 1px solid var(--color-hairline-light);
-  border-radius: var(--radius-sm);
-  transition:
-    border-color var(--duration-standard) var(--ease-standard),
-    opacity 380ms var(--ease-standard);
+.panelActive {
+  visibility: visible;
+  transition-delay: 0s;
 }
 
-@media (hover: hover) {
-  .slot:hover {
-    border-color: var(--color-gold-40);
-  }
-}
+/* Portrait -------------------------------------------------------------------- */
 
-.slotHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-md);
-  margin-bottom: var(--space-md);
-  padding-bottom: var(--space-md);
-  border-bottom: 1px solid var(--color-hairline-light);
-}
-
-.slotIndex {
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-journey-year);
-  line-height: 1;
-  color: var(--color-maroon);
-}
-
-.slotMark {
-  flex: 0 0 auto;
-  width: 10px;
-  height: 10px;
-  background-color: var(--color-gold);
-  transform: rotate(45deg);
-}
-
-.slotTitle {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-lede);
-  line-height: var(--leading-lede);
-  color: var(--color-charcoal);
-}
-
-.slotStatus {
-  margin: 0;
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-meta);
-  line-height: var(--leading-meta);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-meta);
-  color: var(--color-maroon);
-}
-
-.slotNote {
-  margin: 0;
-  margin-top: var(--space-sm);
-  font-family: var(--font-body);
-  font-size: var(--font-small);
-  line-height: var(--leading-small);
-  color: var(--color-stone);
-}
-
-/* member card --------------------------------------------------------------- */
-
-.card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  height: 100%;
-  padding: var(--space-lg);
-  cursor: pointer;
-  background-color: transparent;
-  border: 1px solid var(--color-hairline-light);
-  border-radius: var(--radius-sm);
-  transition:
-    background-color 380ms var(--ease-standard),
-    border-color 380ms var(--ease-standard),
-    transform 380ms var(--ease-standard),
-    opacity 380ms var(--ease-standard),
-    box-shadow 380ms var(--ease-standard);
-}
-
-.card:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 3px;
-}
-
-/* The active tile lifts and gains a soft shadow — a restrained "this one is  */
-/* featured" cue that doesn't require inverting the card to a dark surface.  */
-.cardActive {
-  background-color: var(--color-ivory-dim);
-  border-color: var(--color-gold-40);
-  transform: translateY(-3px);
-  box-shadow: 0 20px 34px -20px rgba(28, 26, 25, 0.35);
-}
-
-/* Desktop only (matches where the tile itself widens): the active card       */
-/* switches to a side-by-side layout — a fixed-width portrait beside the      */
-/* text column — instead of stacking the photo on top of the bio. This is    */
-/* what actually keeps the card from ballooning in height: the photo's own    */
-/* height is now decoupled from the tile's growing width entirely (it no      */
-/* longer scales with a locked aspect-ratio), and the card's total height     */
-/* becomes whichever column is taller, not the sum of photo + text stacked.   */
-/* The row is a size container so the rules below can ask how wide it really
-   is, and so the portrait cap can be written in cqw (1% of the row width). */
-.grid {
-  container-type: inline-size;
-}
-
-/* The widening only applies while the row is wide enough for four tiles to
-   sit on one line at their percentage width (23% of the row minus the gap
-   share stays above the 14.5rem min-width from 70rem up). In a narrower row
-   the tiles sit at min-width and the fourth wraps, so a widening tile could
-   end up narrower than the spot the cursor opened it from, or jump to the
-   line above. There the tile keeps its width and only grows in height. */
-@container (min-width: 70rem) {
-  .itemActive {
-    flex-basis: 44%;
-  }
-
-  .itemDimmed {
-    flex-basis: 14%;
-    min-width: 0;
-  }
-
-  /* A closing tile switches back to the stacked layout at once while its
-     width is still animating down from 44%. Without a cap the portrait would
-     fill that still-wide card (roughly 500 x 640px for a moment) and land
-     under a cursor that had just left through the bottom edge. Capped at the
-     tile's resting width (.item's basis and min-width, minus the card's
-     padding and border), it is the same size mid-collapse as at rest. */
-  .card:not(.cardActive) .portrait {
-    max-width: calc(max(23cqw - (3 * var(--space-4xl) / 4), 14.5rem) - (2 * var(--space-lg)) - 1px);
-  }
-
-  .cardActive {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: var(--space-xl);
-    /* Never shorter than the tile it grew from (--rest-h is measured in
-       Leadership.tsx), so opening can't leave the cursor below the card. */
-    min-height: var(--rest-h, 0px);
-  }
-
-  .cardActive .portrait {
-    width: 11.5rem;
-    flex: 0 0 auto;
-    aspect-ratio: 4 / 5;
-  }
-
-  .cardActive .cardBody {
-    flex: 1 1 auto;
-    padding-top: var(--space-2xs, 2px);
-  }
-}
-
-/* Siblings dim while another card in the same group is active/focused. */
-.cardDimmed {
-  opacity: 0.6;
-}
-
-.portrait {
+.portraitOuter {
   position: relative;
   width: 100%;
+}
+
+/* A square bracket in the logo's own gesture, tucked at the portrait's corner. */
+.portraitOuter::after {
+  content: "";
+  position: absolute;
+  top: -0.875rem;
+  right: -0.875rem;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-top: 3px solid var(--color-gold);
+  border-right: 3px solid var(--color-gold);
+  pointer-events: none;
+}
+
+.portraitFrame {
   aspect-ratio: 4 / 5;
-  margin: 0;
   overflow: hidden;
   background-color: var(--color-charcoal);
-  border-radius: var(--radius-sm);
+  box-shadow: 0 28px 48px -28px rgba(28, 26, 25, 0.5);
+  /* Hidden: clipped from the top, so it reveals bottom -> top. */
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 280ms var(--ease-standard);
+}
+
+.panelActive .portraitFrame {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 900ms cubic-bezier(0.22, 1, 0.36, 1) 60ms;
+}
+
+.portraitInner {
+  width: 100%;
+  height: 100%;
+  transform: scale(1.08);
+  transition: transform 320ms var(--ease-standard);
+}
+
+.panelActive .portraitInner {
+  transform: scale(1);
+  transition: transform 1200ms cubic-bezier(0.22, 1, 0.36, 1) 60ms;
 }
 
 .photo {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  transition: transform 420ms var(--ease-standard);
-}
-
-/* The "pop": a restrained zoom on the portrait itself when active. */
-.cardActive .photo {
-  transform: scale(1.06);
+  object-position: center top;
 }
 
 .monogram {
@@ -249,42 +113,68 @@
   font-weight: var(--font-weight-display-medium);
   font-size: var(--font-metric);
   color: var(--color-gold);
+  background-color: var(--color-charcoal);
 }
 
-/* Curtain: the same tonal rise used on the APM function cards and the       */
-/* Vision/Mission panels, contained entirely within the portrait (which has  */
-/* overflow: hidden) — it can never bleed outside its own figure.            */
-.curtain {
-  position: absolute;
-  inset: 0;
-  background-color: var(--color-maroon-dark);
-  opacity: 0.34;
-  transform: scaleY(0);
-  transform-origin: bottom;
-  transition: transform 420ms var(--ease-standard);
-}
+/* Text ------------------------------------------------------------------------ */
 
-.cardActive .curtain {
-  transform: scaleY(1);
-}
-
-.cardBody {
+.text {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  align-items: flex-start;
+  gap: var(--space-md);
   min-width: 0;
+  padding-top: var(--space-md);
 }
 
-.cardName {
+/* Each line rises and fades in with a short stagger; fading out is quick and    */
+/* un-staggered. Opacity and transform only.                                    */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 200ms var(--ease-standard),
+    transform 200ms var(--ease-standard);
+}
+
+.panelActive .reveal {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 650ms var(--ease-standard) var(--delay, 0ms),
+    transform 750ms var(--ease-standard) var(--delay, 0ms);
+}
+
+.counter {
+  --delay: 140ms;
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--color-gold) 62%, var(--color-charcoal));
+}
+
+.counterTotal {
+  color: var(--color-stone);
+}
+
+.name {
+  --delay: 200ms;
   margin: 0;
   font-family: var(--font-display);
-  font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-lede);
-  line-height: var(--leading-lede);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(2rem, 2.8vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
   color: var(--color-charcoal);
+  text-wrap: balance;
 }
 
-.cardRole {
+.role {
+  --delay: 260ms;
   margin: 0;
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
@@ -295,31 +185,241 @@
   color: var(--color-maroon);
 }
 
-/* Bio reveal: grows open inside the card itself (never an overlay), via a   */
-/* max-height transition to a ceiling generous enough for the longest        */
-/* supplied biography at the narrowest column it renders in. Collapsed, it   */
-/* occupies zero space — the default tile is exactly as minimal as the brief */
-/* asks for, with nothing reserved and unused.                               */
-.bio {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
+/* Draws left -> right on selection (scaleX instead of animating width). */
+.rule {
+  --delay: 320ms;
+  display: block;
+  width: 4rem;
+  height: 2px;
+  margin-block: var(--space-xs);
+  background-color: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.panelActive .rule {
+  transform: scaleX(1);
   transition:
-    max-height 420ms var(--ease-standard),
-    opacity 300ms var(--ease-standard);
+    opacity 650ms var(--ease-standard) var(--delay),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1) var(--delay);
 }
 
-.cardActive .bio {
-  max-height: 36rem;
-  opacity: 1;
-}
-
-.bioText {
-  margin: var(--space-sm) 0 0;
+.bio {
+  --delay: 380ms;
+  margin: 0;
+  max-width: 38rem;
   font-family: var(--font-body);
-  font-size: var(--font-small);
-  line-height: 1.45;
+  font-size: 1rem;
+  line-height: 1.65;
   color: var(--color-ink-muted);
+}
+
+/* Roster ---------------------------------------------------------------------- */
+
+.roster {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--color-hairline-stone);
+}
+
+.tab {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-xl);
+  width: 100%;
+  min-height: 5.5rem;
+  padding: var(--space-md) var(--space-lg);
+  margin: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--color-hairline-stone);
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color 320ms var(--ease-standard);
+}
+
+/* Active marker: a maroon bar that grows up from the row's centre. */
+.tab::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: var(--color-maroon);
+  transform: scaleY(0);
+  transition: transform 360ms var(--ease-standard);
+}
+
+.tabActive {
+  background-color: rgba(110, 31, 38, 0.06);
+}
+
+.tabActive::before {
+  transform: scaleY(1);
+}
+
+@media (hover: hover) {
+  .tab:not(.tabActive):not(.tabPending):hover {
+    background-color: rgba(110, 31, 38, 0.03);
+  }
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: -4px;
+}
+
+.thumb {
+  position: relative;
+  display: block;
+  width: 4.5rem;
+  height: 4.5rem;
+  overflow: hidden;
+  background-color: var(--color-charcoal);
+  filter: grayscale(1);
+  transition: filter 360ms var(--ease-standard);
+}
+
+.tabActive .thumb {
+  filter: grayscale(0);
+}
+
+.thumb .photo,
+.thumb .monogram {
+  width: 100%;
+  height: 100%;
+}
+
+.thumb .monogram {
+  font-size: var(--font-lede);
+}
+
+.tabText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  min-width: 0;
+}
+
+.tabName {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-lede);
+  line-height: 1.15;
+  color: var(--color-charcoal);
+}
+
+.tabRole {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-meta);
+  color: var(--color-maroon);
+}
+
+.tabArrow {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-gold);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity 320ms var(--ease-standard),
+    transform 320ms var(--ease-standard);
+}
+
+.tabActive .tabArrow {
+  opacity: 1;
+  transform: none;
+}
+
+/* Seats not yet confirmed: muted and not interactive. */
+.tabPending {
+  cursor: default;
+}
+
+.tabPending .tabName,
+.tabPending .tabRole {
+  color: var(--color-stone);
+}
+
+.thumbPending {
+  filter: none;
+  background-color: transparent;
+  border: 1px dashed var(--color-hairline-stone);
+}
+
+/* Tablets: the roster becomes a swipeable strip of chips above the spotlight. */
+@media (max-width: 1023px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4xl);
+  }
+
+  .roster {
+    order: -1;
+    flex-direction: row;
+    gap: var(--space-md);
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    padding-bottom: var(--space-sm);
+    border-top: 0;
+  }
+
+  .tab {
+    flex: 0 0 auto;
+    width: 7.5rem;
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+    border: 1px solid var(--color-hairline-stone);
+    scroll-snap-align: start;
+  }
+
+  .tab::before {
+    display: none;
+  }
+
+  .tabActive {
+    border-color: var(--color-gold);
+    box-shadow: inset 0 0 0 1px var(--color-gold);
+  }
+
+  .thumb {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .tabName {
+    font-size: 0.8125rem;
+    overflow-wrap: anywhere;
+  }
+
+  .tabRole,
+  .tabArrow {
+    display: none;
+  }
+
+  .panel {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4xl);
+  }
+
+  .portraitOuter {
+    width: min(100%, 22rem);
+  }
 }
 
 @media (max-width: 1439px) {
@@ -328,40 +428,38 @@
   }
 }
 
-@media (max-width: 1023px) {
-  .item {
-    flex-basis: calc(50% - (var(--space-4xl) / 2));
-  }
-}
-
 @media (max-width: 767px) {
   .section {
     padding-block: var(--section-padding-mobile);
   }
 
-  .item {
-    flex-basis: 100%;
+  .portraitOuter {
+    width: min(100%, 20rem);
   }
 
-  .itemActive {
-    flex-basis: 100%;
+  .name {
+    font-size: 2rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .item,
-  .card,
-  .slot,
-  .photo,
-  .curtain,
-  .bio {
+  .panel,
+  .portraitFrame,
+  .portraitInner,
+  .reveal,
+  .rule,
+  .tab,
+  .tab::before,
+  .thumb,
+  .tabArrow,
+  .panelActive .portraitFrame,
+  .panelActive .portraitInner,
+  .panelActive .reveal,
+  .panelActive .rule {
     transition: none;
   }
-}
 
-/* Phones: single narrow column — long bios need more than the desktop ceiling. */
-@media (max-width: 767px) {
-  .cardActive .bio {
-    max-height: 90rem;
+  .portraitInner {
+    transform: none;
   }
 }
