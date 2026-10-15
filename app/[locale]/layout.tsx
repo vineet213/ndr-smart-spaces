@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Header } from "@/components/header";
 import { PageTransition } from "@/components/PageTransition";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { runNavigationValidation } from "@/lib/navigationValidation";
 
@@ -16,6 +17,7 @@ export default function LocaleLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <SmoothScroll />
+      <ScrollToTop />
       <a href="#main-content" className="skip-link">
         Skip to content
       </a>
