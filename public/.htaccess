@@ -1,14 +1,15 @@
 # NDR Smart Spaces: Apache (cPanel) settings for the static export.
 # Safe to leave in place; every block is skipped if the module is missing.
 
-# Home page: send "/" to the English site.
+# Send every visitor to HTTPS (certificate renewals under /.well-known are exempt).
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteRule ^$ /en/ [R=302,L]
+  RewriteCond %{HTTPS} off
+  RewriteCond %{REQUEST_URI} !^/\.well-known/
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-  # To force HTTPS once the SSL certificate is active, remove the leading "#":
-  # RewriteCond %{HTTPS} off
-  # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+  # Home page: send "/" to the English site.
+  RewriteRule ^$ /en/ [R=302,L]
 </IfModule>
 
 ErrorDocument 404 /404.html
