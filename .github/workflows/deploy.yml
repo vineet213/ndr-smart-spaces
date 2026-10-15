@@ -19,17 +19,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    env:
-      FTP_HOST: ${{ secrets.FTP_HOST }}
-      FTP_USER: ${{ secrets.FTP_USER }}
-      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-      # Folder on the FTP account to upload into. "/" when the FTP account is
-      # restricted to public_html (recommended).
-      FTP_DIR: ${{ vars.FTP_DIR || '/' }}
-      # The server's FTP certificate is currently self-signed and expired, so
-      # strict checking is off by default (the connection is still encrypted).
-      # Set the repository variable FTP_VERIFY_CERT to "yes" once it is renewed.
-      FTP_VERIFY_CERT: ${{ vars.FTP_VERIFY_CERT || 'no' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -43,8 +32,14 @@ jobs:
       - name: Build
         run: npm run build
 
+      # The FTP secrets are scoped to the two steps below only, so the npm
+      # install/build steps (which run third-party package code) never see them.
       - name: Check upload settings
         id: settings
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
           if [ -z "$FTP_HOST" ] || [ -z "$FTP_USER" ] || [ -z "$FTP_PASSWORD" ]; then
             echo "::warning::Built OK but NOT uploaded: add the FTP_HOST, FTP_USER and FTP_PASSWORD secrets (see docs/auto-deploy.md)."
@@ -55,6 +50,17 @@ jobs:
 
       - name: Upload to server
         if: steps.settings.outputs.ready == 'true'
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          # Folder on the FTP account to upload into. "/" when the FTP account is
+          # restricted to public_html (recommended).
+          FTP_DIR: ${{ vars.FTP_DIR || '/' }}
+          # The server's FTP certificate is currently self-signed and expired, so
+          # strict checking is off by default (the connection is still encrypted).
+          # Set the repository variable FTP_VERIFY_CERT to "yes" once it is renewed.
+          FTP_VERIFY_CERT: ${{ vars.FTP_VERIFY_CERT || 'no' }}
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq lftp
           rm -rf out/videos/homepage   # unused 21 MB video
