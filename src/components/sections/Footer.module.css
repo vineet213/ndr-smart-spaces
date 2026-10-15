@@ -293,6 +293,11 @@
     order: 1; /* after the short columns, so they share a row */
   }
 
+  /* Tripled: must beat .colItem.colItem (declared after it) for full width. */
+  .wideCol.wideCol.wideCol {
+    grid-column: 1 / -1;
+  }
+
   /* The short link columns sit side by side instead of one long stack. */
   .colItem.colItem {
     grid-column: span 4;
@@ -384,5 +389,29 @@
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
+  }
+}
+
+/* Tablets (768-1023px): the brand block runs across the row (logo left, links  */
+/* right) and the long Verticals list flows into two columns, which is what     */
+/* keeps the footer short here.                                                 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .brand.brand {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4xl);
+  }
+
+  .ecosystem {
+    flex-direction: row;
+    gap: var(--space-3xl);
+  }
+
+  .wideCol .colList {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-4xl);
+    align-items: start;
   }
 }
