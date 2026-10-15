@@ -302,7 +302,7 @@ export function Leadership() {
         <Stack gap="5xl">
           <Reveal>
             <Stack gap="xl">
-              <Heading variant="section" id="leadership-title">
+              <Heading variant="section" id="leadership-title" className={styles.heading}>
                 {leadership.heading}
               </Heading>
             </Stack>

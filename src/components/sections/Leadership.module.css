@@ -4,8 +4,13 @@
   overflow-x: clip;
 }
 
+.heading {
+  text-align: center;
+}
+
 .groupTitle {
   margin: 0;
+  text-align: center;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
   font-size: var(--font-lede);
@@ -16,7 +21,7 @@
 /* Grid ------------------------------------------------------------------------ */
 /* Every group uses the SAME card width, so portraits are identical in size and  */
 /* the columns line up between groups. The column count comes from the group     */
-/* (--cols: 3 for the Board, 4 for the team), cards are left-aligned and never   */
+/* (--cols: 3 for the Board, 4 for the team), rows are centred and cards never   */
 /* stretched, and the width is capped so four always fit on one row.             */
 
 .grid {
@@ -27,7 +32,7 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(var(--cols, 3), var(--card-w));
-  justify-content: start;
+  justify-content: center;
   gap: var(--space-5xl) var(--gap);
 }
 

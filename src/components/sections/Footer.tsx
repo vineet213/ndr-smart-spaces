@@ -4,6 +4,7 @@ import { Container, Grid, GridItem } from "@/components/layout";
 import { ExternalLink, Icon } from "@/components/ui";
 import { footer } from "@/lib/data/homepage";
 import { navItems, type MenuLink } from "@/lib/data/navigation";
+import { cx } from "../ui/cx";
 import styles from "./Footer.module.css";
 
 type FooterColumn = { heading: string; links: readonly MenuLink[] };
@@ -37,6 +38,9 @@ function buildFooterColumns(): FooterColumn[] {
 }
 
 const footerColumns = buildFooterColumns();
+
+/* A column with nested sub-pages (Verticals) gets a wider slot so its long labels wrap less. */
+const isWide = (column: FooterColumn) => column.links.some((link) => link.children?.length);
 
 function FooterNavColumn({ heading, links }: FooterColumn) {
   return (
@@ -81,7 +85,7 @@ export function Footer({ hideWorkWithUsCta = true }: { hideWorkWithUsCta?: boole
         ) : null}
 
         <Grid className={styles.mainGrid}>
-          <GridItem span={4} className={styles.brand}>
+          <GridItem span={3} className={styles.brand}>
             <Link href="/en" aria-label="NDR Smart Spaces: home">
               <Image
                 src="/logos/ndr-smart-spaces-lockup.svg"
@@ -102,7 +106,11 @@ export function Footer({ hideWorkWithUsCta = true }: { hideWorkWithUsCta?: boole
             </ul>
           </GridItem>
           {footerColumns.map((column) => (
-            <GridItem key={column.heading} span={2}>
+            <GridItem
+              key={column.heading}
+              span={isWide(column) ? 3 : 2}
+              className={cx(styles.colItem, isWide(column) && styles.wideCol)}
+            >
               <FooterNavColumn heading={column.heading} links={column.links} />
             </GridItem>
           ))}
