@@ -58,6 +58,40 @@
   }
 }
 
+/* The liquid indicator: one shared hairline that glides beneath whichever nav    */
+/* link is hovered or focused (position set from MainNav.tsx). It sits just      */
+/* under the link text, around the vertical middle of the bar, so it never lands */
+/* on the gold rule at the bar's bottom edge. A faint gold glow and a soft       */
+/* fade at both ends keep it refined rather than a hard line.                    */
+.indicator {
+  position: absolute;
+  left: 0;
+  top: calc(50% + 0.9rem);
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(245, 201, 127, 0) 0%,
+    var(--color-gold-light) 18%,
+    var(--color-gold) 82%,
+    rgba(240, 182, 90, 0) 100%
+  );
+  box-shadow: 0 0 10px rgba(240, 182, 90, 0.5);
+  border-radius: 2px;
+  opacity: 0;
+  transition:
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 220ms var(--ease-standard);
+  pointer-events: none;
+  will-change: transform, width;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator {
+    transition: opacity 120ms linear;
+  }
+}
+
 @media (min-width: 1024px) {
   .nav {
     display: block;
