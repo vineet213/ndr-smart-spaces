@@ -415,3 +415,54 @@
     align-items: start;
   }
 }
+
+/* Link hover (devices with hover only): the link under the pointer turns bright   */
+/* gold with a soft glow and a thin gold underline that draws in from the left,    */
+/* while the other links in the same column dim. Colour, text-shadow, opacity and  */
+/* a background-size underline only: no box changes size or position. Works the    */
+/* same for keyboard focus.                                                        */
+.colLink,
+.subLink,
+.emailLink,
+.contactCta {
+  background-image: linear-gradient(var(--color-gold), var(--color-gold));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0 1px;
+  text-shadow: 0 0 0 rgba(240, 182, 90, 0);
+  transition:
+    color 320ms var(--ease-standard),
+    opacity 320ms var(--ease-standard),
+    text-shadow 320ms var(--ease-standard),
+    background-size 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+  .colLink:hover,
+  .subLink:hover,
+  .colLink:focus-visible,
+  .subLink:focus-visible,
+  .emailLink:hover,
+  .contactCta:hover,
+  .emailLink:focus-visible,
+  .contactCta:focus-visible {
+    color: var(--color-gold-light);
+    text-shadow: 0 0 14px rgba(240, 182, 90, 0.55);
+    background-size: 100% 1px;
+  }
+
+  /* Dim the siblings in the same column (ignored where :has() is unsupported). */
+  .col:has(.colLink:hover, .subLink:hover, .colLink:focus-visible, .subLink:focus-visible)
+    :is(.colLink, .subLink):not(:hover, :focus-visible) {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .colLink,
+  .subLink,
+  .emailLink,
+  .contactCta {
+    transition: none;
+  }
+}
