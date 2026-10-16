@@ -6,7 +6,7 @@ import styles from "./Reveal.module.css";
 import { cx } from "../ui/cx";
 
 export type RevealDelay = 0 | 1 | 2 | 3 | 4 | 5;
-export type RevealVariant = "rise" | "fade";
+export type RevealVariant = "rise" | "fade" | "wipe" | "unmask";
 
 const delayClass: Record<RevealDelay, string> = {
   0: styles.d0,
@@ -20,6 +20,8 @@ const delayClass: Record<RevealDelay, string> = {
 const variantClass: Record<RevealVariant, string> = {
   rise: styles.rise,
   fade: styles.fade,
+  wipe: styles.wipe,
+  unmask: styles.unmask,
 };
 
 type RevealProps = {

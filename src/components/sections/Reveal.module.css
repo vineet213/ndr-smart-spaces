@@ -13,6 +13,30 @@
   transform: translateY(var(--space-lg));
 }
 
+/* Headings: revealed left to right, like a line being drawn. The clip sits on */
+/* the content, not the observed wrapper: a fully clipped target never counts   */
+/* as intersecting, so it would never be revealed.                              */
+.wipe,
+.unmask {
+  opacity: 1;
+}
+
+.wipe > * {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1100ms var(--ease-standard);
+}
+
+/* Images: opened from the bottom up, like a curtain rising. */
+.unmask > * {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1300ms var(--ease-standard);
+}
+
+.isInView.wipe > *,
+.isInView.unmask > * {
+  clip-path: inset(0 0 0 0);
+}
+
 .isInView {
   opacity: 1;
   /* `none`, not translateY(0): a lingering transform makes this wrapper the     */
@@ -46,9 +70,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
+  .reveal,
+  .wipe > *,
+  .unmask > * {
     opacity: 1;
     transform: none;
+    clip-path: none;
     transition: none;
   }
 }
