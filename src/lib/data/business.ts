@@ -292,10 +292,9 @@ export const corporateStructure = {
       route: { label: "Ave Acres", href: "https://aveacres.com", external: true },
     },
     {
-      name: "NDR InvIT",
-      function: "Separate listed entity under the NDR Group",
+      name: "Third-Party Listed Entity",
+      function: "Purchaser of SPV ownership",
       relationship: "Sale of SPV ownership · consideration",
-      route: { label: "NDR InvIT", href: "https://ndrinvit.com", external: true },
     },
     {
       name: "Third parties",
@@ -410,7 +409,7 @@ export const vertical02AssetManagement = {
       title: "Facility & Technical Management",
       description:
         "Upkeep of buildings, MEP systems, fire safety, roads, and utilities to keep the park physically operational.",
-      image: { src: "/images/asset-management/facility-technical.jpg", width: 960, height: 639 },
+      image: { src: "/images/asset-management/facility-technical.jpg", width: 1471, height: 974 },
     },
     {
       index: "02",
@@ -424,7 +423,7 @@ export const vertical02AssetManagement = {
       title: "Soft Services",
       description:
         "Day-to-day upkeep like housekeeping, landscaping, and pest control that maintains the park's cleanliness and environment.",
-      image: { src: "/images/asset-management/soft-services.jpg", width: 960, height: 640 },
+      image: { src: "/images/asset-management/soft-services.jpg", width: 1600, height: 1067 },
     },
     {
       index: "04",
@@ -596,11 +595,11 @@ export const vertical02DevelopmentLifecycle = {
       title: "Safety, Security & Risk Management",
       body: "Implementing robust security, safety, and compliance measures to protect people, assets, and operations.",
       image: {
-        src: "/images/lifecycle/07-safety-risk-harness.jpg",
-        alt: "Roofing crew in hard hats, respirators and fall-arrest harnesses",
-        credit: "Image: OSHA / Wikimedia Commons, public domain",
-        width: 1920,
-        height: 1280,
+        src: "/images/lifecycle/07-safety-equipment.jpg",
+        alt: "Caution signs requiring hearing and eye protection on the floor of an industrial workshop",
+        credit: "",
+        width: 1536,
+        height: 1024,
       },
     },
     {
