@@ -46,6 +46,7 @@ export function OurStory() {
                       alt={aboutStory.image.alt}
                       fill
                       sizes="(max-width: 767px) 100vw, 40vw"
+                      loading="eager"
                       className={styles.plateImage}
                     />
                   </div>
