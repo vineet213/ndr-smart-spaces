@@ -29,18 +29,29 @@ export function AboutTimeline() {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
     let current = -2;
+    let centres: number[] = [];
+    let listHeight = 1;
 
-    const update = () => {
-      frame = 0;
+    /* Layout reads happen only here, on mount and when the list resizes. */
+    const measure = () => {
       const listTop = list.getBoundingClientRect().top;
-      const centres = nodes.map((node) => {
+      centres = nodes.map((node) => {
         const box = node.getBoundingClientRect();
         return box.top + box.height / 2 - listTop;
       });
-      const end = centres[centres.length - 1];
+      listHeight = Math.max(list.offsetHeight, 1);
+    };
+
+    /* Per frame: one read, then only CSS variables that drive transforms, so  */
+    /* scrolling never triggers layout or repaints of the large art layers.    */
+    const update = () => {
+      frame = 0;
+      const listTop = list.getBoundingClientRect().top;
+      const end = centres[centres.length - 1] ?? 0;
       const focus = reduceMotion ? end : window.innerHeight * FOCUS - listTop;
       const tip = Math.min(Math.max(focus, 0), end);
-      list.style.setProperty("--tip", `${tip}px`);
+      list.style.setProperty("--tip", `${tip.toFixed(1)}px`);
+      list.style.setProperty("--tip-ratio", (tip / listHeight).toFixed(4));
 
       let next = -1;
       for (let index = 0; index < centres.length; index += 1) {
@@ -56,12 +67,17 @@ export function AboutTimeline() {
       if (frame === 0) frame = window.requestAnimationFrame(update);
     };
 
+    measure();
     update();
+    const resizeObserver = new ResizeObserver(() => {
+      measure();
+      schedule();
+    });
+    resizeObserver.observe(list);
     window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
     return () => {
+      resizeObserver.disconnect();
       window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
       if (frame !== 0) window.cancelAnimationFrame(frame);
     };
   }, []);
@@ -93,19 +109,24 @@ export function AboutTimeline() {
               >
                 <WavePaths />
               </svg>
-              <svg
-                className={cx(styles.waves, styles.wavesLit)}
-                viewBox="0 0 1000 2000"
-                preserveAspectRatio="none"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.4}
-                focusable="false"
-              >
-                <WavePaths />
-              </svg>
+              <div className={styles.litClip}>
+                <div className={styles.litInner}>
+                  <svg
+                    className={cx(styles.waves, styles.wavesLit)}
+                    viewBox="0 0 1000 2000"
+                    preserveAspectRatio="none"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1.4}
+                    focusable="false"
+                  >
+                    <WavePaths />
+                  </svg>
+                </div>
+              </div>
             </div>
             <span className={styles.progress} aria-hidden="true" />
+            <span className={styles.progressHead} aria-hidden="true" />
             <ol className={styles.items}>
               {aboutTimeline.nodes.map((node, index) => (
                 <li
