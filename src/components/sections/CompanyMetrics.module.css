@@ -1,6 +1,47 @@
+/* Lit like the other dark bands: a gold glow behind the middle figure, deep red */
+/* at the edges, faint contour lines and glowing gold dividers.                  */
 .band {
-  background-color: var(--color-charcoal);
+  position: relative;
+  overflow: hidden;
   padding-block: var(--space-9xl);
+  background-color: var(--color-charcoal-deep);
+  background-image:
+    radial-gradient(40% 120% at 50% 50%, rgba(240, 182, 90, 0.12) 0%, rgba(240, 182, 90, 0) 70%),
+    radial-gradient(30% 110% at 0% 50%, rgba(150, 40, 48, 0.4) 0%, rgba(150, 40, 48, 0) 70%),
+    radial-gradient(30% 110% at 100% 50%, rgba(150, 40, 48, 0.4) 0%, rgba(150, 40, 48, 0) 70%);
+}
+
+/* gold seam where the band meets the light section below */
+.band::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(240, 182, 90, 0) 0%,
+    var(--color-gold) 16%,
+    var(--color-gold-light) 50%,
+    var(--color-gold) 84%,
+    rgba(240, 182, 90, 0) 100%
+  );
+}
+
+.waves {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--color-gold);
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.bandInner {
+  position: relative;
+  z-index: 1;
 }
 
 .grid {
@@ -24,8 +65,29 @@
   padding-inline: var(--space-4xl);
 }
 
-.block + .block {
-  border-inline-start: 1px solid var(--color-hairline-dark);
+.block {
+  position: relative;
+}
+
+.block + .block::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  bottom: -10%;
+  left: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    rgba(240, 182, 90, 0),
+    var(--color-gold) 50%,
+    rgba(240, 182, 90, 0)
+  );
+  opacity: 0.55;
+}
+
+.bare .block + .block::before {
+  background: var(--color-hairline-light);
+  opacity: 1;
 }
 
 .value {
@@ -36,6 +98,7 @@
   letter-spacing: -0.02em;
   color: var(--color-gold);
   font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 2.5rem rgba(240, 182, 90, 0.35);
 }
 
 .label {
@@ -98,5 +161,10 @@
     border-inline-start: 0;
     border-block-start: 1px solid var(--color-hairline-dark);
     padding-block-start: var(--space-7xl);
+  }
+
+  /* stacked: the horizontal rule above replaces the vertical gold divider */
+  .block + .block::before {
+    display: none;
   }
 }

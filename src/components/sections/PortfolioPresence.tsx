@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { Container, Grid, GridItem } from "@/components/layout";
-import { Heading, VisuallyHidden } from "@/components/ui";
+import { Heading, Icon, TextLink, VisuallyHidden } from "@/components/ui";
 import type { MapLocation, ZoneId } from "@/lib/data/homepage";
 import { zones, mapLocations, portfolioPresence } from "@/lib/data/homepage";
 import { IndiaMap } from "./IndiaMap";
+import { Reveal, type RevealDelay } from "./Reveal";
 import styles from "./PortfolioPresence.module.css";
 import { cx } from "../ui/cx";
 
@@ -18,14 +19,16 @@ export function PortfolioPresence() {
       <Container>
         <Grid className={styles.grid}>
           <GridItem span={5} className={styles.content}>
-            <Heading variant="section" id="portfolio-presence-title">
-              {portfolioPresence.heading}
-            </Heading>
+            <Reveal variant="wipe">
+              <Heading variant="section" tone="dark" id="portfolio-presence-title">
+                {portfolioPresence.heading}
+              </Heading>
+            </Reveal>
             <ol className={styles.zoneList}>
-              {zones.map((zone) => {
+              {zones.map((zone, zoneIndex) => {
                 const active = activeZone === zone.id;
                 return (
-                  <li key={zone.id}>
+                  <Reveal as="li" key={zone.id} delay={(zoneIndex + 1) as RevealDelay}>
                     <div
                       className={cx(styles.zoneRow, active && styles.zoneRowActive)}
                       onMouseEnter={() => setActiveZone(zone.id)}
@@ -36,10 +39,18 @@ export function PortfolioPresence() {
                       </span>
                       <span className={styles.zoneFact}>{zone.cities.join(", ")}</span>
                     </div>
-                  </li>
+                  </Reveal>
                 );
               })}
             </ol>
+            <TextLink
+              tone="dark"
+              href={portfolioPresence.viewPortfolio.href}
+              className={styles.portfolioLink}
+            >
+              {portfolioPresence.viewPortfolio.label}
+              <Icon name="arrow-up-right" className={styles.portfolioLinkArrow} />
+            </TextLink>
           </GridItem>
           <GridItem span={7} className={styles.mapColumn}>
             <IndiaMap

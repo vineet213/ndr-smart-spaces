@@ -27,11 +27,12 @@
 }
 
 .outline {
-  fill: var(--color-ivory-dim);
-  stroke: var(--color-charcoal-deep);
-  stroke-width: 3.5;
+  fill: rgba(250, 247, 242, 0.035);
+  stroke: var(--color-gold);
+  stroke-width: 2.5;
   stroke-linejoin: round;
   stroke-linecap: round;
+  filter: drop-shadow(0 0 10px rgba(240, 182, 90, 0.35));
 }
 
 .leaders {
@@ -39,12 +40,12 @@
 }
 
 .leader {
-  stroke: rgba(28, 26, 25, 0.3);
+  stroke: rgba(240, 182, 90, 0.4);
   stroke-width: 1;
 }
 
 .anchorDot {
-  fill: rgba(28, 26, 25, 0.45);
+  fill: rgba(240, 182, 90, 0.7);
 }
 
 .dot {
@@ -71,21 +72,22 @@
     stroke var(--duration-standard) var(--ease-standard);
 }
 
-/* Thin ivory keyline just outside the red outline, so the dot stays crisp over map lines. */
+/* Thin dark keyline around each dot, so it stays crisp over the gold outline. */
 .rim {
   fill: none;
-  stroke: var(--color-ivory);
+  stroke: rgba(17, 16, 15, 0.9);
   stroke-width: 1.5;
   transform-origin: center;
   transform-box: fill-box;
   transition: transform var(--duration-standard) var(--ease-standard);
 }
 
-/* The dot itself: gold core, red outline. */
+/* The dot itself: a glowing gold point. */
 .node {
   fill: var(--color-gold);
-  stroke: var(--color-maroon);
-  stroke-width: 2.5;
+  stroke: var(--color-gold-light);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 6px rgba(240, 182, 90, 0.8));
   transform-origin: center;
   transform-box: fill-box;
   transition:
@@ -97,12 +99,12 @@
 /* Selected zone / hover / focus: invert to a red core with a gold outline. */
 .dotActive .node,
 .dotHovered .node {
-  fill: var(--color-maroon);
+  fill: var(--color-ivory);
   stroke: var(--color-gold);
 }
 
 .dotActive .halo {
-  fill: rgba(160, 53, 58, 0.14);
+  fill: rgba(240, 182, 90, 0.14);
 }
 
 .dotHovered .node,
@@ -111,8 +113,8 @@
 }
 
 .dotHovered .halo {
-  fill: rgba(160, 53, 58, 0.18);
-  stroke: var(--color-maroon);
+  fill: rgba(240, 182, 90, 0.2);
+  stroke: var(--color-gold);
 }
 
 .dotDim .node,
@@ -128,13 +130,13 @@
 }
 
 .dot:focus-visible .node {
-  fill: var(--color-maroon);
+  fill: var(--color-ivory);
   stroke: var(--color-gold);
 }
 
 .dot:focus-visible .halo {
-  fill: rgba(160, 53, 58, 0.18);
-  stroke: var(--color-maroon);
+  fill: rgba(240, 182, 90, 0.2);
+  stroke: var(--color-gold);
 }
 
 @media (hover: hover) {
@@ -144,19 +146,54 @@
   }
 
   .dot:hover .node {
-    fill: var(--color-maroon);
+    fill: var(--color-ivory);
     stroke: var(--color-gold);
   }
 
   .dot:hover .halo {
-    fill: rgba(160, 53, 58, 0.18);
-    stroke: var(--color-maroon);
+    fill: rgba(240, 182, 90, 0.2);
+    stroke: var(--color-gold);
   }
 }
 
 .dot:focus-visible {
   outline: 2px solid var(--color-gold);
   outline-offset: 2px;
+}
+
+/* Routes from the headquarters to every site, drawn in once on arrival. */
+.arcs {
+  pointer-events: none;
+}
+
+.arc {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  opacity: 0.3;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1600ms var(--ease-standard) calc(300ms + var(--i, 0) * 70ms);
+}
+
+.inView .arc {
+  stroke-dashoffset: 0;
+}
+
+/* A soft ring that breathes out from each site, staggered across the map. */
+.pulse {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-width: 1.5;
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.dotDim .pulse {
+  display: none;
 }
 
 .tooltip {
@@ -229,6 +266,30 @@
 
   .inView .dots .dot {
     opacity: 1;
+  }
+
+  .inView .pulse {
+    animation: site-pulse 3.2s ease-out infinite;
+    animation-delay: calc(var(--i, 0) * 260ms);
+  }
+}
+
+@keyframes site-pulse {
+  0% {
+    opacity: 0.65;
+    transform: scale(1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(3.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arc {
+    stroke-dashoffset: 0;
+    transition: none;
   }
 }
 

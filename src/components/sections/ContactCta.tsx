@@ -2,6 +2,7 @@ import { Container, Grid, GridItem, Stack } from "@/components/layout";
 import { Heading } from "@/components/ui";
 import { canonicalHref } from "@/lib/routes";
 import { contact } from "@/lib/data/homepage";
+import { ContactArt } from "./ContactArt";
 import { EnquiryForm } from "./EnquiryForm";
 import { Reveal } from "./Reveal";
 import styles from "./ContactCta.module.css";
@@ -9,15 +10,22 @@ import styles from "./ContactCta.module.css";
 export function ContactCta() {
   return (
     <section className={styles.section} aria-labelledby="contact-title">
-      <Container>
+      <svg className={styles.cornerMark} viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+        <path d="M12 12 H52 V52" />
+        <path d="M22 22 H42 V42" />
+      </svg>
+      <Container className={styles.content}>
+        <ContactArt />
         <Grid>
-          <GridItem span={8} className={styles.info}>
+          <GridItem span={7} className={styles.info}>
             <Stack gap="5xl">
               <Reveal>
                 <Stack gap="xl">
-                  <Heading variant="section" id="contact-title">
-                    {contact.heading}
-                  </Heading>
+                  <Reveal variant="wipe">
+                    <Heading variant="section" id="contact-title">
+                      {contact.heading}
+                    </Heading>
+                  </Reveal>
                 </Stack>
               </Reveal>
               <ul className={styles.infoList}>
@@ -40,7 +48,7 @@ export function ContactCta() {
               </ul>
             </Stack>
           </GridItem>
-          <GridItem span={4} className={styles.cardColumn}>
+          <GridItem span={5} className={styles.cardColumn}>
             <Reveal delay={1}>
               <div className={styles.card}>
                 <h3 className={styles.cardHeading}>{contact.form.heading}</h3>

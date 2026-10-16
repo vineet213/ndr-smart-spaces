@@ -2,6 +2,7 @@
 
 import { companyMetrics, type CompanyMetric } from "@/lib/data/homepage";
 import { Counter } from "./Counter";
+import { WavePaths } from "./TimelineArt";
 import { cx } from "../ui/cx";
 import styles from "./CompanyMetrics.module.css";
 
@@ -50,7 +51,20 @@ export function CompanyMetrics({
 
   return (
     <div className={styles.band}>
-      <div className="container">{grid}</div>
+      {/* the same contour lines as the About timeline, faint behind the figures */}
+      <svg
+        className={styles.waves}
+        viewBox="0 0 1000 2000"
+        preserveAspectRatio="none"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1}
+        aria-hidden="true"
+        focusable="false"
+      >
+        <WavePaths />
+      </svg>
+      <div className={cx("container", styles.bandInner)}>{grid}</div>
     </div>
   );
 }

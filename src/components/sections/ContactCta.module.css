@@ -1,6 +1,82 @@
 .section {
-  padding-block: var(--section-padding-desktop);
+  position: relative;
+  /* clip, not hidden: hidden makes this a scroll container and breaks the */
+  /* pinned (sticky) details column.                                         */
+  overflow: clip;
+  padding-block: var(--space-10xl);
   background-color: var(--color-ivory);
+  background-image:
+    radial-gradient(40% 60% at 0% 100%, rgba(240, 182, 90, 0.14) 0%, rgba(240, 182, 90, 0) 70%),
+    radial-gradient(35% 50% at 100% 0%, rgba(122, 36, 42, 0.06) 0%, rgba(122, 36, 42, 0) 70%);
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Warehouse elevation line drawing, low behind the "Speak to our team" side. */
+/* Bottom of the open space between the details column and the form, so it */
+/* adds no height and the gliding details never cross it.                    */
+.art {
+  position: absolute;
+  left: 38%;
+  bottom: 0;
+  z-index: 0;
+  width: min(19rem, 19%);
+  color: var(--color-gold);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.art svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.art path,
+.art circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 2200ms var(--ease-standard);
+}
+
+.artDrawn path,
+.artDrawn circle {
+  stroke-dashoffset: 0;
+}
+
+.cornerMark {
+  position: absolute;
+  top: 2.5rem;
+  left: 2rem;
+  z-index: 0;
+  width: clamp(3.5rem, 5vw, 5rem);
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-width: 1.4;
+  opacity: 0.4;
+  transform: scaleX(-1);
+  pointer-events: none;
+}
+
+@media (max-width: 1023px) {
+  .art {
+    display: none;
+  }
+
+  .cornerMark {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .art path,
+  .art circle {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
 }
 
 .goldRule {
@@ -10,9 +86,14 @@
   background-color: var(--color-gold);
 }
 
+/* Top-aligned and pinned: the details (and the drawing under them) glide down */
+/* beside the form as the page scrolls, instead of leaving a gap.               */
 .info {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  align-self: start;
+  position: sticky;
+  top: calc(var(--header-height, 4.5rem) + var(--space-4xl));
 }
 
 .infoList {
@@ -24,7 +105,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  padding-block: var(--space-4xl);
+  padding-block: var(--space-3xl);
   border-bottom: 1px solid var(--color-hairline-light);
 }
 
@@ -75,10 +156,10 @@
 .card {
   background-color: var(--color-maroon-dark);
   border-radius: var(--radius-md);
-  padding: 3.5rem;
+  padding: var(--space-5xl);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4xl);
+  gap: var(--space-2xl);
 }
 
 .cardHeading {
@@ -89,13 +170,14 @@
   color: var(--color-gold);
 }
 
-@media (max-width: 1439px) {
-  .section {
-    padding-block: var(--section-padding-tablet);
-  }
+.section {
+  padding-block: var(--space-8xl);
 }
-
 @media (max-width: 1023px) {
+  .info {
+    position: static;
+  }
+
   .info,
   .cardColumn {
     grid-column: 1 / -1;

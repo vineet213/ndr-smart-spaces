@@ -60,6 +60,17 @@ const OUTLINE =
 /* over overlapping hit areas.                                                 */
 const HOVER_RADIUS_PX = 24;
 
+/* A gentle arc from the headquarters to a site, bowed to one side so the set */
+/* of arcs fans out like routes rather than overlapping straight lines.        */
+function arcPath(from: { x: number; y: number }, to: { x: number; y: number }): string {
+  const mx = (from.x + to.x) / 2;
+  const my = (from.y + to.y) / 2;
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  const bow = 0.22;
+  return `M${from.x} ${from.y} Q${mx - dy * bow} ${my + dx * bow} ${to.x} ${to.y}`;
+}
+
 const TIER_LABEL = {
   hq: "Headquarters",
   hub: "Primary logistics hub",
@@ -111,6 +122,8 @@ export function IndiaMap({
       onLocationLeave();
     }
   };
+  const hq = locations.find((location) => location.tier === "hq");
+
   return (
     <div
       ref={ref}
@@ -141,6 +154,21 @@ export function IndiaMap({
           }}
         >
           <path className={styles.outline} d={OUTLINE} />
+          {hq ? (
+            <g className={styles.arcs} aria-hidden="true">
+              {locations
+                .filter((location) => location !== hq)
+                .map((location, index) => (
+                  <path
+                    key={location.name}
+                    d={arcPath(hq, location)}
+                    pathLength={1}
+                    className={styles.arc}
+                    style={{ "--i": index } as CSSProperties}
+                  />
+                ))}
+            </g>
+          ) : null}
           <g className={styles.leaders} aria-hidden="true">
             {locations.map((location) =>
               location.leaderTo ? (
@@ -190,6 +218,7 @@ export function IndiaMap({
                   {/* Touch only (see CSS): a generous invisible hit area, since the dots */}
                   {/* render a few pixels wide once the map is scaled to a phone.         */}
                   <circle className={styles.hit} cx={location.x} cy={location.y} r={66} />
+                  <circle className={styles.pulse} cx={location.x} cy={location.y} r={9} />
                   <circle className={styles.halo} cx={location.x} cy={location.y} r={16} />
                   <circle className={styles.rim} cx={location.x} cy={location.y} r={9.2} />
                   <circle className={styles.node} cx={location.x} cy={location.y} r={7} />

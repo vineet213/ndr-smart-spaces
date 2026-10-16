@@ -1,6 +1,38 @@
+/* "Night map": the footprint on a dark ground, lit like the other dark bands. */
 .section {
+  position: relative;
+  overflow: hidden;
   padding-block: var(--section-padding-desktop);
-  background-color: var(--color-ivory);
+  background-color: var(--color-charcoal-deep);
+  background-image:
+    radial-gradient(45% 55% at 78% 45%, rgba(240, 182, 90, 0.12) 0%, rgba(240, 182, 90, 0) 70%),
+    radial-gradient(40% 50% at 0% 100%, rgba(150, 40, 48, 0.45) 0%, rgba(150, 40, 48, 0) 70%);
+}
+
+/* gold seams top and bottom, where the dark band meets the light sections */
+.section::before,
+.section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(240, 182, 90, 0) 0%,
+    var(--color-gold) 16%,
+    var(--color-gold-light) 50%,
+    var(--color-gold) 84%,
+    rgba(240, 182, 90, 0) 100%
+  );
+}
+
+.section::before {
+  top: 0;
+}
+
+.section::after {
+  bottom: 0;
 }
 
 .grid {
@@ -11,6 +43,21 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
+}
+
+.portfolioLink.portfolioLink {
+  color: var(--color-gold);
+}
+
+.portfolioLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  width: fit-content;
+}
+
+.portfolioLinkArrow {
+  flex-shrink: 0;
 }
 
 .zoneList {
@@ -28,7 +75,7 @@
 }
 
 .zoneRow + .zoneRow {
-  border-top: 1px solid var(--color-hairline-light);
+  border-top: 1px solid var(--color-hairline-dark);
 }
 
 .zoneRowActive {
@@ -53,7 +100,7 @@
 }
 
 .zoneLabel {
-  color: var(--color-maroon);
+  color: var(--color-gold);
   font-size: 0.9375rem;
 }
 
@@ -62,7 +109,7 @@
   font-weight: var(--font-weight-body-regular);
   font-size: 1.375rem;
   line-height: 1.5;
-  color: var(--color-text-primary);
+  color: var(--color-text-inverse-85);
 }
 
 .mapColumn {
@@ -86,12 +133,9 @@
   }
 }
 
-@media (max-width: 1439px) {
-  .section {
-    padding-block: var(--section-padding-tablet);
-  }
+.section {
+  padding-block: var(--section-padding-tablet);
 }
-
 @media (max-width: 767px) {
   .section {
     padding-block: var(--section-padding-mobile);
