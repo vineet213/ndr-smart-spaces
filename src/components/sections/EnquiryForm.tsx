@@ -6,17 +6,23 @@ import { contact } from "@/lib/data/homepage";
 import { enquiryErrorText, submitEnquiry } from "@/lib/enquiry";
 import { FIELD_MAX, isValidEmail, isValidLabel, isValidName } from "@/lib/formValidation";
 import { FormSafeguards, isVerified, resetVerification } from "./FormSafeguards";
+import { cx } from "../ui/cx";
 import styles from "./EnquiryForm.module.css";
 
-type FieldName = "name" | "email" | "company" | "enquiryType";
+type FieldName = "name" | "email" | "company";
 type FormValues = Record<FieldName, string> & { message: string };
 
 const initialValues: FormValues = {
   name: "",
   email: "",
   company: "",
-  enquiryType: "",
   message: "",
+};
+
+const PLACEHOLDERS: Record<FieldName, string> = {
+  name: "Your full name",
+  email: "you@company.com",
+  company: "Your company",
 };
 
 export function EnquiryForm() {
@@ -54,11 +60,6 @@ export function EnquiryForm() {
       nextErrors.company = "Please enter your company.";
     } else if (!isValidLabel(values.company, FIELD_MAX.company)) {
       nextErrors.company = "Please enter a valid company name.";
-    }
-    if (!values.enquiryType.trim()) {
-      nextErrors.enquiryType = "Please enter an enquiry type.";
-    } else if (!isValidLabel(values.enquiryType, FIELD_MAX.enquiryType)) {
-      nextErrors.enquiryType = "Please enter a valid enquiry type.";
     }
 
     const noConsent = !new FormData(form).get("consent");
@@ -109,6 +110,7 @@ export function EnquiryForm() {
             className={styles.input}
             name={field.name}
             type={field.type}
+            placeholder={PLACEHOLDERS[field.name]}
             autoComplete={field.autocomplete}
             inputMode={field.type === "email" ? "email" : undefined}
             maxLength={FIELD_MAX[field.name]}
@@ -129,7 +131,7 @@ export function EnquiryForm() {
         </div>
       ))}
 
-      <div className={styles.field}>
+      <div className={cx(styles.field, styles.fieldWide)}>
         <label className={styles.label} htmlFor={labelId("message")}>
           {messageLabel}
         </label>
@@ -138,6 +140,7 @@ export function EnquiryForm() {
           className={styles.textarea}
           name="message"
           rows={4}
+          placeholder="Tell us a little about what you need"
           value={values.message}
           onChange={(event) => setValues((prev) => ({ ...prev, message: event.target.value }))}
         />

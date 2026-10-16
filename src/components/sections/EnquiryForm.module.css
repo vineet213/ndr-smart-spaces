@@ -1,7 +1,26 @@
+/* Short fields sit two to a row; the message, consent, errors and the submit   */
+/* button take the full width. Phones fall back to a single column.            */
 .form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4xl);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--space-2xl);
+  row-gap: var(--space-2xl);
+}
+
+.form > * {
+  min-width: 0;
+}
+
+.form > .field:nth-child(3),
+.form > :not(.field),
+.fieldWide {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 599px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
 }
 
 .field {
@@ -49,7 +68,7 @@
 
 .textarea {
   resize: vertical;
-  min-height: var(--space-11xl);
+  min-height: var(--space-10xl);
 }
 
 .error {

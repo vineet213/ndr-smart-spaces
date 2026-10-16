@@ -106,8 +106,7 @@ export async function handleContact(req, res, { cors = false } = {}) {
     !fields.name ||
     !fields.company ||
     !EMAIL.test(fields.email) ||
-    (fields.phone && !PHONE.test(fields.phone)) ||
-    (form === "homepage" && !fields.enquiryType);
+    (fields.phone && !PHONE.test(fields.phone));
   if (invalid) return send(res, 422, { ok: false, error: "invalid" }, cors);
   if (data.get("consent") !== "yes") return send(res, 422, { ok: false, error: "consent" }, cors);
   if (!data.get("cf-turnstile-response")) {

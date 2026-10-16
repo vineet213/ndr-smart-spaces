@@ -60,7 +60,6 @@ export { ContactMasthead } from "./ContactMasthead";
 export { OfficeDirectory } from "./OfficeDirectory";
 export { Correspondence } from "./Correspondence";
 export { CorrespondenceForm } from "./CorrespondenceForm";
-export { ContactClosing } from "./ContactClosing";
 export { LegalDocument } from "./LegalDocument";
 export { LegalSitemap } from "./LegalSitemap";
 export { VerticalHub } from "./VerticalHub";

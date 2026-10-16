@@ -13,18 +13,25 @@ import {
   sanitizePhone,
 } from "@/lib/formValidation";
 import { FormSafeguards, isVerified, resetVerification } from "./FormSafeguards";
+import { cx } from "../ui/cx";
 import styles from "./CorrespondenceForm.module.css";
 
 type FieldName = "name" | "company" | "email" | "phone";
-type FormValues = Record<FieldName, string> & { enquiryType: string; message: string };
+type FormValues = Record<FieldName, string> & { message: string };
 
 const initialValues: FormValues = {
   name: "",
   company: "",
   email: "",
   phone: "",
-  enquiryType: "",
   message: "",
+};
+
+const PLACEHOLDERS: Record<string, string> = {
+  name: "Your full name",
+  company: "Your company",
+  email: "you@company.com",
+  phone: "+91 00000 00000",
 };
 
 export function CorrespondenceForm() {
@@ -117,6 +124,7 @@ export function CorrespondenceForm() {
             name={field.name}
             type={field.type}
             autoComplete={field.autocomplete}
+            placeholder={PLACEHOLDERS[field.name]}
             inputMode={field.type === "email" ? "email" : field.type === "tel" ? "tel" : undefined}
             maxLength={FIELD_MAX[field.name]}
             enterKeyHint="next"
@@ -137,21 +145,6 @@ export function CorrespondenceForm() {
       ))}
 
       <div className={styles.field}>
-        <label className={styles.label} htmlFor={labelId("enquiryType")}>
-          Enquiry type
-          <span className={styles.optional}>Optional</span>
-        </label>
-        <input
-          id={labelId("enquiryType")}
-          className={styles.input}
-          name="enquiryType"
-          type="text"
-          value={values.enquiryType}
-          onChange={(event) => setValues((prev) => ({ ...prev, enquiryType: event.target.value }))}
-        />
-      </div>
-
-      <div className={styles.field}>
         <label className={styles.label} htmlFor={labelId("message")}>
           {messageLabel}
         </label>
@@ -160,6 +153,7 @@ export function CorrespondenceForm() {
           className={styles.textarea}
           name="message"
           rows={4}
+          placeholder="Tell us a little about what you need"
           value={values.message}
           onChange={(event) => setValues((prev) => ({ ...prev, message: event.target.value }))}
         />

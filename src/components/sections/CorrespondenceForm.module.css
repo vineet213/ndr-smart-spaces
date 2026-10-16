@@ -33,12 +33,12 @@
   line-height: var(--leading-meta);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
-  color: var(--color-maroon);
+  color: var(--color-gold);
 }
 
 .optional {
   margin-inline-start: var(--space-2);
-  color: var(--color-ink-soft);
+  color: var(--color-text-inverse-70);
 }
 
 .input,
@@ -48,10 +48,10 @@
   font-weight: var(--font-weight-body-regular);
   font-size: var(--font-body-size);
   line-height: var(--leading-body);
-  color: var(--color-charcoal);
+  color: var(--color-ivory);
   background-color: transparent;
   border: 0;
-  border-bottom: 1px solid var(--color-hairline-stone);
+  border-bottom: 1px solid var(--color-hairline-dark);
   border-radius: 0;
   padding-block: var(--space-md);
   transition: border-color var(--duration-standard) var(--ease-standard);
@@ -60,12 +60,12 @@
 .input:focus,
 .textarea:focus {
   outline: none;
-  border-bottom-color: var(--color-maroon);
+  border-bottom-color: var(--color-gold-light);
 }
 
 .input::placeholder,
 .textarea::placeholder {
-  color: var(--color-stone);
+  color: var(--color-text-inverse-70);
 }
 
 .textarea {
@@ -78,21 +78,21 @@
   font-weight: var(--font-weight-body-regular);
   font-size: var(--font-small);
   line-height: var(--leading-small);
-  color: var(--color-maroon);
+  color: var(--color-gold-light);
 }
 
 .submit {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  justify-self: start;
   min-height: var(--space-7xl);
   padding-inline: var(--space-4xl);
   border: 0;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  background-color: var(--color-charcoal);
-  color: var(--color-ivory);
+  background-color: var(--color-gold);
+  color: var(--color-maroon-dark);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-button);
@@ -106,7 +106,7 @@
 
 @media (hover: hover) {
   .submit:hover {
-    background-color: var(--color-maroon);
+    background-color: var(--color-gold-light);
   }
 }
 
@@ -116,7 +116,7 @@
 }
 
 .submit:focus-visible {
-  outline: 2px solid var(--color-maroon);
+  outline: 2px solid var(--color-gold-light);
   outline-offset: 2px;
 }
 
@@ -125,11 +125,11 @@
   font-weight: var(--font-weight-body-regular);
   font-size: var(--font-body-size);
   line-height: var(--leading-body);
-  color: var(--color-charcoal);
+  color: var(--color-ivory);
   padding: var(--space-4xl);
   border-radius: var(--radius-md);
-  background-color: rgba(110, 31, 38, 0.05);
-  border: 1px solid var(--color-maroon-print);
+  background-color: rgba(240, 182, 90, 0.08);
+  border: 1px solid var(--color-gold-40);
 }
 
 @media (max-width: 767px) {
@@ -146,12 +146,12 @@
   margin-top: var(--space-md);
   font-size: var(--font-small);
   line-height: var(--leading-small);
-  color: var(--color-stone);
+  color: var(--color-text-inverse-70);
   overflow-wrap: anywhere;
 }
 
 .fallback a {
-  color: var(--color-maroon);
+  color: var(--color-gold-light);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -177,12 +177,12 @@
   width: 1.25rem;
   height: 1.25rem;
   margin-top: 0.125rem;
-  accent-color: var(--color-maroon);
+  accent-color: var(--color-gold);
   cursor: pointer;
 }
 
 .checkbox:focus-visible {
-  outline: 2px solid var(--color-maroon);
+  outline: 2px solid var(--color-gold-light);
   outline-offset: 2px;
 }
 
@@ -191,12 +191,12 @@
   font-weight: var(--font-weight-body-regular);
   font-size: var(--font-small);
   line-height: var(--leading-small);
-  color: var(--color-ink-soft);
+  color: var(--color-text-inverse-80);
   cursor: pointer;
 }
 
 .consentLink {
-  color: var(--color-maroon);
+  color: var(--color-gold-light);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -215,10 +215,10 @@
   font-weight: var(--font-weight-body-regular);
   font-size: var(--font-small);
   line-height: var(--leading-small);
-  color: var(--color-charcoal);
+  color: var(--color-ivory);
   padding: var(--space-md) var(--space-4xl);
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-maroon-print);
+  border: 1px solid var(--color-gold-40);
 }
 
 /* Touch: the whole label row (not just the 20px box) is a 44px target, and

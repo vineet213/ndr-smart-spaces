@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ContactClosing } from "@/components/sections/ContactClosing";
 import { ContactMasthead } from "@/components/sections/ContactMasthead";
 import { Correspondence } from "@/components/sections/Correspondence";
 import { Footer } from "@/components/sections/Footer";
@@ -21,7 +20,6 @@ export default function ContactPage() {
       <ContactMasthead />
       <OfficeDirectory />
       <Correspondence />
-      <ContactClosing />
       <Footer hideWorkWithUsCta={false} />
     </>
   );

@@ -1,7 +1,9 @@
+import type { ReactNode } from "react";
 import { Container } from "@/components/layout";
-import { Eyebrow, Heading, SourceFootnote, TextLink } from "@/components/ui";
+import { Heading, Icon, SourceFootnote } from "@/components/ui";
 import { ExternalLink } from "@/components/ui";
 import { officeDirectory } from "@/lib/data/contact";
+import { contact } from "@/lib/data/homepage";
 import { Reveal, type RevealDelay } from "./Reveal";
 import styles from "./OfficeDirectory.module.css";
 
@@ -9,23 +11,81 @@ function phoneHref(phone: string): string {
   return `tel:${phone.replace(/[^\d+]/g, "")}`;
 }
 
+const iconProps = {
+  viewBox: "0 0 32 32",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.6,
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
+  "aria-hidden": true,
+  focusable: false,
+} as const;
+
+/* One mark per desk, drawn in the same line style as the rest of the site. */
+const deskIcons: Record<string, ReactNode> = {
+  "smart-spaces": (
+    <svg {...iconProps}>
+      <path d="M5 27V12l9-6 9 6v15" />
+      <path d="M23 27V15l4 2.5V27" />
+      <path d="M3 27h26" />
+      <path d="M11 27v-7h6v7" />
+    </svg>
+  ),
+  hr: (
+    <svg {...iconProps}>
+      <circle cx="11" cy="11" r="4" />
+      <circle cx="23" cy="12" r="3" />
+      <path d="M3.5 26c0-4.7 3.4-8 7.5-8s7.5 3.3 7.5 8" />
+      <path d="M20 19.2c.9-.4 1.9-.6 3-.6 3.2 0 5.5 2.6 5.5 6" />
+    </svg>
+  ),
+  grievance: (
+    <svg {...iconProps}>
+      <path d="M16 4 6 8v8c0 5.6 4 9.6 10 12 6-2.4 10-6.4 10-12V8L16 4Z" />
+      <path d="m11.5 16 3.2 3.2L21 12.8" />
+    </svg>
+  ),
+};
+
+/* A one-line purpose for each desk, so a visitor can pick the right one.     */
+const deskPurpose: Record<string, string> = {
+  "smart-spaces": "Business enquiries, projects and partnerships.",
+  hr: "Careers, hiring and people matters.",
+  grievance: "Complaints, concerns and redressal.",
+};
+
 export function OfficeDirectory() {
+  const address = contact.info.find((item) => item.label === "Corporate office");
+  const directions = contact.info.find((item) => item.label === "Directions");
+
   return (
     <section className={styles.section} id="directory" aria-labelledby="directory-title">
       <Container>
         <Reveal>
-          <Eyebrow className={styles.eyebrow}>{officeDirectory.eyebrow}</Eyebrow>
-          <Heading variant="section" id="directory-title" className={styles.heading}>
-            {officeDirectory.heading}
-          </Heading>
+          <div className={styles.header}>
+            <div>
+              <Heading variant="section" id="directory-title" className={styles.heading}>
+                {officeDirectory.heading}
+              </Heading>
+            </div>
+            <a className={styles.jump} href="#business-enquiry">
+              Prefer to write? Send an enquiry
+              <Icon name="chevron-down" />
+            </a>
+          </div>
         </Reveal>
 
         <div className={styles.directory}>
           {officeDirectory.offices.map((office, index) => (
             <Reveal key={office.key} delay={(index % 3) as RevealDelay} className={styles.office}>
               <div className={styles.officeBody}>
+                <span className={styles.officeIcon}>{deskIcons[office.key]}</span>
                 <span className={styles.officeKind}>{office.kind}</span>
                 <h3 className={styles.officeName}>{office.name}</h3>
+                {deskPurpose[office.key] ? (
+                  <p className={styles.officePurpose}>{deskPurpose[office.key]}</p>
+                ) : null}
                 <ul className={styles.lines}>
                   {office.lines.map((line) => (
                     <li key={line} className={styles.line}>
@@ -44,12 +104,18 @@ export function OfficeDirectory() {
                     </a>
                   </div>
                 ) : null}
-                <div className={styles.contactRow}>
-                  <span className={styles.contactLabel}>Email</span>
-                  <TextLink href={office.email.href} className={styles.contactEmail}>
-                    {office.email.label}
-                  </TextLink>
-                </div>
+                <a className={styles.emailRow} href={office.email.href}>
+                  <span className={styles.emailIcon}>
+                    <Icon name="mail" />
+                  </span>
+                  <span className={styles.emailText}>
+                    <span className={styles.contactLabel}>Email</span>
+                    <span className={styles.emailAddress}>{office.email.label}</span>
+                  </span>
+                  <span className={styles.emailArrow}>
+                    <Icon name="arrow-up-right" />
+                  </span>
+                </a>
                 {officeDirectory.detailsConfirmed ? (
                   <div className={styles.contactRow}>
                     <span className={styles.contactLabel}>Hours</span>
@@ -65,6 +131,31 @@ export function OfficeDirectory() {
             </Reveal>
           ))}
         </div>
+
+        {address ? (
+          <Reveal>
+            <div className={styles.visit}>
+              <span className={styles.visitIcon}>
+                <Icon name="map-pin" />
+              </span>
+              <div className={styles.visitText}>
+                <span className={styles.visitLabel}>Visit our corporate office</span>
+                <span className={styles.visitAddress}>{address.value}</span>
+              </div>
+              {directions?.href ? (
+                <a
+                  className={styles.visitLink}
+                  href={directions.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Get directions
+                  <Icon name="arrow-up-right" />
+                </a>
+              ) : null}
+            </div>
+          </Reveal>
+        ) : null}
 
         {officeDirectory.detailsConfirmed ? (
           <SourceFootnote className={styles.note}>{officeDirectory.note}</SourceFootnote>

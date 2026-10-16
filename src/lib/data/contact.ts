@@ -138,12 +138,3 @@ export const contactMap = {
     y: number;
   }[],
 } as const;
-
-/* closing ----------------------------------------------------------------- */
-
-export const contactClosing = {
-  eyebrow: "Contact",
-  line: "Contact NDR Smart Spaces.",
-  body: "Smart Spaces, HR and Grievance enquiries.",
-  primaryCta: { label: "Write us", href: "/contact#business-enquiry" },
-} as const;

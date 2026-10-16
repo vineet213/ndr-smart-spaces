@@ -84,8 +84,7 @@ $consent = ($_POST['consent'] ?? '') === 'yes';
 $invalid = $name === ''
     || $company === ''
     || !filter_var($email, FILTER_VALIDATE_EMAIL)
-    || ($phone !== '' && !preg_match('/^[+]?[\d\s().-]+$/', $phone))
-    || ($form === 'homepage' && $enquiryType === '');
+    || ($phone !== '' && !preg_match('/^[+]?[\d\s().-]+$/', $phone));
 if ($invalid) {
     respond(422, ['ok' => false, 'error' => 'invalid']);
 }

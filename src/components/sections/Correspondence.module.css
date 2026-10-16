@@ -1,10 +1,89 @@
 .section {
   background-color: var(--color-ivory);
-  padding-block: var(--space-7xl);
+  padding-block: var(--space-10xl);
+  scroll-margin-top: var(--space-10xl);
 }
 
+/* The text column follows the form down the page instead of leaving a gap. */
 .intro {
+  align-self: start;
+  position: sticky;
+  top: var(--space-10xl);
   padding-inline-end: var(--space-6xl);
+}
+
+.facts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  margin: var(--space-6xl) 0 0;
+  padding: var(--space-6xl) 0 0;
+  list-style: none;
+  border-top: 1px solid var(--color-hairline-stone);
+}
+
+.fact {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xl);
+}
+
+.factIcon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: var(--color-maroon);
+  background-color: rgba(122, 36, 42, 0.07);
+  border-radius: 50%;
+}
+
+.factIcon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.factBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  min-width: 0;
+}
+
+.factLabel {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-maroon);
+}
+
+.factValue {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-body);
+  font-size: var(--font-body-size);
+  line-height: 1.5;
+  color: var(--color-charcoal);
+}
+
+.factLink {
+  color: var(--color-charcoal);
+  text-decoration: underline;
+  text-decoration-color: var(--color-gold);
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  padding-block: var(--space-2xs);
+}
+
+@media (hover: hover) {
+  .factLink:hover {
+    color: var(--color-maroon);
+  }
 }
 
 .eyebrow {
@@ -26,25 +105,35 @@
   color: var(--color-charcoal);
 }
 
+/* The same maroon card as the homepage enquiry form. */
 .card {
   padding: var(--space-6xl);
-  background-color: var(--color-ivory-dim);
-  border: 1px solid var(--color-hairline-stone);
-  border-top: 3px solid var(--color-maroon);
+  background-color: var(--color-maroon-dark);
+  border-radius: var(--radius-md);
 }
 
 @media (max-width: 1023px) {
   .intro {
+    position: static;
     padding-inline-end: 0;
   }
 }
 
 @media (max-width: 767px) {
   .section {
-    padding-block: var(--space-5xl);
+    padding-block: var(--space-6xl);
   }
 
   .card {
     padding: var(--space-5xl) var(--space-xl);
+  }
+}
+
+/* Touch: the email links get a 44px-tall hit area. */
+@media (pointer: coarse) {
+  .factLink {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
   }
 }
