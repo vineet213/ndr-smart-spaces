@@ -2,30 +2,37 @@
   overflow-x: clip;
 }
 
-/* The Ledger Reel ----------------------------------------------------------- */
-/* The track is a tall scroll runway; while it's on screen the inner `.sticky` */
-/* viewport pins in place and every panel is positioned purely by scroll       */
-/* position via --offset/--center (no CSS transitions on those — the          */
-/* continuous per-frame update from OurCode.tsx *is* the animation).           */
+/* The Code, index + detail ---------------------------------------------------- */
+/* A compact maroon band. The seven values are a numbered list on the left (each  */
+/* active item carries its own timer line); the detail for the active one fades   */
+/* in on the right. All seven details share one grid cell, so the band is as tall */
+/* as the tallest and never jumps when the slides change.                         */
 
-.track {
+.band {
   position: relative;
-}
-
-.sticky {
-  position: relative;
-  overflow: hidden;
-  padding-top: calc(var(--header-height, 4.5rem) + clamp(2.5rem, 5vw, 4rem));
+  padding-block: var(--space-10xl) var(--space-9xl);
   background:
     radial-gradient(60% 55% at 50% 42%, rgba(240, 182, 90, 0.07) 0%, rgba(240, 182, 90, 0) 70%),
     var(--color-maroon-dark);
 }
 
-.sectionHeading {
-  position: absolute;
-  top: calc(var(--header-height, 4.5rem) + clamp(1rem, 2vw, 1.5rem));
-  left: var(--margin-desktop);
-  z-index: 20;
+.inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--margin-desktop);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2xl);
+  margin-bottom: var(--space-6xl);
+}
+
+/* Scoped under .band so it always beats the global .text-label-meta utility */
+/* the Eyebrow adds; otherwise production CSS order shrinks it.              */
+.band .sectionHeading {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
@@ -35,106 +42,217 @@
   text-transform: uppercase;
 }
 
-.stickyPinned {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  /* Tracks the live viewport on phones, so the pinned frame always fills the  */
-  /* screen as the browser toolbar collapses (no strip of page showing below). */
-  height: 100dvh;
+.controlButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  color: var(--color-gold);
+  background: rgba(240, 182, 90, 0.06);
+  border: 1px solid var(--color-gold-40);
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-standard) var(--ease-standard),
+    color var(--duration-standard) var(--ease-standard);
 }
 
-/* DrawnGrid's hairline reads its color from this token — overriding it     */
-/* just for this instance (custom properties cascade regardless of CSS      */
-/* module scoping) so the column rhythm stays visible against charcoal.     */
-.grid {
-  --color-hairline-light: rgba(250, 247, 242, 0.35);
+@media (hover: hover) {
+  .controlButton:hover {
+    color: var(--color-maroon-dark);
+    background-color: var(--color-gold);
+  }
+}
+
+.controlButton:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 3px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 25rem) minmax(0, 1fr);
+  column-gap: var(--space-8xl);
+  align-items: center;
+}
+
+/* ─── index list ────────────────────────────────────────────────────────── */
+
+.index {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.indexItem {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xl);
+  width: 100%;
+  padding: var(--space-lg) var(--space-lg) var(--space-lg) var(--space-xl);
+  text-align: left;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid rgba(250, 247, 242, 0.14);
+  cursor: pointer;
+  color: var(--color-text-inverse-70);
+  transition:
+    color 400ms var(--ease-standard),
+    background-color 400ms var(--ease-standard);
+}
+
+.indexItem::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: -1px;
+  width: 0.1875rem;
+  background-color: var(--color-gold);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 400ms var(--ease-standard);
+}
+
+.indexItemActive {
+  color: var(--color-text-inverse);
+  background-color: rgba(240, 182, 90, 0.07);
+}
+
+.indexItemActive::before {
+  transform: scaleY(1);
+}
+
+@media (hover: hover) {
+  .indexItem:hover {
+    color: var(--color-text-inverse);
+  }
+}
+
+.indexItem:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: -2px;
+}
+
+.indexNumber {
+  flex: none;
+  min-width: 1.75rem;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-gold);
+}
+
+.indexTitle {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: clamp(1.0625rem, 1.35vw, 1.3125rem);
+  line-height: 1.25;
+}
+
+/* The active item's own timer; fills over one slide and then advances. */
+.timer,
+.timerStatic {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  transform-origin: left center;
+  background: linear-gradient(to right, var(--color-gold-light), var(--color-gold));
+  box-shadow: 0 0 10px rgba(240, 182, 90, 0.5);
+}
+
+.timer {
+  transform: scaleX(0);
+  animation: code-fill 2500ms linear forwards;
+}
+
+.timerHeld {
+  animation-play-state: paused;
+}
+
+.timerStatic {
+  transform: scaleX(1);
+  opacity: 0.5;
+}
+
+@keyframes code-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ─── detail ────────────────────────────────────────────────────────────── */
+
+.stage {
+  display: grid;
 }
 
 .panel {
+  grid-area: 1 / 1;
   display: grid;
-  grid-template-columns: minmax(0, 22rem) auto minmax(0, 46rem);
-  justify-content: center;
+  grid-template-columns: minmax(0, 10rem) minmax(0, 1fr);
   align-items: center;
-  gap: var(--space-6xl);
-  max-width: var(--container-max);
-  margin-inline: auto;
-  padding-inline: var(--margin-desktop);
+  gap: var(--space-5xl);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 700ms var(--ease-standard),
+    visibility 0s linear 700ms;
 }
 
-.panelPinned {
-  position: absolute;
-  inset: 0;
-  height: 100%;
-  box-sizing: border-box;
-  /* keep the content clear of the section heading above and the progress   */
-  /* bar below, whatever the viewport height                                */
-  padding-top: calc(var(--header-height, 4.5rem) + 2.5rem);
-  padding-bottom: 9rem;
-  background-color: var(--color-maroon-dark);
-  /* Fade is the whole point of the motion now — a true 0→1 dissolve, eased  */
-  /* (smoothstep, computed in OurCode.tsx) rather than linear, with only a   */
-  /* whisper of horizontal drift so it reads as "fade" and not "swipe".      */
-  opacity: var(--center, 1);
-  transform: translateX(calc(var(--offset, 0) * 20%));
-  will-change: transform, opacity;
-}
-
-.panel:not(.panelPinned) {
-  grid-template-columns: 1fr;
-  gap: var(--space-4xl);
-  padding-block: var(--space-9xl);
-}
-
-.panel:not(.panelPinned) + .panel:not(.panelPinned) {
-  padding-top: 0;
-}
-
-.panel:not(.panelPinned) .panelDivider {
-  display: none;
-}
-
-.panel:not(.panelPinned) .panelMeta {
-  aspect-ratio: auto;
-}
-
-.panel:not(.panelPinned) .panelRing {
-  display: none;
+.panelActive {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    opacity 800ms var(--ease-standard) 150ms,
+    visibility 0s linear 0s;
 }
 
 .panelMeta {
   position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-lg);
   aspect-ratio: 1;
 }
 
 /* Concentric ring framing the icon. */
 .panelRing {
   position: absolute;
-  width: 78%;
+  width: 82%;
   aspect-ratio: 1;
   border-radius: 50%;
   border: 1px solid rgba(240, 182, 90, 0.35);
   box-shadow:
-    0 0 0 clamp(1rem, 2vw, 1.75rem) rgba(240, 182, 90, 0.05),
-    inset 0 0 60px rgba(240, 182, 90, 0.08);
-  opacity: var(--center, 1);
+    0 0 0 clamp(0.75rem, 1.4vw, 1.25rem) rgba(240, 182, 90, 0.05),
+    inset 0 0 50px rgba(240, 182, 90, 0.08);
+  transform: scale(0.85);
+  transition: transform 1000ms var(--ease-standard);
 }
 
-/* A real visual anchor, not a small line-icon in a corner — scaled up to    */
-/* fill its own zone, with a slow scroll-linked parallax (rotate + drift,    */
-/* driven by the same --offset this panel already receives every frame)     */
-/* so it reads as alive rather than a static glyph. */
+.panelActive .panelRing {
+  transform: scale(1);
+}
+
 .panelMark {
   position: relative;
-  width: clamp(9rem, 14vw, 15rem);
+  width: clamp(4.5rem, 6vw, 6rem);
   color: var(--color-gold);
-  transform: rotate(calc(var(--offset, 0) * -10deg)) translateY(calc(var(--offset, 0) * 14px));
-  filter: drop-shadow(0 0 32px rgba(240, 182, 90, 0.16));
+  filter: drop-shadow(0 0 28px rgba(240, 182, 90, 0.18));
 }
 
 .panelMark svg {
@@ -144,370 +262,243 @@
   overflow: visible;
 }
 
-/* A quiet vertical rule separating the icon and text zones — contained to  */
-/* roughly the height of the content beside it (not the full pinned frame), */
-/* so it reads as a contained divider rather than a stray line across the   */
-/* whole panel. */
-.panelDivider {
-  align-self: center;
-  width: 1px;
-  height: clamp(12rem, 20vw, 18rem);
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    var(--color-gold-40) 15%,
-    var(--color-gold) 50%,
-    var(--color-gold-40) 85%,
-    transparent
-  );
-}
-
-/* The icon draws itself in as its panel approaches center, and un-draws as  */
-/* it departs — pathLength=1 (set in OurCode.tsx) means this dash math is    */
-/* identical for every path regardless of its real length.                  */
+/* The icon draws itself in when its slide arrives (pathLength=1 is set in    */
+/* OurCode.tsx, so the dash math is identical for every path).               */
 .panelMark svg path,
 .panelMark svg circle {
   stroke-dasharray: 1;
-  stroke-dashoffset: calc(1 - var(--center, 1));
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1100ms var(--ease-standard) 200ms;
+}
+
+.panelActive .panelMark svg path,
+.panelActive .panelMark svg circle {
+  stroke-dashoffset: 0;
 }
 
 .panelText {
-  max-width: 44rem;
+  max-width: 40rem;
+  transform: translateX(1.5rem);
+  transition: transform 1000ms var(--ease-standard);
+}
+
+.panelActive .panelText {
+  transform: none;
 }
 
 .panelText .panelTitle {
-  font-size: clamp(2rem, min(4vw, 7svh), 4.25rem);
-  line-height: 1.02;
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  line-height: 1.06;
 }
 
+/* Kinetic wipe: the title reveals left to right when its slide arrives. */
 .panelTitle {
   margin: 0;
-  /* Kinetic wipe — reveals left-to-right instead of fading, the signature   */
-  /* motion of the reel's arrival moment. */
-  clip-path: inset(0 calc((1 - var(--center, 1)) * 100%) 0 0);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 900ms var(--ease-standard) 150ms;
+}
+
+.panelActive .panelTitle {
+  clip-path: inset(0 0 0 0);
 }
 
 .panelTagline {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: clamp(1.1875rem, min(1.8vw, 3.4svh), 1.625rem);
+  font-size: clamp(1.125rem, 1.6vw, 1.4375rem);
   line-height: var(--leading-lede);
   color: var(--color-gold-light);
 }
 
+/* Collapsed to three lines so a slide reads at a glance; "Read more" opens it. */
 .panelBody {
   margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-regular);
-  font-size: clamp(1.125rem, min(1.5vw, 3.2svh), 1.375rem);
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
   line-height: 1.65;
   color: var(--color-text-inverse-80);
 }
 
-.panel:not(.panelPinned) .panelMark svg path,
-.panel:not(.panelPinned) .panelMark svg circle {
-  stroke-dasharray: none;
-  stroke-dashoffset: 0;
-}
-
-.panel:not(.panelPinned) .panelTitle {
-  clip-path: none;
-}
-
-/* Ledger — a Keynote-style progress bar + large running counter, replacing */
-/* the old small dot-trail. The fill width and the counter digits are both  */
-/* driven by the same --reel-progress/activeIndex already computed every    */
-/* frame; the per-stage tick buttons remain underneath as click targets,    */
-/* now a quiet secondary control rather than the headline element.          */
-
-.ledger {
-  position: absolute;
-  left: 50%;
-  bottom: var(--space-8xl);
-  transform: translateX(-50%);
-  z-index: 30;
-  width: min(90%, 52rem);
-}
-
-.ledgerBar {
-  position: relative;
-  height: 3px;
-  border-radius: 2px;
-  background-color: rgba(250, 247, 242, 0.18);
-  overflow: hidden;
-}
-
-.ledgerFill {
-  position: absolute;
-  inset: 0;
-  width: calc(var(--reel-progress, 0) * 100%);
-  background: linear-gradient(to right, var(--color-gold-light), var(--color-gold));
-  box-shadow: 0 0 12px rgba(240, 182, 90, 0.5);
-}
-
-.ledgerRow {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-top: var(--space-xl);
-}
-
-.ledgerCounter {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-xs);
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-medium);
-  font-variant-numeric: tabular-nums;
-}
-
-.ledgerCounterActive {
-  font-size: clamp(1.5rem, 2.4vw, 2.25rem);
-  color: var(--color-gold);
-}
-
-.ledgerCounterSep,
-.ledgerCounterTotal {
-  font-size: var(--font-small);
-  color: var(--color-text-inverse-70);
-}
-
-.ledgerTicks {
-  display: flex;
-  gap: var(--space-xl);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.ledgerTick {
+.panelBodyOpen {
   display: block;
-  padding: var(--space-2xs) 0;
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+  overflow: visible;
+}
+
+.readMore {
+  align-self: flex-start;
+  padding: var(--space-xs) 0;
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
   letter-spacing: var(--tracking-meta);
-  font-variant-numeric: tabular-nums;
-  color: var(--color-text-inverse-70);
+  text-transform: uppercase;
+  color: var(--color-gold);
   background: none;
-  border: none;
+  border: 0;
+  border-bottom: 1px solid var(--color-gold-40);
   cursor: pointer;
-  transition: color var(--duration-standard) var(--ease-standard);
-}
-
-.ledgerTick:focus-visible {
-  color: var(--color-gold-light);
+  transition:
+    color var(--duration-standard) var(--ease-standard),
+    border-color var(--duration-standard) var(--ease-standard);
 }
 
 @media (hover: hover) {
-  .ledgerTick:hover {
+  .readMore:hover {
     color: var(--color-gold-light);
+    border-bottom-color: var(--color-gold-light);
   }
 }
 
-.ledgerTick:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 2px;
+/* Keeps its space (so slides stay the same height) but is invisible and inert. */
+.readMoreHidden {
+  visibility: hidden;
 }
 
-.ledgerTickActive {
-  color: var(--color-gold);
+.readMore:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 3px;
 }
 
-/* responsive --------------------------------------------------------------- */
+/* ─── reduced motion: manual only, no animation ─────────────────────────── */
 
-@media (max-width: 1439px) {
-  .panel {
-    grid-template-columns: minmax(0, 18rem) auto minmax(0, 30rem);
-    justify-content: center;
-    gap: var(--space-6xl);
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panelActive,
+  .panelRing,
+  .panelText,
+  .panelTitle,
+  .indexItem,
+  .indexItem::before,
+  .panelMark svg path,
+  .panelMark svg circle {
+    transition: none;
+  }
+
+  .panelText {
+    transform: none;
+  }
+
+  .panelTitle {
+    clip-path: none;
+  }
+
+  .panelMark svg path,
+  .panelMark svg circle {
+    stroke-dashoffset: 0;
+  }
+
+  .panelRing {
+    transform: none;
+  }
+}
+
+/* ─── tablet and phone: numbered chips above the detail ─────────────────── */
+
+@media (max-width: 1023px) {
+  .band {
+    padding-block: var(--space-9xl) var(--space-7xl);
+  }
+
+  .inner {
     padding-inline: var(--margin-tablet);
   }
 
-  .sectionHeading {
-    left: var(--margin-tablet);
+  .header {
+    margin-bottom: var(--space-4xl);
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-4xl);
+    align-items: start;
+  }
+
+  .index {
+    flex-direction: row;
+    gap: var(--space-xs);
+  }
+
+  .index > li {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .indexItem {
+    justify-content: center;
+    padding: var(--space-md) 0;
+    border-bottom-color: rgba(250, 247, 242, 0.2);
+  }
+
+  .indexItem::before {
+    display: none;
+  }
+
+  .indexTitle {
+    display: none;
+  }
+
+  .indexNumber {
+    min-width: 0;
+    font-size: 0.875rem;
+  }
+
+  .panel {
+    grid-template-columns: 1fr;
+    gap: var(--space-3xl);
+    align-items: start;
+  }
+
+  .panelMeta {
+    width: 6.5rem;
+  }
+
+  .panelMark {
+    width: 3.75rem;
+  }
+
+  .panelText {
+    max-width: none;
+    transform: translateY(0.875rem);
+  }
+
+  .panelActive .panelText {
+    transform: none;
   }
 }
 
 @media (max-width: 767px) {
-  .panel {
-    padding-inline: var(--margin-mobile);
+  .band {
+    padding-block: var(--space-7xl) var(--space-6xl);
   }
 
-  .panel:not(.panelPinned) {
-    padding-block: var(--space-7xl);
+  .inner {
+    padding-inline: var(--margin-mobile, var(--margin-tablet));
   }
 
-  .sectionHeading {
-    left: var(--margin-mobile);
-  }
-}
-
-/* Portrait phones and tablets: same pinned, scroll-scrubbed reel as desktop  */
-/* (same --offset/--center drive, same icon draw-in, title wipe and ledger),  */
-/* re-laid-out for a tall screen — icon above text instead of icon | rule |   */
-/* text, and a ledger whose tick buttons are real 44px touch targets.        */
-
-@media (max-width: 1023px) {
-  .sticky .grid {
-    display: block;
+  .controlButton {
+    width: 2.5rem;
+    height: 2.5rem;
   }
 
-  .panelPinned {
-    grid-template-columns: minmax(0, 1fr);
-    align-content: center;
-    justify-items: start;
-    gap: var(--space-2xl);
-    padding-top: calc(var(--header-height, 4.5rem) + 4.25rem);
-    padding-bottom: calc(8.5rem + env(safe-area-inset-bottom, 0px));
-  }
-
-  .panelPinned .panelDivider {
-    display: none;
-  }
-
-  .panelPinned .panelMeta {
-    aspect-ratio: 1;
-    width: clamp(6rem, 24vw, 10rem);
-  }
-
-  .panelPinned .panelMark {
-    width: 56%;
-  }
-
-  .panelPinned .panelText {
-    max-width: 36rem;
-  }
-
-  .panelPinned .panelText .panelTitle {
-    font-size: clamp(1.75rem, 6.2vw, 3rem);
-  }
-
-  .panelPinned .panelTagline {
-    font-size: clamp(1.0625rem, 4.4vw, 1.5rem);
-  }
-
-  .panelPinned .panelBody {
-    font-size: clamp(1rem, 4vw, 1.25rem);
-    line-height: 1.55;
-  }
-
-  .ledger {
-    bottom: calc(var(--space-xl) + env(safe-area-inset-bottom, 0px));
-    width: calc(100% - 2 * var(--margin-mobile));
-  }
-
-  .ledgerRow {
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--space-2xs);
-    margin-top: var(--space-md);
-  }
-
-  .ledgerTicks {
-    justify-content: space-between;
-    gap: 0;
-  }
-
-  .ledgerTick {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 2.75rem;
+  .indexItem {
     min-height: 2.75rem;
-    padding: 0;
   }
 }
 
-/* Short phones (e.g. 360x740): tighten the icon so text keeps its room. */
-@media (max-width: 1023px) and (max-height: 760px) {
-  .panelPinned {
-    gap: var(--space-lg);
-    padding-top: calc(var(--header-height, 4.5rem) + 3.5rem);
-  }
-
-  .panelPinned .panelMeta {
-    width: 5rem;
-  }
-}
-
-/* Very short screens (browser chrome eating a small phone, ~400x520): the   */
-/* icon, copy and ledger can't all stack at full size. Everything stays —    */
-/* the icon shrinks, type scales with the screen height, and the ledger      */
-/* folds to one row (counter left, ticks right, 44px-tall targets) — and     */
-/* content starts from the top so it can never ride up under the heading.    */
-@media (max-width: 1023px) and (max-height: 640px) {
-  .sectionHeading {
-    top: calc(var(--header-height, 4.5rem) + 0.5rem);
-    font-size: 1.5rem;
-  }
-
-  .panelPinned {
-    align-content: start;
-    gap: var(--space-md);
-    padding-top: calc(var(--header-height, 4.5rem) + 3rem);
-    padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
-  }
-
-  .panelPinned .panelMeta {
-    width: 3.5rem;
-  }
-
-  .panelPinned .panelText {
-    gap: var(--space-sm);
-  }
-
-  .panelPinned .panelText .panelTitle {
-    font-size: clamp(1.375rem, 4.4vh, 1.75rem);
-  }
-
-  .panelPinned .panelTagline {
-    font-size: clamp(0.9375rem, 2.9vh, 1.0625rem);
-  }
-
-  .panelPinned .panelBody {
-    font-size: clamp(0.8125rem, 2.6vh, 1rem);
-    line-height: 1.45;
-  }
-
-  .ledger {
-    bottom: calc(var(--space-sm) + env(safe-area-inset-bottom, 0px));
-  }
-
-  .ledgerRow {
-    flex-direction: row;
+/* Touch: "Read more" gets a 44px-tall hit area without changing how it looks. */
+@media (pointer: coarse) {
+  .readMore {
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    margin-top: var(--space-xs);
-  }
-
-  .ledgerTicks {
-    justify-content: flex-end;
-  }
-
-  .ledgerTick {
-    min-width: 2.25rem;
-  }
-}
-
-/* Landscape phones: wide but only ~350-430px tall — icon beside the copy,   */
-/* like the desktop arrangement, instead of stacked above it.               */
-@media (max-width: 1023px) and (max-height: 520px) and (orientation: landscape) {
-  .panelPinned {
-    grid-template-columns: auto minmax(0, 1fr);
-    align-content: center;
-    align-items: center;
-    gap: var(--space-2xl);
-    padding-top: calc(var(--header-height, 4.5rem) + 2.5rem);
-    padding-bottom: 4.5rem;
-  }
-
-  .panelPinned .panelMeta {
-    width: 6rem;
-  }
-
-  .panelPinned .panelText {
-    max-width: 40rem;
+    min-height: 2.75rem;
   }
 }

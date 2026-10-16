@@ -30,8 +30,6 @@ export function VisionDiagram() {
         role="img"
         aria-label="Editorial line illustration of a future-ready master plan, with plotted land rising into an institutional skyline."
       >
-        <rect width="800" height="1000" fill="#1c1a19" />
-
         <g className={styles.fadeBase}>
           <g stroke="#faf7f2" strokeWidth="1" opacity="0.045">
             <path d="M80 120 V920 M160 120 V920 M240 120 V920 M320 120 V920 M400 120 V920 M480 120 V920 M560 120 V920 M640 120 V920 M720 120 V920" />
@@ -127,8 +125,6 @@ export function MissionDiagram() {
         role="img"
         aria-label="Editorial line illustration of construction in progress: a tower crane, braced building frame and survey datum lines."
       >
-        <rect width="800" height="1000" fill="#1c1a19" />
-
         <g className={styles.fadeBase}>
           <g stroke="#faf7f2" strokeWidth="1" opacity="0.05">
             <path d="M60 140 V860 M140 140 V860 M220 140 V860 M300 140 V860 M380 140 V860 M460 140 V860 M540 140 V860 M620 140 V860 M700 140 V860" />

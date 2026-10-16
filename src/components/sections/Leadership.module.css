@@ -1,6 +1,9 @@
 .section {
   padding-block: var(--space-10xl);
   background-color: var(--color-ivory);
+  background-image:
+    radial-gradient(45% 35% at 50% 0%, rgba(240, 182, 90, 0.1) 0%, rgba(240, 182, 90, 0) 70%),
+    radial-gradient(35% 30% at 100% 100%, rgba(122, 36, 42, 0.05) 0%, rgba(122, 36, 42, 0) 70%);
   overflow-x: clip;
 }
 
@@ -8,14 +11,36 @@
   text-align: center;
 }
 
+/* Group titles read as quiet editorial dividers: small capitals between two  */
+/* gold hairlines.                                                             */
 .groupTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl);
   margin: 0;
-  text-align: center;
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-lede);
-  line-height: var(--leading-lede);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-small);
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   color: var(--color-maroon);
+}
+
+.groupTitle::before,
+.groupTitle::after {
+  content: "";
+  width: clamp(2.5rem, 8vw, 5.5rem);
+  height: 1px;
+}
+
+.groupTitle::before {
+  background: linear-gradient(to right, rgba(240, 182, 90, 0), var(--color-gold));
+}
+
+.groupTitle::after {
+  background: linear-gradient(to left, rgba(240, 182, 90, 0), var(--color-gold));
 }
 
 /* Grid ------------------------------------------------------------------------ */
@@ -68,10 +93,23 @@
 /* The frame is a fixed 4:5 box that clips its contents: everything that moves */
 /* on hover or on reveal moves inside it, so no box ever changes size.         */
 .frame {
+  position: relative;
   display: block;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  background-color: var(--color-charcoal);
+  background-color: var(--color-ivory-dim);
+  box-shadow: 0 1.25rem 2.5rem -1rem rgba(28, 26, 25, 0.28);
+}
+
+/* A soft shade at the base and a fine inner keyline, so portraits shot on   */
+/* different backgrounds sit together as one set.                             */
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(28, 26, 25, 0.16) 0%, rgba(28, 26, 25, 0) 38%);
+  box-shadow: inset 0 0 0 1px rgba(28, 26, 25, 0.08);
 }
 
 .portrait {
@@ -86,6 +124,10 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
+  filter: saturate(0.92) contrast(1.03) sepia(0.06);
+  transition:
+    transform 1200ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 600ms var(--ease-standard);
 }
 
 .monogram {
@@ -190,6 +232,12 @@
   .card:hover .rule,
   .card:focus-visible .rule {
     transform: scaleX(1);
+  }
+
+  .card:hover .photo,
+  .card:focus-visible .photo {
+    transform: scale(1.04);
+    filter: none;
   }
 
   .card:hover .bracket path,
@@ -299,6 +347,7 @@
   flex-direction: column;
   width: min(34rem, 100vw);
   background-color: var(--color-ivory);
+  border-top: 3px solid var(--color-gold);
   box-shadow: -28px 0 64px -24px rgba(28, 26, 25, 0.45);
   transform: translateX(100%);
   transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -380,7 +429,8 @@
   align-content: start;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: var(--space-3xl) var(--space-2xl);
+  padding: var(--space-4xl) var(--space-3xl);
+  isolation: isolate;
 }
 
 .sheet {
@@ -403,11 +453,31 @@
   transition-delay: 0s;
 }
 
+/* Drawer portrait: the same offset gold frame used for photos across the site. */
 .sheetPortrait {
+  position: relative;
   width: min(100%, 12rem);
   aspect-ratio: 4 / 5;
+  margin: 0 0.75rem 0.75rem 0;
+  background-color: var(--color-ivory-dim);
+  box-shadow: 0 1rem 2rem -0.75rem rgba(28, 26, 25, 0.3);
+}
+
+.sheetPortrait::before {
+  content: "";
+  position: absolute;
+  inset: 0.75rem -0.75rem -0.75rem 0.75rem;
+  z-index: -1;
+  border: 1px solid var(--color-gold);
+  opacity: 0.7;
+}
+
+.sheetPortrait > * {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  background-color: var(--color-charcoal);
 }
 
 .sheetHead {
@@ -466,12 +536,9 @@
 
 /* Responsive ------------------------------------------------------------------ */
 
-@media (max-width: 1439px) {
-  .section {
-    padding-block: var(--space-8xl);
-  }
+.section {
+  padding-block: var(--space-8xl);
 }
-
 @media (max-width: 1023px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 13rem));
@@ -549,6 +616,7 @@
 
   .card,
   .rule,
+  .photo,
   .bracket path,
   .layer,
   .backdrop,

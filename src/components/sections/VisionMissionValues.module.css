@@ -1,7 +1,26 @@
+/* Same dark ground as the timeline above it, joined by the gold rule the        */
+/* footer uses, so the two read as one continuous, lit stretch of the page.       */
 .section {
+  position: relative;
   padding-top: 0;
   padding-bottom: 0;
-  background-color: var(--color-ivory);
+  background-color: var(--color-charcoal-deep);
+}
+
+.section::before {
+  content: "";
+  position: relative;
+  z-index: 3;
+  display: block;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(240, 182, 90, 0) 0%,
+    var(--color-gold) 16%,
+    var(--color-gold-light) 50%,
+    var(--color-gold) 84%,
+    rgba(240, 182, 90, 0) 100%
+  );
 }
 
 /* Full-bleed panel row: rendered outside Container, so this grid carries no  */
@@ -9,7 +28,30 @@
 /* A hairline seam (rather than the standard gutter) joins Vision and         */
 /* Mission into one cohesive plate instead of two separated cards.           */
 .panels {
-  column-gap: var(--space-2xs);
+  position: relative;
+  column-gap: 0;
+}
+
+/* A fine gold seam down the middle instead of a bright white gap. */
+@media (min-width: 768px) {
+  .panels::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    top: 10%;
+    bottom: 10%;
+    left: 50%;
+    width: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(240, 182, 90, 0),
+      var(--color-gold-40) 20%,
+      var(--color-gold) 50%,
+      var(--color-gold-40) 80%,
+      rgba(240, 182, 90, 0)
+    );
+  }
 }
 
 .panel {
@@ -17,7 +59,18 @@
   margin: 0;
   height: clamp(28rem, 62svh, 42rem);
   overflow: hidden;
-  background-color: var(--color-charcoal);
+  background-color: var(--color-charcoal-deep);
+  /* Vision: gold light from the upper right, a deep red low on the left. */
+  background-image:
+    radial-gradient(60% 70% at 88% 0%, rgba(240, 182, 90, 0.16) 0%, rgba(240, 182, 90, 0) 70%),
+    radial-gradient(55% 60% at 0% 100%, rgba(150, 40, 48, 0.42) 0%, rgba(150, 40, 48, 0) 70%);
+}
+
+/* Mission: the same light mirrored, so the pair reads as one plate. */
+.panels > *:nth-child(even) .panel {
+  background-image:
+    radial-gradient(60% 70% at 12% 0%, rgba(240, 182, 90, 0.16) 0%, rgba(240, 182, 90, 0) 70%),
+    radial-gradient(55% 60% at 100% 100%, rgba(150, 40, 48, 0.42) 0%, rgba(150, 40, 48, 0) 70%);
 }
 
 .panel:focus-visible {
@@ -25,10 +78,11 @@
   outline-offset: -2px;
 }
 
+/* Lighter than before: the drawing should glow, not be dimmed to grey. */
 .scrim {
   position: absolute;
   inset: 0;
-  background-color: rgba(28, 26, 25, 0.55);
+  background: linear-gradient(to right, rgba(17, 16, 15, 0.5) 0%, rgba(17, 16, 15, 0.12) 70%);
 }
 
 /* Curtain reveal: a tonal maroon panel that rises from the base on hover/   */
@@ -103,17 +157,14 @@
   color: var(--color-text-inverse-85);
 }
 
-@media (max-width: 1439px) {
-  .section {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
-  .content {
-    padding: var(--space-5xl);
-  }
+.section {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
+.content {
+  padding: var(--space-5xl);
+}
 @media (max-width: 767px) {
   .section {
     padding-top: 0;

@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { KeyboardEvent } from "react";
 import { Stack } from "@/components/layout";
 import { Eyebrow, Heading } from "@/components/ui";
 import { ourCode, type OurCodeValue } from "@/lib/data/about";
-import { useSnapZone } from "@/hooks/useSnapZone";
-import { getLenisInstance } from "@/lib/lenis";
+import { useInView } from "@/hooks/useInView";
 import { cx } from "../ui/cx";
-import { DrawnGrid } from "./DrawnGrid";
-import { SnapStop } from "./SnapStop";
 import styles from "./OurCode.module.css";
 
 const markProps = {
@@ -27,8 +25,8 @@ const drawn = { pathLength: 1 } as const;
 
 function CodeMark({ index }: { index: string }) {
   switch (index) {
-    case "01":
-      // Infrastructure that enables — a warehouse, with growth breaking free of it.
+    case "02":
+      // Infrastructure that drives growth — a warehouse, with growth breaking free of it.
       return (
         <svg {...markProps} aria-hidden="true" focusable="false">
           <path {...drawn} d="M8 46 H36 V30 L22 18 L8 30 Z" />
@@ -36,8 +34,8 @@ function CodeMark({ index }: { index: string }) {
           <path {...drawn} d="M32 34 L48 18 M40 18 H48 V26" />
         </svg>
       );
-    case "02":
-      // Enabling the last mile — a route resolving to a clear destination pin.
+    case "03":
+      // Closer to every opportunity — a route resolving to a clear destination pin.
       return (
         <svg {...markProps} aria-hidden="true" focusable="false">
           <path {...drawn} d="M8 44 Q 24 44 30 30 T 44 15" />
@@ -48,8 +46,8 @@ function CodeMark({ index }: { index: string }) {
           <circle {...drawn} cx="44" cy="14.5" r="2.5" />
         </svg>
       );
-    case "03":
-      // Efficiency at scale — accelerating bars.
+    case "01":
+      // Built smarter, scaled further — accelerating bars.
       return (
         <svg {...markProps} aria-hidden="true" focusable="false">
           <path {...drawn} d="M10 44 H46" />
@@ -58,12 +56,16 @@ function CodeMark({ index }: { index: string }) {
         </svg>
       );
     case "04":
-      // Design that delivers — a drafting compass, precision engineered ahead of time.
+      // Design that delivers — a truss-framed building elevation under a dimension
+      // line, with a lighter second bay extending it: strong structure, flexible layout.
       return (
         <svg {...markProps} aria-hidden="true" focusable="false">
-          <path {...drawn} d="M28 11 L14 45 M28 11 L42 45" />
-          <circle {...drawn} cx="28" cy="10" r="2.5" />
-          <path {...drawn} d="M17.5 38 A 13 13 0 0 1 38.5 38" />
+          <path {...drawn} d="M5 49 H51" />
+          <path {...drawn} d="M9 49 V31 L20 20 L31 31 V49" />
+          <path {...drawn} d="M9 31 H31 M20 20 V31 M14.5 31 L20 25.5 L25.5 31" />
+          <path {...drawn} opacity={0.55} d="M31 31 L42 20 L53 31 V49" />
+          <path {...drawn} opacity={0.55} d="M31 31 H53 M42 20 V31" />
+          <path {...drawn} d="M9 10 H53 M9 7 V13 M53 7 V13" />
         </svg>
       );
     case "05":
@@ -103,249 +105,223 @@ function CodeMark({ index }: { index: string }) {
   }
 }
 
-/* The Ledger Reel ---------------------------------------------------------- */
-/* One continuous scrub value (`continuousIndex`, 0 → values.length - 1)      */
-/* drives everything: each panel's horizontal position, its icon's draw-in,   */
-/* its title's wipe reveal, and the ledger marker below. The mapping from      */
-/* raw scroll to that value isn't linear — it holds on each integer (a value  */
-/* sitting still, fully readable) then eases swiftly to the next, so the      */
-/* "continuous" motion still has the breathing room the pacing pass earlier   */
-/* established, rather than drifting at a constant rate the whole time.       */
-const RISE = 0.85;
-const HOLD = 0.85;
-const STEP = RISE + HOLD;
+/* The Code, index + detail --------------------------------------------------- */
+/* All seven values stay visible as a numbered list, so the whole "code" can be   */
+/* taken in at a glance; the detail beside it follows the active one. The active  */
+/* list item carries its own timer line: it fills over SLIDE_MS and its           */
+/* animation-end advances to the next value, so the line and the timing can       */
+/* never drift apart. There is no hover or focus pausing (the pointer is on a     */
+/* full-width band most of the time); it holds only for the pause button, an      */
+/* expanded paragraph, the section being off screen or a hidden tab.              */
 
-function transitionStart(i: number): number {
-  return i === 0 ? 0 : HOLD + (i - 1) * STEP;
+/* The very first slide only holds for a second, so it is obvious from the first   */
+/* moment that the section moves; every slide after that gets SLIDE_MS.            */
+const INTRO_MS = 1000;
+const SLIDE_MS = 2500;
+
+function PlayPause({ playing }: { playing: boolean }) {
+  return (
+    <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false">
+      {playing ? (
+        <path
+          d="M6.5 4.5 V15.5 M13.5 4.5 V15.5"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      ) : (
+        <path
+          d="M6.5 4.5 L15 10 L6.5 15.5 Z"
+          fill="currentColor"
+          stroke="currentColor"
+          strokeWidth="1.2"
+          strokeLinejoin="round"
+        />
+      )}
+    </svg>
+  );
 }
 
-function easeInOutQuint(t: number): number {
-  const c = Math.min(Math.max(t, 0), 1);
-  return c < 0.5 ? 16 * c * c * c * c * c : 1 - Math.pow(-2 * c + 2, 5) / 2;
-}
-
-function continuousIndexAt(t: number, count: number): number {
-  let index = 0;
-  for (let i = 1; i < count; i++) {
-    const start = transitionStart(i);
-    if (t < start) break;
-    const local = Math.min(Math.max((t - start) / RISE, 0), 1);
-    index = i - 1 + easeInOutQuint(local);
-  }
-  return index;
-}
-
-function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
-  const trackRef = useRef<HTMLDivElement | null>(null);
-  const frameRef = useRef<HTMLDivElement | null>(null);
-  const panelRefs = useRef<(HTMLElement | null)[]>([]);
-  const [pinEnabled, setPinEnabled] = useState(false);
-  const [compact, setCompact] = useState(false);
+function CodeSlideshow({ values }: { values: readonly OurCodeValue[] }) {
+  const count = values.length;
+  const { ref: bandRef, inView } = useInView<HTMLDivElement>({
+    threshold: 0.25,
+    rootMargin: "0px",
+    once: false,
+  });
   const [activeIndex, setActiveIndex] = useState(0);
-
-  const totalUnits = transitionStart(values.length - 1) + RISE + HOLD;
-
-  const targetYFor = (i: number): number | null => {
-    const track = trackRef.current;
-    if (!track) return null;
-    const rect = track.getBoundingClientRect();
-    const scrollable = rect.height - window.innerHeight;
-    if (scrollable <= 0) return null;
-    const target = i * STEP + HOLD / 2;
-    const raw = Math.min(Math.max(target / totalUnits, 0), 1);
-    return Math.round(window.scrollY + rect.top + raw * scrollable);
-  };
-
-  // Touch: native scroll-snap (switched on only while this reel is pinned).
-  useSnapZone(trackRef, pinEnabled);
-
-  const goToIndex = (i: number) => {
-    const targetY = targetYFor(i);
-    if (targetY === null) return;
-
-    const lenis = getLenisInstance();
-    if (lenis) {
-      lenis.scrollTo(targetY);
-    } else {
-      window.scrollTo({ top: targetY, behavior: "smooth" });
-    }
-  };
+  const [userPaused, setUserPaused] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [introDone, setIntroDone] = useState(false);
+  const [canExpand, setCanExpand] = useState(true);
+  const [pageVisible, setPageVisible] = useState(true);
+  const [reduceMotion, setReduceMotion] = useState(false);
+  const bodyRefs = useRef<(HTMLParagraphElement | null)[]>([]);
 
   useEffect(() => {
-    // The pinned, scroll-scrubbed reel runs at every width (phones included);
-    // only reduced-motion users get the static stacked panels.
-    const mqMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const mqCompact = window.matchMedia("(max-width: 1023px)");
-
-    const updateMode = () => {
-      setPinEnabled(!mqMotion.matches);
-      setCompact(mqCompact.matches);
-    };
-    updateMode();
-    mqMotion.addEventListener("change", updateMode);
-    mqCompact.addEventListener("change", updateMode);
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setReduceMotion(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    const onVisibility = () => setPageVisible(document.visibilityState === "visible");
+    onVisibility();
+    document.addEventListener("visibilitychange", onVisibility);
     return () => {
-      mqMotion.removeEventListener("change", updateMode);
-      mqCompact.removeEventListener("change", updateMode);
+      mq.removeEventListener("change", sync);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
 
+  /* "Read more" only appears when the paragraph is actually cut off. */
   useEffect(() => {
-    if (!pinEnabled) return;
-    const track = trackRef.current;
-    if (!track) return;
-
-    let raf = 0;
-    let running = false;
-
-    /* Sampled every animation frame rather than driven by the native       */
-    /* `scroll` event — under a smooth-scroll library (Lenis) the document's */
-    /* real scroll position is itself interpolated across frames, so a      */
-    /* listener gated on the native event can read a position that's a      */
-    /* frame behind what's on screen. Reading real geometry every rAF tick  */
-    /* instead stays frame-perfect regardless of what is driving the scroll. */
-    const update = () => {
-      const rect = track.getBoundingClientRect();
-      const viewportH = window.innerHeight;
-
-      // Cheap bail while the track is nowhere near the viewport.
-      if (rect.bottom > -viewportH && rect.top < viewportH * 2) {
-        const scrollable = rect.height - viewportH;
-        const raw = scrollable > 0 ? Math.min(Math.max(-rect.top / scrollable, 0), 1) : 0;
-        const continuousIndex = continuousIndexAt(raw * totalUnits, values.length);
-
-        panelRefs.current.forEach((panel, i) => {
-          if (!panel) return;
-          const offset = i - continuousIndex;
-          const linear = Math.min(Math.max(1 - Math.abs(offset), 0), 1);
-          /* Smoothstep, not linear — a true fade curve (slow-fast-slow) rather */
-          /* than a constant-rate crossfade, which is what read as a "flip".   */
-          const center = linear * linear * (3 - 2 * linear);
-          panel.style.setProperty("--offset", String(offset));
-          panel.style.setProperty("--center", String(center));
-        });
-
-        frameRef.current?.style.setProperty(
-          "--reel-progress",
-          String(continuousIndex / (values.length - 1)),
-        );
-
-        const nextActive = Math.min(values.length - 1, Math.max(0, Math.round(continuousIndex)));
-        setActiveIndex((prev) => (prev === nextActive ? prev : nextActive));
-      }
-
-      if (running) raf = requestAnimationFrame(update);
+    const measure = () => {
+      const body = bodyRefs.current[activeIndex];
+      if (!body || expanded) return;
+      setCanExpand(body.scrollHeight > body.clientHeight + 1);
     };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [activeIndex, expanded]);
 
-    // Only run the per-frame loop while the reel is within a screen of the viewport.
-    const start = () => {
-      if (running) return;
-      running = true;
-      raf = requestAnimationFrame(update);
-    };
-    const stop = () => {
-      running = false;
-      cancelAnimationFrame(raf);
-    };
-    const observer = new IntersectionObserver(
-      ([entry]) => (entry.isIntersecting ? start() : stop()),
-      {
-        rootMargin: "100% 0px 100% 0px",
-      },
-    );
-    observer.observe(track);
-    return () => {
-      observer.disconnect();
-      stop();
-    };
-  }, [pinEnabled, totalUnits, values.length]);
+  /* Autoplay is off entirely for reduced-motion users; for everyone else the  */
+  /* timer line runs unless something is asking it to hold.                     */
+  const autoplay = !reduceMotion && !userPaused;
+  const running = autoplay && inView && pageVisible && !expanded;
+
+  const slideMs = activeIndex === 0 && !introDone ? INTRO_MS : SLIDE_MS;
+
+  const goTo = (index: number) => {
+    if (activeIndex === 0) setIntroDone(true);
+    setActiveIndex(((index % count) + count) % count);
+    setExpanded(false);
+  };
+
+  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+      event.preventDefault();
+      goTo(activeIndex + 1);
+    } else if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+      event.preventDefault();
+      goTo(activeIndex - 1);
+    }
+  };
 
   return (
     <div
-      ref={trackRef}
-      className={styles.track}
-      style={pinEnabled ? { height: `${(totalUnits + 1) * (compact ? 60 : 100)}svh` } : undefined}
+      ref={bandRef}
+      className={styles.band}
+      role="group"
+      aria-roledescription="carousel"
+      aria-label="Our Code"
+      onKeyDown={onKeyDown}
     >
-      {pinEnabled ? (
-        <>
-          {/* Touch snap stops: entry, one per value (centre of its hold), exit. */}
-          <SnapStop top="0" />
-          {values.map((value, i) => {
-            const f = Math.min(Math.max((i * STEP + HOLD / 2) / totalUnits, 0), 1);
-            return <SnapStop key={value.index} top={`calc((100% - 100svh) * ${f})`} />;
-          })}
-          <SnapStop top="calc(100% - 100svh)" />
-        </>
-      ) : null}
-      <div ref={frameRef} className={cx(styles.sticky, pinEnabled && styles.stickyPinned)}>
-        {pinEnabled ? <DrawnGrid className={styles.grid} /> : null}
+      <div className={styles.inner}>
+        <div className={styles.header}>
+          <Eyebrow as="span" tone="dark" className={styles.sectionHeading}>
+            Our Code
+          </Eyebrow>
 
-        <Eyebrow as="span" tone="dark" className={styles.sectionHeading}>
-          The Code
-        </Eyebrow>
+          {reduceMotion ? null : (
+            <button
+              type="button"
+              className={styles.controlButton}
+              onClick={() => setUserPaused((paused) => !paused)}
+              aria-label={userPaused ? "Play slideshow" : "Pause slideshow"}
+            >
+              <PlayPause playing={!userPaused} />
+            </button>
+          )}
+        </div>
 
-        {values.map((value, i) => (
-          <article
-            key={value.index}
-            ref={(el) => {
-              panelRefs.current[i] = el;
-            }}
-            className={cx(styles.panel, pinEnabled && styles.panelPinned)}
-            aria-hidden={pinEnabled && i !== activeIndex}
-          >
-            <div className={styles.panelMeta}>
-              <span className={styles.panelRing} aria-hidden="true" />
-              <span className={styles.panelMark} aria-hidden="true">
-                <CodeMark index={value.index} />
-              </span>
-            </div>
-            <span className={styles.panelDivider} aria-hidden="true" />
-            <Stack gap="md" className={styles.panelText}>
-              <Heading variant="section" as="h3" tone="dark" className={styles.panelTitle}>
-                {value.title}
-              </Heading>
-              <p className={styles.panelTagline}>{value.tagline}</p>
-              <p className={styles.panelBody}>{value.body}</p>
-            </Stack>
-          </article>
-        ))}
+        <div className={styles.layout}>
+          <ol className={styles.index}>
+            {values.map((value, i) => {
+              const active = i === activeIndex;
+              return (
+                <li key={value.index}>
+                  <button
+                    type="button"
+                    className={cx(styles.indexItem, active && styles.indexItemActive)}
+                    onClick={() => goTo(i)}
+                    aria-label={`${value.index}: ${value.title}`}
+                    aria-current={active ? "true" : undefined}
+                  >
+                    <span className={styles.indexNumber} aria-hidden="true">
+                      {value.index}
+                    </span>
+                    <span className={styles.indexTitle} aria-hidden="true">
+                      {value.title}
+                    </span>
+                    {active ? (
+                      autoplay ? (
+                        <span
+                          key={activeIndex}
+                          className={cx(styles.timer, !running && styles.timerHeld)}
+                          style={{ animationDuration: `${slideMs}ms` }}
+                          onAnimationEnd={() => goTo(activeIndex + 1)}
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <span className={styles.timerStatic} aria-hidden="true" />
+                      )
+                    ) : null}
+                  </button>
+                </li>
+              );
+            })}
+          </ol>
 
-        {pinEnabled ? (
-          <div className={styles.ledger}>
-            <div className={styles.ledgerBar} aria-hidden="true">
-              <span className={styles.ledgerFill} />
-            </div>
-            <div className={styles.ledgerRow}>
-              <span className={styles.ledgerCounter} aria-hidden="true">
-                <span className={styles.ledgerCounterActive}>
-                  {String(activeIndex + 1).padStart(2, "0")}
-                </span>
-                <span className={styles.ledgerCounterSep}>/</span>
-                <span className={styles.ledgerCounterTotal}>
-                  {String(values.length).padStart(2, "0")}
-                </span>
-              </span>
-              <ol className={styles.ledgerTicks}>
-                {values.map((value, i) => (
-                  <li key={value.index}>
+          <div className={styles.stage} aria-live={running ? "off" : "polite"}>
+            {values.map((value, i) => {
+              const active = i === activeIndex;
+              return (
+                <article
+                  key={value.index}
+                  className={cx(styles.panel, active && styles.panelActive)}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${i + 1} of ${count}`}
+                  aria-hidden={!active}
+                  inert={!active}
+                >
+                  <div className={styles.panelMeta}>
+                    <span className={styles.panelRing} aria-hidden="true" />
+                    <span className={styles.panelMark} aria-hidden="true">
+                      <CodeMark index={value.index} />
+                    </span>
+                  </div>
+                  <Stack gap="md" className={styles.panelText}>
+                    <Heading variant="section" as="h3" tone="dark" className={styles.panelTitle}>
+                      {value.title}
+                    </Heading>
+                    <p className={styles.panelTagline}>{value.tagline}</p>
+                    <p
+                      ref={(el) => {
+                        bodyRefs.current[i] = el;
+                      }}
+                      className={cx(styles.panelBody, active && expanded && styles.panelBodyOpen)}
+                    >
+                      {value.body}
+                    </p>
                     <button
                       type="button"
                       className={cx(
-                        styles.ledgerTick,
-                        i === activeIndex && styles.ledgerTickActive,
+                        styles.readMore,
+                        active && !canExpand && !expanded && styles.readMoreHidden,
                       )}
-                      onClick={() => goToIndex(i)}
-                      aria-label={`Go to ${value.title}`}
-                      aria-current={i === activeIndex ? "true" : undefined}
+                      tabIndex={active && !canExpand && !expanded ? -1 : undefined}
+                      aria-expanded={active && expanded}
+                      onClick={() => setExpanded((open) => !open)}
                     >
-                      {value.index}
+                      {active && expanded ? "Show less" : "Read more"}
                     </button>
-                  </li>
-                ))}
-              </ol>
-            </div>
+                  </Stack>
+                </article>
+              );
+            })}
           </div>
-        ) : null}
+        </div>
       </div>
     </div>
   );
@@ -354,7 +330,7 @@ function CodeReel({ values }: { values: readonly OurCodeValue[] }) {
 export function OurCode() {
   return (
     <section className={styles.section} aria-label={ourCode.heading}>
-      <CodeReel values={ourCode.values} />
+      <CodeSlideshow values={ourCode.values} />
     </section>
   );
 }
