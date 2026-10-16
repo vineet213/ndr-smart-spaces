@@ -20,7 +20,7 @@
   line-height: var(--leading-h3);
   color: var(--color-charcoal);
   opacity: 0;
-  transform: translateY(8px);
+  transform: translateY(0.5rem);
   transition:
     opacity var(--duration-reveal) var(--ease-standard),
     transform var(--duration-reveal) var(--ease-standard);
@@ -37,7 +37,7 @@
   gap: var(--space-4xl);
   margin-top: var(--space-5xl);
   opacity: 0;
-  transform: translateY(8px);
+  transform: translateY(0.5rem);
   transition:
     opacity var(--duration-reveal) var(--ease-standard),
     transform var(--duration-reveal) var(--ease-standard);
@@ -62,7 +62,7 @@
 .portfolioNote {
   margin-top: var(--space-3xl);
   opacity: 0;
-  transform: translateY(8px);
+  transform: translateY(0.5rem);
   transition:
     opacity var(--duration-reveal) var(--ease-standard),
     transform var(--duration-reveal) var(--ease-standard);
@@ -103,8 +103,8 @@
 
 .diamond {
   flex-shrink: 0;
-  width: 10px;
-  height: 10px;
+  width: 0.625rem;
+  height: 0.625rem;
   border: 1px solid var(--color-gold);
   transform: scale(0) rotate(45deg);
   transition: transform 600ms var(--ease-standard) 250ms;

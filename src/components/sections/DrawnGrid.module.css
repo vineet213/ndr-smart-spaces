@@ -21,12 +21,9 @@
   opacity: 0.1;
 }
 
-@media (max-width: 1439px) {
-  .columns {
-    column-gap: var(--gutter-tablet);
-  }
+.columns {
+  column-gap: var(--gutter-tablet);
 }
-
 @media (max-width: 1023px) {
   .grid {
     display: none;

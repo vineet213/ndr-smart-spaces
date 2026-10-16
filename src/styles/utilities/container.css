@@ -10,9 +10,3 @@
     padding-inline: var(--margin-tablet);
   }
 }
-
-@media (min-width: 1440px) {
-  .container {
-    padding-inline: var(--margin-desktop);
-  }
-}

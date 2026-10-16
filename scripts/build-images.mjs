@@ -23,7 +23,7 @@ const ROOT = process.cwd();
 const SRC_DIR = join(ROOT, "public", "images");
 const OUT_DIR = join(ROOT, "public", "_img");
 // Keep in sync with src/lib/imageLoader.ts
-const IMAGE_WIDTHS = [480, 800, 1200, 1600];
+const IMAGE_WIDTHS = [480, 800, 1200, 1600, 2400];
 const QUALITY = 72;
 const EXCLUDE = /^(clients|logos)[\/]/; // small marks are served as authored
 

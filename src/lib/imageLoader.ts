@@ -14,7 +14,7 @@
  */
 
 // Keep in sync with scripts/build-images.mjs and `images.deviceSizes` in next.config.ts
-export const IMAGE_WIDTHS = [480, 800, 1200, 1600] as const;
+export const IMAGE_WIDTHS = [480, 800, 1200, 1600, 2400] as const;
 
 const PHOTO = /^\/images\/(?!clients\/|logos\/).+\.(?:jpe?g|png)$/i;
 

@@ -130,7 +130,7 @@
 .blockLabel {
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: 20px;
+  font-size: 1.25rem;
   letter-spacing: -0.01em;
   fill: var(--color-charcoal);
 }
@@ -138,7 +138,7 @@
 .blockMeta {
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.08em;
   fill: var(--color-stone);
 }
@@ -373,7 +373,7 @@
 .dimText {
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.08em;
   fill: var(--color-maroon);
 }
@@ -392,7 +392,7 @@
 .calloutText {
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
-  font-size: 12px;
+  font-size: 0.75rem;
   letter-spacing: 0.08em;
   fill: var(--color-charcoal);
 }
@@ -416,7 +416,7 @@
 .northText {
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: 18px;
+  font-size: 1.125rem;
   fill: var(--color-charcoal);
 }
 
@@ -433,7 +433,7 @@
 .scaleText {
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
-  font-size: 10px;
+  font-size: 0.625rem;
   letter-spacing: 0.06em;
   fill: var(--color-charcoal);
 }
@@ -486,8 +486,8 @@
 .cropBottomLeft,
 .cropBottomRight {
   position: absolute;
-  width: 14px;
-  height: 14px;
+  width: 0.875rem;
+  height: 0.875rem;
   z-index: 3;
 }
 
@@ -529,7 +529,7 @@
 
 .rise {
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(0.625rem);
   transition:
     opacity var(--duration-reveal) var(--ease-standard),
     transform var(--duration-reveal) var(--ease-standard);

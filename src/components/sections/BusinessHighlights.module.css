@@ -100,16 +100,13 @@
   max-width: 48ch;
 }
 
-@media (max-width: 1439px) {
-  .section {
-    padding-block: var(--section-padding-tablet);
-  }
-
-  .partnership {
-    padding-block: var(--space-6xl);
-  }
+.section {
+  padding-block: var(--section-padding-tablet);
 }
 
+.partnership {
+  padding-block: var(--space-6xl);
+}
 @media (max-width: 767px) {
   .section {
     padding-block: var(--section-padding-mobile);

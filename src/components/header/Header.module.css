@@ -94,12 +94,6 @@
   }
 }
 
-@media (min-width: 1440px) {
-  .navContainer {
-    padding-inline: var(--margin-desktop);
-  }
-}
-
 .navBarScrolled .navContainer {
   height: 3.5rem;
   width: auto;

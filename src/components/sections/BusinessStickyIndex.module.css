@@ -4,7 +4,7 @@
   top: 56%;
   transform: translateY(-50%);
   z-index: 40;
-  width: 56px;
+  width: 3.5rem;
 }
 
 .rail {
@@ -17,7 +17,7 @@
 .rail::before {
   content: "";
   position: absolute;
-  left: 15px;
+  left: 0.9375rem;
   top: 0;
   bottom: 0;
   width: 2px;
@@ -36,17 +36,17 @@
   display: flex;
   align-items: center;
   gap: var(--space-md);
-  height: 48px;
+  height: 3rem;
   padding: 0 var(--space-md);
   text-decoration: none;
 }
 
 .railMarker {
   position: absolute;
-  left: 14.5px;
+  left: 0.9062rem;
   top: 50%;
-  width: 3px;
-  height: 24px;
+  width: 0.1875rem;
+  height: 1.5rem;
   background-color: var(--color-maroon);
   transform: translateY(-50%) scaleY(0);
   transition:
@@ -61,8 +61,8 @@
 .railDiamond {
   position: relative;
   flex-shrink: 0;
-  width: 8px;
-  height: 8px;
+  width: 0.5rem;
+  height: 0.5rem;
   border: 1px solid var(--color-maroon);
   transform: rotate(45deg);
   transition:
@@ -75,8 +75,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 4px;
-  height: 4px;
+  width: 0.25rem;
+  height: 0.25rem;
   background-color: var(--color-gold);
   transform: translate(-50%, -50%);
   opacity: 0;
@@ -143,7 +143,7 @@
 
 .railLabel {
   position: absolute;
-  left: 56px;
+  left: 3.5rem;
   top: 50%;
   transform: translateY(-50%);
   white-space: nowrap;
@@ -181,7 +181,7 @@
   border-bottom: 1px solid var(--color-hairline-light);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-4px);
+  transform: translateY(-0.25rem);
   transition:
     top var(--duration-standard) var(--ease-standard),
     opacity var(--duration-standard) var(--ease-standard),
@@ -212,7 +212,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-md);
-  min-height: 48px;
+  min-height: 3rem;
   padding: 0 var(--space-lg);
   white-space: nowrap;
   text-decoration: none;
@@ -273,12 +273,9 @@
   opacity: 1;
 }
 
-@media (max-width: 1399px) {
-  .railNav {
-    display: none;
-  }
+.railNav {
+  display: none;
 }
-
 @media (max-width: 767px) {
   .stripList {
     scroll-snap-type: x mandatory;
@@ -287,11 +284,5 @@
 
   .stripLink {
     scroll-snap-align: start;
-  }
-}
-
-@media (min-width: 1400px) {
-  .stripNav {
-    display: none;
   }
 }

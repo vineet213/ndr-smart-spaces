@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
     loader: "custom",
     loaderFile: "./src/lib/imageLoader.ts",
     // Must match IMAGE_WIDTHS in the loader / build script.
-    deviceSizes: [480, 800, 1200, 1600],
+    deviceSizes: [480, 800, 1200, 1600, 2400],
   },
 };
 

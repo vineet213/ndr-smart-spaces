@@ -25,7 +25,7 @@
 /* one development system ------------------------------------------------ */
 
 .field {
-  --station-y: calc(14px + var(--space-md) + 48px + 5px);
+  --station-y: calc(0.875rem + var(--space-md) + 3rem + 0.3125rem);
   position: relative;
   margin-top: var(--space-6xl);
 }
@@ -111,8 +111,8 @@
 
 .number {
   display: block;
-  height: 14px;
-  line-height: 14px;
+  height: 0.875rem;
+  line-height: 0.875rem;
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
@@ -125,23 +125,23 @@
 .mark {
   display: flex;
   justify-content: center;
-  height: 48px;
+  height: 3rem;
   margin-top: var(--space-md);
   color: rgba(240, 182, 90, 0.45);
   transition: color var(--duration-standard) var(--ease-standard);
 }
 
 .mark svg {
-  width: 48px;
-  height: 48px;
+  width: 3rem;
+  height: 3rem;
 }
 
 .diamond {
   position: absolute;
-  top: calc(var(--station-y) - 5px);
+  top: calc(var(--station-y) - 0.3125rem);
   left: 50%;
-  width: 10px;
-  height: 10px;
+  width: 0.625rem;
+  height: 0.625rem;
   border: 1px solid var(--color-gold);
   transform: translateX(-50%) rotate(45deg);
   transition:
@@ -150,7 +150,7 @@
 }
 
 .title {
-  margin: calc(var(--station-y) + 12px) 0 0;
+  margin: calc(var(--station-y) + 0.75rem) 0 0;
   text-align: center;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
@@ -182,7 +182,7 @@
 @keyframes value-rise {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(0.875rem);
   }
   to {
     opacity: 1;

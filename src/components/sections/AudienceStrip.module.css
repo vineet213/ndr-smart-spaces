@@ -75,12 +75,9 @@
   }
 }
 
-@media (max-width: 1439px) {
-  .link {
-    min-height: var(--space-11xl);
-  }
+.link {
+  min-height: var(--space-11xl);
 }
-
 @media (max-width: 767px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);

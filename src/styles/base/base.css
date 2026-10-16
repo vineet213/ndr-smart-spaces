@@ -1,6 +1,11 @@
 html {
   font-family: var(--font-body);
-  font-size: 100%;
+  /* The design is laid out for a 1366px-wide screen, where 1rem is 16px. From   */
+  /* there up to 2560px the root size grows with the viewport, so every rem      */
+  /* length (type, spacing, container, header) scales together and a bigger      */
+  /* monitor shows the same composition, just larger. Below 1366px it stays at   */
+  /* 100% and the responsive layouts take over exactly as before.                */
+  font-size: clamp(100%, calc(100vw / 85.375), 187.5%);
   line-height: var(--leading-body);
   color: var(--color-text-primary);
   background-color: var(--color-ivory);

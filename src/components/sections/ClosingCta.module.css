@@ -37,16 +37,13 @@
   margin-top: var(--space-lg);
 }
 
-@media (max-width: 1439px) {
-  .section {
-    padding-block: var(--section-padding-tablet);
-  }
-
-  .plate {
-    padding-block: var(--space-8xl);
-  }
+.section {
+  padding-block: var(--section-padding-tablet);
 }
 
+.plate {
+  padding-block: var(--space-8xl);
+}
 @media (max-width: 767px) {
   .section {
     padding-block: var(--section-padding-mobile);

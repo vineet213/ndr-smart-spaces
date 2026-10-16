@@ -322,12 +322,9 @@
 
 /* responsive -------------------------------------------------------------- */
 
-@media (max-width: 1439px) {
-  .section {
-    padding-block: var(--section-padding-tablet);
-  }
+.section {
+  padding-block: var(--section-padding-tablet);
 }
-
 @media (max-width: 1023px) {
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {

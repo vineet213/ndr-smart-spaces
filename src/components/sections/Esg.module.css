@@ -58,12 +58,9 @@
   color: var(--color-text-secondary);
 }
 
-@media (max-width: 1439px) {
-  .section {
-    padding-block: var(--section-padding-tablet);
-  }
+.section {
+  padding-block: var(--section-padding-tablet);
 }
-
 @media (max-width: 767px) {
   .section {
     padding-block: var(--section-padding-mobile);
