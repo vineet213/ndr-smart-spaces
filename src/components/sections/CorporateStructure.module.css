@@ -1,5 +1,49 @@
-.section {
+/* Doubled class: the shared Section re-applies its tone background, and a   */
+/* single-class rule could lose to it depending on CSS order.                 */
+.section.section {
   position: relative;
+  overflow: hidden;
+  background-color: var(--color-maroon-dark);
+  /* Gold light from the upper left, a deeper red pooling lower right: the same    */
+  /* family of glow as the mastheads, in a different corner.                      */
+  background-image:
+    radial-gradient(50% 55% at 10% 6%, rgba(240, 182, 90, 0.16) 0%, rgba(240, 182, 90, 0) 70%),
+    radial-gradient(45% 55% at 96% 100%, rgba(150, 40, 48, 0.55) 0%, rgba(150, 40, 48, 0) 70%);
+}
+
+/* ─── Section header ──────────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.headerRule {
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(1.875rem, 3.4vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--color-text-inverse);
+}
+
+.subtitle {
+  margin: 0;
+  max-width: var(--measure-body);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-text-inverse-80);
 }
 
 .content {
@@ -10,7 +54,7 @@
 /* ─── Figure block ────────────────────────────────────────────────────── */
 
 .figure {
-  margin-top: var(--space-7xl);
+  margin: var(--space-5xl) 0 0;
 }
 
 /* ─── Diagram canvas ──────────────────────────────────────────────────── */
@@ -19,7 +63,8 @@
   position: relative;
   width: 100%;
   background-color: var(--color-ivory);
-  border: 1px solid var(--color-hairline-light);
+  border: 1px solid var(--color-gold-40);
+  box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.45);
 }
 
 .svg {
@@ -147,13 +192,6 @@
   text-transform: uppercase;
 }
 
-.nRel {
-  fill: var(--color-ink-muted);
-  font-family: var(--font-body);
-  font-size: 12.5px;
-  font-weight: var(--font-weight-body-regular);
-}
-
 /* ─── Icon badges ─────────────────────────────────────────────────────── */
 
 .badgeBg {
@@ -167,52 +205,11 @@
   pointer-events: none;
 }
 
-/* ─── Legend ───────────────────────────────────────────────────────────── */
-
-.legend {
-  pointer-events: none;
-}
-
-.legendHeading {
-  fill: var(--color-stone);
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: var(--font-weight-body-semibold);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.legendOwn {
-  stroke: var(--color-maroon);
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-.legendSvc {
-  stroke: var(--color-stone);
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-dasharray: 8 4;
-}
-
-.legendTxn {
-  stroke: var(--color-maroon-dark);
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-.legendText {
-  fill: var(--color-stone);
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: var(--font-weight-body-medium);
-}
-
 /* ─── Source footnote ──────────────────────────────────────────────────── */
 
 .source {
-  margin-top: var(--space-4xl);
-  color: var(--color-stone);
+  margin-top: var(--space-3xl);
+  color: var(--color-text-inverse-70);
 }
 
 /* ─── Mobile / screen-reader relationship tree ────────────────────────────
@@ -237,7 +234,8 @@
 .diagramPortrait {
   display: none;
   background-color: var(--color-ivory);
-  border: 1px solid var(--color-hairline-light);
+  border: 1px solid var(--color-gold-40);
+  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.4);
 }
 
 .pHubTitle {
@@ -284,26 +282,11 @@
   font-size: 12px;
 }
 
-.pLegendHeading {
-  fill: var(--color-stone);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-semibold);
-  font-size: 12px;
-  letter-spacing: 0.12em;
-}
-
-.pLegendText {
-  fill: var(--color-stone);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: 12.5px;
-}
-
 /* responsive ------------------------------------------------------------ */
 
 @media (max-width: 767px) {
   .figure {
-    margin-top: var(--space-5xl);
+    margin-top: var(--space-3xl);
   }
 
   .diagram {

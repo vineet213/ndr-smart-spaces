@@ -2,7 +2,13 @@
   /* The wrapping <Section tone="dim"> (development-lifecycle/page.tsx)       */
   /* already supplies top padding-block; adding our own on top of it doubled */
   /* the gap between the masthead and the first stage row.                   */
-  padding-block: 0 var(--space-7xl);
+  /* The closing dark band runs to the bottom of the section; the footnote   */
+  /* (when there is one) brings its own spacing.                             */
+  padding-block: 0;
+}
+
+.footnote {
+  padding-block: var(--space-3xl);
 }
 
 .list {
@@ -11,23 +17,43 @@
   /* .stageTrack to be a normal-flow sibling, not a grid item.               */
 }
 
-/* Full-bleed, edge to edge — no frame or side gutters around the render. */
-.plate {
-  width: 100%;
+/* Closing "final product" band: a dark charcoal ground continues the look  */
+/* of the pinned stages above (instead of dropping onto bare ivory), with    */
+/* the render framed at its native proportions inside the page gutters.      */
+.finale {
+  padding-block: var(--space-8xl);
   background-color: var(--color-charcoal);
+}
+
+.mapHeading {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: end;
+  column-gap: var(--space-5xl);
+  margin-bottom: var(--space-5xl);
+}
+
+.mapHeadingTitle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.plate {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-gold-40);
+  background-color: var(--color-charcoal-deep);
+  box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.55);
 }
 
 .plateVideo {
   display: block;
   width: 100%;
-  height: min(85svh, 56.25vw);
+  height: auto;
+  aspect-ratio: 1642 / 1080;
+  max-height: 85svh;
   object-fit: cover;
-}
-
-.mapHeading {
-  /* breathing room between the last stage and the closing heading */
-  padding-top: var(--space-10xl);
-  margin-bottom: var(--space-8xl);
 }
 
 /* The last stage has no following stage to cover it; receding + dimming it  */
@@ -44,18 +70,18 @@
   font-size: clamp(1.875rem, 3.4vw, 3.25rem);
   line-height: 1.05;
   letter-spacing: -0.01em;
-  color: var(--color-charcoal);
+  color: var(--color-text-inverse);
   text-wrap: balance;
 }
 
 .mapBody {
-  margin: var(--space-lg) 0 0;
+  margin: 0;
   max-width: var(--measure-body);
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-regular);
   font-size: 1.0625rem;
   line-height: 1.7;
-  color: var(--color-text-secondary);
+  color: var(--color-text-inverse-80);
 }
 
 /* sticky card stack -------------------------------------------------------- */
@@ -149,7 +175,7 @@
   overflow: hidden;
   background: rgba(15, 13, 12, 0.82);
   backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(1.125rem);
 }
 
 .cutLeft {
@@ -278,12 +304,6 @@
   pointer-events: auto;
 }
 
-@media (min-width: 1440px) {
-  .stageNav {
-    left: var(--margin-desktop);
-  }
-}
-
 .stageNavTrack {
   position: absolute;
   left: 50%;
@@ -324,8 +344,8 @@
 
 .stageNavDot {
   flex: none;
-  width: 7px;
-  height: 7px;
+  width: 0.4375rem;
+  height: 0.4375rem;
   border-radius: 50%;
   background-color: rgba(250, 247, 242, 0.32);
   box-shadow: 0 0 0 3px var(--color-charcoal-deep, #1c1a19);
@@ -401,7 +421,7 @@
     padding: 0 var(--space-xs);
     border-radius: 999px;
     background-color: rgba(28, 26, 25, 0.72);
-    -webkit-backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(0.625rem);
     backdrop-filter: blur(10px);
     color: var(--color-ivory);
   }
@@ -481,7 +501,7 @@
 
   .textPanelInner > * {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(1.125rem);
     transition:
       opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
       transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -589,7 +609,7 @@
 @keyframes lifecycleTextRise {
   from {
     opacity: 0;
-    transform: translateY(22px);
+    transform: translateY(1.375rem);
   }
   to {
     opacity: 1;
@@ -715,9 +735,14 @@
     height: 100dvh;
   }
 
+  .finale {
+    padding-block: var(--space-6xl);
+  }
+
   .mapHeading {
-    padding-top: var(--space-7xl);
-    margin-bottom: var(--space-5xl);
+    grid-template-columns: 1fr;
+    row-gap: var(--space-lg);
+    margin-bottom: var(--space-3xl);
   }
 
   .textPanelInner {
@@ -727,7 +752,7 @@
 
 @media (max-width: 767px) {
   .section {
-    padding-block: var(--space-3xl) var(--space-5xl);
+    padding-block: var(--space-3xl) 0;
   }
 
   /* Track height is left at the base 220svh across breakpoints: the

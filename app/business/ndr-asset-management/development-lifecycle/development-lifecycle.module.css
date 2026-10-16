@@ -4,5 +4,5 @@
 /* and a single-class rule here could lose to those depending on CSS order.  */
 .bodySection.bodySection {
   position: relative;
-  padding-top: 0;
+  padding-block: 0;
 }

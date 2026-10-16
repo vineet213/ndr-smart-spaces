@@ -2,7 +2,6 @@ import type { ReactElement } from "react";
 import { Container, Section } from "@/components/layout";
 import { SourceFootnote } from "@/components/ui";
 import { corporateStructure, corporateStructureChapter } from "@/lib/data/business";
-import { ChapterOpener } from "./ChapterOpener";
 import { cx } from "../ui/cx";
 import styles from "./CorporateStructure.module.css";
 
@@ -13,39 +12,35 @@ import styles from "./CorporateStructure.module.css";
 const [spv, am, ave, invit, third] = corporateStructure.branches;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CANVAS — 1250 × 720, three structured tiers
+   CANVAS — 1320 × 680, a symmetric three-level tree
    ═══════════════════════════════════════════════════════════════════════════
-   Tier 1  NDR Smart Spaces Pvt. Ltd. (anchor)
-   Tier 2  Operating & ownership block: NDR Asset Management · Group SPVs ·
-           Warehouses · Ave Acres LLP
-   Tier 3  Capital & interaction block: NDR InvIT Trust · Third parties
+   Level 1  NDR Smart Spaces Pvt. Ltd. (hub)
+   Level 2  What the hub owns, on one shared "Ownership" bus: NDR Asset
+            Management · Group SPVs · Ave Acres LLP
+   Level 3  The two outward sales, each directly under the entity that makes
+            it: Group SPVs ⇄ Third-Party Listed Entity (SPV ownership) and
+            Ave Acres ⇄ Third parties (developed land)
    ═══════════════════════════════════════════════════════════════════════════ */
 
-const VB_W = 1250;
-const VB_H = 720;
+const VB_W = 1320;
+const VB_H = 640;
 
-type EntityId = "center" | "spv" | "am" | "ave" | "invit" | "warehouses" | "third";
+type EntityId = "center" | "spv" | "am" | "ave" | "invit" | "third";
+type CardId = Exclude<EntityId, "center">;
 
 type N = { x: number; y: number; w: number; h: number };
 
 const NODES: Record<EntityId, N> = {
-  center: { x: 400, y: 36, w: 450, h: 124 },
-  am: { x: 40, y: 270, w: 250, h: 190 },
-  spv: { x: 350, y: 270, w: 250, h: 190 },
-  warehouses: { x: 650, y: 270, w: 250, h: 190 },
-  ave: { x: 960, y: 270, w: 250, h: 190 },
-  invit: { x: 475, y: 540, w: 300, h: 136 },
-  third: { x: 960, y: 540, w: 250, h: 136 },
+  center: { x: 460, y: 36, w: 400, h: 100 },
+  am: { x: 65, y: 262, w: 270, h: 128 },
+  spv: { x: 525, y: 262, w: 270, h: 128 },
+  ave: { x: 985, y: 262, w: 270, h: 128 },
+  invit: { x: 525, y: 480, w: 270, h: 120 },
+  third: { x: 985, y: 480, w: 270, h: 120 },
 };
 
-/* Anchor card title, centred on the (now generously widened) box itself —
-   wide enough that "NDR Smart Spaces" clears both the box's own edges and
-   the corner badge without needing an off-centre fudge. */
-const CCX = NODES.center.x + NODES.center.w / 2;
-
 /* ═══════════════════════════════════════════════════════════════════════════
-   CONNECTORS — orthogonal elbows, every edge end lands on a card edge.
-   All nine relationships are preserved from the previous diagram.
+   CONNECTORS — orthogonal, every arrow ends on a card edge.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 type ConnType = "ownership" | "service" | "transaction";
@@ -54,83 +49,56 @@ type Connector = {
   id: string;
   type: ConnType;
   d: string;
-  lx: number;
-  ly: number;
-  label: string;
+  /** Plain connector with no arrowhead (the shared ownership trunk and bus). */
+  noArrow?: boolean;
+  /** Label plate, centred on (px, py); `|` splits it onto two lines. */
+  plate?: { px: number; py: number; label: string };
 };
 
 const CONNECTORS: readonly Connector[] = [
+  /* hub → everything it owns: one trunk, one bus, three drops, one label */
   {
-    id: "own-am",
+    id: "own-trunk",
     type: "ownership",
-    d: `M470 160 L470 200 L165 200 L165 264`,
-    lx: 183,
-    ly: 232,
-    label: "Ownership",
+    d: "M660 136 L660 205",
+    noArrow: true,
   },
-  {
-    id: "own-spv",
-    type: "ownership",
-    d: `M475 160 L475 264`,
-    lx: 493,
-    ly: 228,
-    label: "Ownership",
-  },
-  {
-    id: "own-ave",
-    type: "ownership",
-    d: `M850 160 L850 200 L1085 200 L1085 264`,
-    lx: 1103,
-    ly: 232,
-    label: "Ownership",
-  },
-  {
-    id: "svc-rental",
-    type: "service",
-    d: `M700 160 L700 200 L775 200 L775 264`,
-    lx: 793,
-    ly: 232,
-    label: "Rental Income",
-  },
+  { id: "own-bus", type: "ownership", d: "M200 205 L1120 205", noArrow: true },
+  { id: "own-am", type: "ownership", d: "M200 205 L200 256" },
+  { id: "own-spv", type: "ownership", d: "M660 205 L660 256" },
+  { id: "own-ave", type: "ownership", d: "M1120 205 L1120 256" },
+  /* Group SPVs → Asset Management, straight across the gap between them */
   {
     id: "svc-pmc",
     type: "service",
-    d: `M400 460 L400 495 L165 495 L165 462`,
-    lx: 196,
-    ly: 506,
-    label: "PMC Fee · Consultancy",
+    d: "M519 326 L341 326",
+    plate: { px: 430, py: 326, label: "PMC Fee|Consultancy" },
+  },
+  /* Group SPVs ⇄ Third-Party Listed Entity, a pair with a label on each side */
+  {
+    id: "txn-sale-spv",
+    type: "transaction",
+    d: "M640 396 L640 474",
+    plate: { px: 553, py: 435, label: "Sale of|SPV Ownership" },
   },
   {
-    id: "txn-sale-invit",
+    id: "txn-pay-spv",
     type: "transaction",
-    d: `M618 168 L618 540`,
-    lx: 660,
-    ly: 480,
-    label: "Sale of SPV Ownership",
+    d: "M680 474 L680 396",
+    plate: { px: 767, py: 435, label: "Consideration|Paid" },
   },
-  {
-    id: "txn-pay-invit",
-    type: "transaction",
-    d: `M632 540 L632 168`,
-    lx: 660,
-    ly: 526,
-    label: "Consideration Paid",
-  },
+  /* Ave Acres ⇄ Third parties */
   {
     id: "txn-sale-ave",
     type: "transaction",
-    d: `M1077 468 L1077 532`,
-    lx: 879,
-    ly: 476,
-    label: "Sale of Developed Land",
+    d: "M1100 396 L1100 474",
+    plate: { px: 1009, py: 435, label: "Sale of|Developed Land" },
   },
   {
     id: "txn-pay-ave",
     type: "transaction",
-    d: `M1093 532 L1093 468`,
-    lx: 922,
-    ly: 504,
-    label: "Consideration Paid",
+    d: "M1140 474 L1140 396",
+    plate: { px: 1227, py: 435, label: "Consideration|Paid" },
   },
 ];
 
@@ -142,7 +110,6 @@ const markerId = (t: ConnType, prefix = "a") =>
    ═══════════════════════════════════════════════════════════════════════════ */
 
 const TITLE_CHAR_W = 8.2;
-const REL_CHAR_W = 6.3;
 
 function wrapText(text: string, charW: number, width: number): string[] {
   const max = Math.max(24, Math.floor(width / charW));
@@ -242,7 +209,7 @@ function ArrowDefs({ prefix = "a" }: { prefix?: string }) {
   );
 }
 
-const ICONS: Record<EntityId, ReactElement> = {
+const ICONS: Record<CardId, ReactElement> = {
   am: (
     <g stroke="white" strokeWidth="1.4" strokeLinecap="round" fill="none">
       <rect x="10" y="6" width="14" height="18" rx="1" />
@@ -275,48 +242,39 @@ const ICONS: Record<EntityId, ReactElement> = {
       <polyline points="12,15 16,19 23,11" />
     </g>
   ),
-  warehouses: (
-    <g stroke="white" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none">
-      <path d="M6,16 L17,8 L28,16" />
-      <rect x="8" y="16" width="18" height="10" rx="0.5" />
-      <line x1="17" y1="16" x2="17" y2="26" />
-    </g>
-  ),
-  center: (
-    <g stroke="white" strokeWidth="1.3" fill="none">
-      <circle cx="17" cy="17" r="11" opacity="0.35" />
-      <path d="M12,12 L12,22 M12,12 L22,22 L22,12" strokeLinecap="round" strokeLinejoin="round" />
-    </g>
-  ),
 };
 
 /* ─── connector label plate sizing ───────────────────────────────────────── */
 
-const PLATE_H = 22;
+const PLATE_LINE_H = 17;
 const PLATE_PAD = 14;
 const CHAR_W = 9;
-const pw = (label: string) => Math.ceil(label.length * CHAR_W) + PLATE_PAD * 2;
 
-/* ─── legend ─────────────────────────────────────────────────────────────── */
-
-function Legend() {
-  const items = [
-    { label: "Ownership", x: 150, cls: styles.legendOwn },
-    { label: "Services / Fees", x: 300, cls: styles.legendSvc },
-    { label: "Transactions", x: 480, cls: styles.legendTxn },
-  ];
+function DeskPlate({ px, py, label }: { px: number; py: number; label: string }) {
+  const lines = label.split("|");
+  const width = Math.ceil(Math.max(...lines.map((line) => line.length)) * CHAR_W) + PLATE_PAD * 2;
+  const height = lines.length * PLATE_LINE_H + 8;
+  const firstBaseline = py - ((lines.length - 1) * PLATE_LINE_H) / 2 + 5;
   return (
-    <g className={styles.legend}>
-      <text x={40} y={706} className={styles.legendHeading}>
-        LEGEND
-      </text>
-      {items.map((item) => (
-        <g key={item.label}>
-          <line x1={item.x} y1={700} x2={item.x + 40} y2={700} className={item.cls} />
-          <text x={item.x + 50} y={706} className={styles.legendText}>
-            {item.label}
-          </text>
-        </g>
+    <g>
+      <rect
+        x={px - width / 2}
+        y={py - height / 2}
+        width={width}
+        height={height}
+        rx={5}
+        className={styles.plate}
+      />
+      {lines.map((line, index) => (
+        <text
+          key={line}
+          x={px}
+          y={firstBaseline + index * PLATE_LINE_H}
+          textAnchor="middle"
+          className={styles.connL}
+        >
+          {line}
+        </text>
       ))}
     </g>
   );
@@ -325,43 +283,37 @@ function Legend() {
 /* ═══════════════════════════════════════════════════════════════════════════
    PORTRAIT DIAGRAM (phones) — the same entity map redrawn for a tall screen
    ═══════════════════════════════════════════════════════════════════════════
-   360 units wide, so one unit is roughly one CSS pixel on a small phone and the
-   text (12+ units) stays readable. Top to bottom:
+   One column, 360 units wide (about one CSS pixel per unit on a small phone).
+   A rail down the left edge carries the ownership arrows from the hub into the
+   three entities it owns; each outward sale sits directly under its seller:
 
-     NDR InvIT            capital partner, paired transaction arrows to the hub
-     NDR Smart Spaces     the hub
-     Asset Mgmt | SPVs    owned entities
-     Warehouses | Ave     rental assets, plotting entity
-     Legend     | Third   land purchasers
-
-   Long-haul lines run in dedicated channels (centre gutter, right margin) so no
-   connector ever passes through a card.
+     NDR Smart Spaces          hub
+     NDR Asset Management      ← PMC fee from Group SPVs
+     Group SPVs
+     Third-Party Listed Entity ⇄ SPV ownership / consideration
+     Ave Acres LLP
+     Third parties             ⇄ developed land / consideration
    ═══════════════════════════════════════════════════════════════════════════ */
 
 const P_W = 360;
-const P_H = 852;
-const P_COL_L = 30;
-const P_COL_R = 192;
-const P_BOX_W = 138;
-const P_BOX_H = 124;
-const P_GUTTER_X = 180;
-const P_RAIL_X = 345;
+const P_H = 930;
+const P_X = 48;
+const P_BOX_W = 292;
+const P_RAIL_X = 24;
 
 const P_NODES: Record<EntityId, N> = {
-  invit: { x: 90, y: 16, w: 180, h: 88 },
-  center: { x: 40, y: 166, w: 280, h: 92 },
-  am: { x: P_COL_L, y: 332, w: P_BOX_W, h: P_BOX_H },
-  spv: { x: P_COL_R, y: 332, w: P_BOX_W, h: P_BOX_H },
-  warehouses: { x: P_COL_L, y: 566, w: P_BOX_W, h: 100 },
-  ave: { x: P_COL_R, y: 566, w: P_BOX_W, h: 100 },
-  third: { x: P_COL_R, y: 736, w: P_BOX_W, h: 84 },
+  center: { x: P_X, y: 16, w: P_BOX_W, h: 84 },
+  am: { x: P_X, y: 170, w: P_BOX_W, h: 84 },
+  spv: { x: P_X, y: 318, w: P_BOX_W, h: 100 },
+  invit: { x: P_X, y: 508, w: P_BOX_W, h: 84 },
+  ave: { x: P_X, y: 632, w: P_BOX_W, h: 84 },
+  third: { x: P_X, y: 806, w: P_BOX_W, h: 84 },
 };
 
-const P_ENTITIES: readonly { id: Exclude<EntityId, "center">; title: string; fn: string }[] = [
-  { id: "invit", title: invit.name, fn: "Separate listed entity under the NDR Group" },
+const P_ENTITIES: readonly { id: CardId; title: string; fn: string }[] = [
   { id: "am", title: am.name, fn: "Project management company" },
   { id: "spv", title: spv.name, fn: "Owns / leases land · constructs warehouses" },
-  { id: "warehouses", title: "Warehouses", fn: "Rental income assets" },
+  { id: "invit", title: invit.name, fn: "Purchaser of SPV ownership" },
   { id: "ave", title: ave.name, fn: "Development entity · plotting" },
   { id: "third", title: third.name, fn: "Land purchasers" },
 ];
@@ -370,93 +322,70 @@ type PortraitConnector = {
   id: string;
   type: ConnType;
   d: string;
+  noArrow?: boolean;
   /** Label plate: centre point, or an edge to align against (`start` / `end`). */
-  lx: number;
-  ly: number;
+  lx?: number;
+  ly?: number;
   anchor?: "start" | "middle" | "end";
-  lines: readonly string[];
+  lines?: readonly string[];
 };
 
 const P_CONNECTORS: readonly PortraitConnector[] = [
-  /* hub ⇄ InvIT, a tight vertical pair with a label on each side */
+  /* hub → owned entities, down the left rail */
   {
-    id: "txn-sale-invit",
-    type: "transaction",
-    d: "M172 166 L172 110",
-    lx: 162,
-    ly: 135,
-    anchor: "end",
-    lines: ["Sale of SPV ownership"],
-  },
-  {
-    id: "txn-pay-invit",
-    type: "transaction",
-    d: "M188 104 L188 160",
-    lx: 198,
-    ly: 135,
-    anchor: "start",
-    lines: ["Consideration paid"],
-  },
-  /* hub → owned entities directly beneath it */
-  {
-    id: "own-am",
+    id: "own-rail",
     type: "ownership",
-    d: "M99 258 L99 326",
-    lx: 99,
-    ly: 292,
-    lines: ["Ownership"],
+    d: `M${P_X} 58 L${P_RAIL_X} 58 L${P_RAIL_X} 674`,
+    noArrow: true,
   },
-  {
-    id: "own-spv",
-    type: "ownership",
-    d: "M261 258 L261 326",
-    lx: 261,
-    ly: 292,
-    lines: ["Ownership"],
-  },
-  /* Group SPVs → Asset Management, a U beneath the two cards */
+  { id: "own-am", type: "ownership", d: `M${P_RAIL_X} 212 L42 212` },
+  { id: "own-spv", type: "ownership", d: `M${P_RAIL_X} 368 L42 368` },
+  { id: "own-ave", type: "ownership", d: `M${P_RAIL_X} 674 L42 674` },
+  /* Group SPVs → Asset Management, straight up between the two cards */
   {
     id: "svc-pmc",
     type: "service",
-    d: "M240 456 L240 482 L120 482 L120 462",
-    lx: P_GUTTER_X,
-    ly: 482,
+    d: "M250 312 L250 260",
+    lx: 262,
+    ly: 286,
+    anchor: "start",
     lines: ["PMC fee ·", "consultancy"],
   },
-  /* hub → Warehouses, down the centre gutter between the cards */
+  /* Group SPVs ⇄ Third-Party Listed Entity */
   {
-    id: "svc-rental",
-    type: "service",
-    d: `M${P_GUTTER_X} 258 L${P_GUTTER_X} 520 L80 520 L80 560`,
-    lx: 148,
-    ly: 520,
-    lines: ["Rental", "income"],
+    id: "txn-sale-spv",
+    type: "transaction",
+    d: "M180 424 L180 502",
+    lx: 170,
+    ly: 463,
+    anchor: "end",
+    lines: ["Sale of SPV", "ownership"],
   },
-  /* hub → Ave Acres, down the right-margin rail */
   {
-    id: "own-ave",
-    type: "ownership",
-    d: `M320 212 L${P_RAIL_X} 212 L${P_RAIL_X} 520 L262 520 L262 560`,
-    lx: 304,
-    ly: 520,
-    lines: ["Ownership"],
+    id: "txn-pay-spv",
+    type: "transaction",
+    d: "M216 508 L216 430",
+    lx: 226,
+    ly: 463,
+    anchor: "start",
+    lines: ["Consideration", "paid"],
   },
   /* Ave Acres ⇄ Third parties */
   {
     id: "txn-sale-ave",
     type: "transaction",
-    d: "M206 666 L206 730",
-    lx: 196,
-    ly: 698,
+    d: "M180 722 L180 800",
+    lx: 170,
+    ly: 761,
     anchor: "end",
     lines: ["Sale of", "developed land"],
   },
   {
     id: "txn-pay-ave",
     type: "transaction",
-    d: "M222 736 L222 672",
-    lx: 232,
-    ly: 698,
+    d: "M216 806 L216 728",
+    lx: 226,
+    ly: 761,
     anchor: "start",
     lines: ["Consideration", "paid"],
   },
@@ -484,6 +413,7 @@ function wrapLines(text: string, maxChars: number): string[] {
 
 function PortraitLabel({ connector }: { connector: PortraitConnector }) {
   const { lines, lx, ly, anchor = "middle" } = connector;
+  if (!lines || lx === undefined || ly === undefined) return null;
   const width =
     Math.ceil(Math.max(...lines.map((line) => line.length)) * P_LABEL_CHAR_W) + P_LABEL_PAD_X * 2;
   const height = lines.length * P_LABEL_LINE_H + 8;
@@ -514,7 +444,7 @@ function PortraitLabel({ connector }: { connector: PortraitConnector }) {
   );
 }
 
-function PortraitNode({ id, title, fn }: { id: EntityId; title: string; fn: string }) {
+function PortraitNode({ id, title, fn }: { id: CardId; title: string; fn: string }) {
   const node = P_NODES[id];
   const textX = node.x + 12;
   const titleLines = wrapLines(title, Math.floor((node.w - 24) / 7.6));
@@ -530,7 +460,7 @@ function PortraitNode({ id, title, fn }: { id: EntityId; title: string; fn: stri
         width={node.w}
         height={4}
         rx={2}
-        className={id === "invit" ? styles.accentG : styles.accentM}
+        className={id === "am" || id === "invit" ? styles.accentG : styles.accentM}
       />
       {titleLines.map((line, index) => (
         <text key={line} x={textX} y={titleY + index * 17} className={styles.pTitle}>
@@ -548,34 +478,6 @@ function PortraitNode({ id, title, fn }: { id: EntityId; title: string; fn: stri
           {ICONS[id]}
         </g>
       </g>
-    </g>
-  );
-}
-
-function PortraitLegend() {
-  const x = P_COL_L;
-  const top = P_NODES.third.y + 22;
-  const items = [
-    { label: "Ownership", cls: styles.legendOwn },
-    { label: "Services / fees", cls: styles.legendSvc },
-    { label: "Transactions", cls: styles.legendTxn },
-  ];
-  return (
-    <g className={styles.legend}>
-      <text x={x} y={top} className={styles.pLegendHeading}>
-        LEGEND
-      </text>
-      {items.map((item, index) => {
-        const y = top + 26 + index * 26;
-        return (
-          <g key={item.label}>
-            <line x1={x} y1={y - 4} x2={x + 30} y2={y - 4} className={item.cls} />
-            <text x={x + 40} y={y} className={styles.pLegendText}>
-              {item.label}
-            </text>
-          </g>
-        );
-      })}
     </g>
   );
 }
@@ -607,7 +509,7 @@ function PortraitDiagram() {
                 connector.type === "service" && styles.pSvc,
                 connector.type === "transaction" && styles.pTxn,
               )}
-              markerEnd={`url(#${markerId(connector.type, "p")})`}
+              markerEnd={connector.noArrow ? undefined : `url(#${markerId(connector.type, "p")})`}
             />
           ))}
           {P_CONNECTORS.map((connector) => (
@@ -639,8 +541,6 @@ function PortraitDiagram() {
         {P_ENTITIES.map((entity) => (
           <PortraitNode key={entity.id} {...entity} />
         ))}
-
-        <PortraitLegend />
       </svg>
     </div>
   );
@@ -654,14 +554,13 @@ export function CorporateStructure() {
   return (
     <Section tone="dim" id="structure" ariaLabelledby="structure-title" className={styles.section}>
       <Container className={styles.content}>
-        <ChapterOpener
-          chapter={corporateStructureChapter}
-          headingId="structure-title"
-          animate={false}
-          hideNumeral
-          hideThesis
-          hideRule
-        />
+        <header className={styles.header}>
+          <span className={styles.headerRule} aria-hidden="true" />
+          <h2 id="structure-title" className={styles.title}>
+            {corporateStructureChapter.label}
+          </h2>
+          <p className={styles.subtitle}>{corporateStructureChapter.title}</p>
+        </header>
 
         <figure className={styles.figure}>
           {/* Desktop / tablet: the orthogonal entity map (decorative SVG). */}
@@ -674,46 +573,29 @@ export function CorporateStructure() {
             >
               <ArrowDefs />
 
-              {/* connectors */}
+              {/* connectors, then every label on top so a plate can sit over a line */}
               <g className={styles.connectors}>
-                {CONNECTORS.map((connector) => {
-                  const width = pw(connector.label);
-                  return (
-                    <g key={connector.id}>
-                      <path
-                        d={connector.d}
-                        fill="none"
-                        strokeWidth={2}
-                        className={cx(
-                          styles.connP,
-                          connector.type === "ownership" && styles.pOwn,
-                          connector.type === "service" && styles.pSvc,
-                          connector.type === "transaction" && styles.pTxn,
-                        )}
-                        markerEnd={`url(#${markerId(connector.type)})`}
-                      />
-                      <rect
-                        x={connector.lx - PLATE_PAD}
-                        y={connector.ly - PLATE_H / 2}
-                        width={width}
-                        height={PLATE_H}
-                        rx={5}
-                        className={styles.plate}
-                      />
-                      <text
-                        x={connector.lx - PLATE_PAD + width / 2}
-                        y={connector.ly + 5}
-                        textAnchor="middle"
-                        className={styles.connL}
-                      >
-                        {connector.label}
-                      </text>
-                    </g>
-                  );
-                })}
+                {CONNECTORS.map((connector) => (
+                  <path
+                    key={connector.id}
+                    d={connector.d}
+                    fill="none"
+                    strokeWidth={2}
+                    className={cx(
+                      styles.connP,
+                      connector.type === "ownership" && styles.pOwn,
+                      connector.type === "service" && styles.pSvc,
+                      connector.type === "transaction" && styles.pTxn,
+                    )}
+                    markerEnd={connector.noArrow ? undefined : `url(#${markerId(connector.type)})`}
+                  />
+                ))}
+                {CONNECTORS.map((connector) =>
+                  connector.plate ? <DeskPlate key={connector.id} {...connector.plate} /> : null,
+                )}
               </g>
 
-              {/* tier 1 — anchor hub */}
+              {/* level 1 — the hub */}
               <g>
                 <rect
                   x={NODES.center.x}
@@ -732,64 +614,28 @@ export function CorporateStructure() {
                   className={styles.centerAcc}
                 />
                 <text
-                  x={CCX - 18}
-                  y={NODES.center.y + NODES.center.h / 2 + 9}
+                  x={NODES.center.x + NODES.center.w / 2}
+                  y={NODES.center.y + NODES.center.h / 2 + 10}
                   textAnchor="middle"
                   className={styles.cTitle}
                 >
                   NDR Smart Spaces Pvt. Ltd.
                 </text>
-                <g
-                  transform={`translate(${NODES.center.x + NODES.center.w - 44}, ${NODES.center.y + 43})`}
-                >
-                  <circle cx="17" cy="17" r="17" fill="white" opacity="0.07" />
-                  <g>{ICONS.center}</g>
-                </g>
               </g>
 
-              {/* tier 2 — operating & ownership block */}
-              <EntityNode
-                id="am"
-                title={am.name}
-                fn="PROJECT MANAGEMENT COMPANY"
-                rel="Ownership · Project Management"
-              />
+              {/* level 2 — what the hub owns */}
+              <EntityNode id="am" title={am.name} fn="PROJECT MANAGEMENT COMPANY" />
               <EntityNode
                 id="spv"
                 title={spv.name}
                 fnLine1="OWNS / LEASES LAND"
                 fnLine2="· CONSTRUCTS WAREHOUSES"
-                rel="Rental income · Subsidiaries / JVs"
               />
-              <EntityNode
-                id="warehouses"
-                title="Warehouses"
-                fn="RENTAL INCOME ASSETS"
-                rel="Income generating assets"
-              />
-              <EntityNode
-                id="ave"
-                title={ave.name}
-                fn="DEVELOPMENT ENTITY · PLOTTING"
-                rel="Development fee · Sale of developed land"
-              />
+              <EntityNode id="ave" title={ave.name} fn="DEVELOPMENT ENTITY · PLOTTING" />
 
-              {/* tier 3 — capital & interaction block */}
-              <EntityNode
-                id="invit"
-                title={invit.name}
-                fnLine1="SEPARATE LISTED ENTITY"
-                fnLine2="UNDER THE NDR GROUP"
-                rel="Sale of SPV ownership · Consideration paid"
-              />
-              <EntityNode
-                id="third"
-                title={third.name}
-                fn="LAND PURCHASERS"
-                rel="Purchasers of developed land"
-              />
-
-              <Legend />
+              {/* level 3 — the two outward sales */}
+              <EntityNode id="invit" title={invit.name} fn="PURCHASER OF SPV OWNERSHIP" />
+              <EntityNode id="third" title={third.name} fn="LAND PURCHASERS" />
             </svg>
           </div>
 
@@ -811,10 +657,6 @@ export function CorporateStructure() {
               Services / Fees, PMC fee and consultancy: {spv.name} to {am.name}.
             </li>
             <li>
-              Services / Fees, rental income: {corporateStructure.header.name} to Warehouses (rental
-              income assets).
-            </li>
-            <li>
               Ownership: {ave.name}. {ave.function}.
             </li>
             <li>
@@ -824,11 +666,10 @@ export function CorporateStructure() {
               Transactions, consideration paid: {third.name} to {ave.name}.
             </li>
             <li>
-              Transactions, sale of SPV ownership: {corporateStructure.header.name} to {invit.name}{" "}
-              ({invit.function}).
+              Transactions, sale of SPV ownership: {spv.name} to {invit.name} ({invit.function}).
             </li>
             <li>
-              Transactions, consideration paid: {invit.name} to {corporateStructure.header.name}.
+              Transactions, consideration paid: {invit.name} to {spv.name}.
             </li>
           </ol>
 
@@ -844,29 +685,25 @@ export function CorporateStructure() {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 type NodeProps = {
-  id: EntityId;
+  id: CardId;
   title: string;
   fn?: string;
   fnLine1?: string;
   fnLine2?: string;
-  rel: string;
 };
 
-function EntityNode({ id, title, fn, fnLine1, fnLine2, rel }: NodeProps) {
+function EntityNode({ id, title, fn, fnLine1, fnLine2 }: NodeProps) {
   const n = NODES[id];
   const pad = 34;
   const inner = n.w - pad - 24;
 
   const titleLines = wrapText(title, TITLE_CHAR_W, inner);
-  const relLines = wrapText(rel, REL_CHAR_W, inner);
   const twoLineTitle = titleLines.length === 2;
 
   const titleY1 = n.y + 30;
   const titleY2 = titleY1 + 18;
   const hairY = twoLineTitle ? n.y + 62 : n.y + 46;
   const fnY1 = twoLineTitle ? n.y + 80 : n.y + 64;
-  const relY1 = n.y + n.h - (relLines.length === 2 ? 38 : 32);
-  const relY2 = relY1 + 16;
 
   return (
     <g>
@@ -908,14 +745,6 @@ function EntityNode({ id, title, fn, fnLine1, fnLine2, rel }: NodeProps) {
       {fnLine2 && (
         <text x={n.x + pad} y={fnY1 + 16} className={styles.nFn}>
           {fnLine2}
-        </text>
-      )}
-      <text x={n.x + pad} y={relY1} className={styles.nRel}>
-        {relLines[0]}
-      </text>
-      {relLines.length === 2 && (
-        <text x={n.x + pad} y={relY2} className={styles.nRel}>
-          {relLines[1]}
         </text>
       )}
       <g transform={`translate(${n.x - 6}, ${n.y - 6})`}>

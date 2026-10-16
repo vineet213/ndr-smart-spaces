@@ -381,29 +381,35 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
         onSelect={handleSelect}
       />
 
-      <Container>
-        <Reveal>
-          <header ref={headingRef} className={styles.mapHeading}>
-            <h2 className={styles.mapTitle}>A peak into the final product</h2>
-            <p className={styles.mapBody}>
-              Strategically located, spec-forward facilities near highways, ports, railways and
-              airports, serving retail, e-commerce, 3PL and manufacturing.
-            </p>
-          </header>
-        </Reveal>
-      </Container>
-
-      <div className={styles.plate}>
-        <FinalProductVideo />
+      <div className={styles.finale}>
+        <Container>
+          <Reveal>
+            <header ref={headingRef} className={styles.mapHeading}>
+              <div className={styles.mapHeadingTitle}>
+                <span className={styles.rule} aria-hidden="true" />
+                <h2 className={styles.mapTitle}>A peak into the final product</h2>
+              </div>
+              <p className={styles.mapBody}>
+                Strategically located, spec-forward facilities near highways, ports, railways and
+                airports, serving retail, e-commerce, 3PL and manufacturing.
+              </p>
+            </header>
+          </Reveal>
+          <Reveal>
+            <div className={styles.plate}>
+              <FinalProductVideo />
+            </div>
+          </Reveal>
+        </Container>
       </div>
 
-      <Container>
-        {source ? (
+      {source ? (
+        <Container className={styles.footnote}>
           <Reveal>
             <SourceFootnote>{source}</SourceFootnote>
           </Reveal>
-        ) : null}
-      </Container>
+        </Container>
+      ) : null}
     </section>
   );
 }

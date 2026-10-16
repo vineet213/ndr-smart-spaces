@@ -129,15 +129,25 @@
   transform: translateY(0);
 }
 
+/* Five cards stay in one row on every laptop and tablet width; only phones */
+/* stack. Below 1279px the gutters, padding and type tighten so they fit.   */
 @media (max-width: 1279px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr);
+    column-gap: var(--space-sm);
   }
-}
 
-@media (max-width: 1023px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
+  .slot {
+    padding: var(--space-sm);
+  }
+
+  .slotTitle {
+    font-size: clamp(0.8125rem, 1.5vw, var(--font-lede));
+    overflow-wrap: anywhere;
+  }
+
+  .profileRole {
+    font-size: clamp(0.6875rem, 1.15vw, var(--font-small));
+    overflow-wrap: anywhere;
   }
 }
 
