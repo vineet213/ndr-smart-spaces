@@ -56,11 +56,11 @@ export const media = [
     revision: "Rev. 01",
   },
   {
-    id: "cv-015",
+    id: "pr-001",
     status: "pending",
     caption:
       "Coverage of IFC's Rs 225 crore equity investment in NDR Smart Spaces' 20 million sq ft Grade A warehousing and logistics platform.",
-    category: "coverage",
+    category: "press-release",
     date: "10 August 2026",
     external: true,
     folder: "press-archive",
@@ -69,10 +69,10 @@ export const media = [
     kind: "pdf",
     label:
       "IFC invests Rs 225 cr in NDR Smart Spaces to develop 20 million sq ft logistics platform",
-    name: "cv-015.pdf",
+    name: "pr-001.pdf",
     publication: "The Economic Times",
     recordStatus: "published",
-    ref: "CV-015",
+    ref: "PR-001",
   },
   {
     id: "cv-001",

@@ -12,7 +12,7 @@ import { aboutStats } from "@/lib/data/about";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "From a rice mill in 1954 to one of India's largest logistics and industrial developers. The story, leadership and track record of NDR Smart Spaces.",
+    "The infrastructure development platform of the NDR Group, established in 1954, and a leading developer of logistics and industrial spaces in India. The story, leadership and track record of NDR Smart Spaces.",
 };
 
 export default function AboutUsPage() {

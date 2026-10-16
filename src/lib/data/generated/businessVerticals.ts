@@ -19,7 +19,7 @@ export const businessVerticals = [
     spec: [],
     title: "Logistics and Industrial Infrastructure",
     writeup:
-      "We build logistics and industrial infrastructure in locations that make sense for how businesses actually operate today. That means staying involved at every stage, from identifying and diligencing the land, through planning, design and approvals, right through to construction and handover, so what we deliver holds up over time. Market knowledge, technical expertise and a close eye on compliance and sustainability shape every decision we make, so our partners end up with infrastructure that just works for years to come.",
+      "We start with your business in mind and build with the future in sight. From identifying the right location, erection and handover, we bring every stage together to create logistics and industrial infrastructure that works around your needs. Guided by market insight, technical expertise and a forward-thinking approach to compliance and sustainability, we go beyond building spaces. We create smarter places for businesses to grow, adapt and thrive for years to come.",
   },
   {
     id: "project-and-operations-management-consultancy-ndr-asset-management",
@@ -37,7 +37,7 @@ export const businessVerticals = [
     spec: [],
     title: "Project Management and Maintenance: NDR Asset Management",
     writeup:
-      "We manage the construction and development of industrial and logistics assets on behalf of our clients. We stay involved from the first plan to the final handover: coordinating design, procuring materials, managing construction, checking quality, controlling cost and schedule, handling statutory compliance and commissioning the building. With our own people on the ground and one team running the whole project, we make sure each asset is finished on time, within budget, to the quality required and ready to operate.",
+      "We build and manage industrial and logistics assets for our clients against an agreed scope of work and oversee construction from the first plan to final handover. Our role covers design coordination, material procurement, construction supervision, quality checks, cost and schedule control, statutory compliance and building commissioning. Each asset is delivered on time, to the required quality and ready to operate, i.e. built to suit.",
   },
   {
     id: "residential-plotting",
@@ -54,6 +54,6 @@ export const businessVerticals = [
     spec: [],
     title: "Residential Plotting",
     writeup:
-      "We develop residential plotted communities strategically located near industrial infrastructure corridors, providing quality housing that complements industrial growth. Each community is planned to drive long-term connectivity, convenience, and socio-economic development for the region.",
+      "Creation of thoughtfully planned residential communities in emerging industrial growth corridors, bringing quality living spaces closer to places of work and opportunity. Designed to foster connectivity, enhance everyday convenience, and support regional socio-economic development, our communities help shape thriving destinations where people and progress move forward together.",
   },
 ] as const;

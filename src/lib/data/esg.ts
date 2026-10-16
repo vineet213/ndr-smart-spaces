@@ -52,7 +52,7 @@ export const esgMasthead = {
   section: "ESG & Sustainability",
   title: { before: "Environment, Social & ", accent: "Governance", after: "" },
   statement:
-    "Four elements that guide how we build: the environment, our people, sound governance and safety. Here is how we measure and report on each.",
+    "Elements that guide how we build: the environment, our people, sound governance and safety. Here is how we measure and report on each.",
   asOn: ESG_EDITION.asOn,
   edition: ESG_EDITION.edition,
   folio: "Ledger FY26",
@@ -97,7 +97,7 @@ export const esgGreenFeatures = {
     {
       index: "01",
       title: "Solar Panel Installation",
-      body: "Rooftop photovoltaic arrays are fitted across eligible warehouse spans. On-site generation offsets grid draw and lowers the operating carbon footprint of each asset.",
+      body: "Rooftop solar arrays are installed on warehouse rooftops; the power they generate on-site reduces dependence on the grid and cuts the carbon footprint of every asset we operate.",
       image: {
         src: "/images/esg/solar.jpg",
         alt: "Rooftop solar panel installation on an NDR warehouse",
@@ -106,7 +106,7 @@ export const esgGreenFeatures = {
     {
       index: "02",
       title: "Rainwater Harvesting",
-      body: "Roof and paved-area runoff is captured across each site and routed to recharge pits and storage. This replenishes groundwater and reduces dependence on external water supply.",
+      body: "Runoff from roofs and paved areas is collected at every site and directed to recharge pits and storage tanks. This replenishes groundwater and lessens reliance on external water sources.",
       image: {
         src: "/images/esg/rainwater-harvesting.jpg",
         alt: "Rainwater harvesting pond at an NDR site",
@@ -115,7 +115,7 @@ export const esgGreenFeatures = {
     {
       index: "03",
       title: "EV Charging Stations",
-      body: "EV charging points are built into the parking and logistics yard. They support the shift to electric fleets for tenants and visitors across the park.",
+      body: "Charging points are integrated into our parking areas and logistics yards, helping tenants and visitors across the park move to electric fleets.",
       image: {
         src: "/images/esg/ev-charging.jpg",
         alt: "EV charging connector for fleet vehicles at a logistics yard",
@@ -124,7 +124,7 @@ export const esgGreenFeatures = {
     {
       index: "04",
       title: "Plantation Drives & Biodiversity",
-      body: "Ongoing plantation drives extend green cover well beyond the built footprint. They restore tree cover, support local biodiversity and soften the impact of construction.",
+      body: "Our ongoing plantation drives extend green cover well beyond the built footprint. They restore tree cover, support local biodiversity and offset the impact of construction.",
       image: {
         src: "/images/esg/plantation-drive.jpg",
         alt: "Tree plantation drive at an NDR site",
@@ -132,8 +132,8 @@ export const esgGreenFeatures = {
     },
     {
       index: "05",
-      title: "Waste Management/ STP's",
-      body: "Sewage treatment plants (STPs) and source segregation operate across every park. Construction and operational waste is recovered, recycled or reused instead of going to landfill.",
+      title: "Waste Management & STPs",
+      body: "Every park runs a sewage treatment plant (STP) and segregates waste at source. Construction and operational waste is always recovered, recycled or reused.",
       image: {
         src: "/images/esg/waste-management.jpg",
         alt: "Colour-coded waste segregation bins",
@@ -142,7 +142,7 @@ export const esgGreenFeatures = {
     {
       index: "06",
       title: "Sustainable Construction Measures",
-      body: "Cool-roof coatings, roof monitors, louvred façades and precast systems are specified across every build. Together they cut cooling load and construction waste without slowing delivery.",
+      body: "Every build specifies cool-roof coatings, roof monitors, louvred façades and precast systems. Together, they reduce construction waste without compromising delivery timelines and integrate sustainability in every build.",
       image: {
         src: "/images/esg/roof-monitor.jpg",
         alt: "Roof monitor ventilation on an NDR warehouse",
@@ -169,8 +169,8 @@ export type EsgPillar = {
 
 export const esgFramework = {
   eyebrow: "The framework",
-  heading: "Four disciplines, one ledger.",
-  lede: "The sustainability framework rests on four values: environmental, social, governance, and health & safety. Each has coded commitments that recur across this edition.",
+  heading: "One ledger, every discipline.",
+  lede: "The sustainability framework rests on environmental, social, governance, and health & safety values. Each has coded commitments that recur across this edition.",
   pillars: [
     {
       key: "E",

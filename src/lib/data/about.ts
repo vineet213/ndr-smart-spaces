@@ -1,9 +1,9 @@
 import type { CompanyMetric } from "./homepage";
 
 export const aboutHero = {
-  headline: "From a rice mill to ",
+  headline: "Seven decades of building ",
   headlineAccent: "infrastructure.",
-  lede: "The NDR Group's infrastructure platform, incorporated in 1954, today one of India's largest developers in logistics and industrial space.",
+  lede: "The infrastructure development platform of the NDR Group, established in 1954, and a leading developer of logistics and industrial spaces in India.",
   cta: { label: "Our story", href: "#story" },
   ctaSecondary: {
     label: "Explore the business",
@@ -172,39 +172,39 @@ export const ourCode = {
   values: [
     {
       index: "01",
-      title: "Infrastructure That Enables",
-      tagline: "More than steel and concrete.",
-      body: "Warehouses and industrial parks keep trade moving, give people jobs and help regions grow. We build them so the businesses inside can move faster, work better and keep going for the long term.",
+      title: "Built Smarter. Scaled Further",
+      tagline: "Efficiency that helps our customers grow.",
+      body: "We believe better infrastructure starts with better thinking. By combining disciplined execution, intelligent engineering, and streamlined construction, we create high-quality spaces that are here to stay. From the first concept to final handover, every decision builds the foundation to deliver more.",
     },
     {
       index: "02",
-      title: "Enabling the Last Mile",
-      tagline: "Closer to where business happens.",
-      body: "Goods reach customers through the last mile, and that is where good location counts. We build near the places our customers already work, so their markets, people and supply chains stay within easy reach.",
+      title: "Infrastructure That Drives Growth",
+      tagline: "Creating the foundations for business to thrive.",
+      body: "The right infrastructure does more than provide a place to store, it expands every horizon. Our warehouses and industrial developments help businesses strengthen supply chains, reach new markets, and house their operations with confidence. By creating assets designed around real commercial needs, we help build stronger enterprises and more connected economies.",
     },
     {
       index: "03",
-      title: "Efficiency at Scale",
-      tagline: "Faster to build. Better in use.",
-      body: "Disciplined operations, sound engineering and streamlined construction help us deliver quality at speed. From the first drawing to the handover, we keep asking how it could be done better.",
+      title: "Closer to Every Opportunity",
+      tagline: "Strategic Locations. Seamless Connectivity. Greater Possibilities.",
+      body: "The right location can change everything. We strategically position our logistics and industrial spaces to bring your business closer to key markets, skilled talent, transport networks, and critical supply chains.",
     },
     {
       index: "04",
-      title: "Design That Delivers",
-      tagline: "Built for today. Ready for tomorrow.",
-      body: "Businesses change, and their buildings need to keep up. We design strong structures and flexible layouts so each asset can adapt to what its customers need next.",
+      title: "Designed for the Future",
+      tagline: "Built for Today. Ready for What's Next.",
+      body: "As businesses grow and industries evolve, their infrastructure should keep pace. Through future-focused planning and adaptable design, we create spaces that respond to changing business needs and an ever-evolving, dynamic landscape, ensuring every development is built with purpose.",
     },
     {
       index: "05",
       title: "Agility with Accountability",
-      tagline: "Move fast. Build right.",
-      body: "We work with urgency, but never by cutting corners on compliance, safety or quality. Clear processes and people who own their decisions keep every project honest and on track.",
+      tagline: "Integrity in every decision. Speed and precision in every project.",
+      body: "Great outcomes demand both swift action and ownership. We bring clarity to complex projects through decisive execution, transparent processes, and an uncompromising commitment to safety, compliance, and quality. For our clients and investors, that means a partner focused on responsible delivery, dependable standards, and long-term performance.",
     },
     {
       index: "06",
-      title: "People Build the Organization",
-      tagline: "Good infrastructure comes from people who care.",
-      body: "The people behind each project are our real strength. We look for ownership, teamwork and integrity, and for people who get on with the job. Give good people a shared purpose and the work follows.",
+      title: "Strong Teams. Stronger Foundations.",
+      tagline: "The right people turn ambitious plans into lasting progress.",
+      body: "Behind every successful development is a team that takes ownership and a shared commitment to getting things right. Our strength lies in our people: in the passion they bring, the trust they build, and the way they stand together through every challenge.",
     },
     {
       index: "07",

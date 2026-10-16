@@ -111,7 +111,10 @@ export const zones = [
 export const portfolioPresence = {
   eyebrow: "Portfolio presence",
   heading: "A pan-India footprint.",
-  viewPortfolio: "View Portfolio",
+  viewPortfolio: {
+    label: "View Portfolio",
+    href: "/business/logistics-and-industrial-infrastructure#register",
+  },
 } as const;
 
 const homepageMapLocations: MapLocation[] = [];
@@ -138,32 +141,28 @@ export const mapLocations: MapLocation[] = homepageMapLocations;
 export type CompanyOverviewSegment = { text: string; bold?: boolean };
 
 export const companyOverview = {
-  eyebrow: "Company overview",
-  heading: "Developing, owning and managing.",
+  eyebrow: "Building spaces. Enabling growth.",
+  heading: "Infrastructure for a World That Moves Forward.",
   paragraphs: [
     [
       { text: "NDR Smart Spaces", bold: true },
-      { text: " is the logistics and industrial infrastructure development platform of the " },
+      { text: " is the new age logistics and industrial infrastructure development platform of the " },
       { text: "NDR Group", bold: true },
       {
-        text: ", created to develop high-quality, well-located spaces where businesses, industries and communities can grow.",
+        text: ", creating strategically located spaces that enable businesses to operate, industries to grow, and communities to thrive.",
       },
     ],
     [
       {
-        text: "We focus on logistics, industrial and residential plotting. Careful site selection and planning, backed by forward-looking infrastructure, let businesses operate efficiently and expand without outgrowing their space.",
+        text: "From Grade A logistics infrastructure and industrial parks to thoughtfully planned residential plots, we combine strategic land development, precise planning, and future-ready infrastructure to create spaces built for lasting value.",
       },
     ],
     [
       {
-        text: "Every development is designed around how businesses and people actually work and live, from productive industrial parks to well-planned residential communities.",
+        text: "Driven by innovation, socio-economic progress, and a pioneering vision for growth, we go beyond building infrastructure that just houses business; but rather helps them scale.",
       },
     ],
-    [
-      {
-        text: "Our work goes beyond construction. We build infrastructure that supports business operations, generates employment, strengthens communities and drives long-term growth in the regions we serve.",
-      },
-    ],
+    [{ text: "More than spaces. Infrastructure for progress.", bold: true }],
   ] as CompanyOverviewSegment[][],
   aboutLink: { label: "More about NDR Smart Spaces", href: "/about-us" },
   image: {
@@ -196,8 +195,8 @@ export const companyMetrics = [
     context: "MARKET PRESENCE",
   },
   {
-    value: 10,
-    suffix: " MN",
+    value: 12,
+    suffix: " MN+",
     label: "SQ FT IN PIPELINE",
     context: "SQ FT IN PIPELINE",
   },
@@ -400,13 +399,6 @@ export const contact = {
         label: "Company",
         type: "text",
         autocomplete: "organization",
-        required: true,
-      },
-      {
-        name: "enquiryType",
-        label: "Enquiry type",
-        type: "text",
-        autocomplete: "off",
         required: true,
       },
     ] as const,
