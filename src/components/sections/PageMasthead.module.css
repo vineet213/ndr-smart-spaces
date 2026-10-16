@@ -10,7 +10,40 @@
   color: var(--color-ivory);
 }
 
+/* A soft gold glow in the upper right and a maroon one lower left, the same    */
+/* light the closing "Contact" band uses, drifting very slowly so the page      */
+/* never feels like a flat slab. It sits behind everything and ignores the      */
+/* pointer.                                                                      */
+.masthead::before {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(45% 65% at 82% 22%, rgba(240, 182, 90, 0.17) 0%, rgba(240, 182, 90, 0) 70%),
+    radial-gradient(42% 60% at 6% 100%, rgba(150, 40, 48, 0.5) 0%, rgba(150, 40, 48, 0) 70%);
+  animation: masthead-glow 18s ease-in-out infinite alternate;
+}
+
+@keyframes masthead-glow {
+  from {
+    transform: translate3d(-1.5%, 1%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(2%, -1.5%, 0) scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .masthead::before {
+    animation: none;
+  }
+}
+
 .ruleTop {
+  position: relative;
+  z-index: 1;
   display: block;
   flex-shrink: 0;
   height: 2px;
@@ -27,6 +60,8 @@
 }
 
 .hero {
+  position: relative;
+  z-index: 1;
   flex: 1;
   display: flex;
   flex-direction: column;

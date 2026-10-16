@@ -87,7 +87,9 @@
 }
 
 .logo {
-  width: min(100%, 22.5rem);
+  /* 80% of the brand column, so there is clear air between the logo and the first
+     link column instead of just the grid gap. */
+  width: min(80%, 20rem);
   height: auto;
 }
 
