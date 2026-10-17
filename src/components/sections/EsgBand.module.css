@@ -1,0 +1,158 @@
+/* Full-bleed photo band that opens an ESG section. */
+
+.band {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(26rem, 70svh, 44rem);
+  overflow: hidden;
+  color: var(--color-ivory);
+  background-color: var(--color-charcoal-deep);
+}
+
+/* the photo, slightly taller than the band so the parallax never shows an edge */
+.layer {
+  position: absolute;
+  inset: -8% 0;
+  will-change: transform;
+}
+
+.zoom {
+  position: absolute;
+  inset: 0;
+  transform: scale(1.08);
+  transition: transform 2400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.inView .zoom {
+  transform: scale(1);
+}
+
+.photo {
+  object-fit: cover;
+}
+
+/* Cinematic shade: dark from the text side and the bottom, clear elsewhere, */
+/* with the site's maroon and gold light worked in.                           */
+.shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to top,
+      rgba(17, 16, 15, 0.92) 0%,
+      rgba(17, 16, 15, 0.35) 45%,
+      rgba(17, 16, 15, 0.1) 100%
+    ),
+    linear-gradient(
+      to right,
+      rgba(17, 16, 15, 0.78) 0%,
+      rgba(17, 16, 15, 0.2) 55%,
+      rgba(17, 16, 15, 0) 100%
+    ),
+    radial-gradient(40% 60% at 0% 100%, rgba(150, 40, 48, 0.45) 0%, rgba(150, 40, 48, 0) 70%);
+}
+
+.alignRight .shade {
+  background:
+    linear-gradient(
+      to top,
+      rgba(17, 16, 15, 0.92) 0%,
+      rgba(17, 16, 15, 0.35) 45%,
+      rgba(17, 16, 15, 0.1) 100%
+    ),
+    linear-gradient(
+      to left,
+      rgba(17, 16, 15, 0.78) 0%,
+      rgba(17, 16, 15, 0.2) 55%,
+      rgba(17, 16, 15, 0) 100%
+    ),
+    radial-gradient(40% 60% at 100% 100%, rgba(150, 40, 48, 0.45) 0%, rgba(150, 40, 48, 0) 70%);
+}
+
+/* fine gold seam along the bottom edge */
+.band::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(240, 182, 90, 0) 0%,
+    var(--color-gold) 16%,
+    var(--color-gold-light) 50%,
+    var(--color-gold) 84%,
+    rgba(240, 182, 90, 0) 100%
+  );
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  /* room at the bottom for the section content that overlaps the band */
+  padding-top: var(--space-10xl);
+  padding-bottom: calc(var(--band-overlap, 4rem) + var(--space-6xl));
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  max-width: 46rem;
+}
+
+.alignRight .text {
+  margin-left: auto;
+  text-align: right;
+  align-items: flex-end;
+}
+
+.heading.heading {
+  margin: 0;
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(2.75rem, 5.6vw, 5.5rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-ivory);
+  text-shadow: 0 0.25rem 2rem rgba(0, 0, 0, 0.35);
+}
+
+.lede {
+  margin: 0;
+  max-width: 38rem;
+  font-family: var(--font-body);
+  font-size: clamp(1.0625rem, 1.25vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--color-text-inverse-85);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zoom {
+    transform: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .band {
+    min-height: 60svh;
+  }
+
+  .content {
+    padding-top: var(--space-8xl);
+    padding-bottom: calc(var(--band-overlap, 2rem) + var(--space-4xl));
+  }
+
+  .heading.heading {
+    font-size: clamp(2.25rem, 10vw, 2.75rem);
+  }
+
+  .alignRight .text {
+    margin-left: 0;
+    text-align: left;
+    align-items: flex-start;
+  }
+}

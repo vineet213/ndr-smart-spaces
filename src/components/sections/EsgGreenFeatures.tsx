@@ -3,220 +3,278 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { FadeImage as Image } from "@/components/ui/FadeImage";
 import { Container } from "@/components/layout";
-import { Heading, Lede } from "@/components/ui";
+import { Heading } from "@/components/ui";
 import { useSnapZone } from "@/hooks/useSnapZone";
+import { getLenisInstance } from "@/lib/lenis";
 import { esgGreenFeatures } from "@/lib/data/esg";
 import type { EsgGreenFeature } from "@/lib/data/esg";
 import { cx } from "../ui/cx";
-import { Reveal } from "./Reveal";
+import { EsgBand } from "./EsgBand";
+import { EsgParkDrawing } from "./EsgParkDrawing";
+import { Reveal, type RevealDelay } from "./Reveal";
 import { SnapStop } from "./SnapStop";
 import styles from "./EsgGreenFeatures.module.css";
 
-/* Six curated, on-brand tones (deep/muted, not neon) cycling per card. */
-const CARD_COLORS = [
-  styles.colorMaroon,
-  styles.colorBronze,
-  styles.colorTeal,
-  styles.colorPlum,
-  styles.colorTerracotta,
-  styles.colorForest,
-] as const;
-
-const SIDES = [styles.sideLeft, styles.sideRight] as const;
-
-const glyphStyle = {
-  viewBox: "0 0 56 56",
-  fill: "none",
-  stroke: "currentColor",
-  strokeWidth: 1.5,
-  strokeLinecap: "round",
-  strokeLinejoin: "round",
-} as const;
-
-/**
- * Restrained line-art marks for the cards without a site photograph yet —
- * same stroke treatment as the "From Land to Community" stage marks
- * (AveAcresProcess), so a placeholder reads as a deliberate editorial choice
- * rather than a missing asset.
- */
-function PlaceholderMark({ index }: { index: string }) {
-  switch (index) {
-    // 01 — Solar Panel Installation: a panel grid under a sun.
-    case "01":
-      return (
-        <svg {...glyphStyle} aria-hidden="true" focusable="false">
-          <circle cx="40" cy="14" r="5" />
-          <path d="M40 4v3M48 6l-2 2M31 14h3M40 24v-3M31 6l2 2" />
-          <rect x="6" y="22" width="34" height="24" rx="1" />
-          <path d="M6 30h34M6 38h34M17 22v24M28 22v24" />
-        </svg>
-      );
-    // 02 — Rainwater Harvesting: raindrops into a storage tank.
-    case "02":
-      return (
-        <svg {...glyphStyle} aria-hidden="true" focusable="false">
-          <path d="M20 6c0 5-6 9-6 15a6 6 0 0 0 12 0c0-6-6-10-6-15Z" />
-          <path d="M36 16c0 3.5-4 6-4 10a4 4 0 0 0 8 0c0-4-4-6.5-4-10Z" />
-          <rect x="10" y="34" width="30" height="16" rx="2" />
-          <path d="M10 41h30" />
-        </svg>
-      );
-    // 03 — EV Charging Stations: a charging plug.
-    case "03":
-      return (
-        <svg {...glyphStyle} aria-hidden="true" focusable="false">
-          <rect x="14" y="10" width="20" height="28" rx="3" />
-          <path d="M22 4v6M30 4v6" />
-          <path d="M28 22h5l-7 12 2-8h-5l5-10" />
-          <path d="M14 46h20" />
-        </svg>
-      );
-    // 05 — Waste Management: a bin under a recycling loop.
-    case "05":
-      return (
-        <svg {...glyphStyle} aria-hidden="true" focusable="false">
-          <path d="M14 18h20l-2 26a3 3 0 0 1-3 3H19a3 3 0 0 1-3-3L14 18Z" />
-          <path d="M10 18h28M20 18l1.5-5h5L28 18" />
-          <path d="M19 24v15M24.5 24v15M30 24v15" />
-        </svg>
-      );
-    default:
-      return null;
-  }
-}
-
-/* Each card owns a slice of the track's scroll timeline, sliced with a
- * deliberate overlap between neighbours so the outgoing card is still
- * blurring out while the incoming one is sharpening in — a true cross-fade,
- * not a hard cut. The first and last cards use their own keyframe (already
- * sharp at rest / staying sharp at rest) since there's nothing before the
- * first or after the last to cross-fade against. */
-const CARD_POSITION = {
-  first: styles.cardFirst,
-  middle: styles.cardMiddle,
-  last: styles.cardLast,
-} as const;
-
-/* Each card's slice of the *pinned* scroll window, as 0–1 fractions (the
- * window runs from the moment the box sticks to the moment it releases — see
- * --pin-* in the stylesheet). Neighbours overlap so a card is still blurring
- * out while the next sharpens in. */
-const SLICE_RANGES = [
-  [0, 0.2],
-  [0.14, 0.36],
-  [0.3, 0.52],
-  [0.46, 0.68],
-  [0.62, 0.84],
-  [0.78, 1],
-] as const;
-
-/* Where each card is fully sharp, as a fraction of the pinned window — the
- * stop points for one-swipe-per-card on touch. */
-const CARD_REST = [0.06, 0.25, 0.41, 0.57, 0.73, 0.93] as const;
+/* Short labels for the progress rail under the drawing, in feature order. */
+const RAIL_LABELS = ["Solar", "Water", "EV", "Green cover", "Waste", "Construction"] as const;
 
 type FeatureCardProps = {
   feature: EsgGreenFeature;
   order: number;
   total: number;
+  active: boolean;
+  expanded: boolean;
+  onToggle: () => void;
 };
 
-function FeatureCard({ feature, order, total }: FeatureCardProps) {
-  const colorClass = CARD_COLORS[order % CARD_COLORS.length];
-  const side = SIDES[order % 2];
-  const position =
-    order === 0
-      ? CARD_POSITION.first
-      : order === total - 1
-        ? CARD_POSITION.last
-        : CARD_POSITION.middle;
-  const [rangeStart, rangeEnd] = SLICE_RANGES[order] ?? [0, 1];
-
+function FeatureCard({ feature, order, total, active, expanded, onToggle }: FeatureCardProps) {
   return (
     <article
-      className={cx(styles.card, colorClass, position)}
-      style={{ "--card-s": rangeStart, "--card-e": rangeEnd } as CSSProperties}
+      className={cx(styles.card, active && styles.cardActive)}
+      aria-hidden={!active}
+      inert={!active}
+      aria-roledescription="slide"
+      aria-label={`${order + 1} of ${total}`}
     >
-      <div className={cx(styles.row, side)}>
-        <div className={styles.textCol}>
-          <span className={styles.ghostIndex} aria-hidden="true">
-            {feature.index}
-          </span>
-          <Heading variant="sub" as="h3" className={styles.title}>
-            {feature.title}
-          </Heading>
-          <p className={styles.body}>{feature.body}</p>
-        </div>
-
-        <figure className={cx(styles.photoCol, !feature.image && styles.photoPlaceholder)}>
-          {feature.image ? (
-            <Image
-              src={feature.image.src}
-              alt={feature.image.alt}
-              fill
-              sizes="(min-width: 1024px) 31rem, 100vw"
-              className={styles.image}
-            />
-          ) : (
-            <span className={styles.placeholderGlyph}>
-              <PlaceholderMark index={feature.index} />
-            </span>
-          )}
-        </figure>
+      <figure className={styles.photo}>
+        {feature.image ? (
+          <Image
+            src={feature.image.src}
+            alt={feature.image.alt}
+            fill
+            sizes="(min-width: 1024px) 26rem, 100vw"
+            className={styles.photoImage}
+          />
+        ) : null}
+      </figure>
+      <div className={styles.cardText}>
+        <span className={styles.index} aria-hidden="true">
+          {feature.index}
+          <span className={styles.indexTotal}> / {String(total).padStart(2, "0")}</span>
+        </span>
+        <Heading variant="sub" as="h3" tone="dark" className={styles.title}>
+          {feature.title}
+        </Heading>
+        <p className={cx(styles.body, expanded && styles.bodyOpen)}>{feature.body}</p>
+        <button
+          type="button"
+          className={styles.readMore}
+          aria-expanded={expanded}
+          onClick={onToggle}
+        >
+          {expanded ? "Show less" : "Read more"}
+        </button>
       </div>
     </article>
   );
 }
 
 export function EsgGreenFeatures() {
-  const total = esgGreenFeatures.features.length;
+  const features = esgGreenFeatures.features;
+  const total = features.length;
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const boxRef = useRef<HTMLDivElement | null>(null);
-  const [pinned, setPinned] = useState(false);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const [pinned, setPinned] = useState(true);
+  const [active, setActive] = useState(0);
+  const [expanded, setExpanded] = useState(false);
 
-  // The pinned crossfade only exists with scroll-driven animation and motion allowed.
+  /* Phones and reduced-motion visitors get the story layout (the lit park as */
+  /* a header plate, then one card per feature) instead of the pinned stage.  */
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: no-preference)");
-    const update = () => setPinned(motion.matches && CSS.supports("animation-timeline", "view()"));
+    const wide = window.matchMedia("(min-width: 768px)");
+    const update = () => setPinned(motion.matches && wide.matches);
     update();
     motion.addEventListener("change", update);
-    return () => motion.removeEventListener("change", update);
+    wide.addEventListener("change", update);
+    return () => {
+      motion.removeEventListener("change", update);
+      wide.removeEventListener("change", update);
+    };
   }, []);
 
-  // Touch: native scroll-snap, switched on only while the card stack is pinned.
-  useSnapZone(trackRef, pinned, boxRef);
+  /* The active feature follows the scroll. Track and stage sizes are measured */
+  /* once and on resize; each frame does one read and, at most, one state     */
+  /* change, so scrolling never forces layout.                                 */
+  useEffect(() => {
+    if (!pinned) return;
+    const track = trackRef.current;
+    const stage = stageRef.current;
+    if (!track || !stage) return;
+
+    let frame = 0;
+    let current = -1;
+    let travel = 1;
+    let stick = 0;
+
+    const measure = () => {
+      stick = parseFloat(getComputedStyle(stage).top) || 0;
+      travel = Math.max(track.offsetHeight - stage.offsetHeight, 1);
+    };
+
+    const update = () => {
+      frame = 0;
+      const progress = Math.min(
+        Math.max((stick - track.getBoundingClientRect().top) / travel, 0),
+        1,
+      );
+      const next = Math.min(total - 1, Math.floor(progress * total));
+      if (next !== current) {
+        current = next;
+        setActive(next);
+        setExpanded(false);
+      }
+    };
+
+    const schedule = () => {
+      if (frame === 0) frame = window.requestAnimationFrame(update);
+    };
+
+    measure();
+    update();
+    const resizeObserver = new ResizeObserver(() => {
+      measure();
+      schedule();
+    });
+    resizeObserver.observe(track);
+    resizeObserver.observe(stage);
+    window.addEventListener("scroll", schedule, { passive: true });
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("scroll", schedule);
+      if (frame !== 0) window.cancelAnimationFrame(frame);
+    };
+  }, [pinned, total]);
+
+  // Touch: one swipe per feature, only while the stage is pinned.
+  useSnapZone(trackRef, pinned, stageRef);
+
+  // Rail: jump to the middle of a feature's slice of the track.
+  const goTo = (index: number) => {
+    const track = trackRef.current;
+    const stage = stageRef.current;
+    if (!track || !stage) return;
+    const stick = parseFloat(getComputedStyle(stage).top) || 0;
+    const travel = track.offsetHeight - stage.offsetHeight;
+    const target =
+      track.getBoundingClientRect().top + window.scrollY - stick + travel * ((index + 0.5) / total);
+    const lenis = getLenisInstance();
+    if (lenis) lenis.scrollTo(target);
+    else window.scrollTo({ top: target, behavior: "smooth" });
+  };
 
   return (
     <section className={styles.section} id="in-practice" aria-labelledby="esg-in-practice-title">
-      <Container>
-        <Reveal>
-          <header className={styles.header}>
-            <Heading variant="section" id="esg-in-practice-title" className={styles.heading}>
-              {esgGreenFeatures.heading}
-            </Heading>
-            <Lede className={styles.lede}>{esgGreenFeatures.lede}</Lede>
-          </header>
-        </Reveal>
-
-        <div ref={trackRef} className={styles.stackTrack}>
-          {pinned ? (
-            <>
-              {/* Touch snap stops: pin start, one per card, pin end (see CARD_REST). */}
-              <SnapStop top="calc(var(--stick) * -1)" />
-              {CARD_REST.map((fraction) => (
-                <SnapStop
-                  key={fraction}
-                  top={`calc((100% - var(--box-h)) * ${fraction} - var(--stick))`}
-                />
-              ))}
-              <SnapStop top="calc(100% - var(--box-h) - var(--stick))" />
-            </>
-          ) : null}
-          <div ref={boxRef} className={styles.stackBox}>
-            {esgGreenFeatures.features.map((feature, index) => (
-              <FeatureCard key={feature.index} feature={feature} order={index} total={total} />
+      <EsgBand
+        id="esg-in-practice-title"
+        heading={esgGreenFeatures.heading}
+        lede={esgGreenFeatures.lede}
+        image={esgGreenFeatures.image}
+      />
+      <Container className={styles.content}>
+        {pinned ? (
+          <div
+            ref={trackRef}
+            className={styles.track}
+            style={{ "--steps": total } as CSSProperties}
+          >
+            {/* Touch snap stops: one at the middle of each feature's slice. */}
+            {features.map((feature, index) => (
+              <SnapStop
+                key={feature.index}
+                top={`calc((100% - var(--stage-h)) * ${(index + 0.5) / total} - var(--stick))`}
+              />
             ))}
+            <div ref={stageRef} className={styles.stage}>
+              <div className={styles.drawingCol}>
+                <EsgParkDrawing active={active} />
+                <ol className={styles.rail}>
+                  {features.map((feature, index) => (
+                    <li key={feature.index}>
+                      <button
+                        type="button"
+                        className={cx(
+                          styles.railStop,
+                          index <= active && styles.railStopLit,
+                          index === active && styles.railStopActive,
+                        )}
+                        onClick={() => goTo(index)}
+                        aria-label={`Go to ${feature.title}`}
+                        aria-current={index === active ? "step" : undefined}
+                      >
+                        <span className={styles.railDot} aria-hidden="true" />
+                        <span className={styles.railLabel}>
+                          {RAIL_LABELS[index] ?? feature.index}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <div className={styles.cards} aria-live="polite">
+                {features.map((feature, index) => (
+                  <FeatureCard
+                    key={feature.index}
+                    feature={feature}
+                    order={index}
+                    total={total}
+                    active={index === active}
+                    expanded={index === active && expanded}
+                    onToggle={() => setExpanded((open) => !open)}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className={styles.story}>
+            <Reveal>
+              <div className={styles.storyPlate}>
+                <EsgParkDrawing active={total - 1} />
+                <p className={styles.storyCaption}>{total} measures, built into every park</p>
+              </div>
+            </Reveal>
+            <ol className={styles.storyList}>
+              {features.map((feature, index) => (
+                <li key={feature.index}>
+                  <Reveal delay={(index % 2) as RevealDelay}>
+                    <article className={styles.storyCard}>
+                      <Reveal variant="unmask">
+                        <figure className={styles.storyPhoto}>
+                          {feature.image ? (
+                            <Image
+                              src={feature.image.src}
+                              alt={feature.image.alt}
+                              fill
+                              sizes="(max-width: 767px) 100vw, 60vw"
+                              className={styles.photoImage}
+                            />
+                          ) : null}
+                          <figcaption className={styles.storyHead}>
+                            <span className={styles.storyIndex}>
+                              {feature.index}
+                              <span className={styles.indexTotal}>
+                                {" "}
+                                / {String(total).padStart(2, "0")}
+                              </span>
+                            </span>
+                            <span className={styles.storyLabel}>{RAIL_LABELS[index] ?? ""}</span>
+                          </figcaption>
+                        </figure>
+                      </Reveal>
+                      <div className={styles.storyText}>
+                        <Heading variant="sub" as="h3" className={styles.storyTitle}>
+                          {feature.title}
+                        </Heading>
+                        <p className={styles.storyBody}>{feature.body}</p>
+                      </div>
+                    </article>
+                  </Reveal>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
       </Container>
     </section>
   );

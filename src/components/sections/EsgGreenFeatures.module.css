@@ -1,415 +1,766 @@
+/* "Sustainability, built in" -------------------------------------------------- */
+/* A tall track with a pinned dark stage: a line drawing of a warehouse park on  */
+/* the left lights up one sustainability feature at a time as the page scrolls, */
+/* and the card on the right shows that feature. Only the active index changes  */
+/* per step; every animation is opacity, transform or a dash offset.            */
+
 .section {
-  padding-block: var(--section-padding-desktop);
+  position: relative;
+  overflow: clip;
+  --band-overlap: 4rem;
+  padding-bottom: var(--space-8xl);
   background-color: var(--color-ivory);
 }
 
-.header {
-  max-width: var(--measure-body);
-  margin-bottom: var(--space-8xl);
+/* gold seam into the framework section below */
+.section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(240, 182, 90, 0) 0%,
+    var(--color-gold) 16%,
+    var(--color-gold-light) 50%,
+    var(--color-gold) 84%,
+    rgba(240, 182, 90, 0) 100%
+  );
 }
 
-.heading {
-  margin: 0;
-}
-
-.lede {
-  margin-top: var(--space-lg);
-}
-
-/* contained cross-fade card stack ------------------------------------------ */
-/* A bounded, centred rectangle — not a full-bleed section — that pins in
- * place while the page scrolls past a tall track behind it. Cards are laid
- * on top of one another and cross-fade with a blur: the outgoing card
- * blurs and fades as the next one sharpens and fades in over it, driven by
- * native CSS scroll-driven animation (`animation-timeline: view()`) — no
- * scroll listeners, no rAF, so the crossfade can't drift out of sync with
- * the scroll itself.
- *
- * Browsers without scroll-driven animation support (`@supports` below)
- * fall back to a plain vertical list of the same cards — still fully
- * readable, just without the pinned crossfade.                            */
-
-.stackTrack {
+/* The content rides up over the photo band's lower edge. */
+.content {
   position: relative;
+  z-index: 1;
+  margin-top: calc(-1 * var(--band-overlap));
 }
 
-.stackBox {
+/* ─── track and pinned stage ────────────────────────────────────────────── */
+
+.track {
+  --stick: calc(var(--header-height, 4.5rem) + 1.25rem);
+  --stage-h: min(40rem, calc(100svh - var(--stick) - 1.5rem));
+  position: relative;
+  height: calc(var(--stage-h) + var(--steps, 6) * 70svh);
+}
+
+.stage {
+  position: sticky;
+  top: var(--stick);
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: var(--space-4xl);
+  height: var(--stage-h);
+  padding: var(--space-4xl);
+  overflow: hidden;
+  color: var(--color-ivory);
+  background-color: var(--color-charcoal-deep);
+  background-image:
+    radial-gradient(55% 60% at 30% 40%, rgba(240, 182, 90, 0.12) 0%, rgba(240, 182, 90, 0) 70%),
+    radial-gradient(40% 50% at 100% 100%, rgba(150, 40, 48, 0.45) 0%, rgba(150, 40, 48, 0) 70%);
+  border: 1px solid rgba(240, 182, 90, 0.25);
+  border-radius: 1.25rem;
+  box-shadow:
+    0 2rem 4rem rgba(17, 16, 15, 0.3),
+    0 0.5rem 1.5rem rgba(17, 16, 15, 0.18);
+}
+
+/* ─── the drawing ───────────────────────────────────────────────────────── */
+
+.drawingCol {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xl);
+  justify-content: center;
+  gap: var(--space-3xl);
+  min-width: 0;
+}
+
+.drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(var(--stage-h) - 8rem);
+  overflow: visible;
+}
+
+.base {
+  stroke: rgba(250, 247, 242, 0.32);
+  stroke-width: 1.4;
+}
+
+.baseFaint {
+  stroke: rgba(250, 247, 242, 0.16);
+}
+
+/* Feature strokes draw in (dash offset 1 -> 0) when lit and stay lit. */
+.feature {
+  stroke: var(--color-gold);
+  stroke-width: 1.8;
+  opacity: 0.25;
+  transition: opacity 700ms var(--ease-standard);
+}
+
+.feature [pathLength] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1400ms var(--ease-standard);
+}
+
+.featureLit {
+  opacity: 0.7;
+}
+
+.featureLit [pathLength] {
+  stroke-dashoffset: 0;
+}
+
+.featureCurrent {
+  opacity: 1;
+  stroke: var(--color-gold-light);
+  filter: drop-shadow(0 0 6px rgba(240, 182, 90, 0.7));
+}
+
+/* solar: a short bright glint sweeps along the panel strip */
+.shimmer {
+  stroke: #fff6e2;
+  stroke-width: 3;
+  opacity: 0;
+}
+
+.featureCurrent .shimmer {
+  animation: esg-shimmer 2.6s ease-in-out infinite;
+}
+
+@keyframes esg-shimmer {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  20% {
+    opacity: 0.9;
+  }
+  70% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(128px, 47px);
+  }
+}
+
+/* rainwater: drops fall from the gutter, the tank fills */
+.drops path {
+  stroke: var(--color-gold-light);
+  stroke-width: 2;
+  opacity: 0;
+}
+
+.featureCurrent .drops path {
+  animation: esg-drop 1.4s linear infinite;
+}
+
+.featureCurrent .drops path:nth-child(2) {
+  animation-delay: 0.47s;
+}
+
+.featureCurrent .drops path:nth-child(3) {
+  animation-delay: 0.94s;
+}
+
+@keyframes esg-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+}
+
+.tankFill {
+  fill: rgba(240, 182, 90, 0.22);
+  stroke: none;
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transform: scaleY(0);
+  transition: transform 1600ms var(--ease-standard) 300ms;
+}
+
+.featureLit .tankFill {
+  transform: scaleY(0.8);
+}
+
+/* EV: a charge pulse runs along the cable */
+.charge {
+  stroke-dasharray: 4 6;
+  opacity: 0;
+}
+
+.featureCurrent .charge {
+  opacity: 1;
+  animation: esg-charge 900ms linear infinite;
+}
+
+@keyframes esg-charge {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+/* plantation: trees grow up from the ground line */
+.tree {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  transform: scale(0.2);
+  transition: transform 1400ms cubic-bezier(0.22, 1, 0.36, 1) var(--grow-delay, 0ms);
+}
+
+.featureLit .tree {
+  transform: scale(1);
+}
+
+/* STP: a slow ripple */
+.ripple {
+  stroke-dasharray: 6 4;
+  opacity: 0;
+}
+
+.featureLit .ripple {
+  opacity: 1;
+}
+
+.featureCurrent .ripple {
+  animation: esg-ripple 2.4s linear infinite;
+}
+
+@keyframes esg-ripple {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+/* construction: a cool-roof sheen slides along the left slope */
+.sheen {
+  stroke: #fff6e2;
+  stroke-width: 2.5;
+  stroke-dasharray: 30 200;
+  opacity: 0;
+}
+
+.featureCurrent .sheen {
+  opacity: 0.8;
+  animation: esg-sheen 3s ease-in-out infinite;
+}
+
+@keyframes esg-sheen {
+  from {
+    stroke-dashoffset: 30;
+  }
+  to {
+    stroke-dashoffset: -200;
+  }
+}
+
+/* the "you are here" pin */
+.pin {
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pinDot {
+  fill: var(--color-gold-light);
+  stroke: var(--color-charcoal-deep);
+  stroke-width: 2;
+}
+
+.pinPulse {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: esg-pin 2.2s ease-out infinite;
+}
+
+@keyframes esg-pin {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(4);
+  }
+}
+
+/* ─── progress rail ─────────────────────────────────────────────────────── */
+
+.rail {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--steps, 6), minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rail::before {
+  content: "";
+  position: absolute;
+  top: 0.4375rem;
+  left: calc(100% / 12);
+  right: calc(100% / 12);
+  height: 1px;
+  background-color: rgba(250, 247, 242, 0.18);
+}
+
+.railStop {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-text-inverse-70);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color 400ms var(--ease-standard);
+}
+
+.railDot {
+  width: 0.875rem;
+  height: 0.875rem;
+  background-color: var(--color-charcoal-deep);
+  border: 1px solid rgba(250, 247, 242, 0.35);
+  border-radius: 50%;
+  transition:
+    background-color 400ms var(--ease-standard),
+    border-color 400ms var(--ease-standard),
+    box-shadow 400ms var(--ease-standard);
+}
+
+.railStopLit .railDot {
+  background-color: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+.railStopActive {
+  color: var(--color-gold-light);
+}
+
+.railStopActive .railDot {
+  box-shadow:
+    0 0 0 0.3rem rgba(240, 182, 90, 0.2),
+    0 0 1rem rgba(240, 182, 90, 0.6);
+}
+
+@media (hover: hover) {
+  .railStop:hover {
+    color: var(--color-ivory);
+  }
+}
+
+.railStop:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 3px;
+}
+
+.railLabel {
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* ─── feature cards (all in one cell; only the active one shows) ────────── */
+
+.cards {
+  display: grid;
+  align-content: center;
+  min-width: 0;
+  min-height: 0;
 }
 
 .card {
-  position: relative;
-  min-height: 24rem;
-  border-radius: 1.25rem;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(17, 16, 15, 0.22);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    /* Pinned-window geometry (see EsgGreenFeatures.tsx): the box sticks when */
-    /* the track's top is --stick below the viewport top, and releases after   */
-    /* (--track-h - --box-h) more scrolling. Card ranges are measured inside   */
-    /* that window so every card gets a real dwell while pinned.               */
-    .stackTrack {
-      height: 480svh;
-      --track-h: 480svh;
-      --stick: clamp(5.5rem, 12svh, 8rem);
-      --box-h: min(39rem, 74svh);
-    }
-
-    .stackBox {
-      display: block;
-      position: sticky;
-      top: clamp(5.5rem, 12svh, 8rem);
-      width: 100%;
-      max-width: 62rem;
-      height: min(39rem, 74svh);
-      margin-inline: auto;
-      border-radius: 1.5rem;
-      overflow: hidden;
-      box-shadow:
-        0 32px 64px rgba(17, 16, 15, 0.32),
-        0 8px 24px rgba(17, 16, 15, 0.2);
-      view-timeline-name: --esg-stack-progress;
-      view-timeline-axis: block;
-    }
-
-    .card {
-      position: absolute;
-      inset: 0;
-      min-height: 0;
-      border-radius: 0;
-      box-shadow: none;
-    }
-  }
-}
-
-/* curated, on-brand palette — deep/muted tones, cycling per card.          */
-.colorMaroon {
-  background-color: #5a1e22;
-}
-
-.colorBronze {
-  background-color: #7a4a1f;
-}
-
-.colorTeal {
-  background-color: #1c3634;
-}
-
-.colorPlum {
-  background-color: #432142;
-}
-
-.colorTerracotta {
-  background-color: #7a3a26;
-}
-
-.colorForest {
-  background-color: #2b3a28;
-}
-
-.row {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: stretch;
-}
-
-.row.sideRight {
-  flex-direction: row-reverse;
-}
-
-/* text column, with a ghost numeral behind it ------------------------------ */
-
-.textCol {
-  position: relative;
-  flex: 1 1 50%;
-  max-width: 27rem;
+  grid-area: 1 / 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: var(--space-4xl);
-  box-sizing: border-box;
+  min-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 600ms var(--ease-standard),
+    visibility 0s linear 600ms;
 }
 
-.ghostIndex {
-  position: absolute;
-  top: -2.25rem;
-  left: -0.25rem;
+.cardActive {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 700ms var(--ease-standard) 120ms,
+    visibility 0s linear 0s;
+}
+
+.photo {
+  position: relative;
+  flex: 0 0 auto;
+  aspect-ratio: 16 / 10;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background-color: rgba(250, 247, 242, 0.06);
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cardActive .photo {
+  clip-path: inset(0 0 0 0);
+}
+
+.photoImage {
+  object-fit: cover;
+  transform: scale(1.08);
+  transition: transform 2400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cardActive .photoImage {
+  transform: scale(1);
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-height: 0;
+  padding-top: var(--space-2xl);
+}
+
+.index {
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);
-  font-size: 6.5rem;
+  font-size: clamp(1.75rem, 2.6vw, 2.5rem);
   line-height: 1;
-  color: rgba(240, 182, 90, 0.16);
-  user-select: none;
-  pointer-events: none;
+  color: var(--color-gold);
+  font-variant-numeric: tabular-nums;
 }
 
-.title {
-  position: relative;
+.indexTotal {
+  font-size: 0.45em;
+  color: var(--color-text-inverse-70);
+}
+
+.title.title {
   margin: 0;
+  font-size: clamp(1.375rem, 2vw, 1.875rem);
+  line-height: 1.12;
   color: var(--color-ivory);
-  font-size: clamp(1.75rem, 2.6vw, 2.25rem);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 900ms var(--ease-standard) 150ms;
+}
+
+.cardActive .title.title {
+  clip-path: inset(0 0 0 0);
 }
 
 .body {
-  position: relative;
-  margin: var(--space-md) 0 0;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
   font-family: var(--font-body);
-  font-weight: var(--font-weight-body-regular);
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  color: var(--color-text-inverse);
+  font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+  line-height: 1.6;
+  color: var(--color-text-inverse-80);
 }
 
-/* photo — fills its entire half of the box edge-to-edge --------------------- */
-/* The box's own `overflow: hidden` + border-radius (see .stackBox) clips
- * this flush to a rounded corner automatically, whichever side it's on —
- * no separate frame/border needed now that it isn't a floating thumbnail. */
+.bodyOpen {
+  display: block;
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+  overflow: visible;
+}
 
-.photoCol {
-  position: relative;
-  flex: 1 1 50%;
+/* Desktop shows the whole paragraph; the toggle is for small stages. */
+.readMore {
+  display: none;
+  align-self: flex-start;
+  min-height: 2.75rem;
+  padding: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-gold);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/* ─── story layout (phones and reduced motion) ──────────────────────────── */
+/* The lit park as a header plate, then one editorial card per feature: photo  */
+/* with its number and label over it, title and text below, a gold edge.        */
+
+.story {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xl);
+}
+
+.storyPlate {
+  padding: var(--space-2xl) var(--space-xl) var(--space-xl);
+  color: var(--color-ivory);
+  background-color: var(--color-charcoal-deep);
+  background-image:
+    radial-gradient(60% 70% at 30% 30%, rgba(240, 182, 90, 0.14) 0%, rgba(240, 182, 90, 0) 70%),
+    radial-gradient(50% 60% at 100% 100%, rgba(150, 40, 48, 0.45) 0%, rgba(150, 40, 48, 0) 70%);
+  border: 1px solid rgba(240, 182, 90, 0.25);
+  border-radius: 1rem;
+}
+
+.storyPlate .drawing {
+  max-height: none;
+}
+
+.storyCaption {
+  margin: var(--space-lg) 0 0;
+  padding-top: var(--space-md);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-gold);
+  border-top: 1px solid rgba(240, 182, 90, 0.2);
+}
+
+.storyList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xl);
   margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.storyCard {
+  overflow: hidden;
+  background-color: var(--color-ivory);
+  border: 1px solid var(--color-hairline-light);
+  border-left: 3px solid var(--color-gold);
+  border-radius: 0.875rem;
+  box-shadow: 0 1rem 2rem -1rem rgba(28, 26, 25, 0.25);
+}
+
+.storyPhoto {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
   background-color: var(--color-charcoal-deep);
 }
 
-.image {
-  object-fit: cover;
+.storyPhoto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(17, 16, 15, 0.75) 0%, rgba(17, 16, 15, 0) 55%);
+  pointer-events: none;
 }
 
-/* Cards without a site photograph yet — a flat wash of the card's own color */
-/* (set via the colorClass on the ancestor .card showing through) carrying a */
-/* faint line-art mark, same restrained tone as .ghostIndex.                 */
-.photoPlaceholder {
-  background-color: transparent;
+.storyHead {
+  position: absolute;
+  left: var(--space-xl);
+  right: var(--space-xl);
+  bottom: var(--space-lg);
+  z-index: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  color: var(--color-ivory);
 }
 
-.placeholderGlyph {
+.storyIndex {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--color-gold);
+  font-variant-numeric: tabular-nums;
+}
+
+.storyLabel {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-ivory);
+}
+
+.storyText {
   display: flex;
-  color: rgba(240, 182, 90, 0.3);
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-xl) var(--space-xl) var(--space-2xl);
 }
 
-.placeholderGlyph svg {
-  width: clamp(5rem, 10vw, 8rem);
-  height: auto;
+.storyTitle.storyTitle {
+  margin: 0;
+  font-size: 1.375rem;
+  line-height: 1.15;
+  color: var(--color-charcoal);
 }
 
-/* the cross-fade + blur itself ---------------------------------------------- */
-/* Each card owns a slice of the shared timeline (set inline via
- * --card-s/--card-e in EsgGreenFeatures.tsx, overlapping
- * its neighbours) so the outgoing card is still blurring out while the
- * next one sharpens in over it — a true cross-fade. The first/last cards
- * use their own keyframes since there's nothing before the first or after
- * the last to fade against.                                                */
-
-/* A subtle scale rides along with the blur/opacity — each card eases in
- * from ~1.04 down to 1.00 as it sharpens, and back up as it blurs away.
- * Deliberately small and in the same direction as the blur (never a slide
- * or a second competing motion), so it reinforces "arriving into focus"
- * rather than adding a distinct effect on top of it.                      */
-
-@keyframes esgCardFirst {
-  0% {
-    pointer-events: auto;
-    opacity: 1;
-    filter: blur(0);
-    scale: 1;
-  }
-  82% {
-    pointer-events: auto;
-    opacity: 1;
-    filter: blur(0);
-    scale: 1;
-  }
-  100% {
-    pointer-events: none;
-    opacity: 0;
-    filter: blur(20px);
-    scale: 1.04;
-  }
+.storyBody {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-ink-muted);
 }
 
-@keyframes esgCardMiddle {
-  0% {
-    pointer-events: none;
-    opacity: 0;
-    filter: blur(20px);
-    scale: 1.04;
-  }
-  18% {
-    pointer-events: auto;
-    opacity: 1;
-    filter: blur(0);
-    scale: 1;
-  }
-  82% {
-    pointer-events: auto;
-    opacity: 1;
-    filter: blur(0);
-    scale: 1;
-  }
-  100% {
-    pointer-events: none;
-    opacity: 0;
-    filter: blur(20px);
-    scale: 1.04;
-  }
-}
-
-@keyframes esgCardLast {
-  0% {
-    pointer-events: none;
-    opacity: 0;
-    filter: blur(20px);
-    scale: 1.04;
-  }
-  18% {
-    pointer-events: auto;
-    opacity: 1;
-    filter: blur(0);
-    scale: 1;
-  }
-  100% {
-    pointer-events: auto;
-    opacity: 1;
-    filter: blur(0);
-    scale: 1;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    /* Longhand throughout (never the `animation` shorthand) — the shorthand
-     * resets every animation-* longhand to its initial value for whatever
-     * it doesn't explicitly set, which would silently wipe out the
-     * animation-timeline/animation-range below if a later rule used it.  */
-    .card {
-      animation-timing-function: linear;
-      animation-fill-mode: both;
-      animation-timeline: --esg-stack-progress;
-      animation-range: calc(100svh - var(--stick) + (var(--track-h) - var(--box-h)) * var(--card-s))
-        calc(100svh - var(--stick) + (var(--track-h) - var(--box-h)) * var(--card-e));
-    }
-
-    .cardFirst {
-      animation-name: esgCardFirst;
-    }
-
-    .cardMiddle {
-      animation-name: esgCardMiddle;
-    }
-
-    .cardLast {
-      animation-name: esgCardLast;
-    }
+/* wider screens with reduced motion: two cards per row */
+@media (min-width: 768px) {
+  .storyList {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card {
-    opacity: 1 !important;
-    filter: none !important;
+  .feature,
+  .feature [pathLength],
+  .tree,
+  .tankFill,
+  .pin,
+  .card,
+  .photo,
+  .photoImage,
+  .title.title {
+    transition: none;
+  }
+
+  .shimmer,
+  .drops path,
+  .charge,
+  .ripple,
+  .sheen,
+  .pinPulse {
+    animation: none;
+  }
+
+  .photo,
+  .title.title {
+    clip-path: none;
   }
 }
 
-/* responsive -------------------------------------------------------------- */
+/* ─── tablet: drawing on top, card below ────────────────────────────────── */
 
-.section {
-  padding-block: var(--section-padding-tablet);
-}
 @media (max-width: 1023px) {
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      .stackTrack {
-        --box-h: min(34rem, 80svh);
-      }
-
-      .stackBox {
-        height: min(34rem, 80svh);
-      }
-    }
+  .track {
+    --stage-h: calc(100svh - var(--stick) - 1rem);
   }
 
-  .row {
-    flex-direction: column;
-    text-align: center;
+  .stage {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--space-2xl);
+    padding: var(--space-2xl);
+  }
+
+  .drawingCol {
+    gap: var(--space-xl);
+  }
+
+  .drawing {
+    max-height: 30svh;
+  }
+
+  .card {
+    flex-direction: row;
+    gap: var(--space-2xl);
+  }
+
+  .photo {
+    flex: 0 0 38%;
+    aspect-ratio: auto;
+  }
+
+  .cardText {
+    flex: 1;
+    padding-top: 0;
+    overflow: hidden;
+  }
+
+  .readMore {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .bodyOpen {
     overflow-y: auto;
   }
-
-  .row.sideRight {
-    flex-direction: column;
-  }
-
-  .textCol {
-    /* .textCol/.photoCol are `flex: 1 1 50%` for the desktop row layout,
-     * where 50% is a WIDTH basis. Once .row switches to a column, that
-     * same percentage reads as a HEIGHT basis against .row's auto height
-     * — an unresolvable percentage (same bug hit and fixed on Development
-     * Lifecycle's mobile layout earlier this session). Give each an
-     * explicit sizing instead of relying on the flex-basis percentage. */
-    flex: none;
-    width: 100%;
-    max-width: none;
-    padding: var(--space-3xl);
-  }
-
-  .ghostIndex {
-    display: none;
-  }
-
-  .photoCol {
-    flex: none;
-    width: 100%;
-    height: 10rem;
-  }
 }
+
+/* ─── phones ────────────────────────────────────────────────────────────── */
 
 @media (max-width: 767px) {
   .section {
-    padding-block: var(--section-padding-mobile);
+    --band-overlap: 2rem;
+    padding-bottom: var(--section-padding-mobile);
   }
 
-  .header {
-    margin-bottom: var(--space-6xl);
+  .stage {
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    border-radius: 1rem;
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      .stackTrack {
-        height: 360svh;
-        --track-h: 360svh;
-        --stick: 5rem;
-        --box-h: min(38rem, calc(100svh - 6.5rem));
-      }
-
-      .stackBox {
-        top: 5rem;
-        height: min(38rem, calc(100svh - 6.5rem));
-      }
-    }
+  .drawing {
+    max-height: 30svh;
   }
 
-  .textCol {
-    padding: var(--space-2xl) var(--space-xl);
+  .railLabel {
+    display: none;
+  }
+
+  .card {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .photo {
+    flex: 0 0 auto;
+    aspect-ratio: auto;
+    height: 22svh;
+  }
+
+  .cardText {
+    gap: var(--space-sm);
+    padding-top: var(--space-lg);
   }
 
   .body {
-    font-size: 1rem;
-    line-height: 1.55;
-  }
-
-  /* The photo takes whatever height the copy leaves, so the card has no empty tail. */
-  .photoCol {
-    flex: 1 1 8.5rem;
-    height: auto;
-    min-height: 8.5rem;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
 }

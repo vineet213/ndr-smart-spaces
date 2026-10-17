@@ -92,6 +92,10 @@ export type EsgGreenFeature = {
 export const esgGreenFeatures = {
   eyebrow: "In practice",
   heading: "Sustainability, built in.",
+  image: {
+    src: "/images/esg/band-aerial-park.jpg",
+    alt: "Aerial view of an NDR Smart Spaces warehouse park set among green fields",
+  },
   lede: "Environmental measures are part of the site plan and its surroundings, and are measured in every warehouse the group develops.",
   features: [
     {
@@ -170,6 +174,10 @@ export type EsgPillar = {
 export const esgFramework = {
   eyebrow: "The framework",
   heading: "One ledger, every discipline.",
+  image: {
+    src: "/images/esg/band-aerial-warehouse.jpg",
+    alt: "Aerial view of an NDR Smart Spaces warehouse with trucks at its loading docks",
+  },
   lede: "The sustainability framework rests on environmental, social, governance, and health & safety values. Each has coded commitments that recur across this edition.",
   pillars: [
     {
