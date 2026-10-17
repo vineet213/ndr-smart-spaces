@@ -1,31 +1,30 @@
+/* Opens with a full-bleed photo band; the pillar cards ride up over its edge. */
 .section {
+  --band-overlap: 4rem;
+  position: relative;
+  overflow: clip;
+  padding-bottom: var(--space-12xl);
   background-color: var(--color-ivory-dim);
-  padding-block: var(--space-12xl);
 }
 
-.eyebrow {
-  margin-top: var(--space-5xl);
-}
-
-.heading {
-  margin-top: var(--space-4xl);
-}
-
-.lede {
-  max-width: 56ch;
-  margin-top: var(--space-4xl);
+.content {
+  position: relative;
+  z-index: 1;
+  margin-top: calc(-1 * var(--band-overlap));
 }
 
 .pillars {
-  margin-top: var(--space-8xl);
   align-items: start;
 }
 
 .pillar {
+  position: relative;
+  overflow: hidden;
   padding: var(--space-4xl);
   background-color: var(--color-maroon-dark);
   border-top: 3px solid var(--color-gold);
   height: 100%;
+  box-shadow: 0 1.5rem 3rem -1rem rgba(17, 16, 15, 0.45);
 }
 
 /* Same curated palette as the ESG "In practice" scroll cards, cycling per    */
@@ -45,6 +44,43 @@
 
 .colorPlum {
   background-color: #432142;
+}
+
+/* faint line mark in the card's top-right corner, drawn in on arrival */
+.mark {
+  position: absolute;
+  top: var(--space-2xl);
+  right: var(--space-2xl);
+  width: clamp(3.5rem, 5vw, 4.75rem);
+  color: var(--color-gold);
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+.mark svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mark path,
+.mark circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1600ms var(--ease-standard) 300ms;
+}
+
+.markDrawn path,
+.markDrawn circle {
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mark path,
+  .mark circle {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
 }
 
 .chapter {
@@ -125,7 +161,8 @@
 
 @media (max-width: 767px) {
   .section {
-    padding-block: var(--space-8xl);
+    --band-overlap: 2rem;
+    padding-bottom: var(--space-8xl);
   }
 
   .pillar {

@@ -7,9 +7,14 @@ type GridItemProps = {
   as?: ElementType;
   span?: ColumnSpan;
   className?: string;
+  id?: string;
   children: ReactNode;
 };
 
-export function GridItem({ as: Tag = "div", span = 12, className, children }: GridItemProps) {
-  return <Tag className={cx(styles.item, styles[`span-${span}`], className)}>{children}</Tag>;
+export function GridItem({ as: Tag = "div", span = 12, className, id, children }: GridItemProps) {
+  return (
+    <Tag id={id} className={cx(styles.item, styles[`span-${span}`], className)}>
+      {children}
+    </Tag>
+  );
 }

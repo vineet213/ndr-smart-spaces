@@ -1,6 +1,7 @@
 import { Container, Grid, GridItem } from "@/components/layout";
-import { Heading, Lede } from "@/components/ui";
 import { esgFramework } from "@/lib/data/esg";
+import { EsgBand } from "./EsgBand";
+import { PillarMark } from "./PillarMark";
 import { Reveal, type RevealDelay } from "./Reveal";
 import { cx } from "../ui/cx";
 import styles from "./EsgFramework.module.css";
@@ -10,22 +11,24 @@ const PILLAR_COLORS = [styles.colorMaroon, styles.colorBronze, styles.colorTeal,
 export function EsgFramework() {
   return (
     <section className={styles.section} id="framework" aria-labelledby="esg-framework-title">
-      <Container>
-        <Reveal>
-          <Heading variant="section" id="esg-framework-title" className={styles.heading}>
-            {esgFramework.heading}
-          </Heading>
-          <Lede className={styles.lede}>{esgFramework.lede}</Lede>
-        </Reveal>
-
+      <EsgBand
+        id="esg-framework-title"
+        heading={esgFramework.heading}
+        lede={esgFramework.lede}
+        image={esgFramework.image}
+        align="right"
+      />
+      <Container className={styles.content}>
         <Grid className={styles.pillars}>
           {esgFramework.pillars.map((pillar, index) => (
             <GridItem
               key={pillar.key}
               span={3}
               className={cx(styles.pillar, PILLAR_COLORS[index % PILLAR_COLORS.length])}
+              id={`pillar-${pillar.key}`}
             >
               <Reveal delay={(index + 1) as RevealDelay}>
+                <PillarMark pillarKey={pillar.key} />
                 <span className={styles.chapter} aria-hidden="true">
                   {pillar.chapter}
                 </span>
