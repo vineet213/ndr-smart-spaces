@@ -27,8 +27,10 @@ export function EsgFramework() {
               className={cx(styles.pillar, PILLAR_COLORS[index % PILLAR_COLORS.length])}
               id={`pillar-${pillar.key}`}
             >
+              {/* Outside the Reveal: its transform would otherwise become the mark's */}
+              {/* positioning box mid-animation and shift it until the fade ends.    */}
+              <PillarMark pillarKey={pillar.key} />
               <Reveal delay={(index + 1) as RevealDelay}>
-                <PillarMark pillarKey={pillar.key} />
                 <span className={styles.chapter} aria-hidden="true">
                   {pillar.chapter}
                 </span>
