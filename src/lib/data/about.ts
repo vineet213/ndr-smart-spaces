@@ -28,7 +28,7 @@ export const aboutStats: readonly CompanyMetric[] = [
 
 export const aboutStory = {
   eyebrow: "Origin of the group",
-  heading: "Six decades of building",
+  heading: "Seven decades of building",
   paragraphs: [
     "The NDR Group was founded in 1954 by the late Mr. Naidu Dasaratha Rami Reddy. It began with a modest land parcel and a vision to establish a rice mill, marking the start of entrepreneurship in a family rooted in agriculture. His pioneering spirit laid the foundation for a multi-generational legacy of growth and innovation.",
     "Since 2002, under new leadership, the company has achieved significant scale, attracted marquee investors and executed strategic acquisitions to strengthen its market position. Today, the organization is entering a new phase of growth and modernization, with a vision to strengthen India's socio-economic infrastructure landscape, anchored primarily in logistics and industrial infrastructure.",
