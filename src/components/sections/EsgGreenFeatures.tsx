@@ -23,11 +23,9 @@ type FeatureCardProps = {
   order: number;
   total: number;
   active: boolean;
-  expanded: boolean;
-  onToggle: () => void;
 };
 
-function FeatureCard({ feature, order, total, active, expanded, onToggle }: FeatureCardProps) {
+function FeatureCard({ feature, order, total, active }: FeatureCardProps) {
   return (
     <article
       className={cx(styles.card, active && styles.cardActive)}
@@ -55,15 +53,6 @@ function FeatureCard({ feature, order, total, active, expanded, onToggle }: Feat
         <Heading variant="sub" as="h3" tone="dark" className={styles.title}>
           {feature.title}
         </Heading>
-        <p className={cx(styles.body, expanded && styles.bodyOpen)}>{feature.body}</p>
-        <button
-          type="button"
-          className={styles.readMore}
-          aria-expanded={expanded}
-          onClick={onToggle}
-        >
-          {expanded ? "Show less" : "Read more"}
-        </button>
       </div>
     </article>
   );
@@ -76,7 +65,6 @@ export function EsgGreenFeatures() {
   const stageRef = useRef<HTMLDivElement | null>(null);
   const [pinned, setPinned] = useState(true);
   const [active, setActive] = useState(0);
-  const [expanded, setExpanded] = useState(false);
 
   /* Phones and reduced-motion visitors get the story layout (the lit park as */
   /* a header plate, then one card per feature) instead of the pinned stage.  */
@@ -122,7 +110,6 @@ export function EsgGreenFeatures() {
       if (next !== current) {
         current = next;
         setActive(next);
-        setExpanded(false);
       }
     };
 
@@ -219,8 +206,6 @@ export function EsgGreenFeatures() {
                     order={index}
                     total={total}
                     active={index === active}
-                    expanded={index === active && expanded}
-                    onToggle={() => setExpanded((open) => !open)}
                   />
                 ))}
               </div>
