@@ -111,36 +111,13 @@ function CodeMark({ index }: { index: string }) {
 /* list item carries its own timer line: it fills over SLIDE_MS and its           */
 /* animation-end advances to the next value, so the line and the timing can       */
 /* never drift apart. There is no hover or focus pausing (the pointer is on a     */
-/* full-width band most of the time); it holds only for the pause button, an      */
-/* expanded paragraph, the section being off screen or a hidden tab.              */
+/* full-width band most of the time); it holds only for an expanded paragraph,   */
+/* the section being off screen or a hidden tab.                                 */
 
 /* The very first slide only holds for a second, so it is obvious from the first   */
 /* moment that the section moves; every slide after that gets SLIDE_MS.            */
 const INTRO_MS = 1000;
 const SLIDE_MS = 2500;
-
-function PlayPause({ playing }: { playing: boolean }) {
-  return (
-    <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false">
-      {playing ? (
-        <path
-          d="M6.5 4.5 V15.5 M13.5 4.5 V15.5"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-      ) : (
-        <path
-          d="M6.5 4.5 L15 10 L6.5 15.5 Z"
-          fill="currentColor"
-          stroke="currentColor"
-          strokeWidth="1.2"
-          strokeLinejoin="round"
-        />
-      )}
-    </svg>
-  );
-}
 
 function CodeSlideshow({ values }: { values: readonly OurCodeValue[] }) {
   const count = values.length;
@@ -150,7 +127,6 @@ function CodeSlideshow({ values }: { values: readonly OurCodeValue[] }) {
     once: false,
   });
   const [activeIndex, setActiveIndex] = useState(0);
-  const [userPaused, setUserPaused] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [introDone, setIntroDone] = useState(false);
   const [canExpand, setCanExpand] = useState(true);
@@ -186,7 +162,7 @@ function CodeSlideshow({ values }: { values: readonly OurCodeValue[] }) {
 
   /* Autoplay is off entirely for reduced-motion users; for everyone else the  */
   /* timer line runs unless something is asking it to hold.                     */
-  const autoplay = !reduceMotion && !userPaused;
+  const autoplay = !reduceMotion;
   const running = autoplay && inView && pageVisible && !expanded;
 
   const slideMs = activeIndex === 0 && !introDone ? INTRO_MS : SLIDE_MS;
@@ -221,17 +197,6 @@ function CodeSlideshow({ values }: { values: readonly OurCodeValue[] }) {
           <Eyebrow as="span" tone="dark" className={styles.sectionHeading}>
             Our Code
           </Eyebrow>
-
-          {reduceMotion ? null : (
-            <button
-              type="button"
-              className={styles.controlButton}
-              onClick={() => setUserPaused((paused) => !paused)}
-              aria-label={userPaused ? "Play slideshow" : "Pause slideshow"}
-            >
-              <PlayPause playing={!userPaused} />
-            </button>
-          )}
         </div>
 
         <div className={styles.layout}>
