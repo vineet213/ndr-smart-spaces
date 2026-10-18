@@ -15,8 +15,6 @@
 }
 
 .list {
-  --tip: 0px;
-  --tip-ratio: 0;
   position: relative;
 }
 
@@ -87,8 +85,8 @@
 }
 
 .motifDraw {
-  opacity: 0.6;
-  filter: drop-shadow(0 0 10px rgba(240, 182, 90, 0.35));
+  /* no filter: a drop-shadow here was repainted on every frame of the draw */
+  opacity: 0.7;
 }
 
 .motifDraw path,
@@ -151,7 +149,7 @@
   margin-left: -1.5px;
   height: 100%;
   border-radius: 2px;
-  transform: scaleY(var(--tip-ratio));
+  transform: scaleY(0);
   transform-origin: top center;
   will-change: transform;
   background: linear-gradient(
@@ -169,7 +167,7 @@
   position: absolute;
   top: -0.4375rem;
   left: 50%;
-  transform: translate3d(0, var(--tip), 0);
+  transform: translate3d(0, 0, 0);
   will-change: transform;
   pointer-events: none;
   width: 0.875rem;

@@ -18,6 +18,8 @@ const FOCUS = 0.58;
 
 export function AboutTimeline() {
   const listRef = useRef<HTMLDivElement | null>(null);
+  const progressRef = useRef<HTMLSpanElement | null>(null);
+  const headRef = useRef<HTMLSpanElement | null>(null);
   const [active, setActive] = useState(-1);
 
   useEffect(() => {
@@ -42,16 +44,21 @@ export function AboutTimeline() {
       listHeight = Math.max(list.offsetHeight, 1);
     };
 
-    /* Per frame: one read, then only CSS variables that drive transforms, so  */
-    /* scrolling never triggers layout or repaints of the large art layers.    */
+    /* Per frame: one read, then a transform on each of the two moving parts.  */
+    /* Nothing is written on the list itself, so the milestones are never     */
+    /* re-styled while scrolling.                                             */
     const update = () => {
       frame = 0;
       const listTop = list.getBoundingClientRect().top;
       const end = centres[centres.length - 1] ?? 0;
       const focus = reduceMotion ? end : window.innerHeight * FOCUS - listTop;
       const tip = Math.min(Math.max(focus, 0), end);
-      list.style.setProperty("--tip", `${tip.toFixed(1)}px`);
-      list.style.setProperty("--tip-ratio", (tip / listHeight).toFixed(4));
+      if (progressRef.current) {
+        progressRef.current.style.transform = `scaleY(${(tip / listHeight).toFixed(4)})`;
+      }
+      if (headRef.current) {
+        headRef.current.style.transform = `translate3d(0, ${tip.toFixed(1)}px, 0)`;
+      }
 
       let next = -1;
       for (let index = 0; index < centres.length; index += 1) {
@@ -67,6 +74,19 @@ export function AboutTimeline() {
       if (frame === 0) frame = window.requestAnimationFrame(update);
     };
 
+    // Listen to scroll only while the timeline is on or near the screen.
+    let listening = false;
+    const listen = (on: boolean) => {
+      if (on === listening) return;
+      listening = on;
+      if (on) {
+        window.addEventListener("scroll", schedule, { passive: true });
+        schedule();
+      } else {
+        window.removeEventListener("scroll", schedule);
+      }
+    };
+
     measure();
     update();
     const resizeObserver = new ResizeObserver(() => {
@@ -74,9 +94,13 @@ export function AboutTimeline() {
       schedule();
     });
     resizeObserver.observe(list);
-    window.addEventListener("scroll", schedule, { passive: true });
+    const intersection = new IntersectionObserver(([entry]) => listen(entry.isIntersecting), {
+      rootMargin: "200px 0px",
+    });
+    intersection.observe(list);
     return () => {
       resizeObserver.disconnect();
+      intersection.disconnect();
       window.removeEventListener("scroll", schedule);
       if (frame !== 0) window.cancelAnimationFrame(frame);
     };
@@ -99,8 +123,8 @@ export function AboutTimeline() {
             <div className={styles.art} aria-hidden="true">
               <span className={styles.artGrid} />
             </div>
-            <span className={styles.progress} aria-hidden="true" />
-            <span className={styles.progressHead} aria-hidden="true" />
+            <span ref={progressRef} className={styles.progress} aria-hidden="true" />
+            <span ref={headRef} className={styles.progressHead} aria-hidden="true" />
             <ol className={styles.items}>
               {aboutTimeline.nodes.map((node, index) => (
                 <li

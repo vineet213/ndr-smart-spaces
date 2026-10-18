@@ -156,6 +156,7 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
   const bladeRef = useRef<HTMLDivElement | null>(null);
   const slideRefs = useRef<(HTMLElement | null)[]>([]);
   const captionRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const sheenRef = useRef<HTMLSpanElement | null>(null);
   const [active, setActive] = useState(0);
 
   const { ref: listRef, inView: listInView } = useInView<HTMLDivElement>({
@@ -192,20 +193,31 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
     };
   }, [total]);
 
-  /* Paints one frame of the choreography for a position `s` (in stages). Only
-   * custom properties and one clip-path are written, and only when changed. */
+  /* Paints one frame of the choreography for a position `s` (in stages).
+   * Only transform and opacity are written, directly on the elements that
+   * move (never inherited custom properties, which would re-style whole
+   * subtrees), and only when a value changes, so frames stay on the GPU. */
   const paint = useRef<(s: number) => void>(() => {});
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const written = new Map<HTMLElement, Record<string, string>>();
-    const write = (el: HTMLElement | null, prop: string, value: string) => {
+    const narrow = window.matchMedia("(max-width: 767px)");
+    const written = new Map<Element, Record<string, string>>();
+    const write = (el: Element | null | undefined, prop: string, value: string) => {
       if (!el) return;
       const cache = written.get(el) ?? {};
       if (cache[prop] === value) return;
       cache[prop] = value;
       written.set(el, cache);
-      el.style.setProperty(prop, value);
+      (el as HTMLElement).style.setProperty(prop, value);
     };
+    const parts = slideRefs.current.map((slide) => ({
+      slide,
+      inner: slide?.querySelector(`.${styles.inner}`),
+      photo: slide?.querySelector(`.${styles.photo}`),
+      shade: slide?.querySelector(`.${styles.shade}`),
+      edge: slide?.querySelector(`.${styles.edge}`),
+    }));
+    const lines = captionRefs.current.map((caption) => (caption ? [...caption.children] : []));
     let lastActive = -1;
 
     paint.current = (s: number) => {
@@ -216,28 +228,45 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
         if (reduced.matches) r = r < 0.5 ? 0 : 1;
       }
 
-      slideRefs.current.forEach((slide, j) => {
+      parts.forEach(({ slide, inner, photo, shade, edge }, j) => {
         const reveal = j <= i ? 1 : j === i + 1 ? r : 0;
         const cover = j < i ? 1 : j === i ? r : 0;
-        write(slide, "--in", reveal.toFixed(4));
-        write(slide, "--out", cover.toFixed(4));
-        write(slide, "--edge", Math.sin(Math.PI * reveal).toFixed(4));
+        const live = reveal > 0 && cover < 1;
         // Off-screen layers (not yet revealed, or fully covered) skip painting.
-        write(slide, "visibility", reveal > 0 && cover < 1 ? "visible" : "hidden");
+        write(slide, "visibility", live ? "visible" : "hidden");
+        if (!live) return;
+        // The wipe: the slide (a mask) rises from below while its contents
+        // counter-move, so the photo is uncovered upward from the bottom edge.
+        const lift = ((1 - reveal) * 100).toFixed(3);
+        write(slide, "transform", `translate3d(0, ${lift}%, 0)`);
+        write(inner, "transform", `translate3d(0, -${lift}%, 0)`);
+        const y = ((1 - reveal) * 6 - cover * 3).toFixed(3);
+        const scale = (1.12 - reveal * 0.12 + cover * 0.08).toFixed(4);
+        write(photo, "transform", `translate3d(0, ${y}%, 0) scale(${scale})`);
+        write(shade, "opacity", (cover * 0.65).toFixed(3));
+        write(edge, "opacity", Math.sin(Math.PI * reveal).toFixed(3));
       });
 
-      captionRefs.current.forEach((caption, j) => {
+      lines.forEach((children, j) => {
         const v = j === i ? 1 - clamp01(r / 0.3) : j === i + 1 ? clamp01((r - 0.62) / 0.38) : 0;
-        write(caption, "--v", v.toFixed(4));
-        write(caption, "visibility", v > 0 ? "visible" : "hidden");
+        write(captionRefs.current[j], "visibility", v > 0 ? "visible" : "hidden");
+        if (v <= 0) return;
+        children.forEach((child, k) => {
+          const o = clamp01((v - k * 0.12) / 0.76);
+          write(child, "opacity", o.toFixed(3));
+          write(child, "transform", `translate3d(0, ${((1 - o) * 1.25).toFixed(3)}rem, 0)`);
+        });
       });
 
-      const blade = bladeRef.current;
-      const from = i % 2 === 0 ? BLADE_LEFT : BLADE_RIGHT;
-      const to = (i + 1) % 2 === 0 ? BLADE_LEFT : BLADE_RIGHT;
-      write(blade, "--blade", bladePolygon(from, to, r));
-      write(blade, "--sx", r.toFixed(4));
-      write(blade, "--so", (Math.sin(Math.PI * r) * 0.9).toFixed(4));
+      // The blade glides between its two cuts on wider screens; on phones it
+      // is a plain panel with no cut, so there is nothing to animate.
+      if (!narrow.matches) {
+        const from = i % 2 === 0 ? BLADE_LEFT : BLADE_RIGHT;
+        const to = (i + 1) % 2 === 0 ? BLADE_LEFT : BLADE_RIGHT;
+        write(bladeRef.current, "clip-path", bladePolygon(from, to, r));
+      }
+      write(sheenRef.current, "transform", `translate3d(${(-60 + r * 120).toFixed(2)}%, 0, 0)`);
+      write(sheenRef.current, "opacity", (Math.sin(Math.PI * r) * 0.9).toFixed(3));
 
       const nextActive = r >= 0.5 ? i + 1 : i;
       if (nextActive !== lastActive) {
@@ -266,7 +295,9 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
       frame = 0;
       const dt = lastTime ? Math.min(time - lastTime, 64) : 16.7;
       lastTime = time;
-      if (reduced.matches) {
+      // Touch scrolling is already smooth and paced by the one-stage-per-swipe
+      // snap, so it is drawn directly; extra easing would only lag the finger.
+      if (reduced.matches || coarse.matches) {
         shown = target;
       } else {
         let step = (target - shown) * (1 - Math.pow(1 - FOLLOW, dt / 16.7));
@@ -390,22 +421,25 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
               className={styles.slide}
               aria-hidden={index !== active}
             >
-              <div className={styles.photo}>
-                <Image
-                  src={stage.image.src}
-                  alt={stage.image.alt}
-                  fill
-                  sizes="100vw"
-                  // All photos load up front: a fast scroll must never wipe in
-                  // one that is still downloading.
-                  loading="eager"
-                  className={styles.image}
-                  style={
-                    { "--stage-crop": STAGE_POSITIONS[stage.index] ?? "center" } as CSSProperties
-                  }
-                />
+              {/* counter-moves against the slide during the wipe */}
+              <div className={styles.inner}>
+                <div className={styles.photo}>
+                  <Image
+                    src={stage.image.src}
+                    alt={stage.image.alt}
+                    fill
+                    sizes="100vw"
+                    // All photos load up front: a fast scroll must never wipe in
+                    // one that is still downloading.
+                    loading="eager"
+                    className={styles.image}
+                    style={
+                      { "--stage-crop": STAGE_POSITIONS[stage.index] ?? "center" } as CSSProperties
+                    }
+                  />
+                </div>
+                <span className={styles.shade} aria-hidden="true" />
               </div>
-              <span className={styles.shade} aria-hidden="true" />
               <span className={styles.edge} aria-hidden="true" />
             </figure>
           ))}
@@ -413,7 +447,7 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
           <div className={styles.photoScrim} aria-hidden="true" />
 
           <div ref={bladeRef} className={styles.blade}>
-            <span className={styles.sheen} aria-hidden="true" />
+            <span ref={sheenRef} className={styles.sheen} aria-hidden="true" />
             <div aria-live="polite">
               {stages.map((stage, index) => (
                 <div

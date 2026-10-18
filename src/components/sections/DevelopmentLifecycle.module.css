@@ -94,6 +94,7 @@
   height: 100svh;
   overflow: hidden;
   isolation: isolate;
+  contain: paint;
   background-color: var(--color-charcoal-deep);
 }
 
@@ -102,27 +103,41 @@
 /* edge, while it settles from a slight zoom; the outgoing one eases away    */
 /* and dims beneath it.                                                      */
 
+/* The wipe is all transforms (composited, no repaint): the slide is a mask  */
+/* that rises from below, and .inner counter-moves so the photo holds still  */
+/* while being uncovered. The script writes these transforms each frame.     */
 .slide {
   position: absolute;
   inset: 0;
   margin: 0;
   overflow: hidden;
-  clip-path: inset(calc((1 - var(--in, 0)) * 100%) 0 0 0);
   visibility: hidden;
+  transform: translate3d(0, 100%, 0);
+  will-change: transform;
 }
 
-/* Before the script runs, the first stage is simply shown. */
-.slide:first-child {
-  --in: 1;
-  visibility: visible;
+.inner {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
 }
 
 .photo {
   position: absolute;
   inset: 0;
-  transform: translateY(calc((1 - var(--in, 0)) * 6% - var(--out, 0) * 3%))
-    scale(calc(1.12 - var(--in, 0) * 0.12 + var(--out, 0) * 0.08));
+  transform: scale(1.12);
   will-change: transform;
+}
+
+/* Before the script runs, the first stage is simply shown. */
+.slide:first-child {
+  visibility: visible;
+  transform: none;
+}
+
+.slide:first-child .inner,
+.slide:first-child .photo {
+  transform: none;
 }
 
 .image {
@@ -135,14 +150,15 @@
   position: absolute;
   inset: 0;
   background-color: var(--color-charcoal-deep);
-  opacity: calc(var(--out, 0) * 0.65);
+  opacity: 0;
 }
 
+/* the gold hairline rides the slide's own top edge, which is the wipe edge */
 .edge {
   position: absolute;
   left: 0;
   right: 0;
-  top: calc((1 - var(--in, 0)) * 100%);
+  top: 0;
   height: 1px;
   background: linear-gradient(
     90deg,
@@ -152,7 +168,7 @@
     rgba(240, 182, 90, 0) 100%
   );
   box-shadow: 0 0 18px 2px rgba(240, 182, 90, 0.45);
-  opacity: var(--edge, 0);
+  opacity: 0;
 }
 
 /* faint overall scrim so the glass panel reads cleanly against any
@@ -185,7 +201,7 @@
   );
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(1.125rem);
-  clip-path: var(--blade, polygon(0 0, 49% 0, 35% 100%, 0 100%));
+  clip-path: polygon(0 0, 49% 0, 35% 100%, 0 100%);
 }
 
 /* A band of gold light that crosses the glass during each change. */
@@ -198,14 +214,14 @@
     rgba(240, 182, 90, 0.26) 50%,
     rgba(240, 182, 90, 0) 62%
   );
-  transform: translateX(calc(-60% + var(--sx, 0) * 120%));
-  opacity: var(--so, 0);
+  transform: translateX(-60%);
+  opacity: 0;
   pointer-events: none;
 }
 
 /* Captions: every stage's text sits in the blade on its own side. The       */
 /* outgoing one fades early in the change, the incoming one rises in as the  */
-/* blade arrives, eyebrow, title and body in turn (--k staggers them).       */
+/* blade arrives, eyebrow, title and body in turn (the script staggers them). */
 
 .caption {
   position: absolute;
@@ -220,7 +236,6 @@
 }
 
 .caption:first-child {
-  --v: 1;
   visibility: visible;
 }
 
@@ -234,18 +249,15 @@
   padding: 0 4.5rem 0 4rem;
 }
 
+/* hidden until the script fades each line in (the first caption shows as is) */
 .caption > * {
-  --o: clamp(0, calc((var(--v, 0) - var(--k, 0) * 0.12) / 0.76), 1);
-  opacity: var(--o);
-  transform: translateY(calc((1 - var(--o)) * 1.25rem));
+  opacity: 0;
+  transform: translateY(1.25rem);
 }
 
-.caption > :nth-child(2) {
-  --k: 1;
-}
-
-.caption > :nth-child(3) {
-  --k: 2;
+.caption:first-child > * {
+  opacity: 1;
+  transform: none;
 }
 
 /* caption type ------------------------------------------------------------- */
@@ -501,10 +513,11 @@
 /* responsive ------------------------------------------------------------ */
 
 @media (max-width: 1023px) {
-  /* Follow the live viewport as the phone's toolbar collapses, so the pinned */
-  /* stage never leaves a strip of section background under it.              */
-  .stage {
-    height: 100dvh;
+  /* A fixed height (small viewport) rather than the live one: following the  */
+  /* toolbar as it hides and shows resized the stage mid-scroll. The track   */
+  /* shares the stage's colour, so the extra strip under it never shows.     */
+  .track {
+    background-color: var(--color-charcoal-deep);
   }
 
   .finale {

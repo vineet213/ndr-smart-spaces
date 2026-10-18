@@ -17,50 +17,47 @@ const markProps = {
   strokeLinejoin: "round",
 } as const;
 
-/* pathLength=1 on every stroke lets the CSS draw each mark in. */
-const unit = { pathLength: 1 } as const;
-
 function ValueMark({ index }: { index: string }) {
   switch (index) {
     case "01":
       return (
         <svg {...markProps} aria-hidden="true" focusable="false">
-          <circle {...unit} cx="28" cy="28" r="9" />
-          <path {...unit} d="M28 10 V46 M10 28 H46" />
-          <path {...unit} d="M19 19 L23 23 M37 19 L33 23 M19 37 L23 33 M37 37 L33 33" />
+          <circle cx="28" cy="28" r="9" />
+          <path d="M28 10 V46 M10 28 H46" />
+          <path d="M19 19 L23 23 M37 19 L33 23 M19 37 L23 33 M37 37 L33 33" />
         </svg>
       );
     case "02":
       return (
         <svg {...markProps} aria-hidden="true" focusable="false">
-          <path {...unit} d="M12 24 H26 V38 H12 Z" />
-          <path {...unit} d="M30 22 H44 V34 H30 Z" />
-          <path {...unit} d="M18 40 H40 V46 H18 Z" />
+          <path d="M12 24 H26 V38 H12 Z" />
+          <path d="M30 22 H44 V34 H30 Z" />
+          <path d="M18 40 H40 V46 H18 Z" />
         </svg>
       );
     case "03":
       return (
         <svg {...markProps} aria-hidden="true" focusable="false">
-          <path {...unit} d="M9 39 H47" />
-          <path {...unit} d="M15 39 V45 M41 39 V45" />
-          <path {...unit} d="M9 45 H21 M35 45 H47" />
-          <path {...unit} d="M17 39 V27 L28 19 L39 27 V39" />
+          <path d="M9 39 H47" />
+          <path d="M15 39 V45 M41 39 V45" />
+          <path d="M9 45 H21 M35 45 H47" />
+          <path d="M17 39 V27 L28 19 L39 27 V39" />
         </svg>
       );
     case "04":
       return (
         <svg {...markProps} aria-hidden="true" focusable="false">
-          <path {...unit} d="M10 46 H46" />
-          <path {...unit} d="M14 42 L38 16" />
-          <path {...unit} d="M30 16 H38 V24" />
+          <path d="M10 46 H46" />
+          <path d="M14 42 L38 16" />
+          <path d="M30 16 H38 V24" />
         </svg>
       );
     case "05":
       return (
         <svg {...markProps} aria-hidden="true" focusable="false">
-          <path {...unit} d="M39 15 A14 14 0 1 1 15.8 22.5" />
-          <path {...unit} d="M15.8 22.5 L11 19 M15.8 22.5 L19.5 17.8" />
-          <path {...unit} d="M28 22c-4.5-2-8 2-1 8 7-6 3.5-10-1-8Z" />
+          <path d="M39 15 A14 14 0 1 1 15.8 22.5" />
+          <path d="M15.8 22.5 L11 19 M15.8 22.5 L19.5 17.8" />
+          <path d="M28 22c-4.5-2-8 2-1 8 7-6 3.5-10-1-8Z" />
         </svg>
       );
     default:
