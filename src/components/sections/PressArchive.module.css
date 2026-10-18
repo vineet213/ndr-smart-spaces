@@ -1,37 +1,213 @@
+/* Latest from the newsroom ------------------------------------------------ */
+/* A lead story, then a grid of identical cards: picture, outlet, date and   */
+/* headline. The note and the action (read the article / view the clipping)  */
+/* slide up on hover, keyboard focus or a tap.                               */
+
 .section {
   background-color: var(--color-charcoal);
   color: var(--color-ivory);
-  padding-block: var(--space-12xl);
+  padding-block: var(--space-10xl);
 }
 
-.eyebrow {
-  margin-top: var(--space-5xl);
+.header {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-xl);
+}
+
+.goldRule {
+  display: block;
+  width: var(--space-6xl);
+  height: 2px;
+  background-color: var(--color-gold);
 }
 
 .heading {
-  margin-top: var(--space-4xl);
+  margin: 0;
 }
 
-.lede {
-  max-width: 56ch;
-  margin-top: var(--space-4xl);
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* tabs ------------------------------------------------------------------ */
 
 .tabs {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-sm);
-  margin-top: var(--space-8xl);
-  padding-bottom: var(--space-md);
+  gap: var(--space-3xl);
+  margin-top: var(--space-5xl);
   border-bottom: 1px solid var(--color-hairline-dark);
 }
 
 .tab {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  padding: var(--space-md) 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-text-inverse-60);
+  cursor: pointer;
+  transition: color 300ms var(--ease-standard);
+}
+
+.tabCount {
+  font-variant-numeric: tabular-nums;
+  color: rgba(250, 247, 242, 0.35);
+  transition: color 300ms var(--ease-standard);
+}
+
+.tabActive,
+.tabActive .tabCount {
+  color: var(--color-gold);
+}
+
+@media (hover: hover) {
+  .tab:hover {
+    color: var(--color-ivory);
+  }
+}
+
+.tab:focus-visible {
+  outline: 1px solid var(--color-gold);
+  outline-offset: 4px;
+}
+
+.indicator {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  background-color: var(--color-gold);
+  transition:
+    transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* pictures ---------------------------------------------------------------- */
+
+.frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* print clippings sit on a paper matte and are never enlarged */
+.frameClipping {
+  background-color: #f1ece2;
+  background-image: radial-gradient(
+    120% 90% at 50% 40%,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+}
+
+.clippingImage {
+  object-fit: scale-down;
+  padding: var(--space-xl);
+  filter: drop-shadow(0 0.5rem 1rem rgba(17, 16, 15, 0.22));
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* web captures fill the frame from the top (masthead and headline first) */
+.frameWeb {
+  background-color: #fff;
+}
+
+.webImage {
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* typographic card for coverage with no picture on file */
+.titleCard {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: var(--space-3xl);
+  color: var(--color-charcoal);
+  background-color: #f1ece2;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(17, 16, 15, 0.035) 0,
+      rgba(17, 16, 15, 0.035) 1px,
+      transparent 1px,
+      transparent 6px
+    ),
+    radial-gradient(120% 90% at 50% 40%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.titleCardOutlet {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 1.125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-maroon);
+}
+
+.titleCardRule {
+  display: block;
+  height: 3px;
+  border-top: 1px solid rgba(17, 16, 15, 0.5);
+  border-bottom: 1px solid rgba(17, 16, 15, 0.5);
+}
+
+.titleCardHeadline {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 1.25rem;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.titleCardDate {
+  font-family: var(--font-body);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: rgba(17, 16, 15, 0.55);
+}
+
+.titleCardLarge {
+  position: relative;
+  inset: auto;
+  width: min(80vw, 34rem);
+  aspect-ratio: 4 / 3;
+  padding: var(--space-5xl);
+}
+
+.titleCardLarge .titleCardHeadline {
+  font-size: clamp(1.375rem, 2.6vw, 2rem);
+}
+
+/* the action (read article / view clipping) ------------------------------ */
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  align-self: flex-start;
   padding: var(--space-sm) var(--space-xl);
-  border: 1px solid var(--color-hairline-dark);
-  border-radius: 0;
+  border: 1px solid var(--color-gold);
   background-color: transparent;
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
@@ -39,125 +215,24 @@
   line-height: var(--leading-meta);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
-  color: var(--color-text-inverse-70);
+  color: var(--color-gold);
+  text-decoration: none;
   cursor: pointer;
+  transition:
+    background-color 300ms var(--ease-standard),
+    color 300ms var(--ease-standard);
 }
 
-.tabActive {
-  border-color: var(--color-gold);
-  color: var(--color-gold);
-}
-
-/* register index -------------------------------------------------------- */
-
-.registerIndex {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-md);
-  margin-top: var(--space-7xl);
-  padding-block: var(--space-sm);
-  border-top: 1px solid var(--color-gold);
-  border-bottom: 1px solid var(--color-hairline-dark);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-meta);
-  line-height: var(--leading-meta);
-  letter-spacing: var(--tracking-meta);
-  text-transform: uppercase;
-  font-variant-numeric: tabular-nums;
-}
-
-.registerCode {
-  color: var(--color-gold);
-}
-
-.registerMeta {
-  display: inline-flex;
-  align-items: baseline;
-  gap: var(--space-sm);
-  color: var(--color-text-inverse-60);
-}
-
-/* card grid --------------------------------------------------------------- */
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4xl);
-  margin-top: var(--space-6xl);
-  list-style: none;
-  padding: 0;
-}
-
-.grid > li {
-  min-width: 0;
-}
-
-.card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  border: 1px solid var(--color-hairline-dark);
-  background-color: rgba(250, 247, 242, 0.02);
-  transition: border-color var(--duration-standard) var(--ease-standard);
+.action:focus-visible {
+  outline: 1px solid var(--color-gold-light);
+  outline-offset: 3px;
 }
 
 @media (hover: hover) {
-  .card:hover {
-    border-color: var(--color-gold-40);
+  .action:hover {
+    background-color: var(--color-gold);
+    color: var(--color-charcoal-deep);
   }
-}
-
-.media {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  background-color: var(--color-charcoal-deep);
-}
-
-.mediaImage {
-  object-fit: contain;
-  padding: var(--space-md);
-}
-
-.mediaPlaceholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.placeholderRef {
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-light);
-  font-size: 1.75rem;
-  letter-spacing: 0.04em;
-  color: var(--color-gold-40);
-}
-
-.badge {
-  align-self: flex-start;
-  margin: var(--space-lg) 0 var(--space-md) var(--space-lg);
-  padding: var(--space-2xs) var(--space-lg);
-  background-color: var(--color-maroon-deep);
-  color: var(--color-ivory);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-meta);
-  line-height: var(--leading-meta);
-  letter-spacing: var(--tracking-meta);
-  text-transform: uppercase;
-}
-
-.cardBody {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  flex: 1;
-  padding: var(--space-xl);
 }
 
 .date {
@@ -171,12 +246,143 @@
   color: var(--color-gold);
 }
 
-.cardTitle {
+/* lead story -------------------------------------------------------------- */
+
+.lead {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  margin-top: var(--space-5xl);
+  overflow: hidden;
+  border: 1px solid var(--color-hairline-dark);
+  border-radius: 0.75rem;
+  background-color: var(--color-charcoal-deep);
+}
+
+.leadMedia {
+  position: relative;
+  min-height: 22rem;
+  overflow: hidden;
+}
+
+.leadBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-lg);
+  padding: var(--space-5xl);
+}
+
+.leadKicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-text-inverse-60);
+}
+
+.leadBadge,
+.badge {
+  padding: var(--space-2xs) var(--space-md);
+  background-color: var(--color-maroon-deep);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-ivory);
+}
+
+.leadTitle {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-medium);
-  font-size: var(--font-lede);
-  line-height: var(--leading-lede);
+  font-size: clamp(1.5rem, 2.4vw, 2.125rem);
+  line-height: 1.2;
+  color: var(--color-ivory);
+  text-wrap: balance;
+}
+
+.leadNote {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: 1.6;
+  color: var(--color-text-inverse-70);
+}
+
+@media (hover: hover) {
+  .lead:hover .webImage,
+  .lead:hover .clippingImage {
+    transform: scale(1.03);
+  }
+}
+
+/* card grid --------------------------------------------------------------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3xl);
+  margin: var(--space-3xl) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* every card fills its row, so all cards in a row are the same height */
+.grid > li,
+.grid > li > * {
+  display: grid;
+  min-width: 0;
+}
+
+.card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  border: 1px solid var(--color-hairline-dark);
+  border-radius: 0.75rem;
+  background-color: var(--color-charcoal-deep);
+  transition:
+    border-color 400ms var(--ease-standard),
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.badge {
+  position: absolute;
+  bottom: var(--space-md);
+  left: var(--space-md);
+  z-index: 1;
+  box-shadow: 0 0.25rem 0.75rem rgba(17, 16, 15, 0.25);
+}
+
+/* fixed body height: date plus three lines of headline, so every card matches */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  height: 9.25rem;
+  padding: var(--space-xl);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 1.1875rem;
+  line-height: 1.35;
   color: var(--color-ivory);
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -184,38 +390,97 @@
   overflow: hidden;
 }
 
-.cardNote {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: var(--font-small);
-  line-height: var(--leading-small);
-  color: var(--color-text-inverse-60);
+/* the panel that slides up over the card's lower half */
+.reveal {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-xl);
+  border-top: 1px solid var(--color-gold-40);
+  background-color: rgba(17, 16, 15, 0.94);
+  -webkit-backdrop-filter: blur(0.5rem);
+  backdrop-filter: blur(8px);
+  transform: translateY(101%);
+  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.readMore {
-  margin-top: auto;
-  align-self: flex-start;
-  padding: var(--space-sm) var(--space-xl);
-  border: 1px solid var(--color-hairline-dark);
+.revealHead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
-@media (hover: hover) {
-  .readMore:hover {
-    border-color: var(--color-gold);
-  }
+.revealTitle {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 1.1875rem;
+  line-height: 1.35;
+  color: var(--color-ivory);
 }
 
 .note {
-  margin: var(--space-8xl) 0 0;
-  padding-top: var(--space-lg);
-  border-top: 1px solid var(--color-hairline-dark);
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: 1.55;
+  color: var(--color-text-inverse-70);
+}
+
+.card:focus-within .reveal,
+.card[data-open] .reveal {
+  transform: none;
+}
+
+.card:focus-within,
+.card[data-open] {
+  border-color: var(--color-gold-40);
+}
+
+@media (hover: hover) {
+  .card:hover {
+    border-color: var(--color-gold-40);
+    transform: translateY(-4px);
+    box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.35);
+  }
+
+  .card:hover .reveal {
+    transform: none;
+  }
+
+  .card:hover .webImage,
+  .card:hover .clippingImage {
+    transform: scale(1.04);
+  }
+}
+
+/* touch: the card is the tap target that opens its panel */
+@media (hover: none) {
+  .card {
+    cursor: pointer;
+  }
 }
 
 /* responsive ------------------------------------------------------------ */
 
 @media (max-width: 1023px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lead {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .leadMedia {
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+
+  .leadBody {
+    padding: var(--space-3xl);
   }
 }
 
@@ -224,15 +489,38 @@
     padding-block: var(--space-8xl);
   }
 
+  .titleCard {
+    padding: var(--space-2xl);
+  }
+
+  .titleCardHeadline {
+    font-size: 1.125rem;
+  }
+
+  .tabs {
+    gap: var(--space-xl);
+  }
+
   .grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-3xl);
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2xl);
   }
 }
 
-/* Touch: 44px minimum hit area (no change for mouse users). */
+/* Touch: 44px minimum hit area. */
 @media (pointer: coarse) {
-  .tab {
+  .tab,
+  .action {
     min-height: 2.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .reveal,
+  .indicator,
+  .webImage,
+  .clippingImage {
+    transition: none;
   }
 }

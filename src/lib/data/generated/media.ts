@@ -65,7 +65,7 @@ export const media = [
     external: true,
     folder: "press-archive",
     href: "https://economictimes.indiatimes.com/industry/services/property-/-cstruction/ifc-invests-rs-225-cr-in-ndr-smart-spaces-to-develop-20-million-sq-ft-logistics-platform/articleshow/133086311.cms",
-    image: "/images/media/coverage-15.jpg",
+    image: "/images/media/web-pr-001.jpg",
     kind: "pdf",
     label:
       "IFC invests Rs 225 cr in NDR Smart Spaces to develop 20 million sq ft logistics platform",
@@ -220,6 +220,7 @@ export const media = [
     external: true,
     folder: "press-archive",
     href: "https://www.manufacturingtodayindia.com/ndr-smart-spaces-opens-in-hyderabad",
+    image: "/images/media/web-cv-011.jpg",
     kind: "pdf",
     label: "NDR Smart Spaces opens 0.6 Mn Sq Ft hub in Hyderabad",
     name: "cv-011.pdf",
@@ -236,6 +237,7 @@ export const media = [
     external: true,
     folder: "press-archive",
     href: "https://www.telugutimes.net/en/politics/navyandhra/ndr-smart-spaces-inaugurates-0-6-million-sq-ft-grade-a-warehousing-facility-at-kongara-kalan-hyderabad-348198.html",
+    image: "/images/media/web-cv-012.jpg",
     kind: "pdf",
     label:
       "NDR Smart Spaces Inaugurates ~0.6 Million Sq Ft Grade A Warehousing Facility at Kongara Kalan, Hyderabad",
@@ -271,6 +273,7 @@ export const media = [
     external: true,
     folder: "press-archive",
     href: "https://m.dailyhunt.in/news/india/telugu/pvrnews-epaper-dh4fcab02e50334d6f8a069dbf5eaa5131/haidaraabaadloni+kongara+kalaanlo+sumaaru+06+miliyan+chadarapu+adugula+sadupaayaanni+praarambhinchina+endiaar+smaart+speses-newsid-dh4fcab02e50334d6f8a069dbf5eaa5131_d51cedd0642011f1b6b72f9b905a4ba2?sm=Y",
+    image: "/images/media/web-cv-014.jpg",
     kind: "pdf",
     label:
       "NDR Smart Spaces launches approximately 0.6 million sq ft facility at Kongara Kalan, Hyderabad",
