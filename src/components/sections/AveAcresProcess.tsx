@@ -1,16 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Container } from "@/components/layout";
 import { Heading } from "@/components/ui";
-import { useInView } from "@/hooks/useInView";
-import { vertical03DevelopmentProcess, type DevelopmentProcessStage } from "@/lib/data/business";
-import { cx } from "../ui/cx";
-import { Reveal } from "./Reveal";
+import { vertical03DevelopmentProcess } from "@/lib/data/business";
+import { Reveal, type RevealDelay } from "./Reveal";
+import { SketchReveal, phases } from "./SketchReveal";
 import styles from "./AveAcresProcess.module.css";
 
-const PROGRESS_START = 0.9;
-const PROGRESS_END = 0.3;
+const ARTWORK_LABEL =
+  "Masterplan of a residential community: a landscaped park with a central garden, play areas, pavilions and a sports field, beside tree-lined roads and plots";
 
 const glyphStyle = {
   viewBox: "0 0 56 56",
@@ -21,13 +20,7 @@ const glyphStyle = {
   strokeLinejoin: "round",
 } as const;
 
-/**
- * Hand-drawn, technical line-art pictograms — one per stage, in the same
- * restrained stroke treatment as the "What Defines Our Developments" marks
- * (AveAcresValues) so the two icon systems read as one language. Each drops
- * into the same stroke="currentColor" treatment the surrounding .glyphWrap
- * scroll-tint states already recolor, so no other styling changes are needed.
- */
+/* Technical line-art pictograms, one per stage. */
 function StageMark({ index }: { index: string }) {
   switch (index) {
     // 01 — Identify Land: a site marker over a surveyed plot.
@@ -80,105 +73,128 @@ function StageMark({ index }: { index: string }) {
   }
 }
 
+const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+/* "From Land to Community". The masterplan is drawn onto a white page as   */
+/* the reader scrolls (ink lines grow along their paths, then the hatching  */
+/* fills in), painted into full colour with broad brush sweeps, and finally */
+/* opened out to fill the screen. On desktop the visitor can paint the      */
+/* colour in with the cursor while the drawing is still pencil. Everything  */
+/* follows scroll position, so it plays backwards when scrolling up.        */
 export function AveAcresProcess() {
-  const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.2 });
-  const [progress, setProgress] = useState(0);
-  const pointerTypeRef = useRef<string>("");
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const stages = vertical03DevelopmentProcess.stages;
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const boxRef = useRef<HTMLDivElement | null>(null);
+  const targetRef = useRef(0);
+  const [motion, setMotion] = useState(true);
+  const [brush, setBrush] = useState(false);
 
   useEffect(() => {
-    let raf = 0;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const hover = window.matchMedia("(hover: hover) and (pointer: fine)");
     const update = () => {
-      raf = 0;
-      const element = ref.current;
-      if (!element) return;
-      const rect = element.getBoundingClientRect();
-      const viewport = window.innerHeight;
-      const start = viewport * PROGRESS_START;
-      const end = viewport * PROGRESS_END;
-      setProgress(Math.min(1, Math.max(0, (start - rect.top) / (start - end))));
-    };
-    const onScrollOrResize = () => {
-      if (!raf) raf = requestAnimationFrame(update);
+      setMotion(!reduced.matches);
+      setBrush(!reduced.matches && hover.matches);
     };
     update();
-    window.addEventListener("scroll", onScrollOrResize, { passive: true });
-    window.addEventListener("resize", onScrollOrResize, { passive: true });
+    reduced.addEventListener("change", update);
+    hover.addEventListener("change", update);
     return () => {
-      window.removeEventListener("scroll", onScrollOrResize);
-      window.removeEventListener("resize", onScrollOrResize);
-      if (raf) cancelAnimationFrame(raf);
+      reduced.removeEventListener("change", update);
+      hover.removeEventListener("change", update);
     };
-  }, [ref]);
+  }, []);
 
-  const stages = vertical03DevelopmentProcess.stages;
-  const current = Math.min(stages.length - 1, Math.floor(progress * stages.length));
+  // Scroll position through the track, 0-1, read by the renderer each frame.
+  useEffect(() => {
+    if (!motion) return;
+    const track = trackRef.current;
+    if (!track) return;
+    const update = () => {
+      const travel = Math.max(track.offsetHeight - window.innerHeight, 1);
+      targetRef.current = Math.min(Math.max(-track.getBoundingClientRect().top / travel, 0), 1);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [motion]);
+
+  // The finished painting opens out from its framed box to fill the screen.
+  const onFrame = useCallback((p: number) => {
+    const box = boxRef.current;
+    const stage = stageRef.current;
+    if (!box || !stage) return;
+    const ph = phases(p);
+    const e = easeInOut(ph.expand);
+    const scale = Math.max(
+      stage.clientWidth / box.offsetWidth,
+      stage.clientHeight / box.offsetHeight,
+    );
+    box.style.transform = `scale(${1 + (scale - 1) * e})`;
+    box.style.borderRadius = `${(1 - e) * 0.75}rem`;
+    box.style.setProperty("--lift", String(ph.full * (1 - e)));
+  }, []);
 
   return (
     <section className={styles.section} aria-labelledby="from-land-to-community-title">
       <Container>
         <Reveal>
           <header className={styles.header}>
+            <span className={styles.goldRule} aria-hidden="true" />
             <Heading variant="section" id="from-land-to-community-title">
               {vertical03DevelopmentProcess.heading}
             </Heading>
           </header>
         </Reveal>
+      </Container>
 
-        <div
-          ref={ref}
-          className={cx(styles.track, inView && styles.drawn)}
-          style={{ "--pj": progress } as CSSProperties}
-        >
-          <span className={styles.spine} aria-hidden="true" />
-          <ol className={styles.list} aria-labelledby="from-land-to-community-title">
-            {stages.map((stage, index) => {
-              const stateClass =
-                index < current
-                  ? styles.nodeDone
-                  : index === current
-                    ? styles.nodeCurrent
-                    : styles.nodeFuture;
-              return (
-                <li
-                  key={stage.index}
-                  tabIndex={0}
-                  className={cx(
-                    styles.node,
-                    stateClass,
-                    activeIndex === index && styles.nodeActive,
-                  )}
-                  style={{ "--n": index } as CSSProperties}
-                  onMouseEnter={() => setActiveIndex(index)}
-                  onMouseLeave={() =>
-                    setActiveIndex((active) => (active === index ? null : active))
-                  }
-                  onFocus={() => {
-                    if (pointerTypeRef.current !== "touch") setActiveIndex(index);
-                  }}
-                  onBlur={(event) => {
-                    const next = event.relatedTarget as Node | null;
-                    if (!event.currentTarget.contains(next)) {
-                      setActiveIndex((active) => (active === index ? null : active));
-                    }
-                  }}
-                  onPointerDown={(event) => {
-                    pointerTypeRef.current = event.pointerType;
-                  }}
-                >
-                  <span className={styles.mark} aria-hidden="true" />
-                  <div className={styles.nodeInner}>
-                    <span className={styles.glyphWrap}>
-                      <StageMark index={stage.index} />
-                    </span>
-                    <span className={styles.index}>{stage.index}</span>
-                    <h3 className={styles.title}>{stage.title}</h3>
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
+      {motion ? (
+        <div ref={trackRef} className={styles.track}>
+          <div ref={stageRef} className={styles.stage}>
+            <div ref={boxRef} className={styles.box}>
+              <SketchReveal
+                targetRef={targetRef}
+                onFrame={onFrame}
+                brush={brush}
+                label={ARTWORK_LABEL}
+              />
+            </div>
+          </div>
         </div>
+      ) : (
+        <Container>
+          <div className={styles.staticBox}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/residential/land-photo.jpg"
+              alt={ARTWORK_LABEL}
+              className={styles.fallback}
+            />
+          </div>
+        </Container>
+      )}
+
+      <Container>
+        <ol className={styles.stages}>
+          {stages.map((stage, index) => (
+            <li key={stage.index}>
+              <Reveal delay={index as RevealDelay}>
+                <div className={styles.stageItem}>
+                  <span className={styles.stageMark} aria-hidden="true">
+                    <StageMark index={stage.index} />
+                  </span>
+                  <span className={styles.stageIndex}>{stage.index}</span>
+                  <h3 className={styles.stageTitle}>{stage.title}</h3>
+                </div>
+              </Reveal>
+            </li>
+          ))}
+        </ol>
       </Container>
     </section>
   );

@@ -7,7 +7,6 @@ import { SourceFootnote } from "@/components/ui";
 import type { LifecycleStage } from "@/lib/data/business";
 import { useInView } from "@/hooks/useInView";
 import { useSnapZone } from "@/hooks/useSnapZone";
-import Snap from "lenis/snap";
 import { getLenisInstance } from "@/lib/lenis";
 import { Icon } from "../ui/Icon";
 import { cx } from "../ui/cx";
@@ -36,16 +35,30 @@ const STAGE_POSITIONS: Record<string, string> = {
   "09": "50% 50%",
 };
 
-const CUT_SIDES = [styles.cutLeft, styles.cutRight] as const;
-const SWEEP_DIRECTIONS = [
-  styles.sweepLeft,
-  styles.sweepRight,
-  styles.sweepTop,
-  styles.sweepBottom,
-] as const;
+/* Scroll choreography. Each stage owns one equal slice of the track. The
+ * first part of a slice holds the stage still; the last TRANSITION of it
+ * plays the change to the next stage, scrubbed by scroll position, so a fast
+ * scroll plays every change quickly (never skips one) and scrolling back
+ * plays them in reverse. */
+const TRANSITION = 0.55;
+const HOLD_MIDDLE = (1 - TRANSITION) / 2;
+/* Extra smoothing on top of Lenis's wheel smoothing: share of the remaining
+ * distance covered per 60 fps frame (lower is softer). */
+const FOLLOW = 0.2;
+/* Speed limit, in stages per second, so even a hard fling gives every change
+ * a few frames on screen instead of jumping past it. */
+const MAX_SPEED = 6;
+/* Desktop: after the wheel rests this long inside a change, glide to a stage. */
+const SETTLE_DELAY_MS = 140;
+/* A change nudged past this point completes in the direction of travel. */
+const SETTLE_COMMIT = 0.08;
 
-// Ease-out: responds immediately on click (no slow-start "did that even
-// register?" phase), decelerating smoothly only into the landing.
+/* The glass blade's two diagonal cuts, as polygon points in %. */
+const BLADE_LEFT = [0, 0, 49, 0, 35, 100, 0, 100];
+const BLADE_RIGHT = [51, 0, 100, 0, 100, 100, 65, 100];
+
+const clamp01 = (value: number) => Math.min(Math.max(value, 0), 1);
+
 function easeInOutCubic(t: number) {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
@@ -54,183 +67,14 @@ function easeOutCubic(t: number) {
   return 1 - (1 - t) ** 3;
 }
 
-/* A deliberately slow, eased jump — not the browser's native smooth scroll,
- * which finishes in well under a second regardless of distance and blows
- * straight past the scroll-scrubbed sweep/develop/text-reveal animations
- * before they can be seen.
- *
- * When Lenis (the sitewide smooth-scroll engine, see `SmoothScroll.tsx`) is
- * mounted, the jump is handed to `lenis.scrollTo` with the same easing curve
- * and duration instead of driving `window.scrollTo` directly — Lenis already
- * runs its own continuous rAF loop controlling scroll position, and a second,
- * independent `window.scrollTo` loop fighting it every frame is what produced
- * visible stutter/desync. Without Lenis (e.g. it fails to mount) this falls
- * back to the original hand-rolled rAF loop.
- *
- * Two things fight this kind of manual/engine-driven animation unless
- * neutralised first:
- * 1. The site's global `html { scroll-behavior: smooth }` (reset.css) makes
- *    the browser *also* smooth-animate each `scrollTo` call on top of our
- *    own easing — fixed in the fallback path with an explicit
- *    `behavior: "instant"` (Lenis bypasses native `scrollTo` entirely, so
- *    this doesn't apply to that path).
- * 2. `html { scroll-snap-type: y proximity }` (also reset.css, added for
- *    manual-scroll landings) tries to pull the page back toward the snap
- *    point we're leaving during the animation's slow, near-stationary
- *    opening frames — that's what produced "stalls, then rushes" on every
- *    jump. Snap is disabled for the duration and restored once we land
- *    (which is itself a valid snap point, so nothing visibly corrects).   */
-function calmScrollTo(targetY: number) {
-  const startY = window.scrollY;
-  const distance = targetY - startY;
-  const root = document.documentElement;
-  const previousSnapType = root.style.scrollSnapType;
-
-  const restoreSnap = () => {
-    root.style.scrollSnapType = previousSnapType;
-  };
-
-  root.style.scrollSnapType = "none";
-
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || distance === 0) {
-    window.scrollTo({ top: targetY, behavior: "instant" });
-    requestAnimationFrame(restoreSnap);
-    return;
+function bladePolygon(from: number[], to: number[], t: number) {
+  const points: string[] = [];
+  for (let i = 0; i < from.length; i += 2) {
+    const x = from[i] + (to[i] - from[i]) * t;
+    const y = from[i + 1] + (to[i + 1] - from[i + 1]) * t;
+    points.push(`${x.toFixed(3)}% ${y}%`);
   }
-
-  const duration = Math.min(2600, Math.max(1400, Math.abs(distance) * 0.4));
-
-  const lenis = getLenisInstance();
-  if (lenis) {
-    lenis.scrollTo(targetY, {
-      duration: duration / 1000,
-      easing: easeOutCubic,
-      onComplete: restoreSnap,
-    });
-    return;
-  }
-
-  const startTime = performance.now();
-
-  function step(now: number) {
-    const t = Math.min(1, (now - startTime) / duration);
-    window.scrollTo({ top: startY + distance * easeOutCubic(t), behavior: "instant" });
-    if (t < 1) {
-      requestAnimationFrame(step);
-    } else {
-      restoreSnap();
-    }
-  }
-
-  requestAnimationFrame(step);
-}
-
-type StageRowProps = {
-  stage: LifecycleStage;
-  order: number;
-  onDwell: (order: number) => void;
-  sweetSpotRef: (el: HTMLSpanElement | null) => void;
-};
-
-function StageRow({ stage, order, onDwell, sweetSpotRef }: StageRowProps) {
-  // Fires once and stays true forever — drives the permanent sweep/text reveal.
-  const { ref: revealRef, inView: revealed } = useInView<HTMLElement>({ threshold: 0.6 });
-  // Fires every time this stage becomes (or stops being) the dominant one on
-  // screen — used only to tell the parent which nav number to highlight, so
-  // it must be able to flip back off as the user scrolls away.
-  const { ref: dwellRef, inView: dwelling } = useInView<HTMLElement>({
-    threshold: 0.6,
-    once: false,
-  });
-
-  // Latches true once this stage's marker has scrolled past the top of the
-  // viewport, i.e. its scroll-scrubbed reveal has fully played. From then on the
-  // finished state is held, so scrolling back up never un-develops a stage the
-  // visitor has already seen (the card still recedes/dims with scroll).
-  const [settled, setSettled] = useState(false);
-  const markerRef = useRef<HTMLSpanElement | null>(null);
-
-  useEffect(() => {
-    const marker = markerRef.current;
-    if (!marker || settled) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.boundingClientRect.top < 0) {
-        setSettled(true);
-        observer.disconnect();
-      }
-    });
-    observer.observe(marker);
-    return () => observer.disconnect();
-  }, [settled]);
-
-  const setArticleRef = useCallback(
-    (el: HTMLElement | null) => {
-      revealRef.current = el;
-      dwellRef.current = el;
-    },
-    [revealRef, dwellRef],
-  );
-
-  useEffect(() => {
-    if (dwelling) onDwell(order);
-  }, [dwelling, order, onDwell]);
-
-  const position = STAGE_POSITIONS[stage.index] ?? "center";
-  const cutSide = CUT_SIDES[order % 2];
-  const sweepDirection = SWEEP_DIRECTIONS[order % SWEEP_DIRECTIONS.length];
-
-  return (
-    <div className={styles.stageTrack}>
-      {/* Unambiguous, non-sticky target sitting exactly where this stage's
-       * arrival is complete and its recede hasn't yet begun — image at its
-       * sharpest, text fully revealed. Doubles as the scroll-snap point and
-       * as the destination the fixed stage nav scrolls to on click, so
-       * "landing on the perfect moment" never depends on manual scrolling. */}
-      <span
-        ref={(el) => {
-          markerRef.current = el;
-          sweetSpotRef(el);
-        }}
-        className={styles.snapMarker}
-        aria-hidden="true"
-      />
-      <article
-        ref={setArticleRef}
-        className={cx(styles.stage, revealed && styles.isActive, settled && styles.settled)}
-      >
-        {/* .stageInner carries the entrance-slide + recede/dim animation,   */}
-        {/* kept separate from .stage (the sticky positioning box) so the   */}
-        {/* two concerns — "where this pins" vs "how it arrives/departs" —  */}
-        {/* never fight each other.                                         */}
-        <div className={styles.stageInner}>
-          <figure className={styles.figure}>
-            <Image
-              src={stage.image.src}
-              alt={stage.image.alt}
-              fill
-              sizes="100vw"
-              className={styles.image}
-              style={{ "--stage-crop": position } as CSSProperties}
-            />
-          </figure>
-
-          <div className={styles.photoScrim} aria-hidden="true" />
-
-          <div className={cx(styles.textPanel, cutSide)}>
-            <div className={cx(styles.sweep, sweepDirection)} aria-hidden="true" />
-            <div className={styles.textPanelInner}>
-              <div className={styles.meta} aria-hidden="true">
-                <span className={styles.rule} />
-                <span className={styles.eyebrow}>Stage {stage.index}</span>
-              </div>
-              <h3 className={styles.title}>{stage.title}</h3>
-              <p className={styles.body}>{stage.body}</p>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-  );
+  return `polygon(${points.join(", ")})`;
 }
 
 type StageNavProps = {
@@ -247,6 +91,11 @@ function StageNav({ stages, activeIndex, visible, onSelect }: StageNavProps) {
       aria-label="Jump to a development lifecycle stage"
     >
       <span className={styles.stageNavTrack} aria-hidden="true" />
+      <span
+        className={styles.stageNavFill}
+        style={{ "--fill": activeIndex / Math.max(stages.length - 1, 1) } as CSSProperties}
+        aria-hidden="true"
+      />
       <ol className={styles.stageNavList}>
         {stages.map((stage, index) => {
           const isActive = index === activeIndex;
@@ -254,9 +103,13 @@ function StageNav({ stages, activeIndex, visible, onSelect }: StageNavProps) {
             <li key={stage.index}>
               <button
                 type="button"
-                className={cx(styles.stageNavItem, isActive && styles.stageNavItemActive)}
-                aria-current={isActive ? "true" : undefined}
-                aria-label={`Jump to stage ${stage.index}, ${stage.title}`}
+                className={cx(
+                  styles.stageNavItem,
+                  index < activeIndex && styles.stageNavItemPast,
+                  isActive && styles.stageNavItemActive,
+                )}
+                aria-current={isActive ? "step" : undefined}
+                aria-label={`Go to stage ${stage.index}, ${stage.title}`}
                 onClick={() => onSelect(index)}
               >
                 <span className={styles.stageNavDot} aria-hidden="true" />
@@ -267,9 +120,8 @@ function StageNav({ stages, activeIndex, visible, onSelect }: StageNavProps) {
         })}
       </ol>
 
-      {/* Phones/tablets: the vertical number rail doesn't fit, but the pinned
-       * runway is ~20 screens long — a compact prev / counter / next stepper
-       * keeps every stage one tap away. */}
+      {/* Phones/tablets: the vertical number rail doesn't fit, so a compact
+       * prev / counter / next stepper keeps every stage one tap away. */}
       <div className={styles.stageStepper}>
         <button
           type="button"
@@ -298,8 +150,13 @@ function StageNav({ stages, activeIndex, visible, onSelect }: StageNavProps) {
 }
 
 export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecycleProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const sweetSpotRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const total = stages.length;
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const bladeRef = useRef<HTMLDivElement | null>(null);
+  const slideRefs = useRef<(HTMLElement | null)[]>([]);
+  const captionRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [active, setActive] = useState(0);
 
   const { ref: listRef, inView: listInView } = useInView<HTMLDivElement>({
     threshold: 0,
@@ -307,78 +164,293 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
     once: false,
   });
 
-  // The stage index belongs to the scrolling stage stack only: hide it as soon
-  // as the "final product" heading below the stack comes into view.
+  // The stage index belongs to the pinned stack only: hide it as soon as the
+  // "final product" heading below comes into view.
   const { ref: headingRef, inView: headingInView } = useInView<HTMLElement>({
     threshold: 0,
     once: false,
   });
 
-  // Touch: native scroll-snap, switched on only while the stage stack is pinned.
-  useSnapZone(listRef);
+  const setTrackRef = useCallback(
+    (el: HTMLDivElement | null) => {
+      trackRef.current = el;
+      listRef.current = el;
+    },
+    [listRef],
+  );
 
-  // Desktop (mouse wheel via Lenis): when scrolling comes to rest near a stage,
-  // glide onto it with a slow ease instead of the browser's instant snap jump.
+  /* Scroll position (in stages, 0…total) for a document scroll offset, and back. */
+  const geometry = useCallback(() => {
+    const track = trackRef.current;
+    const stage = stageRef.current;
+    if (!track || !stage) return null;
+    const top = track.getBoundingClientRect().top + window.scrollY;
+    const travel = Math.max(track.offsetHeight - stage.offsetHeight, 1);
+    return {
+      toStages: (y: number) => clamp01((y - top) / travel) * total,
+      toY: (s: number) => top + (s / total) * travel,
+    };
+  }, [total]);
+
+  /* Paints one frame of the choreography for a position `s` (in stages). Only
+   * custom properties and one clip-path are written, and only when changed. */
+  const paint = useRef<(s: number) => void>(() => {});
   useEffect(() => {
-    if (window.matchMedia("(pointer: coarse), (prefers-reduced-motion: reduce)").matches) return;
-    let snap: Snap | null = null;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const written = new Map<HTMLElement, Record<string, string>>();
+    const write = (el: HTMLElement | null, prop: string, value: string) => {
+      if (!el) return;
+      const cache = written.get(el) ?? {};
+      if (cache[prop] === value) return;
+      cache[prop] = value;
+      written.set(el, cache);
+      el.style.setProperty(prop, value);
+    };
+    let lastActive = -1;
+
+    paint.current = (s: number) => {
+      const i = Math.min(total - 1, Math.floor(s));
+      let r = 0;
+      if (i < total - 1) {
+        r = easeInOutCubic(clamp01((s - (i + 1 - TRANSITION)) / TRANSITION));
+        if (reduced.matches) r = r < 0.5 ? 0 : 1;
+      }
+
+      slideRefs.current.forEach((slide, j) => {
+        const reveal = j <= i ? 1 : j === i + 1 ? r : 0;
+        const cover = j < i ? 1 : j === i ? r : 0;
+        write(slide, "--in", reveal.toFixed(4));
+        write(slide, "--out", cover.toFixed(4));
+        write(slide, "--edge", Math.sin(Math.PI * reveal).toFixed(4));
+        // Off-screen layers (not yet revealed, or fully covered) skip painting.
+        write(slide, "visibility", reveal > 0 && cover < 1 ? "visible" : "hidden");
+      });
+
+      captionRefs.current.forEach((caption, j) => {
+        const v = j === i ? 1 - clamp01(r / 0.3) : j === i + 1 ? clamp01((r - 0.62) / 0.38) : 0;
+        write(caption, "--v", v.toFixed(4));
+        write(caption, "visibility", v > 0 ? "visible" : "hidden");
+      });
+
+      const blade = bladeRef.current;
+      const from = i % 2 === 0 ? BLADE_LEFT : BLADE_RIGHT;
+      const to = (i + 1) % 2 === 0 ? BLADE_LEFT : BLADE_RIGHT;
+      write(blade, "--blade", bladePolygon(from, to, r));
+      write(blade, "--sx", r.toFixed(4));
+      write(blade, "--so", (Math.sin(Math.PI * r) * 0.9).toFixed(4));
+
+      const nextActive = r >= 0.5 ? i + 1 : i;
+      if (nextActive !== lastActive) {
+        lastActive = nextActive;
+        setActive(nextActive);
+      }
+    };
+  }, [total]);
+
+  /* Scroll loop: the painted position follows the scroll position with a
+   * light ease, so even a stepped wheel or a jump reads as one fluid motion.
+   * On desktop, a wheel that comes to rest mid-change glides on to a stage. */
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const coarse = window.matchMedia("(pointer: coarse)");
+    let geo = geometry();
+    let target = geo ? geo.toStages(window.scrollY) : 0;
+    let shown = target;
     let frame = 0;
-    let tries = 0;
-    const attach = () => {
+    let lastTime = 0;
+    let settleTimer = 0;
+    let lastY = window.scrollY;
+    let direction = 1;
+
+    const tick = (time: number) => {
+      frame = 0;
+      const dt = lastTime ? Math.min(time - lastTime, 64) : 16.7;
+      lastTime = time;
+      if (reduced.matches) {
+        shown = target;
+      } else {
+        let step = (target - shown) * (1 - Math.pow(1 - FOLLOW, dt / 16.7));
+        // Inside the section, cap the speed; once scrolled out (target at
+        // either end), catch up freely so the stage never lags the page.
+        if (target > 0 && target < total) {
+          const limit = (MAX_SPEED * dt) / 1000;
+          step = Math.max(-limit, Math.min(limit, step));
+        }
+        shown += step;
+        if (Math.abs(target - shown) < 0.0005) shown = target;
+      }
+      paint.current(shown);
+      if (shown !== target) {
+        frame = requestAnimationFrame(tick);
+      } else {
+        lastTime = 0;
+      }
+    };
+
+    const settle = () => {
+      settleTimer = 0;
+      if (!geo || coarse.matches) return;
+      const s = geo.toStages(window.scrollY);
+      const i = Math.floor(s);
+      if (i >= total - 1) return;
+      const start = i + 1 - TRANSITION;
+      const f = (s - start) / TRANSITION;
+      // Already still (with a pixel of rounding either way): nothing to do.
+      if (f <= 0.01 || f >= 0.99) return;
+      const forward = direction > 0 ? f > SETTLE_COMMIT : f > 1 - SETTLE_COMMIT;
+      const destination = forward ? i + 1 : start;
+      const y = geo.toY(destination);
       const lenis = getLenisInstance();
-      if (!lenis) {
-        if (tries++ < 120) frame = requestAnimationFrame(attach);
+      if (lenis) {
+        lenis.scrollTo(y, { duration: 0.7, easing: easeOutCubic });
+      } else {
+        window.scrollTo({ top: y, behavior: reduced.matches ? "instant" : "smooth" });
+      }
+    };
+
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y !== lastY) direction = y > lastY ? 1 : -1;
+      lastY = y;
+      if (!geo) geo = geometry();
+      if (geo) target = geo.toStages(y);
+      if (!frame) frame = requestAnimationFrame(tick);
+      window.clearTimeout(settleTimer);
+      settleTimer = window.setTimeout(settle, SETTLE_DELAY_MS);
+    };
+
+    const onResize = () => {
+      geo = geometry();
+      onScroll();
+    };
+
+    paint.current(shown);
+    const resizeObserver = new ResizeObserver(onResize);
+    if (trackRef.current) resizeObserver.observe(trackRef.current);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(settleTimer);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [geometry, total]);
+
+  // Touch: native one-swipe-per-stage snapping while the stage is pinned.
+  useSnapZone(trackRef, true, stageRef);
+
+  // Rail / stepper: glide to the still middle of the chosen stage. Every change
+  // on the way plays (quickly), exactly as it would when scrolling there.
+  const goTo = useCallback(
+    (index: number) => {
+      const geo = geometry();
+      if (!geo || index < 0 || index >= total) return;
+      const y = geo.toY(index + HOLD_MIDDLE);
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        window.scrollTo({ top: y, behavior: "instant" });
         return;
       }
-      snap = new Snap(lenis, {
-        type: "proximity",
-        duration: 1.1,
-        easing: easeInOutCubic,
-        distanceThreshold: "30%",
-        debounce: 350,
-      });
-      const markers = sweetSpotRefs.current.filter((el): el is HTMLSpanElement => el !== null);
-      snap.addElements(markers, { align: ["start"] });
-    };
-    attach();
-    return () => {
-      cancelAnimationFrame(frame);
-      snap?.destroy();
-    };
-  }, []);
-
-  const handleDwell = useCallback((order: number) => setActiveIndex(order), []);
-
-  const handleSelect = useCallback((index: number) => {
-    const el = sweetSpotRefs.current[index];
-    if (!el) return;
-    calmScrollTo(el.getBoundingClientRect().top + window.scrollY);
-  }, []);
+      const lenis = getLenisInstance();
+      if (lenis) {
+        const steps = Math.abs(index - active);
+        lenis.scrollTo(y, {
+          duration: Math.min(2.4, 0.9 + steps * 0.22),
+          easing: easeInOutCubic,
+        });
+      } else {
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    },
+    [geometry, total, active],
+  );
 
   return (
     <section className={styles.section}>
-      <div ref={listRef} className={styles.list}>
-        {/* Touch snap stops bracketing the stack (each stage adds its own). */}
-        <SnapStop top="0" />
-        <SnapStop top="calc(100% - 100svh)" />
+      <div ref={setTrackRef} className={styles.track} style={{ "--steps": total } as CSSProperties}>
+        {/* Touch snap stops: the still middle of each stage's slice. */}
         {stages.map((stage, index) => (
-          <StageRow
+          <SnapStop
             key={stage.index}
-            stage={stage}
-            order={index}
-            onDwell={handleDwell}
-            sweetSpotRef={(el) => {
-              sweetSpotRefs.current[index] = el;
-            }}
+            top={`calc((100% - 100svh) * ${(index + HOLD_MIDDLE) / total})`}
           />
         ))}
+
+        <div
+          ref={stageRef}
+          className={styles.stage}
+          aria-roledescription="carousel"
+          aria-label="Development lifecycle"
+        >
+          {stages.map((stage, index) => (
+            <figure
+              key={stage.index}
+              ref={(el) => {
+                slideRefs.current[index] = el;
+              }}
+              className={styles.slide}
+              aria-hidden={index !== active}
+            >
+              <div className={styles.photo}>
+                <Image
+                  src={stage.image.src}
+                  alt={stage.image.alt}
+                  fill
+                  sizes="100vw"
+                  // All photos load up front: a fast scroll must never wipe in
+                  // one that is still downloading.
+                  loading="eager"
+                  className={styles.image}
+                  style={
+                    { "--stage-crop": STAGE_POSITIONS[stage.index] ?? "center" } as CSSProperties
+                  }
+                />
+              </div>
+              <span className={styles.shade} aria-hidden="true" />
+              <span className={styles.edge} aria-hidden="true" />
+            </figure>
+          ))}
+
+          <div className={styles.photoScrim} aria-hidden="true" />
+
+          <div ref={bladeRef} className={styles.blade}>
+            <span className={styles.sheen} aria-hidden="true" />
+            <div aria-live="polite">
+              {stages.map((stage, index) => (
+                <div
+                  key={stage.index}
+                  ref={(el) => {
+                    captionRefs.current[index] = el;
+                  }}
+                  className={cx(
+                    styles.caption,
+                    index % 2 === 0 ? styles.captionLeft : styles.captionRight,
+                  )}
+                  aria-hidden={index !== active}
+                >
+                  <div className={styles.meta} aria-hidden="true">
+                    <span className={styles.rule} />
+                    <span className={styles.eyebrow}>
+                      Stage {stage.index}
+                      <span className={styles.eyebrowTotal}>
+                        {" "}
+                        / {String(total).padStart(2, "0")}
+                      </span>
+                    </span>
+                  </div>
+                  <h3 className={styles.title}>{stage.title}</h3>
+                  <p className={styles.body}>{stage.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       <StageNav
         stages={stages}
-        activeIndex={activeIndex}
+        activeIndex={active}
         visible={listInView && !headingInView}
-        onSelect={handleSelect}
+        onSelect={goTo}
       />
 
       <div className={styles.finale}>

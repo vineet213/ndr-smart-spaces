@@ -11,12 +11,6 @@
   padding-block: var(--space-3xl);
 }
 
-.list {
-  position: relative; /* anchors the touch snap stops */
-  /* plain block flow — the sticky-stack mechanic below needs each          */
-  /* .stageTrack to be a normal-flow sibling, not a grid item.               */
-}
-
 /* Closing "final product" band: a dark charcoal ground continues the look  */
 /* of the pinned stages above (instead of dropping onto bare ivory), with    */
 /* the render framed at its native proportions inside the page gutters.      */
@@ -56,12 +50,6 @@
   object-fit: cover;
 }
 
-/* The last stage has no following stage to cover it; receding + dimming it  */
-/* just left a shrunken, darkened frame above the closing heading.          */
-.stageTrack:last-child .stageInner {
-  animation: none;
-}
-
 .mapTitle {
   margin: 0;
   max-width: var(--measure-body);
@@ -84,45 +72,20 @@
   color: var(--color-text-inverse-80);
 }
 
-/* sticky card stack -------------------------------------------------------- */
-/* Each stage lives in a tall, non-sticky "track" (.stageTrack). Its inner
- * .stage panel is `position: sticky; top: 0; height: 100svh`, so it pins at
- * the top of the viewport once it reaches it, holds there while the track's
- * extra height scrolls by, then is released and covered by the next stage's
- * panel sliding up over it — pure CSS, no scroll-linked JS, so it can't
- * drift or desync the way a scroll-math-driven animation could.            */
+/* pinned stage ------------------------------------------------------------- */
+/* One tall track and one pinned, full-screen stage holding every stage's     */
+/* photograph. DevelopmentLifecycle.tsx turns the (smoothed) scroll position  */
+/* into a few custom properties per layer each frame: --in (how far a photo   */
+/* has wiped in), --out (how far the next one has covered it), --v (caption   */
+/* visibility) and the blade's polygon. Every visual below is a pure function */
+/* of those, so fast scrolling simply plays the same motion faster, and       */
+/* scrolling back plays it in reverse. Only clip-path, transform and opacity  */
+/* change.                                                                    */
 
-.stageTrack {
-  position: relative;
-  /* Generous scroll runway: this is what lets the entrance below be a
-   * slow, deliberate scroll-scrubbed animation instead of a raw 1:1 cover
-   * that only ever moves exactly as fast as the user's wheel. */
-  height: 220svh;
-  /* Named view-timeline, sourced from this plain, non-sticky box (never   */
-  /* from the sticky .stage itself — sticky + scroll-timeline geometry is  */
-  /* ambiguous across engines).                                            */
-  view-timeline-name: --stage-progress;
-  view-timeline-axis: block;
-}
-
-.snapMarker {
-  position: absolute;
-  /* The "sweet spot": comfortably after the image finishes developing
-   * (cover 62%, see .image below) and comfortably before recede starts
-   * (cover 69% = the native dwell end, 220svh - 100svh = 120svh into the
-   * track) — image at its sharpest, text fully revealed. */
-  top: 110svh;
-  left: 0;
-  width: 1px;
-  height: 1px;
-  scroll-snap-align: start;
-}
-
-/* Touch: a fast swipe can't skip past a stage's resting point. */
-@media (pointer: coarse) {
-  .snapMarker {
-    scroll-snap-stop: always;
-  }
+.track {
+  position: relative; /* anchors the touch snap stops */
+  /* 80% of a screen of scroll per stage: a still hold, then the change */
+  height: calc(100svh + var(--steps, 9) * 80svh);
 }
 
 .stage {
@@ -130,111 +93,162 @@
   top: 0;
   height: 100svh;
   overflow: hidden;
+  isolation: isolate;
   background-color: var(--color-charcoal-deep);
 }
 
-/* .stageInner carries the entrance-slide and the recede/dim as the next
- * stage arrives — kept off .stage itself so sticky positioning and this
- * arrival/departure motion are never fighting for the same transform.    */
-.stageInner {
-  position: absolute;
-  inset: 0;
-}
+/* Photographs, later stages stacked above earlier ones (DOM order). The     */
+/* incoming photo wipes up from the bottom edge, a gold hairline riding the  */
+/* edge, while it settles from a slight zoom; the outgoing one eases away    */
+/* and dims beneath it.                                                      */
 
-.figure {
+.slide {
   position: absolute;
   inset: 0;
   margin: 0;
+  overflow: hidden;
+  clip-path: inset(calc((1 - var(--in, 0)) * 100%) 0 0 0);
+  visibility: hidden;
+}
+
+/* Before the script runs, the first stage is simply shown. */
+.slide:first-child {
+  --in: 1;
+  visibility: visible;
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  transform: translateY(calc((1 - var(--in, 0)) * 6% - var(--out, 0) * 3%))
+    scale(calc(1.12 - var(--in, 0) * 0.12 + var(--out, 0) * 0.08));
+  will-change: transform;
 }
 
 .image {
   object-fit: cover;
-  /* overridden per stage via --stage-crop (see StageRow) */
+  /* overridden per stage via --stage-crop */
   object-position: var(--stage-crop, center);
 }
 
-/* faint overall scrim so the glass panel reads cleanly against any
- * photograph, without flattening the photography itself                   */
+.shade {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-charcoal-deep);
+  opacity: calc(var(--out, 0) * 0.65);
+}
 
+.edge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc((1 - var(--in, 0)) * 100%);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(240, 182, 90, 0) 0%,
+    var(--color-gold-light) 30%,
+    var(--color-gold) 70%,
+    rgba(240, 182, 90, 0) 100%
+  );
+  box-shadow: 0 0 18px 2px rgba(240, 182, 90, 0.45);
+  opacity: var(--edge, 0);
+}
+
+/* faint overall scrim so the glass panel reads cleanly against any
+ * photograph, without flattening the photography itself; the left-edge
+ * fade keeps the stage rail legible when the photo sits behind it         */
 .photoScrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(17, 16, 15, 0.4) 0%, rgba(17, 16, 15, 0) 42%);
+  background:
+    linear-gradient(to right, rgba(17, 16, 15, 0.55) 0, rgba(17, 16, 15, 0) 8rem),
+    linear-gradient(to top, rgba(17, 16, 15, 0.4) 0%, rgba(17, 16, 15, 0) 42%);
   pointer-events: none;
 }
 
-/* diagonal glass caption panel --------------------------------------------- */
-/* Concept B's diagonal cut, alternating side per stage, rendered as frosted
- * glass (Concept C's material) rather than a solid colour block.           */
+/* diagonal glass blade ------------------------------------------------------ */
+/* One frosted-glass panel with a diagonal cut, alternating side per stage.   */
+/* Both cuts are four-point polygons, and the script blends between them with */
+/* the scroll, so the blade glides across the photograph to the other side.   */
 
-.textPanel {
+.blade {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
   overflow: hidden;
-  background: rgba(15, 13, 12, 0.82);
+  background-color: rgba(15, 13, 12, 0.8);
+  background-image: linear-gradient(
+    120deg,
+    rgba(240, 182, 90, 0.16) 0%,
+    rgba(240, 182, 90, 0) 50%,
+    rgba(90, 30, 34, 0.32) 100%
+  );
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(1.125rem);
+  clip-path: var(--blade, polygon(0 0, 49% 0, 35% 100%, 0 100%));
 }
 
-.cutLeft {
-  clip-path: polygon(0 0, 49% 0, 35% 100%, 0 100%);
-  justify-content: flex-start;
-}
-
-.cutRight {
-  clip-path: polygon(51% 0, 100% 0, 100% 100%, 65% 100%);
-  justify-content: flex-end;
-}
-
-/* directional gradient sweep ------------------------------------------------ */
-/* A second layer, oversized so it has no visible seam, that slides in from a
- * different side per stage (cycling through 4 directions) as the stage
- * becomes active — purely a CSS transition triggered once by a one-shot
- * IntersectionObserver (useInView), never continuous scroll-position math. */
-
-.sweep {
+/* A band of gold light that crosses the glass during each change. */
+.sheen {
   position: absolute;
   inset: -25%;
   background: linear-gradient(
-    120deg,
-    rgba(240, 182, 90, 0.35) 0%,
-    rgba(240, 182, 90, 0) 55%,
-    rgba(90, 30, 34, 0.45) 100%
+    105deg,
+    rgba(240, 182, 90, 0) 38%,
+    rgba(240, 182, 90, 0.26) 50%,
+    rgba(240, 182, 90, 0) 62%
   );
+  transform: translateX(calc(-60% + var(--sx, 0) * 120%));
+  opacity: var(--so, 0);
+  pointer-events: none;
 }
 
-.sweepLeft {
-  transform: translateX(-130%);
-}
+/* Captions: every stage's text sits in the blade on its own side. The       */
+/* outgoing one fades early in the change, the incoming one rises in as the  */
+/* blade arrives, eyebrow, title and body in turn (--k staggers them).       */
 
-.sweepRight {
-  transform: translateX(130%);
-}
-
-.sweepTop {
-  transform: translateY(-130%);
-}
-
-.sweepBottom {
-  transform: translateY(130%);
-}
-
-.textPanelInner {
-  position: relative;
-  z-index: 1;
-  max-width: 29rem;
-  padding: 0 4rem 0 4.5rem;
-  box-sizing: border-box;
+.caption {
+  position: absolute;
+  top: 50%;
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  max-width: 29rem;
+  box-sizing: border-box;
+  translate: 0 -50%;
+  visibility: hidden;
 }
 
-.cutRight .textPanelInner {
+.caption:first-child {
+  --v: 1;
+  visibility: visible;
+}
+
+.captionLeft {
+  left: 0;
+  padding: 0 4rem 0 4.5rem;
+}
+
+.captionRight {
+  right: 0;
   padding: 0 4.5rem 0 4rem;
 }
+
+.caption > * {
+  --o: clamp(0, calc((var(--v, 0) - var(--k, 0) * 0.12) / 0.76), 1);
+  opacity: var(--o);
+  transform: translateY(calc((1 - var(--o)) * 1.25rem));
+}
+
+.caption > :nth-child(2) {
+  --k: 1;
+}
+
+.caption > :nth-child(3) {
+  --k: 2;
+}
+
+/* caption type ------------------------------------------------------------- */
 
 .meta {
   display: flex;
@@ -257,6 +271,10 @@
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
   color: var(--color-gold);
+}
+
+.eyebrowTotal {
+  color: rgba(250, 247, 242, 0.5);
 }
 
 .title {
@@ -282,11 +300,8 @@
 }
 
 /* fixed stage navigation --------------------------------------------------- */
-/* A single, persistent left-side index — replaces the old per-stage corner
- * tick. Fixed to the viewport (not per-stage), so it's the one constant
- * thing while stages slide underneath it: click a number to land exactly
- * on that stage's "sweet spot" (see .snapMarker) instead of hunting for the
- * moment the image is sharpest and the text is fully up by hand-scrolling. */
+/* A single, persistent left-side index, fixed to the viewport while the     */
+/* stages change underneath it: click a number to glide to that stage.       */
 
 .stageNav {
   position: fixed;
@@ -304,12 +319,16 @@
   pointer-events: auto;
 }
 
-.stageNavTrack {
+.stageNavTrack,
+.stageNavFill {
   position: absolute;
   left: 50%;
   top: 0.5rem;
   bottom: 0.5rem;
   width: 1px;
+}
+
+.stageNavTrack {
   transform: translateX(-50%);
   background: linear-gradient(
     to bottom,
@@ -318,6 +337,14 @@
     rgba(250, 247, 242, 0.28) 90%,
     rgba(250, 247, 242, 0) 100%
   );
+}
+
+/* Gold fill down the rail up to the current stage. */
+.stageNavFill {
+  transform: translateX(-50%) scaleY(var(--fill, 0));
+  transform-origin: top;
+  background-color: var(--color-gold);
+  transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .stageNavList {
@@ -381,6 +408,10 @@
   border-radius: 2px;
 }
 
+.stageNavItemPast .stageNavDot {
+  background-color: rgba(240, 182, 90, 0.7);
+}
+
 /* The bar visibly "changes colour" for the active stage — gold, larger dot,
  * number always shown — so the current position is legible at a glance
  * against any photograph underneath. */
@@ -413,6 +444,7 @@
   }
 
   .stageNavTrack,
+  .stageNavFill,
   .stageNavList {
     display: none;
   }
@@ -466,269 +498,6 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .stageNav,
-  .stageNavDot,
-  .stageNavNumber {
-    transition: none;
-  }
-}
-
-/* reveal — fallback path ----------------------------------------------- */
-/* Browsers without CSS scroll-driven animation support (see below) get a
- * one-shot reveal triggered once by useInView as each stage becomes
- * active. Outside this media query nothing is hidden, so reduced-motion
- * users simply see the finished state immediately.                       */
-
-@media (prefers-reduced-motion: no-preference) {
-  .stageInner {
-    translate: 0 6svh;
-    opacity: 0;
-    transition:
-      translate 700ms cubic-bezier(0.16, 1, 0.3, 1),
-      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .stage.isActive .stageInner {
-    translate: 0 0;
-    opacity: 1;
-  }
-
-  .sweep {
-    transition: transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .stage.isActive .sweep {
-    transform: translate(0, 0);
-  }
-
-  .textPanelInner > * {
-    opacity: 0;
-    transform: translateY(1.125rem);
-    transition:
-      opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .textPanelInner > *:nth-child(1) {
-    transition-delay: 100ms;
-  }
-
-  .textPanelInner > *:nth-child(2) {
-    transition-delay: 220ms;
-  }
-
-  .textPanelInner > *:nth-child(3) {
-    transition-delay: 340ms;
-  }
-
-  .stage.isActive .textPanelInner > * {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* reveal — scroll-scrubbed path ----------------------------------------- */
-/* Where supported (current Chrome/Edge), every layer below is driven
- * directly by scroll position via native CSS scroll-driven animation — no
- * scroll listeners, no rAF, nothing that can desync.
- *
- * The critical fix over the previous pass: a raw `position: sticky` cover
- * is locked 1:1 to scroll speed and always finishes in exactly one
- * viewport of scrolling, which is why it read as an abrupt snap no matter
- * how the dwell was tuned. `.stageInner`'s entrance below is deliberately
- * decoupled from that — it's a `translate`/`opacity` animation scrubbed
- * across roughly HALF of this stage's `.stageTrack` (a much longer, fully
- * tunable scroll distance), so the card visibly, slowly rises into place.
- * A matching recede + dim on the same element, timed to the moment the
- * *next* stage starts arriving, is what actually reads as "cards stacking
- * with depth" rather than one photo replacing another.                   */
-
-@keyframes lifecycleImageDevelop {
-  0% {
-    transform: scale(1.22);
-    filter: blur(7px) brightness(0.6);
-  }
-  100% {
-    transform: scale(1);
-    filter: blur(0) brightness(1);
-  }
-}
-
-@keyframes lifecycleCardRecede {
-  from {
-    scale: 1;
-  }
-  to {
-    scale: 0.9;
-  }
-}
-
-@keyframes lifecycleCardDim {
-  from {
-    filter: brightness(1);
-  }
-  to {
-    filter: brightness(0.5);
-  }
-}
-
-@keyframes lifecycleSweepFromLeft {
-  from {
-    transform: translateX(-130%);
-  }
-  to {
-    transform: translate(0, 0);
-  }
-}
-
-@keyframes lifecycleSweepFromRight {
-  from {
-    transform: translateX(130%);
-  }
-  to {
-    transform: translate(0, 0);
-  }
-}
-
-@keyframes lifecycleSweepFromTop {
-  from {
-    transform: translateY(-130%);
-  }
-  to {
-    transform: translate(0, 0);
-  }
-}
-
-@keyframes lifecycleSweepFromBottom {
-  from {
-    transform: translateY(130%);
-  }
-  to {
-    transform: translate(0, 0);
-  }
-}
-
-@keyframes lifecycleTextRise {
-  from {
-    opacity: 0;
-    transform: translateY(1.375rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    /* .stage's native sticky cover — the actual "this card slides up and
-     * covers the previous one" motion — is left completely untouched here.
-     * It's the mechanic the client already confirmed reads correctly; the
-     * fix below never repositions the incoming card (that caused a black
-     * gap above it while it was still arriving from off-screen — a card
-     * can't visually slide from "below the fold" and also be shifted
-     * further down by an animation without exposing the empty box behind
-     * it). Every animation here changes appearance, never position, so
-     * there's nothing to fight the native slide.                          */
-
-    .stageInner {
-      translate: none;
-      opacity: 1;
-      transition: none;
-      /* Recede + dim over the final ~31% of this stage's own lifetime,
-       * which lands almost exactly on the moment the next .stageTrack
-       * starts covering it (both tracks share the same height, so the two
-       * windows line up on their own) — this is what reads as "cards
-       * physically stacking, the old one sinking back" rather than one
-       * photo flatly replacing another.                                   */
-      animation:
-        lifecycleCardRecede linear both,
-        lifecycleCardDim linear both;
-      animation-timeline: --stage-progress, --stage-progress;
-      animation-range:
-        cover 69% cover 100%,
-        cover 69% cover 100%;
-    }
-
-    .sweep {
-      transition: none;
-    }
-
-    .sweepLeft {
-      animation: lifecycleSweepFromLeft linear both;
-      animation-timeline: --stage-progress;
-      animation-range: cover 6% cover 50%;
-    }
-
-    .sweepRight {
-      animation: lifecycleSweepFromRight linear both;
-      animation-timeline: --stage-progress;
-      animation-range: cover 6% cover 50%;
-    }
-
-    .sweepTop {
-      animation: lifecycleSweepFromTop linear both;
-      animation-timeline: --stage-progress;
-      animation-range: cover 6% cover 50%;
-    }
-
-    .sweepBottom {
-      animation: lifecycleSweepFromBottom linear both;
-      animation-timeline: --stage-progress;
-      animation-range: cover 6% cover 50%;
-    }
-
-    /* The photo itself carries the "slow, calm, visible" arrival: a long,
-     * gentle zoom-and-focus (scale + blur + brightness together) that has
-     * nothing to do with the card's position, so it layers cleanly on top
-     * of the native slide instead of competing with it. */
-    .image {
-      animation: lifecycleImageDevelop linear both;
-      animation-timeline: --stage-progress;
-      animation-range: cover 8% cover 62%;
-    }
-
-    .textPanelInner > * {
-      opacity: 0;
-      transform: none;
-      transition: none;
-      animation: lifecycleTextRise linear both;
-      animation-timeline: --stage-progress;
-    }
-
-    .textPanelInner > *:nth-child(1) {
-      animation-range: cover 20% cover 46%;
-    }
-
-    .textPanelInner > *:nth-child(2) {
-      animation-range: cover 30% cover 56%;
-    }
-
-    .textPanelInner > *:nth-child(3) {
-      animation-range: cover 40% cover 64%;
-    }
-
-    /* Once a stage's reveal has fully played it stays finished: scrolling back
-     * up no longer scrubs the photo back to blurred or the text back to hidden.
-     * (The recede/dim on .stageInner is untouched and still follows scroll.) */
-    .stage.settled .image {
-      animation: none;
-    }
-
-    .stage.settled .sweep {
-      animation: none;
-      transform: translate(0, 0);
-    }
-
-    .stage.settled .textPanelInner > * {
-      animation: none;
-      opacity: 1;
-      transform: none;
-    }
-  }
-}
-
 /* responsive ------------------------------------------------------------ */
 
 @media (max-width: 1023px) {
@@ -748,7 +517,7 @@
     margin-bottom: var(--space-3xl);
   }
 
-  .textPanelInner {
+  .caption {
     max-width: 22rem;
   }
 }
@@ -758,40 +527,32 @@
     padding-block: var(--space-3xl) 0;
   }
 
-  /* Track height is left at the base 220svh across breakpoints: the
-   * arrive/recede animation-range percentages above are derived from that
-   * height (specifically the 69% recede-start = 220svh / (220svh+100svh)), so
-   * changing it per breakpoint would throw off the sync between a stage's
-   * own recede and the next stage's arrival. */
-
   /* Phones are portrait, so the full-bleed photo + diagonal glass cut is     */
-  /* re-composed rather than reduced: the same photograph fills the top 46%   */
-  /* of the pinned stage and the same caption (stage no., title, body, sweep) */
-  /* sits beneath it on a solid panel. All scroll-scrubbed reveals still run. */
-  .figure,
+  /* re-composed rather than reduced: the photographs fill the top 46% of the */
+  /* pinned stage and the captions sit beneath them on a solid panel.         */
+  .slide,
   .photoScrim {
     inset: 0 0 auto 0;
     height: 46%;
   }
 
-  .figure {
-    overflow: hidden;
+  /* no rail on phones, so no left-edge fade */
+  .photoScrim {
+    background: linear-gradient(to top, rgba(17, 16, 15, 0.4) 0%, rgba(17, 16, 15, 0) 42%);
   }
 
-  .cutLeft,
-  .cutRight {
+  .blade {
     clip-path: none;
     inset: 46% 0 0 0;
-    height: auto;
-    align-items: center;
-    justify-content: flex-start;
-    background: var(--color-charcoal-deep);
+    background-color: var(--color-charcoal-deep);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
 
-  .textPanelInner,
-  .cutRight .textPanelInner {
+  .captionLeft,
+  .captionRight {
+    left: 0;
+    right: 0;
     max-width: none;
     padding: var(--space-2xl) var(--margin-mobile) var(--space-3xl);
   }
@@ -805,18 +566,14 @@
   }
 }
 
-/* Reduced motion: no pinned ~20-screen runway — stages simply stack, one
- * viewport each, with the nav/stepper jumping to each stage's top.        */
+/* Reduced motion: stages still change with scroll, but swap instantly. */
 @media (prefers-reduced-motion: reduce) {
-  .stageTrack {
-    height: auto;
-  }
-
-  .snapMarker {
-    top: 0;
-  }
-
-  .stage {
-    position: relative;
+  .stage *,
+  .stageNav,
+  .stageNavFill,
+  .stageNavDot,
+  .stageNavNumber {
+    transition: none !important;
+    animation: none !important;
   }
 }

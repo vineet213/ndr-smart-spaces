@@ -1,7 +1,38 @@
-/* Explore Our Residential Projects — vertical 03 closing panel ----------- */
+/* Explore Our Residential Projects — vertical 03 closing band ------------ */
 
 .section {
-  background-color: var(--color-ivory-dim);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding-block: var(--space-10xl);
+  color: var(--color-ivory);
+  background-color: var(--color-charcoal-deep);
+  border-top: 1px solid rgba(240, 182, 90, 0.25);
+}
+
+.backdrop {
+  z-index: -2;
+  object-fit: cover;
+  object-position: 50% 70%;
+  transform: scale(1.04);
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(17, 16, 15, 0.94) 0%,
+      rgba(17, 16, 15, 0.78) 45%,
+      rgba(17, 16, 15, 0.25) 100%
+    ),
+    radial-gradient(60% 80% at 0% 100%, rgba(150, 40, 48, 0.45) 0%, rgba(150, 40, 48, 0) 70%);
+}
+
+.inner {
+  position: relative;
 }
 
 .panel {
@@ -9,30 +40,24 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-6xl);
-  padding-top: 0;
 }
 
 .copy {
   display: grid;
   justify-items: start;
-  gap: var(--space-lg);
-  max-width: var(--measure-body);
+  gap: var(--space-xl);
+  max-width: 40rem;
 }
 
-.copy h3 {
+.copy h2 {
   margin: 0;
-}
-
-.goldRule {
-  display: block;
-  width: var(--space-6xl);
-  height: 2px;
-  background-color: var(--color-gold);
 }
 
 .body {
   margin: 0;
-  color: var(--color-text-secondary);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: rgba(250, 247, 242, 0.82);
 }
 
 .cta {
@@ -50,13 +75,21 @@
   line-height: var(--leading-meta);
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
-  color: var(--color-stone);
+  color: rgba(250, 247, 242, 0.55);
 }
 
 @media (max-width: 767px) {
+  .section {
+    padding-block: var(--space-6xl);
+  }
+
   .panel {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-5xl);
+    gap: var(--space-4xl);
+  }
+
+  .scrim {
+    background: linear-gradient(180deg, rgba(17, 16, 15, 0.9) 0%, rgba(17, 16, 15, 0.75) 100%);
   }
 }

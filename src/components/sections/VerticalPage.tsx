@@ -116,9 +116,15 @@ export function VerticalPage({ division }: VerticalPageProps) {
           <DrawnGrid />
           <Container className={styles.content}>
             {isV1 ? (
-              <LogisticsOverview heading={overview?.heading ?? division.title} writeup={division.writeup} />
+              <LogisticsOverview
+                heading={overview?.heading ?? division.title}
+                writeup={division.writeup}
+              />
             ) : isV2 ? (
-              <StackedOverview heading={overview?.heading ?? division.title} writeup={division.writeup} />
+              <StackedOverview
+                heading={overview?.heading ?? division.title}
+                writeup={division.writeup}
+              />
             ) : (
               <Reveal>
                 <div className={styles.overview}>
@@ -177,20 +183,12 @@ export function VerticalPage({ division }: VerticalPageProps) {
 
       {isV3 ? (
         <>
-          <Section tone="light">
-            <AveAcresProcess />
-          </Section>
+          <AveAcresProcess />
           <Section tone="dark" className={styles.videoSection}>
-            <Reveal>
-              <ResidentialPlottingVideo />
-            </Reveal>
+            <ResidentialPlottingVideo />
           </Section>
-          <Section tone="charcoal">
-            <AveAcresValues />
-          </Section>
-          <Section tone="dim">
-            <AveAcresExplore />
-          </Section>
+          <AveAcresValues />
+          <AveAcresExplore />
         </>
       ) : null}
 

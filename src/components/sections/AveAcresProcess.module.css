@@ -1,8 +1,12 @@
-/* From Land to Community — vertical 03 process ------------------------ */
+/* From Land to Community — vertical 03 ----------------------------------- */
+/* The masterplan drawn, then painted, then opened out (SketchReveal). The  */
+/* page colour matches the drawing's paper so the sketch sits on the page.  */
 
 .section {
+  position: relative;
+  padding-top: var(--space-8xl);
+  padding-bottom: var(--space-8xl);
   background-color: var(--color-ivory);
-  padding-top: var(--space-4xl);
 }
 
 .header {
@@ -22,266 +26,138 @@
   background-color: var(--color-gold);
 }
 
-/* timeline ------------------------------------------------------------- */
+/* ─── pinned stage ──────────────────────────────────────────────────────── */
 
 .track {
   position: relative;
-  margin-top: var(--space-6xl);
+  height: 340svh;
+  margin-top: var(--space-2xl);
 }
 
-.spine {
-  position: absolute;
-  top: 0.6875rem;
-  left: 12.5%;
-  right: 12.5%;
-  height: 2px;
-  background-color: var(--color-maroon);
-  transform: scaleX(var(--pj, 0));
-  transform-origin: left;
+.stage {
+  position: sticky;
+  top: 0;
+  display: grid;
+  place-items: center;
+  height: 100svh;
+  /* centre the artwork in the space below the header bar */
+  padding-top: var(--header-height, 4.5rem);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.list {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.node {
+/* The artwork's frame: nearly the full width, 16:9 where the screen is tall */
+/* enough, otherwise as tall as fits (the artwork crops to the frame, so a  */
+/* short screen trims a little sky and lawn rather than shrinking it). Once */
+/* painted it lifts off the page (--lift) and then opens out to full bleed. */
+.box {
+  --lift: 0;
+  --box-w: min(94vw, 96rem);
   position: relative;
-  flex: 1;
-  min-width: 0;
-  padding: 0;
+  width: var(--box-w);
+  height: min(calc(var(--box-w) * 9 / 16), calc(100svh - var(--header-height, 4.5rem) - 2rem));
+  overflow: hidden;
+  border-radius: 0.75rem;
+  transform-origin: center;
+  will-change: transform;
+  box-shadow: 0 2.5rem 5rem rgba(17, 16, 15, calc(var(--lift) * 0.22));
 }
 
-.node:focus-visible {
-  outline: 2px solid var(--color-maroon);
-  outline-offset: 6px;
-  border-radius: 2px;
-}
-
-.mark {
-  position: absolute;
-  top: 0.375rem;
-  left: 50%;
-  width: 0.75rem;
-  height: 0.75rem;
-  border: 1px solid var(--color-gold);
-  background-color: transparent;
-  transform: translateX(-50%) rotate(45deg);
-  transition:
-    border-color var(--duration-standard) var(--ease-standard),
-    background-color var(--duration-standard) var(--ease-standard);
-}
-
-.nodeInner {
-  padding-top: 2.75rem;
-}
-
-.glyphWrap {
-  display: flex;
-  justify-content: center;
-  color: var(--color-charcoal);
-  transition: color var(--duration-standard) var(--ease-standard);
-}
-
-.glyphWrap svg {
-  width: 3.25rem;
-  height: 3.25rem;
-}
-
-.index {
+.canvas {
   display: block;
-  margin-top: var(--space-md);
-  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+.fallback {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.staticBox {
+  margin-top: var(--space-5xl);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.75rem;
+}
+
+/* ─── the four stages, beneath the artwork ──────────────────────────────── */
+
+.stages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-4xl);
+  margin: var(--space-6xl) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stageItem {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-md);
+  padding-top: var(--space-xl);
+  border-top: 1px solid rgba(125, 120, 113, 0.3);
+}
+
+.stageMark {
+  display: block;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: var(--color-maroon);
+}
+
+.stageMark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.stageIndex {
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-meta);
-  line-height: var(--leading-meta);
   letter-spacing: var(--tracking-meta);
-  text-transform: uppercase;
-  color: var(--color-maroon);
-  font-variant-numeric: tabular-nums;
-  transition: color var(--duration-standard) var(--ease-standard);
+  color: var(--color-gold-dark, var(--color-maroon));
 }
 
-.title {
-  margin: var(--space-sm) 0 0;
-  text-align: center;
+.stageTitle {
+  margin: 0;
   font-family: var(--font-display);
-  font-weight: var(--font-weight-display-medium);
-  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-  line-height: 1.2;
-  color: var(--color-charcoal);
-  transition: color var(--duration-standard) var(--ease-standard);
+  font-weight: var(--font-weight-display-regular, 400);
+  font-size: 1.375rem;
+  line-height: 1.25;
+  color: var(--color-text-primary);
 }
 
-/* sequential entry ------------------------------------------------------ */
+/* ─── responsive ────────────────────────────────────────────────────────── */
 
-.nodeInner {
-  opacity: 0;
-  transform: translateY(0.875rem);
-}
-
-.drawn .nodeInner {
-  animation: stage-rise 700ms var(--ease-standard) both;
-  animation-delay: calc(var(--n, 0) * 150ms);
-}
-
-/* scroll-tint states ---------------------------------------------------- */
-
-.nodeFuture .glyphWrap {
-  color: var(--color-stone);
-  opacity: 0.5;
-}
-
-.nodeFuture .mark {
-  border-color: var(--color-hairline-light);
-}
-
-.nodeFuture .index {
-  color: var(--color-stone);
-}
-
-.nodeCurrent .glyphWrap {
-  color: var(--color-maroon);
-}
-
-.nodeCurrent .index {
-  color: var(--color-maroon);
-}
-
-.nodeCurrent .mark {
-  border-color: var(--color-maroon);
-  background-color: var(--color-gold);
-}
-
-.nodeDone .glyphWrap {
-  color: var(--color-charcoal);
-}
-
-.nodeDone .index {
-  color: var(--color-maroon);
-}
-
-.nodeDone .mark {
-  border-color: var(--color-maroon);
-  background-color: var(--color-maroon);
-}
-
-.nodeActive .title {
-  color: var(--color-maroon);
-}
-
-/* keyframes ------------------------------------------------------------- */
-
-@keyframes stage-rise {
-  from {
-    opacity: 0;
-    transform: translateY(0.875rem);
+@media (max-width: 1023px) {
+  .stage {
+    height: 100dvh;
   }
-  to {
-    opacity: 1;
-    transform: none;
+
+  .stages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--space-3xl);
   }
 }
-
-/* responsive ------------------------------------------------------------ */
 
 @media (max-width: 767px) {
+  .section {
+    padding-top: var(--space-6xl);
+    padding-bottom: var(--space-6xl);
+  }
+
   .track {
-    padding-left: 1.875rem;
+    height: 300svh;
   }
 
-  .spine {
-    top: 0;
-    bottom: 0;
-    left: 0.5rem;
-    right: auto;
-    width: 2px;
-    height: auto;
-    transform: scaleY(var(--pj, 0));
-    transform-origin: top;
-  }
-
-  .list {
-    flex-direction: column;
-    gap: var(--space-4xl);
-  }
-
-  .mark {
-    top: 50%;
-    /* centred on the spine (spine sits 8px into the track, node 30px in) */
-    left: -1.6875rem;
-    margin-top: -0.375rem;
-    transform: rotate(45deg);
-  }
-
-  /* Compact row: glyph on the left, step number over title on the right. */
-  .nodeInner {
-    padding-top: 0;
-    display: grid;
-    grid-template-columns: 3rem minmax(0, 1fr);
-    grid-template-rows: auto auto;
-    column-gap: var(--space-xl);
-    align-items: center;
-  }
-
-  .glyphWrap {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-    justify-content: flex-start;
-  }
-
-  .glyphWrap svg {
-    width: 2.75rem;
-    height: 2.75rem;
-  }
-
-  .index {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: end;
-    margin-top: 0;
-  }
-
-  .title {
-    grid-column: 2;
-    grid-row: 2;
-    align-self: start;
-    font-size: 1.1875rem;
-  }
-
-  .index {
-    text-align: left;
-  }
-
-  .title {
-    text-align: left;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .spine {
-    transform: scaleX(1);
-  }
-
-  .nodeInner {
-    opacity: 1;
-    transform: none;
-    animation: none;
-  }
-
-  .mark,
-  .glyphWrap,
-  .index,
-  .title {
-    transition: none;
-  }
-
-  @media (max-width: 767px) {
-    .spine {
-      transform: scaleY(1);
-    }
+  /* phones: a taller crop of the plan so it isn't a thin strip */
+  .box {
+    --box-w: calc(100vw - 2 * var(--margin-mobile, 1rem));
+    height: calc(var(--box-w) * 3 / 4);
   }
 }

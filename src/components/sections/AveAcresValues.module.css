@@ -1,14 +1,32 @@
 /* What Defines Our Developments — vertical 03 values ------------------- */
 
 .section {
-  background-color: var(--color-charcoal);
+  position: relative;
+  overflow: clip;
+  padding-block: var(--space-8xl);
   color: var(--color-ivory);
+  background-color: var(--color-charcoal);
+  background-image: radial-gradient(
+    50% 60% at 100% 0%,
+    rgba(150, 40, 48, 0.28) 0%,
+    rgba(150, 40, 48, 0) 70%
+  );
 }
 
 .header {
   display: grid;
   justify-items: start;
   gap: var(--space-xl);
+  opacity: 0;
+  transform: translateY(1rem);
+  transition:
+    opacity 900ms var(--ease-standard),
+    transform 900ms var(--ease-standard);
+}
+
+.header.drawn {
+  opacity: 1;
+  transform: none;
 }
 
 .header h2 {
@@ -22,261 +40,261 @@
   background-color: var(--color-gold);
 }
 
-/* one development system ------------------------------------------------ */
+/* ─── columns ───────────────────────────────────────────────────────────── */
 
-.field {
-  --station-y: calc(0.875rem + var(--space-md) + 3rem + 0.3125rem);
-  position: relative;
-  margin-top: var(--space-6xl);
-}
-
-.trajectory {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.trajectoryPath,
-.trajectoryTip {
-  fill: none;
-  stroke: rgba(240, 182, 90, 0.45);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 1600ms var(--ease-standard);
-}
-
-.trajectoryPath {
-  transition-delay: 240ms;
-}
-
-.trajectoryTip {
-  transition-delay: 1400ms;
-}
-
-.drawn .trajectoryPath,
-.drawn .trajectoryTip {
-  stroke-dashoffset: 0;
-}
-
-.baseline {
-  position: absolute;
-  top: calc(var(--station-y) - 0.5px);
-  left: 6%;
-  right: 6%;
-  height: 1px;
-  background-color: rgba(240, 182, 90, 0.32);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 1100ms var(--ease-standard);
-}
-
-.drawn .baseline {
-  transform: scaleX(1);
-}
-
-.system {
-  position: relative;
-  list-style: none;
-  margin: 0;
+.columns {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: var(--space-6xl) 0 0;
   padding: 0;
-  display: flex;
+  list-style: none;
+  border-bottom: 1px solid rgba(250, 247, 242, 0.12);
 }
 
-.value {
+.column {
+  --delay: calc(var(--n, 0) * 120ms);
   position: relative;
-  flex: 1;
-  min-width: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 0;
-  opacity: 0;
+  min-height: 20rem;
+  padding: var(--space-3xl) var(--space-2xl) var(--space-3xl);
+  overflow: hidden;
+  isolation: isolate;
 }
 
-.value:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 6px;
-  border-radius: 2px;
-}
-
-.drawn .value {
-  animation: value-rise 760ms var(--ease-standard) both;
-  animation-delay: calc(var(--n, 0) * 130ms + 160ms);
-}
-
-.number {
-  display: block;
-  height: 0.875rem;
-  line-height: 0.875rem;
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-meta);
-  letter-spacing: var(--tracking-meta);
-  color: var(--color-gold);
-  font-variant-numeric: tabular-nums;
-  transition: color var(--duration-standard) var(--ease-standard);
-}
-
-.mark {
-  display: flex;
-  justify-content: center;
-  height: 3rem;
-  margin-top: var(--space-md);
-  color: rgba(240, 182, 90, 0.45);
-  transition: color var(--duration-standard) var(--ease-standard);
-}
-
-.mark svg {
-  width: 3rem;
-  height: 3rem;
-}
-
-.diamond {
+/* the divider on each column's left, drawn top to bottom (the last column */
+/* also closes the row on its right)                                       */
+.column::before,
+.column:last-child::after {
+  content: "";
   position: absolute;
-  top: calc(var(--station-y) - 0.3125rem);
-  left: 50%;
-  width: 0.625rem;
-  height: 0.625rem;
-  border: 1px solid var(--color-gold);
-  transform: translateX(-50%) rotate(45deg);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    rgba(240, 182, 90, 0.5),
+    rgba(250, 247, 242, 0.12) 40%,
+    rgba(250, 247, 242, 0.12)
+  );
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 1100ms var(--ease-standard) var(--delay);
+}
+
+.column::before {
+  left: 0;
+}
+
+.column:last-child::after {
+  right: 0;
+}
+
+.drawn .column::before,
+.drawn .column:last-child::after {
+  transform: scaleY(1);
+}
+
+/* hover: a warm glow rises from the foot of the column */
+.column > :first-child::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to top,
+    rgba(240, 182, 90, 0.16) 0%,
+    rgba(150, 40, 48, 0.12) 45%,
+    rgba(150, 40, 48, 0) 100%
+  );
+  opacity: 0;
+  transform: translateY(30%);
   transition:
-    border-color var(--duration-standard) var(--ease-standard),
-    background-color var(--duration-standard) var(--ease-standard);
+    opacity 600ms var(--ease-standard),
+    transform 800ms var(--ease-standard);
 }
 
-.title {
-  margin: calc(var(--station-y) + 0.75rem) 0 0;
-  text-align: center;
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-medium);
-  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
-  line-height: 1.2;
-  color: var(--color-ivory);
-  transition: color var(--duration-standard) var(--ease-standard);
-}
-
-.valueActive .title {
-  color: var(--color-gold-light);
-}
-
-.valueActive .mark {
-  color: var(--color-gold);
-}
-
-.valueActive .diamond {
-  border-color: var(--color-gold);
-  background-color: var(--color-gold);
-}
-
-.valueActive .number {
-  color: var(--color-gold-light);
-}
-
-/* keyframes ------------------------------------------------------------- */
-
-@keyframes value-rise {
-  from {
-    opacity: 0;
-    transform: translateY(0.875rem);
-  }
-  to {
+@media (hover: hover) {
+  .column:hover > :first-child::before {
     opacity: 1;
     transform: none;
   }
 }
 
-/* responsive ------------------------------------------------------------ */
+.number {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(2.75rem, 4.2vw, 4rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(240, 182, 90, 0.55);
+  opacity: 0;
+  transform: translateY(1rem);
+  transition:
+    opacity 800ms var(--ease-standard) calc(var(--delay) + 200ms),
+    transform 800ms var(--ease-standard) calc(var(--delay) + 200ms),
+    -webkit-text-stroke-color 400ms var(--ease-standard);
+}
 
-@media (max-width: 767px) {
-  .trajectory,
-  .baseline,
-  .diamond {
-    display: none;
+.mark {
+  display: block;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-top: var(--space-3xl);
+  color: var(--color-gold);
+  transition: transform 600ms var(--ease-standard);
+}
+
+.mark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.mark [pathLength] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1400ms var(--ease-standard) calc(var(--delay) + 400ms);
+}
+
+.title {
+  margin: auto 0 0;
+  padding-top: var(--space-2xl);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-regular, 400);
+  font-size: 1.375rem;
+  line-height: 1.25;
+  color: var(--color-ivory);
+  text-wrap: balance;
+  opacity: 0;
+  transform: translateY(0.75rem);
+  transition:
+    opacity 800ms var(--ease-standard) calc(var(--delay) + 600ms),
+    transform 800ms var(--ease-standard) calc(var(--delay) + 600ms);
+}
+
+.underline {
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  margin-top: var(--space-lg);
+  background-color: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 700ms var(--ease-standard) calc(var(--delay) + 800ms);
+}
+
+.drawn .number,
+.drawn .title {
+  opacity: 1;
+  transform: none;
+}
+
+.drawn .mark [pathLength] {
+  stroke-dashoffset: 0;
+}
+
+.drawn .underline {
+  transform: scaleX(1);
+}
+
+@media (hover: hover) {
+  .column:hover .number {
+    -webkit-text-stroke-color: var(--color-gold-light);
   }
 
-  .system {
-    flex-direction: column;
-    gap: 0;
+  .column:hover .mark {
+    transform: translateY(-0.375rem);
   }
 
-  /* Compact row: icon on the left, number over title on the right, with a   */
-  /* hairline between values instead of large empty gaps.                    */
-  .value {
-    display: grid;
-    grid-template-columns: 3rem minmax(0, 1fr);
-    grid-template-rows: auto auto;
-    column-gap: var(--space-xl);
-    align-items: center;
-    padding-block: var(--space-3xl);
-    border-bottom: 1px solid rgba(250, 247, 242, 0.12);
+  .column:hover .underline {
+    width: 4.5rem;
+    transition:
+      transform 700ms var(--ease-standard),
+      width 600ms var(--ease-standard);
   }
+}
 
-  .value:last-child {
+/* ─── responsive ────────────────────────────────────────────────────────── */
+
+@media (max-width: 1023px) {
+  .columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     border-bottom: 0;
   }
 
+  .column {
+    min-height: 16rem;
+    border-bottom: 1px solid rgba(250, 247, 242, 0.12);
+  }
+
+  .column:last-child::after {
+    display: none;
+  }
+
+  .column:nth-child(2n + 1)::before {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--space-6xl);
+  }
+
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: var(--space-4xl);
+  }
+
+  .column {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "mark number"
+      "mark title"
+      "mark underline";
+    align-items: center;
+    column-gap: var(--space-2xl);
+    min-height: 0;
+    padding: var(--space-2xl) 0;
+  }
+
+  .column::before {
+    display: none;
+  }
+
   .number {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: end;
+    grid-area: number;
+    font-size: 1.75rem;
   }
 
   .mark {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-    justify-content: flex-start;
-    height: auto;
-    margin-top: 0;
+    grid-area: mark;
+    margin: 0;
   }
 
-  .mark svg {
-    width: 2.75rem;
-    height: 2.75rem;
-  }
-
-  /* The desktop title sits below a shared baseline dot (`--station-y`) that  */
-  /* is hidden on mobile — without this override the title inherits that     */
-  /* offset as dead vertical space above it. */
   .title {
-    grid-column: 2;
-    grid-row: 2;
-    align-self: start;
+    grid-area: title;
     margin-top: var(--space-xs);
-    text-align: left;
-    font-size: 1.1875rem;
+    padding-top: 0;
+  }
+
+  .underline {
+    grid-area: underline;
+    margin-top: var(--space-sm);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .trajectoryPath,
-  .trajectoryTip,
-  .baseline {
-    transition: none;
-  }
-
-  .trajectoryPath,
-  .trajectoryTip {
-    stroke-dashoffset: 0;
-  }
-
-  .baseline {
-    transform: scaleX(1);
-  }
-
-  .value {
-    opacity: 1;
-    animation: none;
-  }
-
+  .header,
+  .column::before,
+  .column:last-child::after,
   .number,
   .mark,
-  .diamond,
-  .title {
+  .mark [pathLength],
+  .title,
+  .underline {
     transition: none;
   }
 }
