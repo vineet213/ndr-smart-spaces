@@ -24,7 +24,7 @@
 .navBar {
   transition:
     background-color var(--duration-standard) var(--ease-standard),
-    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform var(--nav-slide);
 }
 
 .navBarHidden {

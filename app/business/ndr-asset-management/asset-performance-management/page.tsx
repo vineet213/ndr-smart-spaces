@@ -3,7 +3,6 @@ import { Container, Section } from "@/components/layout";
 import { FadeImage } from "@/components/ui/FadeImage";
 import { CompanyMetrics } from "@/components/sections/CompanyMetrics";
 import { Footer } from "@/components/sections/Footer";
-import { MarqueeClients } from "@/components/sections/MarqueeClients";
 import { PageMasthead } from "@/components/sections/PageMasthead";
 import { vertical02AssetManagement } from "@/lib/data/business";
 import { Reveal } from "@/components/sections/Reveal";
@@ -61,8 +60,6 @@ export default function AssetPerformanceManagementPage() {
       <Reveal>
         <CompanyMetrics data={metrics} id="asset-performance-metrics" />
       </Reveal>
-
-      <MarqueeClients />
 
       <Footer />
     </>

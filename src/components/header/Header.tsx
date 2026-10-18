@@ -87,6 +87,15 @@ export function Header() {
     };
   }, [setHiddenSafe]);
 
+  // Publish the hidden state on <html> so pinned sections can take the freed
+  // space via --nav-offset (see tokens/spacing.css).
+  const navHidden = hidden && !mobileMenu.open;
+  useEffect(() => {
+    const root = document.documentElement;
+    root.toggleAttribute("data-nav-hidden", navHidden);
+    return () => root.removeAttribute("data-nav-hidden");
+  }, [navHidden]);
+
   return (
     <header ref={headerRef} className={styles.header}>
       <span ref={progressRef} className={styles.progress} aria-hidden="true" />
@@ -94,7 +103,7 @@ export function Header() {
         className={cx(
           styles.navBar,
           scrolled && styles.navBarScrolled,
-          hidden && !mobileMenu.open && styles.navBarHidden,
+          navHidden && styles.navBarHidden,
         )}
       >
         <div className={styles.navContainer}>

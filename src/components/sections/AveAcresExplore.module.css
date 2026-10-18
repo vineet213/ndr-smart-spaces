@@ -9,8 +9,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-6xl);
-  padding-top: var(--space-5xl);
-  border-block-start: 2px solid var(--color-charcoal);
+  padding-top: 0;
 }
 
 .copy {

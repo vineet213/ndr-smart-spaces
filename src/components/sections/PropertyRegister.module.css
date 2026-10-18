@@ -323,7 +323,8 @@
 
   .stageStacked .mapBox {
     position: sticky;
-    top: 5rem;
+    top: calc(var(--nav-offset, 4.5rem) + 0.5rem);
+    transition: top var(--nav-slide);
     z-index: 3;
     display: block;
     height: min(46svh, 26rem);

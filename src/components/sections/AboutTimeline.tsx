@@ -5,7 +5,7 @@ import { Container, Stack } from "@/components/layout";
 import { Eyebrow, Heading } from "@/components/ui";
 import { aboutTimeline } from "@/lib/data/about";
 import { Reveal } from "./Reveal";
-import { MotifSvg, WavePaths, motifFor } from "./TimelineArt";
+import { MotifSvg, motifFor } from "./TimelineArt";
 import styles from "./AboutTimeline.module.css";
 import { cx } from "../ui/cx";
 
@@ -98,32 +98,6 @@ export function AboutTimeline() {
           <div ref={listRef} className={styles.list}>
             <div className={styles.art} aria-hidden="true">
               <span className={styles.artGrid} />
-              <svg
-                className={cx(styles.waves, styles.wavesDim)}
-                viewBox="0 0 1000 2000"
-                preserveAspectRatio="none"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1}
-                focusable="false"
-              >
-                <WavePaths />
-              </svg>
-              <div className={styles.litClip}>
-                <div className={styles.litInner}>
-                  <svg
-                    className={cx(styles.waves, styles.wavesLit)}
-                    viewBox="0 0 1000 2000"
-                    preserveAspectRatio="none"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={1.4}
-                    focusable="false"
-                  >
-                    <WavePaths />
-                  </svg>
-                </div>
-              </div>
             </div>
             <span className={styles.progress} aria-hidden="true" />
             <span className={styles.progressHead} aria-hidden="true" />

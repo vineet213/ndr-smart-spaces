@@ -55,44 +55,6 @@
   mask-image: linear-gradient(to right, #000 0%, transparent 26%, transparent 74%, #000 100%);
 }
 
-.waves {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  color: var(--color-gold);
-}
-
-.wavesDim {
-  opacity: 0.12;
-}
-
-/* The same lines, brighter, revealed down to wherever the gold line has      */
-/* reached. The clip box slides up and its content slides back down by the    */
-/* same amount: two transforms on composited layers, so scrolling never       */
-/* repaints this tall layer. The soft fade at the leading edge is a static    */
-/* mask on the clip box, so it moves with it for free.                        */
-.litClip {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  transform: translate3d(0, calc(var(--tip) + 4rem + 3rem - 100%), 0);
-  will-change: transform;
-  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 7rem), transparent);
-  mask-image: linear-gradient(to bottom, #000 calc(100% - 7rem), transparent);
-}
-
-.litInner {
-  position: absolute;
-  inset: 0;
-  transform: translate3d(0, calc(100% - var(--tip) - 4rem - 3rem), 0);
-  will-change: transform;
-}
-
-.wavesLit {
-  opacity: 0.7;
-}
-
 /* one drawing beside each milestone, on the same side as its year */
 .motif {
   position: absolute;
@@ -151,14 +113,6 @@
   .artGrid {
     -webkit-mask-image: linear-gradient(to right, #000 0%, transparent 40%);
     mask-image: linear-gradient(to right, #000 0%, transparent 40%);
-  }
-
-  .waves {
-    opacity: 0.08;
-  }
-
-  .wavesLit {
-    opacity: 0.3;
   }
 }
 

@@ -61,6 +61,12 @@ export const assetFlip = {
     "A structured pathway to transfer mature SPVs - unlocking value and reinvesting in new development.",
   overview:
     "NDR Smart Spaces develops and operates high-quality logistics and industrial assets through dedicated Special Purpose Vehicles (SPVs). Once assets reach defined maturity and operational milestones, the relevant SPVs can be transferred, creating a structured pathway for unlocking value and enabling NDR Smart Spaces to reinvest in the development of new assets.",
+  image: {
+    src: "/images/investor-centre/asset-flip/warehouse-park-facility-management.jpg",
+    alt: "Warehouse park facility",
+    width: 1400,
+    height: 933,
+  },
   moreInfo: {
     eyebrow: "More information",
     heading: "For more information, visit NDR InvIT",

@@ -93,7 +93,8 @@
   align-items: flex-start;
   align-self: start;
   position: sticky;
-  top: calc(var(--header-height, 4.5rem) + var(--space-4xl));
+  top: calc(var(--nav-offset, 4.5rem) + var(--space-4xl));
+  transition: top var(--nav-slide);
 }
 
 .infoList {

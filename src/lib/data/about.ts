@@ -3,7 +3,7 @@ import type { CompanyMetric } from "./homepage";
 export const aboutHero = {
   headline: "Seven decades of building ",
   headlineAccent: "infrastructure.",
-  lede: "The infrastructure development platform of the NDR Group, established in 1954, and a leading developer of logistics and industrial spaces in India.",
+  lede: "NDR Smart Spaces is the logistics and infrastructure development platform of the NDR Group, established in 1954, and a leading developer of logistics and industrial spaces in India.",
   cta: { label: "Our story", href: "#story" },
   ctaSecondary: {
     label: "Explore the business",

@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 import { Container, Section } from "@/components/layout";
-import { SourceFootnote } from "@/components/ui";
+import { Eyebrow, SourceFootnote } from "@/components/ui";
 import {
+  logisticsOverview,
   verticalOverview,
   verticalMastheadSubtext,
   verticalMastheadTitle,
@@ -19,6 +20,7 @@ import { PropertyRegister } from "./PropertyRegister";
 import { Reveal } from "./Reveal";
 import { ResidentialPlottingVideo } from "./ResidentialPlottingVideo";
 import { VerticalManagement } from "./VerticalManagement";
+import { VerticalSubpages } from "./VerticalSubpages";
 import styles from "./VerticalPage.module.css";
 
 type VerticalPageProps = {
@@ -42,8 +44,59 @@ function renderEmphasized(text: string, phrases?: readonly string[]): ReactNode 
   return nodes;
 }
 
+/* Logistics overview: heading on the left, the copy on the                  */
+/* right with its first sentence set as a lead.                              */
+function LogisticsOverview({ heading, writeup }: { heading: string; writeup: string }) {
+  const split = writeup.indexOf(". ");
+  const lead = split === -1 ? writeup : writeup.slice(0, split + 1);
+  const rest = split === -1 ? "" : writeup.slice(split + 2);
+  const { eyebrow } = logisticsOverview;
+
+  return (
+    <div>
+      <Reveal>
+        <div className={styles.loGrid}>
+          <div className={styles.loHead}>
+            <Eyebrow>{eyebrow}</Eyebrow>
+            <h2 className={styles.loHeading}>{heading}</h2>
+          </div>
+          <div className={styles.loBody}>
+            <p className={styles.loLead}>{lead}</p>
+            {rest ? <p className={styles.loRest}>{rest}</p> : null}
+          </div>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
+/* Asset Management overview: the three-part heading as a ruled, numbered  */
+/* list of statements, with the copy beside it.                            */
+function StackedOverview({ heading, writeup }: { heading: string; writeup: string }) {
+  const lines = heading.split(/(?<=\.)\s+/);
+
+  return (
+    <Reveal>
+      <div className={styles.so}>
+        <h2 className={styles.soHeading}>
+          {lines.map((line, index) => (
+            <span key={index} className={styles.soLine}>
+              <span className={styles.soIndex} aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              {line}
+            </span>
+          ))}
+        </h2>
+        <p className={styles.soBody}>{writeup}</p>
+      </div>
+    </Reveal>
+  );
+}
+
 export function VerticalPage({ division }: VerticalPageProps) {
   const overview = verticalOverview[division.index];
+  const isV1 = division.index === "01";
   const isV2 = division.index === "02";
   const isV3 = division.index === "03";
   const title = division.title;
@@ -62,14 +115,20 @@ export function VerticalPage({ division }: VerticalPageProps) {
         <div className={cx(styles.overviewWrap, isV3 && styles.overviewWrapCompact)}>
           <DrawnGrid />
           <Container className={styles.content}>
-            <Reveal>
-              <div className={styles.overview}>
-                <h2 className={styles.overviewHeading}>{overview?.heading ?? division.title}</h2>
-                <p className={styles.writeup}>
-                  {renderEmphasized(division.writeup, overview?.emphasis)}
-                </p>
-              </div>
-            </Reveal>
+            {isV1 ? (
+              <LogisticsOverview heading={overview?.heading ?? division.title} writeup={division.writeup} />
+            ) : isV2 ? (
+              <StackedOverview heading={overview?.heading ?? division.title} writeup={division.writeup} />
+            ) : (
+              <Reveal>
+                <div className={styles.overview}>
+                  <h2 className={styles.overviewHeading}>{overview?.heading ?? division.title}</h2>
+                  <p className={styles.writeup}>
+                    {renderEmphasized(division.writeup, overview?.emphasis)}
+                  </p>
+                </div>
+              </Reveal>
+            )}
 
             {division.spec.length > 0 ? (
               <Reveal>
@@ -101,6 +160,8 @@ export function VerticalPage({ division }: VerticalPageProps) {
               <Reveal>
                 <VerticalManagement />
               </Reveal>
+
+              <VerticalSubpages />
 
               {division.source ? (
                 <Reveal>

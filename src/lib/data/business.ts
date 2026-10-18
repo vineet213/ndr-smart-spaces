@@ -142,7 +142,38 @@ export const verticalOverview: Readonly<
   },
 };
 
-export type DivisionSpecRow = { label: string; value: string };
+/**
+ * Vertical 02 — links to its two subpages, shown at the foot of the NDR Asset
+ * Management page. Descriptions reuse each subpage's masthead line; the
+ * photos are their own, not repeated from the subpages or elsewhere.
+ */
+export const vertical02Subpages = {
+  eyebrow: "Explore NDR Asset Management",
+  heading: "From development to operation.",
+  links: [
+    {
+      index: "01",
+      title: "Development Lifecycle",
+      body: "How a piece of land becomes an operating asset, from identification and approvals to construction and handover.",
+      href: "/business/ndr-asset-management/development-lifecycle",
+      image: "/images/asset-management/subpages/development-lifecycle.jpg",
+    },
+    {
+      index: "02",
+      title: "Asset Performance Management",
+      body: "Leasing, upkeep and operational support that keeps every asset performing efficiently.",
+      href: "/business/ndr-asset-management/asset-performance-management",
+      image: "/images/asset-management/subpages/asset-performance.jpg",
+    },
+  ],
+} as const;
+
+/** Logistics & Industrial overview: the label above the heading. */
+export const logisticsOverview = {
+  eyebrow: "Overview",
+} as const;
+
+export type DivisionSpecRow ={ label: string; value: string };
 
 export type DivisionRoute = { label: string; href: string; external?: boolean };
 
@@ -436,7 +467,7 @@ export const vertical02AssetManagement = {
   metrics: [
     { value: 98, suffix: "%", label: "Occupancy Status", context: "Occupancy Status" },
     {
-      value: 25,
+      value: 23,
       suffix: " MN",
       label: "Asset Under Management (Sq. Ft.)",
       context: "Asset Under Management (Sq. Ft.)",

@@ -8,7 +8,8 @@
 .intro {
   align-self: start;
   position: sticky;
-  top: var(--space-10xl);
+  top: calc(var(--nav-offset, 4.5rem) + var(--space-4xl));
+  transition: top var(--nav-slide);
   padding-inline-end: var(--space-6xl);
 }
 

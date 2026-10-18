@@ -45,15 +45,23 @@
 /* ─── track and pinned stage ────────────────────────────────────────────── */
 
 .track {
-  --stick: calc(var(--header-height, 4.5rem) + 1.25rem);
-  --stage-h: min(40rem, calc(100svh - var(--stick) - 1.5rem));
+  --stick: calc(var(--nav-offset, 4.5rem) + 1.25rem);
+  /* The stage grows into the space the hidden header frees (and shrinks   */
+  /* back as it returns), so it always fills the viewport below the bar.    */
+  --stage-h: min(40rem, calc(100svh - var(--stick) - 1.25rem));
+  /* The scroll runway is sized against the full header instead, so the     */
+  /* page length never changes as the header hides and shows.               */
+  --run-h: min(40rem, calc(100svh - var(--header-height, 4.5rem) - 2.5rem));
   position: relative;
-  height: calc(var(--stage-h) + var(--steps, 6) * 70svh);
+  height: calc(var(--run-h) + var(--steps, 6) * 70svh);
 }
 
 .stage {
   position: sticky;
   top: var(--stick);
+  transition:
+    top var(--nav-slide),
+    height var(--nav-slide);
   display: grid;
   grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
   gap: var(--space-4xl);
@@ -648,6 +656,7 @@
 @media (max-width: 1023px) {
   .track {
     --stage-h: calc(100svh - var(--stick) - 1rem);
+    --run-h: calc(100svh - var(--header-height, 4.5rem) - 2.25rem);
   }
 
   .stage {

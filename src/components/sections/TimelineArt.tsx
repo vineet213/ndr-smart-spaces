@@ -9,6 +9,10 @@ import type { ReactNode } from "react";
 export type MotifKey =
   | "wheat"
   | "warehouse"
+  | "forklift"
+  | "racking"
+  | "dock"
+  | "park"
   | "containers"
   | "factory"
   | "coin"
@@ -48,6 +52,60 @@ const motifShapes: Record<MotifKey, ReactNode> = {
       <P d="M23 42 H41" />
       <P d="M23 47 H41" />
       <P d="M4 54 H60" />
+    </>
+  ),
+  /* a forklift carrying a pallet load */
+  forklift: (
+    <>
+      <P d="M8 46 V32 H30 V46 Z" />
+      <P d="M12 32 V17 H28 V32" />
+      <P d="M34 50 V10 M38 50 V10" />
+      <P d="M34 46 H58" />
+      <P d="M42 46 V31 H56 V46" />
+      <P d="M42 38 H56" />
+      <circle {...unit} cx="14" cy="49" r="5" />
+      <circle {...unit} cx="28" cy="50" r="4" />
+      <P d="M4 55 H60" />
+    </>
+  ),
+  /* pallet racking, loaded bay by bay */
+  racking: (
+    <>
+      <P d="M8 56 V8 M32 56 V8 M56 56 V8" />
+      <P d="M8 22 H56 M8 38 H56" />
+      <P d="M12 22 V14 H26 V22" />
+      <P d="M36 22 V15 H50 V22" />
+      <P d="M12 38 V29 H26 V38" />
+      <P d="M36 38 V29 H50 V38" />
+      <P d="M12 56 V47 H27 V56" />
+      <P d="M37 56 V47 H52 V56" />
+      <P d="M4 56 H60" />
+    </>
+  ),
+  /* a loading dock: doors in the wall, a trailer backed in */
+  dock: (
+    <>
+      <P d="M6 54 V12 H58 V54" />
+      <P d="M12 54 V26 H26 V54" />
+      <P d="M12 33 H26 M12 40 H26 M12 47 H26" />
+      <P d="M36 54 V30 H52 V54" />
+      <P d="M36 36 H52" />
+      <P d="M40 54 V44 H48 V54" />
+      <P d="M3 54 H61" />
+    </>
+  ),
+  /* a warehousing park from above: buildings, a service road, a yard */
+  park: (
+    <>
+      <P d="M6 8 H30 V26 H6 Z" />
+      <P d="M12 8 V26 M18 8 V26 M24 8 V26" />
+      <P d="M34 8 H58 V26 H34 Z" />
+      <P d="M40 8 V26 M46 8 V26 M52 8 V26" />
+      <P d="M4 31 H60 M4 37 H60" />
+      <P d="M6 43 H40 V58 H6 Z" />
+      <P d="M14 43 V58 M22 43 V58 M30 43 V58" />
+      <P d="M44 43 H58 V58 H44 Z" />
+      <P d="M44 50 H58" />
     </>
   ),
   containers: (
@@ -144,17 +202,17 @@ const motifShapes: Record<MotifKey, ReactNode> = {
 
 /* One motif per milestone, in order. */
 export const MOTIF_SEQUENCE: readonly MotifKey[] = [
-  "wheat",
+  "forklift",
   "warehouse",
   "containers",
   "factory",
   "coin",
-  "skyline",
+  "racking",
   "chart",
   "warehouse",
   "truck",
-  "ship",
-  "skyline",
+  "dock",
+  "park",
   "coin",
   "warehouse",
   "shield",
@@ -184,36 +242,5 @@ export function MotifSvg({ name, className }: MotifSvgProps) {
     >
       {motifShapes[name]}
     </svg>
-  );
-}
-
-/* Flowing contour lines: three down each edge, like survey lines across land   */
-/* being planned. Drawn in a 1000 x 2000 box and stretched to the section, with  */
-/* a constant stroke width.                                                      */
-const contours = [
-  "M90 0 C170 220 10 440 90 660 S170 1100 90 1320 S10 1760 90 2000",
-  "M56 0 C136 260 -24 520 56 780 S136 1240 56 1500 S-24 1900 56 2000",
-  "M124 0 C44 180 204 400 124 620 S44 1060 124 1280 S204 1700 124 2000",
-];
-
-export function WavePaths() {
-  return (
-    <>
-      {contours.map((d, index) => (
-        <g key={index}>
-          <path
-            d={d}
-            vectorEffect="non-scaling-stroke"
-            strokeDasharray={index === 1 ? "2 9" : undefined}
-          />
-          <path
-            d={d}
-            transform="translate(1000 0) scale(-1 1)"
-            vectorEffect="non-scaling-stroke"
-            strokeDasharray={index === 1 ? "2 9" : undefined}
-          />
-        </g>
-      ))}
-    </>
   );
 }

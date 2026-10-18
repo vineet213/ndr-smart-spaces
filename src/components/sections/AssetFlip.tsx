@@ -1,5 +1,6 @@
 import { Container, Section, Stack } from "@/components/layout";
 import { Body, Button, Heading } from "@/components/ui";
+import { FadeImage as Image } from "@/components/ui/FadeImage";
 import { assetFlip } from "@/lib/data/investor";
 import { Reveal } from "./Reveal";
 import styles from "./AssetFlip.module.css";
@@ -40,12 +41,25 @@ export function AssetFlip() {
       <BuildingBackdrop />
       <Container>
         <Reveal>
-          <Stack gap="xl" className={styles.overview}>
-            <Heading variant="section" id="asset-flip-overview-title">
-              {assetFlip.heading}
-            </Heading>
-            <Body className={styles.body}>{assetFlip.overview}</Body>
-          </Stack>
+          <div className={styles.overviewGrid}>
+            <Stack gap="xl" className={styles.overview}>
+              <Heading variant="section" id="asset-flip-overview-title">
+                {assetFlip.heading}
+              </Heading>
+              <Body className={styles.body}>{assetFlip.overview}</Body>
+            </Stack>
+
+            <figure className={styles.figure}>
+              <Image
+                src={assetFlip.image.src}
+                alt={assetFlip.image.alt}
+                width={assetFlip.image.width}
+                height={assetFlip.image.height}
+                sizes="(max-width: 767px) 100vw, 45vw"
+                className={styles.photo}
+              />
+            </figure>
+          </div>
         </Reveal>
 
         <Reveal delay={2}>

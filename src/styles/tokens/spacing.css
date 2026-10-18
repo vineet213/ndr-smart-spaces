@@ -35,6 +35,13 @@
   /* Height of the fixed site header bar (resting state). */
   --header-height: 4.5rem;
 
+  /* Space the header currently takes at the top of the viewport: the full bar,
+     or 0 while it is slid away on scroll-down (Header sets data-nav-hidden).
+     Pinned (sticky) elements offset from this so they rise into the freed
+     space and drop back as the bar returns, moving in step with it. */
+  --nav-offset: var(--header-height);
+  --nav-slide: 420ms var(--ease-standard);
+
   /* Shared hero height for every Investor Centre masthead (InvestorMasthead) —
      a full one-page masthead, matching the homepage/About Us hero treatment. */
   --masthead-height: 100svh;
@@ -42,4 +49,14 @@
   --section-padding-desktop: 7rem;
   --section-padding-tablet: 4.5rem;
   --section-padding-mobile: 3.5rem;
+}
+
+:root[data-nav-hidden] {
+  --nav-offset: 0px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --nav-slide: 0ms linear;
+  }
 }
