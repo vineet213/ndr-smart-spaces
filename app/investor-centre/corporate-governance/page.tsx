@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { CorporateStructure } from "@/components/sections/CorporateStructure";
 import { Footer } from "@/components/sections/Footer";
 import { GovernanceManual } from "@/components/sections/GovernanceManual";
-import { InvestorClosing } from "@/components/sections/InvestorClosing";
 import { InvestorMasthead } from "@/components/sections/InvestorMasthead";
 import { governance } from "@/lib/data/investor";
 
@@ -22,7 +21,6 @@ export default function CorporateGovernancePage() {
       />
       <GovernanceManual />
       <CorporateStructure />
-      <InvestorClosing />
       <Footer />
     </>
   );

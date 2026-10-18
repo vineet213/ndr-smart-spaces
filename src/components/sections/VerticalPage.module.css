@@ -119,6 +119,83 @@
   }
 }
 
+/* residential plotting overview ------------------------------------------ */
+/* Sits on the same ivory as the sketch section below it, so the two read as */
+/* one page: no tinted slab, no seam.                                         */
+
+.roGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  column-gap: var(--space-8xl);
+  align-items: start;
+}
+
+.roHeading {
+  position: relative;
+  margin: 0;
+  padding-top: var(--space-2xl);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: clamp(2.125rem, 3.8vw, 3.375rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--color-charcoal);
+  text-wrap: balance;
+}
+
+/* the gold rule that opens the page's headings, set above the title */
+.roHeading::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--space-6xl);
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+.roBody {
+  padding-top: var(--space-2xl);
+  padding-left: var(--space-6xl);
+  border-left: 1px solid rgba(125, 120, 113, 0.3);
+}
+
+.roLead {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(1.5rem, 2.3vw, 2.125rem);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+}
+
+.roRest {
+  margin: var(--space-2xl) 0 0;
+  max-width: 38rem;
+  font-family: var(--font-body);
+  font-size: clamp(1.0625rem, 1.3vw, 1.1875rem);
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 1023px) {
+  .roGrid {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-3xl);
+  }
+
+  .roBody {
+    padding-left: var(--space-3xl);
+  }
+}
+
+@media (max-width: 599px) {
+  .roBody {
+    padding-left: var(--space-xl);
+  }
+}
+
 /* asset management overview ----------------------------------------------- */
 
 .so {
