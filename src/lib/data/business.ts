@@ -454,7 +454,7 @@ export const vertical02AssetManagement = {
       title: "Soft Services",
       description:
         "Day-to-day upkeep like housekeeping, landscaping, and pest control that maintains the park's cleanliness and environment.",
-      image: { src: "/images/asset-management/soft-services.jpg", width: 1600, height: 1067 },
+      image: { src: "/images/asset-management/soft-services.jpg", width: 1619, height: 972 },
     },
     {
       index: "04",
