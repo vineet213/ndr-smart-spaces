@@ -368,6 +368,29 @@ export const locations = [
     "zone": "east",
   },
   {
+    "id": "guwahati",
+    "status": "published",
+    "homepageOffset": {
+      "x": 750,
+      "y": 377,
+    },
+    "lat": 26.1445,
+    "line": "Assam",
+    "lon": 91.7362,
+    "name": "Guwahati",
+    "portfolioOffset": {
+      "x": 750,
+      "y": 377,
+    },
+    "tier": "satellite",
+    "visible": {
+      "contact": false,
+      "homepage": true,
+      "portfolio": true,
+    },
+    "zone": "east",
+  },
+  {
     "id": "coimbatore",
     "status": "published",
     "homepageOffset": {

@@ -1,9 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { Container } from "@/components/layout";
 import { Heading } from "@/components/ui";
+import { useInView } from "@/hooks/useInView";
 import { vertical03DevelopmentProcess } from "@/lib/data/business";
+import { cx } from "../ui/cx";
 import { Reveal, type RevealDelay } from "./Reveal";
 import { SketchReveal, phases } from "./SketchReveal";
 import styles from "./AveAcresProcess.module.css";
@@ -89,6 +91,7 @@ export function AveAcresProcess() {
   const targetRef = useRef(0);
   const [motion, setMotion] = useState(true);
   const [brush, setBrush] = useState(false);
+  const { ref: stagesRef, inView: stagesLive } = useInView<HTMLOListElement>();
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -180,16 +183,36 @@ export function AveAcresProcess() {
       )}
 
       <Container>
-        <ol className={styles.stages}>
+        <ol ref={stagesRef} className={cx(styles.stages, stagesLive && styles.stagesLive)}>
           {stages.map((stage, index) => (
-            <li key={stage.index}>
+            <li key={stage.index} style={{ "--i": index } as CSSProperties}>
               <Reveal delay={index as RevealDelay}>
                 <div className={styles.stageItem}>
-                  <span className={styles.stageMark} aria-hidden="true">
-                    <StageMark index={stage.index} />
-                  </span>
-                  <span className={styles.stageIndex}>{stage.index}</span>
-                  <h3 className={styles.stageTitle}>{stage.title}</h3>
+                  <div className={styles.stageTop}>
+                    <span className={styles.stageNumber} aria-hidden="true">
+                      {stage.index}
+                    </span>
+                    <span className={styles.stageMark} aria-hidden="true">
+                      <StageMark index={stage.index} />
+                    </span>
+                  </div>
+                  <div className={styles.stageBottom}>
+                    <span className={styles.stageIndex}>
+                      Stage {stage.index}
+                      <span className={styles.stageTotal}>
+                        {" "}
+                        / {String(stages.length).padStart(2, "0")}
+                      </span>
+                    </span>
+                    <h3 className={styles.stageTitle}>{stage.title}</h3>
+                  </div>
+                  {index < stages.length - 1 ? (
+                    <span className={styles.stageArrow} aria-hidden="true">
+                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path d="M6 3.5 10.5 8 6 12.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  ) : null}
                 </div>
               </Reveal>
             </li>

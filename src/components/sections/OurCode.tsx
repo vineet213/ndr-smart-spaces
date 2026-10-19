@@ -51,8 +51,9 @@ function CodeMark({ index }: { index: string }) {
       return (
         <svg {...markProps} aria-hidden="true" focusable="false">
           <path {...drawn} d="M10 44 H46" />
-          <path {...drawn} d="M16 44 V34 M26 44 V26 M36 44 V18 M46 44 V11" />
-          <path {...drawn} d="M38 12 L46 11 L45 19" />
+          <path {...drawn} d="M16 44 V36 M26 44 V30 M36 44 V25 M46 44 V19" />
+          <path {...drawn} d="M12 26 L24 17 L33 21 L46 9" />
+          <path {...drawn} d="M38 9 H46 V17" />
         </svg>
       );
     case "04":

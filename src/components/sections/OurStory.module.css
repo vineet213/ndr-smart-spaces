@@ -130,26 +130,6 @@
   }
 }
 
-.caption {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  margin-top: var(--space-xl);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-small);
-  line-height: var(--leading-small);
-  color: var(--color-stone);
-}
-
-.caption::before {
-  content: "";
-  flex: none;
-  width: var(--space-4xl);
-  height: 1px;
-  background-color: var(--color-gold);
-}
-
 .section {
   padding-block: var(--section-padding-tablet);
 }

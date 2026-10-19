@@ -440,7 +440,7 @@ export const vertical02AssetManagement = {
       title: "Facility & Technical Management",
       description:
         "Upkeep of buildings, MEP systems, fire safety, roads, and utilities to keep the park physically operational.",
-      image: { src: "/images/asset-management/facility-technical.jpg", width: 1471, height: 974 },
+      image: { src: "/images/asset-management/facility-technical.jpg", width: 1400, height: 933 },
     },
     {
       index: "02",

@@ -265,12 +265,12 @@
 /* Kinetic wipe: the title reveals left to right when its slide arrives. */
 .panelTitle {
   margin: 0;
-  clip-path: inset(0 100% 0 0);
+  clip-path: inset(-0.15em 100% -0.25em 0);
   transition: clip-path 900ms var(--ease-standard) 150ms;
 }
 
 .panelActive .panelTitle {
-  clip-path: inset(0 0 0 0);
+  clip-path: inset(-0.15em 0 -0.25em 0);
 }
 
 .panelTagline {

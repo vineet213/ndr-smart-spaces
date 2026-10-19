@@ -56,7 +56,6 @@ export function OurStory() {
                   <span className={styles.chipValue}>1979</span>
                 </span>
               </div>
-              <figcaption className={styles.caption}>{aboutStory.image.caption}</figcaption>
             </figure>
           </GridItem>
         </Grid>

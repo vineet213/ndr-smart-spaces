@@ -41,6 +41,15 @@ export function LegalDocument({ doc }: { doc: LegalDocumentData }) {
                       </p>
                     ))}
                   </div>
+                  {section.list ? (
+                    <ul className={styles.list}>
+                      {section.list.map((item) => (
+                        <li key={item.slice(0, 48)} className={styles.listItem}>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                 </div>
               </div>
             ))}

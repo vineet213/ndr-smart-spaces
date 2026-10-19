@@ -62,30 +62,9 @@ export const navigation = {
       type: "menu",
     },
     {
-      align: "right",
-      columns: [
-        {
-          heading: "Investor Centre",
-          links: [
-            {
-              href: "/investor-centre/announcements",
-              label: "Announcements",
-            },
-            {
-              href: "/investor-centre/corporate-governance",
-              label: "Corporate Governance",
-            },
-            {
-              href: "/investor-centre/summary-of-business",
-              label: "Summary of Business",
-            },
-          ],
-        },
-      ],
-      href: "/investor-centre/announcements",
-      id: "investor",
+      href: "/investor-centre/corporate-governance",
       label: "Investor Centre",
-      type: "menu",
+      type: "link",
     },
     {
       href: "/esg",
@@ -155,30 +134,9 @@ export const navigation = {
       type: "menu",
     },
     {
-      align: "right",
-      columns: [
-        {
-          heading: "Investor Centre",
-          links: [
-            {
-              href: "/investor-centre/announcements",
-              label: "Announcements",
-            },
-            {
-              href: "/investor-centre/corporate-governance",
-              label: "Corporate Governance",
-            },
-            {
-              href: "/investor-centre/summary-of-business",
-              label: "Summary of Business",
-            },
-          ],
-        },
-      ],
-      href: "/investor-centre/announcements",
-      id: "investor",
+      href: "/investor-centre/corporate-governance",
       label: "Investor Centre",
-      type: "menu",
+      type: "link",
     },
     {
       href: "/esg",

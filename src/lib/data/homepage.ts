@@ -85,7 +85,7 @@ export const zones = [
   {
     id: "east",
     name: "East",
-    cities: ["Kolkata", "Lucknow", "Kanpur"],
+    cities: ["Kolkata", "Lucknow", "Kanpur", "Guwahati"],
   },
   {
     id: "west",
@@ -191,8 +191,8 @@ export const companyMetrics = [
   {
     value: 20,
     suffix: "+",
-    label: "MARKET PRESENCE",
-    context: "MARKET PRESENCE",
+    label: "MARKET LOCATIONS",
+    context: "MARKET LOCATIONS",
   },
   {
     value: 12,

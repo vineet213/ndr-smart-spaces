@@ -62,10 +62,10 @@ export const assetFlip = {
   overview:
     "NDR Smart Spaces develops and operates high-quality logistics and industrial assets through dedicated Special Purpose Vehicles (SPVs). Once assets reach defined maturity and operational milestones, the relevant SPVs can be transferred, creating a structured pathway for unlocking value and enabling NDR Smart Spaces to reinvest in the development of new assets.",
   image: {
-    src: "/images/investor-centre/asset-flip/warehouse-park-facility-management.jpg",
-    alt: "Warehouse park facility",
-    width: 1400,
-    height: 933,
+    src: "/images/investor-centre/asset-flip/spv-transfer-handshake.jpg",
+    alt: "Two business partners shaking hands to seal an agreement",
+    width: 2000,
+    height: 1333,
   },
   moreInfo: {
     eyebrow: "More information",

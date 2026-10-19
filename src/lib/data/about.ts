@@ -38,7 +38,6 @@ export const aboutStory = {
   image: {
     src: "/images/about/origin.jpg",
     alt: "An archival photograph of an early NDR Group warehouse with trucks loading outside",
-    caption: "One of the first warehouses built in 1979",
   },
 } as const;
 
@@ -62,12 +61,12 @@ export const aboutTimeline = {
       title: "NDR’s First Warehouse",
     },
     {
-      year: "1991",
+      year: "1998",
       title:
         "India’s First Private Bonded Warehouse Established by CWCNSL (Continental Warehousing Corporation (Nhava Seva) Limited), a former NDR group company",
     },
     {
-      year: "2002",
+      year: "2001",
       title:
         "Established India's first IBM Manufacturing Facility; NDR Warehousing's First Modern Built-to-Suit structure",
     },
