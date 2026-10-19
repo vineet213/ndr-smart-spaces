@@ -389,8 +389,6 @@ export const sitemapGroups: readonly SitemapGroup[] = [
     heading: "Investor Centre",
     links: [
       { label: "Corporate Governance", href: "/investor-centre/corporate-governance" },
-      { label: "Announcements", href: "/investor-centre/announcements" },
-      { label: "Summary of Business", href: "/investor-centre/summary-of-business" },
     ],
   },
   {

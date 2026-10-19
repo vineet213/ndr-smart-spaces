@@ -49,7 +49,6 @@ export const editorialStatement = {
 
 export const investorContents = [
   { label: "Governance", href: "/investor-centre/corporate-governance", type: "route" },
-  { label: "Announcements", href: "/investor-centre/announcements", type: "route" },
   { label: "Asset Flip", href: "/investor-centre/asset-flip", type: "route" },
 ] as const;
 

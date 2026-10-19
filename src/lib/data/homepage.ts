@@ -49,7 +49,7 @@ export const audienceRoutes = [
   {
     label: "Investors",
     descriptor: "Reports, disclosures, governance",
-    href: "/investor-centre/announcements",
+    href: "/investor-centre/corporate-governance",
   },
   {
     label: "Business partners",
@@ -209,12 +209,12 @@ export const journey = [
     caption: "A family rooted in agriculture begins with a modest land parcel and a rice mill.",
   },
   {
-    year: "1996",
+    year: "1998",
     title: "First bonded warehouse",
     caption: "India's first private bonded warehouse.",
   },
   {
-    year: "2002",
+    year: "2001",
     title: "Lenovo Puducherry",
     caption: "First warehouse under NDR Warehousing; Lenovo's first industrial facility in India.",
   },

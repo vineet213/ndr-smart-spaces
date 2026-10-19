@@ -66,16 +66,8 @@ export const footer = {
       "heading": "Investor",
       "links": [
         {
-          "href": "/investor-centre/announcements",
-          "label": "Announcements",
-        },
-        {
           "href": "/investor-centre/corporate-governance",
           "label": "Corporate Governance",
-        },
-        {
-          "href": "/investor-centre/summary-of-business",
-          "label": "Summary of Business",
         },
       ],
     },

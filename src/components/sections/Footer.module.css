@@ -252,6 +252,8 @@
   justify-content: space-between;
   gap: var(--space-4xl);
   padding-block: var(--space-5xl);
+  /* keep the links clear of the floating scroll-to-top button */
+  padding-right: 4.5rem;
 }
 
 .copyright {

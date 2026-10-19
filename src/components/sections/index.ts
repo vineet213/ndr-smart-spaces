@@ -67,5 +67,4 @@ export { VerticalPage } from "./VerticalPage";
 export { ResidentialPlottingVideo } from "./ResidentialPlottingVideo";
 export { VerticalManagement } from "./VerticalManagement";
 export { DevelopmentLifecycle } from "./DevelopmentLifecycle";
-export { SummaryOfBusiness } from "./SummaryOfBusiness";
 export { AssetFlip } from "./AssetFlip";
