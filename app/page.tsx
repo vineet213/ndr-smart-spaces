@@ -1,5 +1,5 @@
 import { JsonLd } from "@/components/JsonLd";
-import { organizationJsonLd } from "@/lib/seo";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import { Hero } from "@/components/sections/Hero";
 import { CompanyOverview } from "@/components/sections/CompanyOverview";
 import { PortfolioPresence } from "@/components/sections/PortfolioPresence";
@@ -14,6 +14,7 @@ export default function HomePage() {
   return (
     <>
       <JsonLd data={organizationJsonLd()} />
+      <JsonLd data={websiteJsonLd()} />
       <Hero />
       <CompanyOverview />
       <PortfolioPresence />

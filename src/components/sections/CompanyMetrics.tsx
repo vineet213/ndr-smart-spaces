@@ -39,7 +39,7 @@ export function CompanyMetrics({
     >
       {data.map((metric, index) => (
         <li key={index} className={styles.block}>
-          <MetricValue metric={metric} />
+          <MetricValue metric={metric} />{" "}
           <span className={styles.context}>{metric.context}</span>
         </li>
       ))}

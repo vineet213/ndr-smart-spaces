@@ -89,10 +89,23 @@ export function organizationJsonLd() {
     name: corporateSettings.companyName,
     legalName: corporateSettings.legalEntity,
     url: `${SITE_URL}/`,
-    logo: `${SITE_URL}${brandSettings.logoDark.src}`,
+    logo: `${SITE_URL}/icons/icon-512.png`,
     description: brandSettings.seoDefaults.description,
     email: correspondenceForm.route.General,
     identifier: { "@type": "PropertyValue", propertyID: "CIN", value: corporateSettings.cin },
     ...(address ? { address } : {}),
+  };
+}
+
+/** WebSite record: tells search engines the site's name and that it belongs to the Organization. */
+export function websiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    url: `${SITE_URL}/`,
+    name: "NDR Smart Spaces",
+    alternateName: corporateSettings.legalEntity,
+    publisher: { "@id": `${SITE_URL}/#organization` },
   };
 }

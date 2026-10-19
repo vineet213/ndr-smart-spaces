@@ -61,7 +61,7 @@ export function CapabilityMatrix() {
                 {capabilityMatrix.rows.map((row) => (
                   <tr key={row.capability}>
                     <td>
-                      <span className={styles.phase}>{row.phase}</span>
+                      <span className={styles.phase}>{row.phase}</span>{" "}
                       <span className={styles.capability}>{row.capability}</span>
                     </td>
                     <td className={styles.scope}>{row.scope}</td>

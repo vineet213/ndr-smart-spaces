@@ -8,8 +8,8 @@ export function BusinessMasthead() {
       <span className={styles.ruleTop} aria-hidden="true" />
 
       <Container className={styles.folio}>
-        <span>NDR Smart Spaces · Business</span>
-        <span>{businessMasthead.folio}</span>
+        <span>NDR Smart Spaces · Business</span>{" "}
+        <span>{businessMasthead.folio}</span>{" "}
         <span>{businessMasthead.controlCaption}</span>
       </Container>
 
@@ -27,7 +27,7 @@ export function BusinessMasthead() {
           <p className={styles.statement}>{businessMasthead.statement}</p>
           <p className={styles.meta}>
             <span>{businessMasthead.asOn}</span>
-            <span aria-hidden="true">·</span>
+            <span aria-hidden="true">·</span>{" "}
             <span>{businessMasthead.edition}</span>
           </p>
         </div>

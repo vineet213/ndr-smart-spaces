@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Container, Grid, GridItem } from "@/components/layout";
 import { Eyebrow, Heading, Icon } from "@/components/ui";
 import { correspondenceForm } from "@/lib/data/contact";
@@ -35,9 +36,9 @@ export function Correspondence() {
                   <li className={styles.fact}>
                     <span className={styles.factIcon}>
                       <Icon name="map-pin" />
-                    </span>
+                    </span>{" "}
                     <span className={styles.factBody}>
-                      <span className={styles.factLabel}>Corporate office</span>
+                      <span className={styles.factLabel}>Corporate office</span>{" "}
                       <span className={styles.factValue}>{address.value}</span>
                     </span>
                   </li>
@@ -46,14 +47,17 @@ export function Correspondence() {
                   <li className={styles.fact}>
                     <span className={styles.factIcon}>
                       <Icon name="mail" />
-                    </span>
+                    </span>{" "}
                     <span className={styles.factBody}>
-                      <span className={styles.factLabel}>Write to us directly</span>
+                      <span className={styles.factLabel}>Write to us directly</span>{" "}
                       <span className={styles.factValue}>
-                        {emailList.map((email) => (
-                          <a key={email} className={styles.factLink} href={`mailto:${email}`}>
-                            {email}
-                          </a>
+                        {emailList.map((email, index) => (
+                          <Fragment key={email}>
+                            {index > 0 ? " " : null}
+                            <a className={styles.factLink} href={`mailto:${email}`}>
+                              {email}
+                            </a>
+                          </Fragment>
                         ))}
                       </span>
                     </span>
@@ -74,9 +78,9 @@ export function Correspondence() {
                       <circle cx="12" cy="12" r="9" />
                       <path d="M12 7v5l3 2" />
                     </svg>
-                  </span>
+                  </span>{" "}
                   <span className={styles.factBody}>
-                    <span className={styles.factLabel}>Response time</span>
+                    <span className={styles.factLabel}>Response time</span>{" "}
                     <span className={styles.factValue}>
                       We typically respond within 2 business days.
                     </span>

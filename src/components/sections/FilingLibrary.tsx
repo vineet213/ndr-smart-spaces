@@ -43,20 +43,20 @@ function StatusBadge({ status }: { status: FilingStatus }) {
 function FilingRow({ filing }: { filing: Filing }) {
   return (
     <li className={styles.row}>
-      <span className={styles.ref}>{filing.ref}</span>
+      <span className={styles.ref}>{filing.ref}</span>{" "}
       <span className={styles.asOn} data-label="As on">
         {filing.asOn}
-      </span>
-      <span className={styles.title}>{filing.title}</span>
+      </span>{" "}
+      <span className={styles.title}>{filing.title}</span>{" "}
       <span className={styles.category} data-label="Category">
         {filing.category}
-      </span>
+      </span>{" "}
       <span className={styles.type} data-label="Type">
         {filing.type}
-      </span>
+      </span>{" "}
       <span className={styles.status}>
         <StatusBadge status={filing.status} />
-      </span>
+      </span>{" "}
       <span className={styles.action}>
         {filing.status === "external" && filing.href ? (
           <ExternalLink href={filing.href}>{filing.type}</ExternalLink>
@@ -78,15 +78,15 @@ function PendingRow({ category }: { category: string }) {
       </span>
       <span className={styles.asOn} aria-hidden="true">
         -
-      </span>
+      </span>{" "}
       <span className={styles.title}>
-        <span className={styles.entryLabel}>{category}</span>
+        <span className={styles.entryLabel}>{category}</span>{" "}
         <span className={styles.entryNote}>Records publish as filings are approved.</span>
-      </span>
+      </span>{" "}
       <span className={styles.category}>Pending</span>
       <span className={styles.type} aria-hidden="true">
         -
-      </span>
+      </span>{" "}
       <span className={styles.status}>
         <StatusBadge status="pending" />
       </span>
@@ -245,7 +245,7 @@ export function FilingLibrary({ config }: FilingLibraryProps) {
           <div className={styles.docHeader}>
             <span className={styles.numeral} aria-hidden="true">
               01
-            </span>
+            </span>{" "}
             <span className={styles.ref}>DOC · {config.eyebrow}</span>
           </div>
           <Eyebrow>{config.eyebrow}</Eyebrow>

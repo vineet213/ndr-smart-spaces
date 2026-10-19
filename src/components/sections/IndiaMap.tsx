@@ -237,7 +237,7 @@ export function IndiaMap({
               top: `${Math.max(14, Math.min((tooltip.y / MAP_VIEWBOX.height) * 100, 86))}%`,
             }}
           >
-            <span className={styles.tooltipName}>{tooltip.name}</span>
+            <span className={styles.tooltipName}>{tooltip.name}</span>{" "}
             <span className={cx("text-label-meta", styles.tooltipZone)}>{tooltip.zone} zone</span>
             {tooltip.extentAcres !== undefined ? (
               <span className={styles.tooltipLine}>

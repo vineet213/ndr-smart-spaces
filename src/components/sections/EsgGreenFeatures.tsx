@@ -242,7 +242,7 @@ export function EsgGreenFeatures() {
                                 {" "}
                                 / {String(total).padStart(2, "0")}
                               </span>
-                            </span>
+                            </span>{" "}
                             <span className={styles.storyLabel}>{RAIL_LABELS[index] ?? ""}</span>
                           </figcaption>
                         </figure>

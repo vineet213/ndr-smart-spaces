@@ -12,7 +12,7 @@ export function EditorialStatement() {
           <div className={styles.docHeader}>
             <span className={styles.numeral} aria-hidden="true">
               01
-            </span>
+            </span>{" "}
             <span className={styles.ref}>REF 01 · EDITORIAL</span>
           </div>
           <div className={styles.body}>

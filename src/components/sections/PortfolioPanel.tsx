@@ -110,7 +110,7 @@ function WarehouseRow({
         onFocus={() => onHover(record.asset.id)}
         onBlur={() => onHover(null)}
       >
-        <span className={styles.rowIndex}>{String(index + 1).padStart(2, "0")}</span>
+        <span className={styles.rowIndex}>{String(index + 1).padStart(2, "0")}</span>{" "}
         <span className={styles.rowMain}>
           <span className={styles.rowName}>{record.asset.name}</span>
           {sub ? <span className={styles.rowSub}>{sub}</span> : null}
@@ -243,7 +243,7 @@ function Dossier({
             <span className={styles.nodeOff} />
           </div>
           <div className={styles.trackLabels}>
-            <span>Under construction</span>
+            <span>Under construction</span>{" "}
             <span>
               Becomes {linked.name}
               {linked.leasableAreaMsf !== undefined
@@ -257,10 +257,10 @@ function Dossier({
       <div className={styles.foot}>
         {pin ? <Locator stateId={city.stateId} pin={pin} /> : null}
         <div className={styles.footText}>
-          <span className={styles.meta}>Located in</span>
+          <span className={styles.meta}>Located in</span>{" "}
           <span className={styles.footValue}>
             {city.name}, {city.stateName}
-          </span>
+          </span>{" "}
           <span className={styles.footSub}>
             {total} {total === 1 ? "site" : "sites"} in this city
           </span>
@@ -362,7 +362,7 @@ export function PortfolioPanel(props: PanelProps) {
             onFocus={() => onHoverState(state.stateId)}
             onBlur={() => onHoverState(null)}
           >
-            <span className={styles.stateName}>{state.stateName}</span>
+            <span className={styles.stateName}>{state.stateName}</span>{" "}
             <span className={styles.stateMeta}>
               {state.parcelCount} · {formatMsf(state.totalLeasableAreaMsf)}
             </span>
@@ -459,7 +459,7 @@ export function PortfolioPanel(props: PanelProps) {
           >
             <span className={styles.backArrow} aria-hidden="true">
               ←
-            </span>
+            </span>{" "}
             <span>
               Back to {level === "warehouse" ? city?.name : level === "city" ? stateName : "India"}
             </span>
@@ -490,19 +490,19 @@ export function PortfolioPanel(props: PanelProps) {
             <h3 className={styles.title}>{stateName}</h3>
             <div className={styles.figures}>
               <div>
-                <span className={styles.figureValue}>{stateFigures.sites}</span>
+                <span className={styles.figureValue}>{stateFigures.sites}</span>{" "}
                 <span className={styles.meta}>{plural}</span>
               </div>
               {stateFigures.msf !== null ? (
                 <div>
                   <span className={styles.figureValue}>
                     {stateFigures.msf.toLocaleString("en-IN")}
-                  </span>
+                  </span>{" "}
                   <span className={styles.meta}>msf leasable</span>
                 </div>
               ) : null}
               <div>
-                <span className={styles.figureValue}>{groups.length}</span>
+                <span className={styles.figureValue}>{groups.length}</span>{" "}
                 <span className={styles.meta}>{groups.length === 1 ? "city" : "cities"}</span>
               </div>
             </div>
@@ -514,7 +514,7 @@ export function PortfolioPanel(props: PanelProps) {
                     className={styles.stateRow}
                     onClick={() => onSelectCity(group.city)}
                   >
-                    <span className={styles.stateName}>{group.city}</span>
+                    <span className={styles.stateName}>{group.city}</span>{" "}
                     <span className={styles.stateMeta}>
                       {group.records.length} {group.records.length === 1 ? noun : plural}
                       {group.msf !== null ? ` · ${group.msf.toLocaleString("en-IN")} msf` : ""}
@@ -532,14 +532,14 @@ export function PortfolioPanel(props: PanelProps) {
             <h3 className={styles.title}>{city.name}</h3>
             <div className={styles.figures}>
               <div>
-                <span className={styles.figureValue}>{city.count}</span>
+                <span className={styles.figureValue}>{city.count}</span>{" "}
                 <span className={styles.meta}>{city.count === 1 ? noun : plural}</span>
               </div>
               {city.totalMsf !== null ? (
                 <div>
                   <span className={styles.figureValue}>
                     {city.totalMsf.toLocaleString("en-IN")}
-                  </span>
+                  </span>{" "}
                   <span className={styles.meta}>msf leasable</span>
                 </div>
               ) : null}

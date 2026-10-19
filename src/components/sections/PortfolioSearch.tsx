@@ -162,8 +162,8 @@ export function PortfolioSearch({
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => pick(item)}
               >
-                <span className={styles.kind}>{item.kind === "city" ? "City" : noun}</span>
-                <span className={styles.label}>{item.label}</span>
+                <span className={styles.kind}>{item.kind === "city" ? "City" : noun}</span>{" "}
+                <span className={styles.label}>{item.label}</span>{" "}
                 <span className={styles.sub}>{item.sub}</span>
               </li>
             ))

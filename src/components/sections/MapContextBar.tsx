@@ -31,7 +31,7 @@ export function MapContextBar({
       aria-hidden={!visible}
     >
       <div className={styles.bar} role="status">
-        <span className={styles.eyebrow}>{eyebrow}</span>
+        <span className={styles.eyebrow}>{eyebrow}</span>{" "}
         <strong className={styles.title}>{title}</strong>
         {figures.length > 0 ? (
           <span className={styles.figures}>

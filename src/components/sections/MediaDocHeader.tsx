@@ -15,7 +15,7 @@ export function MediaDocHeader({ numeral, code, tone = "light", className }: Med
     >
       <span className={styles.numeral} aria-hidden="true">
         {numeral}
-      </span>
+      </span>{" "}
       <span className={styles.ref}>{code}</span>
     </div>
   );

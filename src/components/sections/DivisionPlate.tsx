@@ -39,7 +39,7 @@ export function DivisionPlate({ division }: DivisionPlateProps) {
 
           <div className={styles.footer}>
             <p className={styles.proof}>
-              <span className={styles.proofLabel}>Proof</span>
+              <span className={styles.proofLabel}>Proof</span>{" "}
               <span className={styles.proofText}> {division.proof}</span>
             </p>
             {external ? (

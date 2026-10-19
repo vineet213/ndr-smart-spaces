@@ -15,8 +15,8 @@ export function JourneyTimeline() {
           {journey.map((node) => (
             <li key={node.year} className={styles.item}>
               <span className={styles.node} aria-hidden="true" />
-              <span className={styles.year}>{node.year}</span>
-              <span className={styles.title}>{node.title}</span>
+              <span className={styles.year}>{node.year}</span>{" "}
+              <span className={styles.title}>{node.title}</span>{" "}
               <span className={styles.caption}>{node.caption}</span>
             </li>
           ))}

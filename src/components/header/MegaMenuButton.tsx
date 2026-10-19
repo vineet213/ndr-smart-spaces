@@ -236,7 +236,7 @@ export function MegaMenuButton({
                 isActivePath(pathname, menu.overview.href) && styles.overviewLinkActive,
               )}
             >
-              <span className={styles.overviewLabel}>{menu.overview.label}</span>
+              <span className={styles.overviewLabel}>{menu.overview.label}</span>{" "}
               <span className={styles.overviewTagline}>{menu.overview.tagline}</span>
             </a>
           </div>

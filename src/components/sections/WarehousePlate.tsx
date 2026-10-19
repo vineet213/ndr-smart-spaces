@@ -413,7 +413,7 @@ export function WarehousePlate() {
 
       <span className={cx(styles.plateRef, styles.fade)} style={stagger(2)}>
         PL. 101: Operating Verticals
-      </span>
+      </span>{" "}
       <span className={cx(styles.figureRef, styles.fade)} style={stagger(3)}>
         Fig. 1.1
       </span>
@@ -814,7 +814,7 @@ export function WarehousePlate() {
 
       <span className={cx(styles.captionLine, styles.fade)} style={stagger(4)}>
         NDR Logistics Campus · Site &amp; grading plan
-      </span>
+      </span>{" "}
       <span className={cx(styles.notToScale, styles.fade)} style={stagger(5)}>
         DWG NDR-OP-101-A · Rev A · not to scale
       </span>

@@ -73,9 +73,9 @@ export function LinearChain({ nodes, tone, className }: LinearChainProps) {
             <span className={styles.mark} aria-hidden="true" />
             <span className={styles.nodeBody}>
               <span className={styles.nodeHeading}>
-                <span className={styles.nodeIndex}>{node.index}</span>
+                <span className={styles.nodeIndex}>{node.index}</span>{" "}
                 <span className={styles.nodeName}>{node.name}</span>
-              </span>
+              </span>{" "}
               <span className={styles.nodeCaption}>{node.caption}</span>
             </span>
           </li>

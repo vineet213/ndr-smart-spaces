@@ -12,7 +12,7 @@ export function SafeHarbourBlock() {
           <div className={styles.docHeader}>
             <span className={styles.numeral} aria-hidden="true">
               06
-            </span>
+            </span>{" "}
             <span className={styles.ref}>REF 06 · SAFE HARBOUR</span>
           </div>
           <Eyebrow className={styles.eyebrow}>{safeHarbour.eyebrow}</Eyebrow>

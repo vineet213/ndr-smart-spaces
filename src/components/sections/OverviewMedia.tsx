@@ -64,11 +64,11 @@ export function OverviewMedia({ src, alt }: OverviewMediaProps) {
         </div>
       </Reveal>
       <div className={`${styles.chip} ${styles.chipTop}`}>
-        <span className={styles.chipLabel}>Since</span>
+        <span className={styles.chipLabel}>Since</span>{" "}
         <span className={styles.chipValue}>1954</span>
       </div>
       <div className={`${styles.chip} ${styles.chipBottom}`}>
-        <span className={styles.chipLabel}>Under management</span>
+        <span className={styles.chipLabel}>Under management</span>{" "}
         <span className={styles.chipValue}>23 Mn sq ft</span>
       </div>
     </div>

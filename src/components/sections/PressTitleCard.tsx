@@ -16,7 +16,7 @@ export function PressTitleCard({
     <div className={cx(styles.titleCard, large && styles.titleCardLarge)}>
       <span className={styles.titleCardOutlet}>{entry.publication ?? entry.ref}</span>
       <span className={styles.titleCardRule} aria-hidden="true" />
-      <span className={styles.titleCardHeadline}>{entry.title}</span>
+      <span className={styles.titleCardHeadline}>{entry.title}</span>{" "}
       <span className={styles.titleCardDate}>{entry.date}</span>
     </div>
   );

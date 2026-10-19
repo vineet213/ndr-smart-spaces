@@ -14,7 +14,7 @@ export function AudienceStrip() {
               <span className={styles.row}>
                 <span className={styles.label}>{route.label}</span>
                 <Icon name="arrow-right" size="sm" className={styles.arrow} />
-              </span>
+              </span>{" "}
               <span className={styles.descriptor}>{route.descriptor}</span>
             </a>
           ))}

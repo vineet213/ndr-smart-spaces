@@ -92,9 +92,9 @@ export function PressLightbox({ items, index, onClose, onStep }: PressLightboxPr
             <figcaption className={styles.caption}>
               <span className={styles.meta}>
                 <span className={styles.outlet}>{entry.publication}</span>
-                <span aria-hidden="true">·</span>
+                <span aria-hidden="true">·</span>{" "}
                 <time>{entry.date}</time>
-              </span>
+              </span>{" "}
               <span className={styles.title}>{entry.title}</span>
               {entry.note ? <span className={styles.note}>{entry.note}</span> : null}
             </figcaption>

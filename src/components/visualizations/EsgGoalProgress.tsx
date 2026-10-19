@@ -32,8 +32,8 @@ export function EsgGoalProgress({ goal, className }: EsgGoalProgressProps) {
   return (
     <div ref={ref} className={cx(styles.root, inView && styles.drawn, className)}>
       <div className={styles.head}>
-        <span className={styles.code}>{goal.code}</span>
-        <span className={styles.label}>{goal.label}</span>
+        <span className={styles.code}>{goal.code}</span>{" "}
+        <span className={styles.label}>{goal.label}</span>{" "}
         <span className={styles.status}>{goalStatus(goal)}</span>
       </div>
 
@@ -45,7 +45,7 @@ export function EsgGoalProgress({ goal, className }: EsgGoalProgressProps) {
       <div className={styles.meta}>
         <span className={styles.current}>
           Current {fmt(goal.current)} {goal.unit}
-        </span>
+        </span>{" "}
         <span className={styles.target}>
           Target {fmt(goal.target)} {goal.unit} by {goal.targetPeriod}
         </span>

@@ -69,7 +69,7 @@ export function PortfolioClosing() {
           <div className={styles.colophon} aria-hidden="true">
             <span className={styles.colophonCell}>
               {plateRange} · {portfolioMasthead.editionPeriod}
-            </span>
+            </span>{" "}
             <span className={styles.colophonCell}>{portfolioMasthead.eyebrow}</span>
           </div>
         </Reveal>

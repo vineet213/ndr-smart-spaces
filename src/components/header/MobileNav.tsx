@@ -1,4 +1,4 @@
-import { useId, useRef, useState } from "react";
+import { Fragment, useId, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
@@ -191,10 +191,13 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
         <div className={styles.footer}>
           <p className={styles.footerHeading}>{mobileMenuFooter.heading}</p>
           <div className={styles.emails}>
-            {mobileMenuFooter.emails.map((email) => (
-              <a key={email} className={styles.email} href={`mailto:${email}`}>
-                {email}
-              </a>
+            {mobileMenuFooter.emails.map((email, index) => (
+              <Fragment key={email}>
+                {index > 0 ? " " : null}
+                <a className={styles.email} href={`mailto:${email}`}>
+                  {email}
+                </a>
+              </Fragment>
             ))}
           </div>
           {mobileMenuFooter.notes.map((note) => (

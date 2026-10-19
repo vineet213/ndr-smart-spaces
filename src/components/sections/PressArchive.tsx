@@ -110,7 +110,7 @@ function PressCard({ entry, categoryLabel, open, onToggle, onView }: CardProps) 
       <div className={styles.reveal}>
         {/* the headline stays readable while the panel covers the card body */}
         <div className={styles.revealHead} aria-hidden="true">
-          <span className={styles.date}>{entry.date}</span>
+          <span className={styles.date}>{entry.date}</span>{" "}
           <span className={styles.revealTitle}>{entry.title}</span>
         </div>
         {entry.note ? <p className={styles.note}>{entry.note}</p> : null}
@@ -128,9 +128,9 @@ function LeadStory({ entry, categoryLabel, onView }: ActionProps & { categoryLab
       </div>
       <div className={styles.leadBody}>
         <span className={styles.leadKicker}>
-          <span className={styles.leadBadge}>{entry.publication ?? categoryLabel}</span>
+          <span className={styles.leadBadge}>{entry.publication ?? categoryLabel}</span>{" "}
           <span>Latest</span>
-        </span>
+        </span>{" "}
         <time className={styles.date}>{entry.date}</time>
         <h3 className={styles.leadTitle}>{entry.title}</h3>
         {entry.note ? <p className={styles.leadNote}>{entry.note}</p> : null}

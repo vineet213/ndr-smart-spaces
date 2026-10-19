@@ -97,9 +97,9 @@ function PersonCard({ profile, index, eager, onOpen }: PersonCardProps) {
             <path d="M50.5 1.5 H0" pathLength="1" />
             <path d="M50.5 1.5 V52" pathLength="1" />
           </svg>
-        </span>
-        <span className={styles.cardName}>{profile.name}</span>
-        <span className={styles.cardRole}>{profile.role}</span>
+        </span>{" "}
+        <span className={styles.cardName}>{profile.name}</span>{" "}
+        <span className={styles.cardRole}>{profile.role}</span>{" "}
         <span className={styles.rule} aria-hidden="true" />
         <span className={styles.cue}>
           View profile <span aria-hidden="true">+</span>
@@ -114,7 +114,7 @@ function PendingCard({ group }: { group: LeadershipGroup }) {
     <li className={cx(styles.item, styles.pending)}>
       <div className={styles.pendingCard}>
         <span className={styles.pendingFrame} aria-hidden="true" />
-        <span className={styles.cardName}>{group.placeholderTitle}</span>
+        <span className={styles.cardName}>{group.placeholderTitle}</span>{" "}
         <span className={styles.cardRole}>{group.placeholderStatus}</span>
       </div>
     </li>

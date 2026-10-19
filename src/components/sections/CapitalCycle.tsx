@@ -147,9 +147,9 @@ export function CapitalCycle() {
           <li key={node.name} className={styles.step}>
             <span className={styles.stepMarker} aria-hidden="true">
               {node.index}
-            </span>
+            </span>{" "}
             <span className={styles.stepContent}>
-              <span className={styles.stepName}>{node.name}</span>
+              <span className={styles.stepName}>{node.name}</span>{" "}
               <span className={styles.stepCaption}>{node.caption.join(" ")}</span>
             </span>
           </li>

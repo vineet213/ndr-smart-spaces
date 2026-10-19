@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Container, Grid, GridItem } from "@/components/layout";
@@ -121,16 +122,19 @@ export function Footer({ hideWorkWithUsCta = true }: { hideWorkWithUsCta?: boole
         <Container>
           <Grid>
             <GridItem span={5} className={styles.contactItem}>
-              <span className={styles.contactLabel}>Corporate office</span>
+              <span className={styles.contactLabel}>Corporate office</span>{" "}
               <span className={styles.contactValue}>{footer.contact.address}</span>
             </GridItem>
             <GridItem span={4} className={styles.contactItem}>
-              <span className={styles.contactLabel}>Write to us</span>
+              <span className={styles.contactLabel}>Write to us</span>{" "}
               <span className={styles.contactValue}>
-                {footer.contact.emails.map((email) => (
-                  <a key={email.href} href={email.href} className={styles.emailLink}>
-                    {email.label}
-                  </a>
+                {footer.contact.emails.map((email, index) => (
+                  <Fragment key={email.href}>
+                    {index > 0 ? " " : null}
+                    <a href={email.href} className={styles.emailLink}>
+                      {email.label}
+                    </a>
+                  </Fragment>
                 ))}
               </span>
             </GridItem>

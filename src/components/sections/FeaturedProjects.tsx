@@ -61,7 +61,7 @@ export function FeaturedProjects() {
                       <li key={fact.label} className={styles.factCell}>
                         <span className={styles.factValue}>
                           <FactValue value={fact.value} unit={fact.unit} format={fact.format} />
-                        </span>
+                        </span>{" "}
                         <span className={cx("text-label-meta", styles.factLabel)}>
                           {fact.label}
                         </span>

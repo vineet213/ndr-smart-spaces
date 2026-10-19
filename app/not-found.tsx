@@ -26,7 +26,7 @@ export default function NotFound() {
         <div className={styles.actions}>
           <Button href="/" tone="dark">
             Back to home
-          </Button>
+          </Button>{" "}
           <Button href="/contact/" tone="dark" variant="secondary">
             Contact us
           </Button>

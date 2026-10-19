@@ -18,7 +18,7 @@ export function MetricsBand() {
           <div className={styles.docHeader}>
             <span className={styles.numeral} aria-hidden="true">
               02
-            </span>
+            </span>{" "}
             <span className={styles.ref}>REF 02 · FINANCIAL SUMMARY</span>
           </div>
           <Eyebrow className={styles.eyebrow}>Capital strength</Eyebrow>
@@ -34,7 +34,7 @@ export function MetricsBand() {
                 <p className={styles.value}>{metric.value}</p>
                 <h3 className={styles.label}>{metric.stat}</h3>
                 <div className={styles.report}>
-                  <span className={styles.period}>{metric.period}</span>
+                  <span className={styles.period}>{metric.period}</span>{" "}
                   <span className={styles.origin}>{entityName[metric.entity]}</span>
                 </div>
               </article>

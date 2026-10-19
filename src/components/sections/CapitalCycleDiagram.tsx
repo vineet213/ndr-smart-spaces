@@ -12,7 +12,7 @@ export function CapitalCycleDiagram() {
           <div className={styles.docHeader}>
             <span className={styles.numeral} aria-hidden="true">
               03
-            </span>
+            </span>{" "}
             <span className={styles.ref}>REF 03 · CAPITAL IN MOTION</span>
           </div>
           <Eyebrow tone="dark" className={styles.eyebrow}>

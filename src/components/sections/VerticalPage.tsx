@@ -104,7 +104,7 @@ function StackedOverview({ heading, writeup }: { heading: string; writeup: strin
               <span className={styles.soIndex} aria-hidden="true">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              {line}
+              {line}{" "}
             </span>
           ))}
         </h2>

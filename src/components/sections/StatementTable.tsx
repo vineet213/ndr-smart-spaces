@@ -97,7 +97,7 @@ export function StatementTable({
             {empty ? (
               <tr role="row">
                 <td className={styles.emptyCell} colSpan={columns.length} role="cell">
-                  <span className={styles.emptyKicker}>Statement pending publication.</span>
+                  <span className={styles.emptyKicker}>Statement pending publication.</span>{" "}
                   <span className={styles.emptyBody}>Rows publish as statements are approved.</span>
                 </td>
               </tr>

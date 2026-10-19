@@ -27,9 +27,9 @@ export function LatestUpdates() {
                 <Reveal delay={(index + 1) as RevealDelay}>
                   <a href={canonicalHref(update.href)} className={styles.row}>
                     <span className={styles.meta}>
-                      <time dateTime={update.date}>{update.date}</time>
+                      <time dateTime={update.date}>{update.date}</time>{" "}
                       <span className={styles.category}>{update.category}</span>
-                    </span>
+                    </span>{" "}
                     <span className={styles.title}>{update.title}</span>
                     <Icon name="arrow-up-right" size="sm" className={styles.arrow} />
                   </a>

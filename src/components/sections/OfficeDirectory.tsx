@@ -98,7 +98,7 @@ export function OfficeDirectory() {
               <div className={styles.contact}>
                 {officeDirectory.detailsConfirmed ? (
                   <div className={styles.contactRow}>
-                    <span className={styles.contactLabel}>Phone</span>
+                    <span className={styles.contactLabel}>Phone</span>{" "}
                     <a className={styles.contactPhone} href={phoneHref(office.phone)}>
                       {office.phone}
                     </a>
@@ -107,18 +107,18 @@ export function OfficeDirectory() {
                 <a className={styles.emailRow} href={office.email.href}>
                   <span className={styles.emailIcon}>
                     <Icon name="mail" />
-                  </span>
+                  </span>{" "}
                   <span className={styles.emailText}>
-                    <span className={styles.contactLabel}>Email</span>
+                    <span className={styles.contactLabel}>Email</span>{" "}
                     <span className={styles.emailAddress}>{office.email.label}</span>
-                  </span>
+                  </span>{" "}
                   <span className={styles.emailArrow}>
                     <Icon name="arrow-up-right" />
                   </span>
                 </a>
                 {officeDirectory.detailsConfirmed ? (
                   <div className={styles.contactRow}>
-                    <span className={styles.contactLabel}>Hours</span>
+                    <span className={styles.contactLabel}>Hours</span>{" "}
                     <span className={styles.contactHours}>{office.hours}</span>
                   </div>
                 ) : null}
@@ -139,7 +139,7 @@ export function OfficeDirectory() {
                 <Icon name="map-pin" />
               </span>
               <div className={styles.visitText}>
-                <span className={styles.visitLabel}>Visit our corporate office</span>
+                <span className={styles.visitLabel}>Visit our corporate office</span>{" "}
                 <span className={styles.visitAddress}>{address.value}</span>
               </div>
               {directions?.href ? (

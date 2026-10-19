@@ -382,8 +382,8 @@ export function LifecycleDiagram({
               onMouseLeave={() => setActive(null)}
               onBlur={() => setActive(null)}
             >
-              <span className={styles.stepIndex}>{node.index}</span>
-              <span className={styles.stepName}>{node.name}</span>
+              <span className={styles.stepIndex}>{node.index}</span>{" "}
+              <span className={styles.stepName}>{node.name}</span>{" "}
               <span className={styles.stepCaption}>{node.caption}</span>
             </button>
           </li>
@@ -393,7 +393,7 @@ export function LifecycleDiagram({
             ↺
           </span>
           <div className={styles.returnBody}>
-            <span className={styles.returnLabel}>{returnLabel}</span>
+            <span className={styles.returnLabel}>{returnLabel}</span>{" "}
             <span className={styles.returnCaption}>{returnCaption}</span>
           </div>
         </li>
@@ -405,9 +405,9 @@ export function LifecycleDiagram({
             <span className={styles.chainMark} aria-hidden="true" />
             <div className={styles.chainBody}>
               <span className={styles.chainHeading}>
-                <span className={styles.chainIndex}>{node.index}</span>
+                <span className={styles.chainIndex}>{node.index}</span>{" "}
                 <span className={styles.chainName}>{node.name}</span>
-              </span>
+              </span>{" "}
               <span className={styles.chainCaption}>{node.caption}</span>
             </div>
           </li>
@@ -415,7 +415,7 @@ export function LifecycleDiagram({
         <li className={cx(styles.chainRow, styles.chainReturn)}>
           <span className={styles.chainMark} aria-hidden="true" />
           <div className={styles.chainBody}>
-            <span className={styles.returnLabel}>{returnLabel}</span>
+            <span className={styles.returnLabel}>{returnLabel}</span>{" "}
             <span className={styles.returnCaption}>{returnCaption}</span>
           </div>
         </li>

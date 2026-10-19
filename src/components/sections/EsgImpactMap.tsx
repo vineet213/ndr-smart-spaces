@@ -76,7 +76,7 @@ export function EsgImpactMap() {
                   style={{ backgroundColor: category.color }}
                   aria-hidden="true"
                 />
-                <span className={styles.legendLabel}>{category.label}</span>
+                <span className={styles.legendLabel}>{category.label}</span>{" "}
                 <span className={styles.legendCount}>{count}</span>
               </li>
             );
@@ -113,7 +113,7 @@ export function EsgImpactMap() {
                           aria-hidden="true"
                         />
                         {categoryLabel(initiative.category)}
-                      </span>
+                      </span>{" "}
                       <span className={styles.initiativeStatus}>{initiative.status}</span>
                     </div>
                   </li>

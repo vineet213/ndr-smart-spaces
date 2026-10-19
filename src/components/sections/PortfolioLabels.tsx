@@ -138,7 +138,7 @@ export function PortfolioLabels({
               className={styles.chip}
               onClick={() => onSelectCity(city.city)}
             >
-              <span>{city.city}</span>
+              <span>{city.city}</span>{" "}
               <b>{city.count}</b>
             </button>
           ))
@@ -179,7 +179,7 @@ export function PortfolioLabels({
           >
             ×
           </button>
-          <span className={styles.eyebrow}>{callout.eyebrow}</span>
+          <span className={styles.eyebrow}>{callout.eyebrow}</span>{" "}
           <strong className={styles.title}>{callout.title}</strong>
           {callout.figures.length > 0 ? (
             <dl className={styles.figures}>

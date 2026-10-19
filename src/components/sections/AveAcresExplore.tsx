@@ -32,7 +32,7 @@ export function AveAcresExplore() {
             <div className={styles.cta}>
               <Button href={aveAcresClosing.cta.href} target="_blank" rel="noreferrer" tone="dark">
                 {aveAcresClosing.cta.label}
-              </Button>
+              </Button>{" "}
               <span className={styles.domain}>
                 {aveAcresClosing.cta.href.replace(/^https?:\/\/|\/$/g, "")}
               </span>

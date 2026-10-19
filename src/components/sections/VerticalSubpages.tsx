@@ -28,10 +28,10 @@ export function VerticalSubpages() {
               <Link href={link.href} className={styles.card}>
                 <span className={styles.thumb}>
                   <FadeImage src={link.image} alt="" fill sizes="136px" className={styles.image} />
-                </span>
+                </span>{" "}
                 <span className={styles.copy}>
-                  <span className={styles.title}>{link.title}</span>
-                  <span className={styles.body}>{link.body}</span>
+                  <span className={styles.title}>{link.title}</span>{" "}
+                  <span className={styles.body}>{link.body}</span>{" "}
                   <span className={styles.cta}>
                     Explore
                     <Icon name="arrow-right" size="sm" className={styles.arrow} />

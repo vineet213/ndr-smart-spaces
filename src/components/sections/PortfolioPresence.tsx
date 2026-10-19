@@ -36,7 +36,7 @@ export function PortfolioPresence() {
                     >
                       <span className={cx("text-label-meta", styles.zoneLabel)}>
                         {zone.name} zone
-                      </span>
+                      </span>{" "}
                       <span className={styles.zoneFact}>{zone.cities.join(", ")}</span>
                     </div>
                   </Reveal>

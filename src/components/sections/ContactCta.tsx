@@ -31,7 +31,7 @@ export function ContactCta() {
               <ul className={styles.infoList}>
                 {contact.info.map((item) => (
                   <li key={item.label} className={styles.infoRow}>
-                    <span className={styles.infoLabel}>{item.label}</span>
+                    <span className={styles.infoLabel}>{item.label}</span>{" "}
                     {item.href ? (
                       <a
                         href={canonicalHref(item.href)}

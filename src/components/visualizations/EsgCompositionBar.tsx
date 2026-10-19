@@ -28,8 +28,8 @@ export function EsgCompositionBar({ composition, className }: EsgCompositionBarP
   return (
     <div ref={ref} className={cx(styles.root, inView && styles.drawn, className)}>
       <div className={styles.head}>
-        <span className={styles.code}>{composition.code}</span>
-        <span className={styles.title}>{composition.title}</span>
+        <span className={styles.code}>{composition.code}</span>{" "}
+        <span className={styles.title}>{composition.title}</span>{" "}
         <span className={styles.unit}>{composition.unit}</span>
       </div>
 
@@ -51,7 +51,7 @@ export function EsgCompositionBar({ composition, className }: EsgCompositionBarP
               style={{ backgroundColor: colorAt(index) }}
               aria-hidden="true"
             />
-            <span className={styles.entryLabel}>{part.label}</span>
+            <span className={styles.entryLabel}>{part.label}</span>{" "}
             <span className={styles.entryValue}>{fmt(part.value)}%</span>
           </li>
         ))}

@@ -114,7 +114,7 @@ export function BusinessStickyIndex() {
               >
                 <span className={styles.railMarker} aria-hidden="true" />
                 <span className={styles.railDiamond} aria-hidden="true" />
-                <span className={styles.railNumeral}>{chapter.index}</span>
+                <span className={styles.railNumeral}>{chapter.index}</span>{" "}
                 <span className={styles.railLabel}>{chapter.label}</span>
               </a>
             </li>
@@ -135,7 +135,7 @@ export function BusinessStickyIndex() {
                 className={cx(styles.stripLink, active === index && styles.stripActive)}
                 aria-current={active === index ? "true" : undefined}
               >
-                <span className={styles.stripNumeral}>{chapter.index}</span>
+                <span className={styles.stripNumeral}>{chapter.index}</span>{" "}
                 <span className={styles.stripLabel}>{chapter.label}</span>
               </a>
             </li>

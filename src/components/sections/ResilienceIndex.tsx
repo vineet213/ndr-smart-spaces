@@ -12,7 +12,7 @@ export function ResilienceIndex() {
           <div className={styles.docHeader}>
             <span className={styles.numeral} aria-hidden="true">
               02
-            </span>
+            </span>{" "}
             <span className={styles.ref}>REF 02 · RISK & RESILIENCE</span>
           </div>
           <Eyebrow tone="dark" className={styles.eyebrow}>

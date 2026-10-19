@@ -52,7 +52,7 @@ export function OurStory() {
                   </div>
                 </Reveal>
                 <span className={styles.chip} aria-hidden="true">
-                  <span className={styles.chipLabel}>Est.</span>
+                  <span className={styles.chipLabel}>Est.</span>{" "}
                   <span className={styles.chipValue}>1979</span>
                 </span>
               </div>
