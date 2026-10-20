@@ -28,12 +28,22 @@ function prefersReducedMotion(): boolean {
  * Power Mode, data-saver); render native `controls` then so the video is never
  * a dead frame.
  */
-type VideoSources = { desktop: string; mobile: string };
+export type VideoSources = { desktop: string; mobile: string };
+
+/** The encode that suits this device: the small one on phones and when data-saver is on. */
+export function pickVideoSource(sources: VideoSources): string {
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+  const small = window.matchMedia("(max-width: 767px)").matches || connection?.saveData === true;
+  return small ? sources.mobile : sources.desktop;
+}
 
 export function useAutoplayVideo(sources?: VideoSources) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [motionAllowed, setMotionAllowed] = useState(() => !prefersReducedMotion());
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+  // Set by a custom player when the visitor pauses on purpose, so scrolling back
+  // into view doesn't restart a video they stopped.
+  const manualPauseRef = useRef(false);
 
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -54,13 +64,8 @@ export function useAutoplayVideo(sources?: VideoSources) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          if (sources && !video.getAttribute("src")) {
-            const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
-              .connection;
-            const small =
-              window.matchMedia("(max-width: 767px)").matches || connection?.saveData === true;
-            video.src = small ? sources.mobile : sources.desktop;
-          }
+          if (sources && !video.getAttribute("src")) video.src = pickVideoSource(sources);
+          if (manualPauseRef.current) return;
           video.play().then(
             () => setAutoplayBlocked(false),
             () => setAutoplayBlocked(true),
@@ -75,5 +80,5 @@ export function useAutoplayVideo(sources?: VideoSources) {
     return () => observer.disconnect();
   }, [motionAllowed, sources]);
 
-  return { videoRef, motionAllowed, autoplayBlocked };
+  return { videoRef, motionAllowed, autoplayBlocked, manualPauseRef };
 }
