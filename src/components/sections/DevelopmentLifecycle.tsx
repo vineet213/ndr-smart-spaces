@@ -49,9 +49,13 @@ const FOLLOW = 0.2;
  * a few frames on screen instead of jumping past it. */
 const MAX_SPEED = 6;
 /* Desktop: after the wheel rests this long inside a change, glide to a stage. */
-const SETTLE_DELAY_MS = 140;
+const SETTLE_DELAY_MS = 110;
 /* A change nudged past this point completes in the direction of travel. */
 const SETTLE_COMMIT = 0.08;
+/* That glide lasts SETTLE_MIN_S plus SETTLE_PER_CHANGE_S per whole change
+ * still to play, so a nearly finished change ends almost at once. */
+const SETTLE_MIN_S = 0.3;
+const SETTLE_PER_CHANGE_S = 0.35;
 
 /* The glass blade's two diagonal cuts, as polygon points in %. */
 const BLADE_LEFT = [0, 0, 49, 0, 35, 100, 0, 100];
@@ -318,10 +322,18 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
       }
     };
 
+    const scheduleSettle = () => {
+      window.clearTimeout(settleTimer);
+      settleTimer = window.setTimeout(settle, SETTLE_DELAY_MS);
+    };
+
     const settle = () => {
       settleTimer = 0;
       if (!geo || coarse.matches) return;
-      const s = geo.toStages(window.scrollY);
+      const lenis = getLenisInstance();
+      // Judge by where the scroll is heading, not where Lenis's easing has got
+      // to: waiting out that slow tail is what made a stop mid-change crawl.
+      const s = geo.toStages(lenis ? lenis.targetScroll : window.scrollY);
       const i = Math.floor(s);
       if (i >= total - 1) return;
       const start = i + 1 - TRANSITION;
@@ -331,12 +343,22 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
       const forward = direction > 0 ? f > SETTLE_COMMIT : f > 1 - SETTLE_COMMIT;
       const destination = forward ? i + 1 : start;
       const y = geo.toY(destination);
-      const lenis = getLenisInstance();
       if (lenis) {
-        lenis.scrollTo(y, { duration: 0.7, easing: easeOutCubic });
+        const remaining = Math.abs(destination - geo.toStages(window.scrollY)) / TRANSITION;
+        lenis.scrollTo(y, {
+          duration: SETTLE_MIN_S + SETTLE_PER_CHANGE_S * Math.min(remaining, 1),
+          easing: easeOutCubic,
+        });
       } else {
         window.scrollTo({ top: y, behavior: reduced.matches ? "instant" : "smooth" });
       }
+    };
+
+    // The wheel itself marks when the user stops; Lenis keeps scrolling for a
+    // while after that, so its own scroll events must not push the settle back.
+    const onWheel = (event: WheelEvent) => {
+      if (event.deltaY) direction = event.deltaY > 0 ? 1 : -1;
+      scheduleSettle();
     };
 
     const onScroll = () => {
@@ -346,8 +368,8 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
       if (!geo) geo = geometry();
       if (geo) target = geo.toStages(y);
       if (!frame) frame = requestAnimationFrame(tick);
-      window.clearTimeout(settleTimer);
-      settleTimer = window.setTimeout(settle, SETTLE_DELAY_MS);
+      // Keyboard, scrollbar and unsmoothed scrolling still settle once they rest.
+      if (getLenisInstance()?.isScrolling !== "smooth") scheduleSettle();
     };
 
     const onResize = () => {
@@ -359,9 +381,11 @@ export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecyclePro
     const resizeObserver = new ResizeObserver(onResize);
     if (trackRef.current) resizeObserver.observe(trackRef.current);
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("wheel", onWheel, { passive: true });
     return () => {
       resizeObserver.disconnect();
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("wheel", onWheel);
       window.clearTimeout(settleTimer);
       if (frame) cancelAnimationFrame(frame);
     };
