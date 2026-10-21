@@ -72,7 +72,10 @@ jobs:
           set net:max-retries 3
           set net:timeout 30
           set cmd:fail-exit true
-          mirror -R --parallel=4 --verbose=1 -x ^videos/ -x ^_img/ -x ^images/ out ${DIR:-/}
+          # --transfer-all: the pages and scripts (about 14 MB) are always re-sent. Without it
+          # lftp skips a file whose size matches and whose server timestamp looks newer, which
+          # left a page on the old build while its new scripts were uploaded.
+          mirror -R --parallel=4 --transfer-all --verbose=1 -x ^videos/ -x ^_img/ -x ^images/ out ${DIR:-/}
           mirror -R --parallel=4 --ignore-time --verbose=1 out/videos $DIR/videos
           mirror -R --parallel=4 --ignore-time --verbose=1 out/_img $DIR/_img
           mirror -R --parallel=4 --ignore-time --verbose=1 out/images $DIR/images
