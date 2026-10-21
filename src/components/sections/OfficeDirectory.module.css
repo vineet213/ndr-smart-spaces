@@ -280,13 +280,13 @@
 }
 
 @media (hover: hover) {
-  .emailRow:hover {
+  a.emailRow:hover {
     color: var(--color-ivory);
     background-color: var(--color-maroon-dark);
     border-color: var(--color-maroon-dark);
   }
 
-  .emailRow:hover .emailArrow {
+  a.emailRow:hover .emailArrow {
     transform: translate(0.2rem, -0.2rem);
     color: var(--color-gold);
   }

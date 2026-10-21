@@ -27,7 +27,6 @@ const routeNames: Readonly<Record<string, string>> = {
   "/business/ndr-asset-management/asset-performance-management": "Asset Performance Management",
   "/business/residential-plotting": "Residential Plotting",
   "/investor-centre/corporate-governance": "Corporate Governance",
-  "/investor-centre/asset-flip": "Asset Flip",
   "/esg": "ESG & Sustainability",
   "/media": "Media",
   "/contact": "Contact",

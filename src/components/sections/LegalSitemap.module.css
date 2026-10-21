@@ -12,10 +12,6 @@ section.cover {
   padding-block: var(--space-9xl) var(--space-10xl);
 }
 
-.eyebrow {
-  color: var(--color-gold);
-}
-
 .title {
   margin: 0;
   font-family: var(--font-display);

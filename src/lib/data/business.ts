@@ -112,8 +112,7 @@ export const verticalMastheadSubtext: Readonly<Record<string, string>> = {
 
 /**
  * Two-tone masthead headline, keyed by division index — mirrors the Media &
- * Newsroom masthead's white/gold split (`mediaMasthead.title`). Asset Flip
- * isn't part of this division system at all, so it has no entry here.
+ * Newsroom masthead's white/gold split (`mediaMasthead.title`).
  */
 export const verticalMastheadTitle: Readonly<
   Record<string, { before: string; accent: string; after: string }>
@@ -313,7 +312,7 @@ export const corporateStructure = {
     },
     {
       name: "NDR Asset Management Pvt. Ltd.",
-      function: "Project management company",
+      function: "Project/Asset management company",
       relationship: "Ownership · project management",
     },
     {
@@ -486,6 +485,8 @@ export type ManagementProfile = {
   name: string;
   role?: string;
   photo?: string;
+  /** CSS object-position, to centre the subject when the 4:5 crop would not. */
+  photoPosition?: string;
   bio?: string;
 };
 
@@ -504,16 +505,19 @@ export const verticalManagement = {
       name: "Kannan S",
       role: "Head- project management and engineering",
       photo: "/images/asset-management/Kannan S.jpeg",
+      photoPosition: "60% top",
     },
     {
       name: "Hiten Manharlal Shah",
       role: "Zonal Head ( East)",
       photo: "/images/asset-management/Hiten Manharlal Shah.jpeg",
+      photoPosition: "58% top",
     },
     {
       name: "Ramachandran Rajaram",
       role: "Zonal Head( West)",
       photo: "/images/asset-management/Ramachandran Rajaram.jpeg",
+      photoPosition: "58% top",
     },
     {
       name: "Sundar Rajan Jagannathan",
@@ -524,6 +528,7 @@ export const verticalManagement = {
       name: "Manvendra Singh Chauhan",
       role: "Zonal Head ( North)",
       photo: "/images/asset-management/Manvendra Singh Chauhan.jpeg",
+      photoPosition: "58% top",
     },
   ] as readonly ManagementProfile[],
   placeholderSlots: 5,
@@ -627,7 +632,7 @@ export const vertical02DevelopmentLifecycle = {
       body: "Implementing robust security, safety, and compliance measures to protect people, assets, and operations.",
       image: {
         src: "/images/lifecycle/07-safety-equipment.jpg",
-        alt: "Caution signs requiring hearing and eye protection on the floor of an industrial workshop",
+        alt: "Site safety officers in hard hats and high-visibility vests beside a safety signboard at a warehouse under construction",
         credit: "",
         width: 1536,
         height: 1024,
@@ -663,10 +668,10 @@ export const vertical02DevelopmentLifecycle = {
       body: "Preparing the completed warehouse for seamless handover and efficient day-to-day operations.",
       image: {
         src: "/images/lifecycle/09-asset-operations.jpg",
-        alt: "Completed warehouse exterior ready for occupancy and day-to-day operations",
-        credit: "Photo via Pexels",
-        width: 1800,
-        height: 1199,
+        alt: "Aerial view of a completed warehouse park with trucks at its loading docks",
+        credit: "",
+        width: 1672,
+        height: 941,
       },
     },
   ] as const satisfies readonly LifecycleStage[],

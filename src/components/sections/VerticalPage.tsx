@@ -80,7 +80,10 @@ function ResidentialOverview({ heading, writeup }: { heading: string; writeup: s
   return (
     <Reveal>
       <div className={styles.roGrid}>
-        <h2 className={styles.roHeading}>{heading}</h2>
+        <div className={styles.roHead}>
+          <Eyebrow>{logisticsOverview.eyebrow}</Eyebrow>
+          <h2 className={styles.roHeading}>{heading}</h2>
+        </div>
         <div className={styles.roBody}>
           <p className={styles.roLead}>{lead}</p>
           {rest ? <p className={styles.roRest}>{rest}</p> : null}
@@ -90,8 +93,8 @@ function ResidentialOverview({ heading, writeup }: { heading: string; writeup: s
   );
 }
 
-/* Asset Management overview: the three-part heading as a ruled, numbered  */
-/* list of statements, with the copy beside it.                            */
+/* Asset Management overview: the three-part heading as a ruled list of   */
+/* statements, with the copy beside it.                                    */
 function StackedOverview({ heading, writeup }: { heading: string; writeup: string }) {
   const lines = heading.split(/(?<=\.)\s+/);
 
@@ -101,9 +104,6 @@ function StackedOverview({ heading, writeup }: { heading: string; writeup: strin
         <h2 className={styles.soHeading}>
           {lines.map((line, index) => (
             <span key={index} className={styles.soLine}>
-              <span className={styles.soIndex} aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
               {line}{" "}
             </span>
           ))}

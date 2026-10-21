@@ -2,7 +2,7 @@ import type { CompanyMetric } from "./homepage";
 
 export const aboutHero = {
   headline: "Seven decades of building ",
-  headlineAccent: "infrastructure.",
+  headlineAccent: "infrastructure",
   lede: "NDR Smart Spaces is the logistics and infrastructure development platform of the NDR Group, established in 1954, and a leading developer of logistics and industrial spaces in India.",
   cta: { label: "Our story", href: "#story" },
   ctaSecondary: {
@@ -127,7 +127,7 @@ export const aboutTimeline = {
     {
       year: "2026",
       title:
-        "IFC (International Finance Corporation) brings a 225 crore equity investment into NDR Smart Spaces, with 23 Million Sq. Ft. Under Management and 10 Million Sq. Ft. Under Construction",
+        "IFC (International Finance Corporation) brings a 225 crore equity investment into NDR Smart Spaces, with approximately 23 Million Sq. Ft. Under Management and 10 Million Sq. Ft. Under Construction",
     },
   ] as readonly TimelineNode[],
 } as const;
@@ -140,7 +140,7 @@ export const aboutPrinciples = {
     {
       index: "01",
       title: "Vision",
-      body: "We aspire to be a leading organisation in the Logistics, industrial and socio-economic Infrastructure Sector, actively contributing to India's dynamic growth story. We aim to positively impact social development and elevate infrastructure standards, positioning ourselves as a key player committed to excellence and progress.",
+      body: "We aspire to be a leading organisation in the Logistics, Industrial and socio-economic Infrastructure Sector, actively contributing to India's dynamic growth story. We aim to positively impact social development and elevate infrastructure standards, positioning ourselves as a key player committed to excellence and progress.",
       image: {
         src: "/images/vision-mission/vision.svg",
         alt: "Editorial line illustration of a future-ready master plan, with plotted land rising into an institutional skyline.",
@@ -337,7 +337,7 @@ export const leadership = {
           name: "Swati Agarwal",
           role: "Company Secretary",
           bio: "Ms. Swati Agarwal is a qualified Company Secretary and an Associate Member of the Institute of Company Secretaries of India (ICSI), with a Bachelor of Commerce (B.Com.) degree from Calcutta University. She has around 7 years of experience across secretarial, legal and compliance functions, having worked with listed and unlisted entities across diverse sectors. She has previously worked with Tamil Nadu Advance Manufacturing Centre of Excellence Private Limited (TAMCOE), a wholly-owned subsidiary of TIDCO, and Refex Renewables & Infrastructure Limited (RRIL), the renewable arm of the Refex Group and a BSE-listed company.",
-          photo: "/images/leadership/management-team/swati-agarwal.jpg",
+          photo: "",
         },
         {
           name: "K. Jeevan Kumar",

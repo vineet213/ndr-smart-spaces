@@ -18,7 +18,6 @@ export const siteRoutes: readonly string[] = [
   "/business/ndr-asset-management/asset-performance-management",
   "/business/residential-plotting",
   "/investor-centre/corporate-governance",
-  "/investor-centre/asset-flip",
   "/esg",
   "/media",
   "/contact",

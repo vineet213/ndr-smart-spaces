@@ -3,8 +3,8 @@ export const contactDirectory = [
     "id": "smart-spaces",
     "status": "published",
     "email": {
-      "href": "mailto:spaces@ndrsmart.com",
-      "label": "spaces@ndrsmart.com",
+      "href": "mailto:projects@ndrsmart.com",
+      "label": "projects@ndrsmart.com",
     },
     "hours": "Monday \u2013 Saturday \u00b7 9:30 AM \u2013 6:30 PM IST",
     "key": "smart-spaces",
@@ -61,5 +61,47 @@ export const contactDirectory = [
     ],
     "name": "Grievance Redressal",
     "phone": "+91 44 4296 1207",
+  },
+  {
+    "id": "compliance",
+    "status": "published",
+    "email": {
+      "href": "mailto:compliance@ndrsmart.com",
+      "label": "compliance@ndrsmart.com",
+    },
+    "hours": "Monday – Saturday · 9:30 AM – 6:30 PM IST",
+    "key": "compliance",
+    "kind": "Compliance",
+    "lines": [
+      {
+        "value": "NDR Smart Spaces Pvt. Ltd.",
+      },
+      {
+        "value": "Chennai, Tamil Nadu, India",
+      },
+    ],
+    "name": "Compliance",
+    "phone": "",
+  },
+  {
+    "id": "posh",
+    "status": "published",
+    "email": {
+      "href": "",
+      "label": "",
+    },
+    "hours": "Monday – Saturday · 9:30 AM – 6:30 PM IST",
+    "key": "posh",
+    "kind": "POSH",
+    "lines": [
+      {
+        "value": "NDR Smart Spaces Pvt. Ltd.",
+      },
+      {
+        "value": "Chennai, Tamil Nadu, India",
+      },
+    ],
+    "name": "POSH",
+    "phone": "",
   },
 ] as const;

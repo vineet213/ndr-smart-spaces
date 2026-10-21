@@ -49,31 +49,7 @@ export const editorialStatement = {
 
 export const investorContents = [
   { label: "Governance", href: "/investor-centre/corporate-governance", type: "route" },
-  { label: "Asset Flip", href: "/investor-centre/asset-flip", type: "route" },
 ] as const;
-
-export const assetFlip = {
-  eyebrow: "Overview",
-  heading: "Asset Flip: Transfer of Special Purpose Vehicles (SPVs)",
-  /** Short masthead line derived from `overview` below — not restating it in full. */
-  mastheadSubtext:
-    "A structured pathway to transfer mature SPVs - unlocking value and reinvesting in new development.",
-  overview:
-    "NDR Smart Spaces develops and operates high-quality logistics and industrial assets through dedicated Special Purpose Vehicles (SPVs). Once assets reach defined maturity and operational milestones, the relevant SPVs can be transferred, creating a structured pathway for unlocking value and enabling NDR Smart Spaces to reinvest in the development of new assets.",
-  image: {
-    src: "/images/investor-centre/asset-flip/spv-transfer-handshake.jpg",
-    alt: "Two business partners shaking hands to seal an agreement",
-    width: 2000,
-    height: 1333,
-  },
-  moreInfo: {
-    eyebrow: "More information",
-    heading: "For more information, visit NDR InvIT",
-    body: "NDR InvIT is the listed infrastructure investment trust of the NDR Group. Visit the official website for the full investor record.",
-    cta: { label: "Visit NDR InvIT", href: "https://ndrinvit.com" },
-    domain: "ndrinvit.com",
-  },
-} as const;
 
 /**
  * Single source-of-truth table. Periods flagged with * are client-confirm before

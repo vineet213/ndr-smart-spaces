@@ -3,19 +3,20 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { contact } from "@/lib/data/homepage";
-import { enquiryErrorText, submitEnquiry } from "@/lib/enquiry";
+import { ENQUIRY_TYPES, enquiryErrorText, submitEnquiry } from "@/lib/enquiry";
 import { FIELD_MAX, isValidEmail, isValidLabel, isValidName } from "@/lib/formValidation";
 import { FormSafeguards, isVerified, resetVerification } from "./FormSafeguards";
 import { cx } from "../ui/cx";
 import styles from "./EnquiryForm.module.css";
 
 type FieldName = "name" | "email" | "company";
-type FormValues = Record<FieldName, string> & { message: string };
+type FormValues = Record<FieldName, string> & { enquiryType: string; message: string };
 
 const initialValues: FormValues = {
   name: "",
   email: "",
   company: "",
+  enquiryType: "",
   message: "",
 };
 
@@ -29,7 +30,7 @@ export function EnquiryForm() {
   const { fields, messageLabel, submit, sending, success, consentLabel, consentError, route } =
     contact.form;
   const [values, setValues] = useState<FormValues>(initialValues);
-  const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
+  const [errors, setErrors] = useState<Partial<Record<FieldName | "enquiryType", string>>>({});
   const [consentMissing, setConsentMissing] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [submitError, setSubmitError] = useState("");
@@ -44,7 +45,7 @@ export function EnquiryForm() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    const nextErrors: Partial<Record<FieldName, string>> = {};
+    const nextErrors: Partial<Record<FieldName | "enquiryType", string>> = {};
 
     if (!values.name.trim()) {
       nextErrors.name = "Please enter your name.";
@@ -62,6 +63,10 @@ export function EnquiryForm() {
       nextErrors.company = "Please enter a valid company name.";
     }
 
+    if (!values.enquiryType) {
+      nextErrors.enquiryType = "Please choose an enquiry type.";
+    }
+
     const noConsent = !new FormData(form).get("consent");
 
     setErrors(nextErrors);
@@ -69,7 +74,11 @@ export function EnquiryForm() {
     if (Object.keys(nextErrors).length > 0 || noConsent) {
       // Bring the first problem into view and under the keyboard's focus.
       const firstInvalid = fields.find((field) => nextErrors[field.name]);
-      const target = firstInvalid ? labelId(firstInvalid.name) : labelId("consent");
+      const target = firstInvalid
+        ? labelId(firstInvalid.name)
+        : nextErrors.enquiryType
+          ? labelId("enquiryType")
+          : labelId("consent");
       window.requestAnimationFrame(() => document.getElementById(target)?.focus());
       return;
     }
@@ -130,6 +139,40 @@ export function EnquiryForm() {
           ) : null}
         </div>
       ))}
+
+      <div className={cx(styles.field, styles.fieldWide)}>
+        <label className={styles.label} htmlFor={labelId("enquiryType")}>
+          Enquiry type
+        </label>
+        <select
+          id={labelId("enquiryType")}
+          className={cx(styles.input, styles.select)}
+          name="enquiryType"
+          required
+          aria-required
+          value={values.enquiryType}
+          onChange={(event) => {
+            setValues((prev) => ({ ...prev, enquiryType: event.target.value }));
+            setErrors((prev) => ({ ...prev, enquiryType: undefined }));
+          }}
+          aria-invalid={Boolean(errors.enquiryType)}
+          aria-describedby={errors.enquiryType ? `${labelId("enquiryType")}-error` : undefined}
+        >
+          <option value="" disabled>
+            Select an enquiry type
+          </option>
+          {ENQUIRY_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+        {errors.enquiryType ? (
+          <span id={`${labelId("enquiryType")}-error`} className={styles.error} role="alert">
+            {errors.enquiryType}
+          </span>
+        ) : null}
+      </div>
 
       <div className={cx(styles.field, styles.fieldWide)}>
         <label className={styles.label} htmlFor={labelId("message")}>

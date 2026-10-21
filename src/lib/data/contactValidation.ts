@@ -22,13 +22,15 @@ export function validateOfficeKeys(): string[] {
 export function validateOfficeContactDetails(): string[] {
   const errors: string[] = [];
   for (const office of officeDirectory.offices) {
-    if (!office.phone.trim()) {
+    if (officeDirectory.detailsConfirmed && !office.phone.trim()) {
       errors.push(`Office directory entry "${office.key}" is missing a phone number.`);
     }
     if (!office.hours.trim()) {
       errors.push(`Office directory entry "${office.key}" is missing office hours.`);
     }
-    if (!office.email.label.trim() || !office.email.href.startsWith("mailto:")) {
+    // An empty email is a desk whose address is still awaited; it renders as pending.
+    const emailPending = !office.email.label.trim() && !office.email.href;
+    if (!emailPending && (!office.email.label.trim() || !office.email.href.startsWith("mailto:"))) {
       errors.push(`Office directory entry "${office.key}" has an invalid email record.`);
     }
   }

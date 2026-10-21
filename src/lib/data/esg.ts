@@ -131,7 +131,7 @@ export const esgGreenFeatures = {
       body: "Our ongoing plantation drives extend green cover well beyond the built footprint. They restore tree cover, support local biodiversity and offset the impact of construction.",
       image: {
         src: "/images/esg/plantation-drive.jpg",
-        alt: "Cupped hands holding a fern seedling in a mound of soil",
+        alt: "Two pairs of hands planting a young sapling in freshly turned soil",
       },
     },
     {
@@ -173,7 +173,7 @@ export type EsgPillar = {
 
 export const esgFramework = {
   eyebrow: "The framework",
-  heading: "One ledger, every discipline.",
+  heading: "Four pillars of responsible growth.",
   image: {
     src: "/images/esg/band-aerial-warehouse.jpg",
     alt: "Aerial view of an NDR Smart Spaces warehouse with trucks at its loading docks",

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Container, Section } from "@/components/layout";
-import { Eyebrow, Icon, Lede } from "@/components/ui";
+import { Icon, Lede } from "@/components/ui";
 import { sitemapGroups } from "@/lib/data/legal";
 import styles from "./LegalSitemap.module.css";
 
@@ -10,9 +10,6 @@ export function LegalSitemap() {
       <Section tone="charcoal" ariaLabelledby="legal-sitemap-title" className={styles.cover}>
         <Container>
           <div className={styles.coverInner}>
-            <Eyebrow tone="dark" className={styles.eyebrow}>
-              Legal · Notice
-            </Eyebrow>
             <h1 id="legal-sitemap-title" className={styles.title}>
               Website Sitemap
             </h1>

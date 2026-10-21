@@ -6,7 +6,6 @@ export type LegalSection = {
 };
 
 export type LegalDocumentData = {
-  eyebrow: string;
   title: string;
   lede: string;
   edition: string;
@@ -19,7 +18,6 @@ const OFFICE = "Bazulla Road, T. Nagar, Chennai, Tamil Nadu 600017, India";
 const EDITION = "Last updated 20 October 2026";
 
 export const privacyPolicy: LegalDocumentData = {
-  eyebrow: "Legal · Notice",
   title: "Privacy Policy",
   lede: `How ${COMPANY} collects, uses, shares and protects personal data shared with us through this website, and the rights you have over it.`,
   edition: `${EDITION} · Applies to ndrsmart.com`,
@@ -146,7 +144,6 @@ export const privacyPolicy: LegalDocumentData = {
 };
 
 export const termsOfUse: LegalDocumentData = {
-  eyebrow: "Legal · Notice",
   title: "Terms & Conditions",
   lede: `The terms that apply when you access or use the ${COMPANY} website and its publications.`,
   edition: `${EDITION} · Applies to all pages under ndrsmart.com`,
@@ -261,7 +258,6 @@ export const termsOfUse: LegalDocumentData = {
 };
 
 export const disclaimer: LegalDocumentData = {
-  eyebrow: "Legal · Notice",
   title: "Disclaimer",
   lede: "Important statements about the information published on this website, including the operating manual, investor-facing references, portfolio data, maps and images.",
   edition: `${EDITION} · Read together with the Terms & Conditions`,
@@ -382,7 +378,6 @@ export const sitemapGroups: readonly SitemapGroup[] = [
         href: "/business/ndr-asset-management/asset-performance-management",
       },
       { label: "Residential Plotting", href: "/business/residential-plotting" },
-      { label: "Asset Flip: Transfer of SPVs", href: "/investor-centre/asset-flip" },
     ],
   },
   {

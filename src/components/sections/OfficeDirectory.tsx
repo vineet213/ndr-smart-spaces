@@ -46,6 +46,20 @@ const deskIcons: Record<string, ReactNode> = {
       <path d="m11.5 16 3.2 3.2L21 12.8" />
     </svg>
   ),
+  compliance: (
+    <svg {...iconProps}>
+      <path d="M9 4h10l6 6v18H9z" />
+      <path d="M19 4v6h6" />
+      <path d="m13 19 3 3 6-6" />
+    </svg>
+  ),
+  posh: (
+    <svg {...iconProps}>
+      <circle cx="16" cy="9" r="4" />
+      <path d="M8 27c0-5 3.6-9 8-9s8 4 8 9" />
+      <path d="M4 16h4M24 16h4" />
+    </svg>
+  ),
 };
 
 /* A one-line purpose for each desk, so a visitor can pick the right one.     */
@@ -53,6 +67,8 @@ const deskPurpose: Record<string, string> = {
   "smart-spaces": "Business enquiries, projects and partnerships.",
   hr: "Careers, hiring and people matters.",
   grievance: "Complaints, concerns and redressal.",
+  compliance: "Regulatory, statutory and compliance matters.",
+  posh: "Prevention of sexual harassment at the workplace.",
 };
 
 export function OfficeDirectory() {
@@ -104,18 +120,30 @@ export function OfficeDirectory() {
                     </a>
                   </div>
                 ) : null}
-                <a className={styles.emailRow} href={office.email.href}>
-                  <span className={styles.emailIcon}>
-                    <Icon name="mail" />
-                  </span>{" "}
-                  <span className={styles.emailText}>
-                    <span className={styles.contactLabel}>Email</span>{" "}
-                    <span className={styles.emailAddress}>{office.email.label}</span>
-                  </span>{" "}
-                  <span className={styles.emailArrow}>
-                    <Icon name="arrow-up-right" />
-                  </span>
-                </a>
+                {office.email.href ? (
+                  <a className={styles.emailRow} href={office.email.href}>
+                    <span className={styles.emailIcon}>
+                      <Icon name="mail" />
+                    </span>{" "}
+                    <span className={styles.emailText}>
+                      <span className={styles.contactLabel}>Email</span>{" "}
+                      <span className={styles.emailAddress}>{office.email.label}</span>
+                    </span>{" "}
+                    <span className={styles.emailArrow}>
+                      <Icon name="arrow-up-right" />
+                    </span>
+                  </a>
+                ) : (
+                  <div className={styles.emailRow}>
+                    <span className={styles.emailIcon}>
+                      <Icon name="mail" />
+                    </span>{" "}
+                    <span className={styles.emailText}>
+                      <span className={styles.contactLabel}>Email</span>{" "}
+                      <span className={styles.emailAddress}>To be announced</span>
+                    </span>
+                  </div>
+                )}
                 {officeDirectory.detailsConfirmed ? (
                   <div className={styles.contactRow}>
                     <span className={styles.contactLabel}>Hours</span>{" "}

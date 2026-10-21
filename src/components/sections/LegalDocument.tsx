@@ -1,5 +1,5 @@
 import { Container, Section } from "@/components/layout";
-import { Eyebrow, Lede } from "@/components/ui";
+import { Lede } from "@/components/ui";
 import type { LegalDocumentData } from "@/lib/data/legal";
 import styles from "./LegalDocument.module.css";
 
@@ -9,9 +9,6 @@ export function LegalDocument({ doc }: { doc: LegalDocumentData }) {
       <Section tone="charcoal" ariaLabelledby="legal-document-title" className={styles.cover}>
         <Container>
           <div className={styles.coverInner}>
-            <Eyebrow tone="dark" className={styles.eyebrow}>
-              {doc.eyebrow}
-            </Eyebrow>
             <h1 id="legal-document-title" className={styles.title}>
               {doc.title}
             </h1>

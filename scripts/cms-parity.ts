@@ -933,7 +933,7 @@ async function verifySettings(content: ContentStore): Promise<void> {
     "compliance@ndrsmart.com",
     "project@ndrsmart.com",
     "investors@ndrsmart.com",
-    "spaces@ndrsmart.com",
+    "projects@ndrsmart.com",
     "hr@ndrsmart.com",
     "grievance@ndrsmart.com",
   ];

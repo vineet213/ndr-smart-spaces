@@ -33,7 +33,7 @@ export const corporateSettings = {
       value: "investors@ndrsmart.com",
     },
     {
-      value: "spaces@ndrsmart.com",
+      value: "projects@ndrsmart.com",
     },
     {
       value: "hr@ndrsmart.com",

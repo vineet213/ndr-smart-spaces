@@ -12,6 +12,7 @@ export type MotifKey =
   | "forklift"
   | "racking"
   | "dock"
+  | "handshake"
   | "park"
   | "containers"
   | "factory"
@@ -94,6 +95,21 @@ const motifShapes: Record<MotifKey, ReactNode> = {
       <P d="M3 54 H61" />
     </>
   ),
+  /* a handshake: two cuffs, two hands clasped in the middle */
+  handshake: (
+    <>
+      <P d="M3 20 H11 V42 H3 Z" />
+      <P d="M53 20 H61 V42 H53 Z" />
+      <P d="M11 24 L20 21 H27 L33 25" />
+      <P d="M53 24 L44 21 H38 L31 26" />
+      <P d="M11 38 L19 40 L26 47 C28 49 31 48 31 46" />
+      <P d="M53 38 L45 40 L38 47 C36 49 33 48 33 46" />
+      <P d="M33 25 L25 31 C23 33 25 36 28 34 L36 28" />
+      <P d="M22 37 L28 43 C30 45 33 43 31 41" />
+      <P d="M27 33 L33 39 C35 41 38 39 36 37" />
+      <P d="M32 30 L38 36 C40 38 43 36 41 34" />
+    </>
+  ),
   /* a warehousing park from above: buildings, a service road, a yard */
   park: (
     <>
@@ -110,14 +126,13 @@ const motifShapes: Record<MotifKey, ReactNode> = {
   ),
   containers: (
     <>
-      <P d="M5 54 H59" />
-      <P d="M7 54 V43 H22 V54" />
-      <P d="M24 54 V43 H39 V54" />
-      <P d="M41 54 V43 H56 V54" />
-      <P d="M15 43 V32 H30 V43" />
-      <P d="M33 43 V32 H48 V43" />
-      <P d="M24 32 V21 H39 V32" />
-      <P d="M50 21 V8 L58 14" />
+      <P d="M8 54 V42 H24 V54 Z" />
+      <P d="M24 54 V42 H40 V54 Z" />
+      <P d="M40 54 V42 H56 V54 Z" />
+      <P d="M16 42 V30 H32 V42 Z" />
+      <P d="M32 42 V30 H48 V42 Z" />
+      <P d="M24 30 V18 H40 V30 Z" />
+      <P d="M4 54 H60" />
     </>
   ),
   factory: (
@@ -211,8 +226,8 @@ export const MOTIF_SEQUENCE: readonly MotifKey[] = [
   "chart",
   "warehouse",
   "truck",
+  "handshake",
   "dock",
-  "park",
   "coin",
   "warehouse",
   "shield",

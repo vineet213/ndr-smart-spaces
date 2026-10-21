@@ -12,6 +12,15 @@
  * Whichever is used, the failure codes below are the same, so the forms don't care.
  */
 
+/** Options for the "Enquiry type" dropdown on both enquiry forms. */
+export const ENQUIRY_TYPES = [
+  "Enquiry for a warehouse",
+  "Compliance related enquiry",
+  "Grievance / POSH redressal",
+  "Career opportunity",
+  "Others",
+] as const;
+
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
 const CUSTOM_ENDPOINT = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT;

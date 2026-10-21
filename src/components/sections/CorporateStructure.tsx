@@ -311,8 +311,8 @@ const P_NODES: Record<EntityId, N> = {
 };
 
 const P_ENTITIES: readonly { id: CardId; title: string; fn: string }[] = [
-  { id: "am", title: am.name, fn: "Project management company" },
-  { id: "spv", title: spv.name, fn: "Owns / leases land · constructs warehouses" },
+  { id: "am", title: am.name, fn: "Project/Asset management company" },
+  { id: "spv", title: spv.name, fn: "" },
   { id: "invit", title: invit.name, fn: "Purchaser of SPV ownership" },
   { id: "ave", title: ave.name, fn: "Development entity · plotting" },
   { id: "third", title: third.name, fn: "Land purchasers" },
@@ -624,13 +624,8 @@ export function CorporateStructure() {
               </g>
 
               {/* level 2 — what the hub owns */}
-              <EntityNode id="am" title={am.name} fn="PROJECT MANAGEMENT COMPANY" />
-              <EntityNode
-                id="spv"
-                title={spv.name}
-                fnLine1="OWNS / LEASES LAND"
-                fnLine2="· CONSTRUCTS WAREHOUSES"
-              />
+              <EntityNode id="am" title={am.name} fn="PROJECT/ASSET MANAGEMENT COMPANY" />
+              <EntityNode id="spv" title={spv.name} />
               <EntityNode id="ave" title={ave.name} fn="DEVELOPMENT ENTITY · PLOTTING" />
 
               {/* level 3 — the two outward sales */}
@@ -724,14 +719,16 @@ function EntityNode({ id, title, fn, fnLine1, fnLine2 }: NodeProps) {
           {titleLines[1]}
         </text>
       )}
-      <line
-        x1={n.x + pad}
-        y1={hairY}
-        x2={n.x + n.w - pad}
-        y2={hairY}
-        stroke="var(--color-hairline-light)"
-        strokeWidth="0.6"
-      />
+      {(fn || fnLine1) && (
+        <line
+          x1={n.x + pad}
+          y1={hairY}
+          x2={n.x + n.w - pad}
+          y2={hairY}
+          stroke="var(--color-hairline-light)"
+          strokeWidth="0.6"
+        />
+      )}
       {fn && (
         <text x={n.x + pad} y={fnY1} className={styles.nFn}>
           {fn}

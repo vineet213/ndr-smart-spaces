@@ -7,7 +7,7 @@ import { runContactValidation } from "@/lib/data/contactValidation";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Contact NDR Smart Spaces Pvt. Ltd., Chennai: write to spaces@ndrsmart.com or reach the Smart Spaces, HR and Grievance desks.",
+  description: "Contact NDR Smart Spaces Pvt. Ltd., Chennai: write to projects@ndrsmart.com or reach the Smart Spaces, HR and Grievance desks.",
 };
 
 if (process.env.NODE_ENV === "development") {

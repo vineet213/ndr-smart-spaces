@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { Container, Grid, GridItem } from "@/components/layout";
 import { Eyebrow, Heading, Icon } from "@/components/ui";
 import { correspondenceForm } from "@/lib/data/contact";
@@ -7,13 +6,10 @@ import { CorrespondenceForm } from "./CorrespondenceForm";
 import { Reveal } from "./Reveal";
 import styles from "./Correspondence.module.css";
 
-/* Quick answers beside the form: where we are, who else can be written to and  */
-/* how fast to expect a reply. The response-time line is the same promise made   */
-/* on the Asset Management page.                                                 */
+/* Quick answers beside the form: where we are and how fast to expect a reply. */
+/* The response-time line is the same promise made on the Asset Management page. */
 export function Correspondence() {
   const address = contact.info.find((item) => item.label === "Corporate office");
-  const emails = contact.info.find((item) => item.label === "Business enquiry");
-  const emailList = emails ? emails.value.split(" · ") : [];
 
   return (
     <section
@@ -40,26 +36,6 @@ export function Correspondence() {
                     <span className={styles.factBody}>
                       <span className={styles.factLabel}>Corporate office</span>{" "}
                       <span className={styles.factValue}>{address.value}</span>
-                    </span>
-                  </li>
-                ) : null}
-                {emailList.length > 0 ? (
-                  <li className={styles.fact}>
-                    <span className={styles.factIcon}>
-                      <Icon name="mail" />
-                    </span>{" "}
-                    <span className={styles.factBody}>
-                      <span className={styles.factLabel}>Write to us directly</span>{" "}
-                      <span className={styles.factValue}>
-                        {emailList.map((email, index) => (
-                          <Fragment key={email}>
-                            {index > 0 ? " " : null}
-                            <a className={styles.factLink} href={`mailto:${email}`}>
-                              {email}
-                            </a>
-                          </Fragment>
-                        ))}
-                      </span>
                     </span>
                   </li>
                 ) : null}

@@ -49,10 +49,6 @@ export const navigation = {
               href: "/business/residential-plotting",
               label: "Residential Plotting",
             },
-            {
-              href: "/investor-centre/asset-flip",
-              label: "Asset Flip: Transfer of SPVs",
-            },
           ],
         },
       ],
@@ -120,10 +116,6 @@ export const navigation = {
             {
               href: "/business/residential-plotting",
               label: "Residential Plotting",
-            },
-            {
-              href: "/investor-centre/asset-flip",
-              label: "Asset Flip: Transfer of SPVs",
             },
           ],
         },
