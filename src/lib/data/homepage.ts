@@ -378,11 +378,6 @@ export const contact = {
       value: "Bazulla Road, T. Nagar, Chennai, Tamil Nadu 600017",
     },
     {
-      label: "Business enquiry",
-      value: "compliance@ndrsmart.com · project@ndrsmart.com",
-      href: "mailto:compliance@ndrsmart.com",
-    },
-    {
       label: "Directions",
       value: "Open in Google Maps",
       href: "https://maps.app.goo.gl/ZJpkBnXqj3M8wXqa9?g_st=iw",
