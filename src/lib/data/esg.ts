@@ -130,7 +130,7 @@ export const esgGreenFeatures = {
       title: "Plantation Drives & Biodiversity",
       body: "Our ongoing plantation drives extend green cover well beyond the built footprint. They restore tree cover, support local biodiversity and offset the impact of construction.",
       image: {
-        src: "/images/esg/plantation-drive.jpg",
+        src: "/images/esg/plantation-sapling.jpg",
         alt: "Two pairs of hands planting a young sapling in freshly turned soil",
       },
     },
