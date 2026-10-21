@@ -138,14 +138,18 @@
   align-items: center;
 }
 
-/* short gold rule above the heading, as on the other overviews */
-.soHeading::before {
+/* gold rule, then the eyebrow, above the heading, as on the other overviews */
+.soHead::before {
   content: "";
   display: block;
   width: 2.5rem;
   height: 2px;
   margin-bottom: var(--space-lg);
   background-color: var(--color-gold);
+}
+
+.soHead > p {
+  margin-bottom: var(--space-xl);
 }
 
 .soHeading {

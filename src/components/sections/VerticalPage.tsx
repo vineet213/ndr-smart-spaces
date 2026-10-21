@@ -78,13 +78,16 @@ function StackedOverview({ heading, writeup }: { heading: string; writeup: strin
   return (
     <Reveal>
       <div className={styles.so}>
-        <h2 className={styles.soHeading}>
-          {lines.map((line, index) => (
-            <span key={index} className={styles.soLine}>
-              {line}{" "}
-            </span>
-          ))}
-        </h2>
+        <div className={styles.soHead}>
+          <Eyebrow>{logisticsOverview.eyebrow}</Eyebrow>
+          <h2 className={styles.soHeading}>
+            {lines.map((line, index) => (
+              <span key={index} className={styles.soLine}>
+                {line}{" "}
+              </span>
+            ))}
+          </h2>
+        </div>
         <p className={styles.soBody}>{writeup}</p>
       </div>
     </Reveal>
