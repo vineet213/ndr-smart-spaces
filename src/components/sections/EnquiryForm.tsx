@@ -22,7 +22,7 @@ const initialValues: FormValues = {
 
 const PLACEHOLDERS: Record<FieldName, string> = {
   name: "Your full name",
-  email: "you@company.com",
+  email: "mail@yourdomain.com",
   company: "Your company",
 };
 

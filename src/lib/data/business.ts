@@ -246,7 +246,7 @@ export const capabilityMatrix = {
   footprint: {
     label: "Operating footprint",
     line: "Mumbai · NCR · Bengaluru · Chennai · Kolkata · Pune · Goa · Hyderabad · Surat",
-    note: "access to ~80% of India's consumption markets",
+    note: "access to approximately 80% of India's consumption markets",
     source: "Source: NDR Corporate Presentation",
   },
   headers: ["Capability", "Scope", "Evidence"] as const,
@@ -402,11 +402,10 @@ export const vertical02Metrics: readonly (Omit<CompanyMetric, "value"> & { value
   { value: 230, label: "Strength Of The Team", context: "Strength Of The Team" },
   { value: 14, label: "Projects In Pipeline", context: "Projects In Pipeline" },
   {
-    prefix: "~",
     value: 25,
     suffix: " MN",
-    label: "Assets Under Management (Sq. Ft.)",
-    context: "Assets Under Management (Sq. Ft.)",
+    label: "Approx. Assets Under Management (Sq. Ft.)",
+    context: "Approx. Assets Under Management (Sq. Ft.)",
   },
 ];
 
@@ -462,11 +461,10 @@ export const vertical02AssetManagement = {
   metrics: [
     { value: 98, suffix: "%", label: "Occupancy Status", context: "Occupancy Status" },
     {
-      prefix: "~",
       value: 25,
       suffix: " MN",
-      label: "Asset Under Management (Sq. Ft.)",
-      context: "Asset Under Management (Sq. Ft.)",
+      label: "Approx. Asset Under Management (Sq. Ft.)",
+      context: "Approx. Asset Under Management (Sq. Ft.)",
     },
     { value: 65, label: "Parks", context: "Parks" },
   ] as const satisfies ReadonlyArray<CompanyMetric>,

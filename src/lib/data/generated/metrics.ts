@@ -40,7 +40,7 @@ export const metrics = [
     name: "Consumption-market access",
     period: "As on FY26",
     source: "NDR Corporate Presentation",
-    value: "~80% of India's consumption markets",
+    value: "Approximately 80% of India's consumption markets",
   },
   {
     id: "m5",

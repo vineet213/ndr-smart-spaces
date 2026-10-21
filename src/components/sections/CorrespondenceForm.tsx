@@ -31,7 +31,7 @@ const initialValues: FormValues = {
 const PLACEHOLDERS: Record<string, string> = {
   name: "Your full name",
   company: "Your company",
-  email: "you@company.com",
+  email: "mail@yourdomain.com",
   phone: "+91 00000 00000",
 };
 
