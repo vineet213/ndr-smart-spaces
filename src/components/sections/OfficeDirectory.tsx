@@ -85,10 +85,6 @@ export function OfficeDirectory() {
                 {officeDirectory.heading}
               </Heading>
             </div>
-            <a className={styles.jump} href="#business-enquiry">
-              Prefer to write? Send an enquiry
-              <Icon name="chevron-down" />
-            </a>
           </div>
         </Reveal>
 

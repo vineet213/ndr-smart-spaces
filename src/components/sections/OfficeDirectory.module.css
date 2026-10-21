@@ -20,44 +20,6 @@
   gap: var(--space-4xl);
 }
 
-/* A clear way to the form for people who would rather write than pick a desk. */
-.jump {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  gap: var(--space-sm);
-  min-height: 2.75rem;
-  padding-inline: var(--space-3xl);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-small);
-  color: var(--color-maroon-dark);
-  text-decoration: none;
-  border: 1px solid var(--color-gold-40);
-  border-radius: 999px;
-  background-color: rgba(240, 182, 90, 0.12);
-  transition:
-    background-color var(--duration-standard) var(--ease-standard),
-    border-color var(--duration-standard) var(--ease-standard);
-}
-
-.jump svg {
-  width: 1rem;
-  height: 1rem;
-}
-
-@media (hover: hover) {
-  .jump:hover {
-    background-color: var(--color-gold);
-    border-color: var(--color-gold);
-  }
-}
-
-.jump:focus-visible {
-  outline: 2px solid var(--color-maroon);
-  outline-offset: 3px;
-}
-
 .directory {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

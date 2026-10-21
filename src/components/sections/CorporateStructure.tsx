@@ -9,7 +9,7 @@ import styles from "./CorporateStructure.module.css";
    DATA REFERENCES
    ═══════════════════════════════════════════════════════════════════════════ */
 
-const [spv, am, ave, invit, third] = corporateStructure.branches;
+const [spv, am, ave, third] = corporateStructure.branches;
 
 /* ═══════════════════════════════════════════════════════════════════════════
    CANVAS — 1320 × 680, a symmetric three-level tree
@@ -17,15 +17,14 @@ const [spv, am, ave, invit, third] = corporateStructure.branches;
    Level 1  NDR Smart Spaces Pvt. Ltd. (hub)
    Level 2  What the hub owns, on one shared "Ownership" bus: NDR Asset
             Management · Group SPVs · Ave Acres LLP
-   Level 3  The two outward sales, each directly under the entity that makes
-            it: Group SPVs ⇄ Third-Party Listed Entity (SPV ownership) and
+   Level 3  The outward sale, directly under the entity that makes it:
             Ave Acres ⇄ Third parties (developed land)
    ═══════════════════════════════════════════════════════════════════════════ */
 
 const VB_W = 1320;
 const VB_H = 640;
 
-type EntityId = "center" | "spv" | "am" | "ave" | "invit" | "third";
+type EntityId = "center" | "spv" | "am" | "ave" | "third";
 type CardId = Exclude<EntityId, "center">;
 
 type N = { x: number; y: number; w: number; h: number };
@@ -35,7 +34,6 @@ const NODES: Record<EntityId, N> = {
   am: { x: 65, y: 262, w: 270, h: 128 },
   spv: { x: 525, y: 262, w: 270, h: 128 },
   ave: { x: 985, y: 262, w: 270, h: 128 },
-  invit: { x: 525, y: 480, w: 270, h: 120 },
   third: { x: 985, y: 480, w: 270, h: 120 },
 };
 
@@ -73,19 +71,6 @@ const CONNECTORS: readonly Connector[] = [
     type: "service",
     d: "M519 326 L341 326",
     plate: { px: 430, py: 326, label: "PMC Fee|Consultancy" },
-  },
-  /* Group SPVs ⇄ Third-Party Listed Entity, a pair with a label on each side */
-  {
-    id: "txn-sale-spv",
-    type: "transaction",
-    d: "M640 396 L640 474",
-    plate: { px: 553, py: 435, label: "Sale of|SPV Ownership" },
-  },
-  {
-    id: "txn-pay-spv",
-    type: "transaction",
-    d: "M680 474 L680 396",
-    plate: { px: 767, py: 435, label: "Consideration|Paid" },
   },
   /* Ave Acres ⇄ Third parties */
   {
@@ -236,12 +221,6 @@ const ICONS: Record<CardId, ReactElement> = {
       <path d="M9,26 Q9,17 17,17 Q25,17 25,26" />
     </g>
   ),
-  invit: (
-    <g stroke="white" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none">
-      <path d="M17,5 L8,10 L8,17 Q8,25 17,27 Q26,25 26,17 L26,10 Z" />
-      <polyline points="12,15 16,19 23,11" />
-    </g>
-  ),
 };
 
 /* ─── connector label plate sizing ───────────────────────────────────────── */
@@ -290,13 +269,12 @@ function DeskPlate({ px, py, label }: { px: number; py: number; label: string })
      NDR Smart Spaces          hub
      NDR Asset Management      ← PMC fee from Group SPVs
      Group SPVs
-     Third-Party Listed Entity ⇄ SPV ownership / consideration
      Ave Acres LLP
      Third parties             ⇄ developed land / consideration
    ═══════════════════════════════════════════════════════════════════════════ */
 
 const P_W = 360;
-const P_H = 930;
+const P_H = 768;
 const P_X = 48;
 const P_BOX_W = 292;
 const P_RAIL_X = 24;
@@ -305,15 +283,13 @@ const P_NODES: Record<EntityId, N> = {
   center: { x: P_X, y: 16, w: P_BOX_W, h: 84 },
   am: { x: P_X, y: 170, w: P_BOX_W, h: 84 },
   spv: { x: P_X, y: 318, w: P_BOX_W, h: 100 },
-  invit: { x: P_X, y: 508, w: P_BOX_W, h: 84 },
-  ave: { x: P_X, y: 632, w: P_BOX_W, h: 84 },
-  third: { x: P_X, y: 806, w: P_BOX_W, h: 84 },
+  ave: { x: P_X, y: 470, w: P_BOX_W, h: 84 },
+  third: { x: P_X, y: 644, w: P_BOX_W, h: 84 },
 };
 
 const P_ENTITIES: readonly { id: CardId; title: string; fn: string }[] = [
   { id: "am", title: am.name, fn: "Project/Asset management company" },
-  { id: "spv", title: spv.name, fn: "" },
-  { id: "invit", title: invit.name, fn: "Purchaser of SPV ownership" },
+  { id: "spv", title: spv.name, fn: "Owns / leases land · constructs warehouses" },
   { id: "ave", title: ave.name, fn: "Development entity · plotting" },
   { id: "third", title: third.name, fn: "Land purchasers" },
 ];
@@ -335,12 +311,12 @@ const P_CONNECTORS: readonly PortraitConnector[] = [
   {
     id: "own-rail",
     type: "ownership",
-    d: `M${P_X} 58 L${P_RAIL_X} 58 L${P_RAIL_X} 674`,
+    d: `M${P_X} 58 L${P_RAIL_X} 58 L${P_RAIL_X} 512`,
     noArrow: true,
   },
   { id: "own-am", type: "ownership", d: `M${P_RAIL_X} 212 L42 212` },
   { id: "own-spv", type: "ownership", d: `M${P_RAIL_X} 368 L42 368` },
-  { id: "own-ave", type: "ownership", d: `M${P_RAIL_X} 674 L42 674` },
+  { id: "own-ave", type: "ownership", d: `M${P_RAIL_X} 512 L42 512` },
   /* Group SPVs → Asset Management, straight up between the two cards */
   {
     id: "svc-pmc",
@@ -351,41 +327,22 @@ const P_CONNECTORS: readonly PortraitConnector[] = [
     anchor: "start",
     lines: ["PMC fee ·", "consultancy"],
   },
-  /* Group SPVs ⇄ Third-Party Listed Entity */
-  {
-    id: "txn-sale-spv",
-    type: "transaction",
-    d: "M180 424 L180 502",
-    lx: 170,
-    ly: 463,
-    anchor: "end",
-    lines: ["Sale of SPV", "ownership"],
-  },
-  {
-    id: "txn-pay-spv",
-    type: "transaction",
-    d: "M216 508 L216 430",
-    lx: 226,
-    ly: 463,
-    anchor: "start",
-    lines: ["Consideration", "paid"],
-  },
   /* Ave Acres ⇄ Third parties */
   {
     id: "txn-sale-ave",
     type: "transaction",
-    d: "M180 722 L180 800",
+    d: "M180 560 L180 638",
     lx: 170,
-    ly: 761,
+    ly: 599,
     anchor: "end",
     lines: ["Sale of", "developed land"],
   },
   {
     id: "txn-pay-ave",
     type: "transaction",
-    d: "M216 806 L216 728",
+    d: "M216 644 L216 566",
     lx: 226,
-    ly: 761,
+    ly: 599,
     anchor: "start",
     lines: ["Consideration", "paid"],
   },
@@ -460,7 +417,7 @@ function PortraitNode({ id, title, fn }: { id: CardId; title: string; fn: string
         width={node.w}
         height={4}
         rx={2}
-        className={id === "am" || id === "invit" ? styles.accentG : styles.accentM}
+        className={id === "am" ? styles.accentG : styles.accentM}
       />
       {titleLines.map((line, index) => (
         <text key={line} x={textX} y={titleY + index * 17} className={styles.pTitle}>
@@ -625,11 +582,15 @@ export function CorporateStructure() {
 
               {/* level 2 — what the hub owns */}
               <EntityNode id="am" title={am.name} fn="PROJECT/ASSET MANAGEMENT COMPANY" />
-              <EntityNode id="spv" title={spv.name} />
+              <EntityNode
+                id="spv"
+                title={spv.name}
+                fnLine1="OWNS / LEASES LAND ·"
+                fnLine2="CONSTRUCTS WAREHOUSES"
+              />
               <EntityNode id="ave" title={ave.name} fn="DEVELOPMENT ENTITY · PLOTTING" />
 
-              {/* level 3 — the two outward sales */}
-              <EntityNode id="invit" title={invit.name} fn="PURCHASER OF SPV OWNERSHIP" />
+              {/* level 3 — the outward sale */}
               <EntityNode id="third" title={third.name} fn="LAND PURCHASERS" />
             </svg>
           </div>
@@ -659,12 +620,6 @@ export function CorporateStructure() {
             </li>
             <li>
               Transactions, consideration paid: {third.name} to {ave.name}.
-            </li>
-            <li>
-              Transactions, sale of SPV ownership: {spv.name} to {invit.name} ({invit.function}).
-            </li>
-            <li>
-              Transactions, consideration paid: {invit.name} to {spv.name}.
             </li>
           </ol>
 
@@ -709,7 +664,7 @@ function EntityNode({ id, title, fn, fnLine1, fnLine2 }: NodeProps) {
         width={4}
         height={n.h}
         rx={2}
-        className={id === "am" || id === "invit" ? styles.accentG : styles.accentM}
+        className={id === "am" ? styles.accentG : styles.accentM}
       />
       <text x={n.x + pad} y={titleY1} className={styles.nTitle}>
         {titleLines[0]}

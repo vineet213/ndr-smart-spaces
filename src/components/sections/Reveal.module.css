@@ -37,6 +37,12 @@
   clip-path: inset(0 0 0 0);
 }
 
+/* A wiped heading set at line-height 1 would have its descenders ("g", "y")   */
+/* cut off by the box-edge clip; let the revealed text extend below the box.   */
+.isInView.wipe > * {
+  clip-path: inset(0 0 -0.3em 0);
+}
+
 .isInView {
   opacity: 1;
   /* `none`, not translateY(0): a lingering transform makes this wrapper the     */

@@ -322,11 +322,6 @@ export const corporateStructure = {
       route: { label: "Ave Acres", href: "https://aveacres.com", external: true },
     },
     {
-      name: "Third-Party Listed Entity",
-      function: "Purchaser of SPV ownership",
-      relationship: "Sale of SPV ownership · consideration",
-    },
-    {
       name: "Third parties",
       function: "Sale of developed land",
       relationship: "Consideration",
@@ -407,7 +402,8 @@ export const vertical02Metrics: readonly (Omit<CompanyMetric, "value"> & { value
   { value: 230, label: "Strength Of The Team", context: "Strength Of The Team" },
   { value: 14, label: "Projects In Pipeline", context: "Projects In Pipeline" },
   {
-    value: 23,
+    prefix: "~",
+    value: 25,
     suffix: " MN",
     label: "Assets Under Management (Sq. Ft.)",
     context: "Assets Under Management (Sq. Ft.)",
@@ -466,12 +462,13 @@ export const vertical02AssetManagement = {
   metrics: [
     { value: 98, suffix: "%", label: "Occupancy Status", context: "Occupancy Status" },
     {
-      value: 23,
+      prefix: "~",
+      value: 25,
       suffix: " MN",
       label: "Asset Under Management (Sq. Ft.)",
       context: "Asset Under Management (Sq. Ft.)",
     },
-    { value: 65, label: "Locations", context: "Locations" },
+    { value: 65, label: "Parks", context: "Parks" },
   ] as const satisfies ReadonlyArray<CompanyMetric>,
   cta: {
     eyebrow: "Business Enquiry",

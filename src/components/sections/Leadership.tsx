@@ -24,16 +24,6 @@ function useIsClient() {
   );
 }
 
-function initialsOf(name: string) {
-  return name
-    .split(" ")
-    .map((part) => part.charAt(0))
-    .filter(Boolean)
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
-}
-
 /** A portrait with a fixed 4:5 box (explicit width/height), or a monogram if there is no photo. */
 function Photo({
   profile,
@@ -47,7 +37,7 @@ function Photo({
   if (!profile.photo) {
     return (
       <span className={styles.monogram} aria-hidden="true">
-        {initialsOf(profile.name)}
+        N/A
       </span>
     );
   }

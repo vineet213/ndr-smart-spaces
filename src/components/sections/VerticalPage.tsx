@@ -44,7 +44,7 @@ function renderEmphasized(text: string, phrases?: readonly string[]): ReactNode 
   return nodes;
 }
 
-/* Logistics overview: heading on the left, the copy on the                  */
+/* Logistics and Residential Plotting overview: heading on the left, the copy on the                  */
 /* right with its first sentence set as a lead.                              */
 function LogisticsOverview({ heading, writeup }: { heading: string; writeup: string }) {
   const split = writeup.indexOf(". ");
@@ -67,29 +67,6 @@ function LogisticsOverview({ heading, writeup }: { heading: string; writeup: str
         </div>
       </Reveal>
     </div>
-  );
-}
-
-/* Residential Plotting overview: the heading on the left, the copy on the   */
-/* right with its first sentence set as a lead, divided by a gold hairline.  */
-function ResidentialOverview({ heading, writeup }: { heading: string; writeup: string }) {
-  const split = writeup.indexOf(". ");
-  const lead = split === -1 ? writeup : writeup.slice(0, split + 1);
-  const rest = split === -1 ? "" : writeup.slice(split + 2);
-
-  return (
-    <Reveal>
-      <div className={styles.roGrid}>
-        <div className={styles.roHead}>
-          <Eyebrow>{logisticsOverview.eyebrow}</Eyebrow>
-          <h2 className={styles.roHeading}>{heading}</h2>
-        </div>
-        <div className={styles.roBody}>
-          <p className={styles.roLead}>{lead}</p>
-          {rest ? <p className={styles.roRest}>{rest}</p> : null}
-        </div>
-      </div>
-    </Reveal>
   );
 }
 
@@ -138,18 +115,13 @@ export function VerticalPage({ division }: VerticalPageProps) {
         <div className={cx(styles.overviewWrap, isV3 && styles.overviewWrapCompact)}>
           {isV3 ? null : <DrawnGrid />}
           <Container className={styles.content}>
-            {isV1 ? (
+            {isV1 || isV3 ? (
               <LogisticsOverview
                 heading={overview?.heading ?? division.title}
                 writeup={division.writeup}
               />
             ) : isV2 ? (
               <StackedOverview
-                heading={overview?.heading ?? division.title}
-                writeup={division.writeup}
-              />
-            ) : isV3 ? (
-              <ResidentialOverview
                 heading={overview?.heading ?? division.title}
                 writeup={division.writeup}
               />
