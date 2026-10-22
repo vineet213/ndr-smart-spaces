@@ -6,7 +6,8 @@
   "scripts": {
     "images": "node scripts/build-images.mjs",
     "predev": "node scripts/build-images.mjs",
-    "dev": "next dev",
+    "dev": "node scripts/dev.mjs",
+    "dev:next-only": "next dev",
     "prebuild": "node scripts/validate-warehouses.mjs && node scripts/build-images.mjs",
     "build": "next build",
     "postbuild": "node scripts/flatten-segment-prefetch.mjs && node scripts/build-chat-knowledge.mjs",

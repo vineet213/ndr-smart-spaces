@@ -26,6 +26,9 @@ const AUM_DATA = join(process.cwd(), "src", "lib", "data", "generated", "assetsU
 
 // Pages that only repeat other pages or hold nothing a visitor would ask about.
 const SKIP = new Set(["/404/", "/_not-found/", "/sitemap/"]);
+// Warehouse pages still carry SAMPLE pilot text; the bot must not repeat it.
+// Remove this once every published warehouse page has real content.
+const SKIP_PREFIXES = ["/warehouses/"];
 
 const ENTITIES = {
   amp: "&",
@@ -136,7 +139,7 @@ async function main() {
   const sections = [];
   for await (const file of pages(OUT_DIR)) {
     const path = `/${relative(OUT_DIR, file).split(sep).slice(0, -1).join("/")}${file === join(OUT_DIR, "index.html") ? "" : "/"}`;
-    if (SKIP.has(path)) continue;
+    if (SKIP.has(path) || SKIP_PREFIXES.some((prefix) => path.startsWith(prefix))) continue;
     const page = pageText(await fs.readFile(file, "utf8"));
     const body = path === REGISTER_PAGE ? `${page.body}\n\n${await registerText()}` : page.body;
     const title = page.title;
