@@ -27,9 +27,6 @@ export const corporateSettings = {
       value: "compliance@ndrsmart.com",
     },
     {
-      value: "project@ndrsmart.com",
-    },
-    {
       value: "investors@ndrsmart.com",
     },
     {

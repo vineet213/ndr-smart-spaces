@@ -7,8 +7,8 @@ export const footer = {
         "label": "compliance@ndrsmart.com",
       },
       {
-        "href": "mailto:project@ndrsmart.com",
-        "label": "project@ndrsmart.com",
+        "href": "mailto:projects@ndrsmart.com",
+        "label": "projects@ndrsmart.com",
       },
     ],
     "heading": "Correspondence",

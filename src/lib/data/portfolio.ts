@@ -759,7 +759,7 @@ export const portfolioClosing = {
   eyebrow: "Catalogue · Endnote",
   line: "The register continues at NDR InvIT.",
   body: "Completed assets are offered to NDR InvIT under a Right of First Offer; the listed portfolio is maintained separately by the trust.",
-  primaryCta: { label: "Discuss an asset", href: "mailto:project@ndrsmart.com" },
+  primaryCta: { label: "Discuss an asset", href: "mailto:projects@ndrsmart.com" },
   secondaryCta: { label: "NDR InvIT", href: "https://ndrinvit.com" },
 } as const;
 

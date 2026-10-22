@@ -931,7 +931,6 @@ async function verifySettings(content: ContentStore): Promise<void> {
   const expectedPhones = ["+91 44 4296 1200", "+91 44 4296 1206", "+91 44 4296 1207"];
   const expectedEmails = [
     "compliance@ndrsmart.com",
-    "project@ndrsmart.com",
     "investors@ndrsmart.com",
     "projects@ndrsmart.com",
     "hr@ndrsmart.com",
@@ -1259,7 +1258,7 @@ async function verifyMediaIntegration(): Promise<void> {
     (e: { value: string }) => e.value === "compliance@ndrsmart.com",
   );
   const businessEmailEntry = corporateSettings.emails.find(
-    (e: { value: string }) => e.value === "project@ndrsmart.com",
+    (e: { value: string }) => e.value === "projects@ndrsmart.com",
   );
   const contactOk =
     pressContact.response.value === corporateSettings.pressResponseExpectation &&

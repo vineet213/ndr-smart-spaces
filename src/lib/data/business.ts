@@ -380,7 +380,7 @@ export const execution = {
 
 export const businessClosing = {
   line: "How the platform runs, documented.",
-  enquiry: { label: "Business Enquiry", href: "mailto:project@ndrsmart.com" },
+  enquiry: { label: "Business Enquiry", href: "mailto:projects@ndrsmart.com" },
   portfolio: {
     label: "View the asset portfolio",
     note: "Opens with the Portfolio page · Phase 2",

@@ -398,7 +398,7 @@ export const mediaKit = {
 const pressEmail =
   cmsCorporate.emails.find((e) => e.value === "compliance@ndrsmart.com") ?? cmsCorporate.emails[0];
 const businessEmail =
-  cmsCorporate.emails.find((e) => e.value === "project@ndrsmart.com") ?? cmsCorporate.emails[1];
+  cmsCorporate.emails.find((e) => e.value === "projects@ndrsmart.com") ?? cmsCorporate.emails[1];
 
 export const pressContact = {
   eyebrow: "Press contact",

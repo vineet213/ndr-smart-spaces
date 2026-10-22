@@ -393,6 +393,6 @@ export const aboutClosing = {
   eyebrow: "Next",
   heading: "From land to listed assets.",
   lede: "Explore the business, the portfolio and the capital model, or speak to the team building India's warehousing infrastructure.",
-  primaryCta: { label: "Business Enquiry", href: "mailto:project@ndrsmart.com" },
+  primaryCta: { label: "Business Enquiry", href: "mailto:projects@ndrsmart.com" },
   secondaryCta: { label: "Investor Centre", href: "https://ndrinvit.com" },
 } as const;

@@ -466,7 +466,6 @@ const corporateSettingsRecord: SeedRecordSpec = {
     ],
     emails: [
       { value: "compliance@ndrsmart.com" },
-      { value: "project@ndrsmart.com" },
       { value: "investors@ndrsmart.com" },
       { value: "projects@ndrsmart.com" },
       { value: "hr@ndrsmart.com" },

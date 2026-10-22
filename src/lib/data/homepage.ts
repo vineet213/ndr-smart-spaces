@@ -406,7 +406,7 @@ export const contact = {
     consentError: "Please confirm you agree so we can respond.",
     // Shown as the write-to-us fallback; delivery recipients are set in public/api/config.php.
     route: {
-      default: "project@ndrsmart.com",
+      default: "projects@ndrsmart.com",
     } as const,
   },
 } as const;
