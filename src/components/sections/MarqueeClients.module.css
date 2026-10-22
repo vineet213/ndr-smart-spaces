@@ -75,18 +75,6 @@
 .itemWithLogo {
   display: flex;
   align-items: center;
-  opacity: 0.6;
-  transition: opacity var(--duration-standard) var(--ease-standard);
-}
-
-.itemWithLogo:focus-visible {
-  opacity: 1;
-}
-
-@media (hover: hover) {
-  .itemWithLogo:hover {
-    opacity: 1;
-  }
 }
 
 .logo {
@@ -94,18 +82,6 @@
   width: auto;
   height: 2.25rem;
   object-fit: contain;
-  filter: grayscale(1);
-  transition: filter var(--duration-standard) var(--ease-standard);
-}
-
-.itemWithLogo:focus-visible .logo {
-  filter: grayscale(0);
-}
-
-@media (hover: hover) {
-  .itemWithLogo:hover .logo {
-    filter: grayscale(0);
-  }
 }
 
 /* Institutional marquee — only when motion is allowed */
@@ -140,12 +116,6 @@
 
   .viewport:focus-within .track {
     animation-play-state: paused;
-  }
-
-  @media (hover: hover) {
-    .viewport:hover .track {
-      animation-play-state: paused;
-    }
   }
 }
 

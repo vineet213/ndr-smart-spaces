@@ -466,7 +466,7 @@ export const vertical02AssetManagement = {
       label: "Approx. Asset Under Management (Sq. Ft.)",
       context: "Approx. Asset Under Management (Sq. Ft.)",
     },
-    { value: 65, label: "Parks", context: "Parks" },
+    { value: 46, label: "Parks", context: "Parks" },
   ] as const satisfies ReadonlyArray<CompanyMetric>,
   cta: {
     eyebrow: "Business Enquiry",

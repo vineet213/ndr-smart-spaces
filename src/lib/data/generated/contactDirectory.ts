@@ -24,8 +24,8 @@ export const contactDirectory = [
     "id": "hr",
     "status": "published",
     "email": {
-      "href": "mailto:hr@ndrsmart.com",
-      "label": "hr@ndrsmart.com",
+      "href": "mailto:hrms@ndrsmart.com",
+      "label": "hrms@ndrsmart.com",
     },
     "hours": "Monday \u2013 Saturday \u00b7 9:30 AM \u2013 6:30 PM IST",
     "key": "hr",
@@ -87,8 +87,8 @@ export const contactDirectory = [
     "id": "posh",
     "status": "published",
     "email": {
-      "href": "",
-      "label": "",
+      "href": "mailto:posh@ndrsmart.com",
+      "label": "posh@ndrsmart.com",
     },
     "hours": "Monday – Saturday · 9:30 AM – 6:30 PM IST",
     "key": "posh",

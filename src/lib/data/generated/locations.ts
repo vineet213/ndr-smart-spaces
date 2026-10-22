@@ -362,7 +362,7 @@ export const locations = [
     "tier": "satellite",
     "visible": {
       "contact": false,
-      "homepage": true,
+      "homepage": false,
       "portfolio": true,
     },
     "zone": "east",
