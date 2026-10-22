@@ -57,7 +57,7 @@ export function isVerified(form: HTMLFormElement) {
 }
 
 type FormSafeguardsProps = {
-  formId: "homepage" | "contact";
+  formId: "homepage" | "contact" | "chat";
   idPrefix: string;
   theme: "light" | "dark";
   consentLabel: string;

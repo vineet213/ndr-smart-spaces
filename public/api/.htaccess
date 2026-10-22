@@ -1,7 +1,7 @@
 # Enquiry endpoint folder (Apache / GoDaddy cPanel).
 Options -Indexes
 
-# Settings files are read by contact.php only, never served.
-<FilesMatch "^config(\.example)?\.php$">
+# Settings files and the chatbot's knowledge are read by the PHP scripts only, never served.
+<FilesMatch "^(config(\.example)?\.php|chat-knowledge\.md)$">
   Require all denied
 </FilesMatch>

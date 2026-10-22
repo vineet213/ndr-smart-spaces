@@ -1,7 +1,8 @@
 .button {
   position: fixed;
   right: max(1rem, env(safe-area-inset-right, 0px));
-  bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  /* Sits above the Ask NDR chat button (3rem tall, see chat/ChatLauncher). */
+  bottom: calc(max(1rem, env(safe-area-inset-bottom, 0px)) + 3.75rem);
   z-index: 90;
   display: inline-flex;
   align-items: center;
@@ -51,7 +52,7 @@
   outline-offset: 3px;
 }
 
-/* No scrolling underneath a modal drawer, so no button over it either. */
+/* No scrolling underneath a modal drawer (or the phone chat sheet), so no button over it either. */
 :global(html.drawer-open) .button {
   opacity: 0;
   visibility: hidden;

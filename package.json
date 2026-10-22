@@ -9,7 +9,7 @@
     "dev": "next dev",
     "prebuild": "node scripts/build-images.mjs",
     "build": "next build",
-    "postbuild": "node scripts/flatten-segment-prefetch.mjs",
+    "postbuild": "node scripts/flatten-segment-prefetch.mjs && node scripts/build-chat-knowledge.mjs",
     "start": "node scripts/serve-static.mjs",
     "package": "npm run build && python scripts/package-for-cpanel.py",
     "contact:mock": "node scripts/contact-mock.mjs",
