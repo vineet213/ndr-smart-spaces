@@ -2,10 +2,12 @@
  * Local stand-in for public/api/chat.php (no PHP needed).
  *
  * Same request and streamed-event contract, the same knowledge selection and
- * system prompt, and the same Gemini → Groq order. With GEMINI_API_KEY and/or
- * GROQ_API_KEY set in the environment it calls the real services; without them
- * it streams a canned reply naming the site sections it would have sent, so the
- * chat panel can be built and tested offline.
+ * system prompt, and the same Gemini → Groq order. With keys in
+ * public/api/config.php (the same git-ignored file as on the server, 'chat'
+ * block) or in GEMINI_API_KEY / GROQ_API_KEY it calls the real services, read
+ * fresh on every message so new keys need no restart; without keys it streams a
+ * canned reply naming the site sections it would have sent, so the chat panel
+ * can be built and tested offline.
  *
  * Knowledge is read from out/api/chat-knowledge.md (run `npm run build` once).
  *
@@ -24,6 +26,23 @@ const STOP = new Set(
     " ",
   ),
 );
+
+/** Keys and models: environment first, then the 'chat' block of public/api/config.php. */
+function settings() {
+  let php = "";
+  try {
+    php = readFileSync(join(process.cwd(), "public", "api", "config.php"), "utf8");
+  } catch {
+    // no local config: environment only
+  }
+  const value = (name) => php.match(new RegExp(`'${name}'\\s*=>\\s*'([^']*)'`))?.[1] ?? "";
+  return {
+    geminiKey: process.env.GEMINI_API_KEY || value("gemini_key"),
+    geminiModel: process.env.GEMINI_MODEL || value("gemini_model") || "gemini-flash-latest",
+    groqKey: process.env.GROQ_API_KEY || value("groq_key"),
+    groqModel: process.env.GROQ_MODEL || value("groq_model") || "llama-3.3-70b-versatile",
+  };
+}
 
 function knowledgeChunks() {
   let source = "";
@@ -147,8 +166,7 @@ async function streamFrom(url, headers, body, extract, emit) {
   return sent;
 }
 
-const gemini = (key, messages, chunks) => {
-  const model = process.env.GEMINI_MODEL ?? "gemini-flash-latest";
+const gemini = (key, model, messages, chunks) => {
   const thinking = model.startsWith("gemini-2.5")
     ? { thinkingBudget: 0 }
     : model.startsWith("gemini-3")
@@ -177,12 +195,12 @@ const gemini = (key, messages, chunks) => {
     );
 };
 
-const groq = (key, messages, chunks) => (emit) =>
+const groq = (key, model, messages, chunks) => (emit) =>
   streamFrom(
     "https://api.groq.com/openai/v1/chat/completions",
     { Authorization: `Bearer ${key}` },
     {
-      model: process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile",
+      model,
       stream: true,
       temperature: 0.3,
       max_tokens: 700,
@@ -214,7 +232,7 @@ const canned = (messages, chunks) => async (emit) => {
   const reply =
     `This is the **offline test reply** (no AI keys set). For "${question.slice(0, 80)}" the bot would read: ` +
     (sources.length ? sources.join(", ") : "[Home](/)") +
-    ".\n\n- Set GEMINI_API_KEY or GROQ_API_KEY to get real answers." +
+    ".\n\n- Paste your keys into public/api/config.php to get real answers." +
     (wantsContact ? "\n\n[[ENQUIRY]]" : "");
   for (const piece of reply.match(/\S+\s*/g) ?? []) {
     emit({ t: piece });
@@ -272,9 +290,10 @@ export async function handleChat(req, res, { cors = false } = {}) {
   });
   const emit = (event) => res.write(`data: ${JSON.stringify(event)}\n\n`);
   const chunks = knowledgeChunks();
+  const { geminiKey, geminiModel, groqKey, groqModel } = settings();
   const providers = [
-    process.env.GEMINI_API_KEY && gemini(process.env.GEMINI_API_KEY, messages, chunks),
-    process.env.GROQ_API_KEY && groq(process.env.GROQ_API_KEY, messages, chunks),
+    geminiKey && gemini(geminiKey, geminiModel, messages, chunks),
+    groqKey && groq(groqKey, groqModel, messages, chunks),
   ].filter(Boolean);
   if (!providers.length) providers.push(canned(messages, chunks));
 
