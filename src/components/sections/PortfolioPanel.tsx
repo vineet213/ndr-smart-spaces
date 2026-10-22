@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { warehouseHref } from "@/lib/routes";
 import {
   ASSET_CLASS_LABELS,
   AUM_CLASSIFICATION_LABELS,
@@ -179,6 +181,8 @@ function Dossier({
   const aum = record.kind === "aum" ? record.asset : null;
   const built = record.kind === "construction" ? record.asset : null;
   const linked = record.kind === "construction" ? record.linked : null;
+  /* Operating warehouses (and projects rising on one) open that warehouse's page. */
+  const pageTarget = aum ?? linked;
   const pin = recordPin(record);
   const coords = recordCoords(record);
   const location = aum
@@ -266,6 +270,12 @@ function Dossier({
           </span>
         </div>
       </div>
+
+      {pageTarget ? (
+        <Link className={styles.viewPage} href={warehouseHref(pageTarget.id)}>
+          {aum ? "View warehouse" : `View ${pageTarget.name}`} →
+        </Link>
+      ) : null}
 
       {coords ? (
         <div className={styles.actions}>

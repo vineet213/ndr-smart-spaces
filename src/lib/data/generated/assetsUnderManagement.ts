@@ -447,7 +447,7 @@ export const assetsUnderManagement = [
     "lat": 10.85972,
     "leasableAreaMsf": 0.57,
     "lon": 76.89944,
-    "name": "NDR Space",
+    "name": "NDR Space Coimbatore",
     "state": "Tamil Nadu",
   },
   {
@@ -458,7 +458,7 @@ export const assetsUnderManagement = [
     "lat": 10.1167,
     "leasableAreaMsf": 0.22,
     "lon": 76.35,
-    "name": "NDR Space",
+    "name": "NDR Space Aluva",
     "state": "Kerala",
   },
   {
@@ -491,7 +491,7 @@ export const assetsUnderManagement = [
     "lat": 10.090856,
     "leasableAreaMsf": 0.22,
     "lon": 76.386554,
-    "name": "NDR Space",
+    "name": "NDR Space Kulakkad",
     "state": "Kerala",
   },
   {
@@ -502,7 +502,7 @@ export const assetsUnderManagement = [
     "lat": 10.878998,
     "leasableAreaMsf": 0.57,
     "lon": 76.919117,
-    "name": "NDR Space",
+    "name": "NDR Space Madukkarai",
     "state": "Tamil Nadu",
   },
 ] as const;

@@ -490,6 +490,9 @@ export function aumPinsByState(stateId: string): readonly AtlasPinData[] {
     }));
 }
 
+/** Every published asset under management, in ledger order. */
+export const aumAssets: readonly AumAsset[] = cmsAumDerived;
+
 export function aumAssetById(id: string): AumAsset | null {
   return cmsAumDerived.find((asset) => asset.id === id) ?? null;
 }

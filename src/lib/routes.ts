@@ -40,6 +40,15 @@ export const routeAnchors: Readonly<Record<string, readonly string[]>> = {
 };
 
 /**
+ * One page per operating warehouse, keyed by its assets-under-management id.
+ * These are generated from data (app/warehouses/[id]) and reached from the
+ * portfolio map, so they are deliberately not listed in `siteRoutes`.
+ */
+export function warehouseHref(id: string): string {
+  return `/warehouses/${id}/`;
+}
+
+/**
  * Normalise an internal href to the canonical exported form. Elements that
  * must stay untouched are left as-is:
  *

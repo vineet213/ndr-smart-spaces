@@ -51,11 +51,16 @@ async function submitToWeb3Forms(data: FormData): Promise<EnquiryResult> {
   const name = field(data, "name");
   const company = field(data, "company");
   const enquiryType = field(data, "enquiryType");
-  const source = field(data, "form") === "contact" ? "Contact page" : "Homepage";
+  const warehouse = field(data, "warehouse");
+  const source = warehouse
+    ? `Warehouse page: ${warehouse}`
+    : field(data, "form") === "contact"
+      ? "Contact page"
+      : "Homepage";
 
   const payload = {
     access_key: WEB3FORMS_KEY,
-    subject: `Website enquiry: ${enquiryType || "General"} (${name}, ${company})`,
+    subject: `Website enquiry: ${warehouse || enquiryType || "General"} (${name}, ${company})`,
     from_name: "NDR Smart Spaces Website",
     // Web3Forms uses `email` as the Reply-To, so replying answers the visitor.
     name,

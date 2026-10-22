@@ -1,0 +1,132 @@
+{
+  "ndr-space-cochin": {
+    "locality": "Keezhmad, Aluva",
+    "sampleFields": [
+      "summary",
+      "availability",
+      "bestFor",
+      "keyStats",
+      "specs",
+      "amenities",
+      "faq"
+    ],
+    "summary": "A Grade A warehousing park on the northern edge of Kochi, off SH-16 near Aluva. The site sits between Cochin International Airport and the Kochi port terminals, with the national highway and the Aluva metro and rail stations a short drive away, which suits distribution into Ernakulam and central Kerala.",
+    "availability": { "label": "Ready to lease", "asOf": "2026-10" },
+    "bestFor": [
+      "E-commerce fulfilment",
+      "Third-party logistics",
+      "FMCG distribution",
+      "Engineering and auto components"
+    ],
+    "keyStats": [
+      { "label": "Clear height", "value": "12", "unit": "m" },
+      { "label": "Floor load", "value": "5", "unit": "T/m²" },
+      { "label": "Dock doors", "value": "22", "unit": "" }
+    ],
+    "specs": [
+      {
+        "title": "Structure",
+        "rows": [
+          { "label": "Building type", "value": "Pre-engineered steel building" },
+          { "label": "Clear height", "value": "12 m at eaves" },
+          { "label": "Column grid", "value": "24 m × 12 m" },
+          { "label": "Roof", "value": "Standing-seam metal roof with continuous ridge ventilator" },
+          { "label": "Natural light", "value": "Polycarbonate skylights, approx 3% of roof area" }
+        ]
+      },
+      {
+        "title": "Floor and docking",
+        "rows": [
+          { "label": "Floor", "value": "FM2 laser-screeded, vacuum-dewatered concrete" },
+          { "label": "Floor load", "value": "5 T/m² uniformly distributed" },
+          { "label": "Dock doors", "value": "22, with hydraulic dock levellers" },
+          { "label": "Dock height", "value": "1.2 m above yard level" },
+          { "label": "Truck apron", "value": "35 m clear depth" }
+        ]
+      },
+      {
+        "title": "Fire and safety",
+        "rows": [
+          { "label": "Sprinklers", "value": "ESFR-ready roof sprinkler system" },
+          { "label": "Hydrants", "value": "Internal and external hydrant network" },
+          { "label": "Detection", "value": "Addressable smoke detection and alarms" },
+          { "label": "Security", "value": "Gated perimeter, 24 × 7 guarding and CCTV" }
+        ]
+      },
+      {
+        "title": "Utilities",
+        "rows": [
+          { "label": "Power", "value": "Up to 1 MVA, scalable on request" },
+          { "label": "Backup", "value": "DG backup for common areas" },
+          { "label": "Lighting", "value": "LED high-bay, approx 150 lux" },
+          { "label": "Water", "value": "Dedicated storage with rainwater harvesting" }
+        ]
+      }
+    ],
+    "amenities": [
+      "Truck parking and holding area",
+      "Driver rest rooms and toilets",
+      "Canteen space",
+      "Security cabin at the gate",
+      "Internal concrete roads",
+      "Rainwater harvesting",
+      "Rooftop solar ready"
+    ],
+    "landmarks": [
+      { "label": "Aluva Metro Station", "kind": "metro", "lat": 10.1099, "lon": 76.3495 },
+      { "label": "Aluva Railway Station", "kind": "rail", "lat": 10.1076, "lon": 76.3517 },
+      { "label": "Cochin International Airport", "kind": "airport", "lat": 10.152, "lon": 76.4019 },
+      { "label": "ICTT Vallarpadam", "kind": "seaport", "lat": 9.989, "lon": 76.259 },
+      { "label": "Cochin Port, Willingdon Island", "kind": "seaport", "lat": 9.9656, "lon": 76.27 },
+      { "label": "Kochi city centre", "kind": "city", "lat": 9.97, "lon": 76.285 }
+    ],
+    "photos": [
+      {
+        "src": "/images/warehouses/ndr-space-cochin/01-docks-aerial.jpg",
+        "width": 1448,
+        "height": 1086,
+        "alt": "Aerial view of the warehouse's loading side, with trucks parked along a continuous dock face",
+        "caption": "Dock face and truck apron"
+      },
+      {
+        "src": "/images/warehouses/ndr-space-cochin/02-road-frontage.jpg",
+        "width": 1448,
+        "height": 1086,
+        "alt": "The warehouse seen from above its access road, with the dock yard along its right side",
+        "caption": "Road frontage"
+      },
+      {
+        "src": "/images/warehouses/ndr-space-cochin/03-roof-plan.jpg",
+        "width": 1448,
+        "height": 1086,
+        "alt": "Top-down view of the warehouse roof and the truck yard along its length",
+        "caption": "Plan view: roof bays and truck yard"
+      },
+      {
+        "src": "/images/warehouses/ndr-space-cochin/04-site-context.jpg",
+        "width": 2400,
+        "height": 1800,
+        "alt": "Wide aerial view of the park in its surroundings, with a second building under construction behind the first",
+        "caption": "The park in its setting, with Phase 2 under construction"
+      }
+    ],
+    "faq": [
+      {
+        "q": "Can the space be split into smaller units?",
+        "a": "Yes. The building can be divided along its column grid, with each unit keeping its own dock doors and entrance."
+      },
+      {
+        "q": "Is built-to-suit possible?",
+        "a": "Yes. Phase 2 is under construction, and specifications such as clear height, floor load and dock count can be adapted for a committed occupier."
+      },
+      {
+        "q": "How soon can a tenant move in?",
+        "a": "Completed space can be handed over in a few weeks, subject to the agreed fit-out."
+      },
+      {
+        "q": "Are hazardous goods allowed?",
+        "a": "Storage is planned for general, non-hazardous goods. Other categories can be discussed case by case, subject to approvals."
+      }
+    ]
+  }
+}
