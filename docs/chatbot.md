@@ -19,6 +19,7 @@ It costs nothing to run: answers come from Google Gemini's free tier, and Groq's
        'groq_model' => 'llama-3.3-70b-versatile',
        'rate_limit_max' => 30,
        'rate_limit_window' => 600,
+       'daily_max' => 1000,
        'max_turns' => 12,
        'max_message_chars' => 1000,
    ],
@@ -35,7 +36,7 @@ Every build (`npm run build`) writes `api/chat-knowledge.md`: the text of every 
 ## Day-to-day
 
 - **Turn it off:** set `'enabled' => false` in `config.php`. The button stays, but it replies that the assistant is offline and points to the Contact page.
-- **Abuse limit:** each visitor (IP) can send 30 messages per 10 minutes (`rate_limit_max` / `rate_limit_window`).
+- **Abuse limits:** each visitor can send 30 messages per 10 minutes (`rate_limit_max` / `rate_limit_window`), the whole site at most 1,000 per day (`daily_max`), and only the website's own chat panel is accepted (other sites can't borrow your quota).
 - **If answers stop:** the free quota may be used up for the day (it resets daily), or a key was revoked. Check the keys in AI Studio / Groq console. If Google renames its models, change `gemini_model` (or `groq_model`) to the current free model name.
 - **Privacy note:** on Gemini's free tier Google may use the questions visitors type to improve its products. Enquiry details (name, email, phone) never go to the AI; they go only to your inbox. If that matters later, switching Gemini to a paid key (a few rupees a day at this traffic) removes it, with no code change.
 

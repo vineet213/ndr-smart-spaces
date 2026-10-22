@@ -48,6 +48,8 @@ return [
         // At most rate_limit_max messages per IP per rate_limit_window seconds.
         'rate_limit_max' => 30,
         'rate_limit_window' => 600,
+        // Messages per day for the whole site (UTC day), to protect the free quota.
+        'daily_max' => 1000,
         'max_turns' => 12,
         'max_message_chars' => 1000,
     ],

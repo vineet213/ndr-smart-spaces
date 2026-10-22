@@ -44,6 +44,19 @@ if (empty($chat['enabled']) || (empty($chat['gemini_key']) && empty($chat['groq_
 
 /* --- request -------------------------------------------------------------- */
 
+// Only the site's own chat panel may use the free AI quota: browsers always send
+// Origin on a cross-site POST, and the JSON content type cannot be sent by a plain
+// HTML form. (A script outside a browser can fake both; the rate limits below and
+// the daily cap bound what it can spend.)
+$origin = (string) ($_SERVER['HTTP_ORIGIN'] ?? '');
+$host = (string) ($_SERVER['HTTP_HOST'] ?? '');
+if ($origin !== '' && parse_url($origin, PHP_URL_HOST) !== preg_replace('/:\d+$/', '', $host)) {
+    respond(403, ['error' => 'origin']);
+}
+if (stripos((string) ($_SERVER['CONTENT_TYPE'] ?? ''), 'application/json') !== 0) {
+    respond(415, ['error' => 'invalid']);
+}
+
 $input = json_decode((string) file_get_contents('php://input', false, null, 0, 64000), true);
 $maxTurns = (int) ($chat['max_turns'] ?? 12);
 $maxChars = (int) ($chat['max_message_chars'] ?? 1000);
@@ -59,10 +72,13 @@ if (!$messages || end($messages)['role'] !== 'user') {
     respond(422, ['error' => 'invalid']);
 }
 
-/* --- rate limit per IP ------------------------------------------------------ */
+/* --- rate limits: per visitor, and for the whole site per day ---------------- */
 
 $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-$bucket = sys_get_temp_dir() . '/ndr-chat-' . hash('sha256', $ip . __DIR__);
+// One IPv6 user usually controls a whole /64, so count the /64 as one visitor.
+$packed = @inet_pton($ip);
+$visitor = ($packed !== false && strlen($packed) === 16) ? bin2hex(substr($packed, 0, 8)) : $ip;
+$bucket = sys_get_temp_dir() . '/ndr-chat-' . hash('sha256', $visitor . __DIR__);
 $now = time();
 $window = (int) ($chat['rate_limit_window'] ?? 600);
 $hits = array_filter(
@@ -74,6 +90,23 @@ if (count($hits) >= (int) ($chat['rate_limit_max'] ?? 30)) {
 }
 $hits[] = $now;
 @file_put_contents($bucket, json_encode(array_values($hits)), LOCK_EX);
+
+// Site-wide daily cap, so even many addresses together cannot drain the free quota.
+$daily = fopen(sys_get_temp_dir() . '/ndr-chat-day-' . hash('sha256', __DIR__), 'c+');
+if ($daily && flock($daily, LOCK_EX)) {
+    $count = json_decode((string) stream_get_contents($daily), true) ?: [];
+    $today = gmdate('Y-m-d');
+    $used = ($count['day'] ?? '') === $today ? (int) ($count['n'] ?? 0) : 0;
+    if ($used >= (int) ($chat['daily_max'] ?? 1000)) {
+        flock($daily, LOCK_UN);
+        respond(429, ['error' => 'rate_limited']);
+    }
+    ftruncate($daily, 0);
+    rewind($daily);
+    fwrite($daily, json_encode(['day' => $today, 'n' => $used + 1]));
+    flock($daily, LOCK_UN);
+    fclose($daily);
+}
 
 /* --- knowledge: the page sections that best match the question ------------- */
 
