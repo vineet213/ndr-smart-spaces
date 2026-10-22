@@ -64,9 +64,21 @@ $messages = [];
 foreach (array_slice(is_array($input['messages'] ?? null) ? $input['messages'] : [], -$maxTurns) as $message) {
     $role = ($message['role'] ?? '') === 'model' ? 'model' : 'user';
     $text = trim(mb_substr((string) ($message['text'] ?? ''), 0, $role === 'user' ? $maxChars : 4000));
-    if ($text !== '') {
+    if ($text === '') {
+        continue;
+    }
+    // Two turns in a row from one side (e.g. a retry after an error) are merged:
+    // the AI services expect user and model turns to alternate.
+    $last = count($messages) - 1;
+    if ($last >= 0 && $messages[$last]['role'] === $role) {
+        $messages[$last]['text'] .= "\n\n" . $text;
+    } else {
         $messages[] = ['role' => $role, 'text' => $text];
     }
+}
+// The conversation must open with the visitor.
+while ($messages && $messages[0]['role'] !== 'user') {
+    array_shift($messages);
 }
 if (!$messages || end($messages)['role'] !== 'user') {
     respond(422, ['error' => 'invalid']);

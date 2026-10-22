@@ -252,18 +252,17 @@ export async function handleChat(req, res, { cors = false } = {}) {
   } catch {
     // falls through to "invalid"
   }
-  const messages = (Array.isArray(input.messages) ? input.messages : [])
-    .slice(-MAX_TURNS)
-    .map((m) => {
-      const role = m?.role === "model" ? "model" : "user";
-      return {
-        role,
-        text: String(m?.text ?? "")
-          .slice(0, role === "user" ? MAX_CHARS : 4000)
-          .trim(),
-      };
-    })
-    .filter((m) => m.text);
+  const messages = [];
+  for (const m of (Array.isArray(input.messages) ? input.messages : []).slice(-MAX_TURNS)) {
+    const role = m?.role === "model" ? "model" : "user";
+    const text = String(m?.text ?? "")
+      .slice(0, role === "user" ? MAX_CHARS : 4000)
+      .trim();
+    if (!text) continue;
+    // Same as chat.php: merge back-to-back turns from one side; open with the visitor.
+    if (messages.at(-1)?.role === role) messages.at(-1).text += `\n\n${text}`;
+    else if (messages.length || role === "user") messages.push({ role, text });
+  }
   if (!messages.length || messages.at(-1).role !== "user") return json(422, { error: "invalid" });
 
   res.writeHead(200, {

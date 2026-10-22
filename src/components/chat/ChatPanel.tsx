@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Icon } from "@/components/ui";
 import { ENQUIRY_MARKER, chatErrorText, streamChat } from "@/lib/chat";
 import type { ChatMessage } from "@/lib/chat";
-import { canonicalHref } from "@/lib/routes";
+import { canonicalHref, siteRoutes } from "@/lib/routes";
 import { ChatEnquiryCard } from "./ChatEnquiryCard";
 import styles from "./ChatPanel.module.css";
 
@@ -48,6 +48,18 @@ function saveHistory(entries: Entry[]) {
 
 /* --- minimal, safe Markdown: paragraphs, "- " lists, **bold**, [links](/path/) --- */
 
+/** Only real pages of this site become links; anything else the AI writes stays plain text. */
+function isSitePage(href: string): boolean {
+  if (!href.startsWith("/") || href.startsWith("//")) return false;
+  const path = href.split(/[?#]/)[0].replace(/(.)\/$/, "$1");
+  return siteRoutes.includes(path);
+}
+
+/** Hides the enquiry marker, including a half-arrived "[[ENQ…" while a reply streams. */
+function visibleText(text: string): string {
+  return text.replace(ENQUIRY_MARKER, "").replace(/\[\[?[A-Z]*\]?$/, "");
+}
+
 function inline(text: string, onNavigate: () => void, key: string): ReactNode[] {
   const nodes: ReactNode[] = [];
   const pattern = /\*\*([^*]+)\*\*|\[([^\]]+)\]\(([^)\s]+)\)/g;
@@ -59,21 +71,15 @@ function inline(text: string, onNavigate: () => void, key: string): ReactNode[] 
     const id = `${key}-${index++}`;
     if (match[1]) {
       nodes.push(<strong key={id}>{match[1]}</strong>);
-    } else if (match[3].startsWith("/") && !match[3].startsWith("//")) {
+    } else if (isSitePage(match[3])) {
       nodes.push(
         <Link key={id} href={canonicalHref(match[3])} className={styles.link} onClick={onNavigate}>
           {match[2]}
         </Link>,
       );
-    } else if (/^(https:|mailto:|tel:)/.test(match[3])) {
+    } else if (/^(mailto:|tel:)/.test(match[3])) {
       nodes.push(
-        <a
-          key={id}
-          href={match[3]}
-          className={styles.link}
-          target={match[3].startsWith("https:") ? "_blank" : undefined}
-          rel="noopener noreferrer"
-        >
+        <a key={id} href={match[3]} className={styles.link}>
           {match[2]}
         </a>,
       );
@@ -206,9 +212,12 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
     if (run !== runRef.current) return;
     abortRef.current = null;
     setStreaming(false);
-    const final: Entry[] = result.ok
-      ? [...history, { role: "model", text: reply.trim() || "…" }]
-      : [...history, { role: "model", text: chatErrorText[result.error], error: true }];
+    // Stopped before any words arrived: keep the question, drop the empty reply.
+    const final: Entry[] = !result.ok
+      ? [...history, { role: "model", text: chatErrorText[result.error], error: true }]
+      : reply.trim()
+        ? [...history, { role: "model", text: reply.trim() }]
+        : history;
     setEntries(final);
     saveHistory(final.filter((entry) => !entry.error));
   }
@@ -337,7 +346,7 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
                 {entry.role === "user" ? (
                   <p>{entry.text}</p>
                 ) : entry.text ? (
-                  <Rich text={entry.text.replace(ENQUIRY_MARKER, "")} onNavigate={onNavigate} />
+                  <Rich text={visibleText(entry.text)} onNavigate={onNavigate} />
                 ) : (
                   <span className={styles.typing} aria-label="Assistant is typing">
                     <span />
