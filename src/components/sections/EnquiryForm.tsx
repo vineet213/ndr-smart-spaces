@@ -192,7 +192,7 @@ export function EnquiryForm({ warehouse }: EnquiryFormProps = {}) {
           rows={4}
           placeholder={
             warehouse
-              ? "The area you need, when you need it, and what you'll store"
+              ? "Preferred dates for a visit, and roughly how much space you need"
               : "Tell us a little about what you need"
           }
           value={values.message}

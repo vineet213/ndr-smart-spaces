@@ -31,15 +31,14 @@ export type WarehouseDetail = {
   /** Verified site pin; replaces the ledger coordinate, which may be a town centroid. */
   location?: { lat: number; lon: number };
   summary?: string;
-  availability?: { label: string; asOf: string };
   bestFor?: string[];
   certifications?: string[];
-  keyStats?: { label: string; value: string; unit: string }[];
-  specs?: { title: string; rows: { label: string; value: string }[] }[];
+  /** Basic utilities and general specs only (4–6 lines); full specs are shared on a site visit. */
+  utilities?: { label: string; value: string }[];
   amenities?: string[];
   landmarks?: { label: string; kind: LandmarkKind; lat: number; lon: number; roadKm?: number }[];
+  /** One photo is enough: the first is the hero, any more open as a mosaic. */
   photos?: WarehousePhoto[];
-  faq?: { q: string; a: string }[];
   contact?: { email?: string; phone?: string; whatsapp?: string };
   sampleFields?: string[];
 };
@@ -142,17 +141,6 @@ export function relatedWarehouses(warehouse: Warehouse, count = 3): readonly War
 /** 0.22 msf -> "2,20,000 sq ft" (Indian grouping, as the client writes areas). */
 export function formatAreaSqFt(msf: number): string {
   return `${Math.round(msf * 1_000_000).toLocaleString("en-IN")} sq ft`;
-}
-
-/** "2026-10" -> "October 2026". */
-export function formatMonth(value: string): string {
-  const [year, month] = value.split("-").map(Number);
-  if (!year || !month) return value;
-  return new Date(Date.UTC(year, month - 1, 1)).toLocaleDateString("en-IN", {
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  });
 }
 
 export const LANDMARK_LABELS: Record<LandmarkKind, string> = {

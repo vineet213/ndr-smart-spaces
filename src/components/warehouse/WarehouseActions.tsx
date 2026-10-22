@@ -29,12 +29,3 @@ export function CopyCoordinates({
     </button>
   );
 }
-
-/** The spec sheet is the page itself, printed: the print styles keep only the facts. */
-export function PrintSpecSheet({ className }: { className?: string }) {
-  return (
-    <button type="button" className={className} onClick={() => window.print()}>
-      Print spec sheet
-    </button>
-  );
-}

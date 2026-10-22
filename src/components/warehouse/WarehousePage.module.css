@@ -209,7 +209,6 @@
   display: none;
 }
 
-.badge,
 .chip {
   display: inline-flex;
   align-items: center;
@@ -220,18 +219,6 @@
   font-weight: var(--font-weight-body-medium);
   font-size: var(--font-small);
   line-height: 1;
-}
-
-.badge {
-  background-color: var(--color-gold);
-  color: var(--color-maroon-dark);
-}
-
-.badgeDot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background-color: var(--color-maroon-dark);
 }
 
 .chip {
@@ -378,15 +365,13 @@
 
 .overview,
 .photos,
-.specs,
-.faq,
+.features,
 .related,
 .enquire {
   padding-block: var(--section-padding-desktop);
 }
 
-.photos,
-.faq {
+.photos {
   padding-top: 0;
 }
 
@@ -536,49 +521,16 @@
   }
 }
 
-/* specifications ----------------------------------------------------------- */
+/* utilities, amenities, certifications ------------------------------------- */
 
-.specs {
-  background-color: var(--color-ivory-dim);
-}
-
-.specsHead {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: var(--space-2xl);
-}
-
-.printButton {
-  padding: var(--space-md) var(--space-2xl);
-  border: 1px solid var(--color-maroon);
-  border-radius: var(--radius-sm);
-  background: none;
-  color: var(--color-maroon);
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-button);
-  letter-spacing: var(--tracking-button);
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-@media (hover: hover) {
-  .printButton:hover {
-    background-color: var(--color-maroon);
-    color: var(--color-ivory);
-  }
-}
-
-.specGrid {
+.featureGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
   gap: var(--space-6xl) var(--space-8xl);
   margin-top: var(--space-6xl);
 }
 
-.specTitle {
+.featureTitle {
   margin: 0;
   padding-bottom: var(--space-md);
   border-bottom: 2px solid var(--color-gold);
@@ -589,11 +541,11 @@
   color: var(--color-text-primary);
 }
 
-.specRows {
+.featureRows {
   margin: 0;
 }
 
-.specRow {
+.featureRow {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
   gap: var(--space-lg);
@@ -604,11 +556,11 @@
   line-height: var(--leading-small);
 }
 
-.specRow dt {
+.featureRow dt {
   color: var(--color-stone);
 }
 
-.specRow dd {
+.featureRow dd {
   margin: 0;
   font-weight: var(--font-weight-body-medium);
   color: var(--color-text-primary);
@@ -641,63 +593,11 @@
   transform: rotate(45deg);
 }
 
-/* faq ---------------------------------------------------------------------- */
-
-.faq {
-  padding-top: var(--section-padding-desktop);
-}
-
-.faqList {
-  border-top: 2px solid var(--color-gold);
-}
-
-.faqItem {
-  border-bottom: 1px solid var(--color-hairline-light);
-}
-
-.faqQuestion {
-  position: relative;
-  padding: var(--space-xl) var(--space-5xl) var(--space-xl) 0;
+.featureNote {
+  margin: var(--space-5xl) 0 0;
   font-family: var(--font-body);
-  font-weight: var(--font-weight-body-medium);
-  font-size: var(--font-body-size);
+  font-size: var(--font-small);
   line-height: var(--leading-small);
-  color: var(--color-text-primary);
-  cursor: pointer;
-  list-style: none;
-}
-
-.faqQuestion::-webkit-details-marker {
-  display: none;
-}
-
-.faqQuestion::after {
-  content: "+";
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.5rem;
-  font-weight: var(--font-weight-body-regular);
-  color: var(--color-maroon);
-}
-
-.faqItem[open] .faqQuestion::after {
-  content: "−";
-}
-
-.faqQuestion:focus-visible {
-  outline: 2px solid var(--color-maroon);
-  outline-offset: 2px;
-}
-
-.faqAnswer {
-  margin: 0;
-  padding-bottom: var(--space-xl);
-  max-width: var(--measure-body);
-  font-family: var(--font-body);
-  font-size: var(--font-body-size);
-  line-height: var(--leading-body);
   color: var(--color-text-secondary);
 }
 
@@ -846,8 +746,7 @@
 
 @media (max-width: 767px) {
   .overview,
-  .specs,
-  .faq,
+  .features,
   .related,
   .enquire,
   .location {
@@ -905,80 +804,5 @@
   .heroImage,
   .heroInner {
     animation: none;
-  }
-}
-
-/* print: the page becomes the spec sheet ------------------------------------ */
-
-@media print {
-  :global(header),
-  :global(footer),
-  :global(.skip-link),
-  .heroImage,
-  .heroShade,
-  .heroActions,
-  .breadcrumb,
-  .photos,
-  .mapFrame,
-  .locationActions,
-  .printButton,
-  .faq,
-  .enquire,
-  .related,
-  .mobileBar,
-  .sampleNotice {
-    display: none !important;
-  }
-
-  .page :global(header) {
-    display: block !important;
-  }
-
-  .hero {
-    min-height: 0;
-    background: none;
-    color: #000;
-  }
-
-  .heroInner {
-    padding: 0;
-    animation: none;
-  }
-
-  .heroTitle,
-  .heroPlace,
-  .heroEyebrow,
-  .statValue,
-  .statUnit,
-  .statLabel {
-    color: #000;
-  }
-
-  .statBand {
-    background: none;
-    backdrop-filter: none;
-  }
-
-  .location {
-    background: none;
-    color: #000;
-  }
-
-  .titleDark,
-  .connectionName,
-  .connectionKm,
-  .locationNote {
-    color: #000;
-  }
-
-  .overview,
-  .specs,
-  .location {
-    padding-block: 1rem;
-    background: none;
-  }
-
-  .specGroup {
-    break-inside: avoid;
   }
 }

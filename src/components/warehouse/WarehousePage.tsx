@@ -7,15 +7,16 @@ import { Reveal } from "@/components/sections/Reveal";
 import { contact } from "@/lib/data/homepage";
 import {
   formatAreaSqFt,
-  formatMonth,
   LANDMARK_LABELS,
   relatedWarehouses,
+  type Connection,
+  type LandmarkKind,
   type Warehouse,
 } from "@/lib/data/warehouses";
 import { formatMsf } from "@/lib/data/portfolio";
 import { absoluteUrl, SITE_URL } from "@/lib/seo";
 import { cx } from "../ui/cx";
-import { CopyCoordinates, PrintSpecSheet } from "./WarehouseActions";
+import { CopyCoordinates } from "./WarehouseActions";
 import { WarehouseMapLoader } from "./WarehouseMapLoader";
 import { PhotoMosaic } from "./PhotoMosaic";
 import styles from "./WarehousePage.module.css";
@@ -25,85 +26,126 @@ const LOGISTICS = {
   label: "Logistics and Industrial Infrastructure",
 };
 
+/** Hero figures that come from the location itself, so no site data is needed. */
+const DISTANCE_STATS: { kinds: LandmarkKind[]; label: string }[] = [
+  { kinds: ["airport"], label: "To the airport" },
+  { kinds: ["seaport"], label: "To the port" },
+  { kinds: ["metro", "rail"], label: "To metro / rail" },
+];
+
+function formatKm(km: number): string {
+  return km < 10 ? km.toFixed(1) : String(Math.round(km));
+}
+
+function nearest(connections: readonly Connection[], kinds: LandmarkKind[]) {
+  return connections.find((connection) => kinds.includes(connection.kind)) ?? null;
+}
+
 function jsonLd(warehouse: Warehouse) {
   const url = absoluteUrl(warehouse.href);
   const { detail, location } = warehouse;
-  const graph: object[] = [
-    {
-      "@type": "Place",
-      "@id": `${url}#place`,
-      name: warehouse.name,
-      url,
-      ...(detail.summary ? { description: detail.summary } : {}),
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: detail.locality ?? warehouse.city,
-        addressRegion: warehouse.stateName,
-        addressCountry: "IN",
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Place",
+        "@id": `${url}#place`,
+        name: warehouse.name,
+        url,
+        ...(detail.summary ? { description: detail.summary } : {}),
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: detail.locality ?? warehouse.city,
+          addressRegion: warehouse.stateName,
+          addressCountry: "IN",
+        },
+        ...(location
+          ? { geo: { "@type": "GeoCoordinates", latitude: location.lat, longitude: location.lon } }
+          : {}),
+        ...(detail.photos?.length
+          ? { image: detail.photos.map((photo) => `${SITE_URL}${photo.src}`) }
+          : {}),
+        ...(warehouse.leasableAreaMsf !== undefined
+          ? {
+              floorSize: {
+                "@type": "QuantitativeValue",
+                value: Math.round(warehouse.leasableAreaMsf * 1_000_000),
+                unitCode: "FTK",
+              },
+            }
+          : {}),
+        ...(detail.amenities?.length
+          ? {
+              amenityFeature: detail.amenities.map((name) => ({
+                "@type": "LocationFeatureSpecification",
+                name,
+                value: true,
+              })),
+            }
+          : {}),
+        containedInPlace: { "@type": "State", name: warehouse.stateName },
+        publicAccess: false,
       },
-      ...(location
-        ? { geo: { "@type": "GeoCoordinates", latitude: location.lat, longitude: location.lon } }
-        : {}),
-      ...(detail.photos?.length
-        ? { image: detail.photos.map((photo) => `${SITE_URL}${photo.src}`) }
-        : {}),
-      ...(warehouse.leasableAreaMsf !== undefined
-        ? {
-            floorSize: {
-              "@type": "QuantitativeValue",
-              value: Math.round(warehouse.leasableAreaMsf * 1_000_000),
-              unitCode: "FTK",
-            },
-          }
-        : {}),
-      containedInPlace: { "@type": "State", name: warehouse.stateName },
-      publicAccess: false,
-    },
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
-        { "@type": "ListItem", position: 2, name: LOGISTICS.label, item: absoluteUrl(LOGISTICS.href) },
-        { "@type": "ListItem", position: 3, name: warehouse.name, item: url },
-      ],
-    },
-  ];
-  if (detail.faq?.length) {
-    graph.push({
-      "@type": "FAQPage",
-      mainEntity: detail.faq.map((item) => ({
-        "@type": "Question",
-        name: item.q,
-        acceptedAnswer: { "@type": "Answer", text: item.a },
-      })),
-    });
-  }
-  return { "@context": "https://schema.org", "@graph": graph };
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: LOGISTICS.label,
+            item: absoluteUrl(LOGISTICS.href),
+          },
+          { "@type": "ListItem", position: 3, name: warehouse.name, item: url },
+        ],
+      },
+    ],
+  };
 }
 
+/**
+ * A warehouse's page is a teaser that earns a site visit: where it is, how it
+ * connects, what it offers in general terms. Detailed specifications are kept
+ * for the visit itself.
+ */
 export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
   const { detail, location, connections } = warehouse;
-  const [hero, ...rest] = detail.photos ?? [];
+  const hero = detail.photos?.[0];
   const related = relatedWarehouses(warehouse);
   const email = detail.contact?.email ?? contact.form.route.default;
+  const mailto = `mailto:${email}?subject=${encodeURIComponent(`Site visit: ${warehouse.name}`)}`;
 
   const heroStats = [
     ...(warehouse.leasableAreaMsf !== undefined
-      ? [{ label: "Leasable area", value: formatMsf(warehouse.leasableAreaMsf).replace(" msf", ""), unit: "msf" }]
+      ? [
+          {
+            label: "Leasable area",
+            value: formatMsf(warehouse.leasableAreaMsf).replace(" msf", ""),
+            unit: "msf",
+          },
+        ]
       : []),
-    ...(detail.keyStats ?? []),
+    ...DISTANCE_STATS.flatMap(({ kinds, label }) => {
+      const hit = nearest(connections, kinds);
+      return hit ? [{ label, value: formatKm(hit.km), unit: "km" }] : [];
+    }),
   ];
 
   const glance = [
     warehouse.leasableAreaMsf !== undefined
-      ? { label: "Leasable area", value: `${formatMsf(warehouse.leasableAreaMsf)} (approx ${formatAreaSqFt(warehouse.leasableAreaMsf)})` }
+      ? {
+          label: "Leasable area",
+          value: `${formatMsf(warehouse.leasableAreaMsf)} (approx ${formatAreaSqFt(warehouse.leasableAreaMsf)})`,
+        }
       : null,
     { label: "Location", value: warehouse.placeLine },
     warehouse.district ? { label: "District", value: warehouse.district } : null,
-    detail.availability
-      ? { label: "Availability", value: `${detail.availability.label}, as of ${formatMonth(detail.availability.asOf)}` }
-      : null,
   ].filter((row): row is { label: string; value: string } => row !== null);
+
+  const hasFeatures =
+    Boolean(detail.utilities?.length) ||
+    Boolean(detail.amenities?.length) ||
+    Boolean(detail.certifications?.length);
 
   return (
     <article className={styles.page}>
@@ -140,23 +182,19 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
           <h1 className={styles.heroTitle}>{warehouse.name}</h1>
           <p className={styles.heroPlace}>{warehouse.placeLine}</p>
 
-          <div className={styles.heroMeta}>
-            {detail.availability ? (
-              <span className={styles.badge}>
-                <span className={styles.badgeDot} aria-hidden="true" />
-                {detail.availability.label}
-              </span>
-            ) : null}
-            {detail.certifications?.map((certification) => (
-              <span key={certification} className={styles.chip}>
-                {certification}
-              </span>
-            ))}
-          </div>
+          {detail.certifications?.length ? (
+            <div className={styles.heroMeta}>
+              {detail.certifications.map((certification) => (
+                <span key={certification} className={styles.chip}>
+                  {certification}
+                </span>
+              ))}
+            </div>
+          ) : null}
 
           <div className={styles.heroActions}>
-            <a href="#enquire" className={styles.ctaPrimary}>
-              Enquire about this site
+            <a href="#visit" className={styles.ctaPrimary}>
+              Book a site visit
             </a>
             {location ? (
               <a href="#location" className={styles.ctaSecondary}>
@@ -174,8 +212,9 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
                   <div key={stat.label} className={styles.stat}>
                     <dt className={styles.statLabel}>{stat.label}</dt>
                     <dd className={styles.statValue}>
+                      {stat.unit === "km" ? <span className={styles.statUnit}>approx </span> : null}
                       {stat.value}
-                      {stat.unit ? <span className={styles.statUnit}> {stat.unit}</span> : null}
+                      <span className={styles.statUnit}> {stat.unit}</span>
                     </dd>
                   </div>
                 ))}
@@ -187,7 +226,7 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
 
       {warehouse.hasSampleContent ? (
         <p className={styles.sampleNotice} role="note">
-          Preview for review: the specifications, amenities and answers on this page are sample
+          Preview for review: the description, utilities and amenities on this page are sample
           values and will be replaced with the site&apos;s real details.
         </p>
       ) : null}
@@ -228,8 +267,8 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
         </Container>
       </section>
 
-      {/* Photos ------------------------------------------------------------------ */}
-      {rest.length ? (
+      {/* More photographs (only when a site has more than one) ------------------- */}
+      {(detail.photos?.length ?? 0) > 1 ? (
         <section className={styles.photos} aria-labelledby="photos-title">
           <Container>
             <p className={styles.eyebrow}>Photographs</p>
@@ -255,11 +294,11 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
                 <ol className={styles.connections}>
                   {connections.map((connection) => (
                     <li key={connection.label} className={styles.connection}>
-                      <span className={styles.connectionKind}>{LANDMARK_LABELS[connection.kind]}</span>
-                      <span className={styles.connectionName}>{connection.label}</span>
-                      <span className={styles.connectionKm}>
-                        approx {connection.km < 10 ? connection.km.toFixed(1) : Math.round(connection.km)} km
+                      <span className={styles.connectionKind}>
+                        {LANDMARK_LABELS[connection.kind]}
                       </span>
+                      <span className={styles.connectionName}>{connection.label}</span>
+                      <span className={styles.connectionKm}>approx {formatKm(connection.km)} km</span>
                     </li>
                   ))}
                 </ol>
@@ -283,7 +322,11 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
                 >
                   Open in Google Maps ↗
                 </a>
-                <CopyCoordinates lat={location.lat} lon={location.lon} className={styles.textAction} />
+                <CopyCoordinates
+                  lat={location.lat}
+                  lon={location.lon}
+                  className={styles.textAction}
+                />
               </div>
             </div>
 
@@ -297,37 +340,32 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
         </section>
       ) : null}
 
-      {/* Specifications ------------------------------------------------------------ */}
-      {detail.specs?.length || detail.amenities?.length ? (
-        <section className={styles.specs} aria-labelledby="specs-title">
+      {/* Utilities, amenities, certifications -------------------------------------- */}
+      {hasFeatures ? (
+        <section className={styles.features} aria-labelledby="features-title">
           <Container>
-            <div className={styles.specsHead}>
-              <div>
-                <p className={styles.eyebrow}>Specifications</p>
-                <h2 id="specs-title" className={styles.sectionTitle}>
-                  Building and services
-                </h2>
-              </div>
-              <PrintSpecSheet className={styles.printButton} />
-            </div>
+            <p className={styles.eyebrow}>On site</p>
+            <h2 id="features-title" className={styles.sectionTitle}>
+              Utilities and amenities
+            </h2>
 
-            <div className={styles.specGrid}>
-              {detail.specs?.map((group) => (
-                <div key={group.title} className={styles.specGroup}>
-                  <h3 className={styles.specTitle}>{group.title}</h3>
-                  <dl className={styles.specRows}>
-                    {group.rows.map((row) => (
-                      <div key={row.label} className={styles.specRow}>
+            <div className={styles.featureGrid}>
+              {detail.utilities?.length ? (
+                <div className={styles.featureGroup}>
+                  <h3 className={styles.featureTitle}>Basic utilities</h3>
+                  <dl className={styles.featureRows}>
+                    {detail.utilities.map((row) => (
+                      <div key={row.label} className={styles.featureRow}>
                         <dt>{row.label}</dt>
                         <dd>{row.value}</dd>
                       </div>
                     ))}
                   </dl>
                 </div>
-              ))}
+              ) : null}
               {detail.amenities?.length ? (
-                <div className={styles.specGroup}>
-                  <h3 className={styles.specTitle}>Amenities</h3>
+                <div className={styles.featureGroup}>
+                  <h3 className={styles.featureTitle}>Amenities</h3>
                   <ul className={styles.amenities}>
                     {detail.amenities.map((amenity) => (
                       <li key={amenity}>{amenity}</li>
@@ -335,56 +373,55 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
                   </ul>
                 </div>
               ) : null}
+              {detail.certifications?.length ? (
+                <div className={styles.featureGroup}>
+                  <h3 className={styles.featureTitle}>Certifications</h3>
+                  <ul className={styles.amenities}>
+                    {detail.certifications.map((certification) => (
+                      <li key={certification}>{certification}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
             </div>
+
+            <p className={styles.featureNote}>
+              Full building specifications are shared during a site visit.{" "}
+              <a href="#visit" className={styles.inlineLink}>
+                Book one
+              </a>
+              .
+            </p>
           </Container>
         </section>
       ) : null}
 
-      {/* FAQ ------------------------------------------------------------------------ */}
-      {detail.faq?.length ? (
-        <section className={styles.faq} aria-labelledby="faq-title">
-          <Container className={styles.split}>
-            <div className={styles.splitMain}>
-              <p className={styles.eyebrow}>Questions</p>
-              <h2 id="faq-title" className={styles.sectionTitle}>
-                Before you lease
-              </h2>
-            </div>
-            <div className={styles.faqList}>
-              {detail.faq.map((item) => (
-                <details key={item.q} className={styles.faqItem}>
-                  <summary className={styles.faqQuestion}>{item.q}</summary>
-                  <p className={styles.faqAnswer}>{item.a}</p>
-                </details>
-              ))}
-            </div>
-          </Container>
-        </section>
-      ) : null}
-
-      {/* Enquiry ------------------------------------------------------------------- */}
-      <section id="enquire" className={styles.enquire} aria-labelledby="enquire-title">
+      {/* Site visit ---------------------------------------------------------------- */}
+      <section id="visit" className={styles.enquire} aria-labelledby="visit-title">
         <Container className={styles.enquireGrid}>
           <div className={styles.enquireText}>
-            <p className={styles.eyebrow}>Leasing</p>
-            <h2 id="enquire-title" className={styles.sectionTitle}>
-              Lease space at {warehouse.name}
+            <p className={styles.eyebrow}>Site visit</p>
+            <h2 id="visit-title" className={styles.sectionTitle}>
+              See {warehouse.name} in person
             </h2>
             <p className={styles.body}>
-              Tell us the area you need and when you need it. Our leasing team will reply with
-              availability, layout options and terms for this site.
+              Tell us when you would like to visit and roughly how much space you need. Our
+              leasing team will confirm a time and walk you through the site, its layout and its
+              specifications.
             </p>
             <p className={styles.body}>
               Prefer email? Write to{" "}
-              <a className={styles.inlineLink} href={`mailto:${email}?subject=${encodeURIComponent(`Enquiry: ${warehouse.name}`)}`}>
+              <a className={styles.inlineLink} href={mailto}>
                 {email}
               </a>
               .
             </p>
           </div>
           <div className={styles.enquireCard}>
-            <h3 className={styles.enquireCardTitle}>Enquire about this site</h3>
-            <EnquiryForm warehouse={{ id: warehouse.id, name: `${warehouse.name}, ${warehouse.placeLine}` }} />
+            <h3 className={styles.enquireCardTitle}>Book a site visit</h3>
+            <EnquiryForm
+              warehouse={{ id: warehouse.id, name: `${warehouse.name}, ${warehouse.placeLine}` }}
+            />
           </div>
         </Container>
       </section>
@@ -405,7 +442,12 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
                     <Link href={other.href} className={styles.relatedCard}>
                       <span className={styles.relatedMedia}>
                         {cover ? (
-                          <Image src={cover.src} alt="" fill sizes="(max-width: 767px) 100vw, 33vw" />
+                          <Image
+                            src={cover.src}
+                            alt=""
+                            fill
+                            sizes="(max-width: 767px) 100vw, 33vw"
+                          />
                         ) : (
                           <span className={styles.relatedPlaceholder} aria-hidden="true" />
                         )}
@@ -414,7 +456,9 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
                         <span className={styles.relatedName}>{other.name}</span>
                         <span className={styles.relatedPlace}>{other.placeLine}</span>
                         {other.leasableAreaMsf !== undefined ? (
-                          <span className={styles.relatedArea}>{formatMsf(other.leasableAreaMsf)}</span>
+                          <span className={styles.relatedArea}>
+                            {formatMsf(other.leasableAreaMsf)}
+                          </span>
                         ) : null}
                       </span>
                     </Link>
@@ -428,10 +472,10 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
 
       {/* Mobile action bar ----------------------------------------------------------- */}
       <div className={styles.mobileBar}>
-        <a href="#enquire" className={styles.mobileBarPrimary}>
-          Enquire
+        <a href="#visit" className={styles.mobileBarPrimary}>
+          Book a site visit
         </a>
-        <a href={`mailto:${email}?subject=${encodeURIComponent(`Enquiry: ${warehouse.name}`)}`} className={styles.mobileBarSecondary}>
+        <a href={mailto} className={styles.mobileBarSecondary}>
           Email
         </a>
       </div>
