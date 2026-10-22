@@ -79,6 +79,7 @@ const server = createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, () => {
+// This computer only: the chat stand-in behind it can spend the real AI keys.
+server.listen(PORT, "127.0.0.1", () => {
   console.log(`Serving ${OUT_DIR} on http://localhost:${PORT}`);
 });

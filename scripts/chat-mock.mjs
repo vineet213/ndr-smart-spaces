@@ -254,9 +254,13 @@ const canned = (messages, chunks) => async (emit) => {
   return true;
 };
 
+/** Pages served from this computer (next dev / npm start, any port); no other site may use the stand-ins. */
+export const LOCAL_ORIGIN = /^http:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/;
+
 /** Handles one POST to the chat endpoint. */
 export async function handleChat(req, res, { cors = false } = {}) {
-  const corsHeaders = cors ? { "Access-Control-Allow-Origin": "*" } : {};
+  // `cors` is the allowed local page origin (standalone mock) or false (same origin).
+  const corsHeaders = cors ? { "Access-Control-Allow-Origin": cors, Vary: "Origin" } : {};
   if (req.method === "OPTIONS" && cors) {
     res.writeHead(204, {
       ...corsHeaders,
@@ -274,6 +278,15 @@ export async function handleChat(req, res, { cors = false } = {}) {
     res.end(JSON.stringify(body));
   };
   if (req.method !== "POST") return json(405, { error: "method" });
+  // As chat.php: refuse other sites' pages, and plain form posts (which skip the
+  // browser's cross-site check), since real keys may be in use.
+  const origin = req.headers.origin ?? "";
+  if (origin && !LOCAL_ORIGIN.test(origin)) {
+    return json(403, { error: "origin" });
+  }
+  if (!String(req.headers["content-type"] ?? "").startsWith("application/json")) {
+    return json(415, { error: "invalid" });
+  }
 
   const raw = [];
   for await (const chunk of req) raw.push(chunk);
