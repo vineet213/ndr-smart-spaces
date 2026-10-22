@@ -1,0 +1,44 @@
+{
+  "ndr-space-cochin": {
+    "locality": "Keezhmad, Aluva",
+    "sampleFields": ["summary", "bestFor", "amenities", "utilities"],
+    "summary": "A Grade A warehousing park on the northern edge of Kochi, off SH-16 near Aluva. The site sits between Cochin International Airport and the Kochi port terminals, with the national highway and the Aluva metro and rail stations a short drive away, which suits distribution into Ernakulam and central Kerala.",
+    "bestFor": [
+      "E-commerce fulfilment",
+      "Third-party logistics",
+      "FMCG distribution",
+      "Engineering and auto components"
+    ],
+    "utilities": [
+      { "label": "Power", "value": "HT power supply, scalable on request" },
+      { "label": "Water", "value": "Dedicated storage with rainwater harvesting" },
+      { "label": "Fire safety", "value": "Sprinklers, hydrants and smoke detection" },
+      { "label": "Security", "value": "Gated campus with 24 × 7 guarding and CCTV" },
+      { "label": "Docking", "value": "Dock-high loading with levellers" }
+    ],
+    "amenities": [
+      "Truck parking and holding area",
+      "Driver rest rooms",
+      "Canteen space",
+      "Internal concrete roads",
+      "Rooftop solar ready"
+    ],
+    "landmarks": [
+      { "label": "Aluva Metro Station", "kind": "metro", "lat": 10.1099, "lon": 76.3495 },
+      { "label": "Aluva Railway Station", "kind": "rail", "lat": 10.1076, "lon": 76.3517 },
+      { "label": "Cochin International Airport", "kind": "airport", "lat": 10.152, "lon": 76.4019 },
+      { "label": "ICTT Vallarpadam", "kind": "seaport", "lat": 9.989, "lon": 76.259 },
+      { "label": "Cochin Port, Willingdon Island", "kind": "seaport", "lat": 9.9656, "lon": 76.27 },
+      { "label": "Kochi city centre", "kind": "city", "lat": 9.97, "lon": 76.285 }
+    ],
+    "photos": [
+      {
+        "src": "/images/warehouses/ndr-space-cochin/01-docks-aerial.jpg",
+        "width": 1448,
+        "height": 1086,
+        "alt": "Aerial view of the warehouse's loading side, with trucks parked along a continuous dock face",
+        "caption": "Dock face and truck apron"
+      }
+    ]
+  }
+}

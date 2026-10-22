@@ -78,6 +78,7 @@ $email = line('email', 200);
 $company = line('company', 160);
 $phone = line('phone', 40);
 $enquiryType = line('enquiryType', 120);
+$warehouse = line('warehouse', 200);
 $message = mb_substr(trim((string) ($_POST['message'] ?? '')), 0, 5000);
 $consent = ($_POST['consent'] ?? '') === 'yes';
 
@@ -117,8 +118,10 @@ if (!empty($config['turnstile_secret'])) {
 
 $recipients = $config['recipients'][$form] ?? $config['recipients']['default'];
 $subjectType = $enquiryType !== '' ? $enquiryType : 'General';
-$subject = "Website enquiry: {$subjectType} ({$name}, {$company})";
-$source = ['contact' => 'Contact page', 'chat' => 'Website chat'][$form] ?? 'Homepage';
+$subject = "Website enquiry: " . ($warehouse !== '' ? $warehouse : $subjectType) . " ({$name}, {$company})";
+$source = $warehouse !== ''
+    ? "Warehouse page: {$warehouse}"
+    : (['contact' => 'Contact page', 'chat' => 'Website chat'][$form] ?? 'Homepage');
 
 $body = implode("\n", array_filter([
     "New enquiry from the {$config['site_name']} website ({$source}).",

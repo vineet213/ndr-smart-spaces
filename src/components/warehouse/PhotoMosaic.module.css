@@ -1,0 +1,227 @@
+/* One large tile with up to two beside it; fewer photos fill the same frame. */
+.mosaic {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+  height: clamp(22rem, 46vw, 36rem);
+  margin-top: var(--space-5xl);
+}
+
+.mosaic[data-count="1"] {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+.mosaic[data-count="2"] {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.tile {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+}
+
+.mosaic[data-count="3"] .tile:first-child {
+  grid-row: 1 / -1;
+}
+
+.tileButton {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-md);
+  background-color: var(--color-stone-warm);
+  cursor: zoom-in;
+}
+
+.tileImage {
+  object-fit: cover;
+  transition: transform var(--duration-long) var(--ease-standard);
+}
+
+@media (hover: hover) {
+  .tileButton:hover .tileImage {
+    transform: scale(1.03);
+  }
+}
+
+.tileButton:focus-visible {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: 3px;
+}
+
+.tileCaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--space-4xl) var(--space-lg) var(--space-md);
+  background: linear-gradient(0deg, rgba(17, 16, 15, 0.75), rgba(17, 16, 15, 0));
+  color: var(--color-ivory);
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  text-align: left;
+}
+
+.viewAll {
+  margin-top: var(--space-xl);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-maroon);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-button);
+  letter-spacing: var(--tracking-button);
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .mosaic,
+  .mosaic[data-count="2"] {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-auto-rows: 15rem;
+    height: auto;
+  }
+
+  .mosaic[data-count="3"] .tile:first-child {
+    grid-row: auto;
+  }
+}
+
+/* viewer ------------------------------------------------------------------ */
+
+.viewer {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: rgba(17, 16, 15, 0.96);
+  color: var(--color-ivory);
+}
+
+.viewer::backdrop {
+  background-color: rgba(17, 16, 15, 0.8);
+}
+
+.viewerFigure {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+  padding: var(--space-6xl) var(--space-8xl) var(--space-xl);
+}
+
+.viewerImage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.viewerImg {
+  object-fit: contain;
+}
+
+.viewerCaption {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-xl);
+  padding-top: var(--space-lg);
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-inverse-85);
+}
+
+.viewerCount {
+  flex-shrink: 0;
+  color: var(--color-gold);
+  font-variant-numeric: tabular-nums;
+}
+
+.viewerClose,
+.viewerPrev,
+.viewerNext {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 1px solid var(--color-hairline-dark);
+  border-radius: 50%;
+  background-color: rgba(17, 16, 15, 0.7);
+  color: var(--color-ivory);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.viewerClose {
+  top: var(--space-md);
+  right: var(--space-md);
+}
+
+.viewerPrev,
+.viewerNext {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.viewerPrev {
+  left: var(--space-md);
+}
+
+.viewerNext {
+  right: var(--space-md);
+}
+
+.viewerClose:focus-visible,
+.viewerPrev:focus-visible,
+.viewerNext:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  .viewerClose:hover,
+  .viewerPrev:hover,
+  .viewerNext:hover {
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+  }
+}
+
+@media (max-width: 767px) {
+  .viewerFigure {
+    padding: var(--space-8xl) var(--space-sm) var(--space-xl);
+  }
+
+  .viewerPrev,
+  .viewerNext {
+    top: auto;
+    bottom: var(--space-6xl);
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tileImage {
+    transition: none;
+  }
+}

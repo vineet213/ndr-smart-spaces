@@ -32,12 +32,7 @@ const ENDPOINT = CUSTOM_ENDPOINT || (USE_WEB3FORMS ? WEB3FORMS_ENDPOINT : "/api/
 const MIN_FILL_MS = 3000;
 
 export type EnquiryError =
-  | "network"
-  | "invalid"
-  | "consent"
-  | "verification"
-  | "rate_limited"
-  | "unknown";
+  "network" | "invalid" | "consent" | "verification" | "rate_limited" | "unknown";
 
 export type EnquiryResult = { ok: true } | { ok: false; error: EnquiryError };
 
@@ -52,11 +47,18 @@ async function submitToWeb3Forms(data: FormData): Promise<EnquiryResult> {
   const company = field(data, "company");
   const enquiryType = field(data, "enquiryType");
   const form = field(data, "form");
-  const source = form === "contact" ? "Contact page" : form === "chat" ? "Website chat" : "Homepage";
+  const warehouse = field(data, "warehouse");
+  const source = warehouse
+    ? `Warehouse page: ${warehouse}`
+    : form === "contact"
+      ? "Contact page"
+      : form === "chat"
+        ? "Website chat"
+        : "Homepage";
 
   const payload = {
     access_key: WEB3FORMS_KEY,
-    subject: `Website enquiry: ${enquiryType || "General"} (${name}, ${company})`,
+    subject: `Website enquiry: ${warehouse || enquiryType || "General"} (${name}, ${company})`,
     from_name: "NDR Smart Spaces Website",
     // Web3Forms uses `email` as the Reply-To, so replying answers the visitor.
     name,
@@ -89,7 +91,8 @@ async function submitToWeb3Forms(data: FormData): Promise<EnquiryResult> {
 export async function submitEnquiry(form: HTMLFormElement): Promise<EnquiryResult> {
   const data = new FormData(form);
   // Render time for the time-trap, stamped by FormSafeguards after mount.
-  const renderedAt = form.querySelector<HTMLElement>("[data-rendered-at]")?.dataset.renderedAt ?? "";
+  const renderedAt =
+    form.querySelector<HTMLElement>("[data-rendered-at]")?.dataset.renderedAt ?? "";
   data.set("t", renderedAt);
 
   if (USE_WEB3FORMS) {

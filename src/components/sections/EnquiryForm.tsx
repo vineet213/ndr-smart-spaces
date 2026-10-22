@@ -26,10 +26,17 @@ const PLACEHOLDERS: Record<FieldName, string> = {
   company: "Your company",
 };
 
-export function EnquiryForm() {
+type EnquiryFormProps = {
+  /** Set on a warehouse page: tags the enquiry with the site and preselects its type. */
+  warehouse?: { id: string; name: string };
+};
+
+export function EnquiryForm({ warehouse }: EnquiryFormProps = {}) {
   const { fields, messageLabel, submit, sending, success, consentLabel, consentError, route } =
     contact.form;
-  const [values, setValues] = useState<FormValues>(initialValues);
+  const [values, setValues] = useState<FormValues>(
+    warehouse ? { ...initialValues, enquiryType: "Enquiry for a warehouse" } : initialValues,
+  );
   const [errors, setErrors] = useState<Partial<Record<FieldName | "enquiryType", string>>>({});
   const [consentMissing, setConsentMissing] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -183,11 +190,19 @@ export function EnquiryForm() {
           className={styles.textarea}
           name="message"
           rows={4}
-          placeholder="Tell us a little about what you need"
+          placeholder={
+            warehouse
+              ? "Preferred dates for a visit, and roughly how much space you need"
+              : "Tell us a little about what you need"
+          }
           value={values.message}
           onChange={(event) => setValues((prev) => ({ ...prev, message: event.target.value }))}
         />
       </div>
+
+      {warehouse ? (
+        <input type="hidden" name="warehouse" value={`${warehouse.name} (${warehouse.id})`} />
+      ) : null}
 
       <FormSafeguards
         formId="homepage"

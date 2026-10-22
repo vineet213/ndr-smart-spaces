@@ -519,6 +519,36 @@
   color: var(--pr-muted, rgba(250, 247, 242, 0.55));
 }
 
+/* The dossier's main way forward: the warehouse's own page. */
+.viewPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  margin-top: var(--space-xs);
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: var(--font-meta);
+  font-weight: var(--font-weight-body-medium);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-maroon-dark);
+  background-color: var(--color-gold);
+  transition: background-color 250ms var(--ease-standard);
+}
+
+.viewPage:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  .viewPage:hover {
+    background-color: var(--color-gold-light);
+  }
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
