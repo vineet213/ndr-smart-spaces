@@ -282,7 +282,8 @@ function streamFrom(string $url, array $headers, array $body, callable $extract)
         },
         // Give up on a provider that hasn't started answering within 15 s, so the backup can.
         CURLOPT_NOPROGRESS => false,
-        CURLOPT_XFERINFOFUNCTION => static function () use (&$sent, $started) {
+        // CURLOPT_XFERINFOFUNCTION only exists from PHP 8.2; the older name works everywhere.
+        CURLOPT_PROGRESSFUNCTION => static function () use (&$sent, $started) {
             return (!$sent && microtime(true) - $started > 15) ? 1 : 0;
         },
     ]);
