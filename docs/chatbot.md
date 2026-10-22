@@ -14,9 +14,9 @@ It costs nothing to run: answers come from Google Gemini's free tier, and Groq's
    'chat' => [
        'enabled' => true,
        'gemini_key' => 'paste-the-gemini-key-here',
-       'gemini_model' => 'gemini-flash-latest',
+       'gemini_model' => 'gemini-3.5-flash, gemini-flash-lite-latest',
        'groq_key' => 'paste-the-groq-key-here',
-       'groq_model' => 'llama-3.3-70b-versatile',
+       'groq_model' => 'openai/gpt-oss-120b',
        'rate_limit_max' => 30,
        'rate_limit_window' => 600,
        'daily_max' => 1000,

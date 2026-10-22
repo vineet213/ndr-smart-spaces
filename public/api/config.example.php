@@ -42,9 +42,9 @@ return [
     'chat' => [
         'enabled' => true,
         'gemini_key' => '',
-        'gemini_model' => 'gemini-flash-latest',
+        'gemini_model' => 'gemini-3.5-flash, gemini-flash-lite-latest',
         'groq_key' => '',
-        'groq_model' => 'llama-3.3-70b-versatile',
+        'groq_model' => 'openai/gpt-oss-120b',
         // At most rate_limit_max messages per IP per rate_limit_window seconds.
         'rate_limit_max' => 30,
         'rate_limit_window' => 600,

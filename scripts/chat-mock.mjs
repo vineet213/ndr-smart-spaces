@@ -36,11 +36,21 @@ function settings() {
     // no local config: environment only
   }
   const value = (name) => php.match(new RegExp(`'${name}'\\s*=>\\s*'([^']*)'`))?.[1] ?? "";
+  // Each model setting may list several, comma-separated, tried in order (as chat.php).
+  const list = (setting) =>
+    setting
+      .split(",")
+      .map((model) => model.trim())
+      .filter(Boolean);
   return {
     geminiKey: process.env.GEMINI_API_KEY || value("gemini_key"),
-    geminiModel: process.env.GEMINI_MODEL || value("gemini_model") || "gemini-flash-latest",
+    geminiModels: list(
+      process.env.GEMINI_MODEL ||
+        value("gemini_model") ||
+        "gemini-3.5-flash, gemini-flash-lite-latest",
+    ),
     groqKey: process.env.GROQ_API_KEY || value("groq_key"),
-    groqModel: process.env.GROQ_MODEL || value("groq_model") || "llama-3.3-70b-versatile",
+    groqModels: list(process.env.GROQ_MODEL || value("groq_model") || "openai/gpt-oss-120b"),
   };
 }
 
@@ -132,9 +142,9 @@ async function* sseData(response) {
   }
 }
 
-async function streamFrom(url, headers, body, extract, emit) {
+async function streamFrom(url, headers, body, extract, emit, patienceSeconds) {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 15000);
+  const timer = setTimeout(() => controller.abort(), patienceSeconds * 1000);
   let sent = false;
   try {
     const response = await fetch(url, {
@@ -170,7 +180,7 @@ const gemini = (key, model, messages, chunks) => {
   const thinking = model.startsWith("gemini-2.5")
     ? { thinkingBudget: 0 }
     : model.startsWith("gemini-3")
-      ? { thinkingLevel: "low" }
+      ? { thinkingLevel: "minimal" }
       : null;
   return (emit) =>
     streamFrom(
@@ -192,6 +202,7 @@ const gemini = (key, model, messages, chunks) => {
           .map((part) => (part.thought ? "" : (part.text ?? "")))
           .join(""),
       emit,
+      8,
     );
 };
 
@@ -203,7 +214,8 @@ const groq = (key, model, messages, chunks) => (emit) =>
       model,
       stream: true,
       temperature: 0.3,
-      max_tokens: 700,
+      max_tokens: 1500,
+      ...(model.includes("gpt-oss") ? { reasoning_effort: "low" } : {}),
       messages: [
         { role: "system", content: systemPrompt(selectKnowledge(chunks, messages, 14000)) },
         ...messages.map((m) => ({
@@ -214,6 +226,7 @@ const groq = (key, model, messages, chunks) => (emit) =>
     },
     (p) => p.choices?.[0]?.delta?.content ?? "",
     emit,
+    15,
   );
 
 /** Offline reply: shows which sections the real model would have been given. */
@@ -290,11 +303,11 @@ export async function handleChat(req, res, { cors = false } = {}) {
   });
   const emit = (event) => res.write(`data: ${JSON.stringify(event)}\n\n`);
   const chunks = knowledgeChunks();
-  const { geminiKey, geminiModel, groqKey, groqModel } = settings();
+  const { geminiKey, geminiModels, groqKey, groqModels } = settings();
   const providers = [
-    geminiKey && gemini(geminiKey, geminiModel, messages, chunks),
-    groqKey && groq(groqKey, groqModel, messages, chunks),
-  ].filter(Boolean);
+    ...(geminiKey ? geminiModels.map((model) => gemini(geminiKey, model, messages, chunks)) : []),
+    ...(groqKey ? groqModels.map((model) => groq(groqKey, model, messages, chunks)) : []),
+  ];
   if (!providers.length) providers.push(canned(messages, chunks));
 
   for (const provider of providers) {

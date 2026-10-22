@@ -198,7 +198,7 @@ function systemPrompt(string $knowledge): string
 You are "Ask NDR", the assistant on the website of NDR Smart Spaces Pvt. Ltd., an Indian company that develops, owns and manages logistics, warehousing, industrial and institutional infrastructure. Today is {$today}.
 
 How to answer:
-- Use ONLY the WEBSITE CONTENT below. If the answer is not there, say you don't have that information and offer to put the visitor in touch with the team. Never guess, never invent numbers, names, prices, availability or dates.
+- Use ONLY the WEBSITE CONTENT below. If the answer is not there, say you don't have that information and offer to put the visitor in touch with the team. Never guess, never invent numbers, names, prices, availability or dates. Copy email addresses, phone numbers and figures exactly as written there.
 - Be warm, professional and brief: usually 1–4 short sentences or a short bulleted list. Use **bold** sparingly. No headings, no tables.
 - Link to the most relevant page using Markdown with the site path exactly as given, e.g. [Contact](/contact/). Only link to paths that appear in the website content.
 - Lease rates, current vacancies and custom requirements are handled by the team: explain what the site says and offer to connect them.
@@ -241,7 +241,7 @@ function send(array $event): void
  * Streams one provider's reply. $extract maps a decoded SSE data payload to its text.
  * Returns true once any text was sent (no fallback after that), false if it failed first.
  */
-function streamFrom(string $url, array $headers, array $body, callable $extract): bool
+function streamFrom(string $url, array $headers, array $body, callable $extract, int $patience): bool
 {
     $sent = false;
     $status = 0;
@@ -280,11 +280,11 @@ function streamFrom(string $url, array $headers, array $body, callable $extract)
             }
             return connection_aborted() ? 0 : strlen($data);
         },
-        // Give up on a provider that hasn't started answering within 15 s, so the backup can.
+        // Give up on a model that hasn't started answering within $patience seconds, so the next can.
         CURLOPT_NOPROGRESS => false,
         // CURLOPT_XFERINFOFUNCTION only exists from PHP 8.2; the older name works everywhere.
-        CURLOPT_PROGRESSFUNCTION => static function () use (&$sent, $started) {
-            return (!$sent && microtime(true) - $started > 15) ? 1 : 0;
+        CURLOPT_PROGRESSFUNCTION => static function () use (&$sent, $started, $patience) {
+            return (!$sent && microtime(true) - $started > $patience) ? 1 : 0;
         },
     ]);
     curl_exec($curl);
@@ -292,13 +292,21 @@ function streamFrom(string $url, array $headers, array $body, callable $extract)
     return $sent;
 }
 
+/** 'a, b' → ['a', 'b']: each model setting may list several, tried in order. */
+function modelList($setting, string $default): array
+{
+    return array_values(array_filter(array_map('trim', explode(',', (string) ($setting ?? $default)))));
+}
+
+// Order: each Gemini model, then each Groq model. Google's free models are
+// sometimes "busy" for a while, so a second Gemini model is worth a try before
+// Groq, whose free tier allows far fewer tokens per minute.
 $providers = [];
-if (!empty($chat['gemini_key'])) {
-    $providers[] = static function () use ($chat, $messages, $chunks): bool {
-        $model = (string) ($chat['gemini_model'] ?? 'gemini-flash-latest');
+foreach (empty($chat['gemini_key']) ? [] : modelList($chat['gemini_model'] ?? null, 'gemini-3.5-flash, gemini-flash-lite-latest') as $model) {
+    $providers[] = static function () use ($chat, $messages, $chunks, $model): bool {
         // Thinking makes the first word arrive seconds later and adds nothing to look-ups like these.
         $thinking = strpos($model, 'gemini-2.5') === 0 ? ['thinkingBudget' => 0]
-            : (strpos($model, 'gemini-3') === 0 ? ['thinkingLevel' => 'low'] : null);
+            : (strpos($model, 'gemini-3') === 0 ? ['thinkingLevel' => 'minimal'] : null);
         $generation = ['temperature' => 0.3, 'maxOutputTokens' => 2048] + ($thinking ? ['thinkingConfig' => $thinking] : []);
         $model = rawurlencode($model);
         return streamFrom(
@@ -312,27 +320,32 @@ if (!empty($chat['gemini_key'])) {
             static fn (array $p) => implode('', array_map(
                 static fn ($part) => empty($part['thought']) ? (string) ($part['text'] ?? '') : '',
                 $p['candidates'][0]['content']['parts'] ?? []
-            ))
+            )),
+            8
         );
     };
 }
-if (!empty($chat['groq_key'])) {
-    $providers[] = static function () use ($chat, $messages, $chunks): bool {
+foreach (empty($chat['groq_key']) ? [] : modelList($chat['groq_model'] ?? null, 'openai/gpt-oss-120b') as $model) {
+    $providers[] = static function () use ($chat, $messages, $chunks, $model): bool {
         // Groq's free tier allows far fewer tokens per minute, so it gets less context.
         return streamFrom(
             'https://api.groq.com/openai/v1/chat/completions',
             ['Authorization: Bearer ' . $chat['groq_key']],
             [
-                'model' => (string) ($chat['groq_model'] ?? 'llama-3.3-70b-versatile'),
+                'model' => $model,
                 'stream' => true,
                 'temperature' => 0.3,
-                'max_tokens' => 700,
+                // gpt-oss models reason before answering; keep that short. (Reasoning
+                // arrives in a separate field, so only the answer is shown.)
+                'max_tokens' => 1500,
+            ] + (strpos($model, 'gpt-oss') !== false ? ['reasoning_effort' => 'low'] : []) + [
                 'messages' => array_merge(
                     [['role' => 'system', 'content' => systemPrompt(selectKnowledge($chunks, $messages, 14000))]],
                     array_map(static fn ($m) => ['role' => $m['role'] === 'model' ? 'assistant' : 'user', 'content' => $m['text']], $messages)
                 ),
             ],
-            static fn (array $p) => (string) ($p['choices'][0]['delta']['content'] ?? '')
+            static fn (array $p) => (string) ($p['choices'][0]['delta']['content'] ?? ''),
+            15
         );
     };
 }

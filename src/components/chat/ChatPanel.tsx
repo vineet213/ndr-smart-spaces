@@ -71,9 +71,11 @@ function inline(text: string, onNavigate: () => void, key: string): ReactNode[] 
     const id = `${key}-${index++}`;
     if (match[1]) {
       nodes.push(<strong key={id}>{match[1]}</strong>);
-    } else if (isSitePage(match[3])) {
+    } else if (isSitePage(match[3]) || isSitePage(match[2])) {
+      // Some models write the path as the link text, e.g. [/contact/](#).
+      const href = isSitePage(match[3]) ? match[3] : match[2];
       nodes.push(
-        <Link key={id} href={canonicalHref(match[3])} className={styles.link} onClick={onNavigate}>
+        <Link key={id} href={canonicalHref(href)} className={styles.link} onClick={onNavigate}>
           {match[2]}
         </Link>,
       );
