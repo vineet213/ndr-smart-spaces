@@ -85,7 +85,7 @@ export const zones = [
   {
     id: "east",
     name: "East",
-    cities: ["Kolkata", "Lucknow", "Kanpur"],
+    cities: ["Kolkata", "Lucknow"],
   },
   {
     id: "west",
