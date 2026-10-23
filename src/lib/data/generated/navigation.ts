@@ -23,6 +23,10 @@ export const navigation = {
           heading: "About NDR",
           links: [
             {
+              href: "/about-us",
+              label: "About Us",
+            },
+            {
               href: "/why-ndr",
               label: "Why NDR",
             },
@@ -32,11 +36,6 @@ export const navigation = {
       href: "/about-us",
       id: "about",
       label: "About",
-      overview: {
-        href: "/about-us",
-        label: "About Us",
-        tagline: "Seven decades of building, since 1954.",
-      },
       type: "menu",
     },
     {
@@ -131,6 +130,10 @@ export const navigation = {
           heading: "About NDR",
           links: [
             {
+              href: "/about-us",
+              label: "About Us",
+            },
+            {
               href: "/why-ndr",
               label: "Why NDR",
             },
@@ -140,11 +143,6 @@ export const navigation = {
       href: "/about-us",
       id: "about",
       label: "About",
-      overview: {
-        href: "/about-us",
-        label: "About Us",
-        tagline: "Seven decades of building, since 1954.",
-      },
       type: "menu",
     },
     {
