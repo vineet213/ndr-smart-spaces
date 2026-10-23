@@ -1,0 +1,159 @@
+/* dark sheet, lit like the other charcoal bands */
+.section {
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--section-padding-tablet);
+  background-color: var(--color-charcoal-deep);
+  background-image:
+    radial-gradient(50% 80% at 85% 0%, rgba(240, 182, 90, 0.1) 0%, rgba(240, 182, 90, 0) 70%),
+    radial-gradient(40% 90% at 0% 100%, rgba(150, 40, 48, 0.35) 0%, rgba(150, 40, 48, 0) 70%);
+  color: var(--color-text-inverse);
+}
+
+.drawing {
+  position: relative;
+  margin-top: var(--space-8xl);
+}
+
+/* the dimension line: arrowheads at both ends, a gold hairline between */
+.dimension {
+  position: absolute;
+  top: 0.4rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+}
+
+.line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-gold);
+}
+
+.arrowStart,
+.arrowEnd {
+  width: 0;
+  height: 0;
+  border-block: 5px solid transparent;
+}
+
+.arrowStart {
+  border-right: 9px solid var(--color-gold);
+}
+
+.arrowEnd {
+  border-left: 9px solid var(--color-gold);
+}
+
+.firsts {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-3xl);
+  margin: 0;
+  padding: 0 var(--space-xl);
+  list-style: none;
+}
+
+.first {
+  position: relative;
+}
+
+.tick {
+  display: block;
+  width: 1px;
+  height: 0.85rem;
+  margin-bottom: var(--space-xl);
+  background-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(240, 182, 90, 0.15);
+}
+
+.year {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(2.25rem, 3.4vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--color-gold);
+}
+
+.title {
+  margin: var(--space-lg) 0 0;
+  max-width: 16rem;
+  font-family: var(--font-body);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-small);
+  color: var(--color-text-inverse-85);
+}
+
+@media (max-width: 1023px) {
+  .firsts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: var(--space-6xl);
+  }
+}
+
+/* phones: the dimension line turns vertical and the years run down it */
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--section-padding-mobile);
+  }
+
+  .drawing {
+    margin-top: var(--space-6xl);
+    padding-left: var(--space-3xl);
+  }
+
+  .dimension {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: auto;
+    width: 1px;
+    flex-direction: column;
+  }
+
+  .line {
+    width: 1px;
+    height: auto;
+  }
+
+  .arrowStart,
+  .arrowEnd {
+    border-block: 0;
+    border-inline: 5px solid transparent;
+  }
+
+  .arrowStart {
+    border-right-width: 5px;
+    border-right-color: transparent;
+    border-bottom: 9px solid var(--color-gold);
+  }
+
+  .arrowEnd {
+    border-left-width: 5px;
+    border-left-color: transparent;
+    border-top: 9px solid var(--color-gold);
+  }
+
+  .firsts {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-5xl);
+    padding: var(--space-xl) 0;
+  }
+
+  .tick {
+    position: absolute;
+    left: calc(-1 * var(--space-3xl));
+    top: 1.1rem;
+    width: 0.85rem;
+    height: 1px;
+    margin: 0;
+  }
+
+  .title {
+    max-width: none;
+  }
+}

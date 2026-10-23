@@ -26,7 +26,7 @@ export type MenuOverview = {
   href: string;
 };
 
-export type MenuId = "business" | "investor";
+export type MenuId = "about" | "business" | "culture" | "investor";
 
 export type NavMenu = {
   type: "menu";

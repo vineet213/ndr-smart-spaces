@@ -12,6 +12,9 @@
 export const siteRoutes: readonly string[] = [
   "/",
   "/about-us",
+  "/why-ndr",
+  "/culture-and-careers/corporate-culture",
+  "/culture-and-careers/careers-and-opportunities",
   "/business/logistics-and-industrial-infrastructure",
   "/business/ndr-asset-management",
   "/business/ndr-asset-management/development-lifecycle",
@@ -37,6 +40,9 @@ export const routeAnchors: Readonly<Record<string, readonly string[]>> = {
   "/media": ["press-archive"],
   "/contact": ["directory", "business-enquiry"],
   "/about-us": ["story"],
+  "/why-ndr": ["audiences", "anatomy"],
+  "/culture-and-careers/corporate-culture": ["hr-stats", "learning"],
+  "/culture-and-careers/careers-and-opportunities": ["openings"],
 };
 
 /**

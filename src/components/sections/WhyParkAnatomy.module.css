@@ -1,0 +1,332 @@
+.section {
+  padding-block: var(--section-padding-tablet);
+  background-color: var(--color-ivory-dim);
+}
+
+/* the drawing sits on a sheet with a hairline border and a title block */
+.figure {
+  position: relative;
+  margin-top: var(--space-7xl);
+  padding: var(--space-5xl) var(--space-5xl) var(--space-4xl);
+  background-color: var(--color-ivory);
+  border: 1px solid var(--color-hairline-light);
+  background-image:
+    linear-gradient(var(--color-hairline-light) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-hairline-light) 1px, transparent 1px);
+  background-size: 2.5rem 2.5rem;
+  background-position: -1px -1px;
+  background-blend-mode: normal;
+}
+
+/* fade the grid so it reads as drawing paper, not a chart */
+.figure::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(250, 247, 242, 0.55) 0%,
+    rgba(250, 247, 242, 0.9) 75%
+  );
+  pointer-events: none;
+}
+
+.titleBlock {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  border-top: 1px solid var(--color-hairline-light);
+  border-left: 1px solid var(--color-hairline-light);
+  background-color: var(--color-ivory);
+}
+
+.titleBlock span {
+  padding: var(--space-xs) var(--space-lg);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+.titleBlock span + span {
+  border-left: 1px solid var(--color-hairline-light);
+}
+
+.titleBlock span:first-child {
+  color: var(--color-maroon);
+}
+
+.svg {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* linework ---------------------------------------------------------------- */
+
+.stroke,
+.solar,
+.coating,
+.water,
+.green {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.stroke {
+  stroke: var(--color-charcoal);
+  stroke-width: 1.5;
+}
+
+.heavy {
+  stroke-width: 2.5;
+}
+
+.fine {
+  fill: none;
+  stroke: var(--color-charcoal);
+  stroke-width: 0.9;
+  opacity: 0;
+}
+
+.hatch {
+  stroke: var(--color-hairline-light);
+  stroke-width: 2;
+}
+
+.solar {
+  stroke: var(--color-maroon);
+  stroke-width: 6;
+  stroke-linecap: butt;
+}
+
+.coating {
+  stroke: var(--color-gold);
+  stroke-width: 4;
+}
+
+.water {
+  stroke: #4f7f98;
+  stroke-width: 2;
+}
+
+.green {
+  stroke: #5d7a4a;
+  stroke-width: 1.5;
+}
+
+.drawn .stroke,
+.drawn .water,
+.drawn .green {
+  animation: draw 1600ms var(--ease-standard) forwards;
+}
+
+.drawn .solar,
+.drawn .coating {
+  animation: draw 700ms var(--ease-standard) 1100ms forwards;
+}
+
+.drawn .fine {
+  animation: appear 900ms var(--ease-standard) 900ms forwards;
+}
+
+/* markers ----------------------------------------------------------------- */
+
+.marker {
+  cursor: default;
+  opacity: 0;
+}
+
+.drawn .marker {
+  animation: pop 500ms var(--ease-standard) forwards;
+  animation-delay: calc(1500ms + var(--i) * 110ms);
+}
+
+.markerHalo {
+  fill: var(--color-gold);
+  opacity: 0.22;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity var(--duration-standard) var(--ease-standard),
+    transform var(--duration-standard) var(--ease-standard);
+}
+
+.markerDot {
+  fill: var(--color-gold);
+  stroke: var(--color-ivory);
+  stroke-width: 2;
+  transition: fill var(--duration-standard) var(--ease-standard);
+}
+
+.markerText {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 11px;
+  fill: var(--color-maroon-dark);
+  pointer-events: none;
+  transition: fill var(--duration-standard) var(--ease-standard);
+}
+
+.markerActive .markerDot {
+  fill: var(--color-maroon);
+}
+
+.markerActive .markerText {
+  fill: var(--color-ivory);
+}
+
+.markerActive .markerHalo {
+  opacity: 0.35;
+  transform: scale(1.35);
+}
+
+/* legend ------------------------------------------------------------------ */
+
+.legend {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 var(--space-5xl);
+  margin: var(--space-5xl) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  gap: var(--space-lg);
+  padding-block: var(--space-xl);
+  border-top: 1px solid var(--color-hairline-light);
+  transition: background-color var(--duration-standard) var(--ease-standard);
+}
+
+.itemIndex {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background-color: var(--color-gold);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 0.6875rem;
+  color: var(--color-maroon-dark);
+  transition:
+    background-color var(--duration-standard) var(--ease-standard),
+    color var(--duration-standard) var(--ease-standard);
+}
+
+.itemActive .itemIndex {
+  background-color: var(--color-maroon);
+  color: var(--color-ivory);
+}
+
+.itemText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.itemTitle {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 1.0625rem;
+  line-height: 1.3;
+  color: var(--color-charcoal);
+}
+
+.itemBody {
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-secondary);
+  opacity: 0.85;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes appear {
+  to {
+    opacity: 0.55;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1023px) {
+  .legend {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--section-padding-mobile);
+  }
+
+  .figure {
+    margin-top: var(--space-5xl);
+    margin-inline: calc(-1 * var(--margin-mobile));
+    padding: var(--space-xl) var(--space-md) var(--space-4xl);
+    border-inline: 0;
+  }
+
+  .titleBlock span:nth-child(2) {
+    display: none;
+  }
+
+  .legend {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stroke,
+  .solar,
+  .coating,
+  .water,
+  .green {
+    stroke-dashoffset: 0;
+  }
+
+  .fine {
+    opacity: 0.55;
+  }
+
+  .marker {
+    opacity: 1;
+  }
+
+  .drawn .stroke,
+  .drawn .water,
+  .drawn .green,
+  .drawn .solar,
+  .drawn .coating,
+  .drawn .fine,
+  .drawn .marker {
+    animation: none;
+  }
+}

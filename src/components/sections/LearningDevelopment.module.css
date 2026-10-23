@@ -1,0 +1,14 @@
+.wrap {
+  position: relative;
+  background-color: var(--color-ivory-dim);
+}
+
+.intro {
+  padding-block: var(--section-padding-tablet) var(--space-7xl);
+}
+
+@media (max-width: 767px) {
+  .intro {
+    padding-block: var(--section-padding-mobile) var(--space-5xl);
+  }
+}

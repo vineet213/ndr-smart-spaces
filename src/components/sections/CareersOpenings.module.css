@@ -1,0 +1,350 @@
+.section {
+  padding-block: var(--section-padding-tablet);
+  background-color: var(--color-ivory);
+}
+
+.head {
+  padding-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--color-hairline-light);
+  position: relative;
+}
+
+.head::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: var(--space-6xl);
+  height: 2px;
+  background-color: var(--color-gold);
+}
+
+.eyebrow {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-maroon);
+}
+
+.heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-xl);
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-h2);
+  line-height: var(--leading-h2);
+  color: var(--color-charcoal);
+}
+
+.count {
+  font-weight: var(--font-weight-display-light);
+  color: var(--color-gold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* empty state ------------------------------------------------------------- */
+
+.empty {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-6xl);
+  margin-top: var(--space-6xl);
+  padding: var(--space-7xl) var(--space-6xl);
+  background-color: var(--color-ivory-dim);
+  border: 1px solid var(--color-hairline-light);
+}
+
+/* an open door, drawn in line: the roles still to come */
+.emptyMark {
+  position: relative;
+  width: 3.5rem;
+  height: 4.5rem;
+  border: 2px solid var(--color-maroon);
+  border-bottom: 0;
+}
+
+.emptyMark::after {
+  content: "";
+  position: absolute;
+  inset: -2px auto 0 -2px;
+  width: 2.25rem;
+  border: 2px solid var(--color-gold);
+  border-bottom: 0;
+  transform: skewY(-12deg);
+  transform-origin: left top;
+  background-color: var(--color-ivory-dim);
+}
+
+.emptyCopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.emptyHeading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-h3);
+  line-height: var(--leading-h3);
+  color: var(--color-charcoal);
+}
+
+.emptyBody {
+  margin: 0;
+  max-width: 40rem;
+  font-family: var(--font-body);
+  font-size: var(--font-body-size);
+  line-height: var(--leading-body);
+  color: var(--color-text-secondary);
+}
+
+.emptyActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-md);
+}
+
+.email {
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  color: var(--color-maroon);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* filters ------------------------------------------------------------------ */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-4xl);
+}
+
+.filter {
+  padding: var(--space-sm) var(--space-xl);
+  border: 1px solid var(--color-hairline-light);
+  border-radius: 999px;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-small);
+  color: var(--color-charcoal);
+  transition:
+    background-color var(--duration-standard) var(--ease-standard),
+    border-color var(--duration-standard) var(--ease-standard),
+    color var(--duration-standard) var(--ease-standard);
+}
+
+.filterActive {
+  border-color: var(--color-maroon);
+  background-color: var(--color-maroon);
+  color: var(--color-ivory);
+}
+
+@media (hover: hover) {
+  .filter:not(.filterActive):hover {
+    border-color: var(--color-maroon);
+  }
+}
+
+/* roles ledger ------------------------------------------------------------- */
+
+.roles {
+  margin: var(--space-3xl) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.role {
+  border-bottom: 1px solid var(--color-hairline-light);
+}
+
+.roleRow {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 4fr) auto;
+  align-items: center;
+  gap: var(--space-5xl);
+  padding-block: var(--space-4xl);
+}
+
+.roleMain {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.roleTeam {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-maroon);
+}
+
+.roleTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: var(--font-h3);
+  line-height: var(--leading-h3);
+  color: var(--color-charcoal);
+}
+
+.roleSummary {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-secondary);
+}
+
+.roleMeta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md) var(--space-2xl);
+  margin: 0;
+}
+
+.roleMeta dt {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-stone);
+  opacity: 0.7;
+}
+
+.roleMeta dd {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  color: var(--color-charcoal);
+}
+
+.apply {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-xl);
+  border: 1px solid var(--color-maroon);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-button);
+  letter-spacing: var(--tracking-button);
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--color-maroon);
+  transition:
+    background-color var(--duration-standard) var(--ease-standard),
+    color var(--duration-standard) var(--ease-standard);
+}
+
+@media (hover: hover) {
+  .apply:hover {
+    background-color: var(--color-maroon);
+    color: var(--color-ivory);
+  }
+}
+
+.talentPool {
+  margin: var(--space-4xl) 0 0;
+  font-family: var(--font-body);
+  font-size: var(--font-body-size);
+  color: var(--color-text-secondary);
+}
+
+.inlineLink {
+  color: var(--color-maroon);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* the fraud and privacy note */
+.notice {
+  margin: var(--space-6xl) 0 0;
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--color-hairline-light);
+  max-width: 52rem;
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-secondary);
+  opacity: 0.85;
+}
+
+.filter:focus-visible,
+.apply:focus-visible,
+.email:focus-visible,
+.inlineLink:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1023px) {
+  .roleRow {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .roleMeta {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    grid-template-columns: repeat(4, auto);
+    justify-content: start;
+  }
+
+  .empty {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .emptyActions {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-2xl);
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--section-padding-mobile);
+  }
+
+  .empty {
+    grid-template-columns: 1fr;
+    gap: var(--space-3xl);
+    padding: var(--space-5xl) var(--space-3xl);
+  }
+
+  .emptyActions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .roleRow {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .roleMeta {
+    grid-template-columns: repeat(2, auto);
+  }
+
+  .apply {
+    justify-self: start;
+  }
+}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import { useInView } from "@/hooks/useInView";
 import styles from "./CapitalCycle.module.css";
 import { cx } from "../ui/cx";
@@ -42,34 +43,46 @@ function point(degrees: number, radius: number) {
 
 const NODE_ANGLES = [225, 315, 45, 135] as const;
 
-const nodeDefs = [
+export type CycleNodeDef = {
+  index: string;
+  name: string;
+  caption: readonly [string, string];
+};
+
+export type CycleMedallion = { title: string; sub: string };
+
+const capitalNodes: readonly CycleNodeDef[] = [
   { index: "01", name: "Develop", caption: ["Identification, planning", "and design"] },
   { index: "02", name: "Stabilize", caption: ["Operations, leasing,", "occupancy"] },
   { index: "03", name: "Offer to NDR InvIT", caption: ["First offer on", "eligible assets"] },
   { index: "04", name: "Recycle capital", caption: ["Back into new", "development"] },
-] as const;
+];
+
+const capitalMedallion: CycleMedallion = { title: "ROFO", sub: "Right of First Offer" };
 
 const LABEL_TOP = { nameY: 38, cap1Y: 60, cap2Y: 76, leaderY: 57 };
 const LABEL_BOTTOM = { nameY: 324, cap1Y: 346, cap2Y: 362, leaderY: 343 };
 
-const nodes: CycleNode[] = NODE_ANGLES.map((angle, index) => {
-  const { x, y } = point(angle, RING_R);
-  const isLeft = angle === 225 || angle === 135;
-  const label = angle === 225 || angle === 315 ? LABEL_TOP : LABEL_BOTTOM;
-  const nameX = isLeft ? 78 : 322;
-  return {
-    index: nodeDefs[index].index,
-    name: nodeDefs[index].name,
-    caption: [nodeDefs[index].caption[0], nodeDefs[index].caption[1]],
-    cx: x,
-    cy: y,
-    nameX,
-    nameY: label.nameY,
-    cap1Y: label.cap1Y,
-    cap2Y: label.cap2Y,
-    leader: `M ${x} ${y} L ${nameX} ${label.leaderY}`,
-  };
-});
+/* Four nodes, one per quadrant: the labels sit in the corners of the drawing. */
+const layout = (nodeDefs: readonly CycleNodeDef[]): CycleNode[] =>
+  NODE_ANGLES.map((angle, index) => {
+    const { x, y } = point(angle, RING_R);
+    const isLeft = angle === 225 || angle === 135;
+    const label = angle === 225 || angle === 315 ? LABEL_TOP : LABEL_BOTTOM;
+    const nameX = isLeft ? 78 : 322;
+    return {
+      index: nodeDefs[index].index,
+      name: nodeDefs[index].name,
+      caption: [nodeDefs[index].caption[0], nodeDefs[index].caption[1]],
+      cx: x,
+      cy: y,
+      nameX,
+      nameY: label.nameY,
+      cap1Y: label.cap1Y,
+      cap2Y: label.cap2Y,
+      leader: `M ${x} ${y} L ${nameX} ${label.leaderY}`,
+    };
+  });
 
 const arcs = NODE_ANGLES.map((angle, index) => {
   const start = point(angle + ARC_START_INSET, RING_R);
@@ -79,15 +92,26 @@ const arcs = NODE_ANGLES.map((angle, index) => {
   return `M ${start.x} ${start.y} A ${RING_R} ${RING_R} 0 0 1 ${end.x} ${end.y}`;
 });
 
-export function CapitalCycle() {
+type CapitalCycleProps = {
+  /** Exactly four nodes, clockwise from the top left. Defaults to the capital cycle. */
+  nodes?: readonly CycleNodeDef[];
+  medallion?: CycleMedallion;
+};
+
+export function CapitalCycle({
+  nodes: nodeDefs = capitalNodes,
+  medallion = capitalMedallion,
+}: CapitalCycleProps) {
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.4 });
+  const nodes = layout(nodeDefs);
+  const arrowId = `cycle-arrow-${useId().replace(/:/g, "")}`;
 
   return (
     <div ref={ref} className={cx(styles.cycle, inView && styles.drawn)}>
       <svg viewBox="0 0 400 400" className={styles.svg} focusable="false" aria-hidden="true">
         <defs>
           <marker
-            id="cycle-arrow"
+            id={arrowId}
             viewBox="0 0 10 10"
             refX="8"
             refY="5"
@@ -107,7 +131,7 @@ export function CapitalCycle() {
             className={styles.arc}
             d={d}
             pathLength={100}
-            markerEnd="url(#cycle-arrow)"
+            markerEnd={`url(#${arrowId})`}
           />
         ))}
 
@@ -134,10 +158,10 @@ export function CapitalCycle() {
           <circle className={styles.medallionDisc} cx={CENTER} cy={CENTER} r={MEDALLION_R} />
           <circle className={styles.medallionRing} cx={CENTER} cy={CENTER} r={MEDALLION_R} />
           <text className={styles.rofo} x={CENTER} y={199} textAnchor="middle">
-            ROFO
+            {medallion.title}
           </text>
           <text className={styles.rofoSub} x={CENTER} y={219} textAnchor="middle">
-            Right of First Offer
+            {medallion.sub}
           </text>
         </g>
       </svg>

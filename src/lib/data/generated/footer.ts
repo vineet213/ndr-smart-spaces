@@ -36,6 +36,18 @@ export const footer = {
           "label": "About Us & Our People",
         },
         {
+          "href": "/why-ndr",
+          "label": "Why NDR",
+        },
+        {
+          "href": "/culture-and-careers/corporate-culture",
+          "label": "Corporate Culture",
+        },
+        {
+          "href": "/culture-and-careers/careers-and-opportunities",
+          "label": "Careers & Opportunities",
+        },
+        {
           "href": "/contact",
           "label": "Contact",
         },
