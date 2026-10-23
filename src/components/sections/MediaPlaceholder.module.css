@@ -1,0 +1,32 @@
+.section {
+  padding-block: 0 var(--section-padding-tablet);
+  background-color: var(--color-ivory-dim);
+}
+
+.plate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  padding: var(--space-4xl);
+  background-color: var(--color-charcoal);
+  border: 1px dashed var(--color-gold-40);
+  outline: 1px solid var(--color-charcoal);
+}
+
+.note {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--color-gold);
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: 0 var(--section-padding-mobile);
+  }
+}

@@ -4,6 +4,7 @@ import { CultureOverview } from "@/components/sections/CultureOverview";
 import { CultureStats } from "@/components/sections/CultureStats";
 import { CycleSection } from "@/components/sections/CycleSection";
 import { LearningDevelopment } from "@/components/sections/LearningDevelopment";
+import { MediaPlaceholder } from "@/components/sections/MediaPlaceholder";
 import { ClosingCta } from "@/components/sections/ClosingCta";
 import { Footer } from "@/components/sections/Footer";
 import { cultureClosing, cultureCycle, cultureMasthead } from "@/lib/data/careers";
@@ -35,6 +36,8 @@ export default function CorporateCulturePage() {
         medallion={cultureCycle.medallion}
       />
       <LearningDevelopment />
+      {/* CONFIRM WITH CLIENT: closing video or image. */}
+      <MediaPlaceholder note="Video / closing image to be inserted" />
       <ClosingCta data={cultureClosing} />
       <Footer />
     </>

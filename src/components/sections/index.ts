@@ -77,3 +77,4 @@ export { CultureOverview } from "./CultureOverview";
 export { CultureStats } from "./CultureStats";
 export { LearningDevelopment } from "./LearningDevelopment";
 export { CareersOpenings } from "./CareersOpenings";
+export { MediaPlaceholder } from "./MediaPlaceholder";

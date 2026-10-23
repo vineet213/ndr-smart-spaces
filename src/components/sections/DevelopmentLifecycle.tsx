@@ -18,12 +18,6 @@ import styles from "./DevelopmentLifecycle.module.css";
 type DevelopmentLifecycleProps = {
   stages: readonly LifecycleStage[];
   source: string;
-  /** Accessible name of the stage stack, e.g. "Development lifecycle". */
-  label?: string;
-  /** Word set before each stage number: "Stage 01 / 08". */
-  stepWord?: string;
-  /** The "final product" video finale after the last stage. */
-  finale?: boolean;
 };
 
 /* Per-photograph crop emphasis. Values tune object-position so the main
@@ -92,16 +86,13 @@ type StageNavProps = {
   activeIndex: number;
   visible: boolean;
   onSelect: (index: number) => void;
-  label: string;
-  stepWord: string;
 };
 
-function StageNav({ stages, activeIndex, visible, onSelect, label, stepWord }: StageNavProps) {
-  const step = stepWord.toLowerCase();
+function StageNav({ stages, activeIndex, visible, onSelect }: StageNavProps) {
   return (
     <nav
       className={cx(styles.stageNav, visible && styles.stageNavVisible)}
-      aria-label={`Jump to a ${label.toLowerCase()} ${step}`}
+      aria-label="Jump to a development lifecycle stage"
     >
       <span className={styles.stageNavTrack} aria-hidden="true" />
       <span
@@ -122,7 +113,7 @@ function StageNav({ stages, activeIndex, visible, onSelect, label, stepWord }: S
                   isActive && styles.stageNavItemActive,
                 )}
                 aria-current={isActive ? "step" : undefined}
-                aria-label={`Go to ${step} ${stage.index}, ${stage.title}`}
+                aria-label={`Go to stage ${stage.index}, ${stage.title}`}
                 onClick={() => onSelect(index)}
               >
                 <span className={styles.stageNavDot} aria-hidden="true" />
@@ -139,7 +130,7 @@ function StageNav({ stages, activeIndex, visible, onSelect, label, stepWord }: S
         <button
           type="button"
           className={cx(styles.stepperButton, styles.stepperPrev)}
-          aria-label={`Previous ${step}`}
+          aria-label="Previous stage"
           disabled={activeIndex === 0}
           onClick={() => onSelect(activeIndex - 1)}
         >
@@ -151,7 +142,7 @@ function StageNav({ stages, activeIndex, visible, onSelect, label, stepWord }: S
         <button
           type="button"
           className={cx(styles.stepperButton, styles.stepperNext)}
-          aria-label={`Next ${step}`}
+          aria-label="Next stage"
           disabled={activeIndex === stages.length - 1}
           onClick={() => onSelect(activeIndex + 1)}
         >
@@ -162,13 +153,7 @@ function StageNav({ stages, activeIndex, visible, onSelect, label, stepWord }: S
   );
 }
 
-export function DevelopmentLifecycle({
-  stages,
-  source,
-  label = "Development lifecycle",
-  stepWord = "Stage",
-  finale = true,
-}: DevelopmentLifecycleProps) {
+export function DevelopmentLifecycle({ stages, source }: DevelopmentLifecycleProps) {
   const total = stages.length;
   const trackRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
@@ -449,7 +434,7 @@ export function DevelopmentLifecycle({
           ref={stageRef}
           className={styles.stage}
           aria-roledescription="carousel"
-          aria-label={label}
+          aria-label="Development lifecycle"
         >
           {stages.map((stage, index) => (
             <figure
@@ -503,7 +488,7 @@ export function DevelopmentLifecycle({
                   <div className={styles.meta} aria-hidden="true">
                     <span className={styles.rule} />
                     <span className={styles.eyebrow}>
-                      {stepWord} {stage.index}
+                      Stage {stage.index}
                       <span className={styles.eyebrowTotal}>
                         {" "}
                         / {String(total).padStart(2, "0")}
@@ -524,33 +509,29 @@ export function DevelopmentLifecycle({
         activeIndex={active}
         visible={listInView && !headingInView}
         onSelect={goTo}
-        label={label}
-        stepWord={stepWord}
       />
 
-      {finale ? (
-        <div className={styles.finale}>
-          <Container>
-            <Reveal>
-              <header ref={headingRef} className={styles.mapHeading}>
-                <div className={styles.mapHeadingTitle}>
-                  <span className={styles.rule} aria-hidden="true" />
-                  <h2 className={styles.mapTitle}>A peak into the final product</h2>
-                </div>
-                <p className={styles.mapBody}>
-                  Strategically located, spec-forward facilities near highways, ports, railways and
-                  airports, serving retail, e-commerce, 3PL and manufacturing.
-                </p>
-              </header>
-            </Reveal>
-            <Reveal>
-              <div className={styles.plate}>
-                <FinalProductVideo />
+      <div className={styles.finale}>
+        <Container>
+          <Reveal>
+            <header ref={headingRef} className={styles.mapHeading}>
+              <div className={styles.mapHeadingTitle}>
+                <span className={styles.rule} aria-hidden="true" />
+                <h2 className={styles.mapTitle}>A peak into the final product</h2>
               </div>
-            </Reveal>
-          </Container>
-        </div>
-      ) : null}
+              <p className={styles.mapBody}>
+                Strategically located, spec-forward facilities near highways, ports, railways and
+                airports, serving retail, e-commerce, 3PL and manufacturing.
+              </p>
+            </header>
+          </Reveal>
+          <Reveal>
+            <div className={styles.plate}>
+              <FinalProductVideo />
+            </div>
+          </Reveal>
+        </Container>
+      </div>
 
       {source ? (
         <Container className={styles.footnote}>
