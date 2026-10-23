@@ -1,136 +1,72 @@
-import type { MastheadTitle } from "@/components/sections/PageMasthead";
-import type { ClosingCtaData } from "@/components/sections/ClosingCta";
-import type { CompanyMetric } from "./homepage";
 import { metrics } from "./generated/metrics";
 
 /**
  * The Why NDR page (/why-ndr/). Every claim here is already published
  * elsewhere on the site: figures come from the corporate-presentation
- * metrics, the About timeline and the business pages. The five strengths
- * ledger reuses `whyNdr` from ./about.
+ * metrics, the About timeline and the business pages.
  */
 
 const metric = (key: string): string => metrics.find((m) => m.key === key)?.value ?? "";
 
-export const whyMasthead = {
-  title: { before: "Built to be ", accent: "relied on." } satisfies MastheadTitle,
-  subtext:
-    "Since 1954 the NDR Group has turned land into infrastructure that India's businesses depend on. Today that is 46 parks and around 25 million sq ft under management.",
-};
-
-export const whyProof: readonly CompanyMetric[] = [
-  { value: 46, label: "PARKS", context: "PARKS ACROSS INDIA" },
-  { value: 25, suffix: " MN", label: "SQ FT UNDER MANAGEMENT", context: "SQ FT UNDER MANAGEMENT" },
-  { value: 98, suffix: "%", label: "PORTFOLIO OCCUPANCY", context: "PORTFOLIO OCCUPANCY" },
-  {
-    value: 100,
-    suffix: "+",
-    label: "FORTUNE GLOBAL 500 COMPANIES SERVED",
-    context: "FORTUNE GLOBAL 500 COMPANIES SERVED",
+export const whyHero = {
+  kicker: "Why NDR",
+  title: ["Built to be", "relied on."],
+  lede: "Since 1954 the NDR Group has turned land into infrastructure India's businesses depend on. Today: 46 parks and around 25 million sq ft under management.",
+  image: {
+    src: "/images/lifecycle/09-asset-operations.jpg",
+    alt: "Aerial view of an operating NDR warehouse park with trucks at the loading docks",
   },
-];
-
-export type AudienceReason = { title: string; body: string; proof: string };
-
-export type Audience = {
-  id: string;
-  tab: string;
-  heading: string;
-  lede: string;
-  reasons: readonly AudienceReason[];
-  cta: { label: string; href: string };
+  scrollHint: "Five reasons below",
 };
 
-export const whyAudiences = {
-  eyebrow: "Who are you building for?",
-  heading: "One platform. Three reasons to choose it.",
-  audiences: [
-    {
-      id: "occupiers",
-      tab: "Occupiers",
-      heading: "Space that is ready when your business is.",
-      lede: "We start with your operation and build the facility around it, then stay on to run it.",
-      reasons: [
-        {
-          title: "Built around your brief",
-          body: "Built-to-suit since 2001: layouts, specifications and timelines are set by how your operation works.",
-          proof: metric("M14"),
-        },
-        {
-          title: "Delivered at pace",
-          body: "One team carries a project from land identification to handover, so nothing is lost between stages.",
-          proof: "6,00,000 sq ft delivered in 4 months",
-        },
-        {
-          title: "Run well after handover",
-          body: "NDR Asset Management looks after facilities, security, soft services and compliance across the park.",
-          proof: `${metric("M3")} portfolio occupancy`,
-        },
-      ],
-      cta: { label: "Business Enquiry", href: "/contact#business-enquiry" },
-    },
-    {
-      id: "investors",
-      tab: "Investors",
-      heading: "A platform with institutional discipline.",
-      lede: "Governance, a clear capital cycle and long-standing institutional backing.",
-      reasons: [
-        {
-          title: "Prudent governance",
-          body: "Strong governance, long-term financing and long leases with low receivable risk.",
-          proof: metric("M15"),
-        },
-        {
-          title: "A clear capital cycle",
-          body: "Assets are developed and stabilised, offered to NDR InvIT under a right of first offer, and the capital is recycled into new development.",
-          proof: "Develop → stabilise → ROFO → recycle",
-        },
-        {
-          title: "Institutional backing",
-          body: "Investors across two decades include IL&FS, Warburg Pincus, IFC, Kotak and Investcorp.",
-          proof: "IFC ₹225 crore equity, 2026",
-        },
-      ],
-      cta: { label: "Investor Centre", href: "/investor-centre/corporate-governance" },
-    },
-    {
-      id: "partners",
-      tab: "Partners",
-      heading: "Relationships that last for decades.",
-      lede: "Landowners, contractors and consultants work with a group that has been building since 1954.",
-      reasons: [
-        {
-          title: "Continuity",
-          body: "Seven decades of one group, with the leadership and balance sheet to see long projects through.",
-          proof: "Building since 1954",
-        },
-        {
-          title: "A documented standard",
-          body: "Every project follows the same documented stages, from due diligence and approvals to design, construction and handover.",
-          proof: "Land to handover, stage by stage",
-        },
-        {
-          title: "Scale to grow with",
-          body: "A development pipeline across India's main logistics markets, with 10 MN sq ft under construction.",
-          proof: metric("M6"),
-        },
-      ],
-      cta: { label: "Contact us", href: "/contact" },
-    },
-  ] satisfies readonly Audience[],
+export type Bay = {
+  bay: string;
+  title: string;
+  line: string;
+  proof: string;
+  body: string;
 };
 
-export const whyFirsts = {
-  eyebrow: "Track record",
-  heading: "A record of firsts.",
-  lede: "Some of the milestones that set the standard others now build to.",
-  firsts: [
-    { year: "1998", title: "India's first private bonded warehouse" },
-    { year: "2001", title: "NDR Warehousing's first modern built-to-suit structure" },
-    { year: "2022", title: "First 1 MN sq ft parks, at Chennai and Coimbatore" },
-    { year: "2023", title: "India's first perpetual warehousing InvIT" },
-    { year: "2026", title: "IFC invests ₹225 crore in NDR Smart Spaces" },
-  ],
+export const whyBays = {
+  heading: "Five reasons, behind five doors.",
+  lede: "Each one is backed by something you can check. Open a bay to see it.",
+  bays: [
+    {
+      bay: "01",
+      title: "Governance",
+      line: "Prudent management, strong governance.",
+      proof: metric("M15"),
+      body: "Long-term bond financing, long leases and low receivable risk, overseen by a board with independent representation.",
+    },
+    {
+      bay: "02",
+      title: "Execution",
+      line: "Concept to completion under one roof.",
+      proof: "6,00,000 sq ft delivered in 4 months",
+      body: "Land, approvals, design and construction are run by one team, so nothing is lost between stages. 99% of our industrial projects are greenfield.",
+    },
+    {
+      bay: "03",
+      title: "Capital discipline",
+      line: "Capital that keeps building.",
+      proof: "Develop, stabilise, offer under ROFO, recycle",
+      body: "Completed parks are offered to NDR InvIT under a right of first offer, and the capital goes straight back into new development.",
+    },
+    {
+      bay: "04",
+      title: "Partnerships",
+      line: "Relationships that last decades.",
+      proof: metric("M5"),
+      body: "Amazon, Flipkart, Samsung, Lenovo, FedEx and Reliance are among the occupiers who run their operations from NDR parks.",
+    },
+    {
+      bay: "05",
+      title: "Credibility",
+      line: "Backed by institutions.",
+      proof: "IFC ₹225 crore equity, 2026",
+      body: "Over two decades NDR has been backed by IL&FS, Warburg Pincus, IFC, Kotak and Investcorp.",
+    },
+  ] satisfies readonly Bay[],
 };
 
 /**
@@ -139,9 +75,8 @@ export const whyFirsts = {
  * 1000 × 520 viewBox).
  */
 export const whyAnatomy = {
-  eyebrow: "Inside an NDR park",
   heading: "Sustainability is drawn in, not added on.",
-  lede: "The measures that go into every NDR park, from the roof down to the ground beneath the yard.",
+  lede: "What goes into every NDR park, from the roof down to the ground beneath the yard. Hover a number to find it.",
   features: [
     {
       index: "01",
@@ -209,37 +144,36 @@ export const whyAnatomy = {
   ],
 };
 
-export const whyCycle = {
-  eyebrow: "Land to listed asset",
-  heading: "One partner for the whole life of an asset.",
-  lede: "We develop, stabilise and run each park, then offer it to NDR InvIT under a right of first offer, and the capital goes back into the next one.",
-  links: [
+/** The closing consignment note: the case in one document. */
+export const whyWaybill = {
+  heading: "The case, in one document.",
+  number: "1954 / 46",
+  fields: [
     {
-      label: "Development lifecycle",
-      href: "/business/ndr-asset-management/development-lifecycle",
+      label: "Consignor",
+      value: "NDR Smart Spaces Pvt. Ltd., an NDR Group platform, building since 1954",
     },
-    { label: "NDR Asset Management", href: "/business/ndr-asset-management" },
+    { label: "Parks", value: "46" },
+    { label: "Under management", value: "Around 25 MN sq ft" },
+    { label: "Under construction", value: "10 MN sq ft" },
+    { label: "Portfolio occupancy", value: metric("M3") },
+    { label: "Reach", value: metric("M4") },
   ],
-};
-
-export const whyReach = {
-  eyebrow: "Where we build",
-  heading: "Within reach of around 80% of India's consumption markets.",
-  lede: "Parks along the country's main logistics corridors, close to highways, ports, railways and airports.",
-  cities: metric("M16")
+  markets: metric("M16")
     .split("·")
     .map((city) => city.trim())
     .filter(Boolean),
-  link: {
-    label: "Explore the portfolio",
-    href: "/business/logistics-and-industrial-infrastructure#register",
+  firsts: [
+    { year: "1998", title: "India's first private bonded warehouse" },
+    { year: "2001", title: "First modern built-to-suit structure" },
+    { year: "2022", title: "First 1 MN sq ft parks, Chennai and Coimbatore" },
+    { year: "2023", title: "India's first perpetual warehousing InvIT" },
+  ],
+  consignee: "Your next facility",
+  stamp: ["Built to be", "relied on"],
+  primaryCta: { label: "Make a business enquiry", href: "/contact#business-enquiry" },
+  secondaryCta: {
+    label: "Visit the Investor Centre",
+    href: "/investor-centre/corporate-governance",
   },
 };
-
-export const whyClosing = {
-  eyebrow: "Next",
-  heading: "Build your next facility with NDR.",
-  lede: "Tell us what your operation needs, or explore how the platform is governed and financed.",
-  primaryCta: { label: "Business Enquiry", href: "/contact#business-enquiry" },
-  secondaryCta: { label: "Investor Centre", href: "/investor-centre/corporate-governance" },
-} as const satisfies ClosingCtaData;

@@ -1,0 +1,331 @@
+/* hero: the page title set big, nothing else competing --------------------- */
+
+.hero {
+  padding-block: var(--space-10xl) var(--space-7xl);
+  background-color: var(--color-ivory);
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+  align-items: end;
+  gap: var(--space-6xl);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(3rem, 8vw, 8rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  color: var(--color-charcoal);
+}
+
+.lede {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-lede);
+  line-height: var(--leading-lede);
+  color: var(--color-text-secondary);
+}
+
+/* the board ----------------------------------------------------------------- */
+
+.section {
+  padding-bottom: var(--section-padding-tablet);
+  background-color: var(--color-ivory);
+}
+
+.board {
+  --tile: clamp(1.5rem, 3.2vw, 2.75rem);
+
+  position: relative;
+  padding: var(--space-4xl) var(--space-4xl) var(--space-5xl);
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, #24201e, #161413);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 2rem 4rem rgba(28, 26, 25, 0.35);
+  color: var(--color-ivory);
+}
+
+/* screws in the four corners of the casing */
+.board::before {
+  content: "";
+  position: absolute;
+  inset: 0.75rem;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, #4a4440 0 3px, transparent 3.5px) left top / 8px 8px no-repeat,
+    radial-gradient(circle, #4a4440 0 3px, transparent 3.5px) right top / 8px 8px no-repeat,
+    radial-gradient(circle, #4a4440 0 3px, transparent 3.5px) left bottom / 8px 8px no-repeat,
+    radial-gradient(circle, #4a4440 0 3px, transparent 3.5px) right bottom / 8px 8px no-repeat;
+}
+
+.boardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2xl);
+  padding-bottom: var(--space-2xl);
+  border-bottom: 2px solid var(--color-gold);
+}
+
+.boardTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  color: var(--color-gold);
+}
+
+.columns,
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 3fr) minmax(0, 2fr) minmax(0, 2fr) minmax(0, 3fr);
+  gap: var(--space-2xl);
+}
+
+.columns {
+  padding: var(--space-lg) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--color-text-inverse-70);
+}
+
+/* split-flap tiles ----------------------------------------------------------- */
+
+.flaps {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.18rem;
+}
+
+.tile {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--tile) * 0.78);
+  height: var(--tile);
+  border-radius: 0.2rem;
+  background: linear-gradient(180deg, #2f2a28 0 50%, #262220 50% 100%);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.6);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: calc(var(--tile) * 0.62);
+  line-height: 1;
+  color: #f4ede0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* the hinge line across the middle of every flap */
+.tile::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.gap {
+  background: transparent;
+  box-shadow: none;
+}
+
+.gap::after {
+  display: none;
+}
+
+.counter .tile {
+  color: var(--color-gold);
+}
+
+/* empty board ---------------------------------------------------------------- */
+
+.emptyRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3xl);
+  padding-top: var(--space-4xl);
+}
+
+.emptyMessage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.status .tile {
+  color: var(--color-gold);
+}
+
+/* roles ----------------------------------------------------------------------- */
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  align-items: center;
+  padding: var(--space-xl) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.role {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-medium);
+  font-size: 1.125rem;
+}
+
+.ref {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-regular);
+  font-size: 0.8125rem;
+  color: var(--color-text-inverse-70);
+}
+
+.cell {
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  color: var(--color-text-inverse-85);
+}
+
+.row .status {
+  --tile: 1.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.apply {
+  padding: var(--space-xs) var(--space-lg);
+  border-radius: 2rem;
+  background-color: var(--color-gold);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-semibold);
+  font-size: var(--font-small);
+  color: var(--color-charcoal);
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .apply:hover {
+    background-color: var(--color-gold-light);
+  }
+}
+
+.apply:focus-visible {
+  outline: 2px solid var(--color-ivory);
+  outline-offset: 3px;
+}
+
+/* CV invitation and notice ---------------------------------------------------- */
+
+.invite {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--space-xl) var(--space-6xl);
+  margin-top: var(--space-7xl);
+}
+
+.inviteHeading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(2rem, 3.6vw, 3.25rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-charcoal);
+}
+
+.inviteBody {
+  margin: 0;
+  max-width: 36rem;
+  font-family: var(--font-body);
+  font-size: var(--font-lede);
+  line-height: var(--leading-lede);
+  color: var(--color-text-secondary);
+}
+
+.inviteActions {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xl) var(--space-3xl);
+}
+
+.email {
+  color: var(--color-maroon);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.email:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+.notice {
+  max-width: 52rem;
+  margin: var(--space-7xl) 0 0;
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--color-hairline-light);
+  font-family: var(--font-body);
+  font-size: var(--font-small);
+  line-height: var(--leading-small);
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 1023px) {
+  .heroInner,
+  .invite {
+    grid-template-columns: 1fr;
+  }
+
+  .inviteActions {
+    grid-column: auto;
+  }
+
+  .columns {
+    display: none;
+  }
+
+  .row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .role {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    padding-block: var(--space-7xl) var(--space-5xl);
+  }
+
+  .section {
+    padding-bottom: var(--section-padding-mobile);
+  }
+
+  .board {
+    --tile: clamp(1.25rem, 6.6vw, 1.75rem);
+
+    padding: var(--space-3xl) var(--space-xl) var(--space-4xl);
+  }
+}

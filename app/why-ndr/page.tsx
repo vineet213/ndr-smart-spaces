@@ -1,16 +1,9 @@
 import type { Metadata } from "next";
-import { PageMasthead } from "@/components/sections/PageMasthead";
-import { CompanyMetrics } from "@/components/sections/CompanyMetrics";
-import { WhyAudience } from "@/components/sections/WhyAudience";
-import { WhyNdr } from "@/components/sections/WhyNdr";
-import { WhyFirsts } from "@/components/sections/WhyFirsts";
+import { ShutterHero } from "@/components/sections/ShutterHero";
+import { WhyBays } from "@/components/sections/WhyBays";
 import { WhyParkAnatomy } from "@/components/sections/WhyParkAnatomy";
-import { CycleSection } from "@/components/sections/CycleSection";
-import { WhyReach } from "@/components/sections/WhyReach";
-import { MarqueeClients } from "@/components/sections/MarqueeClients";
-import { ClosingCta } from "@/components/sections/ClosingCta";
+import { Waybill } from "@/components/sections/Waybill";
 import { Footer } from "@/components/sections/Footer";
-import { whyClosing, whyCycle, whyMasthead, whyProof } from "@/lib/data/whyNdrPage";
 
 export const metadata: Metadata = {
   title: "Why NDR",
@@ -21,24 +14,10 @@ export const metadata: Metadata = {
 export default function WhyNdrPage() {
   return (
     <>
-      <PageMasthead id="why-ndr-masthead" title={whyMasthead.title} subtext={whyMasthead.subtext} />
-      <CompanyMetrics data={whyProof} id="why-proof" />
-      <WhyAudience />
-      <WhyNdr sheet={{ sheet: "02", of: "06" }} />
-      <WhyFirsts />
+      <ShutterHero />
+      <WhyBays />
       <WhyParkAnatomy />
-      <CycleSection
-        id="land-to-listed"
-        sheet="05"
-        of="06"
-        eyebrow={whyCycle.eyebrow}
-        heading={whyCycle.heading}
-        lede={whyCycle.lede}
-        links={whyCycle.links}
-      />
-      <WhyReach />
-      <MarqueeClients />
-      <ClosingCta data={whyClosing} />
+      <Waybill />
       <Footer />
     </>
   );

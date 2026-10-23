@@ -5,7 +5,6 @@ import { Container } from "@/components/layout";
 import { useInView } from "@/hooks/useInView";
 import { whyAnatomy } from "@/lib/data/whyNdrPage";
 import { cx } from "../ui/cx";
-import { SheetHeader } from "./SheetHeader";
 import styles from "./WhyParkAnatomy.module.css";
 
 /* Drawing geometry, in the 1000 × 520 viewBox. */
@@ -62,14 +61,12 @@ export function WhyParkAnatomy() {
   return (
     <section className={styles.section} id="anatomy" aria-labelledby="anatomy-title">
       <Container>
-        <SheetHeader
-          sheet="04"
-          of="06"
-          eyebrow={whyAnatomy.eyebrow}
-          heading={whyAnatomy.heading}
-          headingId="anatomy-title"
-          lede={whyAnatomy.lede}
-        />
+        <div className={styles.head}>
+          <h2 id="anatomy-title" className={styles.heading}>
+            {whyAnatomy.heading}
+          </h2>
+          <p className={styles.lede}>{whyAnatomy.lede}</p>
+        </div>
 
         <div ref={ref} className={cx(styles.figure, inView && styles.drawn)}>
           <div className={styles.titleBlock} aria-hidden="true">

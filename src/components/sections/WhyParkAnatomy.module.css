@@ -3,6 +3,39 @@
   background-color: var(--color-ivory-dim);
 }
 
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: end;
+  gap: var(--space-9xl);
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(2.5rem, 5.2vw, 4.75rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-charcoal);
+}
+
+.lede {
+  margin: 0;
+  max-width: 26rem;
+  font-family: var(--font-body);
+  font-size: var(--font-lede);
+  line-height: var(--leading-lede);
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 1023px) {
+  .head {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+  }
+}
+
 /* the drawing sits on a sheet with a hairline border and a title block */
 .figure {
   position: relative;

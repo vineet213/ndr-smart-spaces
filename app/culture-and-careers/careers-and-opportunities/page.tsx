@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { PageMasthead } from "@/components/sections/PageMasthead";
-import { CareersOpenings } from "@/components/sections/CareersOpenings";
+import { CareersBoard } from "@/components/sections/CareersBoard";
 import { Footer } from "@/components/sections/Footer";
-import { careersMasthead } from "@/lib/data/careers";
 
 export const metadata: Metadata = {
   title: "Careers & Opportunities",
@@ -13,12 +11,7 @@ export const metadata: Metadata = {
 export default function CareersAndOpportunitiesPage() {
   return (
     <>
-      <PageMasthead
-        id="careers-masthead"
-        title={careersMasthead.title}
-        subtext={careersMasthead.subtext}
-      />
-      <CareersOpenings />
+      <CareersBoard />
       <Footer />
     </>
   );

@@ -40,7 +40,7 @@ export const routeAnchors: Readonly<Record<string, readonly string[]>> = {
   "/media": ["press-archive"],
   "/contact": ["directory", "business-enquiry"],
   "/about-us": ["story"],
-  "/why-ndr": ["audiences", "anatomy"],
+  "/why-ndr": ["bays", "anatomy"],
   "/culture-and-careers/corporate-culture": ["hr-stats", "learning"],
   "/culture-and-careers/careers-and-opportunities": ["openings"],
 };

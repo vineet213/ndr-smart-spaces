@@ -31,9 +31,7 @@ function buildFooterColumns(): FooterColumn[] {
       run.push({ label: item.label, href: item.href });
     } else {
       closeRun();
-      const overview = item.overview ? [{ label: item.overview.label, href: item.overview.href }] : [];
-      const links = [...overview, ...item.columns.flatMap((column) => column.links)];
-      columns.push({ heading: item.label, links });
+      columns.push({ heading: item.label, links: item.columns.flatMap((column) => column.links) });
     }
   }
   closeRun();
