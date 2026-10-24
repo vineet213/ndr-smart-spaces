@@ -9,15 +9,17 @@ import {
   formatAreaSqFt,
   LANDMARK_LABELS,
   relatedWarehouses,
+  reportedKmFloor,
   type Connection,
   type LandmarkKind,
+  type ReportedConnection,
   type Warehouse,
 } from "@/lib/data/warehouses";
 import { formatMsf } from "@/lib/data/portfolio";
 import { absoluteUrl, SITE_URL } from "@/lib/seo";
 import { cx } from "../ui/cx";
 import { CopyCoordinates } from "./WarehouseActions";
-import { WarehouseMapLoader } from "./WarehouseMapLoader";
+import { WarehouseGoogleMap } from "./WarehouseGoogleMap";
 import { PhotoMosaic } from "./PhotoMosaic";
 import styles from "./WarehousePage.module.css";
 
@@ -39,6 +41,18 @@ function formatKm(km: number): string {
 
 function nearest(connections: readonly Connection[], kinds: LandmarkKind[]) {
   return connections.find((connection) => kinds.includes(connection.kind)) ?? null;
+}
+
+/** "<1" -> "under 1", "45–46" stays as it is. */
+function formatReportedKm(km: string): string {
+  if (km.startsWith("<")) return `under ${km.slice(1)}`;
+  if (km.startsWith(">")) return `over ${km.slice(1)}`;
+  return km;
+}
+
+function nearestReported(connections: readonly ReportedConnection[], kinds: LandmarkKind[]) {
+  const matches = connections.filter((connection) => connection.kind && kinds.includes(connection.kind));
+  return matches.sort((a, b) => reportedKmFloor(a.km) - reportedKmFloor(b.km))[0] ?? null;
 }
 
 function jsonLd(warehouse: Warehouse) {
@@ -110,12 +124,13 @@ function jsonLd(warehouse: Warehouse) {
  */
 export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
   const { detail, location, connections } = warehouse;
+  const reported = detail.connectivity ?? [];
   const hero = detail.photos?.[0];
   const related = relatedWarehouses(warehouse);
   const email = detail.contact?.email ?? contact.form.route.default;
   const mailto = `mailto:${email}?subject=${encodeURIComponent(`Site visit: ${warehouse.name}`)}`;
 
-  const heroStats = [
+  const heroStats: { label: string; value: string; unit: string; approx?: boolean }[] = [
     ...(warehouse.leasableAreaMsf !== undefined
       ? [
           {
@@ -126,8 +141,13 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
         ]
       : []),
     ...DISTANCE_STATS.flatMap(({ kinds, label }) => {
+      // A reported range ("45–46") already reads as approximate.
+      if (reported.length) {
+        const hit = nearestReported(reported, kinds);
+        return hit ? [{ label, value: formatReportedKm(hit.km), unit: "km" }] : [];
+      }
       const hit = nearest(connections, kinds);
-      return hit ? [{ label, value: formatKm(hit.km), unit: "km" }] : [];
+      return hit ? [{ label, value: formatKm(hit.km), unit: "km", approx: true }] : [];
     }),
   ];
 
@@ -138,7 +158,7 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
           value: `${formatMsf(warehouse.leasableAreaMsf)} (approx ${formatAreaSqFt(warehouse.leasableAreaMsf)})`,
         }
       : null,
-    { label: "Location", value: warehouse.placeLine },
+    { label: "Location", value: detail.address ?? warehouse.placeLine },
     warehouse.district ? { label: "District", value: warehouse.district } : null,
   ].filter((row): row is { label: string; value: string } => row !== null);
 
@@ -212,7 +232,7 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
                   <div key={stat.label} className={styles.stat}>
                     <dt className={styles.statLabel}>{stat.label}</dt>
                     <dd className={styles.statValue}>
-                      {stat.unit === "km" ? <span className={styles.statUnit}>approx </span> : null}
+                      {stat.approx ? <span className={styles.statUnit}>approx </span> : null}
                       {stat.value}
                       <span className={styles.statUnit}> {stat.unit}</span>
                     </dd>
@@ -290,7 +310,22 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
                 Connectivity
               </h2>
 
-              {connections.length ? (
+              {reported.length ? (
+                <ol className={styles.connections}>
+                  {reported.map((connection) => (
+                    <li key={connection.label} className={styles.connection}>
+                      <span className={styles.connectionKind}>
+                        {connection.kind ? LANDMARK_LABELS[connection.kind] : ""}
+                      </span>
+                      <span className={styles.connectionName}>{connection.label}</span>
+                      <span className={styles.connectionKm}>
+                        {/^[<>]/.test(connection.km) ? "" : "approx "}
+                        {formatReportedKm(connection.km)} km
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              ) : connections.length ? (
                 <ol className={styles.connections}>
                   {connections.map((connection) => (
                     <li key={connection.label} className={styles.connection}>
@@ -305,7 +340,9 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
               ) : null}
 
               <p className={styles.locationNote}>
-                {connections.some((connection) => connection.basis === "straight-line")
+                {detail.access ? `Road access: ${detail.access}. ` : ""}
+                {reported.length ? "Distances are approximate. " : ""}
+                {!reported.length && connections.some((connection) => connection.basis === "straight-line")
                   ? "Distances are approximate straight-line distances; road distances will be longer. "
                   : ""}
                 {location.verified
@@ -331,10 +368,7 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
             </div>
 
             <div className={styles.mapFrame}>
-              <WarehouseMapLoader
-                site={{ name: warehouse.name, lat: location.lat, lon: location.lon }}
-                landmarks={connections.map(({ label, lat, lon }) => ({ label, lat, lon }))}
-              />
+              <WarehouseGoogleMap name={warehouse.name} lat={location.lat} lon={location.lon} />
             </div>
           </Container>
         </section>

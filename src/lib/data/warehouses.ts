@@ -25,9 +25,18 @@ export type WarehousePhoto = {
   caption?: string;
 };
 
+/** A nearby place with the distance as stated in the site's valuation report, e.g. "45–46". */
+export type ReportedConnection = { label: string; km: string; kind?: LandmarkKind };
+
 export type WarehouseDetail = {
   /** Finer place line than the ledger city, e.g. "Keezhmad, Aluva". */
   locality?: string;
+  /** Village / taluk address from the valuation report; shown as the Location row. */
+  address?: string;
+  /** How the site is reached by road, from the valuation report. */
+  access?: string;
+  /** Nearby places and distances from the valuation report; used instead of `landmarks` when present. */
+  connectivity?: ReportedConnection[];
   /** Verified site pin; replaces the ledger coordinate, which may be a town centroid. */
   location?: { lat: number; lon: number };
   summary?: string;
@@ -136,6 +145,13 @@ export function relatedWarehouses(warehouse: Warehouse, count = 3): readonly War
     (other.stateName === warehouse.stateName ? 0 : 1e6) +
     (origin && other.location ? distanceKm(origin, other.location) : 5e5);
   return [...others].sort((a, b) => score(a) - score(b)).slice(0, count);
+}
+
+/** Lower bound of a reported distance ("45–46" -> 45, "<1" -> 0), for picking the nearest. */
+export function reportedKmFloor(km: string): number {
+  const match = km.match(/\d+(\.\d+)?/);
+  if (!match) return Number.POSITIVE_INFINITY;
+  return km.trim().startsWith("<") ? 0 : Number(match[0]);
 }
 
 /** 0.22 msf -> "2,20,000 sq ft" (Indian grouping, as the client writes areas). */

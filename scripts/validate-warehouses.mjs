@@ -52,6 +52,13 @@ for (const [id, record] of Object.entries(details)) {
     }
   }
 
+  for (const connection of record.connectivity ?? []) {
+    if (!connection.label?.trim()) errors.push(`${id}: connectivity entry has no label`);
+    if (!/^[<>]?\d+(\.\d+)?(–\d+(\.\d+)?)?$/.test(connection.km ?? "")) {
+      errors.push(`${id}: connectivity "${connection.label}" km must look like "12–14" or "<1"`);
+    }
+  }
+
   for (const photo of record.photos ?? []) {
     const file = join(ROOT, "public", photo.src);
     if (!existsSync(file)) {

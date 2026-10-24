@@ -1,7 +1,12 @@
 {
   "ndr-space-cochin": {
     "locality": "Keezhmad, Aluva",
-    "sampleFields": ["summary", "bestFor", "amenities", "utilities"],
+    "sampleFields": [
+      "summary",
+      "bestFor",
+      "amenities",
+      "utilities"
+    ],
     "summary": "A Grade A warehousing park on the northern edge of Kochi, off SH-16 near Aluva. The site sits between Cochin International Airport and the Kochi port terminals, with the national highway and the Aluva metro and rail stations a short drive away, which suits distribution into Ernakulam and central Kerala.",
     "bestFor": [
       "E-commerce fulfilment",
@@ -10,11 +15,26 @@
       "Engineering and auto components"
     ],
     "utilities": [
-      { "label": "Power", "value": "HT power supply, scalable on request" },
-      { "label": "Water", "value": "Dedicated storage with rainwater harvesting" },
-      { "label": "Fire safety", "value": "Sprinklers, hydrants and smoke detection" },
-      { "label": "Security", "value": "Gated campus with 24 × 7 guarding and CCTV" },
-      { "label": "Docking", "value": "Dock-high loading with levellers" }
+      {
+        "label": "Power",
+        "value": "HT power supply, scalable on request"
+      },
+      {
+        "label": "Water",
+        "value": "Dedicated storage with rainwater harvesting"
+      },
+      {
+        "label": "Fire safety",
+        "value": "Sprinklers, hydrants and smoke detection"
+      },
+      {
+        "label": "Security",
+        "value": "Gated campus with 24 × 7 guarding and CCTV"
+      },
+      {
+        "label": "Docking",
+        "value": "Dock-high loading with levellers"
+      }
     ],
     "amenities": [
       "Truck parking and holding area",
@@ -24,12 +44,42 @@
       "Rooftop solar ready"
     ],
     "landmarks": [
-      { "label": "Aluva Metro Station", "kind": "metro", "lat": 10.1099, "lon": 76.3495 },
-      { "label": "Aluva Railway Station", "kind": "rail", "lat": 10.1076, "lon": 76.3517 },
-      { "label": "Cochin International Airport", "kind": "airport", "lat": 10.152, "lon": 76.4019 },
-      { "label": "ICTT Vallarpadam", "kind": "seaport", "lat": 9.989, "lon": 76.259 },
-      { "label": "Cochin Port, Willingdon Island", "kind": "seaport", "lat": 9.9656, "lon": 76.27 },
-      { "label": "Kochi city centre", "kind": "city", "lat": 9.97, "lon": 76.285 }
+      {
+        "label": "Aluva Metro Station",
+        "kind": "metro",
+        "lat": 10.1099,
+        "lon": 76.3495
+      },
+      {
+        "label": "Aluva Railway Station",
+        "kind": "rail",
+        "lat": 10.1076,
+        "lon": 76.3517
+      },
+      {
+        "label": "Cochin International Airport",
+        "kind": "airport",
+        "lat": 10.152,
+        "lon": 76.4019
+      },
+      {
+        "label": "ICTT Vallarpadam",
+        "kind": "seaport",
+        "lat": 9.989,
+        "lon": 76.259
+      },
+      {
+        "label": "Cochin Port, Willingdon Island",
+        "kind": "seaport",
+        "lat": 9.9656,
+        "lon": 76.27
+      },
+      {
+        "label": "Kochi city centre",
+        "kind": "city",
+        "lat": 9.97,
+        "lon": 76.285
+      }
     ],
     "photos": [
       {
@@ -38,6 +88,1504 @@
         "height": 1086,
         "alt": "Aerial view of the warehouse's loading side, with trucks parked along a continuous dock face",
         "caption": "Dock face and truck apron"
+      }
+    ]
+  },
+  "ndr-bhiwandi-bhiwandi": {
+    "address": "Village Vadpe, Bhiwandi Taluka, Maharashtra",
+    "location": {
+      "lat": 19.340917,
+      "lon": 73.112722
+    },
+    "summary": "A warehousing facility at Village Vadpe in Bhiwandi, Thane District, on a land parcel of about 9.59 acres. It is part of a major warehousing cluster of the Mumbai Metropolitan Region and is reached by the 18-metre Nashik Road, which links to NH-160 (Mumbai-Nashik Highway).",
+    "access": "18 m Nashik Road, connecting to NH-160 (Mumbai-Nashik Highway)",
+    "connectivity": [
+      {
+        "label": "NH-160",
+        "km": "<1",
+        "kind": "highway"
+      },
+      {
+        "label": "Rajiv Gandhi Chowk",
+        "km": "12–14"
+      },
+      {
+        "label": "Bhiwandi Railway Station",
+        "km": "11–12",
+        "kind": "rail"
+      },
+      {
+        "label": "Durgadi Chowk",
+        "km": "15–16"
+      },
+      {
+        "label": "Thane Station",
+        "km": "26–27",
+        "kind": "rail"
+      },
+      {
+        "label": "Ambernath Railway Station",
+        "km": "24–25",
+        "kind": "rail"
+      },
+      {
+        "label": "Ghodbunder Road",
+        "km": "42–43"
+      },
+      {
+        "label": "Chhatrapati Shivaji Maharaj International Airport",
+        "km": "45–46",
+        "kind": "airport"
+      },
+      {
+        "label": "JNPT",
+        "km": "74–75",
+        "kind": "seaport"
+      }
+    ]
+  },
+  "ndr-ennore-chennai": {
+    "address": "Village Edayanchavadi, Ponneri Taluka, Tamil Nadu",
+    "location": {
+      "lat": 13.22175,
+      "lon": 80.275528
+    },
+    "summary": "A warehousing facility at Village Edayanchavadi, Ponneri Taluka, on about 4.61 acres in north Chennai. It is part of the NH-16 / GNT Road - Periyapalayam warehousing cluster and is close to Ennore Port and Kattupalli Shipyard. A 12-metre access road connects it to SH-56, the Chennai Outer Ring Road and NH-16.",
+    "access": "12 m access road to SH-56, linking to the Chennai Outer Ring Road (north) and NH-16 (south)",
+    "connectivity": [
+      {
+        "label": "Ennore Port",
+        "km": "13–14",
+        "kind": "seaport"
+      },
+      {
+        "label": "Kattupalli Shipyard",
+        "km": "15–16"
+      },
+      {
+        "label": "Chennai Port",
+        "km": "25–26",
+        "kind": "seaport"
+      },
+      {
+        "label": "Alamathi",
+        "km": "27–28"
+      },
+      {
+        "label": "Periyapalayam",
+        "km": "40–41"
+      },
+      {
+        "label": "Chennai International Airport",
+        "km": "38–39",
+        "kind": "airport"
+      },
+      {
+        "label": "Thiruvallur Station",
+        "km": "56–57",
+        "kind": "rail"
+      },
+      {
+        "label": "Sriperumbudur",
+        "km": "65–66"
+      }
+    ]
+  },
+  "ndr-ettimadai-coimbatore": {
+    "address": "Village Ettimadai, Madukkarai Taluka, Tamil Nadu",
+    "location": {
+      "lat": 10.8855,
+      "lon": 76.905667
+    },
+    "summary": "A warehousing facility at Village Ettimadai, Madukkarai Taluka, on about 11.72 acres. It is part of the Pollachi - Palladam - Cochin Frontier warehousing cluster, with less than 1 km to NH-544 (Salem-Kochi Highway) and road links to NH-83 and NH-948.",
+    "access": "9 m Big Bazar Road, connecting to NH-544 (Salem-Kochi Highway)",
+    "connectivity": [
+      {
+        "label": "NH-544",
+        "km": "<1",
+        "kind": "highway"
+      },
+      {
+        "label": "L&T Bypass",
+        "km": "10–11",
+        "kind": "highway"
+      },
+      {
+        "label": "Townhall",
+        "km": "16–17"
+      },
+      {
+        "label": "Pattiswarar Temple",
+        "km": "16–17"
+      },
+      {
+        "label": "Gass Forest Museum",
+        "km": "19–20"
+      },
+      {
+        "label": "Prozone Mall",
+        "km": "24–25"
+      },
+      {
+        "label": "Fun Republic Mall",
+        "km": "26–27"
+      },
+      {
+        "label": "Marudamalai Temple",
+        "km": "31–32"
+      }
+    ]
+  },
+  "ndr-puducherry-puducherry": {
+    "address": "Thavalakuppam Village, Edayarpalayam, Ariyankuppam Commune, Puducherry",
+    "location": {
+      "lat": 11.873167,
+      "lon": 79.796667
+    },
+    "summary": "A warehousing facility at Thavalakuppam, Puducherry, on about 3.68 acres. It lies directly on NH-32 (Chennai-Nagapattinam Highway) in the NH-32 warehousing cluster along the Ariyankuppam to Kirumampakkam stretch, with access to NH-332 towards Villupuram.",
+    "access": "On the 12 m NH-32 (Chennai-Nagapattinam Highway), connecting to NH-332 (Puducherry-Villupuram Road)",
+    "connectivity": [
+      {
+        "label": "Puducherry Airport",
+        "km": "11–12",
+        "kind": "airport"
+      },
+      {
+        "label": "Port of Puducherry",
+        "km": "7–8",
+        "kind": "seaport"
+      },
+      {
+        "label": "Auroville",
+        "km": "18–19"
+      },
+      {
+        "label": "Puducherry Railway Station",
+        "km": "8–9",
+        "kind": "rail"
+      },
+      {
+        "label": "Osudu Lake",
+        "km": "16–17"
+      }
+    ]
+  },
+  "ndr-okm-coimbatore": {
+    "address": "Village Ottakkalmandapam, Madukkarai Taluka, Tamil Nadu",
+    "location": {
+      "lat": 10.891778,
+      "lon": 77.012833
+    },
+    "summary": "A warehousing facility at Village Ottakkalmandapam, Madukkarai Taluka, on about 16.30 acres. It is part of the Pollachi - Palladam - Cochin Frontier warehousing cluster, within about 2 km of NH-83 (Pollachi Main Road).",
+    "access": "12 m Vellalar Colony Road, connecting to NH-83 (Pollachi Main Road) via Chettipalayam Road (SH-163)",
+    "connectivity": [
+      {
+        "label": "NH-83",
+        "km": "<2",
+        "kind": "highway"
+      },
+      {
+        "label": "L&T Bypass",
+        "km": "5–6",
+        "kind": "highway"
+      },
+      {
+        "label": "Townhall",
+        "km": "15–16"
+      },
+      {
+        "label": "Gass Forest Museum",
+        "km": "18–19"
+      },
+      {
+        "label": "Pattiswarar Temple",
+        "km": "19–20"
+      },
+      {
+        "label": "Fun Republic Mall",
+        "km": "20–21"
+      },
+      {
+        "label": "Prozone Mall",
+        "km": "23–24"
+      },
+      {
+        "label": "Marudamalai Temple",
+        "km": "30–31"
+      }
+    ]
+  },
+  "ndr-distribution-chhatrapati-sambhajinagar": {
+    "address": "Village Sindhisirasgaon, Gangapur Taluka, Maharashtra",
+    "location": {
+      "lat": 19.904222,
+      "lon": 75.140889
+    },
+    "summary": "A warehousing facility at Village Sindhisirasgaon, Gangapur Taluka, on about 11.86 acres in the western industrial belt of Chhatrapati Sambhajinagar. It fronts NH-752I, with MIDC Waluj and the Daulatabad Inland Container Depot about 10 km away.",
+    "access": "On the 12 m NH-752I (Nagpur-Aurangabad-Mumbai Highway), connecting to NH-52 (north) and NH-752E (south)",
+    "connectivity": [
+      {
+        "label": "Potul Station",
+        "km": "3–4",
+        "kind": "rail"
+      },
+      {
+        "label": "Daulatabad Inland Container Depot",
+        "km": "7–9"
+      },
+      {
+        "label": "MIDC Waluj",
+        "km": "9–10"
+      },
+      {
+        "label": "Ajanta Ellora",
+        "km": "14–15"
+      },
+      {
+        "label": "Aurangabad Railway Station",
+        "km": "19–20",
+        "kind": "rail"
+      },
+      {
+        "label": "MGM University Aurangabad",
+        "km": "23–25"
+      },
+      {
+        "label": "Aurangabad Airport",
+        "km": "27–28",
+        "kind": "airport"
+      }
+    ]
+  },
+  "ndr-goa-space-verna-goa": {
+    "address": "Village Loutulim, Salcete Taluka, Goa",
+    "location": {
+      "lat": 15.360528,
+      "lon": 73.959083
+    },
+    "summary": "A warehousing facility of four blocks (A1 to A4) at Village Loutulim, Salcete Taluka, on about 17.88 acres in South Goa. It is part of the Verna warehousing cluster, with road access to NH-66 and NH-566, and Goa International Airport about 13-14 km away.",
+    "access": "8 m access road connecting to NH-66 (west); close to NH-566",
+    "connectivity": [
+      {
+        "label": "IIT Goa",
+        "km": "5–6"
+      },
+      {
+        "label": "Clock Tower",
+        "km": "8–9"
+      },
+      {
+        "label": "Goa International Airport",
+        "km": "13–14",
+        "kind": "airport"
+      },
+      {
+        "label": "Mormugao Port",
+        "km": "18–19",
+        "kind": "seaport"
+      },
+      {
+        "label": "Aguada Fort",
+        "km": "25–26"
+      },
+      {
+        "label": "Salaulim Dam",
+        "km": "29–30"
+      },
+      {
+        "label": "Mopa Airport",
+        "km": "44–45",
+        "kind": "airport"
+      }
+    ]
+  },
+  "ndr-greenoscale-logix-hyderabad": {
+    "address": "Village Tharamathipet, Hyderabad, Telangana",
+    "location": {
+      "lat": 17.372333,
+      "lon": 78.686
+    },
+    "summary": "A warehousing facility at Village Tharamathipet, Rangareddy District, on about 15.3 acres. It connects to the Nehru Outer Ring Road at Exit 10, with onward links to NH-65, NH-765 and NH-44.",
+    "access": "9 m internal road (proposed 30 m) to the Nehru Outer Ring Road at Exit 10, linking to NH-765, NH-65 and NH-44",
+    "connectivity": [
+      {
+        "label": "Charminar",
+        "km": "25–27"
+      },
+      {
+        "label": "Hyderabad Railway Station",
+        "km": "26–28",
+        "kind": "rail"
+      },
+      {
+        "label": "Hussain Sagar",
+        "km": "29–30"
+      },
+      {
+        "label": "Rajiv Gandhi International Airport",
+        "km": "36–38",
+        "kind": "airport"
+      }
+    ]
+  },
+  "ndr-tradehouse-sudhavadi-pune": {
+    "address": "Sudhavadi Village, Maval Taluka, Maharashtra",
+    "location": {
+      "lat": 18.745778,
+      "lon": 73.750944
+    },
+    "summary": "A warehousing facility at Sudhavadi Village, Maval Taluka, on about 16.67 acres. It is part of the Chakan-Talegaon warehousing cluster of the Pune Metropolitan Region, about 5-6 km from Chakan MIDC and 10-11 km from Talegaon Dabhade MIDC.",
+    "access": "15 m internal road (proposed 18 m) connecting to NH-548D",
+    "connectivity": [
+      {
+        "label": "National Highway 4 (Old Pune-Mumbai highway)",
+        "km": "11–12",
+        "kind": "highway"
+      },
+      {
+        "label": "Nearest Railway Station (Vadgaon)",
+        "km": "14–15",
+        "kind": "rail"
+      },
+      {
+        "label": "Talegaon Dabhade (MIDC area)",
+        "km": "10–11"
+      },
+      {
+        "label": "Pimpri Chinchwad town (PCMC)",
+        "km": "17–19"
+      },
+      {
+        "label": "Chakan MIDC area",
+        "km": "5–6"
+      },
+      {
+        "label": "Pune Railway Station",
+        "km": "30–32",
+        "kind": "rail"
+      },
+      {
+        "label": "Nearest Airport (Pune International Airport)",
+        "km": "35–36",
+        "kind": "airport"
+      }
+    ]
+  },
+  "ndr-kautilya-hoskote-hoskote": {
+    "address": "Village Nidaghatta, Hoskote Taluk, Karnataka",
+    "location": {
+      "lat": 13.093528,
+      "lon": 77.86575
+    },
+    "summary": "A warehousing facility at Village Nidaghatta, Hoskote Taluk, on about 20.5 acres. It is part of the Hoskote - Narasapura warehousing cluster, with road access to NH-75 (Bengaluru-Tirupati Highway) and NH-648, a spur to NH-48.",
+    "access": "12 m village road connecting to NH-75 (Bengaluru-Tirupati Highway) and NH-648",
+    "connectivity": [
+      {
+        "label": "M.V.J Medical College & Research Hospital",
+        "km": "6–7"
+      },
+      {
+        "label": "KEB Circle",
+        "km": "9–10"
+      },
+      {
+        "label": "Maruthi Extension",
+        "km": "12–13"
+      },
+      {
+        "label": "Kempegowda International Airport Bengaluru",
+        "km": "20–21",
+        "kind": "airport"
+      },
+      {
+        "label": "Benniganahalli Lake",
+        "km": "24–25"
+      },
+      {
+        "label": "Bannerghatta National Park & Zoo",
+        "km": "46–48"
+      },
+      {
+        "label": "Christ PU College (Residential)",
+        "km": "53–54"
+      }
+    ]
+  },
+  "ndr-poochi-chennai": {
+    "address": "Village Poochiathippedu, Uthukkottai Taluka, Tamil Nadu",
+    "location": {
+      "lat": 13.221667,
+      "lon": 80.093806
+    },
+    "summary": "A warehousing facility at Village Poochiathippedu, Uthukkottai Taluka, on about 41.39 acres. It is part of the NH-16 / GNT Road - Periyapalayam warehousing cluster, about 7-8 km from the Chennai Outer Ring Road.",
+    "access": "9 m access road off SH-114A (Thiruvallur Highway), connecting to NH-716A (north) and NH-16 (east)",
+    "connectivity": [
+      {
+        "label": "Chennai Outer Ring Road",
+        "km": "7–8",
+        "kind": "highway"
+      },
+      {
+        "label": "Madhavaram Junction",
+        "km": "14–15"
+      },
+      {
+        "label": "SIPCOT Industrial Park Thervoykandigai",
+        "km": "20–21"
+      },
+      {
+        "label": "Ennore Port",
+        "km": "25–26",
+        "kind": "seaport"
+      },
+      {
+        "label": "Chennai International Airport",
+        "km": "29–30",
+        "kind": "airport"
+      },
+      {
+        "label": "Chennai Port",
+        "km": "31–32",
+        "kind": "seaport"
+      }
+    ]
+  },
+  "ndr-avg-sarita-vihar-new-delhi": {
+    "address": "Sarita Vihar Depot, Madanpur Khadar, New Delhi",
+    "location": {
+      "lat": 28.524194,
+      "lon": 77.293028
+    },
+    "summary": "A warehousing facility at the Sarita Vihar Depot, Madanpur Khadar, Delhi, on about 5.49 acres. It is reached from NH-44 and is about 19-20 km from Indira Gandhi International Airport.",
+    "access": "24 m road to NH-44, connecting to NH-48 (north) and the KMP / Eastern Peripheral Expressway (south)",
+    "connectivity": [
+      {
+        "label": "Amity University, Noida",
+        "km": "4–5"
+      },
+      {
+        "label": "Lotus Temple",
+        "km": "5–6"
+      },
+      {
+        "label": "AIIMS Hospital",
+        "km": "8–9"
+      },
+      {
+        "label": "India Gate",
+        "km": "12–13"
+      },
+      {
+        "label": "Indira Gandhi International Airport",
+        "km": "19–20",
+        "kind": "airport"
+      },
+      {
+        "label": "Gurugram CBD (DLF Cyber City)",
+        "km": "20–21"
+      },
+      {
+        "label": "IMT Manesar",
+        "km": "43–44"
+      },
+      {
+        "label": "IMT Faridabad",
+        "km": "18–19"
+      }
+    ]
+  },
+  "ndr-bhadra-malur-hoskote": {
+    "address": "Village Karibeeranahosahalli, Hoskote Taluk, Karnataka",
+    "location": {
+      "lat": 13.043833,
+      "lon": 77.868444
+    },
+    "summary": "A warehousing facility at Village Karibeeranahosahalli, Hoskote Taluk, on about 12.185 acres. It is part of the Hoskote - Narasapura warehousing cluster, on SH-95 with access to NH-75, and the under-construction Chennai-Bengaluru Expressway runs alongside the site.",
+    "access": "On the 30 m State Highway 95, connecting to NH-75",
+    "connectivity": [
+      {
+        "label": "ITC Malur",
+        "km": "2–3"
+      },
+      {
+        "label": "Hoskote",
+        "km": "4–5"
+      },
+      {
+        "label": "Malur",
+        "km": "8–10"
+      },
+      {
+        "label": "Benniganahalli Lake",
+        "km": "23–25"
+      },
+      {
+        "label": "Kempegowda International Airport, Bengaluru",
+        "km": "27–28",
+        "kind": "airport"
+      },
+      {
+        "label": "Bengaluru Palace",
+        "km": "30–32"
+      },
+      {
+        "label": "Christ University",
+        "km": "48–50"
+      }
+    ]
+  },
+  "ndr-bilaspur-tauru": {
+    "address": "Village Sheikhpur & Fatehpur, Tauru Tehsil, Haryana",
+    "location": {
+      "lat": 28.255583,
+      "lon": 76.921389
+    },
+    "summary": "A warehousing facility at Villages Sheikhpur and Fatehpur, Tauru Tehsil, on about 29 acres in the NCR. It is part of a major NCR warehousing cluster, connected to NH-48 and about 7-8 km from Bilaspur Chowk.",
+    "access": "On Tauru Road; 12 m access road connecting to NH-48; near the Western Peripheral (KMP) Expressway",
+    "connectivity": [
+      {
+        "label": "Bilaspur Chowk",
+        "km": "7–8"
+      },
+      {
+        "label": "Panchgaon Flyover (Clover leaf)",
+        "km": "11–12"
+      },
+      {
+        "label": "Sohna Chowk",
+        "km": "20–22"
+      },
+      {
+        "label": "K.R. Mangalam University",
+        "km": "22–23"
+      },
+      {
+        "label": "IMT Manesar",
+        "km": "22–23"
+      },
+      {
+        "label": "Gurugram, CBD (DLF Cyber City)",
+        "km": "39–42"
+      },
+      {
+        "label": "Indira Gandhi International Airport",
+        "km": "48–52",
+        "kind": "airport"
+      }
+    ]
+  },
+  "ndr-broadview-coimbatore": {
+    "address": "Village Chettipalayam, Madukkarai Taluka, Tamil Nadu",
+    "location": {
+      "lat": 10.923139,
+      "lon": 77.053972
+    },
+    "summary": "A warehousing facility at Village Chettipalayam, Madukkarai Taluka, on about 17.14 acres. It is part of the Pollachi - Palladam - Cochin Frontier warehousing cluster, about 6-7 km from NH-544 and 8-9 km from NH-83.",
+    "access": "9 m access road connecting to NH-83 and NH-544 via SH-163 and SH-162",
+    "connectivity": [
+      {
+        "label": "NH-544",
+        "km": "6–7",
+        "kind": "highway"
+      },
+      {
+        "label": "NH-83",
+        "km": "8–9",
+        "kind": "highway"
+      },
+      {
+        "label": "L&T Bypass",
+        "km": "9–10",
+        "kind": "highway"
+      },
+      {
+        "label": "Townhall",
+        "km": "16–17"
+      },
+      {
+        "label": "Fun Republic Mall",
+        "km": "17–18"
+      },
+      {
+        "label": "Pattiswarar Temple",
+        "km": "20–21"
+      },
+      {
+        "label": "Gass Forest Museum",
+        "km": "22–23"
+      },
+      {
+        "label": "Prozone Mall",
+        "km": "24–25"
+      },
+      {
+        "label": "Marudamalai Temple",
+        "km": "31–32"
+      }
+    ]
+  },
+  "ndr-distribution-coimbatore": {
+    "address": "Palladam Main Road, Village Chettipalayam, Madukkarai Taluka, Tamil Nadu",
+    "location": {
+      "lat": 10.9235,
+      "lon": 77.051
+    },
+    "summary": "A warehousing facility on Palladam Main Road at Village Chettipalayam, Madukkarai Taluka, on about 7.04 acres. It is part of the Pollachi - Palladam - Cochin Frontier warehousing cluster, about 6-7 km from NH-544 and 8-9 km from NH-83.",
+    "access": "On the 9 m SH-163 (Palladam Main Road), connecting to NH-83 and NH-544 via SH-162",
+    "connectivity": [
+      {
+        "label": "NH-544",
+        "km": "6–7",
+        "kind": "highway"
+      },
+      {
+        "label": "NH-83",
+        "km": "8–9",
+        "kind": "highway"
+      },
+      {
+        "label": "L&T Bypass",
+        "km": "9–10",
+        "kind": "highway"
+      },
+      {
+        "label": "Townhall",
+        "km": "16–17"
+      },
+      {
+        "label": "Fun Republic Mall",
+        "km": "17–18"
+      },
+      {
+        "label": "Pattiswarar Temple",
+        "km": "20–21"
+      },
+      {
+        "label": "Gass Forest Museum",
+        "km": "22–23"
+      },
+      {
+        "label": "Prozone Mall",
+        "km": "24–25"
+      },
+      {
+        "label": "Marudamalai Temple",
+        "km": "31–32"
+      }
+    ]
+  },
+  "ndr-fabio-irungatukottai-oragadam": {
+    "address": "Village Irungattukottai B, Sriperumbudur Taluka, Tamil Nadu",
+    "location": {
+      "lat": 12.981556,
+      "lon": 80.000639
+    },
+    "summary": "A warehousing facility at Village Irungattukottai, Sriperumbudur Taluka, on about 15.338 acres. The area is a major warehousing / manufacturing cluster of Chennai near the SIPCOT Industrial Park, connected to NH-48 and about 2-3 km from the Madras International Circuit.",
+    "access": "18 m access road connecting to NH-48",
+    "connectivity": [
+      {
+        "label": "Madras International Circuit",
+        "km": "2–3"
+      },
+      {
+        "label": "Tambaram Railway Station",
+        "km": "23–24",
+        "kind": "rail"
+      },
+      {
+        "label": "Embassy Industrial Park",
+        "km": "23–24"
+      },
+      {
+        "label": "Chennai International Airport",
+        "km": "24–25",
+        "kind": "airport"
+      },
+      {
+        "label": "Thiruvallur Railway Station",
+        "km": "29–30",
+        "kind": "rail"
+      },
+      {
+        "label": "Chennai Railway Station",
+        "km": "39–40",
+        "kind": "rail"
+      }
+    ]
+  },
+  "ndr-factor-coimbatore": {
+    "address": "Village Chettipalayam, Madukkarai Taluka, Tamil Nadu",
+    "location": {
+      "lat": 10.921611,
+      "lon": 77.052056
+    },
+    "summary": "A warehousing facility at Village Chettipalayam, Madukkarai Taluka, on about 17.05 acres. It is part of the Pollachi - Palladam - Cochin Frontier warehousing cluster, about 6-7 km from NH-544 and 8-9 km from NH-83.",
+    "access": "9 m access road connecting to NH-83 and NH-544 via SH-163 and SH-162",
+    "connectivity": [
+      {
+        "label": "NH-544",
+        "km": "6–7",
+        "kind": "highway"
+      },
+      {
+        "label": "NH-83",
+        "km": "8–9",
+        "kind": "highway"
+      },
+      {
+        "label": "L&T Bypass",
+        "km": "9–10",
+        "kind": "highway"
+      },
+      {
+        "label": "Townhall",
+        "km": "16–17"
+      },
+      {
+        "label": "Fun Republic Mall",
+        "km": "17–18"
+      },
+      {
+        "label": "Pattiswarar Temple",
+        "km": "20–21"
+      },
+      {
+        "label": "Gass Forest Museum",
+        "km": "22–23"
+      },
+      {
+        "label": "Prozone Mall",
+        "km": "24–25"
+      },
+      {
+        "label": "Marudamalai Temple",
+        "km": "31–32"
+      }
+    ]
+  },
+  "ndr-forefront-jnpt-uran": {
+    "address": "Village Bhom, Uran Taluka, Maharashtra",
+    "location": {
+      "lat": 18.887639,
+      "lon": 73.050278
+    },
+    "summary": "A warehousing facility at Village Bhom, Uran Taluka, on about 35.54 acres. It is part of the Panvel warehousing cluster on NH-348B, about 20-21 km from JNPT Port and 13-14 km from Navi Mumbai International Airport.",
+    "access": "On the 18 m NH-348B, connecting to NH-348 / JNPT Road (north) and NH-66 (south)",
+    "connectivity": [
+      {
+        "label": "Jio Institute",
+        "km": "12–13"
+      },
+      {
+        "label": "Navi Mumbai International Airport",
+        "km": "13–14",
+        "kind": "airport"
+      },
+      {
+        "label": "Ramsheth Thakur International Sports Complex",
+        "km": "14–15"
+      },
+      {
+        "label": "Uran Bus Depot",
+        "km": "15–16"
+      },
+      {
+        "label": "JNPT Port",
+        "km": "20–21",
+        "kind": "seaport"
+      }
+    ]
+  },
+  "ndr-hoskote-hoskote": {
+    "address": "Village Nidaghatta, Hoskote Taluk, Karnataka",
+    "location": {
+      "lat": 13.095167,
+      "lon": 77.8615
+    },
+    "summary": "A warehousing facility at Village Nidaghatta, Hoskote Taluk, on about 14.78 acres. It is part of the Hoskote - Narasapura warehousing cluster, with road access to NH-75 (Bengaluru-Tirupati Highway) and NH-648.",
+    "access": "12 m village road connecting to NH-75 (Bengaluru-Tirupati Highway) and NH-648",
+    "connectivity": [
+      {
+        "label": "M.V.J Medical College & Research Hospital",
+        "km": "6–7"
+      },
+      {
+        "label": "KEB Circle",
+        "km": "9–10"
+      },
+      {
+        "label": "Maruthi Extension",
+        "km": "12–13"
+      },
+      {
+        "label": "Kempegowda International Airport Bengaluru",
+        "km": "20–21",
+        "kind": "airport"
+      },
+      {
+        "label": "Benniganahalli Lake",
+        "km": "24–25"
+      },
+      {
+        "label": "Bannerghatta National Park & Zoo",
+        "km": "46–48"
+      },
+      {
+        "label": "Christ PU College (Residential)",
+        "km": "53–54"
+      }
+    ]
+  },
+  "ndr-lsa-sohna": {
+    "address": "Village Rahaka & Nimoth, Sohna Tehsil, Haryana",
+    "location": {
+      "lat": 28.26275,
+      "lon": 77.160639
+    },
+    "summary": "A Grade-A warehousing facility at Villages Rahaka and Nimoth, Sohna Tehsil, on about 18.65 acres. It is on the Sohna-Ballabgarh Road in an emerging NCR warehousing cluster near NH-919 and the KMP Expressway.",
+    "access": "On the 12 m Sohna-Ballabgarh Road off SH-133, via a 9 m access road; near NH-919 and the Western Peripheral (KMP) Expressway",
+    "connectivity": [
+      {
+        "label": "Sohna Chowk",
+        "km": "9–10"
+      },
+      {
+        "label": "K.R. Mangalam University",
+        "km": "11–13"
+      },
+      {
+        "label": "Vatika Chowk",
+        "km": "25–29"
+      },
+      {
+        "label": "Gurugram, CBD (DLF Cyber City)",
+        "km": "40–42"
+      },
+      {
+        "label": "IMT Manesar (Honda Plant)",
+        "km": "41–45"
+      },
+      {
+        "label": "Indira Gandhi International Airport",
+        "km": "49–50",
+        "kind": "airport"
+      }
+    ]
+  },
+  "mlg-warehousing-lucknow": {
+    "address": "Mohanlalganj, Lucknow, Uttar Pradesh",
+    "location": {
+      "lat": 26.694611,
+      "lon": 80.9805
+    },
+    "summary": "A warehousing facility at Mohanlalganj in the southern part of Lucknow, on about 20.65 acres. It fronts the Lucknow-Raebareli Road (NH-30) and is about 17-18 km from Chaudhary Charan Singh International Airport.",
+    "access": "On the 24 m Lucknow-Raebareli Road (NH-30)",
+    "connectivity": [
+      {
+        "label": "Shaheed Path",
+        "km": "9–10"
+      },
+      {
+        "label": "Sushant Golf City",
+        "km": "15–16"
+      },
+      {
+        "label": "Amausi Metro Station",
+        "km": "16–17",
+        "kind": "metro"
+      },
+      {
+        "label": "Chaudhary Charan Singh International Airport",
+        "km": "17–18",
+        "kind": "airport"
+      },
+      {
+        "label": "Charbagh Railway Station",
+        "km": "18–19",
+        "kind": "rail"
+      },
+      {
+        "label": "Hazratganj",
+        "km": "19–20"
+      },
+      {
+        "label": "Gomti Nagar",
+        "km": "22–23"
+      }
+    ]
+  },
+  "ndr-angadu-chennai": {
+    "address": "Village Angadu, Ponneri Taluka, Tamil Nadu",
+    "location": {
+      "lat": 13.224278,
+      "lon": 80.181694
+    },
+    "summary": "A warehousing facility at Village Angadu, Ponneri Taluka, on about 13.98 acres. It is part of the NH-16 / GNT Road - Periyapalayam warehousing cluster, close to NH-16, NH-716A and the Chennai Outer Ring Road.",
+    "access": "Off NH-16, via a 12 m access road connecting to NH-716A",
+    "connectivity": [
+      {
+        "label": "Sri Venkateshwara Medical College",
+        "km": "2–3"
+      },
+      {
+        "label": "Alamathi",
+        "km": "11–12"
+      },
+      {
+        "label": "Ennore Port",
+        "km": "23–24",
+        "kind": "seaport"
+      },
+      {
+        "label": "Periyapalayam",
+        "km": "25–27"
+      },
+      {
+        "label": "Chennai Port",
+        "km": "28–30",
+        "kind": "seaport"
+      },
+      {
+        "label": "Poondi Lake",
+        "km": "44–46"
+      },
+      {
+        "label": "Chennai International Airport",
+        "km": "49–50",
+        "kind": "airport"
+      },
+      {
+        "label": "Sriperumbudur",
+        "km": "52–54"
+      }
+    ]
+  },
+  "ndr-pagalmedu-chennai": {
+    "address": "Villages Mampallam, Vengal Kuppam and Pagalmedu, Tamil Nadu",
+    "location": {
+      "lat": 13.246139,
+      "lon": 80.02625
+    },
+    "summary": "A Grade-A warehousing facility across Villages Mampallam, Vengal Kuppam and Pagalmedu on about 38.805 acres. It is part of the NH-16 / GNT Road - Periyapalayam warehousing cluster, off SH-50A with access to NH-716A and the Chennai Outer Ring Road.",
+    "access": "Off SH-50A, via a 6 m access road connecting to NH-716A (north)",
+    "connectivity": [
+      {
+        "label": "Alamathi",
+        "km": "12–13"
+      },
+      {
+        "label": "Periyapalayam",
+        "km": "10–11"
+      },
+      {
+        "label": "Thiruvallur Station",
+        "km": "23–24",
+        "kind": "rail"
+      },
+      {
+        "label": "Sriperumbudur",
+        "km": "40–41"
+      },
+      {
+        "label": "Chennai Port",
+        "km": "40–41",
+        "kind": "seaport"
+      },
+      {
+        "label": "Ennore Port",
+        "km": "44–45",
+        "kind": "seaport"
+      }
+    ]
+  },
+  "ndr-sohna-road-sohna": {
+    "address": "Village Kiranki, Sohna Tehsil, Haryana",
+    "location": {
+      "lat": 28.237806,
+      "lon": 77.1405
+    },
+    "summary": "A Grade-A warehousing facility at Village Kiranki, Sohna Tehsil, on about 14.93 acres. It is off NH-919 near the KMP Expressway, in an emerging NCR warehousing cluster.",
+    "access": "Off NH-919, via a 6 m access road; near the Western Peripheral (KMP) Expressway",
+    "connectivity": [
+      {
+        "label": "Sohna Chowk",
+        "km": "9–10"
+      },
+      {
+        "label": "K.R. Mangalam University",
+        "km": "11–12"
+      },
+      {
+        "label": "Vatika Chowk",
+        "km": "20–25"
+      },
+      {
+        "label": "Gurugram, CBD (DLF Cyber City)",
+        "km": "40–42"
+      },
+      {
+        "label": "IMT Manesar (Honda Plant)",
+        "km": "41–45"
+      },
+      {
+        "label": "Indira Gandhi International Airport",
+        "km": "49–50",
+        "kind": "airport"
+      }
+    ]
+  },
+  "ndr-raghudevpur-kolkata": {
+    "address": "Raghudevpur (East), Uluberia, Panchla, West Bengal",
+    "location": {
+      "lat": 22.524972,
+      "lon": 88.142167
+    },
+    "summary": "A warehousing facility at Raghudevpur (East), Uluberia, on about 11.436 acres in Howrah District. It has direct access from NH-16 in one of the prominent warehousing clusters of the Kolkata - Howrah region, about 26-27 km from Howrah Railway Station.",
+    "access": "Direct access from NH-16, which connects to NH-12 (north) and NH-116 (south)",
+    "connectivity": [
+      {
+        "label": "Saini International School",
+        "km": "1–1.5"
+      },
+      {
+        "label": "Uluberia",
+        "km": "7–8"
+      },
+      {
+        "label": "ESI Hospital",
+        "km": "7–8"
+      },
+      {
+        "label": "Dhulagarh toll gate",
+        "km": "8–9"
+      },
+      {
+        "label": "Alampur more",
+        "km": "10–11"
+      },
+      {
+        "label": "Amta Bus terminal",
+        "km": "17–18"
+      },
+      {
+        "label": "Bagnan",
+        "km": "19–20"
+      },
+      {
+        "label": "Howrah Railway station",
+        "km": "26–27",
+        "kind": "rail"
+      }
+    ]
+  },
+  "ndr-safestore-oragadam-oragadam": {
+    "address": "Village Panruti, Sriperumbudur Taluka, Tamil Nadu",
+    "location": {
+      "lat": 12.861,
+      "lon": 79.922444
+    },
+    "summary": "A warehousing facility at Village Panruti, Sriperumbudur Taluka, on about 13.82 acres. It is in a major warehousing and automobile industrial cluster of Chennai, about 2-3 km from the Oragadam Industrial Corridor, with access to NH-48 and NH-179B.",
+    "access": "7 m access road off SH-57 (Singaperumal Koil - Sriperumbudur Road), connecting to NH-48 (north) and NH-179B (east)",
+    "connectivity": [
+      {
+        "label": "Oragadam Industrial Corridor",
+        "km": "2–3"
+      },
+      {
+        "label": "Dhaanish Ahmed College of Engineering",
+        "km": "8–10"
+      },
+      {
+        "label": "Mahindra World City",
+        "km": "15–17"
+      },
+      {
+        "label": "Arignar Anna Zoological Park",
+        "km": "17–18"
+      },
+      {
+        "label": "Chennai International Airport",
+        "km": "30–31",
+        "kind": "airport"
+      },
+      {
+        "label": "Shiv Nadar University",
+        "km": "34–35"
+      },
+      {
+        "label": "Chennai Port",
+        "km": "49–50",
+        "kind": "seaport"
+      }
+    ]
+  },
+  "ndr-seahorse-ponneri-chennai": {
+    "address": "Village Vallur, Ponneri Taluka, Tamil Nadu",
+    "location": {
+      "lat": 13.245361,
+      "lon": 80.277694
+    },
+    "summary": "A warehousing facility at Village Vallur, Ponneri Taluka, on about 31.70 acres in north Chennai. It is on SH-56 close to the NH-16 / GNT Road - Periyapalayam warehousing cluster, about 11-12 km from Ennore Port and 13-14 km from Kattupalli Shipyard.",
+    "access": "36 m access road on SH-56, connecting to the Chennai Outer Ring Road (north) and NH-16 (south)",
+    "connectivity": [
+      {
+        "label": "Ennore Port",
+        "km": "11–12",
+        "kind": "seaport"
+      },
+      {
+        "label": "Kattupalli Shipyard",
+        "km": "13–14"
+      },
+      {
+        "label": "Chennai Port",
+        "km": "23–25",
+        "kind": "seaport"
+      },
+      {
+        "label": "Alamathi",
+        "km": "28–30"
+      },
+      {
+        "label": "Periyapalayam",
+        "km": "38–40"
+      },
+      {
+        "label": "Chennai International Airport",
+        "km": "40–41",
+        "kind": "airport"
+      },
+      {
+        "label": "Thiruvallur Station",
+        "km": "49–51",
+        "kind": "rail"
+      },
+      {
+        "label": "Sriperumbudur",
+        "km": "58–60"
+      }
+    ]
+  },
+  "ndr-sri-amruthalingeswara-chennai": {
+    "address": "Village Ayilachery, Alamathi Post, Tamil Nadu",
+    "location": {
+      "lat": 13.228639,
+      "lon": 80.106944
+    },
+    "summary": "A warehousing facility at Village Ayilachery near Alamathi, on about 50.82 acres. It is part of the NH-16 / GNT Road - Periyapalayam warehousing cluster, about 7-8 km from the Chennai Outer Ring Road.",
+    "access": "15 m access road off SH-114A (Thiruvallur Highway), connecting to NH-716A (north) and NH-16 (east)",
+    "connectivity": [
+      {
+        "label": "Chennai Outer Ring Road",
+        "km": "7–8",
+        "kind": "highway"
+      },
+      {
+        "label": "Madhavaram Junction",
+        "km": "14–15"
+      },
+      {
+        "label": "SIPCOT Industrial Park Thervoykandigai",
+        "km": "20–21"
+      },
+      {
+        "label": "Ennore Port",
+        "km": "25–26",
+        "kind": "seaport"
+      },
+      {
+        "label": "Chennai International Airport",
+        "km": "29–30",
+        "kind": "airport"
+      },
+      {
+        "label": "Chennai Port",
+        "km": "31–32",
+        "kind": "seaport"
+      }
+    ]
+  },
+  "ndr-storehouse-talegaon-pune": {
+    "address": "Village Sate, Talegaon Dabhade, Maval Taluka, Maharashtra",
+    "location": {
+      "lat": 18.753444,
+      "lon": 73.615278
+    },
+    "summary": "A facility of two Grade-A warehouse blocks at Village Sate near Talegaon Dabhade on about 13.42 acres. It is part of the Chakan-Talegaon warehousing cluster of the Pune Metropolitan Region, next to NH-48 (old Mumbai-Pune Highway).",
+    "access": "40 ft internal road connecting to NH-48 (old Mumbai-Pune Highway); NH-548D and NH-60 nearby",
+    "connectivity": [
+      {
+        "label": "Nearest Railway Station (Vadgaon)",
+        "km": "3–5",
+        "kind": "rail"
+      },
+      {
+        "label": "Talegaon Dabhade (MIDC area)",
+        "km": "8–12"
+      },
+      {
+        "label": "Pimpri Chinchwad town (PCMC)",
+        "km": "25–30"
+      },
+      {
+        "label": "Chakan MIDC area",
+        "km": "34–38"
+      },
+      {
+        "label": "Pune Railway Station",
+        "km": "41–42",
+        "kind": "rail"
+      },
+      {
+        "label": "Pune International Airport",
+        "km": "42–46",
+        "kind": "airport"
+      }
+    ]
+  },
+  "ndr-svahgraha-sri-city-sri-city": {
+    "address": "Village Rallakuppam, Sri City, Andhra Pradesh",
+    "location": {
+      "lat": 13.512056,
+      "lon": 79.960972
+    },
+    "summary": "A Grade-A warehousing facility in Sri City at Village Rallakuppam, Tirupati District, on about 18.92 acres. Sri City is an integrated business city and an established warehousing and manufacturing hub about 50 km north of Chennai, with access to NH-16, NH-716A and NH-716.",
+    "access": "Off SH-490, via a 6 m access road; near NH-16, NH-716A and NH-716",
+    "connectivity": [
+      {
+        "label": "NH-16",
+        "km": "11–12",
+        "kind": "highway"
+      },
+      {
+        "label": "Alamathi – Periyapalayam",
+        "km": "33–35"
+      },
+      {
+        "label": "Sriharikota",
+        "km": "38–40"
+      },
+      {
+        "label": "Chennai Outer Ring Road",
+        "km": "38–40",
+        "kind": "highway"
+      },
+      {
+        "label": "Ennore Port",
+        "km": "48–50",
+        "kind": "seaport"
+      },
+      {
+        "label": "Tirupati",
+        "km": "58–60"
+      }
+    ]
+  },
+  "ndr-svahgraha-koduvali-chennai": {
+    "address": "Village Koduvalli, Thiruvallur Taluka, Tamil Nadu",
+    "location": {
+      "lat": 13.220389,
+      "lon": 80.078556
+    },
+    "summary": "A warehousing facility at Village Koduvalli, Thiruvallur Taluka, on about 27.04 acres. It is part of the NH-16 / GNT Road - Periyapalayam warehousing cluster, off the Thiruvallur Highway (SH-114A) and about 8-10 km from Alamathi.",
+    "access": "7 m access road off SH-114A (Thiruvallur Highway), connecting to NH-716A (north) and NH-16 (east); near SH-50A",
+    "connectivity": [
+      {
+        "label": "Alamathi",
+        "km": "8–10"
+      },
+      {
+        "label": "Periyapalayam",
+        "km": "15–16"
+      },
+      {
+        "label": "Thiruvallur Station",
+        "km": "25–26",
+        "kind": "rail"
+      },
+      {
+        "label": "Sriperumbudur",
+        "km": "45–46"
+      },
+      {
+        "label": "Chennai Port",
+        "km": "35–36",
+        "kind": "seaport"
+      },
+      {
+        "label": "Ennore Port",
+        "km": "44–45",
+        "kind": "seaport"
+      }
+    ]
+  },
+  "ndr-tradehouse-bidadi": {
+    "address": "Phase I, Bidadi Industrial Area, Karnataka",
+    "location": {
+      "lat": 12.779389,
+      "lon": 77.418444
+    },
+    "summary": "A warehouse (data centre) facility in Phase I of the Bidadi Industrial Area, Ramanagara District, on about 6.55 acres, with an adjoining land parcel earmarked for warehousing. It is reached from Road No. 1 and the Bengaluru-Mysuru Expressway (NH-275).",
+    "access": "30 m Road No. 1 of Bidadi Industrial Area Phase I, connecting to Byramangala Road and the Bengaluru-Mysuru Expressway (NH-275)",
+    "connectivity": [
+      {
+        "label": "NICE Road",
+        "km": "18–19"
+      },
+      {
+        "label": "Challaghatta Metro Station",
+        "km": "18–20",
+        "kind": "metro"
+      },
+      {
+        "label": "Kempegowda Bus Terminal",
+        "km": "30–35"
+      },
+      {
+        "label": "Bannerghatta National Park",
+        "km": "33–34"
+      },
+      {
+        "label": "B.T.M Layout",
+        "km": "42–43"
+      },
+      {
+        "label": "Electronic City",
+        "km": "45–50"
+      },
+      {
+        "label": "Krishnarajapuram",
+        "km": "45–50"
+      },
+      {
+        "label": "Hebbal",
+        "km": "50–52"
+      },
+      {
+        "label": "Whitefield",
+        "km": "65–70"
+      },
+      {
+        "label": "Kempegowda International Airport",
+        "km": "70–75",
+        "kind": "airport"
+      }
+    ]
+  },
+  "ndr-valiant-hcross-sidlaghatta": {
+    "address": "Village Haradi, Jangamakote Hobli, Sidlaghatta Taluk, Karnataka",
+    "location": {
+      "lat": 13.26225,
+      "lon": 77.918917
+    },
+    "summary": "A Grade-A warehousing facility at Village Haradi, Sidlaghatta Taluk, on about 33.60 acres. It is near the Hoskote - Narsapura warehousing cluster, off SH-96 and SH-82, about 4-5 km from H-Cross junction.",
+    "access": "Off SH-96 (Chikkaballapur-Kolar Highway) and SH-82 (Kadapa-Bengaluru Highway), via a 6 m access road",
+    "connectivity": [
+      {
+        "label": "H-Cross Junction",
+        "km": "4–5"
+      },
+      {
+        "label": "J-Cross Junction",
+        "km": "9–10"
+      },
+      {
+        "label": "Vemagal Industrial Area",
+        "km": "14–15"
+      },
+      {
+        "label": "Hoskote Lake",
+        "km": "35–36"
+      },
+      {
+        "label": "Kempegowda International Airport, Bengaluru",
+        "km": "40–41",
+        "kind": "airport"
+      },
+      {
+        "label": "MG Road, Bengaluru CBD",
+        "km": "53–55"
+      },
+      {
+        "label": "Bengaluru Palace",
+        "km": "61–62"
+      }
+    ]
+  },
+  "ndr-vanshil-uluberia-kolkata": {
+    "address": "Village Raghudevpur & Surikhali, Uluberia, West Bengal",
+    "location": {
+      "lat": 22.522583,
+      "lon": 88.137
+    },
+    "summary": "A warehousing facility at Villages Raghudevpur and Surikhali, Uluberia, on about 33.68 acres in Howrah District. It is about 200 m off NH-16 in one of the prominent warehousing clusters of the Kolkata - Howrah region.",
+    "access": "12 m access road to NH-16 (about 200 m), which connects to NH-12 (north) and NH-116 (south)",
+    "connectivity": [
+      {
+        "label": "Saini International School",
+        "km": "1–1.5"
+      },
+      {
+        "label": "Uluberia",
+        "km": "7–8"
+      },
+      {
+        "label": "ESI Hospital",
+        "km": "7–8"
+      },
+      {
+        "label": "Dhulagarh toll gate",
+        "km": "8–9"
+      },
+      {
+        "label": "Alampur more",
+        "km": "10–11"
+      },
+      {
+        "label": "Amta Bus terminal",
+        "km": "17–18"
+      },
+      {
+        "label": "Bagnan",
+        "km": "19–20"
+      },
+      {
+        "label": "Howrah Railway station",
+        "km": "26–27",
+        "kind": "rail"
+      }
+    ]
+  },
+  "ndr-kalambusare-uran": {
+    "address": "Village Kalambusare, Uran Taluka, Maharashtra",
+    "location": {
+      "lat": 18.867417,
+      "lon": 73.038139
+    },
+    "summary": "A warehousing facility at Village Kalambusare, Uran Taluka, on about 9.62 acres. It is part of the Panvel warehousing cluster, about 20-21 km from JNPT Port and 13-14 km from Navi Mumbai International Airport.",
+    "access": "10 m access road connecting to NH-348BB (north); near NH-348 (JNPT Road) and NH-66",
+    "connectivity": [
+      {
+        "label": "Jio Institute",
+        "km": "12–13"
+      },
+      {
+        "label": "Navi Mumbai International Airport",
+        "km": "13–14",
+        "kind": "airport"
+      },
+      {
+        "label": "Ramsheth Thakur International Sports Complex",
+        "km": "14–15"
+      },
+      {
+        "label": "Uran Bus Depot",
+        "km": "15–16"
+      },
+      {
+        "label": "JNPT Port",
+        "km": "20–21",
+        "kind": "seaport"
       }
     ]
   }
