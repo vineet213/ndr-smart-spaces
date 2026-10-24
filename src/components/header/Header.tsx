@@ -146,7 +146,7 @@ export function Header() {
         <div ref={containerRef} className={styles.navContainer}>
           <LogoWordmark scrolled={scrolled} />
           <MainNav />
-          <CtaArea scrolled={scrolled} />
+          <CtaArea />
           <MenuButton open={mobileMenu.open} onToggle={mobileMenu.toggle} />
         </div>
       </div>

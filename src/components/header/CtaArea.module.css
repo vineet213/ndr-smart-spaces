@@ -4,33 +4,52 @@
   gap: var(--space-lg);
 }
 
-/* Wraps the Button rather than classing it directly: Button's own `.base`  */
-/* sets `display: inline-flex` unconditionally, and CSS Modules give no      */
-/* guarantee that this rule's `display: none` wins the cascade over that    */
-/* one (both are single-class selectors — whichever chunk loads last wins). */
-/* A dedicated wrapper element sidesteps the collision entirely.            */
-.contactWrap {
+/* Set like a menu item (same font, size and weight), in gold, after a thin
+   divider. Hidden below 768px, where the mobile menu carries its own button. */
+.contact {
   display: none;
-  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-xs);
+  padding-left: var(--space-xl);
+  border-left: 1px solid var(--color-gold-30);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-nav);
+  line-height: var(--leading-nav);
+  color: var(--color-gold);
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color var(--duration-standard) var(--ease-standard);
 }
 
 @media (min-width: 768px) {
-  .contactWrap {
+  .contact {
     display: inline-flex;
   }
 }
 
-/* An outlined pill, lighter than a filled block, so the bar can breathe. */
-.contactButton {
-  border-radius: 999px;
-  transition:
-    height var(--duration-standard) var(--ease-standard),
-    padding var(--duration-standard) var(--ease-standard),
-    background-color var(--duration-standard) var(--ease-standard),
-    border-color var(--duration-standard) var(--ease-standard);
+.arrow {
+  transition: transform var(--duration-standard) var(--ease-standard);
 }
 
-.contactButtonScrolled {
-  height: var(--space-5xl);
-  padding-inline: var(--space-2xl);
+@media (hover: hover) {
+  .contact:hover {
+    color: var(--color-gold-light);
+  }
+
+  .contact:hover .arrow {
+    transform: translateX(3px);
+  }
+}
+
+.contact:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact,
+  .arrow {
+    transition: none;
+  }
 }

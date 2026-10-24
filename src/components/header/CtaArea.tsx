@@ -1,29 +1,20 @@
-import { Button } from "../ui/Button";
+import Link from "next/link";
+import { Icon } from "../ui";
 import { headerCta } from "@/lib/data/navigation";
-import { cx } from "../ui/cx";
 import styles from "./CtaArea.module.css";
 
-type CtaAreaProps = {
-  scrolled?: boolean;
-};
-
 /**
- * The header's one call to action: a quiet outlined "Contact us" pill at the
- * end of the bar. The bar is always dark, so it uses the on-dark outline.
+ * The header's one call to action: "Contact us" set like a menu item, in gold
+ * with an arrow and a thin divider before it, so it belongs to the bar while
+ * still reading as the way to get in touch.
  */
-export function CtaArea({ scrolled = false }: CtaAreaProps) {
+export function CtaArea() {
   return (
     <div className={styles.area}>
-      <span className={styles.contactWrap}>
-        <Button
-          href={headerCta.enquiry.href}
-          variant="secondary"
-          tone="dark"
-          className={cx(styles.contactButton, scrolled && styles.contactButtonScrolled)}
-        >
-          {headerCta.enquiry.label}
-        </Button>
-      </span>
+      <Link href={headerCta.enquiry.href} className={styles.contact}>
+        {headerCta.enquiry.label}
+        <Icon name="arrow-right" size="sm" className={styles.arrow} />
+      </Link>
     </div>
   );
 }
