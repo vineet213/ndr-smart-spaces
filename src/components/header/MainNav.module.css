@@ -103,10 +103,3 @@
     height: 100%;
   }
 }
-
-/* Small laptops (1024–1279px): tighter spacing so the full menu fits. */
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .list {
-    gap: var(--space-sm);
-  }
-}

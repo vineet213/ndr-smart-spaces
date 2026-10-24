@@ -17,14 +17,3 @@
 .linkScrolled .logo {
   width: 10rem;
 }
-
-/* Small laptops (1024–1279px): a slightly smaller wordmark leaves room for the full menu. */
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .logo {
-    width: 8.5rem;
-  }
-
-  .linkScrolled .logo {
-    width: 7.5rem;
-  }
-}
