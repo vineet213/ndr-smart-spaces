@@ -10,7 +10,7 @@ import styles from "./CultureLearning.module.css";
 /**
  * Learning & development: the practices as a list of large titles. Pointing
  * at one (or tapping it) opens its text and brings its photograph up in the
- * frame beside the list, which stays in view while the list is read.
+ * frame beside the list, which is exactly as tall as the list.
  */
 export function CultureLearning() {
   const { items } = learningDevelopment;

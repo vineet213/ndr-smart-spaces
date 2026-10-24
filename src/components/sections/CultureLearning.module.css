@@ -18,7 +18,7 @@
   display: grid;
   grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
   gap: var(--space-9xl);
-  align-items: start;
+  align-items: stretch;
 }
 
 .list {
@@ -97,11 +97,12 @@
   color: var(--color-text-secondary);
 }
 
-/* the photograph frame stays in view beside the list */
+/* the photograph frame is exactly as tall as the list beside it, so the two
+   read as one block and the whole photograph is in view with the list.
+   The slides are absolutely placed, so the frame adds no height of its own. */
 .frame {
-  position: sticky;
-  top: calc(var(--header-height, 4.5rem) + var(--space-4xl));
-  aspect-ratio: 4 / 5;
+  position: relative;
+  min-height: 26rem;
   overflow: hidden;
   background-color: var(--color-charcoal);
 }
@@ -128,6 +129,14 @@
   object-fit: cover;
 }
 
+/* side by side, every opened text keeps room for three lines, so the list,
+   and the photograph matched to it, stay one height whichever item is open */
+@media (min-width: 1024px) {
+  .body {
+    min-height: calc(3lh + var(--space-2xl));
+  }
+}
+
 @media (max-width: 1023px) {
   .grid {
     grid-template-columns: 1fr;
@@ -135,9 +144,8 @@
 
   /* stacked: the photograph leads, above the list */
   .frame {
-    position: relative;
-    top: auto;
     order: -1;
+    min-height: 0;
     aspect-ratio: 16 / 10;
   }
 }
