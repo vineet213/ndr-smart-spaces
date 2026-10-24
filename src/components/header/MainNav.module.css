@@ -6,7 +6,8 @@
   position: relative;
   display: flex;
   align-items: stretch;
-  gap: var(--space-lg);
+  /* Header.module.css narrows this for the floating pill on mid-size screens. */
+  gap: var(--nav-list-gap, var(--space-lg));
 }
 
 .item {
@@ -92,7 +93,9 @@
   }
 }
 
-@media (min-width: 1024px) {
+/* The full menu needs about 1,150px even with the compact spacing below, so */
+/* narrower screens keep the menu button.                                    */
+@media (min-width: 1180px) {
   .nav {
     display: block;
     height: 100%;
@@ -104,8 +107,8 @@
   }
 }
 
-/* Small laptops (1024–1279px): tighter spacing so the full menu fits. */
-@media (min-width: 1024px) and (max-width: 1279px) {
+/* Laptops (1180–1439px): tighter spacing so the full menu fits. */
+@media (min-width: 1180px) and (max-width: 1439px) {
   .list {
     gap: var(--space-sm);
   }

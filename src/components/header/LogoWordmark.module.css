@@ -18,8 +18,8 @@
   width: 10rem;
 }
 
-/* Small laptops (1024–1279px): a slightly smaller wordmark leaves room for the full menu. */
-@media (min-width: 1024px) and (max-width: 1279px) {
+/* Laptops (1180–1439px): a slightly smaller wordmark leaves room for the full menu. */
+@media (min-width: 1180px) and (max-width: 1439px) {
   .logo {
     width: 8.5rem;
   }
