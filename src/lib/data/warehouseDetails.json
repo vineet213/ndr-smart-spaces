@@ -418,13 +418,26 @@
         "kind": "rail"
       },
       {
+        "label": "Gymkhana Cricket Stadium",
+        "km": "28–29"
+      },
+      {
         "label": "Hussain Sagar",
         "km": "29–30"
+      },
+      {
+        "label": "Nehru Zoological Park",
+        "km": "31–32"
       },
       {
         "label": "Rajiv Gandhi International Airport",
         "km": "36–38",
         "kind": "airport"
+      },
+      {
+        "label": "Jubilee Hills Check Post Metro Station",
+        "km": "41–42",
+        "kind": "metro"
       }
     ]
   },
