@@ -19,7 +19,7 @@
   height: 1.5rem;
 }
 
-@media (min-width: 1180px) {
+@media (min-width: 1024px) {
   .button {
     display: none;
   }

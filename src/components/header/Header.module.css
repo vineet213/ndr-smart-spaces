@@ -102,32 +102,19 @@
   margin-top: 0.75rem;
   padding-inline: var(--space-2xl);
   border-radius: 999px;
-  /* Solid, in the resting bar's tone: a see-through pill let page headings */
-  /* show through behind the menu and greyed out the red of the logo.        */
-  background-color: var(--color-charcoal-masthead);
-  box-shadow:
-    inset 0 0 0 1px rgba(240, 182, 90, 0.22),
-    0 12px 32px rgba(17, 16, 15, 0.28);
+  background-color: rgba(28, 26, 25, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 12px 32px rgba(17, 16, 15, 0.28);
   --nav-fg: var(--color-ivory);
   --nav-fg-hover: var(--color-gold-light);
   --nav-accent: var(--color-gold);
 }
 
-/* Desktop menu in the floating pill: the pill's side margins take room the  */
-/* resting bar has, so its insides are tighter at every desktop width.       */
-@media (min-width: 1180px) {
-  .navBarScrolled .navContainer {
-    margin-inline: var(--space-lg);
-    padding-inline: var(--space-xl);
-    gap: var(--space-lg);
-    --nav-list-gap: var(--space-sm);
-  }
-}
-
-/* Laptops (1180–1439px): the full menu must fit, so the bar is tightened    */
-/* (padding, gaps, nav text) rather than falling back to the phone menu.     */
-/* 1440px and up is unchanged.                                               */
-@media (min-width: 1180px) and (max-width: 1439px) {
+/* Small laptops / tablet landscape (1024–1279px): the full menu must fit, so */
+/* the bar is tightened (padding, gaps, nav text) rather than falling back to */
+/* the phone hamburger. 1280px and up is unchanged.                           */
+@media (min-width: 1024px) and (max-width: 1279px) {
   .navContainer {
     padding-inline: var(--space-lg);
     gap: var(--space-md);
