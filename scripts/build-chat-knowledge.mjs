@@ -11,6 +11,8 @@
  * The portfolio register (every published site, by state) is drawn in the
  * browser, so it is not in the exported HTML; it is added from the same data
  * the register uses, with the same rule: only `published` records are public.
+ * Likewise the About Us leadership bios open in a dialog on click, so they are
+ * added from the leadership data.
  *
  *   npm run build   → next build, then this script (postbuild)
  */
@@ -23,6 +25,14 @@ const OUT_DIR = join(process.cwd(), "out");
 const TARGET = join(OUT_DIR, "api", "chat-knowledge.md");
 const REGISTER_PAGE = "/business/logistics-and-industrial-infrastructure/";
 const AUM_DATA = join(process.cwd(), "src", "lib", "data", "generated", "assetsUnderManagement.ts");
+const LEADERSHIP_PAGE = "/about-us/";
+const ABOUT_DATA = join(process.cwd(), "src", "lib", "data", "about.ts");
+// Visitors ask for "the CEO"; the site spells the titles out.
+const ROLE_SHORT = {
+  "Chief Executive Officer": "CEO",
+  "Chief Financial Officer": "CFO",
+  "Chief Operating Officer": "COO",
+};
 
 // Pages that only repeat other pages or hold nothing a visitor would ask about.
 const SKIP = new Set(["/404/", "/_not-found/", "/sitemap/"]);
@@ -129,6 +139,21 @@ async function registerText() {
   return lines.join("\n");
 }
 
+/** The leadership profiles as text: name, role and bio, one group (Board, Management) at a time. */
+async function leadershipText() {
+  // Node strips the TypeScript types; the module's only import is type-only.
+  const { leadership } = await import(pathToFileURL(ABOUT_DATA).href);
+  const lines = [`## ${leadership.eyebrow}: ${leadership.heading}`];
+  for (const group of leadership.groups) {
+    lines.push(`\n### ${group.title}`);
+    for (const { name, role, bio } of group.profiles) {
+      const short = ROLE_SHORT[role] ? ` (${ROLE_SHORT[role]})` : "";
+      lines.push(`- ${name}, ${role}${short}: ${bio}`);
+    }
+  }
+  return lines.join("\n");
+}
+
 async function main() {
   try {
     await fs.access(OUT_DIR);
@@ -141,7 +166,13 @@ async function main() {
     const path = `/${relative(OUT_DIR, file).split(sep).slice(0, -1).join("/")}${file === join(OUT_DIR, "index.html") ? "" : "/"}`;
     if (SKIP.has(path) || SKIP_PREFIXES.some((prefix) => path.startsWith(prefix))) continue;
     const page = pageText(await fs.readFile(file, "utf8"));
-    const body = path === REGISTER_PAGE ? `${page.body}\n\n${await registerText()}` : page.body;
+    const extra =
+      path === REGISTER_PAGE
+        ? await registerText()
+        : path === LEADERSHIP_PAGE
+          ? await leadershipText()
+          : "";
+    const body = extra ? `${page.body}\n\n${extra}` : page.body;
     const title = page.title;
     if (body.length < 40) continue;
     sections.push({ path, text: `# PAGE: ${title || path}\nURL: ${path}\n\n${body}` });
