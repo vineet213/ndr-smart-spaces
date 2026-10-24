@@ -8,25 +8,27 @@
  * it is always in step with the deployed pages. The file is denied to browsers
  * by api/.htaccess.
  *
- * The portfolio register (every published site, by state) is drawn in the
- * browser, so it is not in the exported HTML; it is added from the same data
- * the register uses, with the same rule: only `published` records are public.
- * Likewise the About Us leadership bios open in a dialog on click, so they are
- * added from the leadership data.
+ * Some content never reaches the exported HTML in full: the portfolio register
+ * is drawn in the browser, the About Us leadership bios open in a dialog on
+ * click, and the ESG green features and the Corporate Culture ring show one
+ * item at a time. EXTRAS adds each from the data the page itself uses (for the
+ * register with the same rule: only `published` records are public).
  *
  *   npm run build   → next build, then this script (postbuild)
  */
 
 import { promises as fs } from "node:fs";
+import { register } from "node:module";
 import { join, relative, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 
+register("./chat-knowledge-hooks.mjs", import.meta.url);
+
 const OUT_DIR = join(process.cwd(), "out");
 const TARGET = join(OUT_DIR, "api", "chat-knowledge.md");
-const REGISTER_PAGE = "/business/logistics-and-industrial-infrastructure/";
-const AUM_DATA = join(process.cwd(), "src", "lib", "data", "generated", "assetsUnderManagement.ts");
-const LEADERSHIP_PAGE = "/about-us/";
-const ABOUT_DATA = join(process.cwd(), "src", "lib", "data", "about.ts");
+const DATA_DIR = join(process.cwd(), "src", "lib", "data");
+// Node strips the TypeScript types; the hooks add the extensions the modules leave out.
+const data = (file) => import(pathToFileURL(join(DATA_DIR, file)).href);
 // Visitors ask for "the CEO"; the site spells the titles out.
 const ROLE_SHORT = {
   "Chief Executive Officer": "CEO",
@@ -81,10 +83,15 @@ function pageText(html) {
   const title = decode(html.match(/<title>([^<]*)<\/title>/)?.[1] ?? "").trim();
   let main = html.match(/<main\b[^>]*>([\s\S]*)<\/main>/)?.[1] ?? "";
   main = main
-    .replace(
-      /<(script|style|svg|noscript|template|form|button|select|figure|footer)\b[\s\S]*?<\/\1>/gi,
-      " ",
-    )
+    .replace(/<(script|style|svg|noscript|template|form|select|footer)\b[\s\S]*?<\/\1>/gi, " ")
+    // Buttons are mostly controls ("Apply", "View profile"), but some carry
+    // content, like the culture page's learning topics: keep those of 3+ words.
+    // Buttons that open a dialog (leadership cards) are covered by EXTRAS.
+    .replace(/<button\b([^>]*)>([\s\S]*?)<\/button>/gi, (_, attrs, inner) => {
+      if (attrs.includes("aria-haspopup")) return " ";
+      const text = inner.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+      return text.split(" ").length >= 3 ? `\n${text}\n` : " ";
+    })
     .replace(/<[^>]+aria-hidden="true"[^>]*\/>/gi, " ")
     .replace(/<h([1-4])\b[^>]*>/gi, (_, level) => `\n\n${"#".repeat(Number(level) + 1)} `)
     .replace(/<\/h[1-4]>/gi, "\n")
@@ -92,7 +99,7 @@ function pageText(html) {
     .replace(/<tr\b[^>]*>/gi, "\n| ")
     .replace(/<\/t[dh]>/gi, " | ")
     .replace(
-      /<(p|div|section|article|dt|dd|br|ul|ol|table|header|footer|blockquote)\b[^>]*>/gi,
+      /<(p|div|section|article|dt|dd|br|ul|ol|table|header|footer|blockquote|figcaption)\b[^>]*>/gi,
       "\n",
     )
     .replace(/<[^>]+>/g, " ")
@@ -110,8 +117,7 @@ function pageText(html) {
 
 /** The portfolio register as text: one line per published site, grouped by state. */
 async function registerText() {
-  // Node runs the generated data module directly (plain data, no imports).
-  const { assetsUnderManagement } = await import(pathToFileURL(AUM_DATA).href);
+  const { assetsUnderManagement } = await data("generated/assetsUnderManagement.ts");
   const published = assetsUnderManagement.filter((asset) => asset.status === "published");
   const byState = new Map();
   for (const asset of published) {
@@ -141,8 +147,7 @@ async function registerText() {
 
 /** The leadership profiles as text: name, role and bio, one group (Board, Management) at a time. */
 async function leadershipText() {
-  // Node strips the TypeScript types; the module's only import is type-only.
-  const { leadership } = await import(pathToFileURL(ABOUT_DATA).href);
+  const { leadership } = await data("about.ts");
   const lines = [`## ${leadership.eyebrow}: ${leadership.heading}`];
   for (const group of leadership.groups) {
     lines.push(`\n### ${group.title}`);
@@ -153,6 +158,31 @@ async function leadershipText() {
   }
   return lines.join("\n");
 }
+
+/** The ESG green features: the page pins them and shows one at a time. */
+async function greenFeaturesText() {
+  const { esgGreenFeatures } = await data("esg.ts");
+  return [
+    `## ${esgGreenFeatures.heading ?? "Green features in every park"}`,
+    ...esgGreenFeatures.features.map(({ title, body }) => `- ${title}: ${body}`),
+  ].join("\n");
+}
+
+/** The Corporate Culture ring: the page shows one stage at a time. */
+async function cultureRingText() {
+  const { cultureRing } = await data("careers.ts");
+  return [
+    `## ${cultureRing.heading}`,
+    ...cultureRing.nodes.map(({ name, body }) => `- ${name}: ${body}`),
+  ].join("\n");
+}
+
+const EXTRAS = {
+  "/business/logistics-and-industrial-infrastructure/": registerText,
+  "/about-us/": leadershipText,
+  "/esg/": greenFeaturesText,
+  "/culture-and-careers/corporate-culture/": cultureRingText,
+};
 
 async function main() {
   try {
@@ -166,12 +196,7 @@ async function main() {
     const path = `/${relative(OUT_DIR, file).split(sep).slice(0, -1).join("/")}${file === join(OUT_DIR, "index.html") ? "" : "/"}`;
     if (SKIP.has(path) || SKIP_PREFIXES.some((prefix) => path.startsWith(prefix))) continue;
     const page = pageText(await fs.readFile(file, "utf8"));
-    const extra =
-      path === REGISTER_PAGE
-        ? await registerText()
-        : path === LEADERSHIP_PAGE
-          ? await leadershipText()
-          : "";
+    const extra = EXTRAS[path] ? await EXTRAS[path]() : "";
     const body = extra ? `${page.body}\n\n${extra}` : page.body;
     const title = page.title;
     if (body.length < 40) continue;
