@@ -164,7 +164,7 @@ export function MegaMenuButton({
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (!window.matchMedia("(min-width: 1180px)").matches) return;
+    if (!window.matchMedia("(min-width: 64rem)").matches) return;
 
     const onPointerDown = (event: PointerEvent) => {
       const node = itemRef.current;
