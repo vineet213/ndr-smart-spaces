@@ -21,6 +21,9 @@ export function absoluteUrl(path: string): string {
 const routeNames: Readonly<Record<string, string>> = {
   "/": "Home",
   "/about-us": "About Us",
+  "/why-ndr": "Why NDR",
+  "/culture-and-careers/corporate-culture": "Corporate Culture",
+  "/culture-and-careers/careers-and-opportunities": "Careers & Opportunities",
   "/business/logistics-and-industrial-infrastructure": "Logistics and Industrial Infrastructure",
   "/business/ndr-asset-management": "Project Management and Maintenance: NDR Asset Management",
   "/business/ndr-asset-management/development-lifecycle": "Development Lifecycle",

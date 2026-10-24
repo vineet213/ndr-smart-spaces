@@ -1,0 +1,47 @@
+.section {
+  padding-block: var(--section-padding-tablet);
+  background-color: var(--color-maroon-dark);
+  background-image: radial-gradient(
+    55% 90% at 100% 0%,
+    rgba(240, 182, 90, 0.16) 0%,
+    rgba(240, 182, 90, 0) 70%
+  );
+  color: var(--color-ivory);
+}
+
+.sentence {
+  max-width: 24ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-display-light);
+  font-size: clamp(2rem, 4.4vw, 4.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.figure {
+  font-weight: 700;
+  color: var(--color-gold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* an open blank on the line, waiting for its figure */
+.blank {
+  display: inline-block;
+  width: 2.4ch;
+  height: 0.85em;
+  margin-inline: 0.08em;
+  vertical-align: -0.05em;
+  border-bottom: 0.08em solid var(--color-gold);
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(240, 182, 90, 0.18) 0 0.12em,
+    rgba(240, 182, 90, 0) 0.12em 0.3em
+  );
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: var(--section-padding-mobile);
+  }
+}
