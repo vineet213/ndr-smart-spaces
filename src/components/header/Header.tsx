@@ -18,6 +18,7 @@ export function Header() {
   const scrolled = useScrolled(40);
   const mobileMenu = useDisclosure(false);
   const headerRef = useRef<HTMLElement | null>(null);
+  const navBarRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLSpanElement | null>(null);
   const [hidden, setHidden] = useState(false);
   const menuOpenRef = useRef(false);
@@ -51,10 +52,13 @@ export function Header() {
 
       const delta = y - last;
       const header = headerRef.current;
+      // Open dropdowns are looked for in the bar only: the mobile menu (closed,
+      // hidden on desktop) pre-expands the current page's section, which would
+      // otherwise keep the bar pinned on those pages. menuOpenRef covers it.
       const pinned =
         reduced.matches ||
         menuOpenRef.current ||
-        !!header?.querySelector('[aria-expanded="true"]') ||
+        !!navBarRef.current?.querySelector('[aria-expanded="true"]') ||
         !!header?.contains(document.activeElement);
       if (pinned || y < HIDE_AFTER_PX) {
         setHiddenSafe(false);
@@ -100,6 +104,7 @@ export function Header() {
     <header ref={headerRef} className={styles.header}>
       <span ref={progressRef} className={styles.progress} aria-hidden="true" />
       <div
+        ref={navBarRef}
         className={cx(
           styles.navBar,
           scrolled && styles.navBarScrolled,
