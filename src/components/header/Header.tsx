@@ -19,6 +19,7 @@ export function Header() {
   const mobileMenu = useDisclosure(false);
   const headerRef = useRef<HTMLElement | null>(null);
   const navBarRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLSpanElement | null>(null);
   const [hidden, setHidden] = useState(false);
   const menuOpenRef = useRef(false);
@@ -91,6 +92,37 @@ export function Header() {
     };
   }, [setHiddenSafe]);
 
+  // Shrink the bar's contents just enough to fit (see .navContainer > * in the
+  // CSS). Measured after the resting/floating transition settles, on resize and
+  // once the web fonts have loaded.
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const fit = () => {
+      const zoom = Number(container.style.getPropertyValue("--nav-fit") || 1);
+      const items = [...container.children].filter((el) => el.getBoundingClientRect().width > 0);
+      const style = getComputedStyle(container);
+      const room =
+        container.clientWidth -
+        parseFloat(style.paddingLeft) -
+        parseFloat(style.paddingRight) -
+        parseFloat(style.columnGap || "0") * Math.max(items.length - 1, 0) -
+        2; // rounding slack
+      // Rendered widths include the current zoom; divide it out for the natural size.
+      const natural = items.reduce((sum, el) => sum + el.getBoundingClientRect().width, 0) / zoom;
+      const next = natural > room ? Math.floor((room / natural) * 1000) / 1000 : 1;
+      container.style.setProperty("--nav-fit", String(next));
+    };
+    const settle = window.setTimeout(fit, 450);
+    fit();
+    window.addEventListener("resize", fit, { passive: true });
+    document.fonts?.ready.then(fit);
+    return () => {
+      window.clearTimeout(settle);
+      window.removeEventListener("resize", fit);
+    };
+  }, [scrolled]);
+
   // Publish the hidden state on <html> so pinned sections can take the freed
   // space via --nav-offset (see tokens/spacing.css).
   const navHidden = hidden && !mobileMenu.open;
@@ -111,7 +143,7 @@ export function Header() {
           navHidden && styles.navBarHidden,
         )}
       >
-        <div className={styles.navContainer}>
+        <div ref={containerRef} className={styles.navContainer}>
           <LogoWordmark scrolled={scrolled} />
           <MainNav />
           <CtaArea scrolled={scrolled} />

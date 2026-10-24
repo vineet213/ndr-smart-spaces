@@ -94,6 +94,13 @@
   }
 }
 
+/* When the bar is too narrow for its contents (the floating pill on most    */
+/* laptops), Header.tsx sets --nav-fit below 1 and the logo, menu and button */
+/* shrink together, so the bar keeps the same proportions at every width.   */
+.navContainer > * {
+  zoom: var(--nav-fit, 1);
+}
+
 .navBarScrolled .navContainer {
   height: 3.5rem;
   width: auto;
