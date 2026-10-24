@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Container } from "@/components/layout";
 import { Button } from "@/components/ui";
 import { useInView } from "@/hooks/useInView";
-import { applyHref, careersBoard, careersHero, hrEmail, roles } from "@/lib/data/careers";
+import { applyHref, careersBoard, hrEmail, roles } from "@/lib/data/careers";
 import { cx } from "../ui/cx";
 import styles from "./CareersBoard.module.css";
 
@@ -68,15 +68,6 @@ export function CareersBoard() {
 
   return (
     <>
-      <section className={styles.hero} aria-labelledby="careers-title">
-        <Container className={styles.heroInner}>
-          <h1 id="careers-title" className={styles.title}>
-            {careersHero.title}
-          </h1>
-          <p className={styles.lede}>{careersHero.lede}</p>
-        </Container>
-      </section>
-
       <section className={styles.section} id="openings" aria-labelledby="board-title">
         <Container>
           <div ref={ref} className={styles.board}>
