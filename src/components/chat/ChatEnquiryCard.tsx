@@ -49,12 +49,9 @@ function validate(name: Field, value: string): string | undefined {
   return !text || isValidPhone(text) ? undefined : "Please enter a valid phone number.";
 }
 
-/** Opened from the panel's "Send an enquiry" shortcut there may be no chat to quote, so the visitor writes their own message. */
-type ChatEnquiryCardProps = { summary: string; withMessage?: boolean };
+type ChatEnquiryCardProps = { summary: string };
 
-const MESSAGE_MAX = 2000;
-
-export function ChatEnquiryCard({ summary, withMessage = false }: ChatEnquiryCardProps) {
+export function ChatEnquiryCard({ summary }: ChatEnquiryCardProps) {
   const { consentLabel, consentError, success, route } = contact.form;
   const [values, setValues] = useState<Record<Field, string>>({
     name: "",
@@ -62,7 +59,6 @@ export function ChatEnquiryCard({ summary, withMessage = false }: ChatEnquiryCar
     email: "",
     phone: "",
   });
-  const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [consentMissing, setConsentMissing] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -166,24 +162,7 @@ export function ChatEnquiryCard({ summary, withMessage = false }: ChatEnquiryCar
           ))}
         </select>
       </div>
-      {withMessage ? (
-        <div className={styles.field}>
-          <label className={styles.label} htmlFor="chat-enquiry-message">
-            Message (optional)
-          </label>
-          <textarea
-            id="chat-enquiry-message"
-            className={`${styles.input} ${styles.textarea}`}
-            name="message"
-            rows={3}
-            maxLength={MESSAGE_MAX}
-            value={message}
-            onChange={(event) => setMessage(event.target.value)}
-          />
-        </div>
-      ) : (
-        <input type="hidden" name="message" value={`Asked in the website chat:\n${summary}`} />
-      )}
+      <input type="hidden" name="message" value={`Asked in the website chat:\n${summary}`} />
 
       <FormSafeguards
         formId="chat"

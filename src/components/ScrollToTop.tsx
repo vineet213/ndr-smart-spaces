@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { getLenisInstance } from "@/lib/lenis";
+import { jumpTo, jumpToSection } from "@/lib/lenis";
 
 /**
  * After a route change, land on the very top of the new page.
@@ -11,20 +11,21 @@ import { getLenisInstance } from "@/lib/lenis";
  * fixed header's spacer, so every page opened from a footer link ended up ~86px
  * down (title half under the navbar), arriving by a slow glide from the old
  * scroll position. This jumps straight to 0 instead. Links that target a
- * section (`/contact#business-enquiry`) are left to the browser.
+ * section (`/contact#business-enquiry`) land on that section: Next's own
+ * smooth scroll to it is cut short by the smooth scroller, so it is jumped to
+ * here once the new page has laid out.
  */
 export function ScrollToTop() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (window.location.hash) return;
-    const root = document.documentElement;
-    const previous = root.style.scrollBehavior;
-    // The site's smooth scroll-behavior would otherwise animate this jump.
-    root.style.scrollBehavior = "auto";
-    getLenisInstance()?.scrollTo(0, { immediate: true, force: true });
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-    root.style.scrollBehavior = previous;
+    if (!window.location.hash) {
+      jumpTo(0);
+      return;
+    }
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    const timer = window.setTimeout(() => jumpToSection(id), 50);
+    return () => window.clearTimeout(timer);
   }, [pathname]);
 
   return null;

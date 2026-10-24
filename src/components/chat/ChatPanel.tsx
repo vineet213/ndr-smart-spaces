@@ -8,6 +8,7 @@ import { ENQUIRY_MARKER, chatErrorText, streamChat } from "@/lib/chat";
 import type { ChatMessage } from "@/lib/chat";
 import { officeDirectory } from "@/lib/data/contact";
 import { contact } from "@/lib/data/homepage";
+import { jumpToSection } from "@/lib/lenis";
 import { canonicalHref, siteRoutes } from "@/lib/routes";
 import { ChatEnquiryCard } from "./ChatEnquiryCard";
 import styles from "./ChatPanel.module.css";
@@ -28,6 +29,8 @@ const STARTERS = [
 ];
 /* Reaching a person without chatting first. Phone numbers stay hidden until the
    client confirms them (the same switch as the Contact page's office directory). */
+const ENQUIRY_ID = "business-enquiry";
+const ENQUIRY_HREF = canonicalHref(`/contact#${ENQUIRY_ID}`);
 const CONTACT_EMAIL = contact.form.route.default;
 const CONTACT_PHONE = officeDirectory.detailsConfirmed ? (officeDirectory.offices[0]?.phone ?? "") : "";
 const GREETING =
@@ -144,7 +147,6 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [enquiryAt, setEnquiryAt] = useState<number | null>(null);
-  const [contactOpen, setContactOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -172,7 +174,7 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
   useEffect(() => {
     const list = listRef.current;
     if (list && stickRef.current) list.scrollTop = list.scrollHeight;
-  }, [entries, enquiryAt, contactOpen, open]);
+  }, [entries, enquiryAt, open]);
 
   const close = useCallback(() => {
     onClose();
@@ -274,7 +276,6 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
     setStreaming(false);
     setEntries([]);
     setEnquiryAt(null);
-    setContactOpen(false);
     saveHistory([]);
     inputRef.current?.focus();
   }
@@ -320,24 +321,22 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
       </header>
 
       <div className={styles.quick} role="group" aria-label="Contact the team">
-        <button
-          type="button"
+        {/* The panel would cover the form, so it closes on the way there. */}
+        <Link
           className={styles.starter}
-          aria-expanded={contactOpen}
-          onClick={() => {
-            setEnquiryAt(null);
-            setContactOpen(true);
-            // The form is taller than the panel: start at its first field, not its button.
-            stickRef.current = false;
-            window.requestAnimationFrame(() => {
-              const first = document.getElementById("chat-enquiry-name");
-              first?.closest("form")?.scrollIntoView({ block: "start" });
-              first?.focus({ preventScroll: true });
-            });
+          href={ENQUIRY_HREF}
+          onClick={(event) => {
+            onClose();
+            // Already on the Contact page: no page change to scroll after, so jump now.
+            if (window.location.pathname === ENQUIRY_HREF.split("#")[0]) {
+              event.preventDefault();
+              window.history.replaceState(window.history.state, "", ENQUIRY_HREF);
+              jumpToSection(ENQUIRY_ID);
+            }
           }}
         >
           Send an enquiry
-        </button>
+        </Link>
         <a className={styles.starter} href={`mailto:${CONTACT_EMAIL}`}>
           Email us
         </a>
@@ -398,10 +397,7 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
                 <button
                   type="button"
                   className={styles.enquiryOffer}
-                  onClick={() => {
-                    setContactOpen(false);
-                    setEnquiryAt(index);
-                  }}
+                  onClick={() => setEnquiryAt(index)}
                 >
                   Talk to the team
                   <Icon name="arrow-right" size="sm" />
@@ -418,7 +414,6 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
               ) : null}
             </div>
           ))}
-          {contactOpen ? <ChatEnquiryCard summary="" withMessage /> : null}
         </div>
       </div>
 

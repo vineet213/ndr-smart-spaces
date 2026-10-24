@@ -46,11 +46,6 @@
   border-bottom-color: var(--color-gold-light);
 }
 
-.textarea {
-  resize: vertical;
-  min-height: 4.5rem;
-}
-
 .select {
   appearance: none;
   padding-inline-end: var(--space-2xl);
