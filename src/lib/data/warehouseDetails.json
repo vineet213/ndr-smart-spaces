@@ -521,6 +521,10 @@
     "access": "9 m access road off SH-114A (Thiruvallur Highway), connecting to NH-716A (north) and NH-16 (east)",
     "connectivity": [
       {
+        "label": "Vels Medical College and Hospital",
+        "km": "4–5"
+      },
+      {
         "label": "Chennai Outer Ring Road",
         "km": "7–8",
         "kind": "highway"
@@ -1276,6 +1280,10 @@
     "access": "15 m access road off SH-114A (Thiruvallur Highway), connecting to NH-716A (north) and NH-16 (east)",
     "connectivity": [
       {
+        "label": "Vels Medical College and Hospital",
+        "km": "4–5"
+      },
+      {
         "label": "Chennai Outer Ring Road",
         "km": "7–8",
         "kind": "highway"
@@ -1314,6 +1322,11 @@
     "summary": "A facility of two Grade-A warehouse blocks at Village Sate near Talegaon Dabhade on about 13.42 acres. It is part of the Chakan-Talegaon warehousing cluster of the Pune Metropolitan Region, next to NH-48 (old Mumbai-Pune Highway).",
     "access": "40 ft internal road connecting to NH-48 (old Mumbai-Pune Highway); NH-548D and NH-60 nearby",
     "connectivity": [
+      {
+        "label": "National Highway 48",
+        "km": "<1",
+        "kind": "highway"
+      },
       {
         "label": "Nearest Railway Station (Vadgaon)",
         "km": "3–5",
