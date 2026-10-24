@@ -7,14 +7,19 @@ type CtaAreaProps = {
   scrolled?: boolean;
 };
 
+/**
+ * The header's one call to action: a quiet outlined "Contact us" pill at the
+ * end of the bar. The bar is always dark, so it uses the on-dark outline.
+ */
 export function CtaArea({ scrolled = false }: CtaAreaProps) {
   return (
     <div className={styles.area}>
-      <span className={styles.enquiryWrap}>
+      <span className={styles.contactWrap}>
         <Button
           href={headerCta.enquiry.href}
-          tone={scrolled ? "dark" : "light"}
-          className={cx(styles.enquiryButton, scrolled && styles.enquiryButtonScrolled)}
+          variant="secondary"
+          tone="dark"
+          className={cx(styles.contactButton, scrolled && styles.contactButtonScrolled)}
         >
           {headerCta.enquiry.label}
         </Button>

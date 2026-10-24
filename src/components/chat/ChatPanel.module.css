@@ -177,6 +177,19 @@
   text-underline-offset: 2px;
 }
 
+/* "Send an enquiry", "Email us" (and "Call us"): a person, one click away. */
+.quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-xl);
+  border-bottom: 1px solid var(--color-hairline-dark);
+}
+
+.quick .starter {
+  text-decoration: none;
+}
+
 .starters {
   display: flex;
   flex-wrap: wrap;

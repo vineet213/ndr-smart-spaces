@@ -6,6 +6,8 @@ import Link from "next/link";
 import { Icon } from "@/components/ui";
 import { ENQUIRY_MARKER, chatErrorText, streamChat } from "@/lib/chat";
 import type { ChatMessage } from "@/lib/chat";
+import { officeDirectory } from "@/lib/data/contact";
+import { contact } from "@/lib/data/homepage";
 import { canonicalHref, siteRoutes } from "@/lib/routes";
 import { ChatEnquiryCard } from "./ChatEnquiryCard";
 import styles from "./ChatPanel.module.css";
@@ -24,6 +26,10 @@ const STARTERS = [
   "I'm looking for warehouse space",
   "How do I contact the team?",
 ];
+/* Reaching a person without chatting first. Phone numbers stay hidden until the
+   client confirms them (the same switch as the Contact page's office directory). */
+const CONTACT_EMAIL = contact.form.route.default;
+const CONTACT_PHONE = officeDirectory.detailsConfirmed ? (officeDirectory.offices[0]?.phone ?? "") : "";
 const GREETING =
   "Hello! I'm the NDR Smart Spaces assistant. Ask me about our warehouses and industrial parks, locations, ESG work or how to reach the team.";
 
@@ -138,6 +144,7 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [enquiryAt, setEnquiryAt] = useState<number | null>(null);
+  const [contactOpen, setContactOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -165,7 +172,7 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
   useEffect(() => {
     const list = listRef.current;
     if (list && stickRef.current) list.scrollTop = list.scrollHeight;
-  }, [entries, enquiryAt, open]);
+  }, [entries, enquiryAt, contactOpen, open]);
 
   const close = useCallback(() => {
     onClose();
@@ -267,6 +274,7 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
     setStreaming(false);
     setEntries([]);
     setEnquiryAt(null);
+    setContactOpen(false);
     saveHistory([]);
     inputRef.current?.focus();
   }
@@ -310,6 +318,35 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
           </button>
         </div>
       </header>
+
+      <div className={styles.quick} role="group" aria-label="Contact the team">
+        <button
+          type="button"
+          className={styles.starter}
+          aria-expanded={contactOpen}
+          onClick={() => {
+            setEnquiryAt(null);
+            setContactOpen(true);
+            // The form is taller than the panel: start at its first field, not its button.
+            stickRef.current = false;
+            window.requestAnimationFrame(() => {
+              const first = document.getElementById("chat-enquiry-name");
+              first?.closest("form")?.scrollIntoView({ block: "start" });
+              first?.focus({ preventScroll: true });
+            });
+          }}
+        >
+          Send an enquiry
+        </button>
+        <a className={styles.starter} href={`mailto:${CONTACT_EMAIL}`}>
+          Email us
+        </a>
+        {CONTACT_PHONE ? (
+          <a className={styles.starter} href={`tel:${CONTACT_PHONE.replace(/\s+/g, "")}`}>
+            Call us
+          </a>
+        ) : null}
+      </div>
 
       <div
         ref={listRef}
@@ -361,7 +398,10 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
                 <button
                   type="button"
                   className={styles.enquiryOffer}
-                  onClick={() => setEnquiryAt(index)}
+                  onClick={() => {
+                    setContactOpen(false);
+                    setEnquiryAt(index);
+                  }}
                 >
                   Talk to the team
                   <Icon name="arrow-right" size="sm" />
@@ -378,6 +418,7 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
               ) : null}
             </div>
           ))}
+          {contactOpen ? <ChatEnquiryCard summary="" withMessage /> : null}
         </div>
       </div>
 

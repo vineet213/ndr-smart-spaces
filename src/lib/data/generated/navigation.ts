@@ -1,8 +1,8 @@
 export const navigation = {
   headerCta: {
     enquiry: {
-      href: "/contact#business-enquiry",
-      label: "Business Enquiry",
+      href: "/contact",
+      label: "Contact us",
     },
   },
   mobileMenuFooter: {
@@ -111,11 +111,6 @@ export const navigation = {
       label: "Media & Newsroom",
       type: "link",
     },
-    {
-      href: "/contact",
-      label: "Contact",
-      type: "link",
-    },
   ],
   navItems: [
     {
@@ -216,11 +211,6 @@ export const navigation = {
     {
       href: "/media",
       label: "Media & Newsroom",
-      type: "link",
-    },
-    {
-      href: "/contact",
-      label: "Contact",
       type: "link",
     },
   ],

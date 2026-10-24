@@ -9,26 +9,28 @@
 /* guarantee that this rule's `display: none` wins the cascade over that    */
 /* one (both are single-class selectors — whichever chunk loads last wins). */
 /* A dedicated wrapper element sidesteps the collision entirely.            */
-.enquiryWrap {
+.contactWrap {
   display: none;
   flex-shrink: 0;
 }
 
 @media (min-width: 768px) {
-  .enquiryWrap {
+  .contactWrap {
     display: inline-flex;
   }
 }
 
-.enquiryButton {
+/* An outlined pill, lighter than a filled block, so the bar can breathe. */
+.contactButton {
+  border-radius: 999px;
   transition:
     height var(--duration-standard) var(--ease-standard),
     padding var(--duration-standard) var(--ease-standard),
-    border-radius var(--duration-standard) var(--ease-standard);
+    background-color var(--duration-standard) var(--ease-standard),
+    border-color var(--duration-standard) var(--ease-standard);
 }
 
-.enquiryButtonScrolled {
+.contactButtonScrolled {
   height: var(--space-5xl);
   padding-inline: var(--space-2xl);
-  border-radius: 999px;
 }
