@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { ShutterHero } from "@/components/sections/ShutterHero";
-import { WhyBays } from "@/components/sections/WhyBays";
-import { WhyParkAnatomy } from "@/components/sections/WhyParkAnatomy";
-import { Waybill } from "@/components/sections/Waybill";
 import { Footer } from "@/components/sections/Footer";
+import { PageMasthead } from "@/components/sections/PageMasthead";
+import { WhyNdrOverview } from "@/components/sections/WhyNdrOverview";
+import { whyMasthead } from "@/lib/data/whyNdrPage";
 
 export const metadata: Metadata = {
   title: "Why NDR",
@@ -14,10 +13,8 @@ export const metadata: Metadata = {
 export default function WhyNdrPage() {
   return (
     <>
-      <ShutterHero />
-      <WhyBays />
-      <WhyParkAnatomy />
-      <Waybill />
+      <PageMasthead id="why-masthead-title" title={whyMasthead.title} subtext={whyMasthead.statement} />
+      <WhyNdrOverview />
       <Footer />
     </>
   );

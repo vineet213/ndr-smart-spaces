@@ -1,38 +1,7 @@
-/* hero: the page title set big, nothing else competing --------------------- */
-
-.hero {
-  padding-block: var(--space-10xl) var(--space-7xl);
-  background-color: var(--color-ivory);
-}
-
-.heroInner {
-  display: grid;
-  grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
-  align-items: end;
-  gap: var(--space-6xl);
-}
-
-.title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: var(--font-weight-display-light);
-  font-size: clamp(3rem, 8vw, 8rem);
-  line-height: 0.92;
-  letter-spacing: -0.045em;
-  color: var(--color-charcoal);
-}
-
-.lede {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: var(--font-lede);
-  line-height: var(--leading-lede);
-  color: var(--color-text-secondary);
-}
-
 /* the board ----------------------------------------------------------------- */
 
 .section {
+  padding-top: var(--space-7xl);
   padding-bottom: var(--section-padding-tablet);
   background-color: var(--color-ivory);
 }
@@ -292,7 +261,6 @@
 }
 
 @media (max-width: 1023px) {
-  .heroInner,
   .invite {
     grid-template-columns: 1fr;
   }
@@ -315,11 +283,8 @@
 }
 
 @media (max-width: 767px) {
-  .hero {
-    padding-block: var(--space-7xl) var(--space-5xl);
-  }
-
   .section {
+    padding-top: var(--space-5xl);
     padding-bottom: var(--section-padding-mobile);
   }
 

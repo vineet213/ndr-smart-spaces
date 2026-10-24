@@ -15,6 +15,12 @@ export const hrEmail = hrDesk?.email.label ?? "hrms@ndrsmart.com";
 
 /* corporate culture --------------------------------------------------------- */
 
+export const cultureMasthead = {
+  title: { before: "Corporate ", accent: "Culture" },
+  statement:
+    "Life and work at NDR Smart Spaces: the people behind 46 logistics parks, how we hire and grow teams, and how we learn on live projects.",
+};
+
 export const cultureHero = {
   /* Each line stacks into place like a pallet on load. */
   title: ["People", "are the", "foundation."],
@@ -130,7 +136,7 @@ export const cultureClosing = {
 /* careers & opportunities --------------------------------------------------- */
 
 export const careersHero = {
-  title: "Careers & Opportunities",
+  title: { before: "Careers & ", accent: "Opportunities" },
   lede: "Roles across development, park operations and the corporate office, building and running logistics infrastructure across India.",
 };
 

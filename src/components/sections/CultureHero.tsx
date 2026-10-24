@@ -15,7 +15,7 @@ export function CultureHero() {
   return (
     <section className={styles.hero} id="overview" aria-labelledby="culture-title">
       <div className={styles.copy}>
-        <h1 id="culture-title" className={styles.title}>
+        <h2 id="culture-title" className={styles.title}>
           {title.map((line, index) => (
             <span
               key={line}
@@ -27,7 +27,7 @@ export function CultureHero() {
             </span>
           ))}
           <span className={styles.slab} aria-hidden="true" />
-        </h1>
+        </h2>
 
         <p className={styles.lead}>{lead}</p>
         {body.map((paragraph) => (
