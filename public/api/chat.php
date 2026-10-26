@@ -314,12 +314,16 @@ function streamFrom(string $url, array $headers, array $body, callable $extract,
         $payload = json_encode($body, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
         $stream = @fopen($url, 'rb', false, stream_context_create(['http' => [
             'method' => 'POST',
-            'header' => implode("\r\n", array_merge(['Content-Type: application/json'], $headers)),
+            'header' => implode("\r\n", array_merge(['Content-Type: application/json', 'Connection: close'], $headers)),
             'content' => $payload,
-            'timeout' => 5,
+            // HTTP/1.1 so the reply is streamed (chunked); the 1.0 default makes servers send it whole.
+            'protocol_version' => 1.1,
+            // Also how long to wait for the reply to start (curl's progress check does that above).
+            'timeout' => $patience,
             'ignore_errors' => true,
         ]]));
         if ($stream === false) {
+            error_log('chat: could not open ' . parse_url($url, PHP_URL_HOST) . ' after ' . round(microtime(true) - $started, 1) . 's');
             return false;
         }
         foreach ($http_response_header ?? [] as $line) {
@@ -343,6 +347,9 @@ function streamFrom(string $url, array $headers, array $body, callable $extract,
             }
         }
         fclose($stream);
+        if (!$sent) {
+            error_log('chat: ' . parse_url($url, PHP_URL_HOST) . " gave no answer (HTTP {$status}) after " . round(microtime(true) - $started, 1) . 's');
+        }
         return $sent;
     }
     $curl = curl_init($url);
