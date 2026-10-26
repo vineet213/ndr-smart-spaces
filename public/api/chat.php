@@ -57,6 +57,9 @@ if (!function_exists('mb_str_split')) {
     }
 }
 
+header('Cache-Control: no-store');
+header('X-Content-Type-Options: nosniff');
+
 function respond(int $status, array $body): void
 {
     http_response_code($status);
