@@ -128,7 +128,9 @@ $now = time();
 $window = (int) ($chat['rate_limit_window'] ?? 600);
 $hits = array_filter(
     is_file($bucket) ? (json_decode((string) file_get_contents($bucket), true) ?: []) : [],
-    static fn ($at) => is_int($at) && $at > $now - $window
+    static function ($at) use ($now, $window) {
+        return is_int($at) && $at > $now - $window;
+    }
 );
 if (count($hits) >= (int) ($chat['rate_limit_max'] ?? 30)) {
     respond(429, ['error' => 'rate_limited']);
@@ -178,15 +180,21 @@ function knowledgeChunks(string $file): array
 /** Up to $budget characters of knowledge, best-matching sections first, then put back in site order. */
 function selectKnowledge(array $chunks, array $messages, int $budget): string
 {
-    $recent = array_filter($messages, static fn ($m) => $m['role'] === 'user');
+    $recent = array_filter($messages, static function ($m) {
+        return $m['role'] === 'user';
+    });
     $query = mb_strtolower(implode(' ', array_slice(array_column($recent, 'text'), -2)));
     $stop = array_flip(['the', 'and', 'for', 'you', 'your', 'are', 'what', 'which', 'with', 'have', 'has', 'how', 'can', 'does', 'any', 'about', 'tell', 'there', 'this', 'that', 'from', 'who', 'where', 'when', 'ndr', 'please', 'want', 'need', 'know', 'give', 'its']);
     $words = array_filter(
         array_unique(preg_split('/[^\p{L}\p{N}]+/u', $query) ?: []),
-        static fn ($w) => mb_strlen($w) > 2 && !isset($stop[$w])
+        static function ($w) use ($stop) {
+            return mb_strlen($w) > 2 && !isset($stop[$w]);
+        }
     );
 
-    $total = array_sum(array_map(static fn ($c) => strlen($c['text']) + strlen($c['label']) + 4, $chunks));
+    $total = array_sum(array_map(static function ($c) {
+        return strlen($c['text']) + strlen($c['label']) + 4;
+    }, $chunks));
     $scores = [];
     foreach ($chunks as $i => $chunk) {
         $haystack = mb_strtolower($chunk['label'] . ' ' . $chunk['text']);
@@ -219,7 +227,9 @@ function selectKnowledge(array $chunks, array $messages, int $budget): string
         $used += $size;
     }
     sort($chosen);
-    return implode("\n\n", array_map(static fn ($i) => "From {$chunks[$i]['label']}:\n{$chunks[$i]['text']}", $chosen));
+    return implode("\n\n", array_map(static function ($i) use ($chunks) {
+        return "From {$chunks[$i]['label']}:\n{$chunks[$i]['text']}";
+    }, $chosen));
 }
 
 $chunks = knowledgeChunks(__DIR__ . '/chat-knowledge.md');
@@ -292,6 +302,42 @@ function streamFrom(string $url, array $headers, array $body, callable $extract,
             $sent = true;
         }
     };
+    if (!function_exists('curl_init')) {
+        // Hosts without the curl extension: the same request over PHP's own HTTPS stream.
+        $payload = json_encode($body, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
+        $stream = @fopen($url, 'rb', false, stream_context_create(['http' => [
+            'method' => 'POST',
+            'header' => implode("\r\n", array_merge(['Content-Type: application/json'], $headers)),
+            'content' => $payload,
+            'timeout' => 5,
+            'ignore_errors' => true,
+        ]]));
+        if ($stream === false) {
+            return false;
+        }
+        foreach ($http_response_header ?? [] as $line) {
+            if (preg_match('#^HTTP/\S+ (\d{3})#', $line, $m)) {
+                $status = (int) $m[1];
+            }
+        }
+        if ($status === 200) {
+            stream_set_timeout($stream, 1);
+            while (!feof($stream) && !connection_aborted()) {
+                $line = fgets($stream);
+                if ($line === false) {
+                    // Read timed out: give up on a silent model, or on a stream that stalls for good.
+                    $waited = microtime(true) - $started;
+                    if ($waited > 60 || (!$sent && $waited > $patience)) {
+                        break;
+                    }
+                    continue;
+                }
+                $handleLine(rtrim($line, "\r\n"));
+            }
+        }
+        fclose($stream);
+        return $sent;
+    }
     $curl = curl_init($url);
     curl_setopt_array($curl, [
         CURLOPT_POST => true,
@@ -355,13 +401,16 @@ foreach (empty($chat['gemini_key']) ? [] : modelList($chat['gemini_model'] ?? nu
             ['x-goog-api-key: ' . $chat['gemini_key']],
             [
                 'systemInstruction' => ['parts' => [['text' => systemPrompt(selectKnowledge($chunks, $messages, 60000))]]],
-                'contents' => array_map(static fn ($m) => ['role' => $m['role'], 'parts' => [['text' => $m['text']]]], $messages),
+                'contents' => array_map(static function ($m) {
+                    return ['role' => $m['role'], 'parts' => [['text' => $m['text']]]];
+                }, $messages),
                 'generationConfig' => $generation,
             ],
-            static fn (array $p) => implode('', array_map(
-                static fn ($part) => empty($part['thought']) ? (string) ($part['text'] ?? '') : '',
-                $p['candidates'][0]['content']['parts'] ?? []
-            )),
+            static function (array $p) {
+                return implode('', array_map(static function ($part) {
+                    return empty($part['thought']) ? (string) ($part['text'] ?? '') : '';
+                }, $p['candidates'][0]['content']['parts'] ?? []));
+            },
             8
         );
     };
@@ -382,10 +431,14 @@ foreach (empty($chat['groq_key']) ? [] : modelList($chat['groq_model'] ?? null, 
             ] + (strpos($model, 'gpt-oss') !== false ? ['reasoning_effort' => 'low'] : []) + [
                 'messages' => array_merge(
                     [['role' => 'system', 'content' => systemPrompt(selectKnowledge($chunks, $messages, 14000))]],
-                    array_map(static fn ($m) => ['role' => $m['role'] === 'model' ? 'assistant' : 'user', 'content' => $m['text']], $messages)
+                    array_map(static function ($m) {
+                        return ['role' => $m['role'] === 'model' ? 'assistant' : 'user', 'content' => $m['text']];
+                    }, $messages)
                 ),
             ],
-            static fn (array $p) => (string) ($p['choices'][0]['delta']['content'] ?? ''),
+            static function (array $p) {
+                return (string) ($p['choices'][0]['delta']['content'] ?? '');
+            },
             15
         );
     };
