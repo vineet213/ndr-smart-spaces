@@ -269,7 +269,7 @@ PROMPT;
 while (ob_get_level() > 0) {
     ob_end_flush();
 }
-ob_implicit_flush(true);
+ob_implicit_flush(1);
 ignore_user_abort(false);
 set_time_limit(90);
 
