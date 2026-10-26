@@ -17,6 +17,39 @@
 
 declare(strict_types=1);
 
+/*
+ * Some hosts run PHP without the mbstring extension. These stand-ins cover the
+ * few mb_* functions used below (UTF-8 aware, except lower-casing, which is
+ * ASCII-only) and are skipped when the real extension is present.
+ */
+if (!function_exists('mb_substr')) {
+    function mb_chars(string $s): array
+    {
+        $chars = preg_split('//u', $s, -1, PREG_SPLIT_NO_EMPTY);
+        return $chars === false ? str_split($s) : $chars;
+    }
+
+    function mb_substr(string $s, int $start, ?int $length = null): string
+    {
+        return implode('', array_slice(mb_chars($s), $start, $length));
+    }
+
+    function mb_strlen(string $s): int
+    {
+        return count(mb_chars($s));
+    }
+
+    function mb_strtolower(string $s): string
+    {
+        return strtolower($s);
+    }
+
+    function mb_str_split(string $s, int $length = 1): array
+    {
+        return array_map('implode', array_chunk(mb_chars($s), max(1, $length)));
+    }
+}
+
 header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
 
