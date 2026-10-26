@@ -6,10 +6,11 @@
   "scripts": {
     "images": "node scripts/build-images.mjs",
     "predev": "node scripts/build-images.mjs",
-    "dev": "next dev",
+    "dev": "node scripts/dev.mjs",
+    "dev:next-only": "next dev",
     "prebuild": "node scripts/build-images.mjs",
     "build": "next build",
-    "postbuild": "node scripts/flatten-segment-prefetch.mjs",
+    "postbuild": "node scripts/flatten-segment-prefetch.mjs && node scripts/build-chat-knowledge.mjs",
     "start": "node scripts/serve-static.mjs",
     "package": "npm run build && python scripts/package-for-cpanel.py",
     "contact:mock": "node scripts/contact-mock.mjs",

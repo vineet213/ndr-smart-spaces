@@ -51,7 +51,8 @@ async function submitToWeb3Forms(data: FormData): Promise<EnquiryResult> {
   const name = field(data, "name");
   const company = field(data, "company");
   const enquiryType = field(data, "enquiryType");
-  const source = field(data, "form") === "contact" ? "Contact page" : "Homepage";
+  const form = field(data, "form");
+  const source = form === "contact" ? "Contact page" : form === "chat" ? "Website chat" : "Homepage";
 
   const payload = {
     access_key: WEB3FORMS_KEY,

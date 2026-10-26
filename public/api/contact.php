@@ -72,7 +72,7 @@ if (count($hits) >= (int) $config['rate_limit_max']) {
 
 /* --- fields --------------------------------------------------------------- */
 
-$form = line('form', 40) === 'contact' ? 'contact' : 'homepage';
+$form = in_array(line('form', 40), ['contact', 'chat'], true) ? line('form', 40) : 'homepage';
 $name = line('name', 120);
 $email = line('email', 200);
 $company = line('company', 160);
@@ -118,7 +118,7 @@ if (!empty($config['turnstile_secret'])) {
 $recipients = $config['recipients'][$form] ?? $config['recipients']['default'];
 $subjectType = $enquiryType !== '' ? $enquiryType : 'General';
 $subject = "Website enquiry: {$subjectType} ({$name}, {$company})";
-$source = $form === 'contact' ? 'Contact page' : 'Homepage';
+$source = ['contact' => 'Contact page', 'chat' => 'Website chat'][$form] ?? 'Homepage';
 
 $body = implode("\n", array_filter([
     "New enquiry from the {$config['site_name']} website ({$source}).",

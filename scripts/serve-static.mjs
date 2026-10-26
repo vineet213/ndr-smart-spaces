@@ -12,6 +12,7 @@
 import { createServer } from "node:http";
 import { promises as fs } from "node:fs";
 import { join, normalize, resolve, sep } from "node:path";
+import { handleChat } from "./chat-mock.mjs";
 import { handleContact } from "./contact-mock.mjs";
 
 const ROOT = process.cwd();
@@ -52,8 +53,9 @@ const server = createServer(async (req, res) => {
     const pathname = decodeURIComponent(
       new URL(req.url ?? "/", `http://${req.headers.host ?? "localhost"}`).pathname,
     );
-    // On the real host Apache runs api/contact.php; locally the mock stands in for it.
+    // On the real host Apache runs api/contact.php and api/chat.php; locally the mocks stand in.
     if (pathname === "/api/contact.php" && req.method !== "GET") return handleContact(req, res);
+    if (pathname === "/api/chat.php" && req.method !== "GET") return handleChat(req, res);
     const relative = normalize(pathname).replace(/^([/\\]|\.\.)+/, "");
     let target = await fileIfExists(resolve(OUT_DIR, relative));
     if (!target && !pathname.endsWith("/")) {
@@ -77,6 +79,7 @@ const server = createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, () => {
+// This computer only: the chat stand-in behind it can spend the real AI keys.
+server.listen(PORT, "127.0.0.1", () => {
   console.log(`Serving ${OUT_DIR} on http://localhost:${PORT}`);
 });

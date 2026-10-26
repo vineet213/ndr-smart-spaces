@@ -9,12 +9,14 @@
  *
  *   npm start            → serve-static.mjs routes POST /api/contact.php here
  *   npm run contact:mock → standalone on http://localhost:3200 for `next dev`
+ *                          (also serves the chatbot stand-in, see chat-mock.mjs)
  */
 
 import { createServer } from "node:http";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
+import { LOCAL_ORIGIN, handleChat } from "./chat-mock.mjs";
 
 const ROOT = process.cwd();
 const OUTBOX = join(ROOT, ".contact-outbox");
@@ -44,11 +46,12 @@ const line = (data, key, max) =>
     .replace(/[\r\n]+/g, " ")
     .slice(0, max);
 
+/** `cors` is the allowed (local) page origin, or false for same-origin requests. */
 function send(res, status, body, cors) {
   res.writeHead(status, {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
-    ...(cors ? { "Access-Control-Allow-Origin": "*" } : {}),
+    ...(cors ? { "Access-Control-Allow-Origin": cors, Vary: "Origin" } : {}),
   });
   res.end(JSON.stringify(body));
 }
@@ -64,7 +67,8 @@ function writeOutbox(kind, message) {
 export async function handleContact(req, res, { cors = false } = {}) {
   if (req.method === "OPTIONS" && cors) {
     res.writeHead(204, {
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": cors,
+      Vary: "Origin",
       "Access-Control-Allow-Methods": "POST",
       "Access-Control-Allow-Headers": "Content-Type",
     });
@@ -93,7 +97,9 @@ export async function handleContact(req, res, { cors = false } = {}) {
   const hits = (hitsByIp.get(ip) ?? []).filter((at) => at > Date.now() - RATE_WINDOW_MS);
   if (hits.length >= RATE_MAX) return send(res, 429, { ok: false, error: "rate_limited" }, cors);
 
-  const form = line(data, "form", 40) === "contact" ? "contact" : "homepage";
+  const form = ["contact", "chat"].includes(line(data, "form", 40))
+    ? line(data, "form", 40)
+    : "homepage";
   const fields = {
     name: line(data, "name", 120),
     email: line(data, "email", 200),
@@ -101,7 +107,9 @@ export async function handleContact(req, res, { cors = false } = {}) {
     phone: line(data, "phone", 40),
     enquiryType: line(data, "enquiryType", 120),
   };
-  const message = String(data.get("message") ?? "").trim().slice(0, 5000);
+  const message = String(data.get("message") ?? "")
+    .trim()
+    .slice(0, 5000);
   const invalid =
     !fields.name ||
     !fields.company ||
@@ -119,7 +127,7 @@ export async function handleContact(req, res, { cors = false } = {}) {
     from: fromEmail,
     replyTo: `${fields.name} <${fields.email}>`,
     subject: `Website enquiry: ${fields.enquiryType || "General"} (${fields.name}, ${fields.company})`,
-    source: form === "contact" ? "Contact page" : "Homepage",
+    source: { contact: "Contact page", chat: "Website chat" }[form] ?? "Homepage",
     fields,
     message,
   });
@@ -136,14 +144,30 @@ export async function handleContact(req, res, { cors = false } = {}) {
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   const port = Number(process.env.CONTACT_MOCK_PORT ?? "3200");
   createServer((req, res) => {
-    if (new URL(req.url ?? "/", "http://local").pathname !== "/api/contact.php") {
-      return send(res, 404, { ok: false, error: "not_found" }, true);
+    // The chat stand-in spends the real AI keys from config.php: only pages on
+    // this computer may use it, and it listens on this computer only (below).
+    const origin = req.headers.origin ?? "";
+    if (origin && !LOCAL_ORIGIN.test(origin)) {
+      return send(res, 403, { ok: false, error: "origin" }, false);
     }
-    handleContact(req, res, { cors: true }).catch((error) => {
+    const cors = origin || false;
+    const pathname = new URL(req.url ?? "/", "http://local").pathname;
+    if (pathname === "/api/chat.php") {
+      return handleChat(req, res, { cors }).catch((error) => {
+        console.error(error);
+        res.end();
+      });
+    }
+    if (pathname !== "/api/contact.php") {
+      return send(res, 404, { ok: false, error: "not_found" }, cors);
+    }
+    handleContact(req, res, { cors }).catch((error) => {
       console.error(error);
-      send(res, 500, { ok: false, error: "unknown" }, true);
+      send(res, 500, { ok: false, error: "unknown" }, cors);
     });
-  }).listen(port, () => {
-    console.log(`contact-mock on http://localhost:${port}/api/contact.php (outbox: .contact-outbox/)`);
+  }).listen(port, "127.0.0.1", () => {
+    console.log(
+      `contact-mock on http://localhost:${port}/api/contact.php (outbox: .contact-outbox/)`,
+    );
   });
 }

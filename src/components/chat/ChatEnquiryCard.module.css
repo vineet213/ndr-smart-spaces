@@ -1,0 +1,161 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background-color: rgba(240, 182, 90, 0.06);
+  border: 1px solid var(--color-gold-40);
+  border-radius: var(--radius-md);
+  font-size: var(--font-small);
+}
+
+.intro {
+  color: var(--color-ivory);
+  line-height: 1.5;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.label {
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+.input {
+  width: 100%;
+  padding-block: var(--space-xs);
+  color: var(--color-ivory);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--color-hairline-dark);
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.input:focus {
+  outline: none;
+  border-bottom-color: var(--color-gold-light);
+}
+
+.select {
+  appearance: none;
+  padding-inline-end: var(--space-2xl);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f0b65a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 1rem;
+  cursor: pointer;
+}
+
+.select option {
+  color: var(--color-charcoal);
+  background-color: var(--color-ivory);
+}
+
+.error {
+  font-size: var(--font-meta);
+  color: var(--color-gold-light);
+}
+
+.submit {
+  align-self: flex-start;
+  min-height: 2.75rem;
+  padding: 0 var(--space-xl);
+  color: var(--color-maroon-dark);
+  background-color: var(--color-gold);
+  border: 0;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-weight: var(--font-weight-body-medium);
+  font-size: var(--font-button);
+  letter-spacing: var(--tracking-button);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.submit:focus-visible,
+.input:focus-visible,
+.checkbox:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 2px;
+}
+
+.formError {
+  color: var(--color-ivory);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.formError a {
+  color: var(--color-gold-light);
+  text-decoration: underline;
+}
+
+.sent {
+  padding: var(--space-md) var(--space-lg);
+  color: var(--color-ivory);
+  background-color: rgba(240, 182, 90, 0.08);
+  border: 1px solid var(--color-gold-40);
+  border-radius: var(--radius-md);
+  font-size: var(--font-small);
+  line-height: 1.5;
+}
+
+/* Spam check and consent (FormSafeguards). */
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.consentField {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--space-sm);
+  row-gap: var(--space-2xs);
+  align-items: start;
+}
+
+.checkbox {
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 0.15rem;
+  accent-color: var(--color-gold);
+  cursor: pointer;
+}
+
+.consentLabel {
+  font-size: var(--font-meta);
+  line-height: 1.5;
+  color: var(--color-text-inverse-75);
+  cursor: pointer;
+}
+
+.consentLink {
+  color: var(--color-gold-light);
+  text-decoration: underline;
+}
+
+.consentField .error {
+  grid-column: 2;
+}
+
+.captcha {
+  min-height: 65px;
+}

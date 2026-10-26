@@ -33,4 +33,24 @@ return [
 
     // Submissions faster than this after the form appeared are treated as bots.
     'min_fill_ms' => 3000,
+
+    // Website chatbot (chat.php). Both keys are free, no card needed:
+    //   Gemini: https://aistudio.google.com/apikey   Groq: https://console.groq.com/keys
+    // Gemini answers; Groq takes over if Gemini fails or hits its daily cap. Either
+    // key alone also works. 'enabled' => false hides nothing but makes the bot reply
+    // that it is unavailable (with a link to the contact page).
+    'chat' => [
+        'enabled' => true,
+        'gemini_key' => '',
+        'gemini_model' => 'gemini-3.5-flash, gemini-flash-lite-latest',
+        'groq_key' => '',
+        'groq_model' => 'openai/gpt-oss-120b',
+        // At most rate_limit_max messages per IP per rate_limit_window seconds.
+        'rate_limit_max' => 30,
+        'rate_limit_window' => 600,
+        // Messages per day for the whole site (UTC day), to protect the free quota.
+        'daily_max' => 1000,
+        'max_turns' => 12,
+        'max_message_chars' => 1000,
+    ],
 ];
