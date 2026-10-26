@@ -398,12 +398,14 @@ function modelList($setting, string $default): array
     return array_values(array_filter(array_map('trim', explode(',', (string) ($setting ?? $default)))));
 }
 
-// Order: each Gemini model, then each Groq model. Google's free models are
-// sometimes "busy" for a while, so a second Gemini model is worth a try before
-// Groq, whose free tier allows far fewer tokens per minute.
-$providers = [];
+// Groq's models start answering in about a second, Gemini's free ones can take 10 s
+// from some servers, so Groq goes first by default and Gemini is the backup
+// ('first_provider' => 'gemini' in config.php flips that). Within a service the
+// models are tried in the order listed.
+$gemini = [];
+$groq = [];
 foreach (empty($chat['gemini_key']) ? [] : modelList($chat['gemini_model'] ?? null, 'gemini-3.5-flash, gemini-flash-lite-latest') as $model) {
-    $providers[] = static function () use ($chat, $messages, $chunks, $model): bool {
+    $gemini[] = static function () use ($chat, $messages, $chunks, $model): bool {
         // Thinking makes the first word arrive seconds later and adds nothing to look-ups like these;
         // it also counts against maxOutputTokens, so a long think can cut the answer short.
         // 2.5 models take a budget; 3.x and the "-latest" aliases (which now point at 3.x) take a level.
@@ -430,7 +432,7 @@ foreach (empty($chat['gemini_key']) ? [] : modelList($chat['gemini_model'] ?? nu
     };
 }
 foreach (empty($chat['groq_key']) ? [] : modelList($chat['groq_model'] ?? null, 'openai/gpt-oss-120b') as $model) {
-    $providers[] = static function () use ($chat, $messages, $chunks, $model): bool {
+    $groq[] = static function () use ($chat, $messages, $chunks, $model): bool {
         // Groq's free tier allows far fewer tokens per minute, so it gets less context.
         return streamFrom(
             'https://api.groq.com/openai/v1/chat/completions',
@@ -458,6 +460,7 @@ foreach (empty($chat['groq_key']) ? [] : modelList($chat['groq_model'] ?? null, 
     };
 }
 
+$providers = ($chat['first_provider'] ?? 'groq') === 'gemini' ? array_merge($gemini, $groq) : array_merge($groq, $gemini);
 foreach ($providers as $provider) {
     if ($provider()) {
         send(['done' => true]);
