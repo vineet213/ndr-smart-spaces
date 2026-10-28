@@ -51,7 +51,7 @@ type PortfolioMapProps = {
   onCloseCallout: () => void;
   onSelectState: (stateId: string | null) => void;
   onSelectCity: (city: string | null) => void;
-  onSelectParcel: (id: string) => void;
+  onSelectParcel: (id: string | null) => void;
   onHoverParcel: (id: string | null) => void;
   onHoverState: (stateId: string | null) => void;
   onBackground: () => void;
@@ -250,8 +250,18 @@ export default function PortfolioMap({
   const [alwaysNames, setAlwaysNames] = useState(false);
   const namesTimer = useRef<number | undefined>(undefined);
   const atHome = useRef(true);
-  /** The zoom a state or city was framed at; zooming well past it steps up one level. */
-  const fitRef = useRef<{ armed: boolean; zoom: number | null }>({ armed: false, zoom: null });
+  /**
+   * The zoom each open level (state, city, warehouse) was framed at. Zooming out
+   * well past them steps up to whichever level the new zoom belongs to.
+   */
+  const fitRef = useRef<{
+    pending: boolean;
+    /** The visitor moved the camera (wheel, pinch, drag, zoom button) since the last landing. */
+    user: boolean;
+    state: number | null;
+    city: number | null;
+    parcel: number | null;
+  }>({ pending: false, user: false, state: null, city: null, parcel: null });
 
   const handlerSet = {
     onSelectState,
@@ -381,12 +391,12 @@ export default function PortfolioMap({
   const frameRef = useRef(frame);
   const paddingRef = useRef(padding);
   const safeRef = useRef(safeRect);
-  const liveRef = useRef({ cityId, stateId });
+  const liveRef = useRef({ cityId, stateId, parcelId });
   useEffect(() => {
     frameRef.current = frame;
     paddingRef.current = padding;
     safeRef.current = safeRect;
-    liveRef.current = { cityId, stateId };
+    liveRef.current = { cityId, stateId, parcelId };
   });
 
   /**
@@ -398,7 +408,8 @@ export default function PortfolioMap({
   const settle = (map: maplibregl.Map, next: Frame, duration: number) => {
     const pad = paddingRef.current();
     atHome.current = next.kind === "bounds" && next.bounds === INDIA_BOUNDS;
-    fitRef.current = { armed: next.kind === "bounds", zoom: null };
+    fitRef.current.pending = true;
+    fitRef.current.user = false;
     if (next.kind === "point") {
       const options = {
         center: next.center,
@@ -721,22 +732,44 @@ export default function PortfolioMap({
       map.on("moveend", (event) => {
         if (liveRef.current.cityId) revealRef.current();
         const fit = fitRef.current;
-        if (!fit.armed) return;
-        const user = (event as { originalEvent?: unknown }).originalEvent !== undefined;
-        if (fit.zoom === null) {
+        /* a scroll zoom's moveend carries no originalEvent, so gestures are also flagged as they start */
+        const user =
+          fit.user || (event as { originalEvent?: unknown }).originalEvent !== undefined;
+        fit.user = false;
+        const { parcelId, cityId, stateId } = liveRef.current;
+        if (fit.pending && !user) {
           /* the first landing after a programmatic fit records the level's own zoom */
-          if (!user) fit.zoom = map.getZoom();
+          fit.pending = false;
+          const zoom = map.getZoom();
+          if (parcelId) fit.parcel = zoom;
+          else if (cityId) fit.city = zoom;
+          else if (stateId) fit.state = zoom;
           return;
         }
-        if (!user) return;
-        const { cityId, stateId } = liveRef.current;
-        if (cityId && map.getZoom() < fit.zoom - 1.2) {
-          fit.armed = false;
-          handlers.current.onSelectCity(null);
-        } else if (!cityId && stateId && map.getZoom() < fit.zoom - 0.9) {
-          fit.armed = false;
-          handlers.current.onSelectState(null);
+        /* a gesture that cut a flight short is judged against the zooms already recorded */
+        fit.pending = false;
+        if (!user || !stateId) return;
+        /* each level holds until the zoom drops this far below its framing */
+        const zoom = map.getZoom();
+        const holds = (framed: number | null, slack: number) =>
+          framed !== null && zoom >= framed - slack;
+        if (parcelId && holds(fit.parcel, 1.2)) return;
+        if (cityId && holds(fit.city, 1.2)) {
+          if (parcelId) {
+            fit.pending = true;
+            handlers.current.onSelectParcel(null);
+          }
+          return;
         }
+        if (holds(fit.state, 0.9)) {
+          if (cityId) {
+            fit.pending = true;
+            handlers.current.onSelectCity(null);
+          }
+          return;
+        }
+        fit.pending = true;
+        handlers.current.onSelectState(null);
       });
 
       /* correct first framing: the container may have been laid out after creation */
@@ -753,6 +786,13 @@ export default function PortfolioMap({
       setReady(true);
       handlers.current.onReady();
     });
+
+    const userMoved = () => {
+      fitRef.current.user = true;
+    };
+    map.on("wheel", userMoved);
+    map.on("touchstart", userMoved);
+    map.on("dragstart", userMoved);
 
     /* the country view stays centred in the free area when the container changes size */
     map.on("dragstart", () => {
@@ -953,7 +993,11 @@ export default function PortfolioMap({
         <button
           type="button"
           aria-label="Zoom out"
-          onClick={() => mapRef.current?.zoomOut({ duration: 350 })}
+          onClick={() => {
+            /* the visitor's own zoom, so zooming out can step up a level */
+            fitRef.current.user = true;
+            mapRef.current?.zoomOut({ duration: 350 });
+          }}
         >
           –
         </button>
