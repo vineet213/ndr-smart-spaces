@@ -41,7 +41,7 @@ export default function AssetPerformanceManagementPage() {
                 <li key={fn.index} className={styles.functionCell} tabIndex={0}>
                   <FadeImage
                     src={fn.image.src}
-                    alt=""
+                    alt={fn.title}
                     fill
                     sizes="(max-width: 767px) 100vw, 50vw"
                     className={styles.functionImage}
