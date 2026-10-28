@@ -32,16 +32,6 @@
 # File types Apache doesn't know by default. Without the .mjs one the browser
 # refuses the map's module scripts ("non-JavaScript MIME type") and the
 # portfolio map never loads.
-# PHP version for api/chat.php. WHM's MultiPHP Manager keeps this setting in this
-# file, and every deploy replaces the file, so the site fell back to the server's
-# PHP 7.2 even though WHM showed 8.2. Keep in step with MultiPHP Manager.
-# php -- BEGIN cPanel-generated handler, do not edit
-# Set the "ea-php82" package as the default "PHP" programming language.
-<IfModule mime_module>
-  AddHandler application/x-httpd-ea-php82 .php .php8 .phtml
-</IfModule>
-# php -- END cPanel-generated handler, do not edit
-
 AddType text/javascript .mjs
 AddType application/manifest+json .webmanifest
 
