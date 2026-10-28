@@ -41,7 +41,7 @@
 
 .bar {
   display: flex;
-  height: 18px;
+  height: 1.125rem;
   margin-top: var(--space-2xl);
   overflow: hidden;
   transform: scaleX(0);
@@ -77,8 +77,8 @@
 }
 
 .swatch {
-  width: 10px;
-  height: 10px;
+  width: 0.625rem;
+  height: 0.625rem;
   flex-shrink: 0;
 }
 

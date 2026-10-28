@@ -130,8 +130,9 @@
 }
 
 /* Five cards stay in one row on every laptop and tablet width; only phones */
-/* stack. Below 1279px the gutters, padding and type tighten so they fit.   */
-@media (max-width: 1279px) {
+/* stack. From 1024px up the whole page scales with the screen, so only     */
+/* tablets need the gutters, padding and type tightened to fit.             */
+@media (max-width: 1023px) {
   .grid {
     column-gap: var(--space-sm);
   }

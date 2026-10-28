@@ -43,8 +43,8 @@
 }
 
 .swatch {
-  width: 10px;
-  height: 10px;
+  width: 0.625rem;
+  height: 0.625rem;
   flex-shrink: 0;
 }
 
@@ -155,8 +155,8 @@
 }
 
 .categoryDot {
-  width: 8px;
-  height: 8px;
+  width: 0.5rem;
+  height: 0.5rem;
   flex-shrink: 0;
 }
 

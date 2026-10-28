@@ -431,8 +431,8 @@
 }
 
 .chainMark {
-  width: 10px;
-  height: 10px;
+  width: 0.625rem;
+  height: 0.625rem;
   transform: rotate(45deg);
   background-color: var(--color-gold);
   margin-top: var(--space-sm);

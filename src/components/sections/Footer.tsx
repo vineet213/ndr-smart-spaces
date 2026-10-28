@@ -87,7 +87,7 @@ export function Footer({ hideWorkWithUsCta = true }: { hideWorkWithUsCta?: boole
 
         <Grid className={styles.mainGrid}>
           <GridItem span={3} className={styles.brand}>
-            <Link href="/" aria-label="NDR Smart Spaces: home">
+            <Link href="/" aria-label="NDR Smart Spaces: home" className={styles.logoLink}>
               <Image
                 src="/logos/ndr-smart-spaces-lockup.svg"
                 alt=""

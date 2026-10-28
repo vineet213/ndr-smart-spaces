@@ -93,6 +93,14 @@
   height: auto;
 }
 
+/* Desktop: the link spans the brand column, so the logo's 80% is of the column */
+/* (and grows with large screens) rather than of the SVG's natural width.       */
+@media (min-width: 1024px) {
+  .logoLink {
+    align-self: stretch;
+  }
+}
+
 .descriptor {
   font-family: var(--font-body);
   font-weight: var(--font-weight-body-regular);

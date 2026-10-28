@@ -1,8 +1,8 @@
 .slot {
   position: absolute;
-  top: 20px;
-  right: 84px;
-  left: 420px;
+  top: 1.25rem;
+  right: 5.25rem;
+  left: 26.25rem;
   z-index: 5;
   display: flex;
   justify-content: center;
@@ -20,9 +20,9 @@
 .bar {
   display: flex;
   align-items: baseline;
-  gap: 14px;
+  gap: 0.875rem;
   max-width: 100%;
-  padding: 10px 14px 10px 18px;
+  padding: 0.625rem 0.875rem 0.625rem 1.125rem;
   color: #faf7f2;
   background: linear-gradient(180deg, rgba(34, 31, 29, 0.86), rgba(20, 18, 15, 0.9));
   border: 1px solid rgba(250, 247, 242, 0.16);
@@ -50,7 +50,7 @@
 
 .eyebrow {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: var(--font-weight-body-medium);
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -68,10 +68,10 @@
 
 .figures {
   display: flex;
-  gap: 14px;
-  padding-left: 14px;
+  gap: 0.875rem;
+  padding-left: 0.875rem;
   border-left: 1px solid rgba(250, 247, 242, 0.16);
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(250, 247, 242, 0.6);
@@ -88,9 +88,9 @@
 
 .close {
   align-self: center;
-  width: 24px;
-  height: 24px;
-  font-size: 17px;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.0625rem;
   line-height: 1;
   color: rgba(250, 247, 242, 0.6);
   background: none;
@@ -111,9 +111,9 @@
 
 @media (max-width: 767px) {
   .slot {
-    top: 12px;
-    right: 64px;
-    left: 12px;
+    top: 0.75rem;
+    right: 4rem;
+    left: 0.75rem;
     justify-content: flex-start;
   }
 
@@ -121,8 +121,8 @@
   .bar {
     flex-wrap: wrap;
     align-items: center;
-    gap: 2px 10px;
-    padding: 8px 4px 8px 12px;
+    gap: 2px 0.625rem;
+    padding: 0.5rem 0.25rem 0.5rem 0.75rem;
   }
 
   .eyebrow {
@@ -144,7 +144,7 @@
     order: 3;
     flex: 1 0 100%;
     flex-wrap: wrap;
-    gap: 2px 14px;
+    gap: 2px 0.875rem;
     padding-left: 0;
     border-left: none;
     font-size: 0.75rem;

@@ -78,6 +78,16 @@ const INK = "#faf7f2";
 
 const hovered = ["boolean", ["feature-state", "hover"], false] as const;
 
+/**
+ * The page's rem relative to 16px. From 1024px up the whole layout (the panel,
+ * controls and labels included) scales with the screen, so the map's own pixel
+ * insets are designed at 1366px and multiplied by this to stay in step.
+ */
+function layoutScale(): number {
+  if (typeof window === "undefined") return 1;
+  return parseFloat(getComputedStyle(document.documentElement).fontSize) / 16 || 1;
+}
+
 function reducedMotion(): boolean {
   return (
     typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -344,7 +354,10 @@ export default function PortfolioMap({
     const wrapper = wrapperRef.current;
     const width = wrapper?.clientWidth ?? 1200;
     const height = wrapper?.clientHeight ?? 700;
-    if (width >= 768) return { top: 84, bottom: 64, left: PANEL_RESERVE + 30, right: 90 };
+    if (width >= 768) {
+      const s = layoutScale();
+      return { top: 84 * s, bottom: 64 * s, left: (PANEL_RESERVE + 30) * s, right: 90 * s };
+    }
     if (stacked) return { top: 64, bottom: 36, left: 28, right: 64 };
     return {
       top: 84,
@@ -360,8 +373,9 @@ export default function PortfolioMap({
     const w = wrapper?.clientWidth ?? 1200;
     const h = wrapper?.clientHeight ?? 700;
     if (w >= 768) {
-      const x = PANEL_RESERVE + 10;
-      return { x, y: 76, w: w - x - 84, h: h - 76 - 64 };
+      const s = layoutScale();
+      const x = (PANEL_RESERVE + 10) * s;
+      return { x, y: 76 * s, w: w - x - 84 * s, h: h - (76 + 64) * s };
     }
     if (stacked) return { x: 10, y: 64, w: w - 10 - 64, h: h - 64 - 36 };
     const bottom = sheetOpen ? Math.round(h * 0.5) + 10 : 90;

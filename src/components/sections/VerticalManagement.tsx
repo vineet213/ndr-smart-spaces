@@ -69,7 +69,7 @@ export function VerticalManagement() {
                             src={profile.photo}
                             alt={profile.name}
                             fill
-                            sizes="(max-width: 767px) 90vw, (max-width: 1023px) 45vw, (max-width: 1279px) 30vw, 18vw"
+                            sizes="(max-width: 767px) 90vw, (max-width: 1023px) 45vw, 18vw"
                             className={styles.photo}
                             style={profile.photoPosition ? { objectPosition: profile.photoPosition } : undefined}
                           />

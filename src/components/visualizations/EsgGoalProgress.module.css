@@ -41,7 +41,7 @@
 
 .track {
   position: relative;
-  height: 14px;
+  height: 0.875rem;
   margin-top: var(--space-2xl);
   background-color: var(--color-hairline-light);
 }
@@ -61,8 +61,8 @@
 
 .marker {
   position: absolute;
-  top: -3px;
-  bottom: -3px;
+  top: -0.1875rem;
+  bottom: -0.1875rem;
   left: var(--target);
   width: 2px;
   background-color: var(--color-gold);

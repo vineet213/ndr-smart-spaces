@@ -1,14 +1,21 @@
 html {
   font-family: var(--font-body);
   /* The design is laid out for a 1366px-wide screen, where 1rem is 16px. From   */
-  /* there up to 2560px the root size grows with the viewport, so every rem      */
-  /* length (type, spacing, container, header) scales together and a bigger      */
-  /* monitor shows the same composition, just larger. Below 1366px it stays at   */
-  /* 100% and the responsive layouts take over exactly as before.                */
-  font-size: clamp(100%, calc(100vw / 85.375), 187.5%);
+  /* 1024px (small laptops, landscape iPads) up to 2560px the root size follows  */
+  /* the viewport, so every rem length (type, spacing, container, header) scales */
+  /* together and each screen shows the same composition, just smaller or        */
+  /* larger. Below 1024px it stays at 100% and the tablet and phone layouts      */
+  /* take over.                                                                  */
+  font-size: 100%;
   line-height: var(--leading-body);
   color: var(--color-text-primary);
   background-color: var(--color-ivory);
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: min(calc(100vw / 85.375), 187.5%);
+  }
 }
 
 body {
