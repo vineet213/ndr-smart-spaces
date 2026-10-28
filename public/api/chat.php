@@ -269,7 +269,8 @@ PROMPT;
 while (ob_get_level() > 0) {
     ob_end_flush();
 }
-ob_implicit_flush(1);
+// PHP 7 wants an int here and PHP 8 a bool; with strict_types the wrong one is a fatal error.
+ob_implicit_flush(PHP_MAJOR_VERSION >= 8 ? true : 1);
 ignore_user_abort(false);
 set_time_limit(90);
 
