@@ -6,7 +6,6 @@ import { useDisclosure } from "@/hooks/useDisclosure";
 import { cx } from "../ui/cx";
 import { LogoWordmark } from "./LogoWordmark";
 import { MainNav } from "./MainNav";
-import { CtaArea } from "./CtaArea";
 import { MenuButton } from "./MenuButton";
 import { MobileNav } from "./MobileNav";
 import styles from "./Header.module.css";
@@ -109,7 +108,6 @@ export function Header() {
         <div className={styles.navContainer}>
           <LogoWordmark scrolled={scrolled} />
           <MainNav />
-          <CtaArea scrolled={scrolled} />
           <MenuButton open={mobileMenu.open} onToggle={mobileMenu.toggle} />
         </div>
       </div>

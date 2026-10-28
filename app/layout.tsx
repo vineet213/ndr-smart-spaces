@@ -5,6 +5,7 @@ import { Header } from "@/components/header";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import { BackToTop } from "@/components/BackToTop";
 import { ChatLauncher } from "@/components/chat/ChatLauncher";
+import { EnquireTab } from "@/components/EnquireTab";
 import { PageTransition } from "@/components/PageTransition";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main id="main-content" tabIndex={-1}>
           <PageTransition>{children}</PageTransition>
         </main>
+        <EnquireTab />
         <BackToTop />
         <ChatLauncher />
         <BreadcrumbJsonLd />

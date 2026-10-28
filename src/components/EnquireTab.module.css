@@ -1,0 +1,107 @@
+/* Gold tab on the right edge, halfway down. Below the chat panel (96) and the */
+/* header/mobile menu (100+), so anything opened over it covers it.           */
+.tab {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  z-index: 89;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: var(--color-charcoal);
+  background-color: var(--color-gold);
+  border: 1px solid rgba(17, 16, 15, 0.12);
+  border-right: none;
+  border-radius: 0.5rem 0 0 0.5rem;
+  box-shadow: 0 14px 28px -14px rgba(17, 16, 15, 0.6);
+  text-decoration: none;
+  transform: translateY(-50%);
+  transition:
+    opacity 300ms var(--ease-standard),
+    transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0s,
+    background-color 240ms var(--ease-standard),
+    width 240ms var(--ease-standard),
+    padding 240ms var(--ease-standard);
+  animation: slide-in 600ms cubic-bezier(0.22, 1, 0.36, 1) 800ms backwards;
+}
+
+/* Phones: just the envelope. */
+.label,
+.arrow {
+  display: none;
+}
+
+/* Tablets and up: "Enquire Now" reading upwards, with an arrow into the page. */
+@media (min-width: 768px) {
+  .tab {
+    flex-direction: column;
+    gap: var(--space-sm);
+    width: 2.75rem;
+    height: auto;
+    padding: var(--space-lg) 0;
+  }
+
+  .label {
+    display: block;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-body-semibold);
+    font-size: var(--font-button);
+    letter-spacing: var(--tracking-button);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .arrow {
+    display: block;
+    transform: rotate(180deg);
+  }
+}
+
+.mail {
+  flex-shrink: 0;
+}
+
+@media (hover: hover) {
+  .tab:hover {
+    width: 3.125rem;
+    padding-right: 0.375rem;
+    background-color: var(--color-gold-light);
+  }
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: 3px;
+}
+
+/* Steps aside while the enquiry form itself is on screen. */
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(100%, -50%);
+  transition-delay: 0s, 0s, 400ms, 0s, 0s;
+}
+
+/* Nothing floats over a modal drawer or the phone chat sheet. */
+:global(html.drawer-open) .tab {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translate(100%, -50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab {
+    transition: none;
+    animation: none;
+  }
+}
