@@ -51,6 +51,56 @@ ErrorDocument 404 /404.html
   AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript text/javascript application/json application/manifest+json image/svg+xml
 </IfModule>
 
+# Precompressed copies. This host does not compress on the fly (the DEFLATE block
+# above has no effect), so the build writes file.gz next to every page, stylesheet
+# and script (scripts/precompress.mjs) and browsers that accept gzip get that copy.
+# Pages and CSS arrive at about a fifth of their size. Only runs where mod_headers
+# is available, since the copy must be labelled "Content-Encoding: gzip".
+<IfModule mod_headers.c>
+  <IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # A file request (styles, scripts, data, svg) that has a .gz copy.
+    RewriteCond %{HTTP:Accept-Encoding} gzip
+    RewriteCond %{REQUEST_URI} !^/api/
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteCond %{REQUEST_FILENAME}.gz -f
+    RewriteRule ^(.+\.(?:html|css|js|mjs|json|svg|txt|xml))$ $1.gz [L,E=no-gzip:1]
+
+    # A page address ending in "/" whose index.html has a .gz copy.
+    RewriteCond %{HTTP:Accept-Encoding} gzip
+    RewriteCond %{REQUEST_URI} /$
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}index.html.gz -f
+    RewriteRule ^(.*)$ $1index.html.gz [L,E=no-gzip:1]
+  </IfModule>
+
+  <FilesMatch "\.(?:html|css|js|mjs|json|svg|txt|xml)\.gz$">
+    Header set Content-Encoding gzip
+    Header append Vary Accept-Encoding
+  </FilesMatch>
+  <FilesMatch "\.html\.gz$">
+    ForceType "text/html; charset=utf-8"
+  </FilesMatch>
+  <FilesMatch "\.css\.gz$">
+    ForceType text/css
+  </FilesMatch>
+  <FilesMatch "\.m?js\.gz$">
+    ForceType text/javascript
+  </FilesMatch>
+  <FilesMatch "\.json\.gz$">
+    ForceType application/json
+  </FilesMatch>
+  <FilesMatch "\.svg\.gz$">
+    ForceType image/svg+xml
+  </FilesMatch>
+  <FilesMatch "\.txt\.gz$">
+    ForceType "text/plain; charset=utf-8"
+  </FilesMatch>
+  <FilesMatch "\.xml\.gz$">
+    ForceType application/xml
+  </FilesMatch>
+</IfModule>
+
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresDefault "access plus 1 hour"

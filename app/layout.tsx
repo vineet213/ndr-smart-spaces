@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   preload("/fonts/Exo2-latin.woff2", { as: "font", type: "font/woff2", crossOrigin: "anonymous" });
 
   return (
-    <html lang="en">
+    <html lang="en-IN">
       <body>
         <SmoothScroll />
         <ScrollToTop />

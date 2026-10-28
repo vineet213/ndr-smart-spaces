@@ -10,7 +10,7 @@
     "dev:next-only": "next dev",
     "prebuild": "node scripts/validate-warehouses.mjs && node scripts/build-images.mjs",
     "build": "next build",
-    "postbuild": "node scripts/flatten-segment-prefetch.mjs && node scripts/build-chat-knowledge.mjs",
+    "postbuild": "node scripts/flatten-segment-prefetch.mjs && node scripts/build-chat-knowledge.mjs && node scripts/precompress.mjs",
     "build:preview": "node scripts/validate-warehouses.mjs --allow-sample && node scripts/build-images.mjs && next build && node scripts/flatten-segment-prefetch.mjs && node scripts/build-chat-knowledge.mjs",
     "start": "node scripts/serve-static.mjs",
     "package": "npm run build && python scripts/package-for-cpanel.py",
