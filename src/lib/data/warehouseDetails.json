@@ -1,48 +1,6 @@
 {
   "ndr-space-cochin": {
     "locality": "Keezhmad, Aluva",
-    "sampleFields": [
-      "summary",
-      "bestFor",
-      "amenities",
-      "utilities"
-    ],
-    "summary": "A Grade A warehousing park on the northern edge of Kochi, off SH-16 near Aluva. The site sits between Cochin International Airport and the Kochi port terminals, with the national highway and the Aluva metro and rail stations a short drive away, which suits distribution into Ernakulam and central Kerala.",
-    "bestFor": [
-      "E-commerce fulfilment",
-      "Third-party logistics",
-      "FMCG distribution",
-      "Engineering and auto components"
-    ],
-    "utilities": [
-      {
-        "label": "Power",
-        "value": "HT power supply, scalable on request"
-      },
-      {
-        "label": "Water",
-        "value": "Dedicated storage with rainwater harvesting"
-      },
-      {
-        "label": "Fire safety",
-        "value": "Sprinklers, hydrants and smoke detection"
-      },
-      {
-        "label": "Security",
-        "value": "Gated campus with 24 × 7 guarding and CCTV"
-      },
-      {
-        "label": "Docking",
-        "value": "Dock-high loading with levellers"
-      }
-    ],
-    "amenities": [
-      "Truck parking and holding area",
-      "Driver rest rooms",
-      "Canteen space",
-      "Internal concrete roads",
-      "Rooftop solar ready"
-    ],
     "landmarks": [
       {
         "label": "Aluva Metro Station",
