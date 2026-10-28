@@ -63,7 +63,9 @@
 .navContainer {
   height: var(--header-height);
   width: 100%;
-  max-width: 90rem;
+  /* Same column as the page's .container, so the logo and the last menu item */
+  /* line up with the content's left and right edges below.                  */
+  max-width: var(--container-max);
   margin-inline: auto;
   padding-inline: var(--margin-mobile);
   box-sizing: border-box;

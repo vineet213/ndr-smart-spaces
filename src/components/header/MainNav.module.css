@@ -96,7 +96,8 @@
   .nav {
     display: block;
     height: 100%;
-    margin-inline: auto;
+    /* Menu sits at the bar's right edge, opposite the logo. */
+    margin-inline-start: auto;
   }
 
   .list {
