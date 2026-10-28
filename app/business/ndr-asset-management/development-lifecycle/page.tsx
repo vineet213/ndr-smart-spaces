@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Section } from "@/components/layout";
 import { DevelopmentLifecycle } from "@/components/sections/DevelopmentLifecycle";
 import { Footer } from "@/components/sections/Footer";
@@ -6,10 +7,12 @@ import { PageMasthead } from "@/components/sections/PageMasthead";
 import { vertical02DevelopmentLifecycle } from "@/lib/data/business";
 import styles from "./development-lifecycle.module.css";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/business/ndr-asset-management/development-lifecycle",
   title: "Development Lifecycle",
-  description: "NDR Asset Management: the development lifecycle from origination to handover.",
-};
+  description:
+    "NDR Asset Management: the development lifecycle from origination to handover.",
+});
 
 export default function DevelopmentLifecyclePage() {
   const { intro, stages, source } = vertical02DevelopmentLifecycle;

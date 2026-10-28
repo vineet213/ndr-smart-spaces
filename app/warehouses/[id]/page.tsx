@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Footer } from "@/components/sections/Footer";
 import { WarehousePage } from "@/components/warehouse/WarehousePage";
-import { warehouseById, warehouses } from "@/lib/data/warehouses";
+import { formatAreaSqFt, warehouseById, warehouses } from "@/lib/data/warehouses";
+import { warehouseHref } from "@/lib/routes";
+import { pageMetadata, snippet } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -17,26 +19,27 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const warehouse = warehouseById(id);
   if (!warehouse) return { title: "Warehouse" };
 
-  const title = `${warehouse.name}, ${warehouse.placeLine}`;
-  const description =
-    warehouse.detail.summary ??
-    `Grade A warehousing at ${warehouse.placeLine}, developed and managed by NDR Smart Spaces.`;
+  // "Warehouse in <city>, <state>" is what people search; the site name is already in the page name.
+  const where = [...new Set([warehouse.city, warehouse.stateName])].join(", ");
+  const title = `${warehouse.name} | Warehouse in ${where}`;
+  const area =
+    warehouse.leasableAreaMsf !== undefined ? `${formatAreaSqFt(warehouse.leasableAreaMsf)} ` : "";
+  const description = snippet(
+    `${warehouse.name} is a ${area}warehouse in ${warehouse.placeLine}, developed and managed by NDR Smart Spaces. See its location and connectivity, and book a site visit.`,
+  );
   const photo = warehouse.detail.photos?.[0];
 
   return {
-    title,
-    description,
-    ...(warehouse.indexable ? {} : { robots: { index: false, follow: true } }),
-    openGraph: {
-      type: "website",
-      siteName: "NDR Smart Spaces",
-      locale: "en_IN",
+    ...pageMetadata({
+      path: warehouseHref(warehouse.id),
       title,
       description,
+      absoluteTitle: true,
       ...(photo
-        ? { images: [{ url: photo.src, width: photo.width, height: photo.height, alt: photo.alt }] }
+        ? { image: { url: photo.src, width: photo.width, height: photo.height, alt: photo.alt } }
         : {}),
-    },
+    }),
+    ...(warehouse.indexable ? {} : { robots: { index: false, follow: true } }),
   };
 }
 

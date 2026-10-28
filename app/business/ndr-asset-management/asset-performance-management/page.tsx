@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Container, Section } from "@/components/layout";
 import { FadeImage } from "@/components/ui/FadeImage";
 import { CompanyMetrics } from "@/components/sections/CompanyMetrics";
@@ -8,10 +9,12 @@ import { vertical02AssetManagement } from "@/lib/data/business";
 import { Reveal } from "@/components/sections/Reveal";
 import styles from "./asset-performance-management.module.css";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/business/ndr-asset-management/asset-performance-management",
   title: "Asset Performance Management",
-  description: "NDR Asset Management: operating and maintaining assets for long-term performance.",
-};
+  description:
+    "NDR Asset Management: operating and maintaining assets for long-term performance.",
+});
 
 export default function AssetPerformanceManagementPage() {
   const { intro, functions, metrics } = vertical02AssetManagement;

@@ -10,7 +10,7 @@ import { PageTransition } from "@/components/PageTransition";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { runNavigationValidation } from "@/lib/navigationValidation";
-import { SITE_DESCRIPTION } from "@/lib/seo";
+import { SHARE_IMAGE, SITE_DESCRIPTION, SITE_URL } from "@/lib/seo";
 import "../src/styles/index.css";
 
 if (process.env.NODE_ENV === "development") {
@@ -21,14 +21,6 @@ export const viewport: Viewport = {
   // Matches the header ground (--color-charcoal-masthead) so the mobile browser
   // toolbar blends with the masthead instead of flashing the default colour.
   themeColor: "#2a1216",
-};
-
-const SITE_URL = "https://ndrsmartspaces.com";
-const SHARE_IMAGE = {
-  url: "/og/ndr-smart-spaces.png",
-  width: 1200,
-  height: 630,
-  alt: "NDR Smart Spaces: developing, owning and managing logistics and industrial infrastructure",
 };
 
 export const metadata: Metadata = {

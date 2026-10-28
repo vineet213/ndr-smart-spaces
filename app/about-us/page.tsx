@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { AboutHero } from "@/components/sections/AboutHero";
 import { CompanyMetrics } from "@/components/sections/CompanyMetrics";
 import { OurStory } from "@/components/sections/OurStory";
@@ -9,11 +10,12 @@ import { Leadership } from "@/components/sections/Leadership";
 import { Footer } from "@/components/sections/Footer";
 import { aboutStats } from "@/lib/data/about";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/about-us",
   title: "About Us",
   description:
-    "The infrastructure development platform of the NDR Group, established in 1954, and a leading developer of logistics and industrial spaces in India. The story, leadership and track record of NDR Smart Spaces.",
-};
+    "The logistics and infrastructure development platform of the NDR Group, established in 1954: the story, leadership and track record of NDR Smart Spaces.",
+});
 
 export default function AboutUsPage() {
   return (

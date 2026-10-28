@@ -4,6 +4,7 @@
  * comes from data already in the repo; nothing is invented.
  */
 
+import type { Metadata } from "next";
 import { corporateSettings } from "@/lib/data/generated/corporateSettings";
 import { footer } from "@/lib/data/homepage";
 import { correspondenceForm } from "@/lib/data/contact";
@@ -30,6 +31,61 @@ export const SITE_DESCRIPTION = `NDR Smart Spaces develops and manages Grade A w
 export function absoluteUrl(path: string): string {
   const clean = path === "/" ? "" : path.replace(/^\/+|\/+$/g, "");
   return clean === "" ? `${SITE_URL}/` : `${SITE_URL}/${clean}/`;
+}
+
+export const SHARE_IMAGE = {
+  url: "/og/ndr-smart-spaces.png",
+  width: 1200,
+  height: 630,
+  alt: "NDR Smart Spaces: developing, owning and managing logistics and industrial infrastructure",
+};
+
+/** Search snippets are cut at about 160 characters: keep whole sentences that fit. */
+export function snippet(text: string, max = 160): string {
+  const sentences = text.match(/[^.!?]+[.!?]+(\s|$)/g) ?? [text];
+  let out = "";
+  for (const sentence of sentences) {
+    if ((out + sentence).trim().length > max) break;
+    out += sentence;
+  }
+  return (out.trim() || `${text.slice(0, max - 1).replace(/\s+\S*$/, "")}…`).trim();
+}
+
+/**
+ * A page's title, description and share card together. Next.js does not carry
+ * a page's title into og:title, so without this every shared link looked like
+ * the home page.
+ */
+export function pageMetadata({
+  path,
+  title,
+  description,
+  absoluteTitle = false,
+  image,
+}: {
+  path: string;
+  title: string;
+  description: string;
+  /** Use the title as-is instead of adding " · NDR Smart Spaces". */
+  absoluteTitle?: boolean;
+  image?: { url: string; width: number; height: number; alt: string };
+}): Metadata {
+  const shareTitle = absoluteTitle ? title : `${title} · NDR Smart Spaces`;
+  const images = [image ?? SHARE_IMAGE];
+  return {
+    title: absoluteTitle ? { absolute: title } : title,
+    description,
+    openGraph: {
+      type: "website",
+      siteName: "NDR Smart Spaces",
+      locale: "en_IN",
+      url: absoluteUrl(path),
+      title: shareTitle,
+      description,
+      images,
+    },
+    twitter: { card: "summary_large_image", title: shareTitle, description, images: [images[0].url] },
+  };
 }
 
 /** Breadcrumb names: each page's own title (see its metadata), keyed by route. */
