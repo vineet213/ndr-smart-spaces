@@ -10,6 +10,7 @@ import { PageTransition } from "@/components/PageTransition";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { runNavigationValidation } from "@/lib/navigationValidation";
+import { SITE_DESCRIPTION } from "@/lib/seo";
 import "../src/styles/index.css";
 
 if (process.env.NODE_ENV === "development") {
@@ -38,8 +39,7 @@ export const metadata: Metadata = {
     default: "NDR Smart Spaces Pvt. Ltd.",
     template: "%s · NDR Smart Spaces",
   },
-  description:
-    "NDR Smart Spaces is a diversified infrastructure organization focused on developing, owning, and managing high-quality industrial and institutional assets.",
+  description: SITE_DESCRIPTION,
   // Phone numbers are marked up explicitly; stop iOS auto-linking other digit runs.
   formatDetection: { telephone: false },
   openGraph: {
@@ -47,15 +47,13 @@ export const metadata: Metadata = {
     siteName: "NDR Smart Spaces",
     locale: "en_IN",
     title: "NDR Smart Spaces Pvt. Ltd.",
-    description:
-      "Developing, owning and managing high-quality industrial and institutional assets.",
+    description: SITE_DESCRIPTION,
     images: [SHARE_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: "NDR Smart Spaces Pvt. Ltd.",
-    description:
-      "Developing, owning and managing high-quality industrial and institutional assets.",
+    description: SITE_DESCRIPTION,
     images: [SHARE_IMAGE.url],
   },
 };

@@ -193,7 +193,7 @@ export const esgFramework = {
         },
         {
           ref: "EN-02",
-          label: "Preserving ground water through internal mechanisms",
+          label: "Preserving ground water with internal mechanisms",
           note: "Rainwater harvesting and in-situ recharge mechanisms that sustain the groundwater table.",
         },
         {
