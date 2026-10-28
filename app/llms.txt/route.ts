@@ -2,8 +2,7 @@ import { aboutHero } from "@/lib/data/about";
 import { correspondenceForm } from "@/lib/data/contact";
 import { invitRelationship } from "@/lib/data/investor";
 import { aumStates, formatMsf } from "@/lib/data/portfolio";
-import { warehouses } from "@/lib/data/warehouses";
-import { siteRoutes, warehouseHref } from "@/lib/routes";
+import { siteRoutes } from "@/lib/routes";
 import { absoluteUrl, routeNames, SITE_DESCRIPTION } from "@/lib/seo";
 
 export const dynamic = "force-static";
@@ -26,15 +25,6 @@ export function GET() {
       (state.totalLeasableAreaMsf !== null ? `, ${formatMsf(Math.round(state.totalLeasableAreaMsf * 100) / 100)}` : ""),
   );
 
-  // Only warehouse pages that are published for search (summary and photo).
-  const sites = warehouses
-    .filter((warehouse) => warehouse.indexable)
-    .map(
-      (warehouse) =>
-        `- [${warehouse.name}](${absoluteUrl(warehouseHref(warehouse.id))}): ${warehouse.placeLine}` +
-        (warehouse.leasableAreaMsf !== undefined ? `, ${formatMsf(warehouse.leasableAreaMsf)} leasable` : ""),
-    );
-
   const text = [
     "# NDR Smart Spaces",
     "",
@@ -48,7 +38,6 @@ export function GET() {
     "",
     ...states,
     "",
-    ...(sites.length > 0 ? ["## Warehouses", "", ...sites, ""] : []),
     "## Pages",
     "",
     ...pages,

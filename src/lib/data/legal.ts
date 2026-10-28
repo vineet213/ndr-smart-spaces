@@ -356,17 +356,6 @@ export const sitemapGroups: readonly SitemapGroup[] = [
     links: [
       { label: "Home", href: "/" },
       { label: "About Us & Our People", href: "/about-us" },
-      { label: "Why NDR", href: "/why-ndr" },
-    ],
-  },
-  {
-    heading: "Culture & Careers",
-    links: [
-      { label: "Corporate Culture", href: "/culture-and-careers/corporate-culture" },
-      {
-        label: "Careers & Opportunities",
-        href: "/culture-and-careers/careers-and-opportunities",
-      },
     ],
   },
   {

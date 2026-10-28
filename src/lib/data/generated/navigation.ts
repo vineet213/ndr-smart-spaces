@@ -17,26 +17,9 @@ export const navigation = {
       type: "link",
     },
     {
-      align: "left",
-      columns: [
-        {
-          heading: "About NDR",
-          links: [
-            {
-              href: "/about-us",
-              label: "About Us",
-            },
-            {
-              href: "/why-ndr",
-              label: "Why NDR",
-            },
-          ],
-        },
-      ],
       href: "/about-us",
-      id: "about",
-      label: "About",
-      type: "menu",
+      label: "About Us",
+      type: "link",
     },
     {
       align: "left",
@@ -72,28 +55,6 @@ export const navigation = {
       href: "/business/logistics-and-industrial-infrastructure",
       id: "business",
       label: "Verticals",
-      type: "menu",
-    },
-    {
-      align: "left",
-      columns: [
-        {
-          heading: "Culture & Careers",
-          links: [
-            {
-              href: "/culture-and-careers/corporate-culture",
-              label: "Corporate Culture",
-            },
-            {
-              href: "/culture-and-careers/careers-and-opportunities",
-              label: "Careers & Opportunities",
-            },
-          ],
-        },
-      ],
-      href: "/culture-and-careers/corporate-culture",
-      id: "culture",
-      label: "Culture & Careers",
       type: "menu",
     },
     {
@@ -124,26 +85,9 @@ export const navigation = {
       type: "link",
     },
     {
-      align: "left",
-      columns: [
-        {
-          heading: "About NDR",
-          links: [
-            {
-              href: "/about-us",
-              label: "About Us",
-            },
-            {
-              href: "/why-ndr",
-              label: "Why NDR",
-            },
-          ],
-        },
-      ],
       href: "/about-us",
-      id: "about",
-      label: "About",
-      type: "menu",
+      label: "About Us",
+      type: "link",
     },
     {
       align: "left",
@@ -179,28 +123,6 @@ export const navigation = {
       href: "/business/logistics-and-industrial-infrastructure",
       id: "business",
       label: "Verticals",
-      type: "menu",
-    },
-    {
-      align: "left",
-      columns: [
-        {
-          heading: "Culture & Careers",
-          links: [
-            {
-              href: "/culture-and-careers/corporate-culture",
-              label: "Corporate Culture",
-            },
-            {
-              href: "/culture-and-careers/careers-and-opportunities",
-              label: "Careers & Opportunities",
-            },
-          ],
-        },
-      ],
-      href: "/culture-and-careers/corporate-culture",
-      id: "culture",
-      label: "Culture & Careers",
       type: "menu",
     },
     {

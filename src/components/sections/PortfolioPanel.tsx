@@ -1,9 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { warehouseHref } from "@/lib/routes";
 import {
   ASSET_CLASS_LABELS,
   AUM_CLASSIFICATION_LABELS,
@@ -17,7 +14,6 @@ import type {
   PortfolioAsset,
   StateAumSummary,
 } from "@/lib/data/portfolio";
-import type { WarehousePhoto } from "@/lib/data/warehouses";
 import { INDIA_STATE_BOUNDS, INDIA_STATE_PATHS } from "@/lib/data/india-state-paths";
 import { cx } from "../ui/cx";
 import { PortfolioSearch } from "./PortfolioSearch";
@@ -171,20 +167,18 @@ function Tile({
 function Dossier({
   record,
   city,
+  index,
   total,
-  photo,
 }: {
   record: CardRecord;
   city: CardCity;
+  index: number;
   total: number;
-  photo?: WarehousePhoto;
 }) {
   const [copied, setCopied] = useState(false);
   const aum = record.kind === "aum" ? record.asset : null;
   const built = record.kind === "construction" ? record.asset : null;
   const linked = record.kind === "construction" ? record.linked : null;
-  /* Operating warehouses (and projects rising on one) open that warehouse's page. */
-  const pageTarget = aum ?? linked;
   const pin = recordPin(record);
   const coords = recordCoords(record);
   const location = aum
@@ -204,50 +198,28 @@ function Dossier({
       .catch(() => undefined);
   };
 
-  /* An operating warehouse gets a short card: photo, name, place, area, then its page. */
-  if (aum) {
-    const mapsHref = coords
-      ? `https://www.google.com/maps/search/?api=1&query=${coords.lat},${coords.lon}`
-      : null;
-    return (
-      <div className={styles.dossier}>
-        {photo ? (
-          <Link
-            className={styles.photo}
-            href={warehouseHref(aum.id)}
-            tabIndex={-1}
-            aria-hidden="true"
-          >
-            <Image src={photo.card?.src ?? photo.src} alt="" fill sizes="(max-width: 767px) 100vw, 360px" />
-          </Link>
-        ) : null}
-        <h3 className={styles.title}>{aum.name}</h3>
-        <p className={styles.location}>{location}</p>
-        {aum.leasableAreaMsf !== undefined ? (
-          <dl className={styles.tiles}>
-            <Tile label="Leasable area" value={formatMsf(aum.leasableAreaMsf)} accent />
-          </dl>
-        ) : null}
-        <Link className={styles.viewPage} href={warehouseHref(aum.id)}>
-          View warehouse →
-        </Link>
-        {mapsHref ? (
-          <a className={styles.mapsLink} href={mapsHref} target="_blank" rel="noopener noreferrer">
-            Open in Google Maps ↗
-          </a>
-        ) : null}
-      </div>
-    );
-  }
-
   return (
     <div className={styles.dossier}>
-      {built ? <span className={styles.stamp}>Filed · Plate {built.plate}</span> : null}
+      <span className={styles.stamp}>
+        {built
+          ? `Filed · Plate ${built.plate}`
+          : `Site ${String(index + 1).padStart(2, "0")} of ${String(total).padStart(2, "0")}`}
+      </span>
       <h3 className={styles.title}>{record.asset.name}</h3>
       <p className={styles.location}>{location}</p>
+      {aum?.summary ? <p className={styles.copy}>{aum.summary}</p> : null}
 
       <dl className={styles.tiles}>
-        {built ? (
+        {aum ? (
+          <>
+            <Tile label="Leasable area" value={formatMsf(aum.leasableAreaMsf)} accent />
+            <Tile
+              label="Category"
+              value={aum.classification ? AUM_CLASSIFICATION_LABELS[aum.classification] : null}
+            />
+            <Tile label="Status" value={aum.status ? AUM_STATUS_LABELS[aum.status] : null} />
+          </>
+        ) : built ? (
           <>
             <Tile label="Class" value={ASSET_CLASS_LABELS[built.class]} />
             <Tile
@@ -259,6 +231,8 @@ function Dossier({
           </>
         ) : null}
       </dl>
+
+      {aum?.note ? <p className={styles.copy}>{aum.note}</p> : null}
 
       {linked ? (
         <div className={styles.lifecycle}>
@@ -293,12 +267,6 @@ function Dossier({
         </div>
       </div>
 
-      {pageTarget ? (
-        <Link className={styles.viewPage} href={warehouseHref(pageTarget.id)}>
-          View {pageTarget.name} →
-        </Link>
-      ) : null}
-
       {coords ? (
         <div className={styles.actions}>
           <a
@@ -331,6 +299,7 @@ type PanelProps = {
   city: CardCity | null;
   cityRecords: readonly CardRecord[];
   record: CardRecord | null;
+  recordIndex: number;
   hoveredId: string | null;
   onHover: (id: string | null) => void;
   /** Warehouse to highlight without opening it (after a search). */
@@ -341,7 +310,6 @@ type PanelProps = {
   onSelectCity: (city: string | null) => void;
   onSelectRecord: (id: string | null) => void;
   searchItems: readonly SearchItem[];
-  photos: Readonly<Record<string, WarehousePhoto>>;
   searchPlaceholder: string;
   searchNoun: string;
   onSearchPick: (item: SearchItem) => void;
@@ -363,6 +331,7 @@ export function PortfolioPanel(props: PanelProps) {
     city,
     cityRecords,
     record,
+    recordIndex,
     hoveredId,
     onHover,
     spotlightId,
@@ -593,12 +562,7 @@ export function PortfolioPanel(props: PanelProps) {
 
         {level === "warehouse" && record && city ? (
           <>
-            <Dossier
-              record={record}
-              city={city}
-              total={cityRecords.length}
-              photo={record.kind === "aum" ? props.photos[record.asset.id] : undefined}
-            />
+            <Dossier record={record} city={city} index={recordIndex} total={cityRecords.length} />
           </>
         ) : null}
       </div>
