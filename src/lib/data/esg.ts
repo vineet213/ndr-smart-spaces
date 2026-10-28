@@ -139,7 +139,7 @@ export const esgGreenFeatures = {
       title: "Waste Management & STPs",
       body: "Every park runs a sewage treatment plant (STP) and segregates waste at source. Construction and operational waste is always recovered, recycled or reused.",
       image: {
-        src: "/images/esg/waste-management.jpg",
+        src: "/images/esg/waste-bins.jpg",
         alt: "A row of green waste bins with colour-coded recycling labels on a paved yard",
       },
     },
