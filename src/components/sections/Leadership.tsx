@@ -44,7 +44,7 @@ function Photo({
   return (
     <Image
       src={profile.photo}
-      alt=""
+      alt={`${profile.name}, ${profile.role}`}
       width={640}
       height={800}
       sizes={sizes}
