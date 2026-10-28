@@ -90,7 +90,7 @@ export function Footer({ hideWorkWithUsCta = true }: { hideWorkWithUsCta?: boole
             <Link href="/" aria-label="NDR Smart Spaces: home" className={styles.logoLink}>
               <Image
                 src="/logos/ndr-smart-spaces-lockup.svg"
-                alt=""
+                alt="NDR Smart Spaces"
                 width={360}
                 height={82}
                 className={styles.logo}

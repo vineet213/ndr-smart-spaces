@@ -22,7 +22,7 @@ export function LogoWordmark({ scrolled = false, light = false }: LogoWordmarkPr
         src={
           light ? "/logos/ndr-smart-spaces-lockup-light.svg" : "/logos/ndr-smart-spaces-lockup.svg"
         }
-        alt=""
+        alt="NDR Smart Spaces"
         width={190}
         height={44}
         loading="eager"
