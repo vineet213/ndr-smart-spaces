@@ -60,19 +60,22 @@ for (const [id, record] of Object.entries(details)) {
   }
 
   for (const photo of record.photos ?? []) {
-    const file = join(ROOT, "public", photo.src);
-    if (!existsSync(file)) {
-      errors.push(`${id}: photo not found: ${photo.src}`);
-      continue;
-    }
     if (!photo.alt || !photo.alt.trim()) errors.push(`${id}: photo has no alt text: ${photo.src}`);
-    const meta = await sharp(file).rotate().metadata();
-    const [width, height] =
-      (meta.orientation ?? 1) >= 5 ? [meta.height, meta.width] : [meta.width, meta.height];
-    if (photo.width !== width || photo.height !== height) {
-      errors.push(
-        `${id}: ${photo.src} is ${width}x${height}, but the record says ${photo.width}x${photo.height}`,
-      );
+    // the photo itself, and its card crop when it has one
+    for (const image of [photo, photo.card].filter(Boolean)) {
+      const file = join(ROOT, "public", image.src);
+      if (!existsSync(file)) {
+        errors.push(`${id}: photo not found: ${image.src}`);
+        continue;
+      }
+      const meta = await sharp(file).rotate().metadata();
+      const [width, height] =
+        (meta.orientation ?? 1) >= 5 ? [meta.height, meta.width] : [meta.width, meta.height];
+      if (image.width !== width || image.height !== height) {
+        errors.push(
+          `${id}: ${image.src} is ${width}x${height}, but the record says ${image.width}x${image.height}`,
+        );
+      }
     }
   }
 

@@ -23,6 +23,8 @@ export type WarehousePhoto = {
   height: number;
   alt: string;
   caption?: string;
+  /** 16:9 crop centred on the buildings, for small cards (nearby list, portfolio map). */
+  card?: { src: string; width: number; height: number };
 };
 
 /** A nearby place with the distance as stated in the site's valuation report, e.g. "45–46". */
@@ -132,6 +134,11 @@ function toWarehouse(asset: AumAsset): Warehouse {
 }
 
 export const warehouses: readonly Warehouse[] = aumAssets.map(toWarehouse);
+
+/** First photo of each warehouse that has one, keyed by id — small enough to hand to client components. */
+export const warehouseHeroPhotos: Readonly<Record<string, WarehousePhoto>> = Object.fromEntries(
+  warehouses.flatMap((w) => (w.detail.photos?.[0] ? [[w.id, w.detail.photos[0]]] : [])),
+);
 
 export function warehouseById(id: string): Warehouse | null {
   return warehouses.find((warehouse) => warehouse.id === id) ?? null;

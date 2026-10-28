@@ -9,6 +9,7 @@ import {
   vertical02Metrics,
   type Division,
 } from "@/lib/data/business";
+import { warehouseHeroPhotos } from "@/lib/data/warehouses";
 import { cx } from "../ui/cx";
 import { AveAcresExplore } from "./AveAcresExplore";
 import { AveAcresProcess } from "./AveAcresProcess";
@@ -195,7 +196,7 @@ export function VerticalPage({ division }: VerticalPageProps) {
         </>
       ) : null}
 
-      {division.index === "01" ? <PropertyRegister /> : null}
+      {division.index === "01" ? <PropertyRegister photos={warehouseHeroPhotos} /> : null}
     </>
   );
 }

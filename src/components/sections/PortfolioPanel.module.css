@@ -355,6 +355,44 @@
   gap: var(--space-sm);
 }
 
+.photo {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: rgba(250, 247, 242, 0.04);
+  border: 1px solid rgba(250, 247, 242, 0.14);
+}
+
+.photo img {
+  object-fit: cover;
+}
+
+.mapsLink {
+  align-self: center;
+  padding: 6px 4px;
+  font-family: var(--font-body);
+  font-size: var(--font-meta);
+  font-weight: var(--font-weight-body-medium);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--pr-muted, rgba(250, 247, 242, 0.55));
+  transition: color 250ms var(--ease-standard);
+}
+
+.mapsLink:focus-visible {
+  color: var(--color-gold);
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  .mapsLink:hover {
+    color: var(--color-gold);
+  }
+}
+
 .stamp {
   align-self: flex-start;
   padding: 4px 9px;

@@ -87,7 +87,12 @@
         "width": 1448,
         "height": 1086,
         "alt": "Aerial view of the warehouse's loading side, with trucks parked along a continuous dock face",
-        "caption": "Dock face and truck apron"
+        "caption": "Dock face and truck apron",
+        "card": {
+          "src": "/images/warehouses/ndr-space-cochin/01-docks-aerial-card.jpg",
+          "width": 1200,
+          "height": 675
+        }
       }
     ]
   },
@@ -241,7 +246,12 @@
         "width": 876,
         "height": 465,
         "alt": "Aerial view of two warehouse blocks among trees, with an open yard between them",
-        "caption": "Aerial view of the warehouse blocks"
+        "caption": "Aerial view of the warehouse blocks",
+        "card": {
+          "src": "/images/warehouses/ndr-ettimadai-coimbatore/01-aerial-card.jpg",
+          "width": 701,
+          "height": 394
+        }
       }
     ]
   },
@@ -284,7 +294,12 @@
         "width": 2400,
         "height": 1274,
         "alt": "Aerial view of a white warehouse and its utility buildings, set among coconut palms beside a road",
-        "caption": "Aerial view of the warehouse"
+        "caption": "Aerial view of the warehouse",
+        "card": {
+          "src": "/images/warehouses/ndr-puducherry-puducherry/01-aerial-card.jpg",
+          "width": 1200,
+          "height": 675
+        }
       }
     ]
   },
@@ -338,7 +353,12 @@
         "width": 960,
         "height": 720,
         "alt": "Aerial view of an L-shaped warehouse with blue-and-white walls, trucks in the yard and coconut palms in front",
-        "caption": "Aerial view of the warehouse"
+        "caption": "Aerial view of the warehouse",
+        "card": {
+          "src": "/images/warehouses/ndr-okm-coimbatore/01-aerial-card.jpg",
+          "width": 873,
+          "height": 491
+        }
       }
     ]
   },
@@ -389,7 +409,12 @@
         "width": 1165,
         "height": 620,
         "alt": "Aerial view of a long white warehouse with blue pillars, trucks at the docks and open farmland on every side",
-        "caption": "Aerial view of the warehouse"
+        "caption": "Aerial view of the warehouse",
+        "card": {
+          "src": "/images/warehouses/ndr-distribution-chhatrapati-sambhajinagar/01-aerial-card.jpg",
+          "width": 932,
+          "height": 524
+        }
       }
     ]
   },
@@ -440,7 +465,12 @@
         "width": 2400,
         "height": 1274,
         "alt": "Aerial view of three grey warehouse blocks on a hillside, with trucks in the yard and an industrial area behind",
-        "caption": "Aerial view of the warehouse blocks"
+        "caption": "Aerial view of the warehouse blocks",
+        "card": {
+          "src": "/images/warehouses/ndr-goa-space-verna-goa/01-aerial-card.jpg",
+          "width": 1200,
+          "height": 675
+        }
       }
     ]
   },
@@ -534,7 +564,12 @@
         "width": 1024,
         "height": 683,
         "alt": "Aerial view of a large warehouse with a long dock face and parking, surrounded by farmland",
-        "caption": "Aerial view of the warehouse"
+        "caption": "Aerial view of the warehouse",
+        "card": {
+          "src": "/images/warehouses/ndr-tradehouse-sudhavadi-pune/01-aerial-card.jpg",
+          "width": 788,
+          "height": 443
+        }
       }
     ]
   },
@@ -583,7 +618,12 @@
         "width": 2400,
         "height": 1274,
         "alt": "Aerial view of two long white warehouses with blue pillars, reached by a palm-lined entrance road",
-        "caption": "Aerial view from the entrance road"
+        "caption": "Aerial view from the entrance road",
+        "card": {
+          "src": "/images/warehouses/ndr-kautilya-hoskote-hoskote/01-aerial-card.jpg",
+          "width": 1200,
+          "height": 675
+        }
       }
     ]
   },
@@ -679,7 +719,12 @@
         "width": 1168,
         "height": 620,
         "alt": "Aerial view of a city warehouse with a parking forecourt, with a metro line in the background",
-        "caption": "Aerial view from the forecourt"
+        "caption": "Aerial view from the forecourt",
+        "card": {
+          "src": "/images/warehouses/ndr-avg-sarita-vihar-new-delhi/01-aerial-card.jpg",
+          "width": 898,
+          "height": 505
+        }
       }
     ]
   },
@@ -728,7 +773,12 @@
         "width": 1280,
         "height": 720,
         "alt": "Aerial view of the warehouse beside a highway, with trucks along the dock face and open farmland around it",
-        "caption": "Aerial view beside the highway"
+        "caption": "Aerial view beside the highway",
+        "card": {
+          "src": "/images/warehouses/ndr-bhadra-malur-hoskote/01-aerial-card.jpg",
+          "width": 914,
+          "height": 514
+        }
       }
     ]
   },
@@ -777,7 +827,12 @@
         "width": 1168,
         "height": 620,
         "alt": "Aerial view of several blue-and-white warehouse blocks, some with curved roofs, set among green fields",
-        "caption": "Aerial view of the warehouse blocks"
+        "caption": "Aerial view of the warehouse blocks",
+        "card": {
+          "src": "/images/warehouses/ndr-bilaspur-tauru/01-aerial-card.jpg",
+          "width": 973,
+          "height": 547
+        }
       }
     ]
   },
@@ -925,7 +980,12 @@
         "width": 2400,
         "height": 1600,
         "alt": "Aerial view of a large grey warehouse with trucks at the docks, among other warehouses near a lake",
-        "caption": "Aerial view of the warehouse"
+        "caption": "Aerial view of the warehouse",
+        "card": {
+          "src": "/images/warehouses/ndr-fabio-irungatukottai-oragadam/01-aerial-card.jpg",
+          "width": 1200,
+          "height": 675
+        }
       }
     ]
   },
@@ -984,7 +1044,12 @@
         "width": 1168,
         "height": 622,
         "alt": "Aerial view of a row of grey-roofed warehouse blocks with blue-and-white walls, trucks queued along the access road",
-        "caption": "Aerial view of the warehouse blocks"
+        "caption": "Aerial view of the warehouse blocks",
+        "card": {
+          "src": "/images/warehouses/ndr-factor-coimbatore/01-aerial-card.jpg",
+          "width": 898,
+          "height": 505
+        }
       }
     ]
   },
@@ -1026,7 +1091,12 @@
         "width": 2400,
         "height": 1274,
         "alt": "Aerial view of two large warehouse blocks set along a winding road, with open scrubland around them",
-        "caption": "Aerial view of the warehouse blocks"
+        "caption": "Aerial view of the warehouse blocks",
+        "card": {
+          "src": "/images/warehouses/ndr-forefront-jnpt-uran/01-aerial-card.jpg",
+          "width": 1200,
+          "height": 675
+        }
       }
     ]
   },
@@ -1199,7 +1269,12 @@
         "width": 2400,
         "height": 1350,
         "alt": "Aerial view of a large grey warehouse with rooftop solar panels, a second block beside it and green land around",
-        "caption": "Aerial view of the warehouse"
+        "caption": "Aerial view of the warehouse",
+        "card": {
+          "src": "/images/warehouses/ndr-angadu-chennai/01-aerial-card.jpg",
+          "width": 1200,
+          "height": 675
+        }
       }
     ]
   },
@@ -1246,7 +1321,12 @@
         "width": 2400,
         "height": 1274,
         "alt": "Aerial view of an L-shaped warehouse with trucks at the docks and open fields beyond",
-        "caption": "Aerial view of the warehouse"
+        "caption": "Aerial view of the warehouse",
+        "card": {
+          "src": "/images/warehouses/ndr-pagalmedu-chennai/01-aerial-card.jpg",
+          "width": 1200,
+          "height": 675
+        }
       }
     ]
   },
@@ -1376,7 +1456,12 @@
         "width": 1159,
         "height": 622,
         "alt": "Aerial view of two grey warehouse blocks with a yard between them, surrounded by trees",
-        "caption": "Aerial view of the warehouse blocks"
+        "caption": "Aerial view of the warehouse blocks",
+        "card": {
+          "src": "/images/warehouses/ndr-safestore-oragadam-oragadam/01-aerial-card.jpg",
+          "width": 1106,
+          "height": 622
+        }
       }
     ]
   },
@@ -1518,7 +1603,12 @@
         "width": 1168,
         "height": 620,
         "alt": "Aerial view of several dark-walled warehouse blocks with white roofs, next to a highway",
-        "caption": "Aerial view of the warehouse blocks"
+        "caption": "Aerial view of the warehouse blocks",
+        "card": {
+          "src": "/images/warehouses/ndr-storehouse-talegaon-pune/01-aerial-card.jpg",
+          "width": 898,
+          "height": 505
+        }
       }
     ]
   },
@@ -1565,7 +1655,12 @@
         "width": 2400,
         "height": 1278,
         "alt": "Aerial view of a large warehouse with dark walls and a white roof, surrounded by orchards and plantations",
-        "caption": "Aerial view of the warehouse"
+        "caption": "Aerial view of the warehouse",
+        "card": {
+          "src": "/images/warehouses/ndr-svahgraha-sri-city-sri-city/01-aerial-card.jpg",
+          "width": 1200,
+          "height": 675
+        }
       }
     ]
   },
@@ -1612,7 +1707,12 @@
         "width": 2400,
         "height": 1274,
         "alt": "Aerial view of a large warehouse with a long dock face lined with trucks, and a second block beside it",
-        "caption": "Aerial view of the warehouse"
+        "caption": "Aerial view of the warehouse",
+        "card": {
+          "src": "/images/warehouses/ndr-svahgraha-koduvali-chennai/01-aerial-card.jpg",
+          "width": 1200,
+          "height": 675
+        }
       }
     ]
   },
@@ -1674,7 +1774,12 @@
         "width": 1907,
         "height": 1084,
         "alt": "Aerial view of a dark-walled building with a roof covered in solar panels",
-        "caption": "Aerial view of the building"
+        "caption": "Aerial view of the building",
+        "card": {
+          "src": "/images/warehouses/ndr-tradehouse-bidadi/01-aerial-card.jpg",
+          "width": 1200,
+          "height": 675
+        }
       }
     ]
   },
@@ -1723,7 +1828,12 @@
         "width": 1752,
         "height": 921,
         "alt": "Aerial view of two long warehouses with trucks at the docks, set on red earth",
-        "caption": "Aerial view of the warehouses"
+        "caption": "Aerial view of the warehouses",
+        "card": {
+          "src": "/images/warehouses/ndr-valiant-hcross-sidlaghatta/01-aerial-card.jpg",
+          "width": 1200,
+          "height": 675
+        }
       }
     ]
   },
@@ -1776,7 +1886,12 @@
         "width": 1168,
         "height": 620,
         "alt": "Aerial view of a long warehouse with trucks lined along its dock face, surrounded by trees",
-        "caption": "Aerial view of the warehouse"
+        "caption": "Aerial view of the warehouse",
+        "card": {
+          "src": "/images/warehouses/ndr-vanshil-uluberia-kolkata/01-aerial-card.jpg",
+          "width": 1102,
+          "height": 620
+        }
       }
     ]
   },
@@ -1818,7 +1933,12 @@
         "width": 2400,
         "height": 1274,
         "alt": "Aerial view of a warehouse with a row of curved roofs and blue-striped walls, surrounded by trees",
-        "caption": "Aerial view of the warehouse"
+        "caption": "Aerial view of the warehouse",
+        "card": {
+          "src": "/images/warehouses/ndr-kalambusare-uran/01-aerial-card.jpg",
+          "width": 1200,
+          "height": 675
+        }
       }
     ]
   },
@@ -1829,7 +1949,12 @@
         "width": 1168,
         "height": 622,
         "alt": "Aerial view of a long grey warehouse with a truck yard in front and green hills behind",
-        "caption": "Aerial view of the warehouse"
+        "caption": "Aerial view of the warehouse",
+        "card": {
+          "src": "/images/warehouses/ndr-varama-sir-goa/01-aerial-card.jpg",
+          "width": 1106,
+          "height": 622
+        }
       }
     ]
   },
@@ -1840,7 +1965,12 @@
         "width": 2400,
         "height": 1099,
         "alt": "Aerial view of a cluster of warehouse blocks beside a canal, surrounded by green fields",
-        "caption": "Aerial view of the warehouse blocks"
+        "caption": "Aerial view of the warehouse blocks",
+        "card": {
+          "src": "/images/warehouses/ndr-surat-surat/01-aerial-card.jpg",
+          "width": 1200,
+          "height": 675
+        }
       }
     ]
   }

@@ -5,7 +5,9 @@ import { JsonLd } from "@/components/JsonLd";
 import { EnquiryForm } from "@/components/sections/EnquiryForm";
 import { Reveal } from "@/components/sections/Reveal";
 import { contact } from "@/lib/data/homepage";
+import { AIRPORTS, CITY_FOR_LEDGER_CITY, type ReferencePlace } from "@/lib/data/referencePlaces";
 import {
+  distanceKm,
   formatAreaSqFt,
   LANDMARK_LABELS,
   relatedWarehouses,
@@ -28,12 +30,7 @@ const LOGISTICS = {
   label: "Logistics and Industrial Infrastructure",
 };
 
-/** Hero figures that come from the location itself, so no site data is needed. */
-const DISTANCE_STATS: { kinds: LandmarkKind[]; label: string }[] = [
-  { kinds: ["airport"], label: "To the airport" },
-  { kinds: ["seaport"], label: "To the port" },
-  { kinds: ["metro", "rail"], label: "To metro / rail" },
-];
+type HeroStat = { label: string; value: string; unit: string; approx?: boolean };
 
 function formatKm(km: number): string {
   return km < 10 ? km.toFixed(1) : String(Math.round(km));
@@ -53,6 +50,42 @@ function formatReportedKm(km: string): string {
 function nearestReported(connections: readonly ReportedConnection[], kinds: LandmarkKind[]) {
   const matches = connections.filter((connection) => connection.kind && kinds.includes(connection.kind));
   return matches.sort((a, b) => reportedKmFloor(a.km) - reportedKmFloor(b.km))[0] ?? null;
+}
+
+/**
+ * Every page shows the same three hero figures: leasable area, the airport and
+ * the city. A distance from the valuation report wins; otherwise it comes from
+ * the site's landmarks, or failing that from the map pin, marked approximate.
+ */
+function heroStats(warehouse: Warehouse): HeroStat[] {
+  const { detail, location, connections } = warehouse;
+  const reported = detail.connectivity ?? [];
+  const distance = (kind: LandmarkKind, places: readonly ReferencePlace[]) => {
+    const fromReport = nearestReported(reported, [kind]);
+    if (fromReport) return { value: formatReportedKm(fromReport.km), unit: "km" };
+    const fromLandmarks = nearest(connections, [kind]);
+    if (fromLandmarks) return { value: formatKm(fromLandmarks.km), unit: "km", approx: true };
+    if (!location || !places.length) return null;
+    const km = Math.min(...places.map((place) => distanceKm(location, place)));
+    return { value: formatKm(km), unit: "km", approx: true };
+  };
+
+  const city = CITY_FOR_LEDGER_CITY[warehouse.city];
+  const airport = distance("airport", AIRPORTS);
+  const toCity = city ? distance("city", [city]) : null;
+  return [
+    ...(warehouse.leasableAreaMsf !== undefined
+      ? [
+          {
+            label: "Leasable area",
+            value: formatMsf(warehouse.leasableAreaMsf).replace(" msf", ""),
+            unit: "msf",
+          },
+        ]
+      : []),
+    ...(airport ? [{ label: "To the airport", ...airport }] : []),
+    ...(city && toCity ? [{ label: `To ${city.name}`, ...toCity }] : []),
+  ];
 }
 
 function jsonLd(warehouse: Warehouse) {
@@ -130,26 +163,7 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
   const email = detail.contact?.email ?? contact.form.route.default;
   const mailto = `mailto:${email}?subject=${encodeURIComponent(`Site visit: ${warehouse.name}`)}`;
 
-  const heroStats: { label: string; value: string; unit: string; approx?: boolean }[] = [
-    ...(warehouse.leasableAreaMsf !== undefined
-      ? [
-          {
-            label: "Leasable area",
-            value: formatMsf(warehouse.leasableAreaMsf).replace(" msf", ""),
-            unit: "msf",
-          },
-        ]
-      : []),
-    ...DISTANCE_STATS.flatMap(({ kinds, label }) => {
-      // A reported range ("45–46") already reads as approximate.
-      if (reported.length) {
-        const hit = nearestReported(reported, kinds);
-        return hit ? [{ label, value: formatReportedKm(hit.km), unit: "km" }] : [];
-      }
-      const hit = nearest(connections, kinds);
-      return hit ? [{ label, value: formatKm(hit.km), unit: "km", approx: true }] : [];
-    }),
-  ];
+  const stats = heroStats(warehouse);
 
   const glance = [
     warehouse.leasableAreaMsf !== undefined
@@ -224,11 +238,11 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
           </div>
         </Container>
 
-        {heroStats.length ? (
+        {stats.length ? (
           <div className={styles.statBand}>
             <Container>
               <dl className={styles.stats}>
-                {heroStats.map((stat) => (
+                {stats.map((stat) => (
                   <div key={stat.label} className={styles.stat}>
                     <dt className={styles.statLabel}>{stat.label}</dt>
                     <dd className={styles.statValue}>
@@ -477,7 +491,7 @@ export function WarehousePage({ warehouse }: { warehouse: Warehouse }) {
                       <span className={styles.relatedMedia}>
                         {cover ? (
                           <Image
-                            src={cover.src}
+                            src={cover.card?.src ?? cover.src}
                             alt=""
                             fill
                             sizes="(max-width: 767px) 100vw, 33vw"

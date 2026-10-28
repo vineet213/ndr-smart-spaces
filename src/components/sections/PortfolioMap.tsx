@@ -63,6 +63,7 @@ type PortfolioMapProps = {
 const WORKER_URL = "/vendor/maplibre/maplibre-gl-worker.mjs";
 const PANEL_RESERVE = 400;
 const PARCEL_ZOOM = 15.5;
+const LOAD_TIMEOUT_MS = 15000;
 const CITY_MAX_ZOOM = 18;
 /** How long warehouse name boxes stay up before they fade away on their own. */
 const NAMES_MS = 5500;
@@ -507,7 +508,23 @@ export default function PortfolioMap({
     map.touchZoomRotate.disableRotation();
     map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
 
+    /* If the tile service is unreachable "load" never fires; give up and show the fallback
+       instead of an endless "Loading map". A single tile failing does not count. */
+    let loaded = false;
+    const fail = () => {
+      if (loaded) return;
+      loaded = true;
+      handlers.current.onFailure();
+    };
+    const loadTimeout = window.setTimeout(fail, LOAD_TIMEOUT_MS);
+    map.on("error", (event: maplibregl.ErrorEvent & { tile?: unknown }) => {
+      if (!event.tile) fail();
+    });
+
     map.on("load", () => {
+      if (loaded) return;
+      loaded = true;
+      window.clearTimeout(loadTimeout);
       /* runtime-drawn pin artwork */
       map.addImage("pin-aum", pinImage("aum"), { pixelRatio: 2 });
       map.addImage("pin-con", pinImage("construction"), { pixelRatio: 2 });
@@ -751,6 +768,7 @@ export default function PortfolioMap({
     observer.observe(canvas);
 
     return () => {
+      window.clearTimeout(loadTimeout);
       observer.disconnect();
       map.remove();
       mapRef.current = null;

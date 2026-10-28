@@ -19,6 +19,7 @@ import {
   underConstructionAssets,
 } from "@/lib/data/portfolio";
 import type { AtlasPinData } from "@/lib/data/portfolio";
+import type { WarehousePhoto } from "@/lib/data/warehouses";
 import { indianStateById } from "@/lib/data/india-states";
 import { MapContextBar } from "./MapContextBar";
 import { PortfolioAtlas } from "./PortfolioAtlas";
@@ -43,7 +44,12 @@ function subscribePhone(onChange: () => void) {
   return () => query.removeEventListener("change", onChange);
 }
 
-export function PropertyRegister() {
+export function PropertyRegister({
+  photos,
+}: {
+  /** Hero photo per warehouse id, shown on the single-warehouse card. */
+  photos: Readonly<Record<string, WarehousePhoto>>;
+}) {
   // Vector tiles / glyphs come from this origin; warm the connection before the map mounts.
   preconnect("https://tiles.openfreemap.org", { crossOrigin: "anonymous" });
 
@@ -149,8 +155,7 @@ export function PropertyRegister() {
         }
       : null;
 
-  const recordIndex = cityRecords.findIndex((record) => record.asset.id === selectedParcelId);
-  const record = recordIndex >= 0 ? cityRecords[recordIndex] : null;
+  const record = cityRecords.find((item) => item.asset.id === selectedParcelId) ?? null;
 
   const level: PanelLevel = record
     ? "warehouse"
@@ -563,7 +568,6 @@ export function PropertyRegister() {
                 city={city}
                 cityRecords={cityRecords}
                 record={record}
-                recordIndex={recordIndex}
                 hoveredId={hoveredId}
                 onHover={setHoveredId}
                 hoveredStateId={hoveredStateId}
@@ -573,6 +577,7 @@ export function PropertyRegister() {
                 onSelectCity={handleCitySelect}
                 onSelectRecord={handleRecordSelect}
                 searchItems={searchItems}
+                photos={photos}
                 searchPlaceholder={
                   mode === "aum" ? "Search a city or warehouse" : "Search a city or project"
                 }

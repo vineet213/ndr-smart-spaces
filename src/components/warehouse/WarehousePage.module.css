@@ -135,8 +135,9 @@
 .heroInner {
   position: relative;
   z-index: 1;
-  padding-top: var(--space-11xl);
-  padding-bottom: var(--space-6xl);
+  /* vertical rhythm shrinks with the window height so the figure strip is always in the first screen */
+  padding-top: clamp(var(--space-xl), 7svh, var(--space-11xl));
+  padding-bottom: clamp(var(--space-xl), 5svh, var(--space-6xl));
   animation: rise-fade var(--duration-long) var(--ease-standard) 150ms both;
 }
 
@@ -144,7 +145,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
-  margin: 0 0 var(--space-4xl);
+  margin: 0 0 clamp(var(--space-lg), 4svh, var(--space-4xl));
   padding: 0;
   list-style: none;
   font-family: var(--font-body);
@@ -179,12 +180,13 @@
   color: var(--color-gold);
 }
 
+/* Sized so the longest warehouse name still fits one line on a laptop, keeping every hero the same height. */
 .heroTitle {
   margin: 0;
-  max-width: 16ch;
   font-family: var(--font-display);
   font-weight: var(--font-weight-display-light);
-  font-size: clamp(2.75rem, 7vw, 6.5rem);
+  font-size: clamp(2.5rem, 5vw, 4.75rem);
+  color: var(--color-ivory);
   line-height: 0.95;
   letter-spacing: -0.02em;
   text-wrap: balance;
@@ -230,7 +232,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-lg);
-  margin-top: var(--space-5xl);
+  margin-top: clamp(var(--space-xl), 5svh, var(--space-5xl));
 }
 
 .ctaPrimary,
@@ -301,7 +303,8 @@
 }
 
 .stat {
-  padding: var(--space-2xl) var(--space-2xl) var(--space-2xl) 0;
+  padding: clamp(var(--space-md), 2.5svh, var(--space-2xl)) var(--space-2xl)
+    clamp(var(--space-md), 2.5svh, var(--space-2xl)) 0;
 }
 
 .stat + .stat {
@@ -333,20 +336,63 @@
   color: var(--color-text-inverse-85);
 }
 
+/* phones: one figure per row, label on the left and value on the right */
 @media (max-width: 767px) {
+  /* the fixed action bar covers the bottom of the screen, so the hero ends above it */
+  .hero {
+    min-height: calc(100svh - var(--header-height, 4.5rem) - 4.5rem);
+  }
+
+  /* one line, so every page's hero is the same height */
+  .breadcrumb ol {
+    flex-wrap: nowrap;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .breadcrumb li:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* the action bar already carries "Book a site visit" */
+  .heroActions {
+    display: none;
+  }
+
+  .heroTitle {
+    font-size: clamp(1.875rem, 8.5vw, 2.5rem);
+    line-height: 1.05;
+  }
+
+  .heroPlace {
+    margin-top: var(--space-md);
+  }
+
   .stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
+    padding-block: var(--space-sm);
   }
 
   .stat,
   .stat + .stat {
-    padding: var(--space-xl) var(--space-lg) var(--space-xl) 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding: var(--space-sm) 0;
     border-left: 0;
   }
 
-  .stat:nth-child(even) {
-    padding-left: var(--space-lg);
-    border-left: 1px solid var(--color-hairline-dark);
+  .stat + .stat {
+    border-top: 1px solid var(--color-hairline-dark);
+  }
+
+  .statValue {
+    flex: none;
+    margin: 0;
+    font-size: 1.5rem;
+    white-space: nowrap;
   }
 }
 
@@ -766,6 +812,11 @@
     bottom: calc(4.5rem + env(safe-area-inset-bottom));
   }
 
+  /* Ask NDR sits inside the action bar, level with its buttons, instead of over the page. */
+  :global(body):has(.mobileBar) :global([aria-label^="Ask NDR"]) {
+    bottom: calc(var(--space-sm) + env(safe-area-inset-bottom));
+  }
+
   .mobileBar {
     position: fixed;
     left: 0;
@@ -775,7 +826,9 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: var(--space-sm);
-    padding: var(--space-sm) var(--margin-mobile) calc(var(--space-sm) + env(safe-area-inset-bottom));
+    /* the right-hand space is kept for the Ask NDR button (a 3rem circle below 480px, a labelled pill above) */
+    padding: var(--space-sm) calc(max(1rem, env(safe-area-inset-right)) + 9.5rem)
+      calc(var(--space-sm) + env(safe-area-inset-bottom)) var(--margin-mobile);
     background-color: rgba(17, 16, 15, 0.94);
     border-top: 1px solid var(--color-hairline-dark);
   }
@@ -804,5 +857,30 @@
   .heroImage,
   .heroInner {
     animation: none;
+  }
+}
+
+/* below 480px Ask NDR is a 3rem circle, so the action bar needs less room for it */
+@media (max-width: 479px) {
+  .mobileBar {
+    grid-template-columns: 1fr auto;
+    padding-right: calc(max(1rem, env(safe-area-inset-right)) + 3.5rem);
+  }
+
+  /* keep both buttons on one line so the bar is the same height on every phone */
+  .mobileBarPrimary,
+  .mobileBarSecondary {
+    padding-inline: var(--space-md);
+    white-space: nowrap;
+  }
+}
+
+/* the narrowest phones (320px): tighter button text so the bar still fits beside Ask NDR */
+@media (max-width: 359px) {
+  .mobileBarPrimary,
+  .mobileBarSecondary {
+    padding-inline: var(--space-sm);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
   }
 }

@@ -5,7 +5,7 @@ import styles from "./WarehouseMap.module.css";
  * API key and loads only as the section nears the viewport (loading="lazy").
  */
 export function WarehouseGoogleMap({ name, lat, lon }: { name: string; lat: number; lon: number }) {
-  const src = `https://maps.google.com/maps?q=${lat},${lon}&t=k&z=16&hl=en&output=embed`;
+  const src = `https://maps.google.com/maps?q=${lat},${lon}&t=k&z=17&hl=en&output=embed`;
   return (
     <div className={styles.frame}>
       <iframe
