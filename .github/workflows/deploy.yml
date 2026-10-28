@@ -29,6 +29,15 @@ jobs:
 
       - run: npm ci
 
+      # The WebP variants (public/_img) take most of the build time. Reusing the last
+      # run's set lets scripts/build-images.mjs re-encode only photos whose content changed.
+      - name: Restore image variants
+        uses: actions/cache@v4
+        with:
+          path: public/_img
+          key: img-${{ hashFiles('public/images/**', 'scripts/build-images.mjs') }}
+          restore-keys: img-
+
       - name: Build
         run: npm run build
 

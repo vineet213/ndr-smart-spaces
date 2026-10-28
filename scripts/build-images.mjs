@@ -12,10 +12,14 @@
  * always request any width in the list.
  *
  * Runs automatically before `next dev` / `next build` (see package.json) and is
- * incremental: a variant newer than its source is skipped. Output is git-ignored.
+ * incremental: a variant is skipped when it is newer than its source, or when
+ * the source's content hash matches the one in `public/_img/.manifest.json`.
+ * The hash check is what lets CI reuse a cached `public/_img` (a fresh checkout
+ * makes every source look new). Output is git-ignored.
  */
 
-import { mkdir, readdir, stat } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import { mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
 import { dirname, join, relative, sep } from "node:path";
 import sharp from "sharp";
 
@@ -26,6 +30,7 @@ const OUT_DIR = join(ROOT, "public", "_img");
 const IMAGE_WIDTHS = [480, 800, 1200, 1600, 2400];
 const QUALITY = 72;
 const EXCLUDE = /^(clients|logos)[\/]/; // small marks are served as authored
+const MANIFEST = join(OUT_DIR, ".manifest.json");
 
 async function* walk(dir) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
@@ -43,11 +48,19 @@ async function mtime(path) {
   }
 }
 
+let manifest = {};
+try {
+  manifest = JSON.parse(await readFile(MANIFEST, "utf8"));
+} catch {
+  // first run, or the cache was empty
+}
+const nextManifest = {};
+
 let written = 0;
 let skipped = 0;
 
 for await (const file of walk(SRC_DIR)) {
-  const rel = relative(SRC_DIR, file);
+  const rel = relative(SRC_DIR, file).split(sep).join("/");
   if (!/\.(jpe?g|png)$/i.test(rel) || EXCLUDE.test(rel)) continue;
 
   const srcTime = await mtime(file);
@@ -57,9 +70,14 @@ for await (const file of walk(SRC_DIR)) {
   const orientation = (await sharp(file).metadata()).orientation ?? 1;
   const width = orientation >= 5 ? (await sharp(file).metadata()).height : metaWidth;
 
+  const hash = `${createHash("sha1").update(await readFile(file)).digest("hex")}|q${QUALITY}`;
+  const sameContent = manifest[rel] === hash;
+  nextManifest[rel] = hash;
+
   for (const target of IMAGE_WIDTHS) {
     const out = `${base}-${target}.webp`;
-    if ((await mtime(out)) > srcTime) {
+    const outTime = await mtime(out);
+    if (outTime > 0 && (sameContent || outTime > srcTime)) {
       skipped += 1;
       continue;
     }
@@ -72,6 +90,9 @@ for await (const file of walk(SRC_DIR)) {
     written += 1;
   }
 }
+
+await mkdir(OUT_DIR, { recursive: true });
+await writeFile(MANIFEST, JSON.stringify(nextManifest, null, 2) + "\n");
 
 console.log(
   `build-images: ${written} variant(s) written, ${skipped} up to date → ${relative(ROOT, OUT_DIR).split(sep).join("/")}/`,
