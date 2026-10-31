@@ -87,7 +87,7 @@
 /* One framed strip split into four tall panels. A large outlined numeral   */
 /* leads each panel, a chevron on each divider carries the eye to the next  */
 /* stage, and a gold bar sweeps across the top, stage by stage, when the    */
-/* strip scrolls into view. Hovering a panel floods it maroon.              */
+/* strip scrolls into view.                                                 */
 
 .stages {
   display: grid;
@@ -123,7 +123,6 @@
   min-height: 15rem;
   box-sizing: border-box;
   padding: var(--space-4xl) var(--space-3xl) var(--space-3xl);
-  transition: background-color 500ms var(--ease-standard);
 }
 
 /* gold sweep along the top edge */
@@ -144,17 +143,6 @@
   transform: scaleX(1);
 }
 
-/* warm glow that rises from the bottom corner on hover */
-.stageItem::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(120% 90% at 100% 100%, rgba(240, 182, 90, 0.2), transparent 60%);
-  opacity: 0;
-  transition: opacity 600ms var(--ease-standard);
-  pointer-events: none;
-}
-
 .stageTop {
   position: relative;
   z-index: 1;
@@ -172,9 +160,6 @@
   letter-spacing: -0.02em;
   color: transparent;
   -webkit-text-stroke: 1.25px rgba(160, 53, 58, 0.7);
-  transition:
-    -webkit-text-stroke-color 500ms var(--ease-standard),
-    transform 600ms var(--ease-standard);
 }
 
 .stageMark {
@@ -183,9 +168,6 @@
   width: 2.75rem;
   height: 2.75rem;
   color: var(--color-maroon);
-  transition:
-    color 500ms var(--ease-standard),
-    transform 600ms var(--ease-standard);
 }
 
 .stageMark svg {
@@ -208,12 +190,10 @@
   letter-spacing: var(--tracking-meta);
   text-transform: uppercase;
   color: var(--color-maroon);
-  transition: color 500ms var(--ease-standard);
 }
 
 .stageTotal {
   color: rgba(125, 120, 113, 0.75);
-  transition: color 500ms var(--ease-standard);
 }
 
 .stageTitle {
@@ -223,7 +203,6 @@
   font-size: clamp(1.375rem, 1.7vw, 1.625rem);
   line-height: 1.2;
   color: var(--color-text-primary);
-  transition: color 500ms var(--ease-standard);
 }
 
 /* chevron sitting on the divider between this panel and the next */
@@ -249,41 +228,9 @@
 }
 
 /* earlier panels stack above later ones, so each chevron sits on top of */
-/* the panel it points into, hovered or not                               */
+/* the panel it points into                                               */
 .stages > li {
   z-index: calc(10 - var(--i, 0));
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .stageItem:hover {
-    background-color: var(--color-maroon-deep);
-  }
-
-  .stageItem:hover::after {
-    opacity: 1;
-  }
-
-  .stageItem:hover .stageNumber {
-    -webkit-text-stroke-color: var(--color-gold);
-    transform: translateY(-0.25rem);
-  }
-
-  .stageItem:hover .stageMark {
-    color: var(--color-gold);
-    transform: translateY(-0.25rem);
-  }
-
-  .stageItem:hover .stageIndex {
-    color: var(--color-gold);
-  }
-
-  .stageItem:hover .stageTotal {
-    color: rgba(250, 247, 242, 0.55);
-  }
-
-  .stageItem:hover .stageTitle {
-    color: var(--color-ivory);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
