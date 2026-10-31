@@ -152,8 +152,8 @@ function LeadershipGroupSection({ group, eager }: { group: LeadershipGroup; eage
 
   useFocusTrap(drawerRef, open, close, closeRef);
 
-  // Page scroll lock without any layout shift: the gutter stays reserved
-  // (html.drawer-open, see reset.css) and Lenis' wheel smoothing is paused.
+  // Page scroll lock without any layout shift: Lenis is paused, and the
+  // scrollbar stays in place (html.drawer-open, see reset.css).
   useEffect(() => {
     if (!open) return;
     document.documentElement.classList.add("drawer-open");

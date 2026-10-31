@@ -50,6 +50,12 @@ export function Header() {
         max > 0 ? String(Math.min(Math.max(y / max, 0), 1)) : "0",
       );
 
+      // A modal is over the page: nothing here is the reader scrolling.
+      if (document.documentElement.classList.contains("drawer-open")) {
+        last = y;
+        return;
+      }
+
       const delta = y - last;
       const header = headerRef.current;
       // Open dropdowns are looked for in the bar only: the mobile menu (closed,

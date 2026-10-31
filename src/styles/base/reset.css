@@ -30,11 +30,13 @@ html {
   }
 }
 
-/* A modal drawer (Leadership profiles) is open: stop the page scrolling, but keep */
-/* the scrollbar gutter reserved so nothing behind it changes width or shifts.     */
-html.drawer-open {
-  overflow: hidden;
-  scrollbar-gutter: stable;
+/* A modal drawer (Leadership profiles) is open. With a mouse Lenis alone stops the */
+/* page: hiding the overflow would drop the scrollbar, and the wider page reflows   */
+/* and moves. Touch scrolling bypasses Lenis, and its scrollbars take no space.     */
+@media (pointer: coarse) {
+  html.drawer-open {
+    overflow: hidden;
+  }
 }
 
 body {
