@@ -11,7 +11,7 @@ import { SketchReveal, phases } from "./SketchReveal";
 import styles from "./AveAcresProcess.module.css";
 
 const ARTWORK_LABEL =
-  "Masterplan of a residential community: a landscaped park with a central garden, play areas, pavilions and a sports field, beside tree-lined roads and plots";
+  "Masterplan of a residential community seen from above: numbered plots in green blocks, divided by tree-lined roads, with a landscaped park at the far corner";
 
 const glyphStyle = {
   viewBox: "0 0 56 56",
@@ -174,7 +174,7 @@ export function AveAcresProcess() {
           <div className={styles.staticBox}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/residential/land-photo.jpg"
+              src="/images/residential/masterplan-photo.jpg"
               alt={ARTWORK_LABEL}
               className={styles.fallback}
             />

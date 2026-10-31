@@ -5,10 +5,10 @@ import styles from "./AveAcresProcess.module.css";
 
 /* Artwork made by scripts/residential-sketch.mjs from one render. */
 const SRC = {
-  photo: "/images/residential/land-photo.jpg",
-  photoSmall: "/images/residential/land-photo-1200.jpg",
-  sketch: "/images/residential/land-sketch.png", // R ink, G hatching
-  time: "/images/residential/land-timemap.png", // R ink, G hatching, B paint: when each pixel appears
+  photo: "/images/residential/masterplan-photo.jpg",
+  photoSmall: "/images/residential/masterplan-photo-1200.jpg",
+  sketch: "/images/residential/masterplan-sketch.png", // R ink, G hatching
+  time: "/images/residential/masterplan-timemap.png", // R ink, G hatching, B paint: when each pixel appears
 } as const;
 const IMAGE_ASPECT = 16 / 9;
 

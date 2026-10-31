@@ -5,10 +5,10 @@
  *   node scripts/residential-sketch.mjs
  *
  * Outputs (public/images/residential/):
- *   land-photo.jpg / land-photo-1200.jpg  the colour render
- *   land-sketch.png   R = ink lines (difference of Gaussians, two scales)
+ *   masterplan-photo.jpg / masterplan-photo-1200.jpg  the colour render
+ *   masterplan-sketch.png   R = ink lines (difference of Gaussians, two scales)
  *                     G = pencil hatching, density following the tone
- *   land-timemap.png  when each pixel appears, 0-255 = 0-1 of its phase:
+ *   masterplan-timemap.png  when each pixel appears, 0-255 = 0-1 of its phase:
  *                     R = ink: a left-to-right sweep plus distance travelled
  *                         along the lines themselves, so strokes grow
  *                     G = hatching, in diagonal bands
@@ -20,7 +20,7 @@ import path from "node:path";
 import { mkdir } from "node:fs/promises";
 import sharp from "sharp";
 
-const SRC = "Project resources/residential plotting/gallery-8.jpg";
+const SRC = "Project resources/residential plotting/gallery-14.jpg";
 const OUT = "public/images/residential";
 const W = 2400;
 const H = 1350;
@@ -108,11 +108,11 @@ await mkdir(OUT, { recursive: true });
 await sharp(SRC)
   .resize(W, H)
   .jpeg({ quality: 82, mozjpeg: true })
-  .toFile(path.join(OUT, "land-photo.jpg"));
+  .toFile(path.join(OUT, "masterplan-photo.jpg"));
 await sharp(SRC)
   .resize(1200, 675)
   .jpeg({ quality: 80, mozjpeg: true })
-  .toFile(path.join(OUT, "land-photo-1200.jpg"));
+  .toFile(path.join(OUT, "masterplan-photo-1200.jpg"));
 
 const { data: rgb } = await sharp(SRC)
   .resize(W, H)
@@ -212,7 +212,7 @@ for (let i = 0; i < W * H; i++) {
 }
 await sharp(sketchBuf, { raw: { width: W, height: H, channels: 3 } })
   .png({ compressionLevel: 9 })
-  .toFile(path.join(OUT, "land-sketch.png"));
+  .toFile(path.join(OUT, "masterplan-sketch.png"));
 
 /* Preview of the finished drawing, for checking by eye (written to the OS temp folder). */
 const preview = Buffer.alloc(W * H * 3);
@@ -448,7 +448,7 @@ for (let i = 0; i < N; i++) {
 }
 await sharp(timeBuf, { raw: { width: TW, height: TH, channels: 3 } })
   .png({ compressionLevel: 9 })
-  .toFile(path.join(OUT, "land-timemap.png"));
+  .toFile(path.join(OUT, "masterplan-timemap.png"));
 
 let covered = 0;
 for (let i = 0; i < N; i++) if (paintTime[i] < 1) covered++;
