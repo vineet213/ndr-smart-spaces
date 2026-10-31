@@ -7,10 +7,10 @@ import styles from "./AveAcresProcess.module.css";
 const SRC = {
   photo: "/images/residential/masterplan-photo.jpg",
   photoSmall: "/images/residential/masterplan-photo-1200.jpg",
-  sketch: "/images/residential/masterplan-sketch.png", // R ink, G hatching
-  time: "/images/residential/masterplan-timemap.png", // R ink, G hatching, B paint: when each pixel appears
+  sketch: "/images/residential/masterplan-sketch.png", // R roads, G plots, B boundary
+  time: "/images/residential/masterplan-timemap.png", // R, G the drawing, B the colour: when each pixel appears
 } as const;
-const IMAGE_ASPECT = 16 / 9;
+const IMAGE_ASPECT = 80 / 41;
 
 /* Light extra smoothing on top of Lenis: share of the remaining distance per frame. */
 const FOLLOW = 0.15;
@@ -19,14 +19,15 @@ const FOLLOW = 0.15;
 export function phases(p: number) {
   const span = (a: number, b: number) => Math.min(Math.max((p - a) / (b - a), 0), 1);
   return {
-    ink: span(0.02, 0.32),
-    shade: span(0.22, 0.45),
-    // starts just below 0 (nothing painted until the phase begins, even where
-    // a stroke's time is 0) and ends a touch past 1 so the last strokes finish
-    // eased in: the first sweeps are broad, so coverage would otherwise race ahead
-    paint: Math.pow(span(0.45, 0.82), 1.6) * 1.12 - 0.05,
+    boundary: span(0.02, 0.2),
+    // the wave runs slightly past both ends so nothing shows early or stays undrawn
+    roads: span(0.14, 0.32) * 1.08 - 0.04,
+    plots: span(0.26, 0.45) * 1.08 - 0.04,
+    colour: Math.pow(span(0.46, 0.82), 1.25) * 1.06 - 0.03,
     full: span(0.8, 0.88),
     expand: span(0.88, 1),
+    // a slow push in while the plan is made, easing back before it opens out
+    zoom: 1 - 0.05 * Math.sin(Math.PI * span(0, 0.88)),
   };
 }
 
@@ -38,10 +39,10 @@ void main() {
   gl_Position = vec4(aPos, 0.0, 1.0);
 }`;
 
-/* One pass: the drawing appears where its time has come (ink grows along   */
-/* its lines, hatching fills in bands), then the photograph is painted in   */
-/* where the brush map's time has come, with the ink showing through the    */
-/* fresh paint until the very end. The cursor brush adds its own paint.     */
+/* One pass, in the order a site is made: the boundary is walked round in   */
+/* gold from the entrance, the roads spread out from it, the plots and      */
+/* their numbers follow, then colour comes in along the roads and block by  */
+/* block, with the land around the site last.                               */
 const FRAGMENT = `
 precision mediump float;
 varying vec2 vUv;
@@ -49,46 +50,38 @@ uniform sampler2D tPhoto;
 uniform sampler2D tSketch;
 uniform sampler2D tTime;
 uniform vec2 uScale;
-uniform float uInk;
-uniform float uShade;
-uniform float uPaint;
+uniform float uBoundary;
+uniform float uRoads;
+uniform float uPlots;
+uniform float uColour;
 uniform float uFull;
-uniform float uBrush;
-uniform vec2 uMouse;
-uniform float uAspect;
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
-float noise(vec2 p) {
-  vec2 i = floor(p);
-  vec2 f = fract(p);
-  vec2 u = f * f * (3.0 - 2.0 * f);
-  return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
-             mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
-}
 
 void main() {
   vec2 uv = (vUv - 0.5) * uScale + 0.5;
   vec3 photo = texture2D(tPhoto, uv).rgb;
-  vec2 sk = texture2D(tSketch, uv).rg;
+  vec3 sk = texture2D(tSketch, uv).rgb;
   vec3 tm = texture2D(tTime, uv).rgb;
 
-  float ink = sk.r * smoothstep(tm.r - 0.004, tm.r + 0.012, uInk);
-  float shade = sk.g * smoothstep(tm.g, tm.g + 0.07, uShade);
-  float graphite = max(ink, shade * 0.62);
+  // the boundary is walked round the site, starting at the bottom
+  float walk = fract(atan(uv.y - 0.45, uv.x - 0.5) / 6.28318 + 0.75);
+  float boundary = sk.b * smoothstep(walk - 0.012, walk + 0.012, uBoundary * 1.03);
+  float roads = sk.r * smoothstep(tm.r - 0.03, tm.r + 0.03, uRoads);
+  float plots = sk.g * smoothstep(tm.g - 0.04, tm.g + 0.04, uPlots);
+  float line = max(roads, plots);
 
-  vec3 paper = vec3(0.980, 0.969, 0.949) - hash(floor(uv * vec2(2400.0, 1350.0))) * 0.012;
-  vec3 drawing = mix(paper, vec3(0.15, 0.14, 0.13), graphite);
+  vec3 paper = vec3(0.980, 0.969, 0.949) - hash(floor(uv * vec2(2400.0, 1230.0))) * 0.008;
+  vec3 drawing = mix(paper, vec3(0.15, 0.14, 0.13), line);
+  vec3 gold = vec3(0.84, 0.59, 0.23);
+  drawing = mix(drawing, gold, boundary);
 
-  float paint = smoothstep(tm.b - 0.04, tm.b, uPaint);
+  float colour = max(smoothstep(tm.b - 0.035, tm.b + 0.005, uColour), uFull);
 
-  // cursor brush: a soft, bristled disc
-  vec2 d = (vUv - uMouse) * vec2(uAspect, 1.0);
-  float r = length(d) + (noise(vUv * vec2(90.0, 30.0)) - 0.5) * 0.03;
-  paint = max(paint, uBrush * (1.0 - smoothstep(0.06, 0.12, r)));
-  paint = max(paint, uFull);
-
-  vec3 painted = photo * (1.0 - ink * 0.5 * (1.0 - uFull));
-  gl_FragColor = vec4(mix(drawing, painted, paint), 1.0);
+  // the lines stay faintly over fresh colour, then settle into it
+  vec3 painted = photo * (1.0 - line * 0.3 * (1.0 - uFull));
+  painted = mix(painted, gold, boundary * 0.8 * (1.0 - uFull));
+  gl_FragColor = vec4(mix(drawing, painted, colour), 1.0);
 }`;
 
 type SketchRevealProps = {
@@ -96,8 +89,6 @@ type SketchRevealProps = {
   targetRef: RefObject<number>;
   /** Called every frame with the smoothed progress (for the box transform). */
   onFrame?: (progress: number) => void;
-  /** Cursor painting allowed (desktop, motion allowed). */
-  brush: boolean;
   label: string;
 };
 
@@ -111,7 +102,7 @@ function loadImage(src: string) {
   });
 }
 
-export function SketchReveal({ targetRef, onFrame, brush, label }: SketchRevealProps) {
+export function SketchReveal({ targetRef, onFrame, label }: SketchRevealProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const onFrameRef = useRef(onFrame);
   const [failed, setFailed] = useState(false);
@@ -155,13 +146,11 @@ export function SketchReveal({ targetRef, onFrame, brush, label }: SketchRevealP
     const u = (name: string) => gl.getUniformLocation(program, name);
     const uni = {
       scale: u("uScale"),
-      ink: u("uInk"),
-      shade: u("uShade"),
-      paint: u("uPaint"),
+      boundary: u("uBoundary"),
+      roads: u("uRoads"),
+      plots: u("uPlots"),
+      colour: u("uColour"),
       full: u("uFull"),
-      brush: u("uBrush"),
-      mouse: u("uMouse"),
-      aspect: u("uAspect"),
     };
     ["tPhoto", "tSketch", "tTime"].forEach((name, i) => gl.uniform1i(u(name), i));
 
@@ -171,8 +160,7 @@ export function SketchReveal({ targetRef, onFrame, brush, label }: SketchRevealP
     let visible = false;
     let shown = targetRef.current ?? 0;
     let drawn = -1;
-    const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, inside: false };
-    let brushAmount = 0;
+    let cover: [number, number] = [1, 1];
     let dirty = true;
 
     const resize = () => {
@@ -186,20 +174,18 @@ export function SketchReveal({ targetRef, onFrame, brush, label }: SketchRevealP
       }
       const aspect = canvas.clientWidth / Math.max(canvas.clientHeight, 1);
       // cover: crop the 16:9 artwork to the box
-      if (aspect > IMAGE_ASPECT) gl.uniform2f(uni.scale, 1, IMAGE_ASPECT / aspect);
-      else gl.uniform2f(uni.scale, aspect / IMAGE_ASPECT, 1);
-      gl.uniform1f(uni.aspect, aspect);
+      cover = aspect > IMAGE_ASPECT ? [1, IMAGE_ASPECT / aspect] : [aspect / IMAGE_ASPECT, 1];
       dirty = true;
     };
 
     const draw = (p: number) => {
       const ph = phases(p);
-      gl.uniform1f(uni.ink, ph.ink);
-      gl.uniform1f(uni.shade, ph.shade);
-      gl.uniform1f(uni.paint, ph.paint);
+      gl.uniform2f(uni.scale, cover[0] * ph.zoom, cover[1] * ph.zoom);
+      gl.uniform1f(uni.boundary, ph.boundary);
+      gl.uniform1f(uni.roads, ph.roads);
+      gl.uniform1f(uni.plots, ph.plots);
+      gl.uniform1f(uni.colour, ph.colour);
       gl.uniform1f(uni.full, ph.full);
-      gl.uniform1f(uni.brush, brushAmount);
-      gl.uniform2f(uni.mouse, mouse.x, mouse.y);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     };
 
@@ -209,16 +195,7 @@ export function SketchReveal({ targetRef, onFrame, brush, label }: SketchRevealP
       const target = targetRef.current ?? 0;
       shown += (target - shown) * FOLLOW;
       if (Math.abs(target - shown) < 0.0003) shown = target;
-      mouse.x += (mouse.tx - mouse.x) * 0.2;
-      mouse.y += (mouse.ty - mouse.y) * 0.2;
-      const brushTarget = brush && mouse.inside && phases(shown).paint < 0.02 ? 1 : 0;
-      brushAmount += (brushTarget - brushAmount) * 0.12;
-      if (Math.abs(brushTarget - brushAmount) < 0.002) brushAmount = brushTarget;
-      const moving =
-        shown !== target ||
-        brushAmount !== brushTarget ||
-        Math.abs(mouse.tx - mouse.x) + Math.abs(mouse.ty - mouse.y) > 0.0005;
-      if (ready && (dirty || shown !== drawn || moving)) {
+      if (ready && (dirty || shown !== drawn)) {
         draw(shown);
         drawn = shown;
         dirty = false;
@@ -254,23 +231,6 @@ export function SketchReveal({ targetRef, onFrame, brush, label }: SketchRevealP
       })
       .catch(() => setFailed(true));
 
-    const onMove = (event: PointerEvent) => {
-      if (event.pointerType !== "mouse") return;
-      const rect = canvas.getBoundingClientRect();
-      mouse.tx = (event.clientX - rect.left) / rect.width;
-      mouse.ty = (event.clientY - rect.top) / rect.height;
-      if (!mouse.inside) {
-        mouse.x = mouse.tx;
-        mouse.y = mouse.ty;
-      }
-      mouse.inside = true;
-      wake();
-    };
-    const onLeave = () => {
-      mouse.inside = false;
-      wake();
-    };
-
     resize();
     const resizeObserver = new ResizeObserver(() => {
       resize();
@@ -283,8 +243,6 @@ export function SketchReveal({ targetRef, onFrame, brush, label }: SketchRevealP
     });
     intersection.observe(canvas);
     window.addEventListener("scroll", wake, { passive: true });
-    canvas.addEventListener("pointermove", onMove);
-    canvas.addEventListener("pointerleave", onLeave);
 
     return () => {
       disposed = true;
@@ -292,13 +250,11 @@ export function SketchReveal({ targetRef, onFrame, brush, label }: SketchRevealP
       resizeObserver.disconnect();
       intersection.disconnect();
       window.removeEventListener("scroll", wake);
-      canvas.removeEventListener("pointermove", onMove);
-      canvas.removeEventListener("pointerleave", onLeave);
       // The context is left to the browser to release with the canvas: forcing
       // it lost here breaks the immediate remount React does in development.
       gl.deleteProgram(program);
     };
-  }, [targetRef, brush]);
+  }, [targetRef]);
 
   if (failed) {
     return (

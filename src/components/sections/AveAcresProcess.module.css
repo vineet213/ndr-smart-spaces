@@ -46,7 +46,7 @@
   overflow: hidden;
 }
 
-/* The artwork's frame: nearly the full width, 16:9 where the screen is tall */
+/* The artwork's frame: nearly the full width, at the plan's ratio if tall   */
 /* enough, otherwise as tall as fits (the artwork crops to the frame, so a  */
 /* short screen trims a little sky and lawn rather than shrinking it). Once */
 /* painted it lifts off the page (--lift) and then opens out to full bleed. */
@@ -55,7 +55,7 @@
   --box-w: min(94vw, 96rem);
   position: relative;
   width: var(--box-w);
-  height: min(calc(var(--box-w) * 9 / 16), calc(100svh - var(--header-height, 4.5rem) - 2rem));
+  height: min(calc(var(--box-w) * 41 / 80), calc(100svh - var(--header-height, 4.5rem) - 2rem));
   overflow: hidden;
   border-radius: 0.75rem;
   transform-origin: center;
@@ -79,7 +79,7 @@
 .staticBox {
   margin-top: var(--space-5xl);
   overflow: hidden;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 80 / 41;
   border-radius: 0.75rem;
 }
 

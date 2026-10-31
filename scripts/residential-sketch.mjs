@@ -4,16 +4,18 @@
  *
  *   node scripts/residential-sketch.mjs
  *
+ * The render is read as a plan rather than traced as a picture: green is
+ * plots, pale grey inside the site is road, white on green is a plot number.
+ *
  * Outputs (public/images/residential/):
- *   masterplan-photo.jpg / masterplan-photo-1200.jpg  the colour render
- *   masterplan-sketch.png   R = ink lines (difference of Gaussians, two scales)
- *                     G = pencil hatching, density following the tone
+ *   masterplan-photo.jpg / masterplan-photo-1200.jpg  the colour render, cropped
+ *   masterplan-sketch.png   R = roads (the block outlines)
+ *                           G = plot lines and plot numbers
+ *                           B = the site boundary, drawn in gold
  *   masterplan-timemap.png  when each pixel appears, 0-255 = 0-1 of its phase:
- *                     R = ink: a left-to-right sweep plus distance travelled
- *                         along the lines themselves, so strokes grow
- *                     G = hatching, in diagonal bands
- *                     B = paint: bristled brush sweeps, time running along
- *                         each stroke
+ *                           R, G = a wave out from the entrance
+ *                           B = colour: roads, then block by block, then the
+ *                               land around the site
  */
 import os from "node:os";
 import path from "node:path";
@@ -23,9 +25,30 @@ import sharp from "sharp";
 const SRC = "Project resources/residential plotting/gallery-14.jpg";
 const OUT = "public/images/residential";
 const W = 2400;
-const H = 1350;
+const H = 1230;
 const TW = 1200; // time map size
-const TH = 675;
+const TH = 615;
+
+// tight on the plots; 4096 x 2304 source, ratio matches IMAGE_ASPECT in SketchReveal
+const CROP = { left: 50, top: 10, width: 3996, height: 2048 };
+
+// the developed site, in output 0-1 coordinates: keeps the fields and sheds
+// around it out of the drawing
+const SITE = [
+  [0.375, 0.02],
+  [0.69, 0.02],
+  [0.83, 0.25],
+  [0.93, 0.31],
+  [0.895, 0.385],
+  [0.985, 0.49],
+  [0.98, 0.76],
+  [0.8, 0.8],
+  [0.02, 0.815],
+  [0.06, 0.66],
+  [0.17, 0.55],
+  [0.25, 0.32],
+];
+const ENTRANCE = [0.5, 0.74]; // the main road, where the drawing and the colour start
 
 /* ── small image toolkit on Float32Arrays ──────────────────────────────── */
 
@@ -105,110 +128,132 @@ function fbm(x, y, seed) {
 
 await mkdir(OUT, { recursive: true });
 
-await sharp(SRC)
+const cropped = () => sharp(SRC).extract(CROP);
+await cropped()
   .resize(W, H)
-  .jpeg({ quality: 82, mozjpeg: true })
+  .jpeg({ quality: 84, mozjpeg: true })
   .toFile(path.join(OUT, "masterplan-photo.jpg"));
-await sharp(SRC)
-  .resize(1200, 675)
+await cropped()
+  .resize(1200, 615)
   .jpeg({ quality: 80, mozjpeg: true })
   .toFile(path.join(OUT, "masterplan-photo-1200.jpg"));
 
-const { data: rgb } = await sharp(SRC)
+const { data: rgb } = await cropped()
   .resize(W, H)
   .removeAlpha()
   .raw()
   .toBuffer({ resolveWithObject: true });
-const gray = new Float32Array(W * H);
-for (let i = 0; i < W * H; i++) {
-  gray[i] = (0.299 * rgb[i * 3] + 0.587 * rgb[i * 3 + 1] + 0.114 * rgb[i * 3 + 2]) / 255;
-}
 
-/* ── ink lines: difference of Gaussians on brightness, plus colour edges ─ */
+/* ── read the plan ─────────────────────────────────────────────────────── */
 
-const smooth = blur(gray, W, H, 0.7);
-function dogLines(sigma, k, lo, hi) {
-  const a = blur(smooth, W, H, sigma);
-  const b = blur(smooth, W, H, sigma * k);
-  const out = new Float32Array(W * H);
-  // a pixel darker than its surroundings becomes ink
-  for (let i = 0; i < out.length; i++) out[i] = smoothstep(lo, hi, b[i] - a[i]);
-  return out;
-}
-const fine = dogLines(0.9, 1.7, 0.014, 0.05);
-const coarse = dogLines(2.2, 1.7, 0.02, 0.065);
-
-// edges between areas of different colour but similar brightness (pink
-// paths on sand, grass on paving), which a brightness-only pass misses
-const colourInk = new Float32Array(W * H);
-for (let c = 0; c < 3; c++) {
-  const ch = new Float32Array(W * H);
-  for (let i = 0; i < ch.length; i++) ch[i] = rgb[i * 3 + c] / 255;
-  const a = blur(ch, W, H, 1.0);
-  const b = blur(ch, W, H, 2.0);
-  for (let i = 0; i < ch.length; i++) {
-    colourInk[i] = Math.max(colourInk[i], smoothstep(0.035, 0.1, Math.abs(a[i] - b[i])));
+function inPolygon(x, y, poly) {
+  let inside = false;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const [xi, yi] = poly[i];
+    const [xj, yj] = poly[j];
+    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) inside = !inside;
   }
-}
-const ink = new Float32Array(W * H);
-for (let i = 0; i < ink.length; i++) {
-  // a firmer pen: lift faint lines towards full strength
-  ink[i] = Math.pow(Math.max(fine[i], coarse[i] * 0.85, colourInk[i] * 0.7), 0.7);
+  return inside;
 }
 
-/* ── shading: soft graphite tone, hatching only on planting ─────────────── */
-
-// classic pencil tone: grayscale colour-dodged by its blurred inverse
-const inv = new Float32Array(W * H);
-for (let i = 0; i < inv.length; i++) inv[i] = 1 - gray[i];
-const invBlur = blur(inv, W, H, 9);
-// local texture: tree canopies are busy, lawns and the pitch are flat
-const mean = blur(gray, W, H, 4);
-const sq = new Float32Array(W * H);
-for (let i = 0; i < sq.length; i++) sq[i] = gray[i] * gray[i];
-const meanSq = blur(sq, W, H, 4);
-const shade = new Float32Array(W * H);
+const site = new Float32Array(W * H);
+const green = new Float32Array(W * H); // plots: a clean, saturated green
+const number = new Float32Array(W * H); // plot numbers: white on green
 for (let y = 0; y < H; y++) {
   for (let x = 0; x < W; x++) {
     const i = y * W + x;
-    const pencil = clamp01(gray[i] / Math.max(0.001, 1 - invBlur[i])); // 1 = paper
-    const graphite = Math.pow(1 - pencil, 0.85) * 0.55;
-    // planting: greener than it is red or blue, and not too bright
+    if (!inPolygon(x / W, y / H, SITE)) continue;
+    site[i] = 1;
     const r = rgb[i * 3] / 255;
     const g = rgb[i * 3 + 1] / 255;
     const b = rgb[i * 3 + 2] / 255;
-    const veg = smoothstep(0.015, 0.08, g - Math.max(r, b)) * smoothstep(0.8, 0.35, gray[i]);
-    let hatch = 0;
-    if (veg > 0.05) {
-      const texture = smoothstep(
-        0.025,
-        0.07,
-        Math.sqrt(Math.max(0, meanSq[i] - mean[i] * mean[i])),
-      );
-      const dark = smoothstep(0.75, 0.2, gray[i]) * (0.45 + texture * 0.55);
-      const wobble = (fbm(x / 70, y / 70, 3) - 0.5) * 4;
-      // flat grass: sparse single hatching; canopies: dense, crossed
-      const spacing = texture > 0.5 ? 6 : 10;
-      const p1 = (((x + y + wobble) % spacing) + spacing) % spacing;
-      const run1 = noise((x - y) / 10, (x + y) / 6, 17) > 0.3;
-      hatch = run1 && p1 < 0.9 + dark * 1.6 ? 1 : 0;
-      if (dark > 0.5 && texture > 0.5) {
-        const p2 = (((x - y + wobble) % 7) + 7) % 7;
-        const run2 = noise((x + y) / 10, (x - y) / 7, 19) > 0.35;
-        if (run2 && p2 < (dark - 0.5) * 2.4) hatch = 1;
-      }
-      hatch *= veg * (0.3 + dark * 0.55) * (0.55 + texture * 0.45);
-    }
-    const grain = 0.8 + fbm(x / 2.5, y / 2.5, 11) * 0.4;
-    shade[i] = clamp01(Math.max(graphite, hatch) * grain);
+    if (g > r * 1.05 && g > b * 1.12 && g > 0.2) green[i] = 1;
+    if (Math.min(r, g, b) > 0.62) number[i] = 1;
   }
+}
+
+// a plot block: blur over the numbers, fill what is left enclosed, then
+// smooth the outline so roadside trees leave no bumps
+const blockRough = blur(green, W, H, 8);
+{
+  const outside = new Uint8Array(W * H);
+  const queue = new Int32Array(W * H);
+  let top = 0;
+  outside[0] = 1;
+  queue[top++] = 0;
+  while (top > 0) {
+    const i = queue[--top];
+    const x = i % W;
+    for (const j of [x > 0 ? i - 1 : -1, x < W - 1 ? i + 1 : -1, i - W, i + W]) {
+      if (j >= 0 && j < W * H && !outside[j] && blockRough[j] < 0.5) {
+        outside[j] = 1;
+        queue[top++] = j;
+      }
+    }
+  }
+  for (let i = 0; i < blockRough.length; i++) blockRough[i] = outside[i] ? 0 : 1;
+}
+const siteSoft = blur(site, W, H, 6);
+for (let i = 0; i < blockRough.length; i++) blockRough[i] *= siteSoft[i] > 0.75 ? 1 : 0;
+const blockSoft = blur(blockRough, W, H, 3.5);
+
+// an even-width line along one level of a smooth field
+function contour(field, level, width) {
+  const out = new Float32Array(W * H);
+  for (let y = 1; y < H - 1; y++) {
+    for (let x = 1; x < W - 1; x++) {
+      const i = y * W + x;
+      const gx = (field[i + 1] - field[i - 1]) / 2;
+      const gy = (field[i + W] - field[i - W]) / 2;
+      const d = Math.abs(field[i] - level) / Math.max(Math.hypot(gx, gy), 0.002);
+      out[i] = 1 - smoothstep(width * 0.5, width * 0.5 + 1, d);
+    }
+  }
+  return out;
+}
+
+const roads = contour(blockSoft, 0.5, 1.4);
+
+// the site boundary follows the traced outline, softened into a drawn line
+const boundary = contour(siteSoft, 0.5, 2.2);
+
+// plot lines: where the checker of light and dark green changes, read from
+// bright green pixels only so numbers and tree shadows leave no mark
+const lit = new Float32Array(W * H);
+const value = new Float32Array(W * H);
+for (let i = 0; i < W * H; i++) {
+  lit[i] = green[i] && rgb[i * 3 + 1] > 80 ? 1 : 0;
+  value[i] = lit[i] * (rgb[i * 3 + 1] / 255);
+}
+const weight = blur(lit, W, H, 3);
+const sum = blur(value, W, H, 3);
+const tone = new Float32Array(W * H);
+for (let i = 0; i < W * H; i++) tone[i] = sum[i] / Math.max(weight[i], 0.02);
+const grad = new Float32Array(W * H);
+for (let y = 1; y < H - 1; y++) {
+  for (let x = 1; x < W - 1; x++) {
+    const i = y * W + x;
+    grad[i] = Math.hypot(tone[i + 1] - tone[i - 1], tone[i + W] - tone[i - W]);
+  }
+}
+const gradWide = blur(grad, W, H, 3);
+const cellThin = new Float32Array(W * H);
+for (let i = 0; i < W * H; i++) {
+  const ridge = smoothstep(1.0, 1.35, grad[i] / Math.max(gradWide[i], 0.001));
+  cellThin[i] = ridge * smoothstep(0.03, 0.06, grad[i]) * smoothstep(0.8, 0.98, blockSoft[i]);
+}
+
+const plots = new Float32Array(W * H);
+for (let i = 0; i < plots.length; i++) {
+  const figure = number[i] * smoothstep(0.8, 0.98, blockSoft[i]);
+  plots[i] = clamp01(Math.max(cellThin[i] * 0.5, figure * 0.9));
 }
 
 const sketchBuf = Buffer.alloc(W * H * 3);
 for (let i = 0; i < W * H; i++) {
-  sketchBuf[i * 3] = Math.round(ink[i] * 255);
-  sketchBuf[i * 3 + 1] = Math.round(shade[i] * 255);
-  sketchBuf[i * 3 + 2] = 0;
+  sketchBuf[i * 3] = Math.round(roads[i] * 255);
+  sketchBuf[i * 3 + 1] = Math.round(plots[i] * 255);
+  sketchBuf[i * 3 + 2] = Math.round(boundary[i] * 255);
 }
 await sharp(sketchBuf, { raw: { width: W, height: H, channels: 3 } })
   .png({ compressionLevel: 9 })
@@ -217,11 +262,14 @@ await sharp(sketchBuf, { raw: { width: W, height: H, channels: 3 } })
 /* Preview of the finished drawing, for checking by eye (written to the OS temp folder). */
 const preview = Buffer.alloc(W * H * 3);
 for (let i = 0; i < W * H; i++) {
-  const d = clamp01(Math.max(ink[i], shade[i] * 0.6));
   const paper = [250, 247, 242];
   const graphite = [38, 36, 34];
-  for (let c = 0; c < 3; c++)
-    preview[i * 3 + c] = Math.round(paper[c] + (graphite[c] - paper[c]) * d);
+  const gold = [214, 150, 58];
+  const d = Math.max(roads[i], plots[i]);
+  for (let c = 0; c < 3; c++) {
+    const inked = paper[c] + (graphite[c] - paper[c]) * d;
+    preview[i * 3 + c] = Math.round(inked + (gold[c] - inked) * boundary[i]);
+  }
 }
 await sharp(preview, { raw: { width: W, height: H, channels: 3 } })
   .jpeg({ quality: 85 })
@@ -231,226 +279,101 @@ await sharp(preview, { raw: { width: W, height: H, channels: 3 } })
 
 const N = TW * TH;
 const S = W / TW;
+const down = (src) => {
+  const out = new Float32Array(N);
+  for (let y = 0; y < TH; y++) {
+    for (let x = 0; x < TW; x++) out[y * TW + x] = src[y * S * W + x * S];
+  }
+  return out;
+};
 
-// ink mask at time-map resolution (max of each 2x2 block)
-const mask = new Uint8Array(N);
+// R and G: one wave out from the entrance, with a little drift so it never
+// reads as a perfect circle
+const fromEntrance = new Float32Array(N);
+let reach = 0;
 for (let y = 0; y < TH; y++) {
   for (let x = 0; x < TW; x++) {
-    let m = 0;
-    for (let dy = 0; dy < S; dy++)
-      for (let dx = 0; dx < S; dx++) m = Math.max(m, ink[(y * S + dy) * W + x * S + dx]);
-    mask[y * TW + x] = m > 0.2 ? 1 : 0;
+    const dx = (x - ENTRANCE[0] * TW) / TW;
+    const dy = ((y - ENTRANCE[1] * TH) / TH) * (TH / TW);
+    const d = Math.hypot(dx, dy) + (fbm(x / 90, y / 90, 21) - 0.5) * 0.05;
+    fromEntrance[y * TW + x] = d;
+    reach = Math.max(reach, d);
   }
 }
+for (let i = 0; i < N; i++) fromEntrance[i] = clamp01(fromEntrance[i] / reach);
 
-// R: seeds on a coarse grid start at a left-to-right sweep time; ink then
-// grows outward from them along the lines (bucket-queue Dijkstra).
-const BUCKETS = 8192;
-const T_RANGE = 2; // bucket queue covers times 0-2; normalised afterwards
-const inkTime = new Float64Array(N).fill(Infinity);
-const CAP = N * 9;
-const head = new Int32Array(BUCKETS).fill(-1);
-const nextEntry = new Int32Array(CAP);
-const entryPixel = new Int32Array(CAP);
-let entries = 0;
-const push = (bucket, pixel) => {
-  if (entries >= CAP) return;
-  entryPixel[entries] = pixel;
-  nextEntry[entries] = head[bucket];
-  head[bucket] = entries++;
-};
-// Every connected piece of line is seeded at its leftmost-on-the-sweep
-// pixel, at the sweep's time there; it then grows outward along itself.
-const sweepAt = (x, y) => 0.88 * (x / TW) + 0.06 * (y / TH) + hash(x, y, 9) * 0.02;
+// B: separate each plot block, then give every block its turn
+const blockSmall = down(blockSoft);
+const siteSmall = down(site);
 const label = new Int32Array(N).fill(-1);
 const stack = new Int32Array(N);
-let components = 0;
+const blocks = [];
 for (let start = 0; start < N; start++) {
-  if (!mask[start] || label[start] !== -1) continue;
+  if (blockSmall[start] < 0.6 || label[start] !== -1) continue;
   let top = 0;
   stack[top++] = start;
-  label[start] = components;
-  let seed = start;
-  let seedT = sweepAt(start % TW, Math.floor(start / TW));
+  label[start] = blocks.length;
+  let total = 0;
+  let count = 0;
   while (top > 0) {
     const i = stack[--top];
+    total += fromEntrance[i];
+    count++;
     const x = i % TW;
-    const y = (i - x) / TW;
-    const t = sweepAt(x, y);
-    if (t < seedT) {
-      seedT = t;
-      seed = i;
-    }
-    for (let dy = -1; dy <= 1; dy++) {
-      for (let dx = -1; dx <= 1; dx++) {
-        const nx = x + dx;
-        const ny = y + dy;
-        if (nx < 0 || ny < 0 || nx >= TW || ny >= TH) continue;
-        const j = ny * TW + nx;
-        if (mask[j] && label[j] === -1) {
-          label[j] = components;
-          stack[top++] = j;
-        }
+    for (const j of [x > 0 ? i - 1 : -1, x < TW - 1 ? i + 1 : -1, i - TW, i + TW]) {
+      if (j >= 0 && j < N && blockSmall[j] >= 0.6 && label[j] === -1) {
+        label[j] = blocks.length;
+        stack[top++] = j;
       }
     }
   }
-  inkTime[seed] = seedT;
-  push(Math.floor((seedT / T_RANGE) * (BUCKETS - 1)), seed);
-  components++;
+  blocks.push({ count, near: total / count });
 }
-const STEP = 0.88 / TW; // time per pixel along a line: the sweep's own pace
-for (let b = 0; b < BUCKETS; b++) {
-  while (head[b] !== -1) {
-    const e = head[b];
-    head[b] = nextEntry[e];
-    const i = entryPixel[e];
-    const t = inkTime[i];
-    if (Math.floor((t / T_RANGE) * (BUCKETS - 1)) < b) continue; // stale entry
-    const x = i % TW;
-    const y = (i - x) / TW;
-    for (let dy = -1; dy <= 1; dy++) {
-      for (let dx = -1; dx <= 1; dx++) {
-        if (!dx && !dy) continue;
-        const nx = x + dx;
-        const ny = y + dy;
-        if (nx < 0 || ny < 0 || nx >= TW || ny >= TH) continue;
-        const j = ny * TW + nx;
-        if (!mask[j]) continue;
-        const nt = t + STEP * (dx && dy ? 1.414 : 1);
-        if (nt < inkTime[j]) {
-          inkTime[j] = nt;
-          push(Math.min(BUCKETS - 1, Math.floor((nt / T_RANGE) * (BUCKETS - 1))), j);
-        }
-      }
-    }
-  }
-}
-// normalise, then extend times a few pixels past the lines so bilinear
-// sampling at full resolution never mixes in "never" (1.0)
-let maxT = 0;
-for (let i = 0; i < N; i++) if (inkTime[i] !== Infinity) maxT = Math.max(maxT, inkTime[i]);
-for (let i = 0; i < N; i++)
-  inkTime[i] = inkTime[i] === Infinity ? Infinity : (inkTime[i] / maxT) * 0.97;
-for (let pass = 0; pass < 4; pass++) {
-  const next = inkTime.slice();
-  for (let y = 0; y < TH; y++) {
-    for (let x = 0; x < TW; x++) {
-      const i = y * TW + x;
-      if (inkTime[i] !== Infinity) continue;
-      let m = Infinity;
-      for (let dy = -1; dy <= 1; dy++)
-        for (let dx = -1; dx <= 1; dx++) {
-          const nx = x + dx;
-          const ny = y + dy;
-          if (nx >= 0 && ny >= 0 && nx < TW && ny < TH) m = Math.min(m, inkTime[ny * TW + nx]);
-        }
-      next[i] = m;
-    }
-  }
-  inkTime.set(next);
-}
-
-// G: hatching fills in diagonal bands, left to right, with a soft wobble
-const shadeTime = new Float32Array(N);
-for (let y = 0; y < TH; y++) {
-  for (let x = 0; x < TW; x++) {
-    const band = (x * 0.75 + y * 0.45) / (TW * 0.75 + TH * 0.45);
-    shadeTime[y * TW + x] = clamp01(band * 0.85 + fbm(x / 40, y / 40, 21) * 0.15);
-  }
-}
-
-// B: brush sweeps. Each is a solid core plus bristles of varied width and
-// length with ragged ends; time runs along the stroke.
-const strokes = [];
-const diag = [0.68, -0.73]; // bottom-left to top-right in normalised space
-const starts = [
-  [0.3, 0.98],
-  [0.08, 0.72],
-  [0.52, 1.05],
-  [0.02, 0.38],
-  [0.7, 1.02],
-  [0.2, 0.55],
-  [0.44, 0.7],
-  [0.84, 0.85],
-  [0.6, 0.45],
-  [-0.04, 1.0],
-  [0.32, 0.3],
-  [0.9, 0.5],
-  [0.12, 0.15],
-  [0.74, 0.2],
-];
-starts.forEach(([sx, sy], k) => {
-  const len = 0.75 + hash(k, 1, 31) * 0.35;
-  strokes.push({
-    sx,
-    sy,
-    ex: sx + diag[0] * len,
-    ey: sy + diag[1] * len * (TW / TH) * 0.56,
-    hw: 0.075 + hash(k, 2, 31) * 0.04, // half-width, in width units
-    start: (k / starts.length) * 0.82,
-    dur: 0.2,
-    seed: k * 17 + 3,
-  });
+const order = blocks
+  .map((b, k) => ({ ...b, k }))
+  .filter((b) => b.count > 200)
+  .sort((a, b) => a.near - b.near);
+const turn = new Float32Array(blocks.length).fill(0.5);
+order.forEach((b, rank) => {
+  turn[b.k] = rank / Math.max(order.length - 1, 1);
 });
-const paintTime = new Float32Array(N).fill(1);
-const BRISTLES = 44;
-for (const s of strokes) {
-  const ax = (s.ex - s.sx) * TW;
-  const ay = (s.ey - s.sy) * TH;
-  const L = Math.hypot(ax, ay);
-  const ux = ax / L;
-  const uy = ay / L;
-  const hwPx = s.hw * TW;
-  const bristle = Array.from({ length: BRISTLES }, (_, b) => ({
-    reach: 0.86 + hash(b, s.seed, 41) * 0.2, // how far along this bristle paints
-    gap: hash(b, s.seed, 43), // outer bristles with a high gap value are skipped
-    lag: hash(b, s.seed, 47) * 0.05,
-  }));
-  for (let y = 0; y < TH; y++) {
-    for (let x = 0; x < TW; x++) {
-      const px = x - s.sx * TW;
-      const py = y - s.sy * TH;
-      const along = (px * ux + py * uy) / L;
-      if (along < -0.02 || along > 1.08) continue;
-      const across = (-px * uy + py * ux) / hwPx; // -1..1 inside the nominal width
-      const wob = (fbm(along * 6, s.seed, 51) - 0.5) * 0.25;
-      const c = Math.abs(across + wob);
-      if (c > 1.18) continue;
-      const bi = Math.max(
-        0,
-        Math.min(BRISTLES - 1, Math.floor(((across + 1.18) / 2.36) * BRISTLES)),
-      );
-      const br = bristle[bi];
-      const outer = c > 0.72;
-      if (outer && br.gap > 1.1 - c * 0.6) continue; // streaky edges
-      const ragged = (fbm(x / 9, y / 9, s.seed) - 0.5) * 0.08;
-      const reach = outer ? br.reach - (c - 0.72) * 0.35 : Math.max(br.reach, 1.0);
-      if (along > reach + ragged) continue;
-      const t =
-        s.start +
-        s.dur * (clamp01(along) / Math.max(reach, 0.5)) +
-        br.lag +
-        (hash(x, y, 61) - 0.5) * 0.008;
-      const i = y * TW + x;
-      if (t < paintTime[i]) paintTime[i] = t;
-    }
+
+// distance from the nearest road into each block: colour comes in from its edges
+const edge = new Float32Array(N).fill(1e6);
+for (let i = 0; i < N; i++) if (label[i] === -1) edge[i] = 0;
+for (let y = 1; y < TH - 1; y++) {
+  for (let x = 1; x < TW - 1; x++) {
+    const i = y * TW + x;
+    edge[i] = Math.min(edge[i], edge[i - 1] + 1, edge[i - TW] + 1);
+  }
+}
+for (let y = TH - 2; y > 0; y--) {
+  for (let x = TW - 2; x > 0; x--) {
+    const i = y * TW + x;
+    edge[i] = Math.min(edge[i], edge[i + 1] + 1, edge[i + TW] + 1);
   }
 }
 
-// a slight blur feathers the painted edge so it reads as wet paint, not a cut
-const paintSoft = blur(paintTime, TW, TH, 1.3);
+const paintTime = new Float32Array(N);
+for (let i = 0; i < N; i++) {
+  if (label[i] !== -1) {
+    paintTime[i] = 0.16 + turn[label[i]] * 0.52 + Math.min(edge[i] / 70, 1) * 0.1;
+  } else if (siteSmall[i]) {
+    paintTime[i] = 0.02 + fromEntrance[i] * 0.2; // roads
+  } else {
+    paintTime[i] = 0.78 + fromEntrance[i] * 0.2; // the land around the site, last
+  }
+}
+const paintSoft = blur(paintTime, TW, TH, 1.6);
 
 const timeBuf = Buffer.alloc(N * 3);
 for (let i = 0; i < N; i++) {
-  timeBuf[i * 3] = Math.round(clamp01(inkTime[i] === Infinity ? 1 : inkTime[i]) * 255);
-  timeBuf[i * 3 + 1] = Math.round(shadeTime[i] * 255);
+  timeBuf[i * 3] = Math.round(fromEntrance[i] * 255);
+  timeBuf[i * 3 + 1] = Math.round(fromEntrance[i] * 255);
   timeBuf[i * 3 + 2] = Math.round(clamp01(paintSoft[i]) * 255);
 }
 await sharp(timeBuf, { raw: { width: TW, height: TH, channels: 3 } })
   .png({ compressionLevel: 9 })
   .toFile(path.join(OUT, "masterplan-timemap.png"));
 
-let covered = 0;
-for (let i = 0; i < N; i++) if (paintTime[i] < 1) covered++;
-console.log(`ink pieces: ${components}`);
-console.log(`done: paint covers ${((covered / N) * 100).toFixed(1)}% before the final fill`);
+console.log(`plot blocks: ${order.length}`);

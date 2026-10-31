@@ -77,12 +77,11 @@ function StageMark({ index }: { index: string }) {
 
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-/* "From Land to Community". The masterplan is drawn onto a white page as   */
-/* the reader scrolls (ink lines grow along their paths, then the hatching  */
-/* fills in), painted into full colour with broad brush sweeps, and finally */
-/* opened out to fill the screen. On desktop the visitor can paint the      */
-/* colour in with the cursor while the drawing is still pencil. Everything  */
-/* follows scroll position, so it plays backwards when scrolling up.        */
+/* "From Land to Community". The masterplan is made on a white page as the  */
+/* reader scrolls: the boundary in gold, then the roads, then the plots.    */
+/* Colour comes in block by block, and the finished plan opens out to fill  */
+/* the screen. Everything follows scroll position, so it plays backwards    */
+/* when scrolling up.                                                       */
 export function AveAcresProcess() {
   const stages = vertical03DevelopmentProcess.stages;
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -90,23 +89,14 @@ export function AveAcresProcess() {
   const boxRef = useRef<HTMLDivElement | null>(null);
   const targetRef = useRef(0);
   const [motion, setMotion] = useState(true);
-  const [brush, setBrush] = useState(false);
   const { ref: stagesRef, inView: stagesLive } = useInView<HTMLOListElement>();
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const hover = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const update = () => {
-      setMotion(!reduced.matches);
-      setBrush(!reduced.matches && hover.matches);
-    };
+    const update = () => setMotion(!reduced.matches);
     update();
     reduced.addEventListener("change", update);
-    hover.addEventListener("change", update);
-    return () => {
-      reduced.removeEventListener("change", update);
-      hover.removeEventListener("change", update);
-    };
+    return () => reduced.removeEventListener("change", update);
   }, []);
 
   // Scroll position through the track, 0-1, read by the renderer each frame.
@@ -160,12 +150,7 @@ export function AveAcresProcess() {
         <div ref={trackRef} className={styles.track}>
           <div ref={stageRef} className={styles.stage}>
             <div ref={boxRef} className={styles.box}>
-              <SketchReveal
-                targetRef={targetRef}
-                onFrame={onFrame}
-                brush={brush}
-                label={ARTWORK_LABEL}
-              />
+              <SketchReveal targetRef={targetRef} onFrame={onFrame} label={ARTWORK_LABEL} />
             </div>
           </div>
         </div>
