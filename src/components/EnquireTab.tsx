@@ -74,7 +74,6 @@ export function EnquireTab() {
     >
       <Icon name="mail" className={styles.mail} />
       <span className={styles.label}>Enquire Now</span>
-      <Icon name="arrow-right" className={styles.arrow} />
     </Link>
   );
 }

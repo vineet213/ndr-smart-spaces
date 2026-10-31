@@ -29,12 +29,11 @@
 }
 
 /* Phones: just the envelope. */
-.label,
-.arrow {
+.label {
   display: none;
 }
 
-/* Tablets and up: "Enquire Now" reading upwards, with an arrow into the page. */
+/* Tablets and up: "Enquire Now" reading upwards. */
 @media (min-width: 768px) {
   .tab {
     flex-direction: column;
@@ -54,11 +53,6 @@
     letter-spacing: var(--tracking-button);
     text-transform: uppercase;
     white-space: nowrap;
-  }
-
-  .arrow {
-    display: block;
-    transform: rotate(180deg);
   }
 }
 
